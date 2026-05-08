@@ -5,10 +5,10 @@ nodejs:
   image: 'hmctsprod.azurecr.io/pt/frontend:latest'
   keyVaults:
     pt:
-     secrets:
-       - app-insights-connection-string
-       - redis-connection-string
-       - pt-frontend-s2s-secret
+      secrets:
+        - app-insights-connection-string
+        - redis-connection-string
+        - pt-frontend-s2s-secret
   environment:
     REDIS_TTL: 6000
     REDIS_SESSION_PREFIX: 'pt'
