@@ -14,3 +14,12 @@ nodejs:
     REDIS_SESSION_PREFIX: 'pt'
     PT_API_URL: 'http://pt-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal'
     S2S_URL: 'http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal'
+
+redis:
+  enabled: false
+  architecture: standalone
+  master:
+    persistence:
+      enabled: false
+  auth:
+    enabled: false
