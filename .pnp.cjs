@@ -45,7 +45,7 @@ const RAW_RUNTIME_STATE =
           ["@types/csurf", "npm:1.11.5"],\
           ["@types/es6-promisify", "npm:6.0.4"],\
           ["@types/express", "npm:4.17.25"],\
-          ["@types/express-session", "npm:1.18.2"],\
+          ["@types/express-session", "npm:1.19.0"],\
           ["@types/glob", "npm:8.1.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/lodash", "npm:4.17.24"],\
@@ -6352,11 +6352,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/express-session", [\
-      ["npm:1.18.2", {\
-        "packageLocation": "./.yarn/cache/@types-express-session-npm-1.18.2-8d3c6f2e85-c1711976d0.zip/node_modules/@types/express-session/",\
+      ["npm:1.19.0", {\
+        "packageLocation": "./.yarn/cache/@types-express-session-npm-1.19.0-212d1a5b21-cc2d693a3a.zip/node_modules/@types/express-session/",\
         "packageDependencies": [\
           ["@types/express", "npm:5.0.1"],\
-          ["@types/express-session", "npm:1.18.2"]\
+          ["@types/express-session", "npm:1.19.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -17205,7 +17205,7 @@ const RAW_RUNTIME_STATE =
           ["@types/csurf", "npm:1.11.5"],\
           ["@types/es6-promisify", "npm:6.0.4"],\
           ["@types/express", "npm:4.17.25"],\
-          ["@types/express-session", "npm:1.18.2"],\
+          ["@types/express-session", "npm:1.19.0"],\
           ["@types/glob", "npm:8.1.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/lodash", "npm:4.17.24"],\
