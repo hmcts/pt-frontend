@@ -36,7 +36,7 @@
     "@types/csurf": "1.11.5",
     "@types/es6-promisify": "6.0.4",
     "@types/glob": "8.1.0",
-    "@types/lodash": "4.14.195",
+    "@types/lodash": "4.17.24",
     "@types/nunjucks": "3.2.6",
     "@types/require-directory": "2.1.6",
     "applicationinsights": "2.7.0",
