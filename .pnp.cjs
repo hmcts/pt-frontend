@@ -7506,7 +7506,7 @@ const RAW_RUNTIME_STATE =
           ["http-errors", "npm:2.0.0"],\
           ["iconv-lite", "npm:0.7.0"],\
           ["on-finished", "npm:2.4.1"],\
-          ["qs", "npm:6.15.1"],\
+          ["qs", "npm:6.15.2"],\
           ["raw-body", "npm:3.0.2"],\
           ["type-is", "npm:2.0.1"]\
         ],\
@@ -10492,7 +10492,7 @@ const RAW_RUNTIME_STATE =
           ["once", "npm:1.4.0"],\
           ["parseurl", "npm:1.3.3"],\
           ["proxy-addr", "npm:2.0.7"],\
-          ["qs", "npm:6.15.1"],\
+          ["qs", "npm:6.15.2"],\
           ["range-parser", "npm:1.2.1"],\
           ["router", "npm:2.2.0"],\
           ["send", "npm:1.2.0"],\
@@ -16294,10 +16294,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["qs", [\
-      ["npm:6.15.1", {\
-        "packageLocation": "./.yarn/cache/qs-npm-6.15.1-23a708530c-ec10b99574.zip/node_modules/qs/",\
+      ["npm:6.15.2", {\
+        "packageLocation": "./.yarn/cache/qs-npm-6.15.2-4fbd3d7cd4-7a934b2dba.zip/node_modules/qs/",\
         "packageDependencies": [\
-          ["qs", "npm:6.15.1"],\
+          ["qs", "npm:6.15.2"],\
           ["side-channel", "npm:1.1.0"]\
         ],\
         "linkType": "HARD"\
@@ -16692,7 +16692,7 @@ const RAW_RUNTIME_STATE =
           ["mime-types", "npm:2.1.35"],\
           ["oauth-sign", "npm:0.9.0"],\
           ["performance-now", "npm:2.1.0"],\
-          ["qs", "npm:6.15.1"],\
+          ["qs", "npm:6.15.2"],\
           ["request", "npm:2.88.2"],\
           ["safe-buffer", "npm:5.2.1"],\
           ["tough-cookie", "npm:2.5.0"],\
@@ -18115,7 +18115,7 @@ const RAW_RUNTIME_STATE =
           ["formidable", "npm:3.5.4"],\
           ["methods", "npm:1.1.2"],\
           ["mime", "npm:2.6.0"],\
-          ["qs", "npm:6.15.1"],\
+          ["qs", "npm:6.15.2"],\
           ["superagent", "npm:10.2.3"]\
         ],\
         "linkType": "HARD"\
