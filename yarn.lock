@@ -7372,6 +7372,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-uri@npm:3.1.2":
+  version: 3.1.2
+  resolution: "fast-uri@npm:3.1.2"
+  checksum: 10/1dff04865b2a38d3e0659deadfbf72efdf83a776bfbf9667e4aa9e5a3ec31bc341cda9622136b32b7652a857c8ba11896794186e8f876f8b2b72731fce8622f6
+  languageName: node
+  linkType: hard
+
 "fast-uri@npm:^3.0.1":
   version: 3.0.6
   resolution: "fast-uri@npm:3.0.6"
@@ -12184,6 +12191,7 @@ __metadata:
     express: "npm:5.1.0"
     express-nunjucks: "npm:3.1.2"
     express-rate-limit: "npm:^7.5.0"
+    fast-uri: "npm:3.1.2"
     glob: "npm:10.5.0"
     govuk-frontend: "npm:^5.9.0"
     helmet: "npm:8.1.0"
