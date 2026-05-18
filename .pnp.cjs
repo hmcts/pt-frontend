@@ -94,7 +94,7 @@ const RAW_RUNTIME_STATE =
           ["nodemon", "npm:2.0.22"],\
           ["nunjucks", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:3.2.4"],\
           ["pa11y", "npm:8.0.0"],\
-          ["playwright", "npm:1.46.0"],\
+          ["playwright", "npm:1.60.0"],\
           ["postcss", "npm:8.5.14"],\
           ["prettier", "npm:2.8.8"],\
           ["pt-frontend", "workspace:."],\
@@ -15685,21 +15685,21 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["playwright", [\
-      ["npm:1.46.0", {\
-        "packageLocation": "./.yarn/cache/playwright-npm-1.46.0-0416181c52-e06f3b53fa.zip/node_modules/playwright/",\
+      ["npm:1.60.0", {\
+        "packageLocation": "./.yarn/cache/playwright-npm-1.60.0-f1d6ab02ce-8569770637.zip/node_modules/playwright/",\
         "packageDependencies": [\
           ["fsevents", "patch:fsevents@npm%3A2.3.2#optional!builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"],\
-          ["playwright", "npm:1.46.0"],\
-          ["playwright-core", "npm:1.46.0"]\
+          ["playwright", "npm:1.60.0"],\
+          ["playwright-core", "npm:1.60.0"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["playwright-core", [\
-      ["npm:1.46.0", {\
-        "packageLocation": "./.yarn/unplugged/playwright-core-npm-1.46.0-351c201259/node_modules/playwright-core/",\
+      ["npm:1.60.0", {\
+        "packageLocation": "./.yarn/cache/playwright-core-npm-1.60.0-3d53a7d2d6-66c0f83d62.zip/node_modules/playwright-core/",\
         "packageDependencies": [\
-          ["playwright-core", "npm:1.46.0"]\
+          ["playwright-core", "npm:1.60.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -16207,7 +16207,7 @@ const RAW_RUNTIME_STATE =
           ["nodemon", "npm:2.0.22"],\
           ["nunjucks", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:3.2.4"],\
           ["pa11y", "npm:8.0.0"],\
-          ["playwright", "npm:1.46.0"],\
+          ["playwright", "npm:1.60.0"],\
           ["postcss", "npm:8.5.14"],\
           ["prettier", "npm:2.8.8"],\
           ["pt-frontend", "workspace:."],\
