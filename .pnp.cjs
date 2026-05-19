@@ -95,7 +95,7 @@ const RAW_RUNTIME_STATE =
           ["lodash", "npm:4.18.1"],\
           ["mini-css-extract-plugin", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:2.10.2"],\
           ["minimatch", "npm:8.0.7"],\
-          ["nock", "npm:13.3.1"],\
+          ["nock", "npm:13.5.6"],\
           ["nodemon", "npm:2.0.22"],\
           ["nunjucks", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:3.2.4"],\
           ["pa11y", "npm:8.0.0"],\
@@ -15954,13 +15954,12 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["nock", [\
-      ["npm:13.3.1", {\
-        "packageLocation": "./.yarn/cache/nock-npm-13.3.1-0ba4ee80e1-0177db9aa4.zip/node_modules/nock/",\
+      ["npm:13.5.6", {\
+        "packageLocation": "./.yarn/cache/nock-npm-13.5.6-6fbafbb636-a57c265b75.zip/node_modules/nock/",\
         "packageDependencies": [\
           ["debug", "virtual:643ed7cc338bcf145a82d8b05b3bef6bcf150ca545df386225596f10ce53cc90b88b3ca83e348ade1ccea5f3f8e76c92d2f0e2ba544da60d40aff9921c56872d#npm:4.4.0"],\
           ["json-stringify-safe", "npm:5.0.1"],\
-          ["lodash", "npm:4.18.1"],\
-          ["nock", "npm:13.3.1"],\
+          ["nock", "npm:13.5.6"],\
           ["propagate", "npm:2.0.1"]\
         ],\
         "linkType": "HARD"\
@@ -17361,7 +17360,7 @@ const RAW_RUNTIME_STATE =
           ["lodash", "npm:4.18.1"],\
           ["mini-css-extract-plugin", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:2.10.2"],\
           ["minimatch", "npm:8.0.7"],\
-          ["nock", "npm:13.3.1"],\
+          ["nock", "npm:13.5.6"],\
           ["nodemon", "npm:2.0.22"],\
           ["nunjucks", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:3.2.4"],\
           ["pa11y", "npm:8.0.0"],\
