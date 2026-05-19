@@ -12461,7 +12461,7 @@ __metadata:
     express: "npm:4.21.2"
     express-nunjucks: "npm:3.1.2"
     express-rate-limit: "npm:^7.5.0"
-    glob: "npm:^11.0.3"
+    glob: "npm:^13.0.6"
     govuk-frontend: "npm:^5.9.0"
     helmet: "npm:8.1.0"
     html-webpack-plugin: "npm:5.5.1"
