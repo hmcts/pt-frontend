@@ -84,7 +84,7 @@ const RAW_RUNTIME_STATE =
           ["express-rate-limit", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:7.5.1"],\
           ["glob", "npm:13.0.6"],\
           ["govuk-frontend", "npm:5.9.0"],\
-          ["helmet", "npm:8.1.0"],\
+          ["helmet", "npm:8.2.0"],\
           ["html-webpack-plugin", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:5.6.7"],\
           ["husky", "npm:8.0.3"],\
           ["jest", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:29.7.0"],\
@@ -12826,10 +12826,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["helmet", [\
-      ["npm:8.1.0", {\
-        "packageLocation": "./.yarn/cache/helmet-npm-8.1.0-a2193b660c-262e678d34.zip/node_modules/helmet/",\
+      ["npm:8.2.0", {\
+        "packageLocation": "./.yarn/cache/helmet-npm-8.2.0-04ebb5e2f9-bc34f2e043.zip/node_modules/helmet/",\
         "packageDependencies": [\
-          ["helmet", "npm:8.1.0"]\
+          ["helmet", "npm:8.2.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -17637,7 +17637,7 @@ const RAW_RUNTIME_STATE =
           ["express-rate-limit", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:7.5.1"],\
           ["glob", "npm:13.0.6"],\
           ["govuk-frontend", "npm:5.9.0"],\
-          ["helmet", "npm:8.1.0"],\
+          ["helmet", "npm:8.2.0"],\
           ["html-webpack-plugin", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:5.6.7"],\
           ["husky", "npm:8.0.3"],\
           ["jest", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:29.7.0"],\
