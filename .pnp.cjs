@@ -104,7 +104,7 @@ const RAW_RUNTIME_STATE =
           ["prettier", "npm:2.8.8"],\
           ["pt-frontend", "workspace:."],\
           ["require-directory", "npm:2.1.1"],\
-          ["sass", "npm:1.99.0"],\
+          ["sass", "npm:1.100.0"],\
           ["sass-loader", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:13.3.3"],\
           ["serve-favicon", "npm:2.5.1"],\
           ["sinon", "npm:22.0.0"],\
@@ -9231,6 +9231,14 @@ const RAW_RUNTIME_STATE =
           ["readdirp", "npm:4.1.2"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:5.0.0", {\
+        "packageLocation": "./.yarn/cache/chokidar-npm-5.0.0-2f70d31c86-a1c2a4ee6e.zip/node_modules/chokidar/",\
+        "packageDependencies": [\
+          ["chokidar", "npm:5.0.0"],\
+          ["readdirp", "npm:5.0.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["chownr", [\
@@ -17454,7 +17462,7 @@ const RAW_RUNTIME_STATE =
           ["prettier", "npm:2.8.8"],\
           ["pt-frontend", "workspace:."],\
           ["require-directory", "npm:2.1.1"],\
-          ["sass", "npm:1.99.0"],\
+          ["sass", "npm:1.100.0"],\
           ["sass-loader", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:13.3.3"],\
           ["serve-favicon", "npm:2.5.1"],\
           ["sinon", "npm:22.0.0"],\
@@ -17719,6 +17727,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/readdirp-npm-4.1.2-3440472afe-7b817c2659.zip/node_modules/readdirp/",\
         "packageDependencies": [\
           ["readdirp", "npm:4.1.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:5.0.0", {\
+        "packageLocation": "./.yarn/cache/readdirp-npm-5.0.0-82b01a282e-a17a591b51.zip/node_modules/readdirp/",\
+        "packageDependencies": [\
+          ["readdirp", "npm:5.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -18212,13 +18227,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["sass", [\
-      ["npm:1.99.0", {\
-        "packageLocation": "./.yarn/cache/sass-npm-1.99.0-9ed8fe8584-93f9d5c3b3.zip/node_modules/sass/",\
+      ["npm:1.100.0", {\
+        "packageLocation": "./.yarn/cache/sass-npm-1.100.0-5be5b715ed-165d5ba502.zip/node_modules/sass/",\
         "packageDependencies": [\
           ["@parcel/watcher", "npm:2.5.6"],\
-          ["chokidar", "npm:4.0.3"],\
+          ["chokidar", "npm:5.0.0"],\
           ["immutable", "npm:5.1.5"],\
-          ["sass", "npm:1.99.0"],\
+          ["sass", "npm:1.100.0"],\
           ["source-map-js", "npm:1.2.1"]\
         ],\
         "linkType": "HARD"\
@@ -18243,7 +18258,7 @@ const RAW_RUNTIME_STATE =
           ["fibers", null],\
           ["neo-async", "npm:2.6.2"],\
           ["node-sass", null],\
-          ["sass", "npm:1.99.0"],\
+          ["sass", "npm:1.100.0"],\
           ["sass-embedded", null],\
           ["sass-loader", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:13.3.3"],\
           ["webpack", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:5.94.0"]\
