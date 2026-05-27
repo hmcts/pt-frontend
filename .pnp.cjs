@@ -114,7 +114,7 @@ const RAW_RUNTIME_STATE =
           ["stylelint-config-standard", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:36.0.1"],\
           ["stylelint-config-standard-scss", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:13.1.0"],\
           ["superagent", "npm:10.3.0"],\
-          ["supertest", "npm:7.1.4"],\
+          ["supertest", "npm:7.2.2"],\
           ["ts-jest", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:29.1.0"],\
           ["ts-loader", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:9.4.3"],\
           ["ts-node", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:10.9.2"],\
@@ -9878,6 +9878,13 @@ const RAW_RUNTIME_STATE =
           ["cookie-signature", "npm:1.0.7"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:1.2.2", {\
+        "packageLocation": "./.yarn/cache/cookie-signature-npm-1.2.2-8474a8ac29-be44a3c9a5.zip/node_modules/cookie-signature/",\
+        "packageDependencies": [\
+          ["cookie-signature", "npm:1.2.2"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["cookiejar", [\
@@ -17559,7 +17566,7 @@ const RAW_RUNTIME_STATE =
           ["stylelint-config-standard", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:36.0.1"],\
           ["stylelint-config-standard-scss", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:13.1.0"],\
           ["superagent", "npm:10.3.0"],\
-          ["supertest", "npm:7.1.4"],\
+          ["supertest", "npm:7.2.2"],\
           ["ts-jest", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:29.1.0"],\
           ["ts-loader", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:9.4.3"],\
           ["ts-node", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:10.9.2"],\
@@ -19382,12 +19389,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["supertest", [\
-      ["npm:7.1.4", {\
-        "packageLocation": "./.yarn/cache/supertest-npm-7.1.4-7caf1d38d9-ecb5d41f2b.zip/node_modules/supertest/",\
+      ["npm:7.2.2", {\
+        "packageLocation": "./.yarn/cache/supertest-npm-7.2.2-f014d10061-41b29e005b.zip/node_modules/supertest/",\
         "packageDependencies": [\
+          ["cookie-signature", "npm:1.2.2"],\
           ["methods", "npm:1.1.2"],\
           ["superagent", "npm:10.3.0"],\
-          ["supertest", "npm:7.1.4"]\
+          ["supertest", "npm:7.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
