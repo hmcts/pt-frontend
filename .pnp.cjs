@@ -113,7 +113,7 @@ const RAW_RUNTIME_STATE =
           ["stylelint", "npm:16.26.1"],\
           ["stylelint-config-standard", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:36.0.1"],\
           ["stylelint-config-standard-scss", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:13.1.0"],\
-          ["superagent", "npm:10.2.3"],\
+          ["superagent", "npm:10.3.0"],\
           ["supertest", "npm:7.1.4"],\
           ["ts-jest", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:29.1.0"],\
           ["ts-loader", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:9.4.3"],\
@@ -3918,7 +3918,7 @@ const RAW_RUNTIME_STATE =
           ["@hmcts/nodejs-healthcheck", "npm:1.8.6"],\
           ["@hmcts/nodejs-logging", "npm:4.0.4"],\
           ["js-yaml", "npm:4.1.1"],\
-          ["superagent", "npm:10.2.3"]\
+          ["superagent", "npm:10.3.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -17558,7 +17558,7 @@ const RAW_RUNTIME_STATE =
           ["stylelint", "npm:16.26.1"],\
           ["stylelint-config-standard", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:36.0.1"],\
           ["stylelint-config-standard-scss", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:13.1.0"],\
-          ["superagent", "npm:10.2.3"],\
+          ["superagent", "npm:10.3.0"],\
           ["supertest", "npm:7.1.4"],\
           ["ts-jest", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:29.1.0"],\
           ["ts-loader", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:9.4.3"],\
@@ -19364,8 +19364,8 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["superagent", [\
-      ["npm:10.2.3", {\
-        "packageLocation": "./.yarn/cache/superagent-npm-10.2.3-792c09e71d-377bf938e6.zip/node_modules/superagent/",\
+      ["npm:10.3.0", {\
+        "packageLocation": "./.yarn/cache/superagent-npm-10.3.0-8dedd29079-e62b132814.zip/node_modules/superagent/",\
         "packageDependencies": [\
           ["component-emitter", "npm:1.3.1"],\
           ["cookiejar", "npm:2.1.4"],\
@@ -19376,7 +19376,7 @@ const RAW_RUNTIME_STATE =
           ["methods", "npm:1.1.2"],\
           ["mime", "npm:2.6.0"],\
           ["qs", "npm:6.15.2"],\
-          ["superagent", "npm:10.2.3"]\
+          ["superagent", "npm:10.3.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -19386,7 +19386,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/supertest-npm-7.1.4-7caf1d38d9-ecb5d41f2b.zip/node_modules/supertest/",\
         "packageDependencies": [\
           ["methods", "npm:1.1.2"],\
-          ["superagent", "npm:10.2.3"],\
+          ["superagent", "npm:10.3.0"],\
           ["supertest", "npm:7.1.4"]\
         ],\
         "linkType": "HARD"\
