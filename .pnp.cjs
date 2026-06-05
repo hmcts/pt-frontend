@@ -62,7 +62,7 @@ const RAW_RUNTIME_STATE =
           ["@typescript-eslint/eslint-plugin", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:6.21.0"],\
           ["@typescript-eslint/parser", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:6.21.0"],\
           ["applicationinsights", "npm:3.15.0"],\
-          ["axios", "npm:1.16.1"],\
+          ["axios", "npm:1.17.0"],\
           ["axios-debug-log", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:1.0.0"],\
           ["babel-loader", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:9.2.1"],\
           ["body-parser", "npm:2.2.2"],\
@@ -8390,11 +8390,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["axios", [\
-      ["npm:1.16.1", {\
-        "packageLocation": "./.yarn/cache/axios-npm-1.16.1-c946e2f9bd-9b6218cf96.zip/node_modules/axios/",\
+      ["npm:1.17.0", {\
+        "packageLocation": "./.yarn/cache/axios-npm-1.17.0-a83ee0b582-bc6995122f.zip/node_modules/axios/",\
         "packageDependencies": [\
-          ["axios", "npm:1.16.1"],\
-          ["follow-redirects", "virtual:c946e2f9bd84d4a5b64d292492d645adda1b366acb53b9515731a2143f7bb8966747ccd47d4acf6f43b8bd014ccf849bbaf9566c37e813d458bf0b646917b18c#npm:1.16.0"],\
+          ["axios", "npm:1.17.0"],\
+          ["follow-redirects", "virtual:a83ee0b5820d1517da9dd75f36a82748f793155742ce8080b024fa8e2c03824d0116edd13ee0a0e032c0fc9b8d1a16bd4fd2f2395a3e3b1e90fcd6f97390e0c9#npm:1.16.0"],\
           ["form-data", "npm:4.0.5"],\
           ["https-proxy-agent", "npm:5.0.1"],\
           ["proxy-from-env", "npm:2.1.0"]\
@@ -8415,7 +8415,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@types/axios", null],\
           ["@types/debug", "npm:4.1.12"],\
-          ["axios", "npm:1.16.1"],\
+          ["axios", "npm:1.17.0"],\
           ["axios-debug-log", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:1.0.0"],\
           ["debug", "virtual:643ed7cc338bcf145a82d8b05b3bef6bcf150ca545df386225596f10ce53cc90b88b3ca83e348ade1ccea5f3f8e76c92d2f0e2ba544da60d40aff9921c56872d#npm:4.4.0"]\
         ],\
@@ -9731,7 +9731,7 @@ const RAW_RUNTIME_STATE =
           ["@xmldom/xmldom", "npm:0.9.10"],\
           ["acorn", "npm:8.16.0"],\
           ["arrify", "npm:3.0.0"],\
-          ["axios", "npm:1.16.1"],\
+          ["axios", "npm:1.17.0"],\
           ["chalk", "npm:4.1.2"],\
           ["cheerio", "npm:1.2.0"],\
           ["chokidar", "npm:4.0.3"],\
@@ -12347,12 +12347,12 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:c946e2f9bd84d4a5b64d292492d645adda1b366acb53b9515731a2143f7bb8966747ccd47d4acf6f43b8bd014ccf849bbaf9566c37e813d458bf0b646917b18c#npm:1.16.0", {\
-        "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-5635fcf123/0/cache/follow-redirects-npm-1.16.0-816e4f62d9-3fbe3d80b3.zip/node_modules/follow-redirects/",\
+      ["virtual:a83ee0b5820d1517da9dd75f36a82748f793155742ce8080b024fa8e2c03824d0116edd13ee0a0e032c0fc9b8d1a16bd4fd2f2395a3e3b1e90fcd6f97390e0c9#npm:1.16.0", {\
+        "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-637aab8191/0/cache/follow-redirects-npm-1.16.0-816e4f62d9-3fbe3d80b3.zip/node_modules/follow-redirects/",\
         "packageDependencies": [\
           ["@types/debug", null],\
           ["debug", null],\
-          ["follow-redirects", "virtual:c946e2f9bd84d4a5b64d292492d645adda1b366acb53b9515731a2143f7bb8966747ccd47d4acf6f43b8bd014ccf849bbaf9566c37e813d458bf0b646917b18c#npm:1.16.0"]\
+          ["follow-redirects", "virtual:a83ee0b5820d1517da9dd75f36a82748f793155742ce8080b024fa8e2c03824d0116edd13ee0a0e032c0fc9b8d1a16bd4fd2f2395a3e3b1e90fcd6f97390e0c9#npm:1.16.0"]\
         ],\
         "packagePeers": [\
           "@types/debug",\
@@ -17717,7 +17717,7 @@ const RAW_RUNTIME_STATE =
           ["@typescript-eslint/eslint-plugin", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:6.21.0"],\
           ["@typescript-eslint/parser", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:6.21.0"],\
           ["applicationinsights", "npm:3.15.0"],\
-          ["axios", "npm:1.16.1"],\
+          ["axios", "npm:1.17.0"],\
           ["axios-debug-log", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:1.0.0"],\
           ["babel-loader", "virtual:2095a8eb11f2e2d9367ad17998e335674cc76278ac190bca745d81421b9cba8fa9d5b2dc7a919ee8acad958e0bfe632b297708e6d8a4c61d09de78d7d9c6dfff#npm:9.2.1"],\
           ["body-parser", "npm:2.2.2"],\
