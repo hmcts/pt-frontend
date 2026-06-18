@@ -7,7 +7,7 @@ USER hmcts
 
 COPY --chown=hmcts:hmcts . .
 
-# ---- Build image ----
+# ---- Build image with dependencies ----
 FROM base as build
 
 RUN yarn install && yarn build:prod && \
@@ -16,6 +16,8 @@ RUN yarn install && yarn build:prod && \
 # ---- Runtime image ----
 FROM base as runtime
 
+# Install dependencies for yarn start at runtime
+RUN yarn install
 COPY --from=build $WORKDIR/src/main ./src/main
 # TODO: expose the right port for your application
 EXPOSE 4000
