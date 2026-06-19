@@ -3847,7 +3847,7 @@ const RAW_RUNTIME_STATE =
           ["@grpc/proto-loader", "npm:0.8.1"],\
           ["lodash.camelcase", "npm:4.3.0"],\
           ["long", "npm:5.3.2"],\
-          ["protobufjs", "npm:7.6.2"],\
+          ["protobufjs", "npm:7.6.4"],\
           ["yargs", "npm:17.7.2"]\
         ],\
         "linkType": "HARD"\
@@ -5449,7 +5449,7 @@ const RAW_RUNTIME_STATE =
           ["@opentelemetry/sdk-metrics", "virtual:8efcb14bcc1d2dfbb65212a8b60213a945cf7b8fe0dacfa2143cfc926e69546a92093fc3ae378b3ba965291ab1b81db34d647260848c07a54024dfc1f66ad1be#npm:2.7.1"],\
           ["@opentelemetry/sdk-trace-base", "virtual:8efcb14bcc1d2dfbb65212a8b60213a945cf7b8fe0dacfa2143cfc926e69546a92093fc3ae378b3ba965291ab1b81db34d647260848c07a54024dfc1f66ad1be#npm:2.7.1"],\
           ["@types/opentelemetry__api", null],\
-          ["protobufjs", "npm:7.6.2"]\
+          ["protobufjs", "npm:7.6.4"]\
         ],\
         "packagePeers": [\
           "@opentelemetry/api",\
@@ -6106,15 +6106,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@protobufjs-float-npm-1.0.2-5678f64d08-634c2c989d.zip/node_modules/@protobufjs/float/",\
         "packageDependencies": [\
           ["@protobufjs/float", "npm:1.0.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@protobufjs/inquire", [\
-      ["npm:1.1.2", {\
-        "packageLocation": "./.yarn/cache/@protobufjs-inquire-npm-1.1.2-d8a203d287-259756489c.zip/node_modules/@protobufjs/inquire/",\
-        "packageDependencies": [\
-          ["@protobufjs/inquire", "npm:1.1.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -17605,8 +17596,8 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["protobufjs", [\
-      ["npm:7.6.2", {\
-        "packageLocation": "./.yarn/unplugged/protobufjs-npm-7.6.2-42193dbdb8/node_modules/protobufjs/",\
+      ["npm:7.6.4", {\
+        "packageLocation": "./.yarn/unplugged/protobufjs-npm-7.6.4-97603a5239/node_modules/protobufjs/",\
         "packageDependencies": [\
           ["@protobufjs/aspromise", "npm:1.1.2"],\
           ["@protobufjs/base64", "npm:1.1.2"],\
@@ -17614,13 +17605,12 @@ const RAW_RUNTIME_STATE =
           ["@protobufjs/eventemitter", "npm:1.1.1"],\
           ["@protobufjs/fetch", "npm:1.1.1"],\
           ["@protobufjs/float", "npm:1.0.2"],\
-          ["@protobufjs/inquire", "npm:1.1.2"],\
           ["@protobufjs/path", "npm:1.1.2"],\
           ["@protobufjs/pool", "npm:1.1.0"],\
           ["@protobufjs/utf8", "npm:1.1.1"],\
           ["@types/node", "npm:25.9.0"],\
           ["long", "npm:5.3.2"],\
-          ["protobufjs", "npm:7.6.2"]\
+          ["protobufjs", "npm:7.6.4"]\
         ],\
         "linkType": "HARD"\
       }]\
