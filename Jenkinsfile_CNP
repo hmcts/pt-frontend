@@ -2,6 +2,8 @@
 
 @Library("Infrastructure")
 
+import uk.gov.hmcts.contino.GithubAPI
+
 def type = "nodejs"
 def product = "pt"
 def component = "frontend"
