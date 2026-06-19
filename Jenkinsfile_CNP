@@ -40,8 +40,8 @@ withPipeline(type, product, component) {
     def apiLabels = githubApi.getLabelsbyPattern(env.BRANCH_NAME, "pt-api-pr:")
     if (apiLabels && apiLabels.size() > 0) {
       def labelName = apiLabels[0]
-      env.PCS_API_CHANGE_ID = labelName.replace("pt-api-pr:", "")
-      env.DATA_STORE_URL_BASE = "https://ccd-data-store-api-pcs-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
+      env.PT_API_CHANGE_ID = labelName.replace("pt-api-pr:", "")
+      env.DATA_STORE_URL_BASE = "https://ccd-data-store-api-pct-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
       env.PT_API_URL = "https://pt-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
       env.CDAM_URL = "http://pt-api-pr-${env.PT_API_CHANGE_ID}-cdam"
       env.XUI_BASE_URI = "https://xui-pt-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
