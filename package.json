@@ -44,7 +44,7 @@
     "@types/nunjucks": "3.2.6",
     "@types/require-directory": "2.1.7",
     "applicationinsights": "^3.15.0",
-    "axios": "1.17.0",
+    "axios": "1.18.0",
     "body-parser": "2.2.2",
     "config": "3.3.12",
     "cookie-parser": "1.4.7",
@@ -135,7 +135,7 @@
     "**/*.{js,ts}": "eslint --fix"
   },
   "resolutions": {
-    "axios": "1.17.0",
+    "axios": "1.18.0",
     "uuid": "^11.1.0",
     "@tootallnate/once": "^3.0.1",
     "fast-uri": "^3.1.2",
