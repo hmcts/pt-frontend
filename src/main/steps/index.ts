@@ -1,4 +1,4 @@
 /**
  * Reference: pcs-frontend/src/main/steps/index.ts
- * TODO: HDPD-507
+ * To be done in HDPD-507
  */

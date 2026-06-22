@@ -1,4 +1,4 @@
 /**
  * Reference: pcs-frontend/src/main/modules/steps/flow.ts
- * TODO: HDPD-506
+ * To be done in HDPD-506
  */

@@ -1,4 +1,4 @@
 /**
  * Reference: pcs-frontend/src/main/modules/steps/stepFlow.interface.ts
- * TODO: HDPD-503
+ * To be done in HDPD-503
  */

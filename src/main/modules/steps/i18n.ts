@@ -1,4 +1,4 @@
 /**
  * Reference: pcs-frontend/src/main/modules/steps/i18n.ts
- * TODO: HDPD-506
+ * To be done in HDPD-506
  */

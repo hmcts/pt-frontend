@@ -2,6 +2,8 @@ import type { Application } from 'express';
 
 /**
  * Reference: pcs-frontend/src/main/routes/registerSteps.ts
- * TODO: HDPD-506
+ * To be done in HDPD-506
  */
-export default function (_app: Application): void {}
+export default function registerSteps(app: Application): void {
+  void app;
+}

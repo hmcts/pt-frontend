@@ -1,4 +1,4 @@
 /**
  * Reference: pcs-frontend/src/main/modules/csrf/index.ts
- * TODO: HDPD-501
+ * To be done in HDPD-501
  */

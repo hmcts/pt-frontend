@@ -1,4 +1,4 @@
 /**
  * Reference: pcs-frontend/src/main/modules/steps/formBuilder/dateValidation.ts
- * TODO: HDPD-504
+ * To be done in HDPD-504
  */
