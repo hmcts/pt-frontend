@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
-    "outDir": "./src/",
+    "outDir": "./dist",
+    "rootDir": "./src",
     "module": "commonjs",
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "target": "ES2020",
@@ -16,9 +18,13 @@
     "lib": ["es2020", "dom", "dom.iterable"],
     "baseUrl": "src/main",
     "paths": {
-      "router/*": ["router/*"],
-      "routes/*": ["routes/*"]
+      "@router/*": ["router/*"],
+      "@routes/*": ["routes/*"]
     }
   },
-  "exclude": ["**/*.test.ts", "**/codecept.conf.ts", "**/__mocks__/*"]
+  "include": ["src/main/**/*"],
+  "exclude": ["**/codecept.conf.ts", "**/__mocks__/*", "**/*.test.ts", "**/*.spec.ts"],
+  "ts-node": {
+    "files": true
+  }
 }
