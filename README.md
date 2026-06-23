@@ -27,7 +27,7 @@ yarn webpack
 Run:
 
 ```bash
-yarn start
+yarn start:dev
 ```
 
 The applications's home page will be available at http://localhost:4000
