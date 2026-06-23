@@ -10,10 +10,9 @@ import { glob } from 'glob';
 import { HTTPError } from './HttpError';
 import { AppInsights } from './modules/appinsights';
 import { Helmet } from './modules/helmet';
+import { Logger } from './modules/logger';
 import { Nunjucks } from './modules/nunjucks';
 import { PropertiesVolume } from './modules/properties-volume';
-
-const { Logger } = require('@hmcts/nodejs-logging');
 
 const { setupDev } = require('./development');
 
