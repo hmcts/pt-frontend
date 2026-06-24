@@ -1,1 +1,5 @@
-{}
+{
+  "serviceName": "Property Tribunal",
+  "languageToggle": "<a href=\"?lang=cy\" class=\"govuk-link language\">Cymraeg</a>",
+  "contactUsForHelpText": "Contact us for help"
+}

@@ -1,21 +1,17 @@
 import * as path from 'path';
 
-import * as bodyParser from 'body-parser';
-import config = require('config');
+import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import RateLimit from 'express-rate-limit';
 import { glob } from 'glob';
 
 import { HTTPError } from './HttpError';
+import { setupDev } from './development';
+import * as modules from './modules';
 import { AppInsights } from './modules/appinsights';
-import { Helmet } from './modules/helmet';
-import { Nunjucks } from './modules/nunjucks';
+import { Logger } from './modules/logger';
 import { PropertiesVolume } from './modules/properties-volume';
-
-const { Logger } = require('@hmcts/nodejs-logging');
-
-const { setupDev } = require('./development');
 
 const env = process.env.NODE_ENV || 'development';
 const developmentMode = env === 'development';
@@ -30,19 +26,24 @@ app.locals.ENV = env;
 
 const logger = Logger.getLogger('app');
 
+setupDev(app, developmentMode);
+
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 new PropertiesVolume().enableFor(app);
 new AppInsights().enable();
-new Nunjucks(developmentMode).enableFor(app);
-// secure the application by adding various HTTP headers to its responses
-new Helmet(config.get('security')).enableFor(app);
+
+modules.modules.forEach(async moduleName => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const moduleInstance = new (modules as any)[moduleName](developmentMode);
+  await moduleInstance.enableFor(app);
+});
 
 app.get('/favicon.ico', limiter, (req, res) => {
   res.sendFile(path.join(__dirname, '/public/assets/images/favicon.ico'));
 });
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => {
   res.setHeader('Cache-Control', 'no-cache, max-age=0, must-revalidate, no-store');
@@ -54,7 +55,6 @@ glob
   .map(filename => require(filename))
   .forEach(route => route.default(app));
 
-setupDev(app, developmentMode);
 // returning "not found" page for requests with paths not resolved by the router
 app.use((req, res) => {
   res.status(404);

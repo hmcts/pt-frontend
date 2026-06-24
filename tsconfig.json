@@ -19,10 +19,13 @@
     "baseUrl": "src/main",
     "paths": {
       "@router/*": ["router/*"],
-      "@routes/*": ["routes/*"]
-    }
+      "@routes/*": ["routes/*"],
+      "@modules/*": ["modules/*"]
+    },
+    "typeRoots": ["./node_modules/@types", "./src/main/types"],
+    "types": ["jest", "node", "express"]
   },
-  "include": ["src/main/**/*"],
+  "include": ["src/main/**/*", "src/main/assets/locales/**/*", "src/test/unit/**/*"],
   "exclude": ["**/codecept.conf.ts", "**/__mocks__/*", "**/*.test.ts", "**/*.spec.ts"],
   "ts-node": {
     "files": true
