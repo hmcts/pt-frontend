@@ -26,7 +26,6 @@ const limiter = RateLimit({
 export const app = express();
 app.locals.ENV = env;
 
-
 new PropertiesVolume().enableFor(app);
 new AppInsights().enable();
 new Nunjucks(developmentMode).enableFor(app);

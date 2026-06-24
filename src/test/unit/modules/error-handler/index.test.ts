@@ -71,7 +71,7 @@ describe('error-handler', () => {
       const req = {} as Request;
       const res = {
         status: jest.fn().mockReturnThis(),
-        render: jest.fn().mockReturnThis()
+        render: jest.fn().mockReturnThis(),
       } as any;
       const next = jest.fn();
 
