@@ -4,15 +4,19 @@ import { Application } from 'express';
 import { get, set } from 'lodash';
 
 export class PropertiesVolume {
-  enableFor(server: Application): void {
+  async enableFor(server: Application): Promise<void> {
     if (server.locals.ENV !== 'development') {
       propertiesVolume.addTo(config);
 
-      this.setSecret('secrets.pt.AppInsightsInstrumentationKey', 'appInsights.instrumentationKey');
+      await this.setSecret('secrets.pt.AppInsightsInstrumentationKey', 'appInsights.instrumentationKey');
+      await this.setSecret('secrets.pt.idam-system-user-name', 'idam.systemUsername');
+      await this.setSecret('secrets.pt.idam-system-user-password', 'idam.systemPassword');
+      await this.setSecret('secrets.pt.pt-frontend-idam-secret', 'idam.clientSecret');
+      await this.setSecret('secrets.pt.pt-frontend-s2s-secret', 'authProvider.secret');
     }
   }
 
-  private setSecret(fromPath: string, toPath: string): void {
+  private async setSecret(fromPath: string, toPath: string): Promise<void> {
     if (config.has(fromPath)) {
       set(config, toPath, get(config, fromPath));
     }

@@ -2374,6 +2374,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@noble/hashes@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@noble/hashes@npm:2.2.0"
+  checksum: 10/b1b78bedc2a01394be047429f3d888905015fe8a09f1b7e43e0b5736b54133df62f73dcc73ede43af38e96e86156afb45b86973fdeaa95d9f0880333c3fc0907
+  languageName: node
+  linkType: hard
+
 "@noble/hashes@npm:^1.1.5":
   version: 1.8.0
   resolution: "@noble/hashes@npm:1.8.0"
@@ -3826,6 +3833,16 @@ __metadata:
   version: 0.0.29
   resolution: "@types/json5@npm:0.0.29"
   checksum: 10/4e5aed58cabb2bbf6f725da13421aa50a49abb6bc17bfab6c31b8774b073fa7b50d557c61f961a09a85f6056151190f8ac95f13f5b48136ba5841f7d4484ec56
+  languageName: node
+  linkType: hard
+
+"@types/jsonwebtoken@npm:^9":
+  version: 9.0.10
+  resolution: "@types/jsonwebtoken@npm:9.0.10"
+  dependencies:
+    "@types/ms": "npm:*"
+    "@types/node": "npm:*"
+  checksum: 10/d7960d995ad815511c7f4e7f09d91522dfe16e7e800cdd6226c8b1b624c534e0f3b8f8f3beb60e3189865269f028002f1a490189beca5afd02bc96ef1d68f21f
   languageName: node
   linkType: hard
 
@@ -10538,7 +10555,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsonwebtoken@npm:^9.0.0":
+"jsonwebtoken@npm:^9.0.0, jsonwebtoken@npm:^9.0.3":
   version: 9.0.3
   resolution: "jsonwebtoken@npm:9.0.3"
   dependencies:
@@ -10574,6 +10591,13 @@ __metadata:
     jwa: "npm:^2.0.1"
     safe-buffer: "npm:^5.0.1"
   checksum: 10/75d7b157489fa9a72023712c58a7a7706c7e2b10eec27fabd3bb9cae0c9e492251ab72527d20a8a5f5726196f0508c320c643fddff7076657f6bca16d0ceeeeb
+  languageName: node
+  linkType: hard
+
+"jwt-decode@npm:4.0.0":
+  version: 4.0.0
+  resolution: "jwt-decode@npm:4.0.0"
+  checksum: 10/87b569e4a9a0067fb0d592bcf3b2ac3e638e49beee28620eeb07bef1b4470f4077dea68c15d191dd68e076846c3af8394be3bcaecffedc6e97433b221fdbbcf3
   languageName: node
   linkType: hard
 
@@ -12139,6 +12163,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"otpauth@npm:^9.5.0":
+  version: 9.5.1
+  resolution: "otpauth@npm:9.5.1"
+  dependencies:
+    "@noble/hashes": "npm:2.2.0"
+  checksum: 10/6e5cfa7b4b90f6125da7d23977a4395d230dc8c5d0d9853cad0ec933bb0286ee5721ba42f89b8b3d7a325ea1c48308fbd7c2d9e7fa5adc471aae7f7400a2803d
+  languageName: node
+  linkType: hard
+
 "own-keys@npm:^1.0.1":
   version: 1.0.1
   resolution: "own-keys@npm:1.0.1"
@@ -12882,6 +12915,7 @@ __metadata:
     "@types/express-session": "npm:^1.18.2"
     "@types/glob": "npm:8.1.0"
     "@types/jest": "npm:^29.5.14"
+    "@types/jsonwebtoken": "npm:^9"
     "@types/lodash": "npm:4.17.24"
     "@types/node": "npm:^22.14.1"
     "@types/nunjucks": "npm:3.2.6"
@@ -12925,6 +12959,8 @@ __metadata:
     jest-html-reporter: "npm:3.10.2"
     jest-junit: "npm:16.0.0"
     jquery: "npm:3.7.1"
+    jsonwebtoken: "npm:^9.0.3"
+    jwt-decode: "npm:4.0.0"
     lint-staged: "npm:13.3.0"
     lodash: "npm:4.18.1"
     mini-css-extract-plugin: "npm:2.10.2"
@@ -12933,6 +12969,7 @@ __metadata:
     nock: "npm:13.5.6"
     nodemon: "npm:2.0.22"
     nunjucks: "npm:3.2.4"
+    otpauth: "npm:^9.5.0"
     pa11y: "npm:^8.0.0"
     playwright: "npm:^1.60.0"
     postcss: "npm:^8.4.27"

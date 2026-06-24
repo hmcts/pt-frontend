@@ -1,4 +1,5 @@
 {
+  "port": 4000,
   "useCSRFProtection": true,
   "appInsights": {
     "instrumentationKey": false
@@ -13,5 +14,19 @@
   },
   "api": {
     "url": "http://pt-api-aat.service.core-compute-aat.internal"
+  },
+  "idam": {
+    "authorizationURL": "https://idam-web-public.aat.platform.hmcts.net/login",
+    "tokenURL": "https://idam-api.aat.platform.hmcts.net/o/token",
+    "clientID": "pt-frontend",
+    "clientSecret": "NEED TO INSERT SECRET",
+    "systemUsername": "dummy_user",
+    "systemPassword": "NEED TO INSERT SECRET",
+    "caching": false
+  },
+  "authProvider": {
+    "url": "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal",
+    "microservice": "pt-frontend",
+    "secret": "NEED TO INSERT SECRET"
   }
 }

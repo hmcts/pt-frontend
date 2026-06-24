@@ -22,6 +22,7 @@ const limiter = RateLimit({
 
 export const app = express();
 app.locals.ENV = env;
+app.locals.developmentMode = process.env.NODE_ENV !== 'production';
 
 setupDev(app, developmentMode);
 
