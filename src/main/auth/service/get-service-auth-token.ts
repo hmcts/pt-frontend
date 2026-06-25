@@ -2,7 +2,7 @@ import axios from 'axios';
 import config from 'config';
 import { TOTP } from 'otpauth';
 
-import { Logger } from '../../modules/logger';
+import { Logger } from '@modules/logger';
 
 const logger = Logger.getLogger('service-auth-token');
 let token: string;

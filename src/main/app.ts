@@ -8,9 +8,10 @@ import { glob } from 'glob';
 
 import { setupDev } from './development';
 import * as modules from './modules';
-import { AppInsights } from './modules/appinsights';
-import { setupErrorHandlers } from './modules/error-handler';
-import { PropertiesVolume } from './modules/properties-volume';
+
+import { AppInsights } from '@modules/appinsights';
+import { setupErrorHandlers } from '@modules/error-handler';
+import { PropertiesVolume } from '@modules/properties-volume';
 
 const env = process.env.NODE_ENV || 'development';
 const developmentMode = env === 'development';

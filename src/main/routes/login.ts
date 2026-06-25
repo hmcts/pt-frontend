@@ -2,8 +2,9 @@ import config from 'config';
 import { Application, type Request, type Response } from 'express';
 
 import { getRedirectUrl, getUserDetails } from '../auth/user/oidc';
-import { Logger } from '../modules/logger';
 import { CALLBACK_URL, SIGN_IN_URL, SIGN_OUT_URL } from '../urls';
+
+import { Logger } from '@modules/logger';
 
 const logger = Logger.getLogger('login routes');
 
