@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  ignorePatterns: ['src/main/views/govuk/**'],
+  ignorePatterns: ['src/main/views/govuk/**', '**/jest.*config.js', '**/jest.*.config.*'],
   env: { browser: true, es6: true, node: true },
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint', 'import', 'jest'],
@@ -18,6 +18,18 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
     project: './tsconfig.eslint.json',
+    tsconfigRootDir: __dirname,
+  },
+  settings: {
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
+    'import/resolver': {
+      typescript: {
+        alwaysTryTypes: true,
+        project: './tsconfig.eslint.json',
+      },
+    },
   },
   globals: { Atomics: 'readonly', SharedArrayBuffer: 'readonly' },
   rules: {
@@ -44,6 +56,12 @@ module.exports = {
           caseInsensitive: false,
           order: 'asc',
         },
+        pathGroups: [
+          { pattern: '@modules/**', group: 'internal', position: 'before' },
+          { pattern: '@router/**', group: 'internal', position: 'before' },
+          { pattern: '@routes/**', group: 'internal', position: 'before' },
+        ],
+        distinctGroup: false,
         'newlines-between': 'always',
       },
     ],

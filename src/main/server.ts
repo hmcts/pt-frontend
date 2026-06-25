@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { app } from './app';
-import { Logger } from './modules/logger';
+
+import { Logger } from '@modules/logger';
 
 const logger = Logger.getLogger('server');
 
