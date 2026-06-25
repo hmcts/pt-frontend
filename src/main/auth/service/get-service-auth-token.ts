@@ -1,6 +1,6 @@
 import axios from 'axios';
 import config from 'config';
-import OTPAuth from 'otpauth';
+import { TOTP } from 'otpauth';
 
 import { Logger } from '../../modules/logger';
 
@@ -23,7 +23,7 @@ export const getTokenFromApi = (): void => {
 };
 
 const createOneTimePassword = (secret: string): string => {
-  const totp = new OTPAuth.TOTP({
+  const totp = new TOTP({
     secret,
     digits: 6,
     period: 30,

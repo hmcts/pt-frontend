@@ -1,11 +1,10 @@
 import * as propertiesVolume from '@hmcts/properties-volume';
 import config from 'config';
-import { Application } from 'express';
 import { get, set } from 'lodash';
 
 export class PropertiesVolume {
-  async enableFor(server: Application): Promise<void> {
-    if (server.locals.ENV !== 'development') {
+  async enableFor(environment: string): Promise<void> {
+    if (environment !== 'development') {
       propertiesVolume.addTo(config);
 
       await this.setSecret('secrets.pt.AppInsightsInstrumentationKey', 'appInsights.instrumentationKey');

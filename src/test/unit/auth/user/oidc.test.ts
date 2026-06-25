@@ -1,5 +1,5 @@
 import axios, { AxiosRequestHeaders, AxiosResponse, AxiosStatic } from 'axios';
-import jwt from 'jsonwebtoken';
+import { sign } from 'jsonwebtoken';
 
 import { OidcResponse, getRedirectUrl, getSystemUser, getUserDetails } from '../../../../main/auth/user/oidc';
 
@@ -28,8 +28,8 @@ const mockSystemPayload = {
   roles: ['pt-system-update', 'caseworker', 'caseworker-pt'],
 };
 // Generate a mock JWT for testing
-const mockToken = jwt.sign(mockPayload, mockSecret, { expiresIn: '1h' });
-const mockSystemToken = jwt.sign(mockSystemPayload, mockSecret, { expiresIn: '1h' });
+const mockToken = sign(mockPayload, mockSecret, { expiresIn: '1h' });
+const mockSystemToken = sign(mockSystemPayload, mockSecret, { expiresIn: '1h' });
 
 describe('getRedirectUrl', () => {
   test('should create a valid URL to redirect to the login screen', () => {
