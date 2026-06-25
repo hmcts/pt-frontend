@@ -52,4 +52,4 @@ glob
   .map(filename => require(filename))
   .forEach(route => route.default(app));
 
-setupErrorHandlers(app);
+setupErrorHandlers(app, env);

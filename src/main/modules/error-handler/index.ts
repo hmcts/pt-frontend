@@ -1,7 +1,11 @@
 import type { Express, NextFunction, Request, Response } from 'express';
 
 import { HTTPError } from '../../HttpError';
-import { Logger } from '../logger';
+import { getTranslationFunction, populateCommonTranslations } from '../i18n';
+
+import { getErrorPageKey } from './errorPageKeys';
+
+import { Logger } from '@modules/logger';
 
 const logger = Logger.getLogger('error-handler');
 
@@ -15,15 +19,14 @@ export function createNotFoundHandler(): (req: Request, res: Response, next: Nex
       if (!shouldSkipLogging) {
         logger.error('Page not found', url);
       }
-      res.status(404);
-      res.render('not-found');
+      next(new HTTPError('Page not found', 404));
     } else {
       next();
     }
   };
 }
 
-export function createErrorHandler(): (err: Error, req: Request, res: Response, next: NextFunction) => void {
+export function createErrorHandler(env: string): (err: Error, req: Request, res: Response, next: NextFunction) => void {
   return (err: Error, req: Request, res: Response, next: NextFunction) => {
     // If response already sent, don't try to handle the error
     if (res.headersSent || (res as { writableEnded?: boolean }).writableEnded || res.finished) {
@@ -50,14 +53,51 @@ export function createErrorHandler(): (err: Error, req: Request, res: Response, 
       });
     }
 
+    const t = getTranslationFunction(req, ['common']);
+
+    res.locals.message = httpError.message;
+    res.locals.error = env === 'development' ? httpError : {};
+
+    const errorPageKey = getErrorPageKey(status);
+    res.locals.errorPageKey = errorPageKey;
+
+    if (errorPageKey === 'serviceUnavailable' && httpError.retryAfter) {
+      // Retry-After can be seconds or an HTTP date string.
+      const retryAfter = httpError.retryAfter;
+      const seconds = Number(retryAfter);
+
+      if (!Number.isNaN(seconds)) {
+        res.locals.serviceUnavailableParagraph = t('errorPages.serviceUnavailable.paragraphMinutes', {
+          minutes: Math.ceil(seconds / 60),
+        });
+      } else {
+        const retryAfterDate = new Date(retryAfter);
+        const time = retryAfterDate.toLocaleTimeString('en-GB', {
+          hour12: true,
+          hour: '2-digit',
+          minute: '2-digit',
+        });
+        const date = retryAfterDate.toLocaleDateString('en-GB', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        });
+        res.locals.serviceUnavailableParagraph = t('errorPages.serviceUnavailable.paragraphDateAndTime', {
+          date,
+          time,
+        });
+      }
+    }
+
+    populateCommonTranslations(req, res, t);
     res.status(status);
     res.render('error');
   };
 }
 
-export function setupErrorHandlers(app: Express): void {
+export function setupErrorHandlers(app: Express, env: string): void {
   // Auth failure handler - catches 401 errors and redirects to login
   // This must be before other error handlers to catch 401s before they're rendered as error pages
   app.use(createNotFoundHandler());
-  app.use(createErrorHandler());
+  app.use(createErrorHandler(env));
 }
