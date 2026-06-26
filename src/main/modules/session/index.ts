@@ -47,7 +47,7 @@ export class Session {
       cookie: {
         sameSite: 'lax',
         secure: !app.locals.developmentMode,
-        maxAge: sessionTimeoutMinutes * 60 * 1000
+        maxAge: sessionTimeoutMinutes * 60 * 1000,
       },
       name: config.get<string>('session.cookieName'),
       store: redisStore,
