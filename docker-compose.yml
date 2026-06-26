@@ -1,14 +1,23 @@
-version: '2'
-
 services:
-  # TODO: change this name to match the name of your app
-  frontend:
-    build:
-      context: .
-      args:
-        - http_proxy
-        - https_proxy
-        - no_proxy
+  cache:
+    image: hmctsprod.azurecr.io/imported/bitnami/redis:8.2.0
     ports:
-      # TODO: change this mapping to map the port your application listens on
-      - '4000:4000'
+      - '6379:6379'
+    volumes:
+      - cache-data:/bitnami/redis/data
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 3s
+      timeout: 2s
+      retries: 10
+    networks:
+      - pt-frontend-network
+
+networks:
+  pt-frontend-network:
+    driver: bridge
+
+volumes:
+  cache-data:

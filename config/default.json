@@ -28,5 +28,19 @@
     "url": "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal",
     "microservice": "pt-frontend",
     "secret": "NEED TO INSERT SECRET"
+  },
+  "session": {
+    "redis-connection-string": "redis://localhost:6379",
+    "pt-session-secret": "pt-supersecret",
+    "prefix": "pt-session",
+    "cookieName": "pt_session",
+    "redis": {
+      "ttlInSeconds": 5400
+    },
+    "timeout": {
+      "sessionWarningMinutes": 10,
+      "sessionTimeoutMinutes": 60,
+      "checkIntervalSeconds": 10
+    }
   }
 }

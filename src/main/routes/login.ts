@@ -21,17 +21,11 @@ function callbackHandler(protocol: string, port: string) {
   return async (req: Request, res: Response) => {
     if (typeof req.query.code === 'string') {
       try {
-        //TODO: use the below once session code is set up as part of https://tools.hmcts.net/jira/browse/HDPD-500
-        // req.session.user = await getUserDetails(`${protocol}${res.locals.host}${port}`, req.query.code, callbackUrl);
-
-        //TODO: remove below 2 lines of code once https://tools.hmcts.net/jira/browse/HDPD-500 implemented
-        const userDetails = await getUserDetails(`${protocol}${res.locals.host}${port}`, req.query.code);
-        req.session.id = userDetails.id;
+        req.session.user = await getUserDetails(`${protocol}${res.locals.host}${port}`, req.query.code);
       } catch (e) {
         logger.error('Failed to get user details: ', e);
         return res.redirect(SIGN_IN_URL);
       }
-
       return req.session.save(() => res.redirect('/'));
     } else {
       return res.redirect(SIGN_IN_URL);

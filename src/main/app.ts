@@ -12,6 +12,7 @@ import * as modules from './modules';
 import { AppInsights } from '@modules/appinsights';
 import { setupErrorHandlers } from '@modules/error-handler';
 import { PropertiesVolume } from '@modules/properties-volume';
+import { Session } from '@modules/session';
 
 const env = process.env.NODE_ENV || 'development';
 const developmentMode = env === 'development';
@@ -31,6 +32,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+new Session().enableFor(app);
 new PropertiesVolume().enableFor(app.locals.ENV);
 new AppInsights().enable();
 
