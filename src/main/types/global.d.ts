@@ -32,6 +32,7 @@ declare module 'express' {
 
   interface Response {
     locals: {
+      validatedCase?: CcdCaseModel;
       t?: TFunction;
       lang?: string;
     } & Record<string, unknown>;

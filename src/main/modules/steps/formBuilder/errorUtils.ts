@@ -1,4 +1,170 @@
+import type { Request, Response } from 'express';
+import type { TFunction } from 'i18next';
+
+import { getRequestLanguage } from '../../i18n';
+import { getTranslationFunction } from '../i18n';
+
+import { parseNestedFieldName } from './conditionalFields';
+import type { DateFieldError } from './dateValidation';
+
+import type {
+  FormFieldConfig,
+  FormFieldType,
+  TranslationKeys,
+} from '@modules/steps/formBuilder/formFieldConfig.interface';
+
+export interface ErrorSummaryData {
+  titleText: string;
+  errorList: { text: string; href: string }[];
+}
+
+export type FormError = string | DateFieldError;
+
+/** Config type for an error key: top-level name or parent. Child under a radio/checkbox option */
+export function fieldTypeForErrorKey(fields: FormFieldConfig[], key: string): FormFieldType | undefined {
+  const topLevel = fields.find(f => f.name === key);
+  if (topLevel) {
+    return topLevel.type;
+  }
+  const nested = parseNestedFieldName(key);
+  if (!nested) {
+    return undefined;
+  }
+  const parent = fields.find(f => f.name === nested.parentFieldName);
+  if (!parent?.options) {
+    return undefined;
+  }
+  for (const option of parent.options) {
+    const sub = option.subFields?.[nested.subFieldName];
+    if (sub) {
+      return sub.type;
+    }
+  }
+  return undefined;
+}
+
 /**
- * Reference: pcs-frontend/src/main/modules/steps/formBuilder/errorUtils.ts
- * To be done in HDPD-505
+ * Extracts the error message string from a FormError
+ * @param error - FormError (string or DateFieldError)
+ * @returns The error message string
  */
+export function getErrorMessage(error: FormError): string {
+  return typeof error === 'string' ? error : error.message;
+}
+
+/**
+ * Builds an error summary object in GOV.UK Design System format
+ * @param errors - Record of field names to error messages or date field error objects
+ * @param fields - Array of form field configurations
+ * @param t - Translation function
+ * @returns ErrorSummaryData object or null if no errors
+ */
+export function buildErrorSummary(
+  errors: Record<string, FormError>,
+  fields: FormFieldConfig[],
+  t: TFunction
+): ErrorSummaryData | null {
+  if (!errors || Object.keys(errors).length === 0) {
+    return null;
+  }
+
+  const errorList: { text: string; href: string }[] = [];
+
+  for (const [fieldName, error] of Object.entries(errors)) {
+    const fieldType = fieldTypeForErrorKey(fields, fieldName);
+
+    // Extract error message and date part info
+    const errorMessage = typeof error === 'string' ? error : error.message;
+    const erroneousParts = typeof error === 'string' ? undefined : error.erroneousParts;
+
+    // Determine the anchor ID for the error link
+    let anchorId: string;
+    if (fieldType === 'date') {
+      if (erroneousParts && erroneousParts.length) {
+        anchorId = `${fieldName}-${erroneousParts[0]}`;
+      } else {
+        anchorId = `${fieldName}-day`;
+      }
+    } else if (fieldType === 'radio' || fieldType === 'checkbox') {
+      // Radio/checkbox fields anchor to the field name (group-level anchor)
+      anchorId = fieldName;
+    } else {
+      // Other fields anchor to the field name
+      anchorId = fieldName;
+    }
+
+    errorList.push({
+      text: errorMessage,
+      href: `#${anchorId}`,
+    });
+  }
+
+  // If no errors to show in summary, return null
+  if (errorList.length === 0) {
+    return null;
+  }
+
+  const titleTranslation = t('errors.title');
+  // Check if translation exists (not just the key itself)
+  const titleText = titleTranslation && titleTranslation !== 'errors.title' ? titleTranslation : 'There is a problem';
+
+  return {
+    titleText,
+    errorList,
+  };
+}
+
+/**
+ * Renders a form with errors using standardized error handling
+ * @param req - Express request object
+ * @param res - Express response object
+ * @param viewPath - Path to the view template
+ * @param errors - Record of field names to error messages
+ * @param fields - Array of form field configurations
+ * @param formContent - Form content object (will be enhanced with error summary)
+ * @param stepName - Name of the current step
+ * @param journeyFolder - Journey folder name
+ * @param navigation -
+ * @param translationKeys - Optional translation keys
+ * @param showCancelButton
+ * @returns Response object
+ */
+export async function renderWithErrors(
+  req: Request,
+  res: Response,
+  viewPath: string,
+  errors: Record<string, FormError>,
+  fields: FormFieldConfig[],
+  formContent: Record<string, unknown>,
+  stepName: string,
+  journeyFolder: string,
+  navigation: { getBackUrl: (req: Request, currentStepName: string) => Promise<string | null> },
+  translationKeys?: TranslationKeys,
+  showCancelButton?: boolean
+): Promise<void> {
+  const lang = getRequestLanguage(req);
+  const t: TFunction = getTranslationFunction(req);
+
+  const navigationBackUrl = await navigation.getBackUrl(req, stepName);
+  const backUrl = typeof formContent.backUrl === 'string' ? formContent.backUrl : navigationBackUrl;
+
+  // formContent already includes errorSummary from buildFormContent, so we don't need to rebuild it
+  // res.render() sends the response directly and doesn't return a value
+  res.status(400).render(viewPath, {
+    ...formContent,
+    errors,
+    /** Field-level validation only; avoid colliding with step i18n `errors` blobs spread on GET */
+    validationErrors: errors,
+    // errorSummary,
+    stepName,
+    journeyFolder,
+    backUrl,
+    lang,
+    pageUrl: req.originalUrl || '/',
+    t,
+    ccdId: req.res?.locals.validatedCase?.id,
+    dashboardUrl: '/', // TODO: update once we have a dashboardUrl - getDashboardUrl(req.res?.locals.validatedCase?.id),
+    languageToggle: t('languageToggle'),
+    showCancelButton,
+  });
+}

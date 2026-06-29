@@ -1,4 +1,246 @@
-/**
- * Reference: pcs-frontend/src/main/modules/steps/formBuilder/componentBuilders.ts
- * To be done in HDPD-505
- */
+import type { TFunction } from 'i18next';
+import type { Environment } from 'nunjucks';
+
+import { normalizeCheckboxValue } from './helpers';
+import { buildSubFieldsHTML } from './subFieldsRenderer';
+
+import type {
+  ComponentConfig,
+  ComponentType,
+  FormFieldConfig,
+  FormFieldOption,
+} from '@modules/steps/formBuilder/formFieldConfig.interface';
+
+function createFieldsetLegend(
+  label: string,
+  isFirstField: boolean,
+  legendClasses?: string,
+  isPageHeading?: boolean
+): { legend: { text: string; isPageHeading: boolean; classes: string } } {
+  return {
+    legend: {
+      text: label,
+      isPageHeading: isPageHeading || false,
+      classes: legendClasses || (isFirstField ? 'govuk-fieldset__legend--l' : ''),
+    },
+  };
+}
+
+export function buildConditionalItemContent(option: FormFieldOption, nunjucksEnv: Environment): string | undefined {
+  const conditionalParts: string[] = [];
+
+  if (option.conditionalText && typeof option.conditionalText === 'string') {
+    conditionalParts.push(option.conditionalText);
+  }
+
+  if (option.subFields) {
+    const subFieldsHTML = buildSubFieldsHTML(option.subFields, nunjucksEnv);
+    if (subFieldsHTML) {
+      conditionalParts.push(subFieldsHTML);
+    }
+  }
+
+  return conditionalParts.length > 0 ? conditionalParts.join('\n') : undefined;
+}
+
+export function buildSelectionItems(
+  options: FormFieldOption[] | undefined,
+  translatedOptions: { value?: string; text?: string; hint?: string; divider?: string }[] | undefined,
+  isChecked: (option: FormFieldOption) => boolean,
+  nunjucksEnv: Environment
+): Record<string, unknown>[] {
+  return (
+    options?.map((option: FormFieldOption, optionIndex: number) => {
+      if (option.divider) {
+        return translatedOptions?.[optionIndex] || { divider: option.divider };
+      }
+
+      const itemHint = translatedOptions?.[optionIndex]?.hint || option.hint;
+      const conditionalHtml = buildConditionalItemContent(option, nunjucksEnv);
+
+      return {
+        value: option.value,
+        text: option.text || translatedOptions?.[optionIndex]?.text || option.value,
+        checked: isChecked(option),
+        ...(itemHint ? { hint: { text: itemHint } } : {}),
+        ...(conditionalHtml ? { conditional: { html: conditionalHtml } } : {}),
+      };
+    }) || []
+  );
+}
+
+export function buildComponentConfig({
+  field,
+  label,
+  hint,
+  fieldValue,
+  translatedOptions,
+  hasError,
+  errorText,
+  erroneousParts,
+  index,
+  hasTitle,
+  t,
+  nunjucksEnv,
+}: {
+  field: FormFieldConfig;
+  label: string;
+  hint: string | undefined;
+  fieldValue: unknown;
+  translatedOptions: { value?: string; text?: string; hint?: string; divider?: string }[] | undefined;
+  hasError: boolean;
+  errorText: string | undefined;
+  erroneousParts?: ('day' | 'month' | 'year')[];
+  index: number;
+  hasTitle: boolean;
+  t: TFunction;
+  nunjucksEnv: Environment;
+}): ComponentConfig {
+  const isFirstField = index === 0 && !hasTitle;
+  const component: Record<string, unknown> = {
+    id: field.name,
+    name: field.name,
+    label: { text: label, classes: field.labelClasses },
+    hint: hint
+      ? {
+          ...(hint.includes('<') ? { html: hint } : { text: hint }),
+          ...(field.hintClasses ? { classes: field.hintClasses } : {}),
+        }
+      : null,
+    errorMessage: hasError && errorText ? { text: errorText } : null,
+    classes: field.classes || (field.type === 'text' ? 'govuk-!-width-three-quarters' : undefined),
+    attributes: field.attributes || {},
+  };
+
+  let componentType: ComponentType;
+
+  switch (field.type) {
+    case 'text': {
+      component.value = (fieldValue as string) || '';
+      if (field.prefix) {
+        component.prefix = field.prefix;
+      }
+      if (field.formGroupClasses) {
+        component.formGroup = {
+          classes: field.formGroupClasses,
+          attributes: {},
+        };
+      }
+      if (field.suffix) {
+        component.suffix = field.suffix;
+      }
+      componentType = 'input';
+      break;
+    }
+    case 'textarea': {
+      const textareaAttributes = field.attributes || {};
+      component.value = (fieldValue as string) || '';
+      component.rows = textareaAttributes.rows || 5;
+      component.maxlength = field.maxLength || null;
+      component.attributes = textareaAttributes;
+      componentType = 'textarea';
+      break;
+    }
+    case 'character-count': {
+      const charCountAttributes = field.attributes || {};
+      component.value = (fieldValue as string) || '';
+      component.rows = charCountAttributes.rows || 5;
+      component.maxlength = field.maxLength;
+      component.attributes = charCountAttributes;
+      component.label = {
+        text: label,
+        isPageHeading: field.isPageHeading,
+        classes: field.labelClasses,
+      };
+
+      const charCountKeys = [
+        'charactersUnderLimitText',
+        'charactersAtLimitText',
+        'charactersOverLimitText',
+        'wordsUnderLimitText',
+        'wordsAtLimitText',
+        'wordsOverLimitText',
+        'textareaDescriptionText',
+      ] as const;
+
+      for (const key of charCountKeys) {
+        const translation = t(`characterCount.${key}`, { returnObjects: true, defaultValue: '' }) as unknown;
+        if (translation && translation !== '') {
+          component[key] = translation;
+        }
+      }
+
+      componentType = 'characterCount';
+      break;
+    }
+    case 'radio': {
+      const radioValue = (fieldValue as string) || '';
+      component.fieldset = createFieldsetLegend(label, isFirstField, field.legendClasses, field.isPageHeading);
+      component.items = buildSelectionItems(
+        field.options,
+        translatedOptions,
+        option => radioValue === option.value,
+        nunjucksEnv
+      );
+
+      componentType = 'radios';
+      break;
+    }
+    case 'checkbox': {
+      // Normalize checkbox value to handle edge case: [{ '0': 'value1', '1': 'value2' }]
+      // This ensures checkbox values are always in the correct format for rendering
+      const checkboxArray = normalizeCheckboxValue(fieldValue);
+      component.fieldset = createFieldsetLegend(label, isFirstField, field.legendClasses);
+      component.items = buildSelectionItems(
+        field.options,
+        translatedOptions,
+        option => (option.value ? checkboxArray.includes(option.value) : false),
+        nunjucksEnv
+      );
+
+      componentType = 'checkboxes';
+      break;
+    }
+    case 'date': {
+      const dateValue = (fieldValue as { day?: string; month?: string; year?: string }) || {
+        day: '',
+        month: '',
+        year: '',
+      };
+      component.namePrefix = field.name;
+      component.idPrefix = field.name;
+      component.fieldset = createFieldsetLegend(label, isFirstField, field.legendClasses, field.isPageHeading);
+      const isPartErroneous = (part: 'day' | 'month' | 'year') =>
+        hasError && (erroneousParts === undefined || erroneousParts.includes(part));
+      component.items = [
+        {
+          name: 'day',
+          label: t('date.day', 'Day'),
+          value: dateValue.day || '',
+          classes: `govuk-input--width-2${isPartErroneous('day') ? ' govuk-input--error' : ''}`,
+          attributes: { maxlength: 2, inputmode: 'numeric' },
+        },
+        {
+          name: 'month',
+          label: t('date.month', 'Month'),
+          value: dateValue.month || '',
+          classes: `govuk-input--width-2${isPartErroneous('month') ? ' govuk-input--error' : ''}`,
+          attributes: { maxlength: 2, inputmode: 'numeric' },
+        },
+        {
+          name: 'year',
+          label: t('date.year', 'Year'),
+          value: dateValue.year || '',
+          classes: `govuk-input--width-4${isPartErroneous('year') ? ' govuk-input--error' : ''}`,
+          attributes: { maxlength: 4, inputmode: 'numeric' },
+        },
+      ];
+      componentType = 'dateInput';
+      break;
+    }
+    default:
+      componentType = 'input';
+  }
+
+  return { component, componentType };
+}

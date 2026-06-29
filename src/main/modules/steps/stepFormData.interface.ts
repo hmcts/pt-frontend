@@ -1,4 +1,33 @@
-/**
- * Reference: pcs-frontend/src/main/modules/steps/stepFormData.interface.ts
- * To be done in HDPD-503
- */
+import { Request, RequestHandler } from 'express';
+
+import { GetController } from '@modules/steps/controller';
+import { SupportedLang } from '@modules/steps/i18n';
+
+export interface ErrorField {
+  field: string;
+  text: string;
+}
+
+export interface StepFormData {
+  error?: ErrorField | string | undefined;
+  answer?: string;
+  choices?: string[] | string;
+  [key: string]: unknown;
+}
+
+export interface StepDefinition {
+  url: string;
+  name: string;
+  view: string;
+  stepDir: string;
+  getController: GetController | ((lang?: SupportedLang) => GetController);
+  postController?: { post: RequestHandler };
+  middleware?: RequestHandler[];
+  showCancelButton?: boolean;
+  // Storage adapter for upload steps — encapsulates where documents are persisted
+  // (CCD draft for respond-to-claim, session for make-an-application).
+  // Absent on every non-upload step. The upload handler refuses requests targeting
+  // a step that does not declare this.
+  // Truthy/falsy — consumers coerce. Lets `req => validatedCase?.foo` work without a Boolean(...) wrap.
+  isAnswered?: (req: Request) => unknown;
+}
