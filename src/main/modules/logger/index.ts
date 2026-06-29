@@ -1,9 +1,9 @@
-import winston from 'winston';
+import { Container, format, transports } from 'winston';
 
-const { combine, label, timestamp, colorize, json, printf, splat } = winston.format;
+const { combine, label, timestamp, colorize, json, printf, splat } = format;
 const splatSymbol = Symbol.for('splat');
 
-const container = new winston.Container();
+const container = new Container();
 
 function stringifyLogValue(value: unknown): string {
   if (typeof value === 'string') {
@@ -88,7 +88,7 @@ function transport(name: string) {
     ...(isColorizable ? [colorize({ all: true })] : []),
     process.env.JSON_PRINT ? json() : myFormat,
   ];
-  return new winston.transports.Console({
+  return new transports.Console({
     level: (process.env.LOG_LEVEL || 'INFO').toLowerCase(),
     format: combine(...formatParts),
   });

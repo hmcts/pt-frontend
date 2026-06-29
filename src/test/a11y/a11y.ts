@@ -20,8 +20,9 @@ beforeAll(() => {
   }
 });
 
-afterAll(() => {
-  return server.close();
+afterAll(async () => {
+  await server.close();
+  await app.locals.redisClient.quit();
 });
 
 class Pa11yResult {

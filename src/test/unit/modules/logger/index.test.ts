@@ -1,4 +1,4 @@
-import winston from 'winston';
+import { transports } from 'winston';
 
 import { Logger } from '../../../../main/modules/logger';
 
@@ -15,15 +15,13 @@ describe('logger module', () => {
     process.env.LOG_LEVEL = 'info';
     delete process.env.JSON_PRINT;
 
-    transportLogSpy = jest
-      .spyOn(winston.transports.Console.prototype, 'log')
-      .mockImplementation((...args: unknown[]) => {
-        const info = (args[0] ?? {}) as Record<PropertyKey, unknown>;
-        const next = args[1] as (() => void) | undefined;
-        const message = typeof info[messageSymbol] === 'string' ? info[messageSymbol] : info.message;
-        formattedLines.push(String(message ?? ''));
-        next?.();
-      });
+    transportLogSpy = jest.spyOn(transports.Console.prototype, 'log').mockImplementation((...args: unknown[]) => {
+      const info = (args[0] ?? {}) as Record<PropertyKey, unknown>;
+      const next = args[1] as (() => void) | undefined;
+      const message = typeof info[messageSymbol] === 'string' ? info[messageSymbol] : info.message;
+      formattedLines.push(String(message ?? ''));
+      next?.();
+    });
   });
 
   afterEach(() => {

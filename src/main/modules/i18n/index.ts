@@ -2,7 +2,7 @@ import fs, { promises as fsPromises } from 'fs';
 import path from 'path';
 
 type ExpressRequest = Request;
-import type { Express, NextFunction, Request, Response } from 'express';
+import type { Express, Request, Response } from 'express';
 import i18next, { type InitOptions, type TFunction } from 'i18next';
 import Backend from 'i18next-fs-backend';
 import { LanguageDetector, handle as i18nextHandle } from 'i18next-http-middleware';
@@ -223,19 +223,20 @@ export class I18n {
 
     app.use(i18nextHandle(i18next));
 
-    app.use((req: I18nRequest & { session?: SessionWithUser }, res: Response, next: NextFunction) => {
-      const lang = getRequestLanguage(req);
+    app.use((req, res, next) => {
+      const typedReq = req as unknown as I18nRequest & { session?: SessionWithUser };
+      const lang = getRequestLanguage(typedReq);
 
-      if (typeof req.i18n?.changeLanguage === 'function') {
-        req.i18n.changeLanguage(lang);
+      if (typeof typedReq.i18n?.changeLanguage === 'function') {
+        typedReq.i18n.changeLanguage(lang);
       }
 
-      const t: TFunction = typeof req.t === 'function' ? req.t : createFallbackTFunction();
+      const t: TFunction = typeof typedReq.t === 'function' ? typedReq.t : createFallbackTFunction();
 
       res.locals.lang = lang;
       res.locals.t = t;
 
-      setupNunjucksGlobals(req.app.locals?.nunjucksEnv, { lang, t });
+      setupNunjucksGlobals(typedReq.app.locals?.nunjucksEnv, { lang, t });
 
       next();
     });
