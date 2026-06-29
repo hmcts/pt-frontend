@@ -19,7 +19,6 @@ export class Session {
     });
 
     redis.on('error', (err: typeof Error) => {
-      this.logger.error(`REDIS ERROR: ${redisConnectionString}`);
       this.logger.error('REDIS ERROR:', err);
     });
 

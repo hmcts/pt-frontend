@@ -2,15 +2,9 @@ import * as propertiesVolume from '@hmcts/properties-volume';
 import config from 'config';
 import { get, set } from 'lodash';
 
-import { Logger } from '@modules/logger';
-
-const logger = Logger.getLogger('server');
-
 export class PropertiesVolume {
   async enableFor(environment: string): Promise<void> {
-    logger.info(`Usage: properties-volume.enableFor ENV is: ${environment}`);
     if (environment !== 'development') {
-      logger.info('in block adding config to properties volume');
       propertiesVolume.addTo(config);
 
       await this.setSecret('secrets.pt.AppInsightsInstrumentationKey', 'appInsights.instrumentationKey');
