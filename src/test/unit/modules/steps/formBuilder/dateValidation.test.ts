@@ -84,6 +84,24 @@ describe('dateValidation', () => {
         const result = validateDateField('15', '06', '2000', true);
         expect(result).toBeNull();
       });
+
+      it('should return error when month value is invalid (less than 1)', () => {
+        const t = createMockT({
+          'errors.date.missingOne': 'Date must include a {{missingField}}',
+        });
+        const result = validateDateField('1', '-1', '2000', true, t);
+        expect(result?.message).toBe('Enter a valid date');
+        expect(result?.erroneousParts).toEqual(['month']);
+      });
+
+      it('should return error when month value is invalid (more than 12)', () => {
+        const t = createMockT({
+          'errors.date.missingOne': 'Date must include a {{missingField}}',
+        });
+        const result = validateDateField('1', '14', '2000', true, t);
+        expect(result?.message).toBe('Enter a valid date');
+        expect(result?.erroneousParts).toEqual(['month']);
+      });
     });
 
     describe('format validation', () => {

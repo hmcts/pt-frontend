@@ -30,11 +30,3 @@ export function getUserType(req: Request): UserType {
 
   return 'citizen';
 }
-
-export function getUserToken(req: Request): string {
-  const token = req.session?.user?.accessToken;
-  if (!token) {
-    throw new Error('User not authenticated');
-  }
-  return token;
-}
