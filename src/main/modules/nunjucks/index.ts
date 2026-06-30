@@ -17,11 +17,7 @@ export class Nunjucks {
     const mojFrontendRoot = path.resolve(mojFrontendPath, '..');
 
     app.locals.nunjucksEnv = nunjucks.configure(
-      [
-        path.join(__dirname, '..', '..', 'views'),
-        path.join(__dirname, '..', '..', 'steps'),
-        mojFrontendRoot,
-      ],
+      [path.join(__dirname, '..', '..', 'views'), path.join(__dirname, '..', '..', 'steps'), mojFrontendRoot],
       {
         autoescape: true,
         watch: this.developmentMode,
