@@ -2349,6 +2349,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ministryofjustice/frontend@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "@ministryofjustice/frontend@npm:9.0.0"
+  peerDependencies:
+    govuk-frontend: ^6.0.0
+    moment: 2.30.1
+  checksum: 10/91402390dcbf26558684be9200c9b2ae47c77267fd074ae889bd907ec94e3c29072f40d1aebed8aae3cd2ae771806f8e90d57f03dcaf7de0f4fb470f3219a9a1
+  languageName: node
+  linkType: hard
+
 "@napi-rs/wasm-runtime@npm:^1.1.4":
   version: 1.1.6
   resolution: "@napi-rs/wasm-runtime@npm:1.1.6"
@@ -3742,6 +3752,13 @@ __metadata:
   version: 4.17.24
   resolution: "@types/lodash@npm:4.17.24"
   checksum: 10/0f2082565f60f9787eefc046edc38458054512be5a8b3584ef0bad5fd9e85d0ab55ec5a1fbfae1ed6ba015cf1f9e837d5fb4da1f99fc60b8f74b2a46146fb00f
+  languageName: node
+  linkType: hard
+
+"@types/luxon@npm:3.7.1":
+  version: 3.7.1
+  resolution: "@types/luxon@npm:3.7.1"
+  checksum: 10/c7bc164c278393ea0be938f986c74b4cddfab9013b1aff4495b016f771ded1d5b7b7b4825b2c7f0b8799edce19c5f531c28ff434ab3dedf994ac2d99a20fd4c4
   languageName: node
   linkType: hard
 
@@ -6492,6 +6509,15 @@ __metadata:
     shebang-command: "npm:^2.0.0"
     which: "npm:^2.0.1"
   checksum: 10/0d52657d7ae36eb130999dffff1168ec348687b48dd38e2ff59992ed916c88d328cf1d07ff4a4a10bc78de5e1c23f04b306d569e42f7a2293915c081e4dfee86
+  languageName: node
+  linkType: hard
+
+"csrf-sync@npm:4.2.1":
+  version: 4.2.1
+  resolution: "csrf-sync@npm:4.2.1"
+  dependencies:
+    http-errors: "npm:^2.0.0"
+  checksum: 10/6c25ed72c0930763152daaeaea5cff9e68e2f846ee74731267aa8417474636fe9b1ab4fd050bd52a6318cf790f5b700f94b19568e9adf16f0cd6e56a3d5a5505
   languageName: node
   linkType: hard
 
@@ -10928,6 +10954,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"luxon@npm:3.7.2":
+  version: 3.7.2
+  resolution: "luxon@npm:3.7.2"
+  checksum: 10/b24cd205ed306ce7415991687897dcc4027921ae413c9116590bc33a95f93b86ce52cf74ba72b4f5c5ab1c10090517f54ac8edfb127c049e0bf55b90dc2260be
+  languageName: node
+  linkType: hard
+
 "lz-utils@npm:^2.1.1":
   version: 2.1.1
   resolution: "lz-utils@npm:2.1.1"
@@ -12853,6 +12886,7 @@ __metadata:
     "@hmcts/info-provider": "npm:^1.2.0"
     "@hmcts/nodejs-healthcheck": "npm:1.8.6"
     "@hmcts/properties-volume": "npm:0.0.14"
+    "@ministryofjustice/frontend": "npm:^9.0.0"
     "@opentelemetry/api": "npm:1.9.1"
     "@opentelemetry/otlp-transformer": "npm:0.218.0"
     "@tootallnate/once": "npm:^3.0.1"
@@ -12869,6 +12903,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/jsonwebtoken": "npm:^9"
     "@types/lodash": "npm:4.17.24"
+    "@types/luxon": "npm:3.7.1"
     "@types/node": "npm:^22.14.1"
     "@types/nunjucks": "npm:3.2.6"
     "@types/pa11y": "npm:^5.3.7"
@@ -12890,6 +12925,7 @@ __metadata:
     connect-redis: "npm:7.1.1"
     cookie-parser: "npm:1.4.7"
     copy-webpack-plugin: "npm:9.1.0"
+    csrf-sync: "npm:4.2.1"
     css-loader: "npm:6.11.0"
     debug: "npm:4.4.3"
     eslint: "npm:8"
@@ -12918,6 +12954,7 @@ __metadata:
     jwt-decode: "npm:4.0.0"
     lint-staged: "npm:13.3.0"
     lodash: "npm:4.18.1"
+    luxon: "npm:3.7.2"
     mini-css-extract-plugin: "npm:2.10.2"
     minimatch: "npm:8"
     module-alias: "npm:2.3.4"

@@ -1,8 +1,9 @@
 export { Helmet } from './helmet';
 export { Nunjucks } from './nunjucks';
+export { Csrf } from './csrf';
 export { I18n } from './i18n';
 export { Logger } from './logger';
 export * from './properties-volume';
+export { Session } from './session';
 
-// Module registration order — Session, Csrf and others to be added in HDPD-501
-export const modules = ['I18n', 'Nunjucks', 'Helmet'];
+export const modules = ['Session', 'I18n', 'Nunjucks', 'Helmet', 'Csrf'];
