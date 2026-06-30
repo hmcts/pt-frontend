@@ -1,7 +1,5 @@
 import { FilterXSS } from 'xss';
 
-export const EMOJI_PATTERN = /\p{Emoji_Presentation}|\p{Extended_Pictographic}|\u200D|\uFE0F/u;
-
 const STRIP_HTML_OPTIONS = {
   whiteList: {},
   stripIgnoreTag: true,
@@ -26,12 +24,3 @@ export function stripHtmlTags(text: string): string {
   }
   return htmlStripFilter.process(text);
 }
-
-export const noEmojiValidator =
-  (errorKey: string) =>
-  (value: unknown): boolean | string => {
-    if (typeof value !== 'string' || !value.trim()) {
-      return true;
-    }
-    return !EMOJI_PATTERN.test(value) || errorKey;
-  };
