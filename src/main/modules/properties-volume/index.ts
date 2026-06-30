@@ -8,8 +8,8 @@ export class PropertiesVolume {
       propertiesVolume.addTo(config);
 
       await this.setSecret('secrets.pt-kv.app-insights-connection-string', 'appInsights.instrumentationKey');
-      await this.setSecret('secrets.pt-kv.redis-connection-string', 'idam.systemUsername');
-      await this.setSecret('secrets.pt-kv.pt-session-secret', 'idam.systemUsername');
+      await this.setSecret('secrets.pt-kv.redis-connection-string', 'session.redis-connection-string');
+      await this.setSecret('secrets.pt-kv.pt-session-secret', 'session.pt-session-secret');
       await this.setSecret('secrets.pt-kv.idam-system-user-name', 'idam.systemUsername');
       await this.setSecret('secrets.pt-kv.idam-system-user-password', 'idam.systemPassword');
       await this.setSecret('secrets.pt-kv.pt-frontend-idam-secret', 'idam.clientSecret');
