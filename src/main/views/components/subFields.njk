@@ -1,2 +1,30 @@
-{# Reference: pcs-frontend/src/main/views/components/subFields.njk #}
-{# To be done in HDPD-505 #}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/character-count/macro.njk" import govukCharacterCount %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+
+
+{% for subField in subFields %}
+  {% if subField.component and subField.componentType %}
+    {% if subField.componentType == 'input' %}
+      {{ govukInput(subField.component) }}
+      {% elif subField.componentType == 'textarea' %}
+      {{ govukTextarea(subField.component) }}
+      {% elif subField.componentType == 'characterCount' %}
+      {{ govukCharacterCount(subField.component) }}
+      {% elif subField.componentType == 'radios' %}
+      {{ govukRadios(subField.component) }}
+      {% elif subField.componentType == 'checkboxes' %}
+      {{ govukCheckboxes(subField.component) }}
+      {% elif subField.componentType == 'dateInput' %}
+      {{ govukDateInput(subField.component) }}
+      {% elif subField.componentType == 'postcodeLookup' %}
+      {% include "components/postcodeLookup.njk" %}
+    {% else %}
+      {# Default to input for unknown types #}
+      {{ govukInput(subField.component) }}
+    {% endif %}
+  {% endif %}
+{% endfor %}

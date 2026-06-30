@@ -1,9 +1,6 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request } from 'express';
 
-import { Logger } from '@modules/logger';
 import type { JourneyFlowConfig, JourneyFlowConfigResolver, SectionConfig } from '@modules/steps/stepFlow.interface';
-
-const logger = Logger.getLogger('stepDependencyCheck');
 
 async function resolveFlowConfig(
   req: Request,
@@ -293,25 +290,6 @@ export function getStepUrl(stepName: string, flowConfig: JourneyFlowConfig, case
   return `${basePath}/${stepName}`;
 }
 
-export function checkStepDependencies(
-  stepName: string,
-  flowConfig: JourneyFlowConfig,
-  formData: Record<string, unknown>
-): string | null {
-  const stepConfig = flowConfig.steps[stepName];
-  if (!stepConfig || !stepConfig.dependencies || stepConfig.dependencies.length === 0) {
-    return null;
-  }
-
-  for (const dependency of stepConfig.dependencies) {
-    if (!formData[dependency]) {
-      return dependency;
-    }
-  }
-
-  return null;
-}
-
 export type StepNavigation = {
   getNextStepUrl: (
     req: Request,
@@ -357,42 +335,6 @@ export function createStepNavigation(
 
       return getStepUrl(stepName, flowConfigOrResolver, caseReference);
     },
-  };
-}
-
-export function stepDependencyCheckMiddleware(flowConfigOrResolver: JourneyFlowConfig | JourneyFlowConfigResolver) {
-  return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const urlParts = req.path.split('/').filter(Boolean);
-    const lastSegment = urlParts[urlParts.length - 1];
-
-    if (!lastSegment) {
-      return next();
-    }
-
-    const flowConfig = await resolveFlowConfig(req, flowConfigOrResolver);
-    const formData = req.session?.formData || {};
-
-    const caseId = res.locals?.validatedCase?.id;
-    let basePath = flowConfig.basePath || '';
-    if (caseId && basePath.includes(':caseReference')) {
-      basePath = basePath.replace(':caseReference', caseId);
-    }
-    const baseLastSegment = basePath.split('/').filter(Boolean).pop();
-
-    let stepName = lastSegment;
-    if (flowConfig.entryStepIdAtBasePath && baseLastSegment && lastSegment === baseLastSegment) {
-      stepName = flowConfig.entryStepIdAtBasePath;
-    }
-
-    const missingDependency = checkStepDependencies(stepName, flowConfig, formData);
-
-    if (missingDependency) {
-      logger.debug(`Step ${stepName} has unmet dependency: ${missingDependency}`);
-      const dependencyUrl = getStepUrl(missingDependency, flowConfig, caseId);
-      return res.redirect(303, dependencyUrl);
-    }
-
-    next();
   };
 }
 

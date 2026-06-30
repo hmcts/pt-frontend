@@ -62,7 +62,7 @@ export function createPostHandler(
       translationKeys,
     });
   }
-  const stepNavigation = createStepNavigation(req => resolveFormBuilderFlowConfig(req, flowConfig));
+  const stepNavigation = createStepNavigation((req: Request) => resolveFormBuilderFlowConfig(req, flowConfig));
 
   return {
     post: async (req: Request, res: Response, next: NextFunction) => {
