@@ -7,9 +7,11 @@ module.exports = {
     '^.+\\.ts?$': 'ts-jest',
   },
   moduleNameMapper: {
+    '^glob$': '<rootDir>/src/test/unit/modules/nunjucks/__mocks__/glob.ts',
     '^@router/(.*)$': '<rootDir>/src/main/router/$1',
     '^@routes/(.*)$': '<rootDir>/src/main/routes/$1',
     '^@modules/(.*)$': '<rootDir>/src/main/modules/$1',
+    '^@utils/(.*)$': '<rootDir>/src/main/utils/$1',
   },
   testPathIgnorePatterns: ['/__mocks__/'],
   coverageProvider: 'v8',

@@ -76,7 +76,7 @@ export interface FormFieldConfig {
   // Pre-built component config for Nunjucks template rendering
   component?: Record<string, unknown>;
   componentType?: ComponentType;
-  // Field value used for prepopulation from CCD (via getInitialFormData)
+  // Field value used for prepopulation (via getInitialFormData)
   value?: unknown;
   // Cross-field validation that returns error message string, or undefined if valid
   validate?: (
@@ -124,7 +124,6 @@ export type ExtendGetContent = (
   formContent: BuiltFormContent
 ) => MaybePromise<Partial<BuiltFormContent> & Record<string, unknown>>;
 
-// Prepopulation function that extracts field values from CCD case data for GET requests.
 // Use dot-notation for subFields (e.g., 'nameConfirmation.firstName') to match nested field names.
 export type GetInitialFormData = (req: Request) => MaybePromise<Record<string, unknown>>;
 
@@ -135,7 +134,7 @@ export interface FormBuilderConfig {
   beforeRedirect?: (req: Request) => Promise<void> | void;
   beforeGet?: (req: Request) => Promise<void> | void;
   extendGetContent?: ExtendGetContent;
-  // Prepopulates form fields from CCD on GET requests (e.g., when user returns to edit their answer).
+  // Prepopulates form fields on GET requests (e.g., when user returns to edit their answer).
   // Only runs on GET - POST uses submitted body to preserve user input during validation errors.
   getInitialFormData?: GetInitialFormData;
   stepDir: string;
@@ -144,6 +143,7 @@ export interface FormBuilderConfig {
   basePath?: string;
   flowConfig?: FormBuilderFlowConfig;
   showCancelButton?: boolean;
+  // documentStorage omitted — PCS CCD upload integration; add when PT has upload steps.
   isAnswered?: (req: Request) => boolean;
 }
 
