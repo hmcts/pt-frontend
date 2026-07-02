@@ -101,7 +101,7 @@
     "@types/express-session": "^1.18.2",
     "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9",
-    "@types/luxon": "3.7.1",
+    "@types/luxon": "3.7.2",
     "@types/node": "^22.14.1",
     "@types/pa11y": "^5.3.7",
     "@types/serve-favicon": "^2.5.7",
