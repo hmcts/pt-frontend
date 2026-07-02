@@ -1,9 +1,208 @@
-import type { Application } from 'express';
+import { Application, IRouter, Request, Router } from 'express';
+import type { RequestHandler } from 'express';
+
+import {
+  caseReferenceParamMiddleware,
+  legalRepresentativeHeaderMiddleware,
+  oidcMiddleware,
+  requireEventAccess,
+} from '../middleware';
+import { getFlowConfigForJourney, getStepForJourney, getStepsForJourney, journeyRegistry } from '../steps';
+
+import { Logger } from '@modules/logger';
+import { getValidatedLanguage, stepDependencyCheckMiddleware, withStepContext } from '@modules/steps';
+import type { JourneyFlowConfig } from '@modules/steps/stepFlow.interface';
+import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+
+const logger = Logger.getLogger('registerSteps');
+
+interface StepRegistrationStats {
+  totalSteps: number;
+  totalProtectedSteps: number;
+  journeyProtectedSteps: number;
+}
 
 /**
- * Reference: pcs-frontend/src/main/routes/registerSteps.ts
- * To be done in HDPD-506
+ * Get journeys to register based on specific journey filter
  */
-export default function registerSteps(app: Application): void {
-  void app;
+function getJourneysToRegister(specificJourney?: string): [string, (typeof journeyRegistry)[string]][] {
+  const journeysToRegister = specificJourney
+    ? Object.entries(journeyRegistry).filter(([name]) => name === specificJourney)
+    : Object.entries(journeyRegistry);
+
+  if (specificJourney && journeysToRegister.length === 0) {
+    const availableJourneys = Object.keys(journeyRegistry).join(', ');
+    throw new Error(`Journey '${specificJourney}' not found in registry. Available journeys: ${availableJourneys}`);
+  }
+
+  return journeysToRegister;
+}
+
+/**
+ * Build GET middleware array for a step
+ */
+function buildGetMiddleware(
+  requiresAuth: boolean,
+  flowConfig: JourneyFlowConfig | ((req: Request) => JourneyFlowConfig),
+  stepContext: RequestHandler,
+  stepMiddleware?: RequestHandler[]
+): RequestHandler[] {
+  const authMiddlewares = requiresAuth ? [oidcMiddleware] : [];
+  const dependencyCheck = stepDependencyCheckMiddleware(flowConfig);
+
+  return stepMiddleware
+    ? [stepContext, ...authMiddlewares, dependencyCheck, ...stepMiddleware, legalRepresentativeHeaderMiddleware]
+    : [stepContext, ...authMiddlewares, dependencyCheck, legalRepresentativeHeaderMiddleware];
+}
+
+/**
+ * Create GET request handler with language logging
+ */
+function createGetHandler(step: StepDefinition, journeyName: string): RequestHandler {
+  return (req, res) => {
+    const lang = getValidatedLanguage(req);
+
+    logger.debug('Language information', {
+      url: req.url,
+      step: step.name,
+      journey: journeyName,
+      validatedLang: lang,
+      reqLanguage: req.language,
+      langCookie: req.cookies?.lang,
+      langQuery: req.query?.lang,
+      headers: {
+        'accept-language': req.headers?.['accept-language'] || undefined,
+      },
+    });
+
+    const resolvedStep = getStepForJourney(journeyName, step.name) || step;
+    const controller =
+      typeof resolvedStep.getController === 'function' ? resolvedStep.getController() : resolvedStep.getController;
+    return controller.get(req, res);
+  };
+}
+
+/**
+ * Register routes for a single step
+ */
+function registerStepRoutes(
+  router: IRouter,
+  step: StepDefinition,
+  flowConfig: JourneyFlowConfig,
+  journeyName: string,
+  stats: StepRegistrationStats
+): void {
+  const flowConfigResolver = (req: Request) => getFlowConfigForJourney(journeyName) || flowConfig;
+  const stepConfig = flowConfig.steps[step.name];
+  const requiresAuth = stepConfig?.requiresAuth !== false;
+  const authMiddlewares = requiresAuth ? [oidcMiddleware] : [];
+  const stepContext = withStepContext({ name: step.name, journey: journeyName });
+
+  if (step.getController) {
+    const allGetMiddleware = buildGetMiddleware(requiresAuth, flowConfigResolver, stepContext, step.middleware);
+    router.get(step.url, ...allGetMiddleware, createGetHandler(step, journeyName));
+  }
+
+  if (step.postController?.post) {
+    router.post(step.url, stepContext, ...authMiddlewares, (req, res, next) => {
+      const resolvedStep = getStepForJourney(journeyName, step.name) || step;
+      return resolvedStep.postController?.post ? resolvedStep.postController.post(req, res, next) : next();
+    });
+  }
+
+  stats.totalSteps++;
+  if (requiresAuth) {
+    stats.journeyProtectedSteps++;
+    stats.totalProtectedSteps++;
+  }
+}
+
+/**
+ * Register steps for all journeys or a specific journey
+ * @param router - Express Application or Router instance
+ * @param specificJourney - Optional journey name to register only that journey
+ */
+export function registerSteps(router: IRouter, specificJourney?: string): void {
+  const stats: StepRegistrationStats = {
+    totalSteps: 0,
+    totalProtectedSteps: 0,
+    journeyProtectedSteps: 0,
+  };
+
+  const journeysToRegister = getJourneysToRegister(specificJourney);
+
+  for (const [journeyName, journey] of journeysToRegister) {
+    const flowConfig = journey.default.flowConfig;
+    const journeySteps = getStepsForJourney(journeyName);
+    stats.journeyProtectedSteps = 0;
+
+    logger.debug(`Registering steps for journey: ${journeyName}`, {
+      journeyName,
+      stepCount: journeySteps.length,
+    });
+
+    for (const step of journeySteps) {
+      registerStepRoutes(router, step, flowConfig, journeyName, stats);
+    }
+
+    logger.debug(`Journey ${journeyName} registered`, {
+      journeyName,
+      stepsRegistered: journeySteps.length,
+      protectedSteps: stats.journeyProtectedSteps,
+    });
+  }
+
+  logger.info('Steps registered successfully', {
+    totalJourneys: Object.keys(journeyRegistry).length,
+    totalSteps: stats.totalSteps,
+    totalProtectedSteps: stats.totalProtectedSteps,
+  });
+}
+
+/**
+ * Auto-discovers and registers all journeys from the journey registry.
+ * Creates a dedicated router for each journey with journey-specific middleware.
+ *
+ * This prevents the need to manually import and mount each journey router in app.ts.
+ * When you add a new journey, just add it to the journeyRegistry and it will be auto-mounted.
+ *
+ * @param app - Express Application instance
+ */
+export function registerAllJourneys(app: Application): void {
+  logger.info('Auto-registering all journeys from registry');
+
+  for (const [journeyName, journey] of Object.entries(journeyRegistry)) {
+    // Create a dedicated router for this journey with param merging enabled
+    const journeyRouter = Router({ mergeParams: true });
+
+    const eventId = journey.default.flowConfig.eventId;
+    const basePath = journey.default.flowConfig.basePath;
+    if (!eventId) {
+      throw new Error(`Journey '${journeyName}' is missing required flowConfig.eventId`);
+    }
+    if (!basePath) {
+      throw new Error(`Journey '${journeyName}' is missing required flowConfig.basePath`);
+    }
+
+    // Apply journey-specific middleware
+    // Note: Auto-save is handled via formBuilder's beforeRedirect, not middleware
+    journeyRouter.param('caseReference', caseReferenceParamMiddleware);
+    journeyRouter.use(basePath, requireEventAccess(eventId));
+
+    // Stacked onto the :caseReference param callback so handlers fire after
+    // validatedCase loads, before per-step middleware. Mounting via .use() would fire too early.
+    for (const handler of journey.routeMiddleware ?? []) {
+      journeyRouter.param('caseReference', (req, res, next) => handler(req, res, next));
+    }
+
+    // Register all steps for this journey on the journey router
+    registerSteps(journeyRouter, journeyName);
+
+    // Mount the journey router on the app at root (routes have full paths)
+    app.use(journeyRouter);
+
+    logger.info(`Journey '${journeyName}' auto-registered and mounted`);
+  }
+
+  logger.info('All journeys registered successfully');
 }
