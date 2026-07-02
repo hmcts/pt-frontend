@@ -13,6 +13,7 @@ import { AppInsights } from '@modules/appinsights';
 import { setupErrorHandlers } from '@modules/error-handler';
 import { PropertiesVolume } from '@modules/properties-volume';
 import { Session } from '@modules/session';
+import { registerAllJourneys } from '@routes/registerSteps';
 
 const env = process.env.NODE_ENV || 'development';
 const developmentMode = env === 'development';
@@ -51,8 +52,11 @@ app.use((req, res, next) => {
   next();
 });
 
+registerAllJourneys(app);
+
 glob
   .sync(__dirname + '/routes/**/*.+(ts|js)')
+  .filter(filename => !filename.includes('registerSteps'))
   .map(filename => require(filename))
   .forEach(route => route.default(app));
 

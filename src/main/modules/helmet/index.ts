@@ -1,3 +1,4 @@
+import config from 'config';
 import * as express from 'express';
 import helmet from 'helmet';
 
@@ -25,6 +26,12 @@ export class Helmet {
       scriptSrc.push("'unsafe-eval'");
     }
 
+    const formAction = [self];
+    const idamDomain: string = new URL(config.get('idam.authorizationURL')).origin;
+    if (idamDomain) {
+      formAction.push(idamDomain);
+    }
+
     app.use(
       helmet({
         contentSecurityPolicy: {
@@ -36,6 +43,7 @@ export class Helmet {
             objectSrc: [self],
             scriptSrc,
             styleSrc: [self],
+            formAction,
           },
         },
         referrerPolicy: { policy: 'origin' },

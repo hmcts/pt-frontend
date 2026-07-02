@@ -1,5 +1,8 @@
+import type { Request } from 'express';
+
 import type { RespondToClaimStepName } from './stepRegistry';
 
+import { getFormData } from '@modules/steps';
 import type { JourneyFlowConfig, StepConfig } from '@modules/steps/stepFlow.interface';
 
 export const PRE_APPLICATION_ROUTE = '/pre-application';
@@ -9,14 +12,36 @@ export const flowConfig: JourneyFlowConfig = {
   journeyName: 'preApplication',
   useShowConditions: true,
   useSessionFormData: false,
-  eventId: 'respondPossessionClaim',
   nonSectionStepOrder: [],
   // First visible step of any section back-links to this hub step.
   hubStepName: 'starting-or-returning',
+  stepOrder: [
+    'starting-or-returning',
+    'applying-for-yourself-or-someone-else',
+    'you-need-to-use-another-form',
+    'address-of-property',
+    'you-need-to-use-another-form',
+    'landlord-is-a-housing-association',
+  ],
   steps: {
-    'starting-or-returning': {},
-    'applying-form-yourself-or-someone-else': {},
-    // 'address-of-property': {},
-    // 'landlord-is-a-housing-association': {},
+    'starting-or-returning': {
+      requiresAuth: false,
+      preventBack: true,
+    },
+    'applying-for-yourself-or-someone-else': {
+      requiresAuth: false,
+    },
+    'address-of-property': {
+      requiresAuth: false,
+    },
+    'landlord-is-a-housing-association': {
+      requiresAuth: false,
+    },
+    'you-need-to-use-another-form': {
+      requiresAuth: false,
+      showCondition: (req: Request) =>
+        getFormData(req, 'applying-for-yourself-or-someone-else').applyingForYourselfOrSomeoneElse !== 'myself',
+      //TODO: add evaluation of postcode here for if the postcode is non England
+    },
   } satisfies Partial<Record<RespondToClaimStepName, StepConfig>>,
 };

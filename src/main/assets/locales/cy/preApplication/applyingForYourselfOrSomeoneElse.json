@@ -1,0 +1,12 @@
+{
+  "questionTitle": "cy Are you applying for yourself or someone else?",
+  "myself": "cy I am applying for myself",
+  "myselfHint": "cy Including if you're applying with joint tenants on the same agreement",
+  "someoneElse": "cy I am applying on behalf of someone else",
+  "someoneElseHint": "cy As a legal or non-legal representative",
+  "errors": {
+    "applyingForYourselfOrSomeoneElse": {
+      "required": "cy Enter a choice"
+    }
+  }
+}

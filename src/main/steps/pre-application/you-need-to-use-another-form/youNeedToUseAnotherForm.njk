@@ -1,0 +1,28 @@
+{% extends "template.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {{ formData }}
+      <h2 class="govuk-heading-l">You need to use another form to apply</h2>
+      {% if applyingForSomeoneElse %}
+        <p class="govuk-body">If you are representing someone else, you must use our other application form.</p>
+      {% endif %}
+      {% if notEnglishPostcode %}
+        <p class="govuk-body">Your postcode: <strong>{{ postcode }}</strong></p>
+        <p class="govuk-body">Your area is not yet included in our new service.</p>
+        <p class="govuk-body">You must use our other application form.</p>
+      {% endif %}
+      {{ govukButton({
+        text: "Go to the online application form",
+        href: "https://www.gov.uk/",
+        attributes: { "data-cy":"button-save-and-continue"}
+      }) }}
+    </div>
+  </div>
+{% endblock %}

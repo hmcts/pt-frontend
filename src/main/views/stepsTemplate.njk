@@ -4,8 +4,6 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
-{% from "xui-header/macro.njk" import hmctsXuiHeader %}
-{% from "footer/macro.njk" import hmctsUiFooter %}
 
 {% set bodyAttributes = {
   "data-session-timeout": sessionTimeout.sessionTimeoutMinutes,
@@ -26,15 +24,11 @@
 {% endblock %}
 
 {% block header %}
-  {% if isLegalRepresentative %}
-    {{ hmctsXuiHeader(headerModel) }}
-  {% else %}
-    {{
-    govukHeader({
-      containerClasses: "govuk-width-container"
-    })
-    }}
-  {% endif %}
+  {{
+  govukHeader({
+    containerClasses: "govuk-width-container"
+  })
+  }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -76,7 +70,7 @@
     </div>
   </div>
   {% block modal %}
-    {% include "components/timeout-modal.njk" %}
+    {#  {% include "components/timeout-modal.njk" %}#}
   {% endblock %}
 {% endblock %}
 
@@ -91,21 +85,17 @@
     </div>
 
     {% if contactUsForHelp %}
-      <div class="govuk-grid-column-one-third">
-        <aside class="app-related-items" aria-label="{{ t('supportAndContactInformation', 'Support and contact information') }}">
-          {% include "components/contact-us-details.njk" %}
-        </aside>
-      </div>
+      {#      <div class="govuk-grid-column-one-third">#}
+      {#        <aside class="app-related-items" aria-label="{{ t('supportAndContactInformation', 'Support and contact information') }}">#}
+      {#          {% include "components/contact-us-details.njk" %}#}
+      {#        </aside>#}
+      {#      </div>#}
     {% endif %}
   </div>
 {% endblock %}
 
 {% block footer %}
-  {% if isLegalRepresentative %}
-    {{ hmctsUiFooter(footerModel) }}
-  {% else %}
-    {{ super() }}
-  {% endif %}
+  {{ super() }}
 {% endblock %}
 
 {% block bodyEnd %}

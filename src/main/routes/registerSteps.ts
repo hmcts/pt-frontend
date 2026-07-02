@@ -3,9 +3,7 @@ import type { RequestHandler } from 'express';
 
 import {
   caseReferenceParamMiddleware,
-  legalRepresentativeHeaderMiddleware,
   oidcMiddleware,
-  requireEventAccess,
 } from '../middleware';
 import { getFlowConfigForJourney, getStepForJourney, getStepsForJourney, journeyRegistry } from '../steps';
 
@@ -51,15 +49,15 @@ function buildGetMiddleware(
   const dependencyCheck = stepDependencyCheckMiddleware(flowConfig);
 
   return stepMiddleware
-    ? [stepContext, ...authMiddlewares, dependencyCheck, ...stepMiddleware, legalRepresentativeHeaderMiddleware]
-    : [stepContext, ...authMiddlewares, dependencyCheck, legalRepresentativeHeaderMiddleware];
+    ? [stepContext, ...authMiddlewares, dependencyCheck, ...stepMiddleware]
+    : [stepContext, ...authMiddlewares, dependencyCheck];
 }
 
 /**
  * Create GET request handler with language logging
  */
 function createGetHandler(step: StepDefinition, journeyName: string): RequestHandler {
-  return (req, res) => {
+  return (req, res, next) => {
     const lang = getValidatedLanguage(req);
 
     logger.debug('Language information', {
@@ -78,7 +76,7 @@ function createGetHandler(step: StepDefinition, journeyName: string): RequestHan
     const resolvedStep = getStepForJourney(journeyName, step.name) || step;
     const controller =
       typeof resolvedStep.getController === 'function' ? resolvedStep.getController() : resolvedStep.getController;
-    return controller.get(req, res);
+    return controller.get(req, res, next);
   };
 }
 
@@ -92,7 +90,7 @@ function registerStepRoutes(
   journeyName: string,
   stats: StepRegistrationStats
 ): void {
-  const flowConfigResolver = (req: Request) => getFlowConfigForJourney(journeyName) || flowConfig;
+  const flowConfigResolver = (_req: Request) => getFlowConfigForJourney(journeyName) || flowConfig;
   const stepConfig = flowConfig.steps[step.name];
   const requiresAuth = stepConfig?.requiresAuth !== false;
   const authMiddlewares = requiresAuth ? [oidcMiddleware] : [];
@@ -175,11 +173,7 @@ export function registerAllJourneys(app: Application): void {
     // Create a dedicated router for this journey with param merging enabled
     const journeyRouter = Router({ mergeParams: true });
 
-    const eventId = journey.default.flowConfig.eventId;
     const basePath = journey.default.flowConfig.basePath;
-    if (!eventId) {
-      throw new Error(`Journey '${journeyName}' is missing required flowConfig.eventId`);
-    }
     if (!basePath) {
       throw new Error(`Journey '${journeyName}' is missing required flowConfig.basePath`);
     }
@@ -187,7 +181,6 @@ export function registerAllJourneys(app: Application): void {
     // Apply journey-specific middleware
     // Note: Auto-save is handled via formBuilder's beforeRedirect, not middleware
     journeyRouter.param('caseReference', caseReferenceParamMiddleware);
-    journeyRouter.use(basePath, requireEventAccess(eventId));
 
     // Stacked onto the :caseReference param callback so handlers fire after
     // validatedCase loads, before per-step middleware. Mounting via .use() would fire too early.

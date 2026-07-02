@@ -1,0 +1,10 @@
+{
+  "questionTitle": "What is the address of the property you are applying about?",
+  "questionHint": "Enter postcode",
+  "errors": {
+    "addressPostcode": {
+      "required": "Enter a postcode",
+      "invalid": "Enter a valid postcode"
+    }
+  }
+}
