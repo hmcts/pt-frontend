@@ -20,7 +20,8 @@
     "paths": {
       "@router/*": ["router/*"],
       "@routes/*": ["routes/*"],
-      "@modules/*": ["modules/*"]
+      "@modules/*": ["modules/*"],
+      "@utils/*": ["utils/*"]
     },
     "typeRoots": ["./node_modules/@types", "./src/main/types"],
     "types": ["jest", "node", "express"]

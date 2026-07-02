@@ -1,7 +1,13 @@
 import { Request, RequestHandler } from 'express';
 
-import { GetController } from '@modules/steps/controller';
-import { SupportedLang } from '@modules/steps/i18n';
+import type { AllowedLang } from '../i18n';
+
+export type SupportedLang = AllowedLang;
+
+// Placeholder — replace with GetController from @modules/steps (HDPD-506)
+export interface GetController {
+  get: RequestHandler;
+}
 
 export interface ErrorField {
   field: string;
@@ -24,10 +30,6 @@ export interface StepDefinition {
   postController?: { post: RequestHandler };
   middleware?: RequestHandler[];
   showCancelButton?: boolean;
-  // Storage adapter for upload steps — encapsulates where documents are persisted
-  // (CCD draft for respond-to-claim, session for make-an-application).
-  // Absent on every non-upload step. The upload handler refuses requests targeting
-  // a step that does not declare this.
   // Truthy/falsy — consumers coerce. Lets `req => validatedCase?.foo` work without a Boolean(...) wrap.
   isAnswered?: (req: Request) => unknown;
 }

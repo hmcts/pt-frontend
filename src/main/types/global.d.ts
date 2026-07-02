@@ -28,6 +28,7 @@ declare module 'express' {
     t: TFunction;
     i18n: import('i18next').default;
     session: Session & CustomSessionData;
+    csrfToken?: () => string;
   }
 
   interface Response {
@@ -35,6 +36,7 @@ declare module 'express' {
       validatedCase?: CcdCaseModel;
       t?: TFunction;
       lang?: string;
+      csrfToken?: string;
     } & Record<string, unknown>;
   }
 
