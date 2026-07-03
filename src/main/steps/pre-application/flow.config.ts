@@ -4,6 +4,7 @@ import type { RespondToClaimStepName } from './stepRegistry';
 
 import { getFormData } from '@modules/steps';
 import type { JourneyFlowConfig, StepConfig } from '@modules/steps/stepFlow.interface';
+import { isNotEnglishPostcode } from '@utils/postcode';
 
 export const PRE_APPLICATION_ROUTE = '/pre-application';
 
@@ -20,7 +21,7 @@ export const flowConfig: JourneyFlowConfig = {
     'applying-for-yourself-or-someone-else',
     'you-need-to-use-another-form',
     'address-of-property',
-    'you-need-to-use-another-form',
+    'you-need-to-use-another-form-postcode',
     'landlord-is-a-housing-association',
   ],
   steps: {
@@ -41,7 +42,13 @@ export const flowConfig: JourneyFlowConfig = {
       requiresAuth: false,
       showCondition: (req: Request) =>
         getFormData(req, 'applying-for-yourself-or-someone-else').applyingForYourselfOrSomeoneElse !== 'myself',
-      //TODO: add evaluation of postcode here for if the postcode is non England
+    },
+    'you-need-to-use-another-form-postcode': {
+      requiresAuth: false,
+      showCondition: (req: Request) => {
+        const postCode = req.session.formData?.['address-of-property']?.addressPostcode;
+        return postCode && isNotEnglishPostcode(postCode);
+      },
     },
   } satisfies Partial<Record<RespondToClaimStepName, StepConfig>>,
 };

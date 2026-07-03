@@ -10,7 +10,9 @@
     <div class="govuk-grid-column-two-thirds">
       {{ formData }}
       <h2 class="govuk-heading-l">{{ t('questionTitle') }}</h2>
-      <p class="govuk-body">{{ t('applyingForSomeoneElse') }}</p>
+      <p class="govuk-body">{{ t('notEnglishPostcode1') }} <strong>{{ postcode }}</strong></p>
+      <p class="govuk-body">{{ t('notEnglishPostcode2') }}</p>
+      <p class="govuk-body">{{ t('notEnglishPostcode3') }}</p>
       {{ govukButton({
         text: t('onlineApplicationForm'),
         href: "https://www.gov.uk/",

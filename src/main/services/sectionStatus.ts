@@ -3,7 +3,6 @@ import type { Request } from 'express';
 import type { JourneyFlowConfig, SectionConfig, SectionStatus } from '@modules/steps/stepFlow.interface';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
-
 export type { SectionStatus, SectionConfig, JourneyFlowConfig } from '../modules/steps/stepFlow.interface';
 export type { StepDefinition } from '../modules/steps/stepFormData.interface';
 

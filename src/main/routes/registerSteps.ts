@@ -1,10 +1,7 @@
 import { Application, IRouter, Request, Router } from 'express';
 import type { RequestHandler } from 'express';
 
-import {
-  caseReferenceParamMiddleware,
-  oidcMiddleware,
-} from '../middleware';
+import { caseReferenceParamMiddleware, oidcMiddleware } from '../middleware';
 import { getFlowConfigForJourney, getStepForJourney, getStepsForJourney, journeyRegistry } from '../steps';
 
 import { Logger } from '@modules/logger';

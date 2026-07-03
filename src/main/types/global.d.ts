@@ -10,6 +10,7 @@ interface CustomSessionData extends SessionData {
   formData?: Record<string, any>;
   uploadedDocs?: Record<string, Record<string, unknown[]>>;
   returnToCya?: string;
+  lastVisitedStep?: string;
   ccdCase?: CcdCase;
   genApp?: {
     applicationId?: string;

@@ -1,4 +1,3 @@
-import { isValidPostcode } from '@utils/postcode';
 import type { NextFunction, Request, Response } from 'express';
 import { TFunction } from 'i18next';
 
@@ -7,6 +6,7 @@ import { PRE_APPLICATION_ROUTE, flowConfig } from '../flow.config';
 
 import { createGetController, createStepNavigation, loadStepNamespace, setFormData } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { isValidPostcode } from '@utils/postcode';
 
 const journeyName = 'preApplication';
 const stepName = 'address-of-property';
@@ -55,6 +55,8 @@ export const step: StepDefinition = {
       setFormData(req, stepName, {
         addressPostcode,
       });
+
+      req.session.lastVisitedStep = stepName;
 
       const redirectPath = await stepNavigation.getNextStepUrl(req, stepName);
 

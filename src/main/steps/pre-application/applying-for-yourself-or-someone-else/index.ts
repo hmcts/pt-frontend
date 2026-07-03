@@ -54,13 +54,13 @@ export const step: StepDefinition = {
         applyingForYourselfOrSomeoneElse,
       });
 
+      req.session.lastVisitedStep = stepName;
+
       const redirectPath = await stepNavigation.getNextStepUrl(req, stepName);
 
       if (!redirectPath) {
         return res.status(404).render('not-found');
       }
-
-      console.log(req.session);
 
       res.redirect(303, redirectPath);
     },
