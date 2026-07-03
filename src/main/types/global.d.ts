@@ -28,12 +28,14 @@ declare module 'express' {
     t: TFunction;
     i18n: import('i18next').default;
     session: Session & CustomSessionData;
+    csrfToken?: () => string;
   }
 
   interface Response {
     locals: {
       t?: TFunction;
       lang?: string;
+      csrfToken?: string;
     } & Record<string, unknown>;
   }
 
