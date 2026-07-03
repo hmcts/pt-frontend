@@ -5,7 +5,8 @@
     "paths": {
       "@router/*": ["router/*"],
       "@routes/*": ["routes/*"],
-      "@modules/*": ["modules/*"]
+      "@modules/*": ["modules/*"],
+      "@utils/*": ["utils/*"]
     },
     "target": "es2018",
     "lib": ["es2018", "DOM"],
