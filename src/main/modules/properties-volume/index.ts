@@ -4,7 +4,7 @@ import { get, set } from 'lodash';
 
 export class PropertiesVolume {
   async enableFor(environment: string): Promise<void> {
-    if (environment !== 'development') {
+    if (environment === 'development') {
       propertiesVolume.addTo(config);
 
       await this.setSecret('secrets.pt.AppInsightsInstrumentationKey', 'appInsights.instrumentationKey');
@@ -13,6 +13,7 @@ export class PropertiesVolume {
       await this.setSecret('secrets.pt.pt-frontend-idam-secret', 'idam.clientSecret');
       await this.setSecret('secrets.pt.pt-frontend-s2s-secret', 'authProvider.secret');
       await this.setSecret('secrets.pt.redis-connection-string', 'session.redis-connection-string');
+      console.log(config);
     }
   }
 
