@@ -216,7 +216,7 @@ function checkDateRestrictions(
   today.setHours(0, 0, 0, 0);
   inputDate.setHours(0, 0, 0, 0);
 
-  let isInvalid = false;
+  let isInvalid: boolean;
 
   if (noFutureDate) {
     // noCurrentDate determines whether to include today's date in the valid range

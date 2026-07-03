@@ -20,7 +20,9 @@ export interface CcdCollectionItem<T> {
 export type CaseData = CcdCaseData;
 
 /** Case data payload from CCD (START callback case_data or CcdCase.data). */
-export interface CcdCaseData {}
+export interface CcdCaseData {
+  placeholder?: string;
+}
 
 /** Case representation used by services: id + case_data. */
 export interface CcdCase {

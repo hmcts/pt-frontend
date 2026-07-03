@@ -133,7 +133,7 @@ function processOptions(
           ? interpolation
             ? t(option.translationKey, interpolation)
             : t(option.translationKey)
-          : option.value ?? '')
+          : (option.value ?? ''))
     );
 
     // Process conditionalText if provided

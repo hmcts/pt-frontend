@@ -33,7 +33,10 @@ type PostControllerCallback = (req: Request, res: Response) => Promise<void> | v
 type TranslationFn = (req: Request) => StepFormData | Promise<StepFormData>;
 
 export class GetController {
-  constructor(private view: string, private generateContent: TranslationFn) {}
+  constructor(
+    private view: string,
+    private generateContent: TranslationFn
+  ) {}
 
   get = async (req: Request, res: Response): Promise<void> => {
     const content = await this.generateContent(req);
