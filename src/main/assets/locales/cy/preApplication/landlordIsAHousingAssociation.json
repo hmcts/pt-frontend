@@ -1,0 +1,8 @@
+{
+  "questionTitle": "cy Is your landlord a housing association?",
+  "errors": {
+    "startingOrReturning": {
+      "required": "cy Enter a choice"
+    }
+  }
+}

@@ -1,7 +1,36 @@
 {% extends "govuk/template.njk" %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 
 {% block head %}
   {% include "webpack/css.njk" %}
+{% endblock %}
+
+{% block beforeContent %}
+  {% if backUrl %}
+    {{ govukBackLink({
+      text: (back or t('back') or "Back"),
+      href: backUrl
+    }) }}
+  {% endif %}
+
+  <div class="govuk-width-container">
+    <div class="govuk-language-toggle">
+      {{ (languageToggle or t('languageToggle') or '') | safe }}
+    </div>
+  </div>
+
+  {% if errorSummary %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {{
+        govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary
+        })
+        }}
+      </div>
+    </div>
+  {% endif %}
 {% endblock %}
 
 {% block bodyEnd %}

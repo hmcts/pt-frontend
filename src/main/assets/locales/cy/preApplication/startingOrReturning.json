@@ -1,0 +1,10 @@
+{
+  "questionTitle": "cy Are you starting or returning to an application?",
+  "starting": "cy I want to start a new application",
+  "returning": "cy I want to return to a draft application or submitted application",
+  "errors": {
+    "startingOrReturning": {
+      "required": "cy Enter a choice"
+    }
+  }
+}

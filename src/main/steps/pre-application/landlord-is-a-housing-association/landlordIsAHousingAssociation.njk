@@ -1,0 +1,46 @@
+{% extends "template.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="post" novalidate>
+        {{ csrfProtection(csrfToken) }}
+        {{ govukRadios({
+          name: "landlordIsAHousingAssociation",
+          id: "landlord-is-a-housing-association",
+          fieldset: {
+            legend: {
+              text: t('questionTitle'),
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          errorMessage: errors["landlordIsAHousingAssociation"] and {
+            text: errors["landlordIsAHousingAssociation"].msg
+          },
+          items: [
+            {
+              value: "yes",
+              text: t('yes'),
+              checked: landlordIsAHousingAssociation == 'yes'
+            },
+            {
+              value: "no",
+              text: t('no'),
+              checked: landlordIsAHousingAssociation == 'no'
+            }
+          ]
+        }) }}
+        {{ govukButton({
+          text: t('continueButtonText'),
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

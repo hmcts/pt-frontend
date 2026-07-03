@@ -10,6 +10,7 @@ interface CustomSessionData extends SessionData {
   formData?: Record<string, any>;
   uploadedDocs?: Record<string, Record<string, unknown[]>>;
   returnToCya?: string;
+  lastVisitedStep?: string;
   ccdCase?: CcdCase;
   genApp?: {
     applicationId?: string;
@@ -36,13 +37,13 @@ declare module 'express' {
       validatedCase?: CcdCaseModel;
       t?: TFunction;
       lang?: string;
-      csrfToken?: string;
     } & Record<string, unknown>;
+    csrfToken?: () => string;
   }
 
   interface Application {
     locals: {
-      developmentMode: boolean;
+      developmentMode?: boolean;
       nunjucksEnv?: Environment;
       ENV?: string;
     };

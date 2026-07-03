@@ -1,0 +1,21 @@
+{% extends "template.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {{ formData }}
+      <h2 class="govuk-heading-l">{{ t('questionTitle') }}</h2>
+      <p class="govuk-body">{{ t('applyingForSomeoneElse') }}</p>
+      {{ govukButton({
+        text: t('onlineApplicationForm'),
+        href: "https://www.gov.uk/",
+        attributes: { "data-cy":"button-save-and-continue"}
+      }) }}
+    </div>
+  </div>
+{% endblock %}
