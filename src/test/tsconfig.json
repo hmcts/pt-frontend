@@ -1,13 +1,18 @@
 {
-  "ts-node": {
-    "files": true
-  },
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "baseUrl": "../main",
+    "paths": {
+      "@router/*": ["router/*"],
+      "@routes/*": ["routes/*"],
+      "@modules/*": ["modules/*"]
+    },
     "target": "es2018",
     "lib": ["es2018", "DOM"],
-    "esModuleInterop": true,
-    "module": "commonjs",
-    "strictNullChecks": true,
-    "types": ["codeceptjs"]
+    "types": ["jest", "node", "codeceptjs"]
+  },
+  "include": ["**/*"],
+  "ts-node": {
+    "files": true
   }
 }

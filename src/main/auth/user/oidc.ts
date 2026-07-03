@@ -77,7 +77,7 @@ const createIdamToken = (params: Record<string, string>): Promise<AxiosResponse<
   const tokenUrl: string = config.get('idam.tokenURL');
   const headers = { Accept: 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' };
 
-  let data = '';
+  let data: string;
   if (params.username && params.password) {
     data = `grant_type=password&username=${params.username}&password=${params.password}&client_id=${id}&client_secret=${secret}&scope=openid%20profile%20roles%20openid%20roles%20profile`;
   } else if (params.callbackUrl && params.code) {
