@@ -2,10 +2,6 @@ import * as propertiesVolume from '@hmcts/properties-volume';
 import config from 'config';
 import { get, set } from 'lodash';
 
-import { Logger } from '@modules/logger';
-
-const logger = Logger.getLogger('properties-volume');
-
 export class PropertiesVolume {
   async enableFor(environment: string): Promise<void> {
     if (environment !== 'development') {
@@ -17,7 +13,7 @@ export class PropertiesVolume {
       await this.setSecret('secrets.pt.pt-frontend-idam-secret', 'idam.clientSecret');
       await this.setSecret('secrets.pt.pt-frontend-s2s-secret', 'authProvider.secret');
       await this.setSecret('secrets.pt.redis-connection-string', 'session.redis-connection-string');
-      logger.info(config);
+      console.log(config);
     }
   }
 
