@@ -8,7 +8,7 @@ const logger = Logger.getLogger('properties-volume');
 
 export class PropertiesVolume {
   async enableFor(environment: string): Promise<void> {
-    if (environment === 'development') {
+    if (environment !== 'development') {
       propertiesVolume.addTo(config);
 
       await this.setSecret('secrets.pt.AppInsightsInstrumentationKey', 'appInsights.instrumentationKey');
