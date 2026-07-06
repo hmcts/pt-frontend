@@ -1,28 +1,49 @@
 #!/usr/bin/env node
-import { app } from './app';
+import { createApp } from './app';
 
 import { Logger } from '@modules/logger';
 
 const logger = Logger.getLogger('server');
 
-// used by shutdownCheck in readinessChecks
-app.locals.shutdown = false;
+const PORT = process.env.PORT || 4000;
 
-// TODO: set the right port for your application
-const port: number = parseInt(process.env.PORT || '4000', 10);
+let isShuttingDown = false;
 
-const server = app.listen(port, () => {
-  logger.info(`Application started: http://localhost:${port}`);
-});
+async function startServer() {
+  const app = await createApp();
 
-function gracefulShutdownHandler(signal: string) {
-  logger.info(`⚠️ Caught ${signal}, gracefully shutting down. Setting readiness to DOWN`);
-  // stop the server from accepting new connections
-  app.locals.shutdown = true;
+  // used by shutdownCheck in readinessChecks
+  setShuttingDown(false);
 
-  server.close();
-  process.exit();
+  const server = app.listen(PORT, () => {
+    logger.info(`Application started: http://localhost:${PORT}`);
+  });
+
+  return () => {
+    setShuttingDown(true);
+    server.close(() => process.exit(0));
+
+    // force shutdown after 1000 in dev to kill the hmr websocket
+    if (process.env.NODE_ENV !== 'production') {
+      setTimeout(() => process.exit(0), 1000).unref();
+    }
+  };
 }
 
-process.on('SIGINT', gracefulShutdownHandler);
-process.on('SIGTERM', gracefulShutdownHandler);
+startServer()
+  .then(shutdown => {
+    process.on('SIGINT', shutdown);
+    process.on('SIGTERM', shutdown);
+  })
+  .catch(err => {
+    logger.error('Failed to start server', err);
+    process.exit(1);
+  });
+
+export function setShuttingDown(value: boolean): void {
+  isShuttingDown = value;
+}
+
+export function isShutdown(): boolean {
+  return isShuttingDown;
+}
