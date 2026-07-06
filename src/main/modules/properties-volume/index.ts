@@ -12,7 +12,6 @@ export class PropertiesVolume {
       await this.setSecret('secrets.pt-kv.idam-system-user-password', 'idam.systemPassword');
       await this.setSecret('secrets.pt-kv.pt-frontend-idam-secret', 'idam.clientSecret');
       await this.setSecret('secrets.pt-kv.pt-frontend-s2s-secret', 'authProvider.secret');
-      await this.setSecret('secrets.pt-kv.redis-connection-string', 'session.redis-connection-string');
     }
   }
 
