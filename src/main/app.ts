@@ -35,8 +35,8 @@ export async function createApp(): Promise<Express> {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
 
-  new Session().enableFor(app);
   await new PropertiesVolume().enableFor(app.locals.ENV);
+  new Session().enableFor(app);
   new AppInsights().enable();
 
   for (const moduleName of modules.modules) {
