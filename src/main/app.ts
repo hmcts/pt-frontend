@@ -1,4 +1,3 @@
-import { registerAllJourneys } from '@routes/registerSteps';
 import * as path from 'path';
 
 import bodyParser from 'body-parser';
@@ -15,6 +14,7 @@ import { AppInsights } from '@modules/appinsights';
 import { setupErrorHandlers } from '@modules/error-handler';
 import { PropertiesVolume } from '@modules/properties-volume';
 import { Session } from '@modules/session';
+import { registerAllJourneys } from '@routes/registerSteps';
 
 const env = process.env.NODE_ENV || 'development';
 const developmentMode = env === 'development';
@@ -63,7 +63,6 @@ export async function createApp(): Promise<Express> {
     .forEach(route => route.default(app));
 
   setupErrorHandlers(app, env);
-
 
   return app;
 }
