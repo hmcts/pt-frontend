@@ -6,4 +6,4 @@ export { Logger } from './logger';
 export * from './properties-volume';
 export { Session } from './session';
 
-export const modules = ['Session', 'I18n', 'Nunjucks', 'Helmet', 'Csrf'];
+export const modules = ['I18n', 'Nunjucks', 'Helmet', 'Csrf'];
