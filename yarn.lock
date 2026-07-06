@@ -13005,12 +13005,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"protobufjs@npm:8.6.4":
-  version: 8.6.4
-  resolution: "protobufjs@npm:8.6.4"
+"protobufjs@npm:8.6.6":
+  version: 8.6.6
+  resolution: "protobufjs@npm:8.6.6"
   dependencies:
     long: "npm:^5.3.2"
-  checksum: 10/0dfbc2dd78d0014a1aefffff577cbdcef3b2c08cdd404c1c02111e619c3d72e4f399ce361beb87b9ccc9750f42a15158f3a0f1d7ef5f3d971de55a673867b8f0
+  checksum: 10/d3a60d06182ebb89bb688c70914867813dcf37ba5983f6b3d45d44ccb326b039f832d054013669da561e6b8caf20b1bc01fca47ae71a46c9c5ffda575511f3c7
   languageName: node
   linkType: hard
 
