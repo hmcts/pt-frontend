@@ -5,6 +5,13 @@
   "continueButtonText": "Continue",
   "yes": "Yes",
   "no": "No",
+  "back": "Back",
+  "buttons": {
+    "saveAndContinue": "Continue",
+    "continue": "Continue",
+    "saveForLater": "Save for later",
+    "cancel": "Cancel"
+  },
   "errorPages": {
     "pageNotFound": {
       "title": "Page not found",

@@ -12,7 +12,7 @@ export const flowConfig: JourneyFlowConfig = {
   basePath: PRE_APPLICATION_ROUTE,
   journeyName: 'preApplication',
   useShowConditions: true,
-  useSessionFormData: false,
+  useSessionFormData: true,
   nonSectionStepOrder: [],
   // First visible step of any section back-links to this hub step.
   hubStepName: 'starting-or-returning',
@@ -32,16 +32,13 @@ export const flowConfig: JourneyFlowConfig = {
     'applying-for-yourself-or-someone-else': {
       requiresAuth: false,
     },
-    'address-of-property': {
-      requiresAuth: false,
-    },
-    'landlord-is-a-housing-association': {
-      requiresAuth: false,
-    },
     'you-need-to-use-another-form': {
       requiresAuth: false,
       showCondition: (req: Request) =>
         getFormData(req, 'applying-for-yourself-or-someone-else').applyingForYourselfOrSomeoneElse !== 'myself',
+    },
+    'address-of-property': {
+      requiresAuth: false,
     },
     'you-need-to-use-another-form-postcode': {
       requiresAuth: false,
@@ -49,6 +46,9 @@ export const flowConfig: JourneyFlowConfig = {
         const postCode = req.session.formData?.['address-of-property']?.addressPostcode;
         return postCode && isNotEnglishPostcode(postCode);
       },
+    },
+    'landlord-is-a-housing-association': {
+      requiresAuth: false,
     },
   } satisfies Partial<Record<RespondToClaimStepName, StepConfig>>,
 };

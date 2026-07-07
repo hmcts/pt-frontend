@@ -1,37 +1,26 @@
-{% extends "template.njk" %}
-
-{% from "govuk/components/button/macro.njk" import govukButton %}
+{% extends "stepsTemplate.njk" %}
+{% from "macros/stepButtons.njk" import stepButtons %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "macros/csrf.njk" import csrfProtection %}
 
-{% block content %}
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <form action="" method="post" novalidate>
-        {{ csrfProtection(csrfToken) }}
-        {{ govukInput({
-          label: {
-            text: t('questionTitle'),
-            classes: "govuk-label--l",
-            isPageHeading: true
-          },
-          hint: {
-            text: t('questionHint')
-          },
-          classes: "govuk-input--width-10",
-          id: "address-postcode",
-          name: "addressPostcode",
-          errorMessage: errors["addressPostcode"] and {
-            text: errors["addressPostcode"].msg
-          }
-        }) }}
-        {{ govukButton({
-          text: t('continueButtonText'),
-          type: "submit",
-          attributes: { "data-cy":"button-save-and-continue"}
-        }) }}
-      </form>
-    </div>
-  </div>
+{% block pageTitle %}{{ pageTitle }} &ndash; HM Courts &amp; Tribunals Service &ndash; GOV.UK{% endblock %}
+
+{% block mainContent %}
+
+  {% if errorSummary %}
+    {{ govukErrorSummary(errorSummary) }}
+  {% endif %}
+
+  <form method="post" action="{{ url }}" novalidate>
+    {% for field in fields %}
+      {% if field.componentType == 'input' %}
+        {{ govukInput(field.component) }}
+      {% endif %}
+    {% endfor %}
+
+    {{ stepButtons(saveAndContinue) }}
+    {{ csrfProtection(csrfToken) }}
+  </form>
+
 {% endblock %}
