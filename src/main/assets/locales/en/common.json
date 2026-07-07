@@ -2,6 +2,16 @@
   "serviceName": "Property Tribunal",
   "languageToggle": "<a href=\"?lang=cy\" class=\"govuk-link language\">Cymraeg</a>",
   "contactUsForHelpText": "Contact us for help",
+  "continueButtonText": "Continue",
+  "yes": "Yes",
+  "no": "No",
+  "back": "Back",
+  "buttons": {
+    "saveAndContinue": "Continue",
+    "continue": "Continue",
+    "saveForLater": "Save for later",
+    "cancel": "Cancel"
+  },
   "errorPages": {
     "pageNotFound": {
       "title": "Page not found",

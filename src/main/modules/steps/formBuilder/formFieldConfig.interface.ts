@@ -124,7 +124,6 @@ export type ExtendGetContent = (
   formContent: BuiltFormContent
 ) => MaybePromise<Partial<BuiltFormContent> & Record<string, unknown>>;
 
-// Prepopulation function that extracts field values for GET requests.
 // Use dot-notation for subFields (e.g., 'nameConfirmation.firstName') to match nested field names.
 export type GetInitialFormData = (req: Request) => MaybePromise<Record<string, unknown>>;
 

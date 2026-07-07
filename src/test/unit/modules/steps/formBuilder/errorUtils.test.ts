@@ -1,0 +1,333 @@
+import type { Request, Response } from 'express';
+import type { TFunction } from 'i18next';
+
+import {
+  type FormError,
+  buildErrorSummary,
+  fieldTypeForErrorKey,
+  getErrorMessage,
+  renderWithErrors,
+} from '@modules/steps/formBuilder/errorUtils';
+import type { FormFieldConfig } from '@modules/steps/formBuilder/formFieldConfig.interface';
+
+jest.mock('../../../../../main/modules/i18n', () => ({
+  getRequestLanguage: jest.fn(() => 'en'),
+}));
+jest.mock('../../../../../main/modules/steps/i18n', () => ({
+  getTranslationFunction: jest.fn(() => ((key: string) => key) as TFunction),
+}));
+
+describe('errorUtils', () => {
+  describe('fieldTypeForErrorKey', () => {
+    it('returns top-level field type and nested subField type from options', () => {
+      const fields: FormFieldConfig[] = [
+        {
+          name: 'parent',
+          type: 'radio',
+          options: [
+            { value: 'no', subFields: {} },
+            {
+              value: 'yes',
+              subFields: {
+                nestedDate: { name: 'nestedDate', type: 'date', required: false },
+              },
+            },
+          ],
+        },
+      ];
+      expect(fieldTypeForErrorKey(fields, 'parent')).toBe('radio');
+      expect(fieldTypeForErrorKey(fields, 'parent.nestedDate')).toBe('date');
+      expect(fieldTypeForErrorKey(fields, 'a.b.c')).toBeUndefined();
+      expect(fieldTypeForErrorKey(fields, 'parent.unknown')).toBeUndefined();
+      expect(fieldTypeForErrorKey([{ name: 'parent', type: 'radio' }], 'parent.nestedDate')).toBeUndefined();
+    });
+  });
+
+  describe('getErrorMessage', () => {
+    it('returns string errors unchanged and reads message from date field errors', () => {
+      expect(getErrorMessage('Required')).toBe('Required');
+      expect(getErrorMessage({ message: 'Bad date', erroneousParts: ['day'] })).toBe('Bad date');
+    });
+  });
+
+  describe('buildErrorSummary', () => {
+    const mockT: TFunction = ((key: string) => {
+      const translations: Record<string, string> = {
+        'errors.title': 'There is a problem',
+      };
+      return translations[key] || key;
+    }) as TFunction;
+
+    it('should return null when there are no errors', () => {
+      const errors: Record<string, string> = {};
+      const fields: FormFieldConfig[] = [];
+
+      const result = buildErrorSummary(errors, fields, mockT);
+      expect(result).toBeNull();
+    });
+
+    it('should create error summary with single error', () => {
+      const errors: Record<string, string> = {
+        field1: 'Field 1 is required',
+      };
+      const fields: FormFieldConfig[] = [
+        {
+          name: 'field1',
+          type: 'text',
+        },
+      ];
+
+      const result = buildErrorSummary(errors, fields, mockT);
+      expect(result).not.toBeNull();
+      expect(result?.titleText).toBe('There is a problem');
+      expect(result?.errorList).toHaveLength(1);
+      expect(result?.errorList[0]).toEqual({
+        text: 'Field 1 is required',
+        href: '#field1',
+      });
+    });
+
+    it('should create error summary with multiple errors', () => {
+      const errors: Record<string, string> = {
+        field1: 'Field 1 is required',
+        field2: 'Field 2 is invalid',
+        field3: 'Field 3 has an error',
+      };
+      const fields: FormFieldConfig[] = [
+        {
+          name: 'field1',
+          type: 'text',
+        },
+        {
+          name: 'field2',
+          type: 'text',
+        },
+        {
+          name: 'field3',
+          type: 'text',
+        },
+      ];
+
+      const result = buildErrorSummary(errors, fields, mockT);
+      expect(result).not.toBeNull();
+      expect(result?.errorList).toHaveLength(3);
+      expect(result?.errorList[0].href).toBe('#field1');
+      expect(result?.errorList[1].href).toBe('#field2');
+      expect(result?.errorList[2].href).toBe('#field3');
+    });
+
+    it('should use correct anchor for date fields with generic error', () => {
+      const errors: Record<string, FormError> = {
+        dateField: 'Date is required', // String error (backward compatible)
+      };
+      const fields: FormFieldConfig[] = [
+        {
+          name: 'dateField',
+          type: 'date',
+        },
+      ];
+
+      const result = buildErrorSummary(errors, fields, mockT);
+      expect(result?.errorList[0].href).toBe('#dateField-day');
+    });
+
+    it('should anchor to day field when error mentions day', () => {
+      const errors: Record<string, FormError> = {
+        dateField: {
+          message: 'Date must include a day',
+          erroneousParts: ['day'],
+        },
+      };
+      const fields: FormFieldConfig[] = [
+        {
+          name: 'dateField',
+          type: 'date',
+        },
+      ];
+
+      const result = buildErrorSummary(errors, fields, mockT);
+      expect(result?.errorList[0].href).toBe('#dateField-day');
+    });
+
+    it('should anchor to month field when error mentions month', () => {
+      const errors: Record<string, FormError> = {
+        dateField: {
+          message: 'Date must include a month',
+          erroneousParts: ['month'],
+        },
+      };
+      const fields: FormFieldConfig[] = [
+        {
+          name: 'dateField',
+          type: 'date',
+        },
+      ];
+
+      const result = buildErrorSummary(errors, fields, mockT);
+      expect(result?.errorList[0].href).toBe('#dateField-month');
+    });
+
+    it('should anchor to year field when error mentions year', () => {
+      const errors: Record<string, FormError> = {
+        dateField: {
+          message: 'Date must include a year',
+          erroneousParts: ['year'],
+        },
+      };
+      const fields: FormFieldConfig[] = [
+        {
+          name: 'dateField',
+          type: 'date',
+        },
+      ];
+
+      const result = buildErrorSummary(errors, fields, mockT);
+      expect(result?.errorList[0].href).toBe('#dateField-year');
+    });
+
+    it('should anchor to day field when error mentions multiple parts', () => {
+      const errors: Record<string, FormError> = {
+        dateField: {
+          message: 'Date must include a day and month',
+          erroneousParts: undefined, // Multiple parts or generic error
+        },
+      };
+      const fields: FormFieldConfig[] = [
+        {
+          name: 'dateField',
+          type: 'date',
+        },
+      ];
+
+      const result = buildErrorSummary(errors, fields, mockT);
+      expect(result?.errorList[0].href).toBe('#dateField-day');
+    });
+
+    it('should anchor to day field for generic date errors', () => {
+      const errors: Record<string, FormError> = {
+        dateField: {
+          message: 'Enter a valid date',
+          erroneousParts: undefined, // Generic error
+        },
+      };
+      const fields: FormFieldConfig[] = [
+        {
+          name: 'dateField',
+          type: 'date',
+        },
+      ];
+
+      const result = buildErrorSummary(errors, fields, mockT);
+      expect(result?.errorList[0].href).toBe('#dateField-day');
+    });
+
+    it('should use correct anchor for radio fields', () => {
+      const errors: Record<string, string> = {
+        radioField: 'Please select an option',
+      };
+      const fields: FormFieldConfig[] = [
+        {
+          name: 'radioField',
+          type: 'radio',
+        },
+      ];
+
+      const result = buildErrorSummary(errors, fields, mockT);
+      expect(result?.errorList[0].href).toBe('#radioField');
+    });
+
+    it('should use correct anchor for checkbox fields', () => {
+      const errors: Record<string, string> = {
+        checkboxField: 'Please select at least one option',
+      };
+      const fields: FormFieldConfig[] = [
+        {
+          name: 'checkboxField',
+          type: 'checkbox',
+        },
+      ];
+
+      const result = buildErrorSummary(errors, fields, mockT);
+      expect(result?.errorList[0].href).toBe('#checkboxField');
+    });
+
+    it('should use translation for error summary title', () => {
+      const errors: Record<string, string> = {
+        field1: 'Error message',
+      };
+      const fields: FormFieldConfig[] = [
+        {
+          name: 'field1',
+          type: 'text',
+        },
+      ];
+
+      const customT: TFunction = ((key: string) => {
+        if (key === 'errors.title') {
+          return 'Custom error title';
+        }
+        return key;
+      }) as TFunction;
+
+      const result = buildErrorSummary(errors, fields, customT);
+      expect(result?.titleText).toBe('Custom error title');
+    });
+
+    it('should use default title when translation is not available', () => {
+      const errors: Record<string, string> = {
+        field1: 'Error message',
+      };
+      const fields: FormFieldConfig[] = [
+        {
+          name: 'field1',
+          type: 'text',
+        },
+      ];
+
+      const customT: TFunction = ((key: string) => key) as TFunction;
+
+      const result = buildErrorSummary(errors, fields, customT);
+      expect(result?.titleText).toBe('There is a problem');
+    });
+  });
+
+  describe('renderWithErrors', () => {
+    it('passes validationErrors mirroring the validation map (so templates are not fooled by step i18n errors)', async () => {
+      const mockRender = jest.fn();
+      const mockStatus = jest.fn().mockReturnValue({ render: mockRender });
+      const res = { status: mockStatus } as unknown as Response;
+      const req = {
+        originalUrl: '/respond-to-claim/correspondence-address',
+      } as unknown as Request;
+
+      const fieldValidation: Record<string, FormError> = {
+        correspondenceAddressConfirm: 'Please confirm your address',
+        'correspondenceAddressConfirm.addressLine1': 'Enter address line 1',
+      };
+
+      await renderWithErrors(
+        req,
+        res,
+        'respond-to-claim/correspondence-address/correspondenceAddress.njk',
+        fieldValidation,
+        [],
+        {
+          fields: [],
+          errors: {
+            correspondenceAddressConfirm: 'i18n title key',
+            'correspondenceAddressConfirm.addressLine1': 'i18n duplicate key shape — must not drive field Errors',
+          } as Record<string, unknown>,
+        },
+        'correspondence-address',
+        'respondToClaim',
+        { getBackUrl: jest.fn().mockResolvedValue('/back') }
+      );
+
+      expect(mockStatus).toHaveBeenCalledWith(400);
+      const viewLocals = mockRender.mock.calls[0][1];
+      expect(viewLocals.validationErrors).toEqual(fieldValidation);
+      expect(viewLocals.errors).toEqual(fieldValidation);
+      expect(viewLocals.validationErrors['correspondenceAddressConfirm.addressLine1']).toBe('Enter address line 1');
+    });
+  });
+});

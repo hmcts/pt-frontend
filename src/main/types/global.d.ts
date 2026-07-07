@@ -33,15 +33,16 @@ declare module 'express' {
 
   interface Response {
     locals: {
+      validatedCase?: CcdCaseModel;
       t?: TFunction;
       lang?: string;
-      csrfToken?: string;
     } & Record<string, unknown>;
+    csrfToken?: () => string;
   }
 
   interface Application {
     locals: {
-      developmentMode: boolean;
+      developmentMode?: boolean;
       nunjucksEnv?: Environment;
       ENV?: string;
     };
