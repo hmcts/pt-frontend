@@ -1,5 +1,6 @@
 import axios, { AxiosRequestHeaders, AxiosResponse, AxiosStatic } from 'axios';
 import { sign } from 'jsonwebtoken';
+import NodeCache from 'node-cache';
 
 import { OidcResponse, getRedirectUrl, getSystemUser, getUserDetails } from '../../../../main/auth/user/oidc';
 
@@ -7,9 +8,12 @@ const config = require('config');
 
 jest.mock('axios');
 jest.mock('config');
+jest.mock('node-cache');
 
 const mockedConfig = config as jest.Mocked<typeof config>;
 const mockedAxios = axios as jest.Mocked<AxiosStatic>;
+const MockedNodeCache = NodeCache as jest.MockedClass<typeof NodeCache>;
+const mockedCacheInstance = MockedNodeCache.mock.instances[0] as jest.Mocked<NodeCache>;
 
 const mockSecret = 'mock-secret';
 const mockPayload = {
@@ -42,7 +46,8 @@ describe('getRedirectUrl', () => {
 });
 
 describe('getUserDetails', () => {
-  test('should exchange a code for a token and decode a JWT to get the user details', async () => {
+  test('should exchange a code for a token and decode a JWT to get the user details when caching disabled', async () => {
+    mockedConfig.get.mockReturnValueOnce('pt-frontend');
     mockedAxios.post.mockResolvedValueOnce({
       data: {
         id_token: mockToken,
@@ -59,6 +64,47 @@ describe('getUserDetails', () => {
       id: '123',
       roles: ['citizen'],
     });
+  });
+
+  test('should retrieve token from cache when caching enabled and cache hit', async () => {
+    mockedCacheInstance.get.mockReturnValueOnce({
+      data: {
+        id_token: mockToken,
+        access_token: 'token',
+      },
+    });
+    mockedConfig.get.mockReturnValueOnce(true);
+
+    const result = await getUserDetails('http://localhost', '123');
+    expect(result).toStrictEqual({
+      accessToken: 'token',
+      email: 'test@test.com',
+      givenName: 'John',
+      familyName: 'Smith',
+      id: '123',
+      roles: ['citizen'],
+    });
+  });
+
+  test('should create a new IDAM token and add it to cache if caching enabled but cache miss', async () => {
+    mockedConfig.get.mockReturnValueOnce(true);
+    mockedAxios.post.mockResolvedValueOnce({
+      data: {
+        id_token: mockToken,
+        access_token: 'token',
+      },
+    } as AxiosResponse);
+
+    const result = await getUserDetails('http://localhost', '123');
+    expect(result).toStrictEqual({
+      accessToken: 'token',
+      email: 'test@test.com',
+      givenName: 'John',
+      familyName: 'Smith',
+      id: '123',
+      roles: ['citizen'],
+    });
+    expect(mockedCacheInstance.set).toHaveBeenCalled();
   });
 
   test('should throw error if missing data from request', async () => {
