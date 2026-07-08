@@ -1,8 +1,15 @@
 import axios, { AxiosResponse } from 'axios';
 import config from 'config';
 import { jwtDecode } from 'jwt-decode';
+import NodeCache from 'node-cache';
 
 import { CALLBACK_URL } from '../../urls';
+
+import { Logger } from '@modules/logger';
+
+const logger = Logger.getLogger('login routes');
+
+export const idamTokenCache = new NodeCache({ stdTTL: 3600, checkperiod: 1800 });
 
 export const getRedirectUrl = (serviceUrl: string): string => {
   const id: string = config.get('idam.clientID');
@@ -17,7 +24,7 @@ export const getUserDetails = async (serviceUrl: string, rawCode: string): Promi
   const code = encodeURIComponent(rawCode);
   const params = { callbackUrl, code };
 
-  const response: AxiosResponse<OidcResponse> = await createIdamToken(params);
+  const response: AxiosResponse<OidcResponse> = await getIdamToken(params, params.code);
   const jwt = jwtDecode(response.data.id_token) as IdTokenJwtPayload;
 
   return {
@@ -86,4 +93,25 @@ const createIdamToken = (params: Record<string, string>): Promise<AxiosResponse<
     throw new Error('Missing data for createIdamToken.');
   }
   return axios.post(tokenUrl, data, { headers });
+};
+
+export const getIdamToken = async (
+  params: Record<string, string>,
+  cacheKey: string
+): Promise<AxiosResponse<OidcResponse>> => {
+  let response: AxiosResponse<OidcResponse>;
+  const isCachingEnabled = String(config.get('idam.caching')) === 'true';
+  const cached = idamTokenCache.get(cacheKey) as AxiosResponse<OidcResponse> | undefined;
+  if (isCachingEnabled && cached) {
+    response = cached;
+  } else if (isCachingEnabled) {
+    logger.info('Generating access token and then caching it');
+    response = await createIdamToken(params);
+    idamTokenCache.set(cacheKey, {
+      data: { id_token: response.data.id_token, access_token: response.data.access_token },
+    });
+  } else {
+    response = await createIdamToken(params);
+  }
+  return response;
 };
