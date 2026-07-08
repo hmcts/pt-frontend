@@ -2,9 +2,15 @@
   "serviceName": "cyProperty Tribunal",
   "languageToggle": "<a href=\"?lang=en\" class=\"govuk-link language\">English</a>",
   "contactUsForHelpText": "cyContact us for help",
-  "continueButtonText": "cy Continue",
   "yes": "cy Yes",
   "no": "cy No",
+  "back": "cy Back",
+  "buttons": {
+    "saveAndContinue": "cy Save and continue",
+    "continue": "cy Continue",
+    "saveForLater": "cy Save for later",
+    "cancel": "cy Cancel"
+  },
   "errorPages": {
     "pageNotFound": {
       "title": "cyPage not found",
