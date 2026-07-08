@@ -73,6 +73,7 @@
     "luxon": "3.7.2",
     "minimatch": "8",
     "module-alias": "2.3.4",
+    "node-cache": "5.1.2",
     "nunjucks": "3.2.4",
     "otpauth": "^9.5.0",
     "postcss": "^8.4.27",
