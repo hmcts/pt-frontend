@@ -2,7 +2,7 @@ import * as path from 'path';
 
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import express, { Express, NextFunction, type Request, type Response , static as expressStatic } from 'express';
+import express, { Express, NextFunction, type Request, type Response, static as expressStatic } from 'express';
 import RateLimit from 'express-rate-limit';
 import { glob } from 'glob';
 
