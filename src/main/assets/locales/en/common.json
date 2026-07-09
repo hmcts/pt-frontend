@@ -1,15 +1,27 @@
 {
-  "serviceName": "Property Tribunal",
-  "languageToggle": "<a href=\"?lang=cy\" class=\"govuk-link language\">Cymraeg</a>",
+  "serviceName": "Apply for an open market rent determination",
+  "languageToggle": "<a href=\"?lang=cy\" class=\"govuk-link govuk-link--no-visited-state app-phase-banner__link language\">Cymraeg</a>",
   "contactUsForHelpText": "Contact us for help",
   "yes": "Yes",
   "no": "No",
   "back": "Back",
+  "logout": "Logout",
   "buttons": {
     "saveAndContinue": "Save and continue",
     "continue": "Continue",
     "saveForLater": "Save for later",
     "cancel": "Cancel"
+  },
+  "myApplications": "My applications",
+  "startNewApplicationLinkText": "Start a new application",
+  "myApplicationsTable": {
+    "applicationNumberHeading": "Application number",
+    "createdHeading": "Created",
+    "submittedOnHeading": "Submitted on",
+    "statusHeading": "Status"
+  },
+  "errors": {
+    "title": "There is a problem"
   },
   "errorPages": {
     "pageNotFound": {

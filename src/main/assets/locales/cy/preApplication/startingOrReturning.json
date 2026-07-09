@@ -10,7 +10,7 @@
   },
   "errors": {
     "startingOrReturning": {
-      "required": "cy Enter a choice"
+      "required": "cy Select whether you are starting or returning to an application"
     }
   }
 }

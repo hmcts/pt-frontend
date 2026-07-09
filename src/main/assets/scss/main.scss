@@ -1,1 +1,5 @@
 @use 'govuk-frontend' as *;
+
+@use './components/pt-header.scss';
+@use './components/pt-navigation.scss';
+@use './components/pt-phase-banner.scss';
