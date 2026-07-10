@@ -9,16 +9,21 @@ import { Logger } from '@modules/logger';
 
 const logger = Logger.getLogger('error-handler');
 
-export function createNotFoundHandler(): (req: Request, res: Response, next: NextFunction) => void {
-  return (req: Request, res: Response, next: NextFunction) => {
-    if (!res.headersSent && !(res as { writableEnded?: boolean }).writableEnded) {
-      const url = req.originalUrl || 'Unknown URL';
-      // Skip logging for common browser/dev tools requests that generate harmless 404s
-      const shouldSkipLogging = url.startsWith('/.well-known/') || url.startsWith('/favicon.ico');
+const NOISY_404_PATTERNS: RegExp[] = [
+  /^\/\.well-known\//,
+  /^\/favicon\.ico$/,
+  /^\/robots\.txt$/,
+  /^\/sitemap\.xml$/,
+  /^\/apple-touch-icon.*\.png$/,
+];
 
-      if (!shouldSkipLogging) {
-        logger.error('Page not found', url);
-      }
+function isNoisy404(url: string): boolean {
+  return NOISY_404_PATTERNS.some(pattern => pattern.test(url));
+}
+
+export function createNotFoundHandler(): (req: Request, res: Response, next: NextFunction) => void {
+  return (_req: Request, res: Response, next: NextFunction) => {
+    if (!res.headersSent && !res.writableEnded) {
       next(new HTTPError('Page not found', 404));
     } else {
       next();
@@ -28,8 +33,7 @@ export function createNotFoundHandler(): (req: Request, res: Response, next: Nex
 
 export function createErrorHandler(env: string): (err: Error, req: Request, res: Response, next: NextFunction) => void {
   return (err: Error, req: Request, res: Response, next: NextFunction) => {
-    // If response already sent, don't try to handle the error
-    if (res.headersSent || (res as { writableEnded?: boolean }).writableEnded || res.finished) {
+    if (res.headersSent || res.writableEnded) {
       return next(err);
     }
 
@@ -38,12 +42,13 @@ export function createErrorHandler(env: string): (err: Error, req: Request, res:
         ? err
         : new HTTPError(err.message || 'Internal server error', (err as HTTPError).status || 500);
     const status = httpError.status || 500;
-
-    // Skip logging for common browser/dev tools requests that generate harmless 404s
     const url = req.originalUrl || 'Unknown URL';
-    const shouldSkipLogging = status === 404 && (url.startsWith('/.well-known/') || url.startsWith('/favicon.ico'));
 
-    if (!shouldSkipLogging) {
+    if (status === 404 && isNoisy404(url)) {
+      logger.debug('Not found', { method: req.method, status, url });
+    } else if (status === 404) {
+      logger.warn('Page not found', { method: req.method, status, url });
+    } else {
       logger.error('Request failed', {
         errorMessage: err.message,
         stack: err.stack,
@@ -96,7 +101,7 @@ export function createErrorHandler(env: string): (err: Error, req: Request, res:
 }
 
 export function setupErrorHandlers(app: Express, env: string): void {
-  // Auth failure handler - catches 401 errors and redirects to login
+  // Auth failure handler - catches 401 errors and redirects to log in
   // This must be before other error handlers to catch 401s before they're rendered as error pages
   app.use(createNotFoundHandler());
   app.use(createErrorHandler(env));

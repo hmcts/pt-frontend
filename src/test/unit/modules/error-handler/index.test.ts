@@ -301,26 +301,6 @@ describe('error-handler', () => {
       expect(next).toHaveBeenCalledWith(err);
     });
 
-    it('should pass to next when response is finished', () => {
-      const errorHandler = createErrorHandler('test');
-      const err = new HTTPError('Test error', 500);
-      const req = {} as any;
-      const res = {
-        status: jest.fn().mockReturnThis(),
-        render: jest.fn().mockReturnThis(),
-        locals: {},
-        headersSent: false,
-        writableEnded: false,
-        finished: true,
-      } as any;
-      const next = jest.fn() as NextFunction;
-
-      errorHandler(err, req, res, next);
-
-      expect(res.render).not.toHaveBeenCalled();
-      expect(next).toHaveBeenCalledWith(err);
-    });
-
     it('should skip logging for 404 on /.well-known/ URLs', () => {
       const errorHandler = createErrorHandler('test');
       const err = new HTTPError('Page not found', 404);
