@@ -4,6 +4,7 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+{% from "macros/header.njk" import header %}
 
 {% set bodyAttributes = {
   "data-session-timeout": sessionTimeout.sessionTimeoutMinutes,
@@ -30,7 +31,7 @@
   })
   }}
   {% block serviceNavigation %}
-    {% include "components/header.njk" %}
+    {{ header(true) }}
   {% endblock %}
 {% endblock %}
 

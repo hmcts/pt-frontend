@@ -6,6 +6,10 @@
 
 {% block pageTitle %}{{ pageTitle }} &ndash; HM Courts &amp; Tribunals Service &ndash; GOV.UK{% endblock %}
 
+{% block serviceNavigation %}
+  {{ header(false) }}
+{% endblock %}
+
 {% block mainContent %}
 
   {% if errorSummary %}

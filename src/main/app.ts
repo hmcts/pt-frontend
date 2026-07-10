@@ -2,7 +2,7 @@ import * as path from 'path';
 
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import express, { Express, NextFunction, type Request, type Response, static as expressStatic } from 'express';
+import express, { Express, static as expressStatic } from 'express';
 import RateLimit from 'express-rate-limit';
 import { glob } from 'glob';
 
@@ -50,11 +50,6 @@ export async function createApp(): Promise<Express> {
   app.use(expressStatic(path.join(__dirname, 'public')));
   app.use((req, res, next) => {
     res.setHeader('Cache-Control', 'no-cache, max-age=0, must-revalidate, no-store');
-    next();
-  });
-
-  app.use((req: Request, res: Response, next: NextFunction) => {
-    res.locals.isAuthenticated = !!(req.session && req.session.user);
     next();
   });
 
