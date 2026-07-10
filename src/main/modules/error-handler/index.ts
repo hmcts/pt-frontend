@@ -9,8 +9,6 @@ import { Logger } from '@modules/logger';
 
 const logger = Logger.getLogger('error-handler');
 
-// Paths that generate harmless, expected 404s (bots, crawlers, browser dev-tools probes).
-// Centralized here so the not-found handler and error handler stay in sync.
 const NOISY_404_PATTERNS: RegExp[] = [
   /^\/\.well-known\//,
   /^\/favicon\.ico$/,
