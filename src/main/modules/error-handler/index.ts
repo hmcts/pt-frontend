@@ -23,7 +23,7 @@ function isNoisy404(url: string): boolean {
 
 export function createNotFoundHandler(): (req: Request, res: Response, next: NextFunction) => void {
   return (_req: Request, res: Response, next: NextFunction) => {
-    if (!res.headersSent && !(res as { writableEnded?: boolean }).writableEnded) {
+    if (!res.headersSent && !res.writableEnded) {
       next(new HTTPError('Page not found', 404));
     } else {
       next();
@@ -33,7 +33,7 @@ export function createNotFoundHandler(): (req: Request, res: Response, next: Nex
 
 export function createErrorHandler(env: string): (err: Error, req: Request, res: Response, next: NextFunction) => void {
   return (err: Error, req: Request, res: Response, next: NextFunction) => {
-    if (res.headersSent || (res as { writableEnded?: boolean }).writableEnded || res.writableEnded) {
+    if (res.headersSent || res.writableEnded) {
       return next(err);
     }
 
