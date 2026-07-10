@@ -2,8 +2,7 @@ import * as path from 'path';
 
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import express, { static as expressStatic } from 'express';
-import type { Express } from 'express';
+import express, { Express, static as expressStatic } from 'express';
 import RateLimit from 'express-rate-limit';
 import { glob } from 'glob';
 

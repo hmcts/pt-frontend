@@ -1,0 +1,5 @@
+@use 'node_modules/govuk-frontend/dist/govuk/index' as govuk;
+
+.pt-navigation {
+  border-bottom: 1px solid govuk.govuk-colour('blue');
+}

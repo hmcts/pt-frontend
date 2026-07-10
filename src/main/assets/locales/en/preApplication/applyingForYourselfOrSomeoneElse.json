@@ -3,7 +3,7 @@
   "options": {
     "myself": {
       "label": "I am applying for myself",
-      "hint": "Including if you're applying with joint tenants on the same agreement"
+      "hint": "Including if you are applying with joint tenants on the same agreement"
     },
     "someoneElse": {
       "label": "I am applying on behalf of someone else",
@@ -12,7 +12,7 @@
   },
   "errors": {
     "applyingForYourselfOrSomeoneElse": {
-      "required": "Enter a choice"
+      "required": "Select whether you are applying for yourself or someone else"
     }
   }
 }

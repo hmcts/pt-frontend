@@ -1,0 +1,31 @@
+{% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+{% macro header(showLogoutLink) %}
+  <header role="banner">
+    {% if showLogoutLink %}
+      {% set navigationEnd %}
+        <li class="govuk-service-navigation__item logout-item">
+          <a href="/logout" class="govuk-service-navigation__link">
+            {{ t("logout") }}
+          </a>
+        </li>
+      {% endset %}
+    {% endif %}
+
+    {{ govukServiceNavigation({
+      serviceName: t('serviceName'),
+      serviceUrl: "/",
+      navigation: [],
+      classes: 'pt-navigation',
+      navigationLabel: t('navigationLabel', 'Service navigation'),
+      navigationClasses: "pt-service-navigation-wrapper",
+      slots: {
+        navigationEnd: navigationEnd | safe
+      }
+    }) }}
+
+    <div class="govuk-width-container">
+      {% include "components/banner.njk" %}
+    </div>
+  </header>
+{% endmacro %}

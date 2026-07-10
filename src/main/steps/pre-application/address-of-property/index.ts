@@ -23,6 +23,7 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: true,
       isPageHeading: true,
+      labelClasses: 'govuk-label--l',
       legendClasses: 'govuk-fieldset__legend--l',
       classes: 'govuk-input--width-10',
       translationKey: { label: 'questionTitle', hint: 'questionHint' },

@@ -1,0 +1,14 @@
+{% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
+
+{% set phaseBannerHtml %}
+  This is a beta service - your <a class="govuk-link" href="/" target="_blank" rel="noreferrer"> feedback</a> will help us to improve it
+  {{ (languageToggle or t('languageToggle') or '') | safe }}
+{% endset %}
+
+{{ govukPhaseBanner({
+  tag: {
+    text: "Beta"
+  },
+  html: phaseBannerHtml
+}) }}
+
