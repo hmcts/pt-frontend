@@ -1,7 +1,11 @@
-import { Application } from 'express';
+import { Application, Request, Response } from 'express';
 
 export default function (app: Application): void {
-  app.get('/', (req, res) => {
-    res.render('myApplications');
+  app.get('/', (req: Request, res: Response) => {
+    if (req.session?.user) {
+      res.render('myApplications');
+    } else {
+      res.redirect('/login');
+    }
   });
 }

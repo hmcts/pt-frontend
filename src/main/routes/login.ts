@@ -1,3 +1,5 @@
+import { promisify } from 'node:util';
+
 import config from 'config';
 import { Application, type Request, type Response } from 'express';
 
@@ -13,7 +15,13 @@ export default function (app: Application): void {
   const port = app.locals.developmentMode ? `:${config.get('port')}` : '';
 
   app.get(SIGN_IN_URL, (req, res) => res.redirect(getRedirectUrl(`${protocol}${res.locals.host}${port}`)));
-  app.get(SIGN_OUT_URL, (req, res) => req.session.destroy(() => res.redirect('/')));
+  app.get(SIGN_OUT_URL, async (req, res) => {
+    await promisify(req.session.destroy.bind(req.session))();
+    res
+      .setHeader('Clear-Site-Data', '*')
+      .clearCookie('connect.sid', { path: '/' })
+      .redirect('/');
+  });
   app.get(CALLBACK_URL, callbackHandler(protocol, port));
 }
 
