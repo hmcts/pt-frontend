@@ -17,10 +17,7 @@ export default function (app: Application): void {
   app.get(SIGN_IN_URL, (req, res) => res.redirect(getRedirectUrl(`${protocol}${res.locals.host}${port}`)));
   app.get(SIGN_OUT_URL, async (req, res) => {
     await promisify(req.session.destroy.bind(req.session))();
-    res
-      .setHeader('Clear-Site-Data', '*')
-      .clearCookie('connect.sid', { path: '/' })
-      .redirect('/');
+    res.setHeader('Clear-Site-Data', '*').clearCookie('connect.sid', { path: '/' }).redirect('/');
   });
   app.get(CALLBACK_URL, callbackHandler(protocol, port));
 }
