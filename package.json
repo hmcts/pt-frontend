@@ -21,7 +21,7 @@
     "test:smoke": "NODE_TLS_REJECT_UNAUTHORIZED=0 jest -c jest.smoke.config.js",
     "test:functional": "NODE_TLS_REJECT_UNAUTHORIZED=0 yarn playwright install && codeceptjs run --steps",
     "cichecks": "yarn install && yarn build && yarn rebuild puppeteer && yarn lint && yarn test && yarn test:routes && yarn test:a11y",
-    "prepare": "husky",
+    "postinstall": "husky || true",
     "lint-staged": "lint-staged"
   },
   "_moduleAliases": {
@@ -155,8 +155,8 @@
     "webpack-node-externals": "3.0.0"
   },
   "lint-staged": {
-    "*.{js,ts}": "eslint --cache --fix",
-    "*.{js,ts,css,md,html,json}": "prettier --write"
+    "**/*": "prettier --write --ignore-unknown",
+    "**/*.{js,ts}": "eslint --fix"
   },
   "resolutions": {
     "axios": "1.18.1",
