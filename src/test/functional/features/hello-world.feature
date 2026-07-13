@@ -1,5 +1,5 @@
 Feature: Initial Functional test
 
-   Scenario: The home page loads
+   Scenario: Require log in to access the home page
       When I go to '/'
-      Then the page should include 'Apply for an open market rent determination'
+      Then the page should include 'Sign in or create an account'
