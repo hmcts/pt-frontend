@@ -20,6 +20,7 @@
     "test:a11y": "echo 'Accessibility tests implemented later in the pipeline'",
     "test:smoke": "NODE_TLS_REJECT_UNAUTHORIZED=0 jest -c jest.smoke.config.js",
     "test:functional": "NODE_TLS_REJECT_UNAUTHORIZED=0 yarn playwright install && codeceptjs run --steps",
+    "test:functional:login": "NODE_TLS_REJECT_UNAUTHORIZED=0 yarn playwright install chromium && codeceptjs run --steps --features src/test/functional/features/idam-login.feature",
     "cichecks": "yarn install && yarn build && yarn rebuild puppeteer && yarn lint && yarn test && yarn test:routes && yarn test:a11y",
     "postinstall": "husky || true",
     "lint-staged": "lint-staged"
@@ -98,6 +99,8 @@
     "@eslint/eslintrc": "3.3.6",
     "@eslint/js": "10.0.1",
     "@eslint/plugin-kit": "0.7.2",
+    "@hmcts/playwright-common": "1.1.3",
+    "@playwright/test": "^1.60.0",
     "@tootallnate/once": "^3.0.1",
     "@types/chai": "^5.2.1",
     "@types/chai-as-promised": "7.1.8",

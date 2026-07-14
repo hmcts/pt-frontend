@@ -3,15 +3,17 @@ process.on('unhandledRejection', reason => {
   throw reason;
 });
 
+const DEFAULT_TEST_URL = 'https://pt.aat.platform.hmcts.net';
+
 export const config = {
-  TEST_URL: process.env.TEST_URL || 'http://localhost:4000',
+  TEST_URL: process.env.TEST_URL || DEFAULT_TEST_URL,
   TestHeadlessBrowser: process.env.TEST_HEADLESS ? process.env.TEST_HEADLESS === 'true' : true,
   TestSlowMo: 250,
   WaitForTimeout: 10000,
 
   Gherkin: {
     features: './src/test/functional/features/**/*.feature',
-    steps: ['./src/test/steps/common.ts'],
+    steps: ['./src/test/steps/common.ts', './src/test/steps/idam-login.ts'],
   },
   helpers: {},
 };
