@@ -1,7 +1,7 @@
 import { config as testConfig } from '../config';
 import { idamLogin } from '../functional/page-data/idamLogin.page.data';
 import { ptPreApplication } from '../functional/page-data/ptPreApplication.page.data';
-import { resolveIdamPassword } from '../functional/utils/idamPassword';
+import { resolveIdamEmail, resolveIdamPassword } from '../functional/utils/idamPassword';
 import { clickButtonOrLink, fillFieldByLabel } from '../functional/utils/playwrightActions';
 
 const { I } = inject();
@@ -51,18 +51,35 @@ async function submitSignInCredentials(email: string, password: string): Promise
   });
 }
 
+async function waitForPtHost(): Promise<void> {
+  const ptHost = new URL(testConfig.TEST_URL).hostname;
+
+  await usePlaywrightPage(async page => {
+    await page.waitForURL(
+      url => {
+        try {
+          return new URL(url).hostname === ptHost;
+        } catch {
+          return false;
+        }
+      },
+      { timeout: testConfig.WaitForTimeout }
+    );
+  });
+}
+
 Given('a user wants to log in to PT', () => {
   // Scenario setup only — navigation happens in the When step.
 });
 
-When('they enter the PT UI url {string}', async (url: string) => {
-  I.amOnPage(url);
-  I.waitForText(idamLogin.propertyTribunalHeading);
-  await openIdamLoginFromPt();
+When('they enter the PT UI url', () => {
+  // PT AAT currently sends unauthenticated users straight to IDAM.
+  I.amOnPage(testConfig.TEST_URL);
 });
 
-Then('they are redirected to the IDAM authentication page', () => {
+Then('they are redirected to the IDAM authentication page', async () => {
   I.waitInUrl(idamLogin.idamHost);
+  await acceptCookiesIfPresent();
   I.waitForText(idamLogin.signInOrCreateHeading);
 });
 
@@ -70,17 +87,19 @@ Given('the user has reached the IDAM authentication page', async () => {
   await openIdamLoginFromPt();
 });
 
-When('the user enters their credentials successfully as {string}', async (email: string) => {
-  await submitSignInCredentials(email, resolveIdamPassword());
+When('the user enters their credentials successfully', async () => {
+  await submitSignInCredentials(resolveIdamEmail(), resolveIdamPassword());
 });
 
-When('the user enters their credentials incorrectly as {string}', async (email: string) => {
-  await submitSignInCredentials(email, 'incorrect-password');
+When('the user enters their credentials incorrectly', async () => {
+  await submitSignInCredentials(resolveIdamEmail(), 'incorrect-password');
 });
 
-Then('the user will be redirected back to the PT UI', () => {
-  I.waitInUrl(idamLogin.ptHost);
-  I.waitForText(idamLogin.propertyTribunalHeading);
+Then('the user will be redirected back to the PT UI', async () => {
+  await waitForPtHost();
+  I.waitForText(idamLogin.postLoginHeading);
+  I.waitForText(idamLogin.postLoginServiceName);
+  I.waitForText(idamLogin.logoutLink);
 });
 
 Then('IDAM will show an error page', () => {

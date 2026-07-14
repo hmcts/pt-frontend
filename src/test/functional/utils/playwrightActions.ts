@@ -1,8 +1,13 @@
 import type { Page } from 'playwright';
 
 export async function fillFieldByLabel(page: Page, label: string, value: string): Promise<void> {
-  const roleLocator = page.getByRole('textbox', { name: label, exact: true });
+  const byLabel = page.getByLabel(label, { exact: true });
+  if ((await byLabel.count()) > 0) {
+    await byLabel.first().fill(value);
+    return;
+  }
 
+  const roleLocator = page.getByRole('textbox', { name: label, exact: true });
   if ((await roleLocator.count()) > 0) {
     await roleLocator.first().fill(value);
     return;

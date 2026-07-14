@@ -7,8 +7,10 @@ export const idamLogin = {
   forgottenPasswordLink: 'Forgotten password?',
   acceptAdditionalCookiesButton: 'Accept additional cookies',
   idamHost: 'idam-web-public',
-  ptHost: 'pt.aat.platform.hmcts.net',
   propertyTribunalHeading: 'Property Tribunal',
+  postLoginServiceName: 'Apply for an open market rent determination',
+  postLoginHeading: 'My applications',
+  logoutLink: 'Logout',
   loginErrorHeading: 'Incorrect email or password',
   loginErrorMessages: [
     'Incorrect email or password',

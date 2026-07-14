@@ -1,12 +1,16 @@
+import appConfig from 'config';
+
 // better handling of unhandled exceptions
 process.on('unhandledRejection', reason => {
   throw reason;
 });
 
-const DEFAULT_TEST_URL = 'https://pt.aat.platform.hmcts.net';
+const frontendUrl = String(appConfig.get('frontend.url')).replace(/\/$/, '');
 
 export const config = {
-  TEST_URL: process.env.TEST_URL || DEFAULT_TEST_URL,
+  TEST_URL: process.env.TEST_URL || frontendUrl,
+  IDAM_PT_USER_EMAIL: process.env.IDAM_PT_USER_EMAIL || String(appConfig.get('idam.testUser.email')),
+  IDAM_PT_USER_PASSWORD: process.env.IDAM_PT_USER_PASSWORD || String(appConfig.get('idam.testUser.password')),
   TestHeadlessBrowser: process.env.TEST_HEADLESS ? process.env.TEST_HEADLESS === 'true' : true,
   TestSlowMo: 250,
   WaitForTimeout: 10000,
