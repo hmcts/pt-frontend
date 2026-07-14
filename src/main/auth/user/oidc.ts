@@ -56,28 +56,6 @@ export const getSystemUser = async (): Promise<UserDetails> => {
   };
 };
 
-interface IdTokenJwtPayload {
-  uid: string;
-  sub: string;
-  given_name: string;
-  family_name: string;
-  roles: string[];
-}
-
-interface UserDetails {
-  accessToken: string;
-  id: string;
-  email: string;
-  givenName: string;
-  familyName: string;
-  roles: string[];
-}
-
-export interface OidcResponse {
-  id_token: string;
-  access_token: string;
-}
-
 const createIdamToken = (params: Record<string, string>): Promise<AxiosResponse<OidcResponse>> => {
   const id: string = config.get('idam.clientID');
   const secret: string = config.get('idam.clientSecret');
@@ -115,3 +93,25 @@ export const getIdamToken = async (
   }
   return response;
 };
+
+export interface UserDetails {
+  accessToken: string;
+  id: string;
+  email: string;
+  givenName: string;
+  familyName: string;
+  roles: string[];
+}
+
+export interface OidcResponse {
+  id_token: string;
+  access_token: string;
+}
+
+interface IdTokenJwtPayload {
+  uid: string;
+  sub: string;
+  given_name: string;
+  family_name: string;
+  roles: string[];
+}
