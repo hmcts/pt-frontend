@@ -1,4 +1,4 @@
-Feature: Initial Functional test
+Feature: Initial Functional test for the application
 
    Scenario: Require log in to access the home page
       When I go to '/'
