@@ -4,7 +4,8 @@
   "errors": {
     "addressPostcode": {
       "required": "Enter a postcode",
-      "invalid": "Enter a valid postcode"
+      "invalid": "Enter a valid postcode",
+      "notUkPostcode": "Enter a valid UK postcode"
     }
   }
 }

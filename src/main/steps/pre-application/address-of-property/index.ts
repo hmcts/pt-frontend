@@ -2,7 +2,7 @@ import { flowConfig } from '../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { isValidPostcode } from '@utils/postcode';
+import { isNotValidUnitedKingdomPostcode, isValidPostcode } from '@utils/postcode';
 
 const journeyName = 'preApplication';
 const stepName = 'address-of-property';
@@ -31,6 +31,9 @@ export const step: StepDefinition = createFormStep({
       validator: (value): boolean | string => {
         if (value && !isValidPostcode(value as string)) {
           return 'errors.addressPostcode.invalid';
+        }
+        if (value && isNotValidUnitedKingdomPostcode(value as string)) {
+          return 'errors.addressPostcode.notUkPostcode';
         }
         return true;
       },
