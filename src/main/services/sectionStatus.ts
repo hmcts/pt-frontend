@@ -1,5 +1,7 @@
 import type { Request } from 'express';
 
+import { sectionHasCya } from '../steps/application/sections.config';
+
 import type { JourneyFlowConfig, SectionConfig, SectionStatus } from '@modules/steps/stepFlow.interface';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
@@ -23,6 +25,60 @@ export function getFirstVisibleStep(
   return section.steps.find(stepName => isStepVisible(stepName, flowConfig, req));
 }
 
+export async function getAllSectionStatuses(
+  flowConfig: JourneyFlowConfig,
+  stepRegistry: Record<string, StepDefinition>,
+  req: Request
+): Promise<Map<string, SectionStatus>> {
+  if (!flowConfig.sections) {
+    throw new Error(
+      'getAllSectionStatuses called with a flowConfig that has no sections. ' +
+        'Section status is only meaningful for sectionalised journeys. ' +
+        `Flow: ${flowConfig.journeyName ?? '(unnamed)'}.`
+    );
+  }
+
+  // Declaration order is topological — validateSectionConfig enforces it at startup.
+  const statuses = new Map<string, SectionStatus>();
+  for (const section of flowConfig.sections) {
+    const status = await getSectionStatus(section, flowConfig, stepRegistry, req, statuses);
+    statuses.set(section.id, status);
+  }
+
+  return statuses;
+}
+
+export async function getSectionStatus(
+  section: SectionConfig,
+  flowConfig: JourneyFlowConfig,
+  stepRegistry: Record<string, StepDefinition>,
+  req: Request,
+  allStatuses: ReadonlyMap<string, SectionStatus>
+): Promise<SectionStatus> {
+  assertSectionalisedFlow(flowConfig, section.id);
+
+  if (await isSectionNotApplicable(section, req)) {
+    return 'NOT_APPLICABLE';
+  }
+  if (hasUnsatisfiedDependencies(section, allStatuses)) {
+    return 'NOT_AVAILABLE_YET';
+  }
+
+  const questionSteps = visibleQuestionSteps(section, stepRegistry, flowConfig, req);
+  if (questionSteps.length === 0) {
+    if (sectionHasCya(section)) {
+      return 'AVAILABLE';
+    }
+    return 'NOT_APPLICABLE';
+  }
+
+  const raw = scoreAnsweredness(questionSteps, req);
+  if (raw === 'DONE') {
+    return sectionHasCya(section) ? 'IN_PROGRESS' : 'DONE';
+  }
+  return raw;
+}
+
 export class SectionConfigError extends Error {
   constructor(message: string) {
     super(message);
@@ -43,7 +99,6 @@ export function validateSectionConfig(flowConfig: JourneyFlowConfig): void {
   assertDeclarationOrderIsTopological(sections, journeyLabel);
 }
 
-// Catches cycles too — any cycle has at least one back-reference.
 function assertDeclarationOrderIsTopological(sections: readonly SectionConfig[], journeyLabel: string): void {
   const seen = new Set<string>();
   for (const section of sections) {
@@ -57,6 +112,58 @@ function assertDeclarationOrderIsTopological(sections: readonly SectionConfig[],
     }
     seen.add(section.id);
   }
+}
+
+function assertSectionalisedFlow(flowConfig: JourneyFlowConfig, sectionId: string): void {
+  if (!flowConfig.sections) {
+    throw new Error(
+      `getSectionStatus called on non-sectionalised flow '${flowConfig.journeyName ?? '(unnamed)'}' ` +
+        `for section '${sectionId}'.`
+    );
+  }
+}
+
+async function isSectionNotApplicable(section: SectionConfig, req: Request): Promise<boolean> {
+  return Boolean(section.isApplicable && !(await section.isApplicable(req)));
+}
+
+function hasUnsatisfiedDependencies(section: SectionConfig, allStatuses: ReadonlyMap<string, SectionStatus>): boolean {
+  if (!section.dependsOn?.length) {
+    return false;
+  }
+  return section.dependsOn.some(depId => {
+    const depStatus = allStatuses.get(depId);
+    return depStatus !== 'DONE' && depStatus !== 'NOT_APPLICABLE';
+  });
+}
+
+interface RegisteredStep {
+  stepName: string;
+  step: StepDefinition;
+}
+
+function visibleQuestionSteps(
+  section: SectionConfig,
+  stepRegistry: Record<string, StepDefinition>,
+  flowConfig: JourneyFlowConfig,
+  req: Request
+): RegisteredStep[] {
+  return section.steps
+    .map(stepName => ({ stepName, step: stepRegistry[stepName] }))
+    .filter((entry): entry is RegisteredStep => entry.step !== undefined)
+    .filter(({ step }) => step.isAnswered !== undefined)
+    .filter(({ stepName }) => isStepVisible(stepName, flowConfig, req));
+}
+
+function scoreAnsweredness(questionSteps: RegisteredStep[], req: Request): SectionStatus {
+  const answeredCount = questionSteps.filter(({ step }) => safeIsAnswered(step, req)).length;
+  if (answeredCount === 0) {
+    return 'AVAILABLE';
+  }
+  if (answeredCount < questionSteps.length) {
+    return 'IN_PROGRESS';
+  }
+  return 'DONE';
 }
 
 function isStepVisible(stepName: string, flowConfig: JourneyFlowConfig, req: Request): boolean {

@@ -1,0 +1,18 @@
+{
+  "pageTitle": "Your tasks",
+  "heading": "Application for [NAME]",
+  "introParagraph1": "Complete the questions in each section. Not all questions are mandatory. You can complete the sections in any order.",
+  "introParagraph2": "Your progress will be saved automatically. You can review your answers before you submit your application.",
+  "introParagraph3": "Your landlord and any representatives will also see your answers and any documents you upload.",
+  "taskList": {
+    "status": {
+      "AVAILABLE": "Available",
+      "IN_PROGRESS": "In progress",
+      "DONE": "Done",
+      "NOT_AVAILABLE_YET": "Not available yet"
+    },
+    "groups": {
+      "yourApplication": "Your application"
+    }
+  }
+}

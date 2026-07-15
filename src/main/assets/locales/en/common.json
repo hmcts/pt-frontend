@@ -75,5 +75,8 @@
       "paragraph5": "Monday to Friday, 8.30am to 5pm.",
       "paragraph6": "<a class=\"govuk-link\" href=\"https://www.gov.uk/call-charges\" target=\"_blank\" rel=\"noopener noreferrer\">Find out about call charges (opens in new tab)</a>."
     }
+  },
+  "taskList": {
+    "applicationType": "Application type"
   }
 }
