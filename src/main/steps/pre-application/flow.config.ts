@@ -4,7 +4,7 @@ import type { RespondToClaimStepName } from './stepRegistry';
 
 import { getFormData } from '@modules/steps';
 import type { JourneyFlowConfig, StepConfig } from '@modules/steps/stepFlow.interface';
-import { isNotEnglishPostcode } from '@utils/postcode';
+import { isValidEnglishPostcode } from '@utils/postcode';
 
 export const PRE_APPLICATION_ROUTE = '/pre-application';
 
@@ -44,7 +44,7 @@ export const flowConfig: JourneyFlowConfig = {
       requiresAuth: false,
       showCondition: (req: Request) => {
         const postCode = req.session.formData?.['address-of-property']?.addressPostcode;
-        return postCode && isNotEnglishPostcode(postCode);
+        return postCode && !isValidEnglishPostcode(postCode);
       },
     },
     'landlord-is-a-housing-association': {

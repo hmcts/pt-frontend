@@ -1,5 +1,105 @@
 // UK postcode area prefixes that are exclusively Scotland, Wales, or Northern Ireland.
 // Anything not in these sets (and not the Channel Islands/Isle of Man) is treated as England.
+const ENGLAND_AREAS = new Set([
+  'AL',
+  'B',
+  'BA',
+  'BB',
+  'BD',
+  'BH',
+  'BL',
+  'BN',
+  'BR',
+  'BS',
+  'CA',
+  'CB',
+  'CH',
+  'CM',
+  'CO',
+  'CR',
+  'CT',
+  'CV',
+  'CW',
+  'DA',
+  'DE',
+  'DH',
+  'DL',
+  'DN',
+  'DT',
+  'DY',
+  'E',
+  'EC',
+  'EN',
+  'EX',
+  'FY',
+  'GL',
+  'GU',
+  'HA',
+  'HD',
+  'HG',
+  'HP',
+  'HR',
+  'HU',
+  'HX',
+  'IG',
+  'IP',
+  'KT',
+  'L',
+  'LA',
+  'LE',
+  'LN',
+  'LS',
+  'LU',
+  'M',
+  'ME',
+  'MK',
+  'N',
+  'NE',
+  'NG',
+  'NN',
+  'NR',
+  'NW',
+  'OL',
+  'OX',
+  'PE',
+  'PL',
+  'PO',
+  'PR',
+  'RG',
+  'RH',
+  'RM',
+  'S',
+  'SE',
+  'SG',
+  'SK',
+  'SL',
+  'SM',
+  'SN',
+  'SO',
+  'SP',
+  'SR',
+  'SS',
+  'ST',
+  'SW',
+  'TA',
+  'TF',
+  'TN',
+  'TQ',
+  'TR',
+  'TS',
+  'TW',
+  'UB',
+  'W',
+  'WA',
+  'WC',
+  'WD',
+  'WF',
+  'WN',
+  'WR',
+  'WS',
+  'WV',
+  'YO',
+]);
 const SCOTLAND_AREAS = new Set([
   'AB',
   'DD',
@@ -30,7 +130,7 @@ export function isValidPostcode(postcode: string): boolean {
   return POSTCODE_REGEX.test(clean);
 }
 
-export function isNotEnglishPostcode(postcode: string): boolean {
+export function isNotValidUnitedKingdomPostcode(postcode: string): boolean {
   const clean = postcode.trim().toUpperCase();
   const match = clean.match(/^([A-Z]{1,2})[0-9]/);
   if (!match) {
@@ -39,5 +139,22 @@ export function isNotEnglishPostcode(postcode: string): boolean {
 
   const area = match[1];
 
-  return SCOTLAND_AREAS.has(area) || WALES_AREAS.has(area) || NI_AREAS.has(area) || NON_UK_AREAS.has(area);
+  return (
+    !ENGLAND_AREAS.has(area) &&
+    !SCOTLAND_AREAS.has(area) &&
+    !WALES_AREAS.has(area) &&
+    !NI_AREAS.has(area) &&
+    !NON_UK_AREAS.has(area)
+  );
+}
+
+export function isValidEnglishPostcode(postcode: string): boolean {
+  const clean = postcode.trim().toUpperCase();
+  const area = getPostcodeArea(clean);
+  return area !== null && ENGLAND_AREAS.has(area);
+}
+
+function getPostcodeArea(clean: string): string | null {
+  const match = clean.match(/^([A-Z]{1,2})[0-9]/);
+  return match ? match[1] : null;
 }
