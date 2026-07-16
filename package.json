@@ -183,7 +183,7 @@
     "flatted": "^3.3.3",
     "picomatch": "^4.0.2",
     "path-to-regexp": "^8.4.0",
-    "protobufjs": "8.6.6"
+    "protobufjs": "8.7.1"
   },
   "packageManager": "yarn@4.8.1"
 }
