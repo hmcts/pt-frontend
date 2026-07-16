@@ -12,7 +12,15 @@
       "NOT_AVAILABLE_YET": "cyNot available yet"
     },
     "groups": {
-      "yourApplication": "cyYour application"
+      "yourApplication": "cyYour application",
+      "tenantDetails": "cyTenant details",
+      "landlordDetails": "cyLandlord details",
+      "applicationDocuments": "cyApplication documents",
+      "theRent": "cyThe rent",
+      "theProperty": "cyThe property",
+      "inspectionAndHearing": "cyInspection and hearing",
+      "supportForHealthConditions": "cySupport for physical or mental health conditions",
+      "reviewSubmitAndPay": "cyReview, submit and pay"
     }
   }
 }

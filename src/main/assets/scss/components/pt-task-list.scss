@@ -1,0 +1,13 @@
+@use 'govuk-frontend' as *;
+
+@include govuk-media-query($from: tablet) {
+  .pt-task-list .govuk-task-list__link {
+    white-space: nowrap;
+  }
+}
+
+.pt-task-list {
+  .govuk-tag {
+    font-weight: 400;
+  }
+}

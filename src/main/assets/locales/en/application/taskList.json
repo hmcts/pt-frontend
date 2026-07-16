@@ -12,7 +12,15 @@
       "NOT_AVAILABLE_YET": "Not available yet"
     },
     "groups": {
-      "yourApplication": "Your application"
+      "yourApplication": "Your application",
+      "tenantDetails": "Tenant details",
+      "landlordDetails": "Landlord details",
+      "applicationDocuments": "Application documents",
+      "theRent": "The rent",
+      "theProperty": "The property",
+      "inspectionAndHearing": "Inspection and hearing",
+      "supportForHealthConditions": "Support for physical or mental health conditions",
+      "reviewSubmitAndPay": "Review, submit and pay"
     }
   }
 }

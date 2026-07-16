@@ -77,6 +77,18 @@
     }
   },
   "taskList": {
-    "applicationType": "Application type"
+    "applicationType": "Application type",
+    "contactPreferences": "Contact preferences",
+    "whoIsOnTheTenancy": "Who is on the tenancy",
+    "landlordDetails": "Landlord details including any representatives",
+    "landlordsNotice": "Landlord's notice proposing a new rent",
+    "tenancyAgreement": "Your tenancy agreement",
+    "currentRentAndOtherCosts": "The current rent and other costs",
+    "marketRent": "What you think the market rent should be",
+    "propertyDetails": "Property details",
+    "inspectionAndHearing": "Tell us if you think an inspection, a hearing, or both are needed",
+    "supportForHealthConditions": "Tell us if you need extra support during your case",
+    "helpWithFees": "Tell us if you are eligible for help with fees",
+    "checkYourAnswersAndSubmit": "Check your answers and submit your application"
   }
 }
