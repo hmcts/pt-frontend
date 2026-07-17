@@ -124,12 +124,6 @@ export const APPLICATION_SECTION_IDS: readonly ApplicationSectionId[] = sectionD
 
 export const applicationSections: readonly SectionConfig[] = sectionDefs;
 
-export const CYA_STEP_PREFIX = 'check-your-answers-' as const;
-
-export function sectionHasCya(section: SectionConfig): boolean {
-  return section.steps.some(stepName => stepName.startsWith(CYA_STEP_PREFIX));
-}
-
 export const sectionById: ReadonlyMap<ApplicationSectionId, SectionConfig> = new Map(
   sectionDefs.map(section => [section.id, section as unknown as SectionConfig])
 );

@@ -1,7 +1,5 @@
 import type { Request } from 'express';
 
-import { sectionHasCya } from '../steps/application/sections.config';
-
 import type { JourneyFlowConfig, SectionConfig, SectionStatus } from '@modules/steps/stepFlow.interface';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
@@ -66,17 +64,10 @@ export async function getSectionStatus(
 
   const questionSteps = visibleQuestionSteps(section, stepRegistry, flowConfig, req);
   if (questionSteps.length === 0) {
-    if (sectionHasCya(section)) {
-      return 'AVAILABLE';
-    }
     return 'NOT_APPLICABLE';
   }
 
-  const raw = scoreAnsweredness(questionSteps, req);
-  if (raw === 'DONE') {
-    return sectionHasCya(section) ? 'IN_PROGRESS' : 'DONE';
-  }
-  return raw;
+  return scoreAnsweredness(questionSteps, req);
 }
 
 export class SectionConfigError extends Error {
