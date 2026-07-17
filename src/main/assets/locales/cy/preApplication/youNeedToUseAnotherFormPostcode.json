@@ -2,6 +2,5 @@
   "questionTitle": "cy You need to use another form to apply",
   "notEnglishPostcode1": "cy Your postcode:",
   "notEnglishPostcode2": "cy Your area is not yet included in our new service.",
-  "notEnglishPostcode3": "cy You must use our other application form.",
-  "onlineApplicationForm": "cy Go to the online application form"
+  "notEnglishPostcode3": "cy You must use our other <a class=\"govuk-link govuk-link--no-visited-state\" href=\"https://apply-for-market-rent-determination.form.service.justice.gov.uk/\" target=\"_blank\" rel=\"noopener noreferrer\">online application form</a> or you can apply by post or email by <a class=\"govuk-link govuk-link--no-visited-state\" href=\"https://assets.publishing.service.gov.uk/media/6a44d59593349b85b718da0b/MR1_0726_save.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">downloading the paper form</a>."
 }
