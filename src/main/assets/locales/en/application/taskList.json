@@ -1,9 +1,17 @@
 {
   "pageTitle": "Your tasks",
-  "heading": "Application for [NAME]",
+  "heading": "Application for {{name}}",
   "introParagraph1": "Complete the questions in each section. Not all questions are mandatory. You can complete the sections in any order.",
   "introParagraph2": "Your progress will be saved automatically. You can review your answers before you submit your application.",
   "introParagraph3": "Your landlord and any representatives will also see your answers and any documents you upload.",
+  "sidebar": {
+    "heading": "Related content",
+    "guidanceLink": {
+      "text": "Guidance about the application process",
+      "href": "#"
+    },
+    "label": "Related content"
+  },
   "taskList": {
     "status": {
       "AVAILABLE": "Available",

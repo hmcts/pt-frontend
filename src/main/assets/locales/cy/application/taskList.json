@@ -1,9 +1,17 @@
 {
   "pageTitle": "cyYour tasks",
-  "heading": "cyApplication for [NAME]",
+  "heading": "cyApplication for {{name}}",
   "introParagraph1": "cyComplete the questions in each section. Not all questions are mandatory. You can complete the sections in any order.",
   "introParagraph2": "cyYour progress will be saved automatically. You can review your answers before you submit your application.",
   "introParagraph3": "cyYour landlord and any representatives will also see your answers and any documents you upload.",
+  "sidebar": {
+    "heading": "cyRelated content",
+    "guidanceLink": {
+      "text": "cyGuidance about the application process",
+      "href": "#"
+    },
+    "label": "cyRelated content"
+  },
   "taskList": {
     "status": {
       "AVAILABLE": "cyAvailable",

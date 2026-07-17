@@ -41,9 +41,13 @@ export const step: StepDefinition = {
       const allStatuses = await getAllSectionStatuses(flowConfig, stepRegistry, req);
       const groups = buildGroups(allStatuses, t, req);
 
+      const user = req.session?.user;
+      const name = [user?.givenName, user?.familyName].filter(Boolean).join(' ');
+
       return {
         backUrl: '/',
         groups,
+        name: name || 'Claimant',
       };
     }),
 };

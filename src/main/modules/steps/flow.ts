@@ -324,7 +324,9 @@ export function createStepNavigation(
     getBackUrl: async (req: Request, currentStepName: string): Promise<string | null> => {
       const flowConfig = await resolveFlowConfig(req, flowConfigOrResolver);
       const formData = req.session?.formData || {};
-      const caseReference = req.res?.locals.validatedCase?.id;
+      const caseReference =
+        req.res?.locals.validatedCase?.id ??
+        (typeof req.params?.caseReference === 'string' ? req.params.caseReference : undefined);
       const previousStep = await getPreviousStep(req, currentStepName, flowConfig, formData);
       return previousStep
         ? withInternalNavParam(getStepUrl(previousStep, flowConfig, caseReference), previousStep, flowConfig, req)
