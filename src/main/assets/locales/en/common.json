@@ -1,6 +1,7 @@
 {
   "serviceName": "Apply for an open market rent determination",
   "languageToggle": "<a href=\"?lang=cy\" class=\"govuk-link govuk-link--no-visited-state app-phase-banner__link language\">Cymraeg</a>",
+  "returnToGovUk": "You can also return to our <a class=\"govuk-link govuk-link--no-visited-state\" href=\"https://www.gov.uk/guidance/apply-for-an-open-market-rent-determination/\" target=\"_blank\" rel=\"noopener noreferrer\">guidance on GOV.UK</a>.",
   "contactUsForHelpText": "Contact us for help",
   "yes": "Yes",
   "no": "No",

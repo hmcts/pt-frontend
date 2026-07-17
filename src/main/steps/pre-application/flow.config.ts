@@ -23,6 +23,7 @@ export const flowConfig: JourneyFlowConfig = {
     'address-of-property',
     'you-need-to-use-another-form-postcode',
     'landlord-is-a-housing-association',
+    'you-need-to-use-another-form-landlord-association',
   ],
   steps: {
     'starting-or-returning': {
@@ -49,6 +50,11 @@ export const flowConfig: JourneyFlowConfig = {
     },
     'landlord-is-a-housing-association': {
       requiresAuth: false,
+    },
+    'you-need-to-use-another-form-landlord-association': {
+      requiresAuth: false,
+      showCondition: (req: Request) =>
+        getFormData(req, 'landlord-is-a-housing-association').landlordIsAHousingAssociation !== 'no',
     },
   } satisfies Partial<Record<RespondToClaimStepName, StepConfig>>,
 };
