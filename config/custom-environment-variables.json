@@ -2,6 +2,9 @@
   "api": {
     "url": "PT_API_URL"
   },
+  "idam": {
+    "clientSecret": "PT_FRONTEND_IDAM_SECRET"
+  },
   "session": {
     "redis-connection-string": "REDIS_CONNECTION_STRING"
   }
