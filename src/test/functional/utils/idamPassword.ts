@@ -1,7 +1,5 @@
 import { config as testConfig } from '../../config';
 
-const PLACEHOLDER_PASSWORD = 'NEED TO INSERT SECRET';
-
 export function resolveIdamPassword(): string {
   const encodedPassword = process.env.IDAM_PT_USER_PASSWORD_B64?.trim();
   if (encodedPassword) {
@@ -9,10 +7,10 @@ export function resolveIdamPassword(): string {
   }
 
   const password = testConfig.IDAM_PT_USER_PASSWORD?.trim();
-  if (!password || password === PLACEHOLDER_PASSWORD) {
+  if (!password) {
     throw new Error(
-      'idam.testUser.password is not set. Export IDAM_PT_USER_PASSWORD from Azure Key Vault ' +
-        'secret pt-idam-test-user-password (or set IDAM_PT_USER_PASSWORD_B64) before running login tests.'
+      'IDAM test user password is not available. Get it from Azure Key Vault secret ' +
+        'pt-idam-test-user-password and export IDAM_PT_USER_PASSWORD (or IDAM_PT_USER_PASSWORD_B64).'
     );
   }
 

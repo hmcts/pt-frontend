@@ -31,8 +31,7 @@
     "systemPassword": "NEED TO INSERT SECRET",
     "caching": false,
     "testUser": {
-      "email": "pt-citizen@test.com",
-      "password": "NEED TO INSERT SECRET"
+      "email": "pt-citizen@test.com"
     }
   },
   "oidc": {
