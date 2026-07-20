@@ -7,7 +7,7 @@ BDD functional tests for pt-frontend, run with [CodeceptJS](https://codecept.io/
 ```
 src/test/
 ├── config.ts                      # Test config (URL, timeouts, Gherkin paths)
-├── steps/                         # Step definitions (auto-loaded via **/*.ts)
+├── steps/                         # Step definitions (auto-loaded via gherkin.steps glob)
 │   ├── common.ts
 │   └── idam-login.ts
 └── functional/
@@ -28,10 +28,10 @@ src/test/
 
 Defaults live in `config/default.json`:
 
-| Config key | Purpose | Override env var |
-| --- | --- | --- |
-| `frontend.url` | PT base URL (AAT by default) | `TEST_URL` |
-| `idam.testUser.email` | Citizen test user email | `IDAM_PT_USER_EMAIL` |
+| Config key            | Purpose                      | Override env var     |
+| --------------------- | ---------------------------- | -------------------- |
+| `frontend.url`        | PT base URL (AAT by default) | `TEST_URL`           |
+| `idam.testUser.email` | Citizen test user email      | `IDAM_PT_USER_EMAIL` |
 
 The test user **password is not stored in git**. Provide it via environment variable (see below).
 
@@ -42,37 +42,31 @@ Env mappings are in `config/custom-environment-variables.json`.
 ### All functional features
 
 ```bash
-yarn test:functional
-```
-
-### IDAM login only (HDPD-509)
-
-```bash
 export IDAM_PT_USER_PASSWORD='<password-from-keyvault>'
-yarn test:functional:login
+yarn test:functional
 ```
 
 ### Headed browser (optional)
 
 ```bash
-TEST_HEADLESS=false yarn test:functional:login
+TEST_HEADLESS=false yarn test:functional
 ```
 
 ### Against a different environment
 
 ```bash
-TEST_URL=https://pt.demo.platform.hmcts.net yarn test:functional:login
+TEST_URL=https://pt.demo.platform.hmcts.net yarn test:functional
 ```
 
 Failure screenshots and reports are written to `functional-output/functional/reports/`.
 
 ## IDAM login credentials
 
-| Item | Value / location |
-| --- | --- |
-| Email | `pt-citizen@test.com` (`idam.testUser.email` in `config/default.json`) |
-| Password | Azure Key Vault secret `pt-idam-test-user-password` in `pt-kv-aat` |
-| Env var | `IDAM_PT_USER_PASSWORD` (or `IDAM_PT_USER_PASSWORD_B64` if the password has awkward shell characters) |
+| Item     | Value / location                                                                                      |
+| -------- | ----------------------------------------------------------------------------------------------------- |
+| Email    | `pt-citizen@test.com` (`idam.testUser.email` in `config/default.json`)                                |
+| Password | Azure Key Vault secret `pt-idam-test-user-password` in `pt-kv-aat`                                    |
+| Env var  | `IDAM_PT_USER_PASSWORD` (or `IDAM_PT_USER_PASSWORD_B64` if the password has awkward shell characters) |
 
 In Jenkins, the same secret is already mapped to `IDAM_PT_USER_PASSWORD` via `Jenkinsfile_CNP`.
 
@@ -91,6 +85,6 @@ Covers IDAM authentication against PT AAT:
 ## Adding a new feature
 
 1. Add a `.feature` file under `features/`
-2. Add step definitions under `src/test/steps/` (files matching `**/*.ts` are loaded automatically)
+2. Add step definitions under `src/test/steps/` (matched by `./src/test/steps/**/*.ts`)
 3. Put shared labels/copy in `page-data/` and helpers in `utils/`
-4. Run with `yarn test:functional`, or add a focused script in `package.json` if useful
+4. Run with `yarn test:functional`
