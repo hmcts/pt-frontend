@@ -671,6 +671,15 @@ describe('steps/stepDependencyCheck', () => {
       expect(url).toBe('/case/CASE-1/one');
     });
 
+    it('getBackUrl falls back to req.params.caseReference when validatedCase is absent', async () => {
+      const nav = createStepNavigation(flowConfig);
+      const req = buildReq();
+      req.params = { caseReference: 'CASE-2' };
+
+      const url = await nav.getBackUrl(req, 'two');
+      expect(url).toBe('/case/CASE-2/one');
+    });
+
     it('getBackUrl returns null when there is no previous step', async () => {
       const nav = createStepNavigation(flowConfig);
       const url = await nav.getBackUrl(buildReq(), 'one');
