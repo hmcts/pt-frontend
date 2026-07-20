@@ -1,0 +1,34 @@
+{
+  "pageTitle": "cyYour tasks",
+  "heading": "cyApplication for {{name}}",
+  "introParagraph1": "cyComplete the questions in each section. Not all questions are mandatory. You can complete the sections in any order.",
+  "introParagraph2": "cyYour progress will be saved automatically. You can review your answers before you submit your application.",
+  "introParagraph3": "cyYour landlord and any representatives will also see your answers and any documents you upload.",
+  "sidebar": {
+    "heading": "cyRelated content",
+    "guidanceLink": {
+      "text": "cyGuidance about the application process",
+      "href": "#"
+    },
+    "label": "cyRelated content"
+  },
+  "taskList": {
+    "status": {
+      "AVAILABLE": "cyAvailable",
+      "IN_PROGRESS": "cyIn progress",
+      "DONE": "cyDone",
+      "NOT_AVAILABLE_YET": "cyNot available yet"
+    },
+    "groups": {
+      "yourApplication": "cyYour application",
+      "tenantDetails": "cyTenant details",
+      "landlordDetails": "cyLandlord details",
+      "applicationDocuments": "cyApplication documents",
+      "theRent": "cyThe rent",
+      "theProperty": "cyThe property",
+      "inspectionAndHearing": "cyInspection and hearing",
+      "supportForHealthConditions": "cySupport for physical or mental health conditions",
+      "reviewSubmitAndPay": "cyReview, submit and pay"
+    }
+  }
+}

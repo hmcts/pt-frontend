@@ -2,6 +2,8 @@ import type { Request, RequestHandler } from 'express';
 
 import { validateSectionConfig } from '../services/sectionStatus';
 
+import { flowConfig as applicationFlowConfig } from './application/flow.config';
+import { stepRegistry as applicationStepRegistry } from './application/stepRegistry';
 import { flowConfig as respondToClaimFlowConfig } from './pre-application/flow.config';
 import { stepRegistry as respondToClaimStepRegistry } from './pre-application/stepRegistry';
 
@@ -41,6 +43,14 @@ export const journeyRegistry: Record<string, JourneyConfig> = {
     default: {
       flowConfig: respondToClaimFlowConfig,
       stepRegistry: respondToClaimStepRegistry,
+    },
+  },
+  application: {
+    name: 'application',
+    slug: 'application',
+    default: {
+      flowConfig: applicationFlowConfig,
+      stepRegistry: applicationStepRegistry,
     },
   },
 };

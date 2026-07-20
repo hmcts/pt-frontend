@@ -6,6 +6,7 @@
       "@router/*": ["router/*"],
       "@routes/*": ["routes/*"],
       "@modules/*": ["modules/*"],
+      "@services/*": ["services/*"],
       "@utils/*": ["utils/*"]
     },
     "target": "es2018",

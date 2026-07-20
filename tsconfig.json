@@ -21,7 +21,9 @@
       "@router/*": ["router/*"],
       "@routes/*": ["routes/*"],
       "@modules/*": ["modules/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@services/*": ["services/*"],
+      "@steps": ["steps/index.ts"]
     },
     "typeRoots": ["./node_modules/@types", "./src/main/types"],
     "types": ["jest", "node", "express"]

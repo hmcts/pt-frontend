@@ -1,0 +1,34 @@
+{
+  "pageTitle": "Your tasks",
+  "heading": "Application for {{name}}",
+  "introParagraph1": "Complete the questions in each section. Not all questions are mandatory. You can complete the sections in any order.",
+  "introParagraph2": "Your progress will be saved automatically. You can review your answers before you submit your application.",
+  "introParagraph3": "Your landlord and any representatives will also see your answers and any documents you upload.",
+  "sidebar": {
+    "heading": "Related content",
+    "guidanceLink": {
+      "text": "Guidance about the application process",
+      "href": "#"
+    },
+    "label": "Related content"
+  },
+  "taskList": {
+    "status": {
+      "AVAILABLE": "Available",
+      "IN_PROGRESS": "In progress",
+      "DONE": "Done",
+      "NOT_AVAILABLE_YET": "Not available yet"
+    },
+    "groups": {
+      "yourApplication": "Your application",
+      "tenantDetails": "Tenant details",
+      "landlordDetails": "Landlord details",
+      "applicationDocuments": "Application documents",
+      "theRent": "The rent",
+      "theProperty": "The property",
+      "inspectionAndHearing": "Inspection and hearing",
+      "supportForHealthConditions": "Support for physical or mental health conditions",
+      "reviewSubmitAndPay": "Review, submit and pay"
+    }
+  }
+}

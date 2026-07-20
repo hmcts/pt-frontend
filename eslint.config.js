@@ -100,6 +100,7 @@ module.exports = defineConfig([
             { pattern: '@modules/**', group: 'internal', position: 'before' },
             { pattern: '@router/**', group: 'internal', position: 'before' },
             { pattern: '@routes/**', group: 'internal', position: 'before' },
+            { pattern: '@services/**', group: 'internal', position: 'before' },
           ],
           distinctGroup: false,
 

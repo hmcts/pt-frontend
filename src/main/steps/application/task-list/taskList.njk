@@ -1,0 +1,51 @@
+{% extends "stepsTemplate.njk" %}
+{% block pageTitle %}
+    {{ t('pageTitle') }} &ndash; HM Courts &amp; Tribunals Service &ndash; GOV.UK{% endblock %}
+{% block content %}
+    <div class="govuk-grid-row govuk-!-margin-bottom-4">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l">{{ t('heading', { name: name }) }}</h1>
+            <p class="govuk-body">{{ t('introParagraph1') }}</p>
+            <p class="govuk-body">{{ t('introParagraph2') }}</p>
+            <p class="govuk-body">{{ t('introParagraph3') }}</p>
+        </div>
+        <div class="govuk-grid-column-one-third govuk-!-margin-bottom-9">
+            <aside aria-label="{{ t('sidebar.label') }}">
+                <h2 class="govuk-heading-m">{{ t('sidebar.heading') }}</h2>
+                <a class="govuk-link" href="{{ t('sidebar.guidanceLink.href') }}" target="_blank" rel="noopener noreferrer">
+                    {{ t('sidebar.guidanceLink.text') }}
+                </a>
+            </aside>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div
+            class="govuk-grid-column-two-thirds pt-task-list">
+            {# Status sits inside the link (visually-hidden) so it isn't read twice with the visible tag. #}
+            {% for group in groups %}
+                <h2 class="govuk-heading-m">{{ group.title }}</h2>
+                <ul class="govuk-task-list">
+                    {% for item in group.items %}
+                        <li class="govuk-task-list__item{% if item.href %} govuk-task-list__item--with-link{% endif %}">
+                            <div class="govuk-task-list__name-and-hint">
+                                {% if item.href %}
+                                    <a class="govuk-link govuk-task-list__link" href="{{ item.href }}">
+                                        {{ item.title.text }}<span class="govuk-visually-hidden">
+                                            &ndash; {{ item.status.tag.text }}</span>
+                                    </a>
+                                {% else %}
+                                    <div>{{ item.title.text }}<span class="govuk-visually-hidden">
+                                            &ndash; {{ item.status.tag.text }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="govuk-task-list__status" aria-hidden="true">
+                                <strong class="govuk-tag{% if item.status.tag.classes %} {{ item.status.tag.classes }}{% endif %}">{{ item.status.tag.text }}</strong>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -28,6 +28,9 @@
     "systemPassword": "NEED TO INSERT SECRET",
     "caching": false
   },
+  "oidc": {
+    "accessTokenEarlyRefreshSeconds": 30
+  },
   "authProvider": {
     "url": "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal",
     "microservice": "pt-frontend",
