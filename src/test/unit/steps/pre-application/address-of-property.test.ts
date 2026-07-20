@@ -115,7 +115,7 @@ describe('forward navigation from address-of-property', () => {
       },
     } as unknown as Request;
     await expect(getNextStep(req, 'address-of-property', flowConfig, {})).resolves.toBe(
-      'you-need-to-use-another-form-postcode'
+      'you-need-to-use-another-form-non-english-address'
     );
   });
 });

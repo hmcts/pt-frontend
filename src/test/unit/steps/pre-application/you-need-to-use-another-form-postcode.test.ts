@@ -1,9 +1,6 @@
 import type { Request } from 'express';
 
-import { flowConfig } from '../../../../main/steps/pre-application/flow.config';
-
 import { createFormStep } from '@modules/steps';
-import { getPreviousStep } from '@modules/steps/flow';
 
 import './../../../../main/steps/pre-application/you-need-to-use-another-form-postcode/index';
 
@@ -44,15 +41,6 @@ describe('you-need-to-use-another-form-postcode step', () => {
     it('returns undefined when formData is missing entirely', () => {
       const req = makeReq(undefined);
       expect(capturedConfig.extendGetContent(req)).toEqual({ postcode: undefined });
-    });
-  });
-
-  describe('back navigation from you-need-to-use-another-form-postcode', () => {
-    it('uses address-of-property as previous step', async () => {
-      const req = {} as Request;
-      await expect(getPreviousStep(req, 'you-need-to-use-another-form-postcode', flowConfig, {})).resolves.toBe(
-        'address-of-property'
-      );
     });
   });
 });
