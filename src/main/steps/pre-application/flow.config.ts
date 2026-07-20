@@ -21,7 +21,8 @@ export const flowConfig: JourneyFlowConfig = {
     'applying-for-yourself-or-someone-else',
     'you-need-to-use-another-form',
     'address-of-property',
-    'you-need-to-use-another-form-postcode',
+    // 'you-need-to-use-another-form-postcode',
+    'you-need-to-use-another-form-non-english-address',
     'landlord-is-a-housing-association',
     'you-need-to-use-another-form-landlord-association',
   ],
@@ -41,7 +42,15 @@ export const flowConfig: JourneyFlowConfig = {
     'address-of-property': {
       requiresAuth: false,
     },
-    'you-need-to-use-another-form-postcode': {
+    //TODO: update this block to only show the page if the english postcode is not part of rollout
+    // 'you-need-to-use-another-form-postcode': {
+    //   requiresAuth: false,
+    //   showCondition: (req: Request) => {
+    //     const postCode = req.session.formData?.['address-of-property']?.addressPostcode;
+    //     return postCode && !isValidEnglishPostcode(postCode);
+    //   },
+    // },
+    'you-need-to-use-another-form-non-english-address': {
       requiresAuth: false,
       showCondition: (req: Request) => {
         const postCode = req.session.formData?.['address-of-property']?.addressPostcode;
