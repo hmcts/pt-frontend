@@ -2,8 +2,15 @@
   "api": {
     "url": "PT_API_URL"
   },
+  "frontend": {
+    "url": "TEST_URL"
+  },
   "idam": {
-    "clientSecret": "PT_FRONTEND_IDAM_SECRET"
+    "clientSecret": "PT_FRONTEND_IDAM_SECRET",
+    "testUser": {
+      "email": "IDAM_PT_USER_EMAIL",
+      "password": "IDAM_PT_USER_PASSWORD"
+    }
   },
   "session": {
     "redis-connection-string": "REDIS_CONNECTION_STRING"
