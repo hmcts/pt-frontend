@@ -45,6 +45,10 @@ yarn start:dev
 
 The applications's home page will be available at http://localhost:4000
 
+#### Local .env
+
+To run the application locally copy `.env.example` to `.env` and set your secrets there.
+
 ### Running with Docker
 
 Create docker image:
