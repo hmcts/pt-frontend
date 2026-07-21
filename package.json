@@ -19,7 +19,7 @@
     "test:routes": "jest -c jest.routes.config.js",
     "test:a11y": "echo 'Accessibility tests implemented later in the pipeline'",
     "test:smoke": "NODE_TLS_REJECT_UNAUTHORIZED=0 jest -c jest.smoke.config.js",
-    "test:functional": "NODE_TLS_REJECT_UNAUTHORIZED=0 yarn playwright install && codeceptjs run --steps",
+    "test:functional": "NODE_CONFIG_ENV=test NODE_TLS_REJECT_UNAUTHORIZED=0 sh -c 'yarn playwright install && codeceptjs run --steps'",
     "cichecks": "yarn install && yarn build && yarn rebuild puppeteer && yarn lint && yarn test && yarn test:routes && yarn test:a11y",
     "postinstall": "husky || true",
     "lint-staged": "lint-staged"

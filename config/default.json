@@ -19,9 +19,6 @@
     "url": "http://ccd-data-store-api-aat.service.core-compute-aat.internal",
     "caseTypeId": "PT"
   },
-  "frontend": {
-    "url": "https://pt.aat.platform.hmcts.net"
-  },
   "idam": {
     "authorizationURL": "https://idam-web-public.aat.platform.hmcts.net/login",
     "tokenURL": "https://idam-api.aat.platform.hmcts.net/o/token",
@@ -29,10 +26,7 @@
     "clientSecret": "NEED TO INSERT SECRET",
     "systemUsername": "dummy_user",
     "systemPassword": "NEED TO INSERT SECRET",
-    "caching": false,
-    "testUser": {
-      "email": "pt-citizen@test.com"
-    }
+    "caching": false
   },
   "oidc": {
     "accessTokenEarlyRefreshSeconds": 30

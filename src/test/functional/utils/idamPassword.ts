@@ -20,7 +20,7 @@ export function resolveIdamPassword(): string {
 export function resolveIdamEmail(): string {
   const email = testConfig.IDAM_PT_USER_EMAIL?.trim();
   if (!email) {
-    throw new Error('idam.testUser.email is not set in config/default.json (or IDAM_PT_USER_EMAIL).');
+    throw new Error('idam.testUser.email is not set in config/test.json (or IDAM_PT_USER_EMAIL).');
   }
 
   return email;

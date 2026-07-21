@@ -26,7 +26,7 @@ src/test/
 
 ## Configuration
 
-Defaults live in `config/default.json`:
+Test defaults live in `config/test.json` (loaded when `NODE_CONFIG_ENV=test`, set automatically by `yarn test:functional` and Jenkins):
 
 | Config key            | Purpose                      | Override env var     |
 | --------------------- | ---------------------------- | -------------------- |
@@ -35,7 +35,7 @@ Defaults live in `config/default.json`:
 
 The test user **password is not stored in git**. Provide it via environment variable (see below).
 
-Env mappings are in `config/custom-environment-variables.json`.
+Env mappings for PR/pipeline overrides are in `config/custom-environment-variables.json`.
 
 ## Running tests
 
@@ -64,7 +64,7 @@ Failure screenshots and reports are written to `functional-output/functional/rep
 
 | Item     | Value / location                                                                                      |
 | -------- | ----------------------------------------------------------------------------------------------------- |
-| Email    | `pt-citizen@test.com` (`idam.testUser.email` in `config/default.json`)                                |
+| Email    | `pt-citizen@test.com` (`idam.testUser.email` in `config/test.json`)                                   |
 | Password | Azure Key Vault secret `pt-idam-test-user-password` in `pt-kv-aat`                                    |
 | Env var  | `IDAM_PT_USER_PASSWORD` (or `IDAM_PT_USER_PASSWORD_B64` if the password has awkward shell characters) |
 

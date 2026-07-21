@@ -1,4 +1,8 @@
-import appConfig from 'config';
+process.env.NODE_CONFIG_ENV = process.env.NODE_CONFIG_ENV || 'test';
+
+// Load after NODE_CONFIG_ENV is set so config/test.json is merged in
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const appConfig = require('config');
 
 // better handling of unhandled exceptions
 process.on('unhandledRejection', reason => {
