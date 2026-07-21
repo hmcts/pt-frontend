@@ -4,7 +4,7 @@ import type { RespondToClaimStepName } from './stepRegistry';
 
 import { getFormData } from '@modules/steps';
 import type { JourneyFlowConfig, StepConfig } from '@modules/steps/stepFlow.interface';
-import { isValidEnglishPostcode } from '@utils/postcode';
+import { isPartOfInitialRollout, isValidEnglishPostcode } from '@utils/postcode';
 
 export const PRE_APPLICATION_ROUTE = '/pre-application';
 
@@ -21,7 +21,7 @@ export const flowConfig: JourneyFlowConfig = {
     'applying-for-yourself-or-someone-else',
     'you-need-to-use-another-form',
     'address-of-property',
-    // 'you-need-to-use-another-form-postcode',
+    'you-need-to-use-another-form-postcode',
     'you-need-to-use-another-form-non-english-address',
     'landlord-is-a-housing-association',
     'you-need-to-use-another-form-landlord-association',
@@ -42,14 +42,13 @@ export const flowConfig: JourneyFlowConfig = {
     'address-of-property': {
       requiresAuth: false,
     },
-    //TODO: update this block to only show the page if the english postcode is not part of rollout
-    // 'you-need-to-use-another-form-postcode': {
-    //   requiresAuth: false,
-    //   showCondition: (req: Request) => {
-    //     const postCode = req.session.formData?.['address-of-property']?.addressPostcode;
-    //     return postCode && !isValidEnglishPostcode(postCode);
-    //   },
-    // },
+    'you-need-to-use-another-form-postcode': {
+      requiresAuth: false,
+      showCondition: (req: Request) => {
+        const postCode = req.session.formData?.['address-of-property']?.addressPostcode;
+        return postCode && isValidEnglishPostcode(postCode) && !isPartOfInitialRollout(postCode);
+      },
+    },
     'you-need-to-use-another-form-non-english-address': {
       requiresAuth: false,
       showCondition: (req: Request) => {

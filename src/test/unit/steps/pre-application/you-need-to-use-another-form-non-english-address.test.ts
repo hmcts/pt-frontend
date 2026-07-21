@@ -27,7 +27,11 @@ describe('you-need-to-use-another-form-postcode step', () => {
 
   describe('back navigation from you-need-to-use-another-form-non-english-address', () => {
     it('uses address-of-property as previous step', async () => {
-      const req = {} as Request;
+      const req = {
+        session: {
+          formData: {},
+        },
+      } as unknown as Request;
       await expect(
         getPreviousStep(req, 'you-need-to-use-another-form-non-english-address', flowConfig, {})
       ).resolves.toBe('address-of-property');
