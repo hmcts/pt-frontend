@@ -82,13 +82,13 @@
     "whoIsOnTheTenancy": "cy Who is on the tenancy",
     "landlordDetails": "cy Landlord details including any representatives",
     "landlordsNotice": "cy Landlord's notice proposing a new rent",
-    "tenancyAgreement": "cy Your tenancy agreement",
-    "currentRentAndOtherCosts": "cy The current rent and other costs",
-    "marketRent": "cy What you think the market rent should be",
+    "yourTenancyAgreement": "cy Your tenancy agreement",
+    "theCurrentRentAndOtherCosts": "cy The current rent and other costs",
+    "whatYouThinkMarketRentShouldBe": "cy What you think the market rent should be",
     "propertyDetails": "cy Property details",
-    "inspectionAndHearing": "cy Tell us if you think an inspection, a hearing, or both are needed",
-    "supportForHealthConditions": "cy Tell us if you need extra support during your case",
-    "helpWithFees": "cy Tell us if you are eligible for help with fees",
+    "propertyInspection": "cy Tell us if you think an inspection, a hearing, or both are needed",
+    "extraSupport": "cy Tell us if you need extra support during your case",
+    "tellUsIfYouNeedHelp": "cy Tell us if you are eligible for help with fees",
     "checkYourAnswersAndSubmit": "cy Check your answers and submit your application"
   }
 }
