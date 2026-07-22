@@ -1,0 +1,21 @@
+export const idamLogin = {
+  signInOrCreateHeading: 'Sign in or create an account',
+  signInHeading: 'Sign in',
+  signInButton: 'Sign in',
+  emailAddressLabel: 'Email address',
+  passwordLabel: 'Password',
+  forgottenPasswordLink: 'Forgotten password?',
+  acceptAdditionalCookiesButton: 'Accept additional cookies',
+  idamHost: 'idam-web-public',
+  propertyTribunalHeading: 'Property Tribunal',
+  postLoginServiceName: 'Apply for an open market rent determination',
+  postLoginHeading: 'My applications',
+  logoutLink: 'Logout',
+  loginErrorHeading: 'Incorrect email or password',
+  loginErrorMessages: [
+    'Incorrect email or password',
+    'Enter a correct email address and password',
+    'You entered an incorrect email address or password',
+    'incorrect email address or password',
+  ],
+};

@@ -1,1 +1,10 @@
-{}
+{
+  "frontend": {
+    "url": "https://pt.aat.platform.hmcts.net"
+  },
+  "idam": {
+    "testUser": {
+      "email": "pt-citizen@test.com"
+    }
+  }
+}
