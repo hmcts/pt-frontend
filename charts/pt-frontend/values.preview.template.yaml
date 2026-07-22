@@ -9,6 +9,7 @@ nodejs:
     CCD_URL: '${DATA_STORE_URL_BASE}'
     CASE_TYPE_ID: '${CASE_TYPE_ID}'
     XUI_BASE_URI: '${XUI_BASE_URI}'
+    OIDC_REDIRECT_URI: 'https://${SERVICE_FQDN}/oauth2/callback'
 redis:
   image:
     registry: hmctsprod.azurecr.io
