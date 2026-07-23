@@ -49,9 +49,8 @@ export const step: StepDefinition = createFormStep({
       tenancyType,
     });
 
-    //  TODO: resolve    message: 'Cannot find event citizen-create-application for case type PT',
+    //  TODO: resolve error -> message: 'Cannot find event citizen-create-application for case type PT',
     const caseReference = ccdCase.id;
-    // const caseReference = '1234123412341234';
     const redirectPath = `/case/${caseReference}/application/task-list`;
 
     return req.res!.redirect(303, redirectPath);
