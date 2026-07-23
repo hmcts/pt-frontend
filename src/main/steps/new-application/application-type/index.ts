@@ -16,5 +16,23 @@ export const step: StepDefinition = createFormStep({
   translationKeys: {
     pageTitle: 'questionTitle',
   },
-  fields: [],
+  fields: [
+    {
+      name: 'applicationType',
+      type: 'radio',
+      required: true,
+      isPageHeading: true,
+      legendClasses: 'govuk-fieldset__legend--l',
+      translationKey: { label: 'questionTitle' },
+      errorMessage: 'errors.applicationType.required',
+      options: [
+        {
+          value: 'challengeRentIncrease',
+          translationKey: 'options.challengeRentIncrease.label',
+          hint: 'options.challengeRentIncrease.hint',
+        },
+        { value: 'challengeExcessiveRent', translationKey: 'options.challengeExcessiveRent.label' },
+      ],
+    },
+  ],
 });

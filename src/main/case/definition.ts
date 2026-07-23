@@ -2,6 +2,8 @@ export interface CaseData {
   //TODO: build this out once data model added to pt-api
   firstName: string;
   lastName: string;
+  applicationType: string;
+  tenancyType: string;
 }
 
 export const CITIZEN_CREATE_CASE = 'citizen-create-application';
