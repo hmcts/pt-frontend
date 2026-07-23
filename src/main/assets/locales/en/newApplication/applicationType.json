@@ -1,3 +1,17 @@
 {
-  "questionTitle": "Which application do you want to make?"
+  "questionTitle": "Which application do you want to make?",
+  "options": {
+    "challengeRentIncrease": {
+      "label": "Challenge the rent increase proposed in a landlord's notice proposing a new rent",
+      "hint": "Including if you also want to challenge the legal validity of the landlord's notice"
+    },
+    "challengeExcessiveRent": {
+      "label": "Challenge my rent as excessive within the first 6 months of the tenancy"
+    }
+  },
+  "errors": {
+    "applicationType": {
+      "required": "Select which application you want to make"
+    }
+  }
 }
