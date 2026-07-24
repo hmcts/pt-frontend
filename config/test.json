@@ -1,6 +1,7 @@
 {
   "frontend": {
-    "url": "https://pt.aat.platform.hmcts.net"
+    "url": "https://pt.aat.platform.hmcts.net",
+    "previewurl": "https://pt-frontend-pr-146.preview.platform.hmcts.net/"
   },
   "idam": {
     "testUser": {
