@@ -17,4 +17,4 @@ Feature: Starting or Returning Application
   @AC3
   Scenario: User clicks continue without selecting an option
     When the citizen clicks continue without selecting an option
-    Then the citizen sees the standard UCD validation message
+    Then the citizen  can see the standard UCD validation message

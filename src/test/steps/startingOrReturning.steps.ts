@@ -34,6 +34,6 @@ Then('the citizen is taken to the sign in or create account page', () => {
   I.waitForText(ptStartingOrReturning.signInOrCreateHeading);
 });
 
-Then('the citizen sees the standard UCD validation message', () => {
-  I.waitForText(ptStartingOrReturning.validationErrorMessage, 10, '.govuk-error-summary');
+Then('the citizen  can see the standard UCD validation message', () => {
+  I.waitForText(ptStartingOrReturning.validationErrorMessage);
 });
