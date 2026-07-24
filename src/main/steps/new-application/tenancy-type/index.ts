@@ -1,10 +1,11 @@
 import { Request } from 'express';
 
-import { getCaseApi } from '../../../case/ccdApiClient';
 import { flowConfig } from '../flow.config';
 
 import { createFormStep, getFormData } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { getCaseApi } from '@services/ccdApiClient';
+import { CcdCaseData } from '@services/ccdCase.interface';
 
 const journeyName = 'newApplication';
 const stepName = 'tenancy-type';
@@ -44,10 +45,14 @@ export const step: StepDefinition = createFormStep({
     const applicationType: string = getFormData(req, 'application-type').applicationType as string;
     const tenancyType: string = getFormData(req, 'tenancy-type').tenancyType as string;
 
-    const ccdCase = await ccdCaseApi.createCase({
+    const data: CcdCaseData = {
+      firstName: req.session.user.givenName,
+      lastName: req.session.user.familyName,
       applicationType,
       tenancyType,
-    });
+    };
+
+    const ccdCase = await ccdCaseApi.createCase(data);
 
     //  TODO: resolve error -> message: 'Cannot find event citizen-create-application for case type PT',
     const caseReference = ccdCase.id;

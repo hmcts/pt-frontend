@@ -1,3 +1,9 @@
+import { UUID } from 'node:crypto';
+
+export const CITIZEN_CREATE_CASE = 'citizen-create-application';
+export const CITIZEN_UPDATE_CASE = 'citizen-update-application';
+export const CITIZEN_SUBMIT_CASE = 'citizen-submit-application';
+
 export type YesNoValue = 'YES' | 'NO' | null;
 export type YesNoNotSureValue = 'YES' | 'NO' | 'NOT_SURE' | null;
 export enum YesNoEnum {
@@ -21,7 +27,11 @@ export type CaseData = CcdCaseData;
 
 /** Case data payload from CCD (START callback case_data or CcdCase.data). */
 export interface CcdCaseData {
-  placeholder?: string;
+  //TODO: build this out once data model added to pt-api
+  firstName?: string;
+  lastName?: string;
+  applicationType?: string;
+  tenancyType?: string;
 }
 
 /** Case representation used by services: id + case_data. */
@@ -63,4 +73,14 @@ export interface StartCallbackData {
   _links: CcdStartCallbackLinks;
   case_details: CcdCaseDetails;
   event_id: string;
+}
+
+export interface ApplicationData {
+  caseReference: bigint;
+  applicantFirstName: string;
+  applicantLastName: string;
+  email: string;
+  postcode: string;
+  applicantIdamUserId: UUID;
+  applicationType: string;
 }
