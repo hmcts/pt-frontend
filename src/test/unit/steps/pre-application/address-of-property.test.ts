@@ -88,7 +88,7 @@ describe('forward navigation from address-of-property', () => {
             applyingForYourselfOrSomeoneElse: 'myself',
           },
           'address-of-property': {
-            addressPostcode: 'W1 1BW',
+            addressPostcode: 'B5 4BU',
           },
         },
       },
@@ -98,7 +98,28 @@ describe('forward navigation from address-of-property', () => {
     );
   });
 
-  it('goes to you-need-to-use-another-form when postcode is not an England postcode', async () => {
+  it('goes to you-need-to-use-another-form-postcode when postcode is not part of initial rollout', async () => {
+    const req = {
+      session: {
+        formData: {
+          'starting-or-returning': {
+            startingOrReturning: 'starting',
+          },
+          'applying-for-yourself-or-someone-else': {
+            applyingForYourselfOrSomeoneElse: 'someoneElse',
+          },
+          'address-of-property': {
+            addressPostcode: 'W1 1BW',
+          },
+        },
+      },
+    } as unknown as Request;
+    await expect(getNextStep(req, 'address-of-property', flowConfig, {})).resolves.toBe(
+      'you-need-to-use-another-form-postcode'
+    );
+  });
+
+  it('goes to you-need-to-use-another-form-non-english-address when postcode is not an England postcode', async () => {
     const req = {
       session: {
         formData: {
@@ -115,7 +136,7 @@ describe('forward navigation from address-of-property', () => {
       },
     } as unknown as Request;
     await expect(getNextStep(req, 'address-of-property', flowConfig, {})).resolves.toBe(
-      'you-need-to-use-another-form-postcode'
+      'you-need-to-use-another-form-non-english-address'
     );
   });
 });

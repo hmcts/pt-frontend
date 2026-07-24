@@ -3,6 +3,8 @@ import { step as applyingForYourselfOrSomeoneElse } from './applying-for-yoursel
 import { step as landlordIsAHousingAssociation } from './landlord-is-a-housing-association';
 import { step as startingOrReturning } from './starting-or-returning';
 import { step as youNeedToUseAnotherForm } from './you-need-to-use-another-form';
+import { step as youNeedToUseAnotherFormLandlordAssociation } from './you-need-to-use-another-form-landlord-association';
+import { step as youNeedToUseAnotherFormNonEnglishAddress } from './you-need-to-use-another-form-non-english-address';
 import { step as youNeedToUseAnotherFormPostcode } from './you-need-to-use-another-form-postcode';
 
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
@@ -13,7 +15,9 @@ export const stepRegistry = {
   'you-need-to-use-another-form': youNeedToUseAnotherForm,
   'address-of-property': addressOfProperty,
   'you-need-to-use-another-form-postcode': youNeedToUseAnotherFormPostcode,
+  'you-need-to-use-another-form-non-english-address': youNeedToUseAnotherFormNonEnglishAddress,
   'landlord-is-a-housing-association': landlordIsAHousingAssociation,
+  'you-need-to-use-another-form-landlord-association': youNeedToUseAnotherFormLandlordAssociation,
 } satisfies Record<string, StepDefinition>;
 
 export type RespondToClaimStepName = keyof typeof stepRegistry;

@@ -10,7 +10,9 @@ describe('pre-application citizen flow config', () => {
       'you-need-to-use-another-form',
       'address-of-property',
       'you-need-to-use-another-form-postcode',
+      'you-need-to-use-another-form-non-english-address',
       'landlord-is-a-housing-association',
+      'you-need-to-use-another-form-landlord-association',
     ]);
   });
 

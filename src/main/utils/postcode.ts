@@ -1,3 +1,6 @@
+// Postcodes included in the initial rollout of the service
+const INITIAL_ROLLOUT_AREAS = new Set(['B', 'M']);
+
 // UK postcode area prefixes that are exclusively Scotland, Wales, or Northern Ireland.
 // Anything not in these sets (and not the Channel Islands/Isle of Man) is treated as England.
 const ENGLAND_AREAS = new Set([
@@ -122,8 +125,9 @@ const WALES_AREAS = new Set(['CF', 'LD', 'LL', 'NP', 'SA', 'SY']);
 const NI_AREAS = new Set(['BT']);
 const NON_UK_AREAS = new Set(['GY', 'JE', 'IM']); // Channel Islands / Isle of Man
 
-const POSTCODE_REGEX =
+const POSTCODE_REGEX: RegExp =
   /^([Gg][Ii][Rr] ?0[Aa]{2})|((([A-Za-z][0-9]{1,2})|([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))\s?[0-9][A-Za-z]{2})$/;
+const POSTCODE_AREA_REGEX: RegExp = /^([A-Z]{1,2})[0-9]/;
 
 export function isValidPostcode(postcode: string): boolean {
   const clean = postcode.trim().toUpperCase();
@@ -132,7 +136,7 @@ export function isValidPostcode(postcode: string): boolean {
 
 export function isNotValidUnitedKingdomPostcode(postcode: string): boolean {
   const clean = postcode.trim().toUpperCase();
-  const match = clean.match(/^([A-Z]{1,2})[0-9]/);
+  const match = clean.match(POSTCODE_AREA_REGEX);
   if (!match) {
     return true; // e.g. GIR 0AA — no standard area, not treated as England
   }
@@ -149,12 +153,19 @@ export function isNotValidUnitedKingdomPostcode(postcode: string): boolean {
 }
 
 export function isValidEnglishPostcode(postcode: string): boolean {
-  const clean = postcode.trim().toUpperCase();
-  const area = getPostcodeArea(clean);
-  return area !== null && ENGLAND_AREAS.has(area);
+  return postcodeAreaIn(postcode, ENGLAND_AREAS);
+}
+
+export function isPartOfInitialRollout(postcode: string): boolean {
+  return postcodeAreaIn(postcode, INITIAL_ROLLOUT_AREAS);
+}
+
+function postcodeAreaIn(postcode: string, areas: Set<string>): boolean {
+  const area = getPostcodeArea(postcode.trim().toUpperCase());
+  return area !== null && areas.has(area);
 }
 
 function getPostcodeArea(clean: string): string | null {
-  const match = clean.match(/^([A-Z]{1,2})[0-9]/);
+  const match = clean.match(POSTCODE_AREA_REGEX);
   return match ? match[1] : null;
 }
