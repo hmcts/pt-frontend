@@ -6,8 +6,7 @@ Feature: IDAM login to Property Tribunal
 
   @ac1
   Scenario: AC1 - User is redirected to IDAM when accessing PT
-    Given a user wants to log in to PT
-    When they enter the PT UI url
+    Given the user navigates to PT url
     Then they are redirected to the IDAM authentication page
 
   @ac2

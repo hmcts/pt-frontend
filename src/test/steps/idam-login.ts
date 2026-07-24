@@ -21,6 +21,12 @@ async function acceptCookiesIfPresent(): Promise<void> {
   });
 }
 
+export async function verifyRedirectedToPtUI(): Promise<void> {
+  I.waitForText(idamLogin.postLoginHeading);
+  I.waitForText(idamLogin.postLoginServiceName);
+  I.waitForText(idamLogin.logoutLink);
+}
+
 async function openIdamLoginFromPt(): Promise<void> {
   I.amOnPage(ptUrl(ptPreApplication.startingOrReturningUrl));
   I.waitForText(ptPreApplication.startingOrReturningHeading);
@@ -41,7 +47,7 @@ async function ensureSignInFormVisible(): Promise<void> {
   });
 }
 
-async function submitSignInCredentials(email: string, password: string): Promise<void> {
+export async function submitSignInCredentials(email: string, password: string): Promise<void> {
   await ensureSignInFormVisible();
 
   await usePlaywrightPage(async page => {
@@ -51,29 +57,11 @@ async function submitSignInCredentials(email: string, password: string): Promise
   });
 }
 
-async function waitForPtHost(): Promise<void> {
-  const ptHost = new URL(testConfig.TEST_URL).hostname;
-
-  await usePlaywrightPage(async page => {
-    await page.waitForURL(
-      url => {
-        try {
-          return new URL(url).hostname === ptHost;
-        } catch {
-          return false;
-        }
-      },
-      { timeout: testConfig.WaitForTimeout }
-    );
-  });
-}
-
 Given('a user wants to log in to PT', () => {
   // Scenario setup only — navigation happens in the When step.
 });
 
-When('they enter the PT UI url', () => {
-  // PT AAT currently sends unauthenticated users straight to IDAM.
+Given('the user navigates to PT url', () => {
   I.amOnPage(testConfig.TEST_URL);
 });
 
@@ -96,7 +84,6 @@ When('the user enters their credentials incorrectly', async () => {
 });
 
 Then('the user will be redirected back to the PT UI', async () => {
-  await waitForPtHost();
   I.waitForText(idamLogin.postLoginHeading);
   I.waitForText(idamLogin.postLoginServiceName);
   I.waitForText(idamLogin.logoutLink);
