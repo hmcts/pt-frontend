@@ -12,6 +12,9 @@
       "password": "IDAM_PT_USER_PASSWORD"
     }
   },
+  "authProvider": {
+    "secret": "S2S_AUTH_PROVIDER_SECRET"
+  },
   "session": {
     "redis-connection-string": "REDIS_CONNECTION_STRING"
   }

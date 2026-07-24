@@ -1,0 +1,17 @@
+{
+  "questionTitle": "What type of tenancy are you applying about?",
+  "options": {
+    "assuredPeriodicTenancy": {
+      "label": "Assured periodic tenancy",
+      "hint": "For example, a residential or private property"
+    },
+    "agriculturalOccupancy": {
+      "label": "Agricultural occupancy"
+    }
+  },
+  "errors": {
+    "tenancyType": {
+      "required": "Select which type of tenancy you are applying about"
+    }
+  }
+}

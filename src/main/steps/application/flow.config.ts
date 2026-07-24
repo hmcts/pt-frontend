@@ -3,7 +3,7 @@ import type { ApplicationStepName } from './stepRegistry';
 
 import type { JourneyFlowConfig, StepConfig } from '@modules/steps/stepFlow.interface';
 
-export const APPLICATION_ROUTE = '/case/:caseReference/application';
+export const APPLICATION_ROUTE = '/:caseReference';
 
 export const flowConfig: JourneyFlowConfig = {
   basePath: APPLICATION_ROUTE,

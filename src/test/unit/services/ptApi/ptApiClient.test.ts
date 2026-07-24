@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { PtApiClient } from '../../../main/case/ptApiClient';
+import { PtApiClient } from '@services/ptApi/ptApiClient';
 
 jest.mock('@modules/logger', () => ({
   Logger: {

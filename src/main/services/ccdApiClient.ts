@@ -4,10 +4,8 @@ import config from 'config';
 import { getServiceAuthToken } from '../auth/service/get-service-auth-token';
 import { UserDetails } from '../auth/user/oidc';
 
-import { Case, CaseWithId } from './case';
-import { CITIZEN_CREATE_CASE, CaseData } from './definition';
-
 import { Logger } from '@modules/logger';
+import { CITIZEN_CREATE_CASE, CcdCase, CcdCaseData } from '@services/ccdCase.interface';
 
 const logger = Logger.getLogger('service-auth-token');
 
@@ -17,7 +15,7 @@ export class CcdApiClient {
 
   constructor(private readonly client: AxiosInstance) {}
 
-  async createCase(data: Partial<Case>): Promise<CaseWithId> {
+  async createCase(data: Partial<CcdCaseData>): Promise<CcdCase> {
     try {
       const tokenResponse: AxiosResponse<CcdTokenResponse> = await this.client.get(
         `/case-types/${this.CASE_TYPE}/event-triggers/${CITIZEN_CREATE_CASE}`
@@ -25,13 +23,13 @@ export class CcdApiClient {
       const token = tokenResponse.data.token;
       const event = { id: CITIZEN_CREATE_CASE };
 
-      const response = await this.client.post<CcdV2Response>(`/case-types/${this.CASE_TYPE}/cases`, {
+      const response = await this.client.post<CcdCase>(`/case-types/${this.CASE_TYPE}/cases`, {
         data,
         event,
         event_token: token,
       });
 
-      return { id: response.data.id, state: response.data.state, ...response.data.data };
+      return response.data;
     } catch (err) {
       logger.error(err);
       throw err;
@@ -50,20 +48,20 @@ export class CcdApiClient {
 
   async triggerEvent(
     caseId: string,
-    data: Partial<Case>,
+    data: Partial<CcdCaseData>,
     eventName: string,
     eventToken: string,
     retries = 0
-  ): Promise<CaseWithId> {
+  ): Promise<CcdCase> {
     try {
       const event = { id: eventName };
-      const response: AxiosResponse<CcdV2Response> = await this.client.post(`/cases/${caseId}/events`, {
+      const response: AxiosResponse<CcdCase> = await this.client.post(`/cases/${caseId}/events`, {
         event,
         data,
         event_token: eventToken,
       });
 
-      return { id: response.data.id, state: response.data.state, ...response.data.data };
+      return response.data;
     } catch (err) {
       const status = err?.response?.status;
       if (retries < this.maxRetries && [502, 504].includes(status)) {
@@ -96,12 +94,6 @@ export const getCaseApi = (userDetails: UserDetails): CcdApiClient => {
   );
 };
 
-interface CcdV2Response {
-  id: string;
-  state: string;
-  data: CaseData;
-}
-
 interface CcdTokenResponse {
   token: string;
 }
@@ -110,6 +102,6 @@ interface CcdEventTriggerResponse extends CcdTokenResponse {
   case_details?: {
     id: string;
     state: string;
-    data: CaseData;
+    data: CcdCaseData;
   };
 }

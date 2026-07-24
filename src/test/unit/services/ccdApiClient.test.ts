@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import { CcdApiClient } from '../../../main/case/ccdApiClient';
-import { CITIZEN_UPDATE_CASE } from '../../../main/case/definition';
+import { CcdApiClient } from '@services/ccdApiClient';
+import { CITIZEN_UPDATE_CASE } from '@services/ccdCase.interface';
 
 jest.mock('@modules/logger', () => ({
   Logger: {
@@ -26,13 +26,11 @@ describe('createCase', () => {
       },
     });
     mockedAxios.post.mockResolvedValue({
+      id: TEST_CASE_ID,
+      state: 'DRAFT',
       data: {
-        id: TEST_CASE_ID,
-        state: 'DRAFT',
-        data: {
-          firstName: 'test',
-          lastName: 'name',
-        },
+        firstName: 'test',
+        lastName: 'name',
       },
     });
 
@@ -43,9 +41,7 @@ describe('createCase', () => {
     });
     expect(result).toEqual({
       firstName: 'test',
-      id: '1234123412341234',
       lastName: 'name',
-      state: 'DRAFT',
     });
     expect(mockedAxios.get).toHaveBeenCalledWith('/case-types/PT/event-triggers/citizen-create-application');
   });
@@ -98,13 +94,11 @@ describe('triggerEvent', () => {
   test('Should successfully trigger event', async () => {
     const mockedAxios = axios as jest.Mocked<typeof axios>;
     mockedAxios.post.mockResolvedValue({
+      id: TEST_CASE_ID,
+      state: 'DRAFT',
       data: {
-        id: TEST_CASE_ID,
-        state: 'DRAFT',
-        data: {
-          firstName: 'test',
-          lastName: 'name',
-        },
+        firstName: 'test',
+        lastName: 'name',
       },
     });
 
@@ -120,9 +114,7 @@ describe('triggerEvent', () => {
     );
     expect(result).toEqual({
       firstName: 'test',
-      id: '1234123412341234',
       lastName: 'name',
-      state: 'DRAFT',
     });
     expect(mockedAxios.post).toHaveBeenCalledWith('/cases/1234123412341234/events', {
       data: { firstName: 'test', lastName: 'name' },
