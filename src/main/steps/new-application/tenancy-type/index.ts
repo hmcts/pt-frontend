@@ -56,7 +56,7 @@ export const step: StepDefinition = createFormStep({
 
     //  TODO: resolve error -> message: 'Cannot find event citizen-create-application for case type PT',
     const caseReference = ccdCase.id;
-    const redirectPath = `/case/${caseReference}/application/task-list`;
+    const redirectPath = `/${caseReference}/task-list`;
 
     return req.res!.redirect(303, redirectPath);
   },
