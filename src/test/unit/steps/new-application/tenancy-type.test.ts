@@ -121,6 +121,6 @@ describe('new-application tenancy-type step', () => {
     });
 
     expect(req.res.redirect).toHaveBeenCalled();
-    expect(req.res.redirect).toHaveBeenCalledWith(303, '/case/1234123412341234/application/task-list');
+    expect(req.res.redirect).toHaveBeenCalledWith(303, '/1234123412341234/task-list');
   });
 });
