@@ -4,7 +4,7 @@ import { step } from '../../../../main/steps/new-application/tenancy-type';
 
 import { validateForm } from '@modules/steps';
 
-jest.mock('../../../../main/case/ccdApiClient', () => {
+jest.mock('@services/ccdApiClient', () => {
   const createCaseMock = jest.fn(() => ({
     id: '1234123412341234',
     state: 'AWAITING_SUBMISSION_TO_HMCTS',
@@ -20,9 +20,7 @@ jest.mock('../../../../main/case/ccdApiClient', () => {
   };
 });
 
-const { getCaseApi: getCaseApiMock, __createCaseMock: createCaseMock } = jest.requireMock(
-  '../../../../main/case/ccdApiClient'
-);
+const { getCaseApi: getCaseApiMock, __createCaseMock: createCaseMock } = jest.requireMock('@services/ccdApiClient');
 
 jest.mock('../../../../main/modules/steps/i18n', () => ({
   loadStepNamespace: jest.fn(),
@@ -116,6 +114,8 @@ describe('new-application tenancy-type step', () => {
 
     expect(createCaseMock).toHaveBeenCalledTimes(1);
     expect(createCaseMock).toHaveBeenCalledWith({
+      firstName: 'test',
+      lastName: 'name',
       applicationType: 'challengeRentIncrease',
       tenancyType: 'assuredPeriodicTenancy',
     });
