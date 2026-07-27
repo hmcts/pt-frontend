@@ -12,9 +12,9 @@ const logger = Logger.getLogger('service-auth-token');
 export class PtApiClient {
   constructor(private readonly client: AxiosInstance) {}
 
-  async getAllCasesByUser(): Promise<ApplicationData> {
+  async getAllCasesByUser(): Promise<ApplicationData[]> {
     try {
-      const response = await this.client.get<ApplicationData>('/applications');
+      const response = await this.client.get<ApplicationData[]>('/applications');
       return response.data;
     } catch (err) {
       logger.error(err);
@@ -22,9 +22,9 @@ export class PtApiClient {
     }
   }
 
-  async getCaseByCaseReference(caseReference: string): Promise<ApplicationData[]> {
+  async getCaseByCaseReference(caseReference: string): Promise<ApplicationData> {
     try {
-      const response = await this.client.get<ApplicationData[]>(`/applications/${caseReference}`);
+      const response = await this.client.get<ApplicationData>(`/applications/${caseReference}`);
       return response.data;
     } catch (err) {
       logger.error(err);

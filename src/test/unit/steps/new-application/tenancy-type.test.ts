@@ -114,8 +114,8 @@ describe('new-application tenancy-type step', () => {
 
     expect(createCaseMock).toHaveBeenCalledTimes(1);
     expect(createCaseMock).toHaveBeenCalledWith({
-      firstName: 'test',
-      lastName: 'name',
+      applicantFirstName: 'test',
+      applicantLastName: 'name',
       applicationType: 'challengeRentIncrease',
       tenancyType: 'assuredPeriodicTenancy',
     });

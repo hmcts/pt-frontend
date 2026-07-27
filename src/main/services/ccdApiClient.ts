@@ -85,7 +85,7 @@ export const getCaseApi = (userDetails: UserDetails): CcdApiClient => {
       baseURL: config.get('ccd.url'),
       headers: {
         Authorization: 'Bearer ' + userDetails.accessToken,
-        ServiceAuthorization: getServiceAuthToken(),
+        ServiceAuthorization: 'Bearer ' + getServiceAuthToken(),
         experimental: 'true',
         Accept: '*/*',
         'Content-Type': 'application/json',

@@ -29,19 +29,19 @@ describe('createCase', () => {
       id: TEST_CASE_ID,
       state: 'DRAFT',
       data: {
-        firstName: 'test',
-        lastName: 'name',
+        applicantFirstName: 'test',
+        applicantLastName: 'name',
       },
     });
 
     const caseApiInstance: CcdApiClient = new CcdApiClient(mockedAxios);
     const result = await caseApiInstance.createCase({
-      firstName: 'test',
-      lastName: 'name',
+      applicantFirstName: 'test',
+      applicantLastName: 'name',
     });
     expect(result).toEqual({
-      firstName: 'test',
-      lastName: 'name',
+      applicantFirstName: 'test',
+      applicantLastName: 'name',
     });
     expect(mockedAxios.get).toHaveBeenCalledWith('/case-types/PT/event-triggers/citizen-create-application');
   });
@@ -54,8 +54,8 @@ describe('createCase', () => {
 
     await expect(
       caseApiInstance.createCase({
-        firstName: 'test',
-        lastName: 'name',
+        applicantFirstName: 'test',
+        applicantLastName: 'name',
       })
     ).rejects.toThrow('CCD create case failed');
   });
@@ -106,8 +106,8 @@ describe('triggerEvent', () => {
     const result = await caseApiInstance.triggerEvent(
       TEST_CASE_ID,
       {
-        firstName: 'test',
-        lastName: 'name',
+        applicantFirstName: 'test',
+        applicantLastName: 'name',
       },
       CITIZEN_UPDATE_CASE,
       'event_token'
@@ -117,7 +117,7 @@ describe('triggerEvent', () => {
       lastName: 'name',
     });
     expect(mockedAxios.post).toHaveBeenCalledWith('/cases/1234123412341234/events', {
-      data: { firstName: 'test', lastName: 'name' },
+      data: { applicantFirstName: 'test', applicantLastName: 'name' },
       event: { id: 'citizen-update-application' },
       event_token: 'event_token',
     });
@@ -133,8 +133,8 @@ describe('triggerEvent', () => {
       caseApiInstance.triggerEvent(
         TEST_CASE_ID,
         {
-          firstName: 'test',
-          lastName: 'name',
+          applicantFirstName: 'test',
+          applicantLastName: 'name',
         },
         CITIZEN_UPDATE_CASE,
         'event_token',
@@ -156,8 +156,8 @@ describe('triggerEvent', () => {
       caseApiInstance.triggerEvent(
         TEST_CASE_ID,
         {
-          firstName: 'test',
-          lastName: 'name',
+          applicantFirstName: 'test',
+          applicantLastName: 'name',
         },
         CITIZEN_UPDATE_CASE,
         'event_token',

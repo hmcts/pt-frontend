@@ -46,15 +46,14 @@ export const step: StepDefinition = createFormStep({
     const tenancyType: string = getFormData(req, 'tenancy-type').tenancyType as string;
 
     const data: CcdCaseData = {
-      firstName: req.session.user.givenName,
-      lastName: req.session.user.familyName,
+      applicantFirstName: req.session.user.givenName,
+      applicantLastName: req.session.user.familyName,
       applicationType,
       tenancyType,
     };
 
     const ccdCase = await ccdCaseApi.createCase(data);
 
-    //  TODO: resolve error -> message: 'Cannot find event citizen-create-application for case type PT',
     const caseReference = ccdCase.id;
     const redirectPath = `/${caseReference}/task-list`;
 

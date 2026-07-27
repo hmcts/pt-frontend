@@ -28,8 +28,8 @@ export type CaseData = CcdCaseData;
 /** Case data payload from CCD (START callback case_data or CcdCase.data). */
 export interface CcdCaseData {
   //TODO: build this out once data model added to pt-api
-  firstName?: string;
-  lastName?: string;
+  applicantFirstName?: string;
+  applicantLastName?: string;
   applicationType?: string;
   tenancyType?: string;
 }
