@@ -6,7 +6,7 @@ Feature: My application page
 
   Scenario: Check that after signing in user lands on the 'my applications' page and can navigate to the application type page
     Given the user navigates to PT url
-    When the user has successfully logged on to market-rent-determination application
+    And the user has successfully logged on to market-rent-determination application
     Then check that the user is redirected to the my-application page
     When user clicks on the my application link
     Then check that the user is redirected to the application-type page

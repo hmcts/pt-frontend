@@ -7,7 +7,7 @@ Feature: IDAM login to Property Tribunal
   @ac1 @JIRA-TEST-KEY:PTSD-531
   Scenario: AC1 - User is redirected to IDAM when accessing PT
     Given the user navigates to PT url
-    Then they are redirected to the IDAM authentication page
+    And they are redirected to the IDAM authentication page
 
   @ac2 @JIRA-TEST-KEY:PTSD-672
   Scenario: AC2 - Successful login redirects back to PT
