@@ -2,6 +2,7 @@
 
 @Library("Infrastructure")
 
+import uk.gov.hmcts.contino.AppPipelineDsl
 import uk.gov.hmcts.contino.GithubAPI
 
 def type = "nodejs"
@@ -47,6 +48,9 @@ withPipeline(type, product, component) {
       env.XUI_BASE_URI = "https://xui-pt-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
       env.CASE_API_URL = "https://pt-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
     }
+    enablePactAs([
+      AppPipelineDsl.PactRoles.CONSUMER,
+    ])
 
   }
 }
