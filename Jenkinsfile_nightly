@@ -30,6 +30,5 @@ def ptE2eVaultSecrets = [
 withNightlyPipeline(type, product, component) {
   enableSlackNotifications('#pt-tech')
   loadVaultSecrets(["pt-kv-${env.ENVIRONMENT}": ptE2eVaultSecrets])
-  setFunctionalTestEnvVars()
   enableFortifyScan()
 }
