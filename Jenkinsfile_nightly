@@ -11,6 +11,32 @@ def type = "nodejs"
 def product = "pt"
 def component = "frontend"
 
-withNightlyPipeline(type, product, component) {
+def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
+static Map secret(String secretName, String envVariable) {
+  [$class     : 'AzureKeyVaultSecret',
+   secretType : 'Secret',
+   name       : secretName,
+   envVariable: envVariable
+  ]
+}
+
+def ptE2eVaultSecrets = [
+  secret('pt-frontend-idam-secret', 'PT_FRONTEND_IDAM_SECRET'),
+  secret('pt-api-idam-secret', 'PT_API_IDAM_SECRET'),
+]
+
+
+withNightlyPipeline(type, product, component) {
+  validateInputs()
+  enableSlackNotifications('#pt-tech')
+  handleEnvironmentSetting()
+  loadVaultSecrets(["pt-kv-${env.ENVIRONMENT}": ptE2eVaultSecrets])
+  setFunctionalTestEnvVars()
+  enableFortifyScan()
+
+  afterAlways('fortify-scan') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
+    runE2ETests(yarnBuilder)
+  }
 }
