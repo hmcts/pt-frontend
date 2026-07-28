@@ -1,5 +1,4 @@
 {
   "questionTitle": "You need to use another form to apply",
-  "applyingForSomeoneElse": "If you are representing someone else, you must use our other application form.",
-  "onlineApplicationForm": "Go to the online application form"
+  "applyingForSomeoneElse1": "If you are representing someone else, you must use our other <a class=\"govuk-link govuk-link--no-visited-state\" href=\"https://apply-for-market-rent-determination.form.service.justice.gov.uk/\" target=\"_blank\" rel=\"noopener noreferrer\">online application form</a> or you can apply by post or email by <a class=\"govuk-link govuk-link--no-visited-state\" href=\"https://assets.publishing.service.gov.uk/media/6a44d59593349b85b718da0b/MR1_0726_save.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">downloading the paper form</a>."
 }

@@ -1,4 +1,9 @@
-import { isNotValidUnitedKingdomPostcode, isValidEnglishPostcode, isValidPostcode } from '@utils/postcode';
+import {
+  isNotValidUnitedKingdomPostcode,
+  isPartOfInitialRollout,
+  isValidEnglishPostcode,
+  isValidPostcode,
+} from '@utils/postcode';
 
 describe('isValidPostcode', () => {
   it('should correctly validate postcode', () => {
@@ -34,5 +39,20 @@ describe('isValidEnglishPostcode', () => {
     expect(isValidEnglishPostcode('CF1 1BH')).toStrictEqual(false);
     expect(isValidEnglishPostcode('LD1 1BH')).toStrictEqual(false);
     expect(isValidEnglishPostcode('LL1 1BH')).toStrictEqual(false);
+  });
+});
+
+describe('isPartOfInitialRollout', () => {
+  it('should correctly validate whether a postcode is a part of the initial rollout', () => {
+    expect(isPartOfInitialRollout('B1 1BH')).toStrictEqual(true);
+    expect(isPartOfInitialRollout('M1 1BH')).toStrictEqual(true);
+    expect(isPartOfInitialRollout('W1 1BH')).toStrictEqual(false);
+    expect(isPartOfInitialRollout('CT1 1BH')).toStrictEqual(false);
+    expect(isPartOfInitialRollout('NE1 1BH')).toStrictEqual(false);
+    expect(isPartOfInitialRollout('L1 1BH')).toStrictEqual(false);
+    expect(isPartOfInitialRollout('SW19 1BH')).toStrictEqual(false);
+    expect(isPartOfInitialRollout('CF1 1BH')).toStrictEqual(false);
+    expect(isPartOfInitialRollout('LD1 1BH')).toStrictEqual(false);
+    expect(isPartOfInitialRollout('LL1 1BH')).toStrictEqual(false);
   });
 });
