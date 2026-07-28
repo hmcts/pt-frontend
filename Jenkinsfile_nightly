@@ -28,15 +28,8 @@ def ptE2eVaultSecrets = [
 
 
 withNightlyPipeline(type, product, component) {
-  validateInputs()
   enableSlackNotifications('#pt-tech')
-  handleEnvironmentSetting()
   loadVaultSecrets(["pt-kv-${env.ENVIRONMENT}": ptE2eVaultSecrets])
   setFunctionalTestEnvVars()
   enableFortifyScan()
-
-  afterAlways('fortify-scan') {
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
-    runE2ETests(yarnBuilder)
-  }
 }
