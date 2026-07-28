@@ -83,4 +83,6 @@ export interface ApplicationData {
   postcode: string;
   applicantIdamUserId: UUID;
   applicationType: string;
+  createdDate: string;
+  submittedOn?: string;
 }

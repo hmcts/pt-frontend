@@ -6,7 +6,7 @@
   <h1 class="govuk-heading-l">{{ t('myApplications') }}</h1>
   <p class="govuk-body"><a href="/start-new-application" class="govuk-link">{{ t('startNewApplicationLinkText') }}</a></p>
 
-  {% if applications %}
+  {% if applications.length > 0 %}
     {{ govukTable({
       head: [
         { text: t('myApplicationsTable.applicationNumberHeading') },

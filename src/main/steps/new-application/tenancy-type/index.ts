@@ -57,6 +57,8 @@ export const step: StepDefinition = createFormStep({
     const caseReference = ccdCase.id;
     const redirectPath = `/${caseReference}/task-list`;
 
+    delete req.session.formData;
+
     return req.res!.redirect(303, redirectPath);
   },
 });

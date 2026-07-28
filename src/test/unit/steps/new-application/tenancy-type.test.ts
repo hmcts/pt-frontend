@@ -71,7 +71,7 @@ describe('new-application tenancy-type step', () => {
     jest.clearAllMocks();
   });
 
-  it('should add tenancyType field to formData', async () => {
+  it('should create case in ccd and clear the formdata and redirect to task-list page', async () => {
     (validateForm as jest.Mock).mockReturnValue({});
     const req = createReq({ body: { action: 'continue', tenancyType: 'assuredPeriodicTenancy' } });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -84,24 +84,7 @@ describe('new-application tenancy-type step', () => {
 
     await step.postController.post(req, res, next);
 
-    expect(req.session.formData).toStrictEqual({
-      'application-type': { applicationType: 'challengeRentIncrease' },
-      'tenancy-type': { tenancyType: 'assuredPeriodicTenancy' },
-    });
-  });
-
-  it('should create case in ccd and redirect to task-list page', async () => {
-    (validateForm as jest.Mock).mockReturnValue({});
-    const req = createReq({ body: { action: 'continue', tenancyType: 'assuredPeriodicTenancy' } });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = { redirect: jest.fn(), headersSent: true } as any;
-    const next = jest.fn();
-
-    if (!step.postController) {
-      throw new Error('expected postController');
-    }
-
-    await step.postController.post(req, res, next);
+    expect(req.session.formData).toBeUndefined();
 
     expect(getCaseApiMock).toHaveBeenCalledTimes(1);
     expect(getCaseApiMock).toHaveBeenCalledWith({
