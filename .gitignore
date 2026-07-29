@@ -40,3 +40,5 @@ version
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+/pact/
