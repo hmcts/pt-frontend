@@ -70,7 +70,7 @@
     "helmet": "8.3.0",
     "i18next": "26.3.6",
     "i18next-fs-backend": "2.6.7",
-    "i18next-http-middleware": "3.9.7",
+    "i18next-http-middleware": "3.9.8",
     "ioredis": "5.11.1",
     "jest-pact": "0.13.0",
     "jose": "6.2.4",
