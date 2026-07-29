@@ -1,8 +1,8 @@
 import { Request } from 'express';
 import type { Environment } from 'nunjucks';
 
+import { step } from '../../../../main/steps/pre-application/application-type';
 import { flowConfig } from '../../../../main/steps/pre-application/flow.config';
-import { step } from '../../../../main/steps/pre-application/landlord-is-a-housing-association';
 
 import { getNextStep, validateForm } from '@modules/steps';
 import { getPreviousStep } from '@modules/steps/flow';
@@ -26,13 +26,13 @@ jest.mock('../../../../main/modules/steps/formBuilder/helpers', () => {
   };
 });
 
-describe('pre-application landlord-is-a-housing-association step', () => {
+describe('pre-application application-type step', () => {
   const nunjucksEnv = { render: jest.fn() } as unknown as Environment;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const createReq = (overrides: Record<string, unknown> = {}): any => ({
     body: {},
-    originalUrl: '/pre-application/landlord-is-a-housing-association',
+    originalUrl: '/pre-application/application-type',
     query: { lang: 'en' },
     session: {
       formData: {
@@ -44,6 +44,9 @@ describe('pre-application landlord-is-a-housing-association step', () => {
         },
         'address-of-property': {
           addressPostcode: 'W1 1BW',
+        },
+        'landlord-is-a-housing-association': {
+          landlordIsAHousingAssociation: 'no',
         },
       },
     },
@@ -57,9 +60,9 @@ describe('pre-application landlord-is-a-housing-association step', () => {
     jest.clearAllMocks();
   });
 
-  it('maps landlordIsAHousingAssociation selection', async () => {
+  it('maps applicationType selection', async () => {
     (validateForm as jest.Mock).mockReturnValue({});
-    const req = createReq({ body: { action: 'continue', landlordIsAHousingAssociation: 'no' } });
+    const req = createReq({ body: { action: 'continue', applicationType: 'openMarketRentDetermination' } });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const res = { redirect: jest.fn() } as any;
     const next = jest.fn();
@@ -83,12 +86,15 @@ describe('pre-application landlord-is-a-housing-association step', () => {
       'landlord-is-a-housing-association': {
         landlordIsAHousingAssociation: 'no',
       },
+      'application-type': {
+        applicationType: 'openMarketRentDetermination',
+      },
     });
   });
 });
 
-describe('forward navigation from landlord-is-a-housing-association', () => {
-  it('goes to application-type when landlordIsAHousingAssociation is no', async () => {
+describe('forward navigation from application-type', () => {
+  it('goes to who-is-named-on-your-tenancy-agreement when applicationType is openMarketRentDetermination', async () => {
     const req = {
       session: {
         formData: {
@@ -104,15 +110,18 @@ describe('forward navigation from landlord-is-a-housing-association', () => {
           'landlord-is-a-housing-association': {
             landlordIsAHousingAssociation: 'no',
           },
+          'application-type': {
+            applicationType: 'openMarketRentDetermination',
+          },
         },
       },
     } as unknown as Request;
-    await expect(getNextStep(req, 'landlord-is-a-housing-association', flowConfig, {})).resolves.toBe(
-      'application-type'
+    await expect(getNextStep(req, 'application-type', flowConfig, {})).resolves.toBe(
+      'who-is-named-on-your-tenancy-agreement'
     );
   });
 
-  it('goes to you-need-to-use-another-form-landlord-association when landlordIsAHousingAssociation is yes', async () => {
+  it('goes to only-challenging-validity-of-landlord-notice when applicationType is onlyChallengeLegalValidity', async () => {
     const req = {
       session: {
         formData: {
@@ -128,17 +137,20 @@ describe('forward navigation from landlord-is-a-housing-association', () => {
           'landlord-is-a-housing-association': {
             landlordIsAHousingAssociation: 'yes',
           },
+          'application-type': {
+            applicationType: 'onlyChallengeLegalValidity',
+          },
         },
       },
     } as unknown as Request;
-    await expect(getNextStep(req, 'landlord-is-a-housing-association', flowConfig, {})).resolves.toBe(
-      'you-need-to-use-another-form-landlord-association'
+    await expect(getNextStep(req, 'application-type', flowConfig, {})).resolves.toBe(
+      'only-challenging-validity-of-landlord-notice'
     );
   });
 });
 
-describe('back navigation from landlord-is-a-housing-association', () => {
-  it('uses address-of-property as previous step', async () => {
+describe('back navigation from who-is-named-on-your-tenancy-agreement', () => {
+  it('uses application-type as previous step', async () => {
     const req = {
       session: {
         formData: {
@@ -151,11 +163,17 @@ describe('back navigation from landlord-is-a-housing-association', () => {
           'address-of-property': {
             addressPostcode: 'B5 4BU',
           },
+          'landlord-is-a-housing-association': {
+            landlordIsAHousingAssociation: 'no',
+          },
+          'application-type': {
+            applicationType: 'openMarketRentDetermination',
+          },
         },
       },
     } as unknown as Request;
-    await expect(getPreviousStep(req, 'landlord-is-a-housing-association', flowConfig, {})).resolves.toBe(
-      'address-of-property'
+    await expect(getPreviousStep(req, 'who-is-named-on-your-tenancy-agreement', flowConfig, {})).resolves.toBe(
+      'application-type'
     );
   });
 });

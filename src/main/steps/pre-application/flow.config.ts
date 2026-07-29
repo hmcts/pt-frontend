@@ -25,6 +25,10 @@ export const flowConfig: JourneyFlowConfig = {
     'you-need-to-use-another-form-non-english-address',
     'landlord-is-a-housing-association',
     'you-need-to-use-another-form-landlord-association',
+    'application-type',
+    'only-challenging-validity-of-landlord-notice',
+    'who-is-named-on-your-tenancy-agreement',
+    'you-need-to-use-another-form-joint-tenant',
   ],
   steps: {
     'starting-or-returning': {
@@ -63,6 +67,22 @@ export const flowConfig: JourneyFlowConfig = {
       requiresAuth: false,
       showCondition: (req: Request) =>
         getFormData(req, 'landlord-is-a-housing-association').landlordIsAHousingAssociation !== 'no',
+    },
+    'application-type': {
+      requiresAuth: false,
+    },
+    'only-challenging-validity-of-landlord-notice': {
+      requiresAuth: false,
+      showCondition: (req: Request) =>
+        getFormData(req, 'application-type').applicationType === 'onlyChallengeLegalValidity',
+    },
+    'who-is-named-on-your-tenancy-agreement': {
+      requiresAuth: false,
+    },
+    'you-need-to-use-another-form-joint-tenant': {
+      requiresAuth: false,
+      showCondition: (req: Request) =>
+        getFormData(req, 'who-is-named-on-your-tenancy-agreement').tenantOrJointTenant !== 'tenant',
     },
   } satisfies Partial<Record<RespondToClaimStepName, StepConfig>>,
 };

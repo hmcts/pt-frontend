@@ -11,7 +11,7 @@ jest.mock('@modules/steps', () => ({
   createFormStep: jest.fn(),
 }));
 
-describe('you-need-to-use-another-form-postcode step', () => {
+describe('you-need-to-use-another-form-non-english-address step', () => {
   const mockCreateFormStep = createFormStep as jest.Mock;
 
   const capturedConfig = mockCreateFormStep.mock.calls[0][0];

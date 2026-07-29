@@ -11,7 +11,7 @@ jest.mock('@modules/steps', () => ({
 
 import './../../../../main/steps/pre-application/you-need-to-use-another-form/index';
 
-describe('you-need-to-use-another-form-postcode step', () => {
+describe('you-need-to-use-another-form step', () => {
   const mockCreateFormStep = createFormStep as jest.Mock;
 
   const capturedConfig = mockCreateFormStep.mock.calls[0][0];
@@ -22,7 +22,6 @@ describe('you-need-to-use-another-form-postcode step', () => {
     expect(capturedConfig.journeyFolder).toBe('preApplication');
     expect(capturedConfig.showCancelButton).toBe(false);
     expect(capturedConfig.fields).toEqual([]);
-    expect(capturedConfig.translationKeys).toEqual({ pageTitle: 'questionTitle' });
   });
 
   describe('back navigation from you-need-to-use-another-form', () => {

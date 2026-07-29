@@ -13,9 +13,6 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/youNeedToUseAnotherFormPostcode.njk`,
   showCancelButton: false,
-  translationKeys: {
-    pageTitle: 'questionTitle',
-  },
   fields: [],
   extendGetContent: req => {
     const postcode = req.session.formData?.['address-of-property']?.addressPostcode;
