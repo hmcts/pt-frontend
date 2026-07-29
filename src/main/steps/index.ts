@@ -4,8 +4,10 @@ import { validateSectionConfig } from '../services/sectionStatus';
 
 import { flowConfig as applicationFlowConfig } from './application/flow.config';
 import { stepRegistry as applicationStepRegistry } from './application/stepRegistry';
-import { flowConfig as respondToClaimFlowConfig } from './pre-application/flow.config';
-import { stepRegistry as respondToClaimStepRegistry } from './pre-application/stepRegistry';
+import { flowConfig as newApplicationFlowConfig } from './new-application/flow.config';
+import { stepRegistry as newApplicationStepRegistry } from './new-application/stepRegistry';
+import { flowConfig as preApplicationFlowConfig } from './pre-application/flow.config';
+import { stepRegistry as preApplicationStepRegistry } from './pre-application/stepRegistry';
 
 import { Logger } from '@modules/logger';
 import { getStepOrder } from '@modules/steps/flow';
@@ -41,8 +43,16 @@ export const journeyRegistry: Record<string, JourneyConfig> = {
     slug: 'pre-application',
     // draftEvent: RESPOND_TO_CLAIM_DRAFT_EVENT,
     default: {
-      flowConfig: respondToClaimFlowConfig,
-      stepRegistry: respondToClaimStepRegistry,
+      flowConfig: preApplicationFlowConfig,
+      stepRegistry: preApplicationStepRegistry,
+    },
+  },
+  newApplication: {
+    name: 'newApplication',
+    slug: 'new-application',
+    default: {
+      flowConfig: newApplicationFlowConfig,
+      stepRegistry: newApplicationStepRegistry,
     },
   },
   application: {

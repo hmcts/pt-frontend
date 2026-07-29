@@ -87,7 +87,7 @@ describe('back navigation from landlord-is-a-housing-association', () => {
             applyingForYourselfOrSomeoneElse: 'someoneElse',
           },
           'address-of-property': {
-            addressPostcode: 'W1 1BW',
+            addressPostcode: 'B5 4BU',
           },
         },
       },
