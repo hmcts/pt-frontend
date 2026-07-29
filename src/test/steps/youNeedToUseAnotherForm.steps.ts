@@ -5,9 +5,7 @@ const { I } = inject();
 
 const ptUrl = (path: string): string => new URL(path, testConfig.TEST_URL).toString();
 Given('the citizen is on the you need to use another form to apply page', () => {
-  I.amOnPage(
-    ptUrl('https://pt-frontend-pr-146.preview.platform.hmcts.net/pre-application/applying-for-yourself-or-someone-else')
-  );
+  I.amOnPage(ptUrl(ptApplyingFor.applyingForUrl));
   I.waitForText(ptApplyingFor.pageHeading);
   I.checkOption(ptApplyingFor.applyingForSomeoneElseOption);
   I.click(ptApplyingFor.continueButton);
