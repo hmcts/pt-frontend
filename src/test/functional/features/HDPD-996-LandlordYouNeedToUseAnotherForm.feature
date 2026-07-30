@@ -1,4 +1,4 @@
-@HDPD-996 @createapplication
+@HDPD-996 @landloardYouNeedToUseAnotherForm
 Feature: Verify links on "You need to use another form to apply" page
 
   Background:

@@ -1,4 +1,4 @@
-@HDPD-564
+@HDPD-564 @postalCodeValidation
 Feature: Postcode Validation and Rollout Journey
 As a citizen
 I want to enter a postcode for my property

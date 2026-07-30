@@ -1,4 +1,4 @@
-@HDPD-995 @createapplication
+@HDPD-995 @postalCodeOutsideCoverage
 Feature: Verify online application form ,download the paper and gov.uk link after entering postal code
 
   Background:

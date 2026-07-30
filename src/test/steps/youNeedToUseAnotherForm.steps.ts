@@ -35,12 +35,12 @@ When('the citizen selects the online application form link', () => {
 Then('the citizen is taken to the online application form', () => {
   I.waitInUrl(youNeedToUseAnotherForm.onlineApplicationUrl);
   I.waitForText(youNeedToUseAnotherForm.onlineApplicationFormHeading);
+  I.closeCurrentTab();
 });
 
 When('the citizen selects the downloading the paper form link', async () => {
   I.waitForText(youNeedToUseAnotherForm.pageHeading);
   paperFormDownloadUrl = undefined;
-
   await usePlaywrightPage(async page => {
     const downloadPromise = page.waitForEvent('download', { timeout: 30000 });
     await page.getByRole('link', { name: youNeedToUseAnotherForm.paperFormLink }).click();
@@ -55,6 +55,9 @@ Then('the citizen is taken to the paper application form', () => {
       `Expected paper form at ${youNeedToUseAnotherForm.paperFormUrl}, got ${paperFormDownloadUrl ?? 'no download'}`
     );
   }
+  I.waitForNumberOfTabs(2, 10);
+  I.switchToNextTab();
+  I.closeCurrentTab();
 });
 
 When('the citizen selects the guidance on GOV.UK link', () => {
@@ -65,4 +68,5 @@ When('the citizen selects the guidance on GOV.UK link', () => {
 
 Then('the citizen is taken to the GOV.UK guidance page', () => {
   I.waitInUrl(youNeedToUseAnotherForm.guidanceUrl);
+  I.closeCurrentTab();
 });
