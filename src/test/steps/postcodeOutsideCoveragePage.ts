@@ -4,6 +4,7 @@ import { ptPostalCodeOutsideCoverage } from '../functional/page-data/ptPostalCod
 const { I } = inject();
 
 const ptUrl = (path: string): string => new URL(path, testConfig.TEST_URL).toString();
+
 Given('I am on the postcode outside coverage page', () => {
   I.amOnPage(ptUrl(ptApplyingFor.applyingForUrl));
   I.waitForText(ptApplyingFor.pageHeading);

@@ -5,6 +5,7 @@ import { ptPostalCodeOutsideCoverage } from '../functional/page-data/ptPostalCod
 const { I } = inject();
 
 const ptUrl = (path: string): string => new URL(path, testConfig.TEST_URL).toString();
+
 Given('I am on the "Sorry, this service is only available in England" page', () => {
   I.amOnPage(ptUrl(ptApplyingFor.applyingForUrl));
   I.waitForText(ptApplyingFor.pageHeading);
@@ -18,22 +19,31 @@ Given('I am on the "Sorry, this service is only available in England" page', () 
 
 When('I select scotland link', () => {
   I.click(ptNonEnglishPostCode.scotlandLink);
+  I.waitForNumberOfTabs(2, 10);
+  I.switchToNextTab();
 });
+
 When('I select wales link', () => {
   I.click(ptNonEnglishPostCode.walesLink);
+  I.waitForNumberOfTabs(2, 10);
+  I.switchToNextTab();
 });
 
 When('I select the guidance gov.uk link', () => {
   I.click(ptNonEnglishPostCode.guidanceLink);
+  I.waitForNumberOfTabs(2, 10);
+  I.switchToNextTab();
 });
+
 Then('I should be redirected rentalrights page', () => {
+  I.waitInUrl(ptNonEnglishPostCode.renterRightsUrl);
   I.waitForText(ptNonEnglishPostCode.renterRightsHeading);
-  I.waitForText(ptNonEnglishPostCode.renterRightsUrl);
 });
+
 Then('I should be redirected to notice-variation-rent-form', () => {
-  I.waitForText(ptNonEnglishPostCode.noticeVariationRentFromUrl);
+  I.waitInUrl(ptNonEnglishPostCode.noticeVariationRentFromUrl);
 });
 
 Then('I should be redirected to the GOV.UK guidance page', () => {
-  I.waitForText(ptNonEnglishPostCode.guidanceUrl);
+  I.waitInUrl(ptNonEnglishPostCode.guidanceUrl);
 });
