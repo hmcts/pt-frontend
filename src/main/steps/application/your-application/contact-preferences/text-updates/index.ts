@@ -57,9 +57,7 @@ export const step: StepDefinition = createFormStep({
 
 function isAnswered(ccdCase: CcdCaseData): boolean {
   if (ccdCase.textUpdates === 'yes') {
-    const val = Boolean(ccdCase.textUpdatesPhoneNumber && isValidPhoneNumber(ccdCase.textUpdatesPhoneNumber as string));
-    return val;
-  } else {
-    return ccdCase.textUpdates === 'no';
+    return Boolean(ccdCase.textUpdatesPhoneNumber && isValidPhoneNumber(ccdCase.textUpdatesPhoneNumber as string));
   }
+  return ccdCase.textUpdates === 'no';
 }
