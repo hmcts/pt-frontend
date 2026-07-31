@@ -2,7 +2,6 @@ import { flowConfig } from '../../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { CcdCaseData } from '@services/ccdCase.interface';
 import { isValidPhoneNumber } from '@utils/phoneNumber';
 
 const journeyName = 'application';
@@ -15,7 +14,8 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/contactByPhone.njk`,
   showCancelButton: false,
-  isAnswered: req => isAnswered(req.session.ccdCase),
+  isAnswered: req =>
+    Boolean(req.session.ccdCase?.phoneNumberForCalls && isValidPhoneNumber(req.session.ccdCase?.phoneNumberForCalls)),
   fields: [
     {
       name: 'phoneNumberForCalls',
@@ -35,7 +35,3 @@ export const step: StepDefinition = createFormStep({
     },
   ],
 });
-
-function isAnswered(ccdCase: CcdCaseData): boolean {
-  return Boolean(ccdCase.phoneNumberForCalls && isValidPhoneNumber(ccdCase.phoneNumberForCalls));
-}
