@@ -1,0 +1,22 @@
+{
+  "pageTitle": "cy Text updates",
+  "textUpdatesInfo": "cy We can send you text updates about your case as well as email updates. These are free to receive.",
+  "questionTitle": "cy Do you want to receive text updates?",
+  "options": {
+    "yesTextBox": {
+      "label": "cy Enter a mobile phone number"
+    },
+    "no": {
+      "label": "cy No, I want to receive email updates only"
+    }
+  },
+  "errors": {
+    "textUpdates": {
+      "required": "cy Select whether you want to receive text updates"
+    },
+    "textUpdatesPhoneNumber": {
+      "required": "cy Enter a mobile phone number",
+      "invalid": "cy Enter a valid mobile phone number"
+    }
+  }
+}

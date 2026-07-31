@@ -1,8 +1,7 @@
 import { Application, Request, Response } from 'express';
 
-import { getPtApi } from '../services/ptApi/ptApiClient';
-
 import { ApplicationData } from '@services/ccdCase.interface';
+import { getPtApi } from '@services/ptApi/ptApiClient';
 import { formatDate } from '@utils/date';
 
 export default function (app: Application): void {

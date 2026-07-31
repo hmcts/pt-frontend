@@ -4,14 +4,14 @@ import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
 const journeyName = 'application';
-const stepName = 'contact-preferences';
+const stepName = 'check-your-answers-contact-preferences';
 
 export const step: StepDefinition = createFormStep({
   stepName,
   journeyFolder: journeyName,
   stepDir: __dirname,
   flowConfig,
-  customTemplate: `${__dirname}/contactPreferences.njk`,
+  customTemplate: `${__dirname}/checkYourAnswersContactPreferences.njk`,
   showCancelButton: false,
   isAnswered: () => false,
   translationKeys: {

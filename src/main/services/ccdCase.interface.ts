@@ -32,6 +32,9 @@ export interface CcdCaseData {
   applicantLastName?: string;
   applicationType?: string;
   tenancyType?: string;
+  textUpdates?: string | boolean;
+  textUpdatesPhoneNumber?: string;
+  phoneNumberForCalls?: string;
 }
 
 /** Case representation used by services: id + case_data. */
@@ -83,6 +86,10 @@ export interface ApplicationData {
   postcode: string;
   applicantIdamUserId: UUID;
   applicationType: string;
+  tenancyType?: string;
+  textUpdates?: string | boolean;
+  textUpdatesPhoneNumber?: string;
+  phoneNumberForCalls?: string;
   createdDate: string;
   submittedOn?: string;
 }
