@@ -28,7 +28,7 @@ const sectionDefs = [
     id: 'contactPreferences',
     groupId: 'yourApplication',
     titleKey: 'taskList.contactPreferences',
-    steps: ['contact-preferences'],
+    steps: ['text-updates', 'contact-by-phone', 'check-your-answers-contact-preferences'],
   },
   {
     id: 'whoIsOnTheTenancy',

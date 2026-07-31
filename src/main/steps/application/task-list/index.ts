@@ -8,6 +8,7 @@ import { stepRegistry } from '../stepRegistry';
 import { createGetController, createStepNavigation, getTranslationFunction } from '@modules/steps';
 import type { SectionConfig, SectionStatus } from '@modules/steps/stepFlow.interface';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { getPtApi } from '@services/ptApi/ptApiClient';
 import { getAllSectionStatuses, getFirstVisibleStep, getStatusTagClasses } from '@services/sectionStatus';
 
 const stepName = 'task-list';
@@ -43,7 +44,15 @@ export const step: StepDefinition = {
       const groups = buildGroups(allStatuses, t, req, caseReference);
 
       const user = req.session?.user;
-      const name = [user?.givenName, user?.familyName].filter(Boolean).join(' ');
+
+      if (!req.session.ccdCase || req.session.ccdCase?.id !== caseReference) {
+        const ptApi = getPtApi(user);
+        req.session.ccdCase = await ptApi.getCaseByCaseReference(caseReference);
+      }
+
+      const name = [req.session.ccdCase?.applicantFirstName, req.session.ccdCase?.applicantLastName]
+        .filter(Boolean)
+        .join(' ');
 
       return {
         backUrl: '/',

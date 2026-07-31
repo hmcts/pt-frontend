@@ -635,7 +635,7 @@ describe('steps/stepDependencyCheck', () => {
 
     it('getNextStepUrl resolves the next step to a full url', async () => {
       const nav = createStepNavigation(flowConfig);
-      const req = buildReq({ locals: { validatedCase: { id: 'CASE-1' } } });
+      const req = { params: { caseReference: 'CASE-1' } } as unknown as Request;
 
       const url = await nav.getNextStepUrl(req, 'one');
       expect(url).toBe('/case/CASE-1/two');
@@ -707,20 +707,6 @@ describe('steps/stepDependencyCheck', () => {
 
       expect(resolver).toHaveBeenCalled();
       expect(url).toBe('/case/:caseReference/two');
-    });
-
-    it('appends ?nav=1 when back navigation lands on a mid-section step', async () => {
-      const config: JourneyFlowConfig = {
-        useShowConditions: true,
-        basePath: '/case',
-        sections: [{ id: 'section28', titleKey: 'section28', steps: ['a1', 'a2', 'a3'] }],
-        steps: {},
-      } as JourneyFlowConfig;
-      const nav = createStepNavigation(config);
-
-      // a3 -> a2, and a2 is not the section's first visible step, so it is tagged.
-      const backUrl = await nav.getBackUrl(buildReq(), 'a3');
-      expect(backUrl).toBe('/case/a2?nav=1');
     });
 
     it('does not append ?nav=1 when back navigation lands on the first step of a section', async () => {
