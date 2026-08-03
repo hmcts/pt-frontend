@@ -22,8 +22,8 @@ export default function (app: Application): void {
   app.get(CALLBACK_URL, callbackHandler(protocol, port));
 }
 
-function callbackHandler(protocol: string, port: string) {
-  return async (req: Request, res: Response) => {
+export function callbackHandler(protocol: string, port: string) {
+  return async (req: Request, res: Response): Promise<void> => {
     if (typeof req.query.code === 'string') {
       let user: UserDetails;
       try {
