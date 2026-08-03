@@ -40,7 +40,7 @@ const sectionDefs = [
     id: 'landlordDetails',
     groupId: 'landlordDetails',
     titleKey: 'taskList.landlordDetails',
-    steps: ['landlord-phone-number', 'landlord-has-letting-agent-or-representative', 'landlord-name'],
+    steps: ['landlord-phone-number', 'landlord-has-letting-agent-or-representative', 'landlord-name', 'landlord-email-address'],
   },
   {
     id: 'landlordsNotice',
