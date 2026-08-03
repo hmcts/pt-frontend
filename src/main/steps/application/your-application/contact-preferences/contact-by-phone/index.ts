@@ -22,10 +22,10 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: false,
       isPageHeading: false,
-      labelClasses: 'govuk-label--s',
+      labelClasses: 'govuk-label--m',
       legendClasses: 'govuk-fieldset__legend--l',
       classes: 'govuk-input--width-10',
-      translationKey: { label: 'questionLabel', hint: 'questionHint' },
+      translationKey: { label: 'questionTitle', hint: 'questionHint' },
       validator: (value): boolean | string => {
         if (value && !isValidPhoneNumber(value as string)) {
           return 'errors.phoneNumberForCalls.invalid';

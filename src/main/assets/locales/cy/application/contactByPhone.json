@@ -1,7 +1,7 @@
 {
   "pageTitle": "cy Contact by phone call",
   "contactByPhoneInfo": "cy The tribunal may need to contact you urgently by phone call if they need information from you to process your application.",
-  "questionLabel": "cy Enter a phone number for phone calls (optional)",
+  "questionTitle": "cy Enter a phone number for phone calls (optional)",
   "questionHint": "cy We will only call you if we need to contact you urgently",
   "errors": {
     "phoneNumberForCalls": {

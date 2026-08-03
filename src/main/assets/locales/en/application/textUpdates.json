@@ -16,7 +16,7 @@
     },
     "textUpdatesPhoneNumber": {
       "required": "Enter a mobile phone number",
-      "invalid": "Enter a valid mobile phone number"
+      "invalid": "Enter a UK mobile phone number, like 07700 900 982"
     }
   }
 }
