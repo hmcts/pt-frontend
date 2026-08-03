@@ -1,0 +1,9 @@
+{
+  "questionTitle": "cy What is your landlord's phone number? (optional)",
+  "questionHint": "cy Enter the landlord's phone number written on your notice proposing a new rent or tenancy agreement",
+  "errors": {
+    "landlordPhoneNumber": {
+      "invalid": "cy Enter a valid phone number for your landlord"
+    }
+  }
+}

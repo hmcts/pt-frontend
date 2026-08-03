@@ -1,0 +1,15 @@
+{
+  "questionTitle": "cy Does your landlord have a letting agent or representative?",
+  "options": {
+    "lettingAgentOnly": "cy My landlord has a letting agent only",
+    "representativeOnly": "cy My landlord has a representative only",
+    "lettingAgentAndRepresentative": "cy My landlord has a letting agent and a representative",
+    "noLettingAgentAndRepresentative": "cy My landlord does not have a letting agent or representative",
+    "notSure": "cy I'm not sure"
+  },
+  "errors": {
+    "landlordHasLettingAgentOrRepresentative": {
+      "required": "cy Enter whether the landlord has a letting agent or representative"
+    }
+  }
+}
