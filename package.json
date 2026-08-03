@@ -23,6 +23,7 @@
     "test:pact": "jest -c jest.pact.config.ts --runInBand",
     "pact:publish": "ts-node src/test/contract/publish/*.ts",
     "test:pact:run-and-publish": "yarn test:pact && yarn pact:publish",
+    "test:can-i-deploy:consumer": "pact-broker can-i-deploy --pacticipant 'pt_frontend' --version $(git rev-parse --short HEAD) --broker-base-url https://pact-broker.platform.hmcts.net",
     "cichecks": "yarn install && yarn build && yarn rebuild puppeteer && yarn lint && yarn test && yarn test:routes && yarn test:a11y",
     "postinstall": "husky || true",
     "lint-staged": "lint-staged"
