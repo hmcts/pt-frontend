@@ -12,11 +12,14 @@ export const flowConfig: JourneyFlowConfig = {
   nonSectionStepOrder: [],
   // First visible step of any section back-links to this hub step.
   hubStepName: 'application-type',
-  stepOrder: ['application-type'],
+  stepOrder: ['application-type', 'tenancy-type'],
   steps: {
     'application-type': {
-      requiresAuth: false,
+      requiresAuth: true,
       preventBack: true,
+    },
+    'tenancy-type': {
+      requiresAuth: true,
     },
   } satisfies Partial<Record<RespondToClaimStepName, StepConfig>>,
 };
