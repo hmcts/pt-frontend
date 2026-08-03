@@ -1,0 +1,11 @@
+{
+  "pageTitle": "What is your landlord’s email address?",
+  "questionTitle": "What is your landlord’s email address?",
+  "questionHint": "Enter the landlord’s email address written on your notice proposing a new rent or tenancy agreement",
+  "errors": {
+    "landlordEmailAddress": {
+      "required": "Enter an email address",
+      "invalid": "Email address must be in the correct format, like name@example.com"
+    }
+  }
+}
