@@ -46,27 +46,6 @@ describe('callbackHandler', () => {
   const protocol = 'https://';
   const port = '';
 
-  // let req: any;
-  // let res: any;
-  //
-  // beforeEach(() => {
-  //   jest.clearAllMocks();
-  //
-  //   req = {
-  //     query: {},
-  //     session: {
-  //       returnTo: undefined,
-  //       regenerate: jest.fn(cb => cb(null)),
-  //       save: jest.fn(cb => cb(null)),
-  //     },
-  //   } as unknown as Request;
-  //
-  //   res = {
-  //     locals: { host: 'example.com' },
-  //     redirect: jest.fn(),
-  //   } as unknown as Response;
-  // });
-
   it('redirects to sign-in when no code param', async () => {
     const req = { query: {} } as unknown as Request;
     const res = {
