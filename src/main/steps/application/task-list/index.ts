@@ -37,9 +37,10 @@ export const step: StepDefinition = {
   getController: () =>
     createGetController(VIEW, stepName, stepNavigation, async (req: Request) => {
       const t: TFunction = getTranslationFunction(req);
+      const caseReference = String(req.params.caseReference);
 
       const allStatuses = await getAllSectionStatuses(flowConfig, stepRegistry, req);
-      const groups = buildGroups(allStatuses, t, req);
+      const groups = buildGroups(allStatuses, t, req, caseReference);
 
       const user = req.session?.user;
       const name = [user?.givenName, user?.familyName].filter(Boolean).join(' ');
@@ -52,13 +53,17 @@ export const step: StepDefinition = {
     }),
 };
 
-function buildGroups(allStatuses: Map<string, SectionStatus>, t: TFunction, req: Request): TaskListGroup[] {
-  const caseRef = String(req.params.caseReference ?? '');
+function buildGroups(
+  allStatuses: Map<string, SectionStatus>,
+  t: TFunction,
+  req: Request,
+  caseReference: string
+): TaskListGroup[] {
   return APPLICATION_SECTION_GROUPS.map((group, index) => {
     const sectionsInGroup = applicationSections.filter(s => s.groupId === group.id);
     const items = sectionsInGroup
       .filter(section => allStatuses.get(section.id) !== 'NOT_APPLICABLE')
-      .map(section => buildItem(section, allStatuses.get(section.id) ?? 'AVAILABLE', caseRef, t, req));
+      .map(section => buildItem(section, allStatuses.get(section.id) ?? 'AVAILABLE', caseReference, t, req));
     return {
       id: group.id,
       number: index + 1,
@@ -80,7 +85,7 @@ function buildItem(
 
   // Locked sections render the same tag as the rest, but without a link target.
   const firstStep = status === 'NOT_AVAILABLE_YET' ? undefined : getFirstVisibleStep(section, flowConfig, req);
-  const href = firstStep ? `/case/${caseRef}/application/${firstStep}` : undefined;
+  const href = firstStep ? `/${caseRef}/${firstStep}` : undefined;
 
   return {
     title,
