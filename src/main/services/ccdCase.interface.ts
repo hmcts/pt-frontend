@@ -35,6 +35,8 @@ export interface CcdCaseData {
   textUpdates?: string | boolean;
   textUpdatesPhoneNumber?: string;
   phoneNumberForCalls?: string;
+  landlordPhoneNumber?: string;
+  landlordHasLettingAgentOrRepresentative?: string;
 }
 
 /** Case representation used by services: id + case_data. */
@@ -90,6 +92,8 @@ export interface ApplicationData {
   textUpdates?: string | boolean;
   textUpdatesPhoneNumber?: string;
   phoneNumberForCalls?: string;
+  landlordPhoneNumber?: string;
+  landlordHasLettingAgentOrRepresentative?: string;
   createdDate: string;
   submittedOn?: string;
 }
