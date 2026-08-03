@@ -21,8 +21,8 @@ export const step: StepDefinition = createFormStep({
       name: 'textUpdates',
       type: 'radio',
       required: true,
-      isPageHeading: true,
-      legendClasses: 'govuk-fieldset__legend--l',
+      isPageHeading: false,
+      legendClasses: 'govuk-fieldset__legend--m',
       translationKey: { label: 'questionTitle' },
       errorMessage: 'errors.textUpdates.required',
       options: [
