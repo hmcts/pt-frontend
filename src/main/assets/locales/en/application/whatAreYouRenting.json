@@ -1,0 +1,45 @@
+{
+  "questionTitle": "What are you renting?",
+  "options": {
+    "roomOrRooms": {
+      "label": "Room or rooms",
+      "roomOrRoomsDescriptionLabel": "Describe what type of property your room or rooms are in (optional)",
+      "roomOrRoomsDescriptionHint": "For example, ‘One room in a house on the ground floor’"
+    },
+    "flat": {
+      "label": "Flat",
+      "flatFloor": "What floor or floors is the flat on? (optional)"
+    },
+    "terraced": {
+      "label": "Terraced house"
+    },
+    "semiDetached": {
+      "label": "Semi-detached house",
+      "hint": "Including semi-detached bungalows"
+    },
+    "detached": {
+      "label": "Fully detached house",
+      "hint": "Including fully detached bungalows"
+    },
+    "other": {
+      "label": "Other",
+      "otherDescriptionLabel": "Describe what type of property you are renting",
+      "otherDescriptionHint": "Including how many rooms and what floors they are on if possible"
+    }
+  },
+  "errors": {
+    "propertyType": {
+      "required": "Enter what you are renting"
+    },
+    "roomOrRoomsDescription": {
+      "invalid": "Enter a valid description of the room or rooms you ar renting"
+    },
+    "flatFloor": {
+      "invalid": "Enter a valid floor that your flat is on"
+    },
+    "otherDescription": {
+      "required": "Enter a description of the type of property you are renting",
+      "invalid": "Enter a valid description of the type of property you are renting"
+    }
+  }
+}
