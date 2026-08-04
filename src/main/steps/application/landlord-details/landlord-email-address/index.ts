@@ -14,7 +14,8 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/landlordEmailAddress.njk`,
   showCancelButton: false,
-  isAnswered: () => false,
+  isAnswered: req =>
+    Boolean(req.session.ccdCase?.landlordEmailAddress && isValidEmail(req.session.ccdCase?.landlordEmailAddress)),
   translationKeys: {
     pageTitle: 'pageTitle',
   },
