@@ -34,8 +34,13 @@ Then('I can see error message is displayed', () => {
   I.waitForText(ptConfirmApplicationType.validationErrorMessage, 10, '.govuk-error-summary');
 });
 
-When('the citizen selects download paper form', () => {
-  I.click(locate('a').withText('downloadable paper form to apply'));
+When('I selects download paper form', () => {
+  I.click(ptConfirmApplicationType.downloadPaperForm);
   I.waitForNumberOfTabs(2, 10);
   I.switchToNextTab();
+});
+
+Then('I am taken in to  the paper application form', () => {
+  I.waitInUrl(ptConfirmApplicationType.paperApplicationFormUrl);
+  I.closeCurrentTab();
 });
