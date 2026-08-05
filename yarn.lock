@@ -9547,9 +9547,9 @@ __metadata:
   linkType: hard
 
 "flatted@npm:^3.3.3":
-  version: 3.4.3
-  resolution: "flatted@npm:3.4.3"
-  checksum: 10/1d7fdd3e01a8a31cda3461e815e5ded470ae1fbb5c17fcfc8dbcba3019c1a7c5f244bf4024e9f0460d787c6d808d7a080eff021dd77ade2487407dd528e3171f
+  version: 3.4.4
+  resolution: "flatted@npm:3.4.4"
+  checksum: 10/5a6682ab87ed15e125419c61352c4bef26f310adceece03eae5f22c119d64ed47bfc0ee1948a77d0122559eaa86395ea06ef45b59bfe3db4fb13fb4cdff876de
   languageName: node
   linkType: hard
 
@@ -11845,10 +11845,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jose@npm:6.2.5":
-  version: 6.2.5
-  resolution: "jose@npm:6.2.5"
-  checksum: 10/d0e06fd0e0c3b3ea949049fc15db6724c60c1fa1fcb51ca830b2d513f6bbcaf70c4f80cc47cc463fed5991905846da6de323215413cdde057dc113cb694fc416
+"jose@npm:6.2.8":
+  version: 6.2.8
+  resolution: "jose@npm:6.2.8"
+  checksum: 10/d1534f56cf693dfbb4b433b72df469c3c858748fe627621e27d9c1e7894716fc1d0225923be3ae98153345b9823a25c0ac376bfccce3ed363a4c032cfd4e2f5b
   languageName: node
   linkType: hard
 
@@ -11934,14 +11934,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-yaml@npm:4.3.0":
-  version: 4.3.0
-  resolution: "js-yaml@npm:4.3.0"
+"js-yaml@npm:4.3.1":
+  version: 4.3.1
+  resolution: "js-yaml@npm:4.3.1"
   dependencies:
     argparse: "npm:^2.0.1"
   bin:
     js-yaml: bin/js-yaml.js
-  checksum: 10/2bcec3a8118d7f744badeb04e14366578d234a736f353d41fe35d2305e4ce2409a8e041d277f07cd6bbc8aaa12128d650a68ce43247072519bede20962d2126f
+  checksum: 10/2ce71b5d632abbd77da80447bf860e8a0264e54bffe94840984887d58b023761495b523727547904517a6107a1ef189854b361e0fc44995ee13a84f222d7bd42
   languageName: node
   linkType: hard
 
@@ -14724,7 +14724,7 @@ __metadata:
     jest-html-reporter: "npm:3.10.2"
     jest-junit: "npm:16.0.0"
     jest-pact: "npm:0.13.0"
-    jose: "npm:6.2.5"
+    jose: "npm:6.2.8"
     jquery: "npm:3.7.1"
     jsonwebtoken: "npm:^9.0.3"
     jwt-decode: "npm:4.0.0"
