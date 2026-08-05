@@ -16,9 +16,6 @@ Given('I am on the postcode page', () => {
 When('I enter postcode {string}', (postcode: string) => {
   I.fillField('input[name="addressPostcode"]', postcode);
 });
-When('I click Continue', () => {
-  I.click('Continue');
-});
 Then('I should see {string}', (outcome: string) => {
   I.see(outcome);
 });

@@ -13,10 +13,6 @@ Given('I select the "Open market rent determination application" option', () => 
   I.checkOption(ptConfirmApplicationType.openMarketRentDeterminationApplication);
 });
 
-When('I click Continue', () => {
-  I.click(ptConfirmApplicationType.continueButton);
-});
-
 Then('I am taken to the "Who is named on your tenancy" page', () => {
   I.waitForText(ptConfirmApplicationType.whoIsNamedOnYourTenancy);
 });

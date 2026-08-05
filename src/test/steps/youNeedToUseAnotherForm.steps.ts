@@ -38,6 +38,10 @@ Then('the citizen is taken to the online application form', () => {
   I.closeCurrentTab();
 });
 
+Then('user is taken to "You need to use another form to apply" page', () => {
+  I.waitForText(youNeedToUseAnotherForm.pageHeading);
+});
+
 When('the citizen selects the downloading the paper form link', async () => {
   I.waitForText(youNeedToUseAnotherForm.pageHeading);
   paperFormDownloadUrl = undefined;
