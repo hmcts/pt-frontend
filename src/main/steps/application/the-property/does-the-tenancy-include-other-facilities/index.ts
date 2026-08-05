@@ -1,7 +1,9 @@
+import { textAreaIsValidLength } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { CcdCaseData } from '@services/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'does-the-tenancy-include-other-facilities';
@@ -13,8 +15,7 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/doesTheTenancyIncludeOtherFacilities.njk`,
   showCancelButton: false,
-  //TODO: update isAnswered logic
-  isAnswered: () => false,
+  isAnswered: req => isAnswered(req.session.ccdCase),
   fields: [
     {
       name: 'propertyIncludesOtherFacilities',
@@ -50,3 +51,12 @@ export const step: StepDefinition = createFormStep({
     },
   ],
 });
+
+function isAnswered(ccdCase: CcdCaseData): boolean {
+  if (ccdCase.propertyIncludesOtherFacilities === 'yes') {
+    return Boolean(
+      ccdCase.propertyFacilitiesDescription && textAreaIsValidLength(ccdCase.propertyFacilitiesDescription)
+    );
+  }
+  return ccdCase.propertyIncludesOtherFacilities === 'no';
+}
