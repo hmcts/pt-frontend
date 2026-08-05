@@ -41,6 +41,7 @@ export interface CcdCaseData {
   // landlord details
   landlordPhoneNumber?: string;
   landlordHasLettingAgentOrRepresentative?: string;
+  landlordEmailAddress?: string;
 
   // property details
   propertyType?: string;
@@ -114,6 +115,7 @@ export interface ApplicationData {
   // landlord details
   landlordPhoneNumber?: string;
   landlordHasLettingAgentOrRepresentative?: string;
+  landlordEmailAddress?: string;
 
   // property details
   propertyType?: string;
