@@ -3,7 +3,7 @@ import { promisify } from 'node:util';
 import config from 'config';
 import { Application, type Request, type Response } from 'express';
 
-import { UserDetails, getRedirectUrl, getUserDetails } from '../auth/user/oidc';
+import { getRedirectUrl, getUserDetails } from '../auth/user/oidc';
 import { CALLBACK_URL, SIGN_IN_URL, SIGN_OUT_URL } from '../urls';
 
 import { Logger } from '@modules/logger';
@@ -22,35 +22,16 @@ export default function (app: Application): void {
   app.get(CALLBACK_URL, callbackHandler(protocol, port));
 }
 
-export function callbackHandler(protocol: string, port: string) {
-  return async (req: Request, res: Response): Promise<void> => {
+function callbackHandler(protocol: string, port: string) {
+  return async (req: Request, res: Response) => {
     if (typeof req.query.code === 'string') {
-      let user: UserDetails;
       try {
-        user = await getUserDetails(`${protocol}${res.locals.host}${port}`, req.query.code);
+        req.session.user = await getUserDetails(`${protocol}${res.locals.host}${port}`, req.query.code);
       } catch (e) {
         logger.error('Failed to get user details: ', e);
         return res.redirect(SIGN_IN_URL);
       }
-
-      const returnTo = req.session.returnTo;
-
-      req.session.regenerate(regenerateError => {
-        if (regenerateError) {
-          logger.error('Failed to regenerate session: ', regenerateError);
-          return res.redirect(SIGN_IN_URL);
-        }
-
-        req.session.user = user;
-
-        req.session.save(saveError => {
-          if (saveError) {
-            logger.error('Failed to save session: ', saveError);
-            return res.redirect(SIGN_IN_URL);
-          }
-          return res.redirect(returnTo || '/');
-        });
-      });
+      return req.session.save(() => res.redirect('/'));
     } else {
       return res.redirect(SIGN_IN_URL);
     }
