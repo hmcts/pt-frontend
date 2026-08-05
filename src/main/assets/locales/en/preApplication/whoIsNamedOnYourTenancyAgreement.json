@@ -1,0 +1,24 @@
+{
+  "pageHeading": "Who is named on your tenancy agreement",
+  "pageInfo1": "You are a tenant if you are the only person named on the tenancy agreement. This includes if you’re in a shared property with others who have their own individual tenancy agreements with the landlord.",
+  "pageInfo2": "You are a joint tenant if you signed the tenancy agreement with one or more people and are named with them and the landlord on the same tenancy agreement.",
+  "questionTitle": "Are you a tenant or joint tenant?",
+  "options": {
+    "tenant": {
+      "label": "Tenant",
+      "hint": "You and the landlord are the only people named on the tenancy agreement"
+    },
+    "jointTenant": {
+      "label": "Joint tenant",
+      "hint": "You and one or more other people are named on the same tenancy agreement with the landlord"
+    },
+    "notSure": {
+      "label": "I’m not sure"
+    }
+  },
+  "errors": {
+    "tenantOrJointTenant": {
+      "required": "Select whether you are a tenant or joint tenant"
+    }
+  }
+}

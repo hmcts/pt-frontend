@@ -13,6 +13,10 @@ describe('pre-application citizen flow config', () => {
       'you-need-to-use-another-form-non-english-address',
       'landlord-is-a-housing-association',
       'you-need-to-use-another-form-landlord-association',
+      'application-type',
+      'only-challenging-validity-of-landlord-notice',
+      'who-is-named-on-your-tenancy-agreement',
+      'you-need-to-use-another-form-joint-tenant',
     ]);
   });
 
