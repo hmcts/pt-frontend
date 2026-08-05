@@ -74,7 +74,7 @@
     "i18next-http-middleware": "3.9.7",
     "ioredis": "5.11.1",
     "jest-pact": "0.13.0",
-    "jose": "6.2.5",
+    "jose": "6.2.8",
     "jquery": "3.7.1",
     "jsonwebtoken": "^9.0.3",
     "jwt-decode": "4.0.0",
