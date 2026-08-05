@@ -5,7 +5,7 @@
   "questionHint": "cy We will only call you if we need to contact you urgently",
   "errors": {
     "phoneNumberForCalls": {
-      "invalid": "cy Enter a valid phone number for phone calls"
+      "invalid": "cy Phone number must be in the correct format, like 01632 960 001, 07700 900 982 or +44 808 157 0192"
     }
   }
 }

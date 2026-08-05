@@ -14,6 +14,10 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/contactByPhone.njk`,
   showCancelButton: false,
+  translationKeys: {
+    pageTitle: 'pageTitle',
+    contactByPhoneInfo: 'contactByPhoneInfo',
+  },
   isAnswered: req =>
     Boolean(req.session.ccdCase?.phoneNumberForCalls && isValidPhoneNumber(req.session.ccdCase?.phoneNumberForCalls)),
   fields: [
