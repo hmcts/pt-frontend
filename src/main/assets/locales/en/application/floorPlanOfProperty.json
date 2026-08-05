@@ -1,0 +1,17 @@
+{
+  "questionTitle": "Do you have a floor plan of the property?",
+  "options": {
+    "propertyLayoutDescription": {
+      "label": "Tell us the number and type of rooms, and their sizes (optional)",
+      "hint": "Enter all of the rooms in your property and their sizes if you know them. Use any format - for example, feet or metres"
+    }
+  },
+  "errors": {
+    "hasFloorPlanOfProperty": {
+      "required": "Enter whether you have a floor plan of the property"
+    },
+    "propertyLayoutDescription": {
+      "invalid": "Enter a valid description of the property layout"
+    }
+  }
+}

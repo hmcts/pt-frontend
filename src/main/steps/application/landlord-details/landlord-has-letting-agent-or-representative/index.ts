@@ -16,6 +16,7 @@ export const step: StepDefinition = createFormStep({
   translationKeys: {
     pageTitle: 'questionTitle',
   },
+  isAnswered: req => Boolean(req.session.ccdCase?.landlordHasLettingAgentOrRepresentative),
   fields: [
     {
       name: 'landlordHasLettingAgentOrRepresentative',

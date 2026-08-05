@@ -70,7 +70,14 @@ const sectionDefs = [
     id: 'propertyDetails',
     groupId: 'theProperty',
     titleKey: 'taskList.propertyDetails',
-    steps: ['property-address'],
+    steps: [
+      'what-are-you-renting',
+      'floor-plan-of-property',
+      'upload-floor-plan-of-property',
+      'indoor-features',
+      'does-the-tenancy-include-other-facilities',
+      'property-address',
+    ],
   },
   {
     id: 'propertyInspection',

@@ -32,11 +32,24 @@ export interface CcdCaseData {
   applicantLastName?: string;
   applicationType?: string;
   tenancyType?: string;
+
+  // contact preferences
   textUpdates?: string | boolean;
   textUpdatesPhoneNumber?: string;
   phoneNumberForCalls?: string;
+
+  // landlord details
   landlordPhoneNumber?: string;
   landlordHasLettingAgentOrRepresentative?: string;
+
+  // property details
+  propertyType?: string;
+  propertyTypeRoomDescription?: string;
+  propertyTypeFlatFloor?: string;
+  propertyTypeOtherDescription?: string;
+  hasFloorPlanOfProperty?: string | boolean;
+  propertyLayoutDescription?: string;
+  indoorFeatures?: string;
 }
 
 /** Case representation used by services: id + case_data. */
@@ -82,6 +95,9 @@ export interface StartCallbackData {
 
 export interface ApplicationData {
   caseReference: bigint;
+  createdDate: string;
+  submittedOn?: string;
+
   applicantFirstName: string;
   applicantLastName: string;
   email: string;
@@ -89,11 +105,22 @@ export interface ApplicationData {
   applicantIdamUserId: UUID;
   applicationType: string;
   tenancyType?: string;
+
+  // contact preferences
   textUpdates?: string | boolean;
   textUpdatesPhoneNumber?: string;
   phoneNumberForCalls?: string;
+
+  // landlord details
   landlordPhoneNumber?: string;
   landlordHasLettingAgentOrRepresentative?: string;
-  createdDate: string;
-  submittedOn?: string;
+
+  // property details
+  propertyType?: string;
+  propertyTypeRoomDescription?: string;
+  propertyTypeFlatFloor?: string;
+  propertyTypeOtherDescription?: string;
+  hasFloorPlanOfProperty?: string | boolean;
+  propertyLayoutDescription?: string;
+  indoorFeatures?: string;
 }
