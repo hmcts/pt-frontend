@@ -1,4 +1,18 @@
 {
-  "pageTitle": "Does the tenancy include any other facilities?",
-  "heading": "Does the tenancy include any other facilities?"
+  "questionTitle": "Does the tenancy include any other facilities?",
+  "questionHint": "For example, a garden, garage, separate buildings or land",
+  "options": {
+    "propertyFacilitiesDescription": {
+      "label": "What other facilities does your tenancy include?"
+    }
+  },
+  "errors": {
+    "propertyIncludesOtherFacilities": {
+      "required": "Enter does the tenancy include any other facilities"
+    },
+    "propertyFacilitiesDescription": {
+      "required": "Enter what other facilities your tenancy includes",
+      "invalid": "Enter a valid description of the other facilities your tenancy includes"
+    }
+  }
 }

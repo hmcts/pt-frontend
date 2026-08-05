@@ -81,6 +81,8 @@ const sectionDefs = [
       'upload-floor-plan-of-property',
       'indoor-features',
       'does-the-tenancy-include-other-facilities',
+      'do-you-share-the-property-with-landlord',
+      'upload-photo-outside-of-property',
       'property-address',
     ],
   },

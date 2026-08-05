@@ -51,6 +51,10 @@ export interface CcdCaseData {
   hasFloorPlanOfProperty?: string | boolean;
   propertyLayoutDescription?: string;
   indoorFeatures?: string;
+  propertyIncludesOtherFacilities?: string | boolean;
+  propertyFacilitiesDescription?: string;
+  propertySharedWithLandlord?: string | boolean;
+  propertySharedWithLandlordDetails?: string;
 }
 
 /** Case representation used by services: id + case_data. */
@@ -125,4 +129,8 @@ export interface ApplicationData {
   hasFloorPlanOfProperty?: string | boolean;
   propertyLayoutDescription?: string;
   indoorFeatures?: string;
+  propertyIncludesOtherFacilities?: string | boolean;
+  propertyFacilitiesDescription?: string;
+  propertySharedWithLandlord?: string | boolean;
+  propertySharedWithLandlordDetails?: string;
 }

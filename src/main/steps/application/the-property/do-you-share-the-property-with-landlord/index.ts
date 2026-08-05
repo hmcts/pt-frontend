@@ -4,41 +4,41 @@ import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
 const journeyName = 'application';
-const stepName = 'does-the-tenancy-include-other-facilities';
+const stepName = 'do-you-share-the-property-with-landlord';
 
 export const step: StepDefinition = createFormStep({
   stepName,
   journeyFolder: journeyName,
   stepDir: __dirname,
   flowConfig,
-  customTemplate: `${__dirname}/doesTheTenancyIncludeOtherFacilities.njk`,
+  customTemplate: `${__dirname}/doYouShareThePropertyWithLandlord.njk`,
   showCancelButton: false,
   //TODO: update isAnswered logic
   isAnswered: () => false,
   fields: [
     {
-      name: 'propertyIncludesOtherFacilities',
+      name: 'propertySharedWithLandlord',
       type: 'radio',
       required: true,
       isPageHeading: true,
       legendClasses: 'govuk-fieldset__legend--l',
       translationKey: { label: 'questionTitle', hint: 'questionHint' },
-      errorMessage: 'errors.propertyIncludesOtherFacilities.required',
+      errorMessage: 'errors.propertySharedWithLandlord.required',
       options: [
         {
           value: 'yes',
           translationKey: 'common:yes',
           subFields: {
-            propertyFacilitiesDescription: {
-              name: 'propertyFacilitiesDescription',
+            propertySharedWithLandlordDetails: {
+              name: 'propertySharedWithLandlordDetails',
               type: 'textarea',
               maxLength: 500,
               required: true,
-              errorMessage: 'errors.propertyFacilitiesDescription.required',
-              translationKey: { label: 'options.propertyFacilitiesDescription.label' },
+              errorMessage: 'errors.propertySharedWithLandlordDetails.required',
+              translationKey: { label: 'options.propertySharedWithLandlordDetails.label' },
               validator: (value): boolean | string => {
                 if (value && String(value).length > 500) {
-                  return 'errors.propertyFacilitiesDescription.invalid';
+                  return 'errors.propertySharedWithLandlordDetails.invalid';
                 }
                 return true;
               },
