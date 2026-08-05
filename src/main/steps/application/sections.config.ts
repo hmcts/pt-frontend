@@ -63,7 +63,7 @@ const sectionDefs = [
     id: 'theCurrentRentAndOtherCosts',
     groupId: 'theRent',
     titleKey: 'taskList.theCurrentRentAndOtherCosts',
-    steps: ['current-rent-and-other-costs', 'rent-frequency'],
+    steps: ['current-rent-and-other-costs', 'tribunal-previously-determined-rent', 'rent-frequency'],
   },
   {
     id: 'whatYouThinkMarketRentShouldBe',
