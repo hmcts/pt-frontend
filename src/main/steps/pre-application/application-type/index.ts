@@ -4,30 +4,34 @@ import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
 const journeyName = 'preApplication';
-const stepName = 'landlord-is-a-housing-association';
+const stepName = 'application-type';
 
 export const step: StepDefinition = createFormStep({
   stepName,
   journeyFolder: journeyName,
   stepDir: __dirname,
   flowConfig,
-  customTemplate: `${__dirname}/landlordIsAHousingAssociation.njk`,
+  customTemplate: `${__dirname}/applicationType.njk`,
   showCancelButton: false,
   translationKeys: {
     pageTitle: 'questionTitle',
   },
   fields: [
     {
-      name: 'landlordIsAHousingAssociation',
+      name: 'applicationType',
       type: 'radio',
       required: true,
-      isPageHeading: true,
-      legendClasses: 'govuk-fieldset__legend--l',
+      isPageHeading: false,
+      legendClasses: 'govuk-fieldset__legend--m',
       translationKey: { label: 'questionTitle' },
-      errorMessage: 'errors.landlordIsAHousingAssociation.required',
+      errorMessage: 'errors.applicationType.required',
       options: [
-        { value: 'yes', translationKey: 'common:yes' },
-        { value: 'no', translationKey: 'common:no' },
+        {
+          value: 'openMarketRentDetermination',
+          translationKey: 'options.openMarketRentDetermination.label',
+          hint: 'options.openMarketRentDetermination.hint',
+        },
+        { value: 'onlyChallengeLegalValidity', translationKey: 'options.onlyChallengeLegalValidity.label' },
       ],
     },
   ],

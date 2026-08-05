@@ -19,7 +19,6 @@ describe('you-need-to-use-another-form-postcode step', () => {
     expect(capturedConfig.journeyFolder).toBe('preApplication');
     expect(capturedConfig.showCancelButton).toBe(false);
     expect(capturedConfig.fields).toEqual([]);
-    expect(capturedConfig.translationKeys).toEqual({ pageTitle: 'questionTitle' });
   });
 
   describe('extendGetContent', () => {

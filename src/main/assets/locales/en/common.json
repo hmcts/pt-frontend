@@ -13,6 +13,7 @@
     "saveForLater": "Save for later",
     "cancel": "Cancel"
   },
+  "youNeedToUseAnotherForm": "You need to use another form to apply",
   "myApplications": "My applications",
   "startNewApplicationLinkText": "Start a new application",
   "myApplicationsTable": {
@@ -82,7 +83,7 @@
     "contactPreferences": "Contact preferences",
     "whoIsOnTheTenancy": "Who is on the tenancy",
     "landlordDetails": "Landlord details including any representatives",
-    "landlordsNotice": "Landlord's notice proposing a new rent",
+    "landlordsNotice": "Landlord’s notice proposing a new rent",
     "yourTenancyAgreement": "Your tenancy agreement",
     "theCurrentRentAndOtherCosts": "The current rent and other costs",
     "whatYouThinkMarketRentShouldBe": "What you think the market rent should be",
