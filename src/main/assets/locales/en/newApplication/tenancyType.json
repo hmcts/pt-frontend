@@ -1,5 +1,5 @@
 {
-  "questionTitle": "What type of tenancy are you applying about?",
+  "questionTitle": "Which type of tenancy are you applying about?",
   "options": {
     "assuredPeriodicTenancy": {
       "label": "Assured periodic tenancy",
