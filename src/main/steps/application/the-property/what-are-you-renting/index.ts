@@ -1,3 +1,4 @@
+import { textAreaIsValidLength } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
 
 import { createFormStep } from '@modules/steps';
@@ -109,24 +110,12 @@ function isAnswered(ccdCase: CcdCaseData): boolean {
     case 'detached':
       return true;
     case 'roomOrRooms':
-      return isValidLength(propertyTypeRoomDescription);
+      return textAreaIsValidLength(propertyTypeRoomDescription);
     case 'flat':
-      return isValidLength(propertyTypeFlatFloor);
+      return textAreaIsValidLength(propertyTypeFlatFloor);
     case 'other':
       return Boolean(propertyTypeOtherDescription);
     default:
       return false;
   }
-}
-
-/**
- * Validates whether a text box should be marked as isAnswered
- * If the optional text box was left blank - isAnswered = true
- * If the optional text box was filled with text and is less than max value of 500 - isAnswered = true
- *
- * @param value - string entered for given text box
- * @param max - maximum valid length
- */
-function isValidLength(value: string | undefined, max = 500): boolean {
-  return !value || String(value).length <= max;
 }

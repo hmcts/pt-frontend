@@ -1,4 +1,4 @@
-import { looksLikeHtml, stripHtmlTags } from '../../../../main/steps/utils/fieldValidators';
+import { looksLikeHtml, stripHtmlTags, textAreaIsValidLength } from '../../../../main/steps/utils/fieldValidators';
 
 describe('looksLikeHtml', () => {
   it('returns false for comparison text with many spaces after <', () => {
@@ -44,5 +44,15 @@ describe('stripHtmlTags', () => {
   it('leaves plain-text XSS-style attribute injection unchanged (spike gap)', () => {
     const input = '" onfocus="alert(1)';
     expect(stripHtmlTags(input)).toBe(input);
+  });
+});
+
+describe('textAreaIsValidLength', () => {
+  it('returns false when value for text area exceeds max', () => {
+    expect(textAreaIsValidLength('Here is my test string', 5)).toBe(false);
+  });
+
+  it('returns true when value entered is a valid length', () => {
+    expect(textAreaIsValidLength('Here is my test string')).toBe(true);
   });
 });
