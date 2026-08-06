@@ -55,6 +55,11 @@ export interface CcdCaseData {
   propertyFacilitiesDescription?: string;
   propertySharedWithLandlord?: string | boolean;
   propertySharedWithLandlordDetails?: string;
+  furnitureProvided?: string | boolean;
+  furnitureProvidedDetails?: string;
+  servicesProvided?: string | boolean;
+  servicesProvidedDetails?: string;
+  hasRepairsAndImprovements?: string | boolean;
 }
 
 /** Case representation used by services: id + case_data. */
@@ -133,4 +138,9 @@ export interface ApplicationData {
   propertyFacilitiesDescription?: string;
   propertySharedWithLandlord?: string | boolean;
   propertySharedWithLandlordDetails?: string;
+  furnitureProvided?: string | boolean;
+  furnitureProvidedDetails?: string;
+  servicesProvided?: string | boolean;
+  servicesProvidedDetails?: string;
+  hasRepairsAndImprovements?: string | boolean;
 }

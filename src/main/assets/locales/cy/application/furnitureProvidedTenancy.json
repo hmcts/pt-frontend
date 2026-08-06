@@ -1,0 +1,18 @@
+{
+  "questionTitle": "cy Is furniture provided in your tenancy?",
+  "options": {
+    "furnitureProvidedDetails": {
+      "label": "cy Describe the furniture provided",
+      "hint": "cy Enter a list of furniture items and appliances provided in the tenancy. This may be included in your contract, sometimes called an ‘inventory’."
+    }
+  },
+  "errors": {
+    "furnitureProvided": {
+      "required": "cy Enter whether furniture provided in your tenancy"
+    },
+    "furnitureProvidedDetails": {
+      "required": "cy Enter a description of the furniture provided",
+      "invalid": "cy Enter a valid description of the furniture provided"
+    }
+  }
+}
