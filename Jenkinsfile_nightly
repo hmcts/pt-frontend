@@ -29,6 +29,11 @@ def ptE2eVaultSecrets = [
 
 withNightlyPipeline(type, product, component) {
   enableSlackNotifications('#pt-tech')
-  loadVaultSecrets(["pt-kv-aat": ptE2eVaultSecrets])
+  loadVaultSecrets(["pt-kv-${env.ENVIRONMENT}": ptE2eVaultSecrets])
   enableFortifyScan()
+
+   afterAlways('fortify-scan') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
+  }
 }
+
