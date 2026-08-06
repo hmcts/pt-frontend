@@ -92,10 +92,23 @@ describe('application rent-payment-frequency step', () => {
   });
 
   // AC03
-  it.each(['abc', '£850', '1,200', '-850', '850.555'])('errors when the amount is %s', async amount => {
+  it.each(['abc', '£850', '1,200', '-850'])('errors when the amount is %s', async amount => {
     const { res } = await post(body({ rentPaymentFrequency: 'MONTHLY', [monthlyField]: amount }));
 
     expect(res.redirect).not.toHaveBeenCalled();
+  });
+
+  it('errors when the amount has more than two decimal places', async () => {
+    const { res } = await post(body({ rentPaymentFrequency: 'MONTHLY', [monthlyField]: '1033.333' }));
+
+    expect(res.redirect).not.toHaveBeenCalled();
+  });
+
+  it('accepts an amount with pence', async () => {
+    const { req, res } = await post(body({ rentPaymentFrequency: 'MONTHLY', [monthlyField]: '1033.33' }));
+
+    expect(res.redirect).toHaveBeenCalled();
+    expect(req.session.formData[stepName][monthlyField]).toBe('1033.33');
   });
 
   it('does not validate the amounts for frequencies that are not selected', async () => {
