@@ -2,7 +2,7 @@ import { flowConfig } from '../../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { isValidRentAmount } from '@utils/rentAmount';
+import { getRentAmountError } from '@utils/rentAmount';
 
 const journeyName = 'application';
 const stepName = 'rent-payment-frequency';
@@ -43,10 +43,12 @@ const amountSubField = (frequency: keyof typeof amountFieldNames) => {
       },
       errorMessage: `errors.${name}.required`,
       validator: (value: unknown): boolean | string => {
-        if (value && !isValidRentAmount(value as string)) {
-          return `errors.${name}.invalid`;
+        if (!value) {
+          return true;
         }
-        return true;
+
+        const error = getRentAmountError(value as string);
+        return error ? `errors.${name}.${error}` : true;
       },
     },
   };
