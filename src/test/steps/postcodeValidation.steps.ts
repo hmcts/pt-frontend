@@ -6,7 +6,7 @@ import { postcodeData } from '../functional/page-data/ptpostcode.page.data';
 const { I } = inject();
 
 const ptUrl = (path: string): string => new URL(path, testConfig.TEST_URL).toString();
-Given('I am on the postcode page', () => {
+Given('I landed on postal code page successfully', () => {
   I.amOnPage(ptUrl(ptApplyingFor.applyingForUrl));
   I.waitForText(ptApplyingFor.pageHeading);
   I.checkOption(ptApplyingFor.applyingForMyselfOption);

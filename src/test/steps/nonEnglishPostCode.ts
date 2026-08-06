@@ -6,16 +6,19 @@ const { I } = inject();
 
 const ptUrl = (path: string): string => new URL(path, testConfig.TEST_URL).toString();
 
-Given('I am on the "Sorry, this service is only available in England" page', () => {
-  I.amOnPage(ptUrl(ptApplyingFor.applyingForUrl));
-  I.waitForText(ptApplyingFor.pageHeading);
-  I.checkOption(ptApplyingFor.applyingForMyselfOption);
-  I.click(ptApplyingFor.continueButton);
-  I.waitForText(ptPostalCodeOutsideCoverage.pageHeading);
-  I.fillField('input[name="addressPostcode"]', ptNonEnglishPostCode.nonEnglishpostcode);
-  I.click(ptPostalCodeOutsideCoverage.continueButton);
-  I.waitForText(ptNonEnglishPostCode.pageHeading);
-});
+Given(
+  'I enter non english postal code and navigate to the "Sorry, this service is only available in England" page',
+  () => {
+    I.amOnPage(ptUrl(ptApplyingFor.applyingForUrl));
+    I.waitForText(ptApplyingFor.pageHeading);
+    I.checkOption(ptApplyingFor.applyingForMyselfOption);
+    I.click(ptApplyingFor.continueButton);
+    I.waitForText(ptPostalCodeOutsideCoverage.pageHeading);
+    I.fillField('input[name="addressPostcode"]', ptNonEnglishPostCode.nonEnglishpostcode);
+    I.click(ptPostalCodeOutsideCoverage.continueButton);
+    I.waitForText(ptNonEnglishPostCode.pageHeading);
+  }
+);
 
 When('I select scotland link', () => {
   I.click(ptNonEnglishPostCode.scotlandLink);
@@ -35,7 +38,7 @@ When('I select the guidance gov.uk link', () => {
   I.switchToNextTab();
 });
 
-Then('I should be redirected rentalrights page', () => {
+Then('I should be redirected to rentalrights page', () => {
   I.waitInUrl(ptNonEnglishPostCode.renterRightsUrl);
   I.waitForText(ptNonEnglishPostCode.renterRightsHeading);
 });

@@ -8,12 +8,9 @@ const ptUrl = (path: string): string => new URL(path, testConfig.TEST_URL).toStr
 
 Given('the citizen is on the Applying For page', () => {
   I.amOnPage(ptUrl(ptStartingOrReturning.startingOrReturningUrl));
-
   I.waitForText(ptStartingOrReturning.pageHeading);
   I.checkOption(ptStartingOrReturning.startingOptionLabel);
-
   I.click(ptStartingOrReturning.continueButton);
-
   I.waitForText(ptApplyingFor.pageHeading, 10);
 });
 
@@ -25,7 +22,7 @@ When('the citizen selects applying on behalf of someone else', () => {
   I.checkOption(ptApplyingFor.applyingForSomeoneElseOption);
 });
 
-When('the citizen clicks continue', () => {
+When('the citizen clicks Continue', () => {
   I.click(ptApplyingFor.continueButton);
 });
 

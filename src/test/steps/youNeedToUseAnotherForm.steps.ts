@@ -12,7 +12,7 @@ async function usePlaywrightPage(action: (page: import('playwright').Page) => Pr
 
 let paperFormDownloadUrl: string | undefined;
 
-Given('the citizen is on the you need to use another form to apply page', () => {
+Given('I select apply for some one else option and landed on the you need to use another form to apply page', () => {
   I.amOnPage(ptUrl(ptStartingOrReturning.startingOrReturningUrl));
   I.waitForText(ptStartingOrReturning.pageHeading);
   I.checkOption(ptStartingOrReturning.startingOptionLabel);

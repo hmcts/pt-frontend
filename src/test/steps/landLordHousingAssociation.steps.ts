@@ -7,7 +7,6 @@ const ptUrl = (path: string): string => new URL(path, testConfig.TEST_URL).toStr
 
 Given('the citizen is on the landlord housing association page', () => {
   I.amOnPage(ptUrl(landlordHousingAssociation.landingHousingAssociationUrl));
-
   I.waitForText(landlordHousingAssociation.pageHeading);
 });
 When('the citizen selects No', () => {
@@ -21,6 +20,7 @@ When('the citizen clicks Continue', () => {
 });
 Then('the citizen is taken to the IDAM account creation page', () => {
   I.waitInUrl('/idam');
+  I.waitForText(landlordHousingAssociation.anotherFormPageHeading);
 });
 Then('the citizen is taken to the you need to use another form page', () => {
   I.waitForText(landlordHousingAssociation.anotherFormPageHeading);
