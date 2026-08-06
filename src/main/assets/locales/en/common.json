@@ -1,6 +1,7 @@
 {
   "serviceName": "Apply for an open market rent determination",
   "languageToggle": "<a href=\"?lang=cy\" class=\"govuk-link govuk-link--no-visited-state app-phase-banner__link language\">Cymraeg</a>",
+  "returnToGovUk": "You can also return to our <a class=\"govuk-link govuk-link--no-visited-state\" href=\"https://www.gov.uk/guidance/apply-for-an-open-market-rent-determination/\" target=\"_blank\" rel=\"noopener noreferrer\">guidance on GOV.UK</a>.",
   "contactUsForHelpText": "Contact us for help",
   "yes": "Yes",
   "no": "No",
@@ -12,6 +13,7 @@
     "saveForLater": "Save for later",
     "cancel": "Cancel"
   },
+  "youNeedToUseAnotherForm": "You need to use another form to apply",
   "myApplications": "My applications",
   "startNewApplicationLinkText": "Start a new application",
   "myApplicationsTable": {
@@ -81,7 +83,7 @@
     "contactPreferences": "Contact preferences",
     "whoIsOnTheTenancy": "Who is on the tenancy",
     "landlordDetails": "Landlord details including any representatives",
-    "landlordsNotice": "Landlord's notice proposing a new rent",
+    "landlordsNotice": "Landlord’s notice proposing a new rent",
     "yourTenancyAgreement": "Your tenancy agreement",
     "theCurrentRentAndOtherCosts": "The current rent and other costs",
     "whatYouThinkMarketRentShouldBe": "What you think the market rent should be",

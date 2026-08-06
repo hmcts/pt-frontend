@@ -7,7 +7,7 @@ import { Logger } from '@modules/logger';
 const logger = Logger.getLogger('service-auth-token');
 let token: string;
 
-export const getTokenFromApi = (): void => {
+export const getTokenFromApi = async (): Promise<void> => {
   logger.info('Refreshing service auth token');
 
   const url: string = config.get('authProvider.url') + '/lease';
@@ -16,10 +16,12 @@ export const getTokenFromApi = (): void => {
   const oneTimePassword = createOneTimePassword(secret);
   const body = { microservice, oneTimePassword };
 
-  axios
-    .post(url, body)
-    .then(response => (token = response.data))
-    .catch(err => logger.error(err.response?.status, err.response?.data));
+  try {
+    const response = await axios.post(url, body);
+    token = response.data;
+  } catch (err) {
+    logger.error(err.response?.status, err.response?.data);
+  }
 };
 
 const createOneTimePassword = (secret: string): string => {
@@ -32,8 +34,8 @@ const createOneTimePassword = (secret: string): string => {
   return totp.generate();
 };
 
-export const initAuthToken = (): void => {
-  getTokenFromApi();
+export const initAuthToken = async (): Promise<void> => {
+  await getTokenFromApi();
   setInterval(getTokenFromApi, 1000 * 60 * 60);
 };
 

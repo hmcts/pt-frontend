@@ -1,0 +1,19 @@
+{
+  "pageHeading": "cy Application type",
+  "pageInfo": "cy If you are challenging a rent increase, you can also challenge the legal validity of the landlord’s notice. You can either challenge this as part of your open market determination application or only challenge the legal validity of the landlord’s notice.",
+  "questionTitle": "cy Which application do you want to make?",
+  "options": {
+    "openMarketRentDetermination": {
+      "label": "cy Open market rent determination application",
+      "hint": "cy After a rent increase or an excessive rent in the first 6 months of a tenancy"
+    },
+    "onlyChallengeLegalValidity": {
+      "label": "cy Only challenge the legal validity of a landlord’s notice proposing a new rent"
+    }
+  },
+  "errors": {
+    "applicationType": {
+      "required": "cy Select which application you want to make"
+    }
+  }
+}

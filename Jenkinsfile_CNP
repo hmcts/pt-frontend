@@ -1,7 +1,8 @@
 #!groovy
 
-@Library("Infrastructure")
+@Library("Infrastructure@2.4.8")
 
+import uk.gov.hmcts.contino.AppPipelineDsl
 import uk.gov.hmcts.contino.GithubAPI
 
 def type = "nodejs"
@@ -47,6 +48,17 @@ withPipeline(type, product, component) {
       env.XUI_BASE_URI = "https://xui-pt-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
       env.CASE_API_URL = "https://pt-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
     }
+    enablePactAs([
+      AppPipelineDsl.PactRoles.CONSUMER,
+      AppPipelineDsl.PactRoles.CONSUMER_DEPLOY_CHECK
+    ])
+  }
 
+  onMaster() {
+    env.TEST_URL = "https://pt.aat.platform.hmcts.net/"
+    enablePactAs([
+      AppPipelineDsl.PactRoles.CONSUMER,
+      AppPipelineDsl.PactRoles.CONSUMER_DEPLOY_CHECK
+    ])
   }
 }
