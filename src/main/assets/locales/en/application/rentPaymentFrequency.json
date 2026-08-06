@@ -1,0 +1,56 @@
+{
+  "pageTitle": "How often do you pay your rent?",
+  "questionTitle": "How often do you pay your rent?",
+  "questionHint": "In your current tenancy agreement",
+  "options": {
+    "WEEKLY": {
+      "label": "Weekly"
+    },
+    "FORTNIGHTLY": {
+      "label": "Fortnightly (every 2 weeks)"
+    },
+    "MONTHLY": {
+      "label": "Monthly"
+    },
+    "YEARLY": {
+      "label": "Yearly"
+    }
+  },
+  "rentCostWeekly": {
+    "label": "How much is the current weekly rent?",
+    "hint": "Shown in your tenancy agreement"
+  },
+  "rentCostFortnightly": {
+    "label": "How much is the current fortnightly rent?",
+    "hint": "Shown in your tenancy agreement"
+  },
+  "rentCostMonthly": {
+    "label": "How much is the current monthly rent?",
+    "hint": "Shown in your tenancy agreement"
+  },
+  "rentCostYearly": {
+    "label": "How much is the current yearly rent?",
+    "hint": "Shown in your tenancy agreement"
+  },
+  "errors": {
+    "rentPaymentFrequency": {
+      "required": "Select how often you pay your rent"
+    },
+    "rentCostWeekly": {
+      "required": "Enter the current weekly rent",
+      "invalid": "Current rent amount must contain numbers only"
+    },
+    "rentCostFortnightly": {
+      "required": "Enter the current fortnightly rent",
+      "invalid": "Current rent amount must contain numbers only"
+    },
+    "rentCostMonthly": {
+      "required": "Enter the current monthly rent",
+      "invalid": "Current rent amount must contain numbers only"
+    },
+    "rentCostYearly": {
+      "required": "Enter the current yearly rent",
+      "invalid": "Current rent amount must contain numbers only"
+    }
+  }
+}
