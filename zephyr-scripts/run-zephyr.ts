@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { execSync } from 'node:child_process';
+import * as fs from 'node:fs';
 import * as path from 'node:path';
 
 import { runZephyr } from '@hmcts/zephyr-automation-nodejs';
@@ -8,6 +9,17 @@ import { mergeCreatedCycleIntoTargetCycle } from './zephyr-cycle-folder';
 import { createZephyrOptions } from './zephyr-util';
 
 const MIN_JAVA_MAJOR_VERSION = 21;
+const JAR_PATH = path.resolve(process.cwd(), 'lib/uk.gov.hmcts-zephyr-automation-independent.jar');
+const FETCH_JAR_SCRIPT = path.resolve(process.cwd(), 'zephyr-scripts/fetch-zephyr-jar.sh');
+
+function ensureZephyrJar(): void {
+  if (fs.existsSync(JAR_PATH)) {
+    return;
+  }
+
+  console.log(`Zephyr jar not found at ${JAR_PATH}; fetching via fetch-zephyr-jar.sh`);
+  execSync(`bash "${FETCH_JAR_SCRIPT}"`, { stdio: 'inherit' });
+}
 
 function assertJavaVersion(): void {
   try {
@@ -76,6 +88,7 @@ const envCycleName = process.env['EXECUTION_TEST_CYCLE_NAME']?.trim();
 const cycleName = envCycleName || (isCreateExecution ? buildDefaultCycleName() : undefined);
 
 console.log(`Running Zephyr with actionType=${actionType}, processType=${processType}, reportPath=${reportPath}`);
+ensureZephyrJar();
 assertJavaVersion();
 const zephyrOptions = createZephyrOptions(actionType, processType, reportPath);
 console.log(`Using Jira project id ${zephyrOptions.jiraProjectId}`);

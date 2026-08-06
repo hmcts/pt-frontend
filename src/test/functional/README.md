@@ -14,7 +14,7 @@ To run tests and upload results to Jira/Zephyr:
 ```bash
 export JIRA_AUTH_TOKEN='Bearer ...'
 export IDAM_PT_USER_PASSWORD='...'
-yarn zephyr:test:functional
+yarn test:functional:zephyr
 ```
 
 ## Folder structure
@@ -50,7 +50,7 @@ lib/
 | --------------------------- | --------------------------------------------------------------------------- |
 | Node 18+                    |                                                                             |
 | Yarn                        |                                                                             |
-| Java 21+                    | Required for Zephyr upload (`yarn zephyr:test:functional`)                  |
+| Java 21+                    | Required for Zephyr upload (`yarn test:functional:zephyr`)                  |
 | Azure Key Vault `pt-kv-aat` | Citizen test user password                                                  |
 | `JIRA_AUTH_TOKEN`           | Required for Zephyr upload (`JIRA_PROJECT_ID` defaults to `29506` for PTSD) |
 
@@ -78,12 +78,6 @@ TEST_HEADLESS=false yarn test:functional
 
 ```bash
 TEST_URL=https://pt.demo.platform.hmcts.net yarn test:functional
-```
-
-### Clear previous outputs
-
-```bash
-yarn reset-test-outputs
 ```
 
 ## Configuration
@@ -132,13 +126,13 @@ Each scenario uses `@JIRA-EPIC:` on the feature and `@JIRA-TEST-KEY:` on each sc
 
 Uploads Cucumber JSON results to HMCTS Jira/Zephyr, following the same pattern as [opal-frontend](https://github.com/hmcts/opal-frontend): CodeceptJS → Cucumber JSON → `@hmcts/zephyr-automation-nodejs` → Java automation jar.
 
-### Yarn scripts
+### Yarn script
 
-| Script                        | Purpose                                                              |
-| ----------------------------- | -------------------------------------------------------------------- |
-| `yarn zephyr:test:functional` | Run functional tests, then upload results to Jira/Zephyr             |
-| `yarn fetch-zephyr-jar`       | Download/update `lib/uk.gov.hmcts-zephyr-automation-independent.jar` |
-| `yarn reset-test-outputs`     | Clear `functional-output/` before a fresh test run                   |
+| Script                        | Purpose                                                                 |
+| ----------------------------- | ----------------------------------------------------------------------- |
+| `yarn test:functional:zephyr` | Clear outputs, run functional tests, then upload results to Jira/Zephyr |
+
+The jar at `lib/uk.gov.hmcts-zephyr-automation-independent.jar` is committed; `run-zephyr.ts` fetches it via Maven only if missing. To update the jar manually: `bash zephyr-scripts/fetch-zephyr-jar.sh`.
 
 ### Jira tags
 
@@ -176,7 +170,7 @@ Default cycle names use the local timestamp (`pt-frontend functional YYYY-MM-DD 
 
 ### Advanced commands
 
-Day-to-day use only needs `yarn zephyr:test:functional`. `run-zephyr.ts` defaults to `CREATE_EXECUTION` against `functional-output/zephyr/cucumber-report.json`. Override with `--action-type` when needed:
+Day-to-day use only needs `yarn test:functional:zephyr`. `run-zephyr.ts` defaults to `CREATE_EXECUTION` against `functional-output/zephyr/cucumber-report.json`. Override with `--action-type` when needed:
 
 | Action type        | Purpose                                              | When to use                                   |
 | ------------------ | ---------------------------------------------------- | --------------------------------------------- |
