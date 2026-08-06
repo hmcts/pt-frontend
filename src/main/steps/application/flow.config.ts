@@ -21,5 +21,8 @@ export const flowConfig: JourneyFlowConfig = {
     'upload-floor-plan-of-property': {
       showCondition: (req: Request) => getFormData(req, 'floor-plan-of-property').hasFloorPlanOfProperty === 'yes',
     },
+    'upload-evidence-improvements-or-repairs': {
+      showCondition: (req: Request) => getFormData(req, 'repairs-and-improvements').hasRepairsAndImprovements === 'yes',
+    },
   } satisfies Partial<Record<ApplicationStepName, StepConfig>>,
 };
