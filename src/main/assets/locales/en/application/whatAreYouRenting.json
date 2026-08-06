@@ -29,7 +29,7 @@
   },
   "errors": {
     "propertyType": {
-      "required": "Enter what you are renting"
+      "required": "Select what you are renting"
     },
     "roomOrRoomsDescription": {
       "invalid": "Enter a valid description of the room or rooms you ar renting"
@@ -38,7 +38,7 @@
       "invalid": "Enter a valid floor that your flat is on"
     },
     "otherDescription": {
-      "required": "Enter a description of the type of property you are renting",
+      "required": "Enter what type of property you are renting",
       "invalid": "Enter a valid description of the type of property you are renting"
     }
   }
