@@ -1,4 +1,3 @@
-import { SIGN_IN_URL } from '../../../urls';
 import { flowConfig } from '../flow.config';
 
 import { createFormStep } from '@modules/steps';
@@ -32,9 +31,4 @@ export const step: StepDefinition = createFormStep({
       ],
     },
   ],
-  beforeRedirect: async req => {
-    if (req.body.landlordIsAHousingAssociation === 'no') {
-      return req.res!.redirect(303, SIGN_IN_URL);
-    }
-  },
 });

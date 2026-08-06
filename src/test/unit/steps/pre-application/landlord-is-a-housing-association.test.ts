@@ -4,7 +4,7 @@ import type { Environment } from 'nunjucks';
 import { flowConfig } from '../../../../main/steps/pre-application/flow.config';
 import { step } from '../../../../main/steps/pre-application/landlord-is-a-housing-association';
 
-import { validateForm } from '@modules/steps';
+import { getNextStep, validateForm } from '@modules/steps';
 import { getPreviousStep } from '@modules/steps/flow';
 
 jest.mock('../../../../main/modules/steps/i18n', () => ({
@@ -57,11 +57,11 @@ describe('pre-application landlord-is-a-housing-association step', () => {
     jest.clearAllMocks();
   });
 
-  it('should redirect to /login with no selection', async () => {
+  it('maps landlordIsAHousingAssociation selection', async () => {
     (validateForm as jest.Mock).mockReturnValue({});
     const req = createReq({ body: { action: 'continue', landlordIsAHousingAssociation: 'no' } });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = { redirect: jest.fn(), headersSent: true } as any;
+    const res = { redirect: jest.fn() } as any;
     const next = jest.fn();
 
     if (!step.postController) {
@@ -70,8 +70,70 @@ describe('pre-application landlord-is-a-housing-association step', () => {
 
     await step.postController.post(req, res, next);
 
-    expect(req.res.redirect).toHaveBeenCalled();
-    expect(req.res.redirect).toHaveBeenCalledWith(303, '/login');
+    expect(req.session.formData).toStrictEqual({
+      'starting-or-returning': {
+        startingOrReturning: 'starting',
+      },
+      'applying-for-yourself-or-someone-else': {
+        applyingForYourselfOrSomeoneElse: 'someoneElse',
+      },
+      'address-of-property': {
+        addressPostcode: 'W1 1BW',
+      },
+      'landlord-is-a-housing-association': {
+        landlordIsAHousingAssociation: 'no',
+      },
+    });
+  });
+});
+
+describe('forward navigation from landlord-is-a-housing-association', () => {
+  it('goes to application-type when landlordIsAHousingAssociation is no', async () => {
+    const req = {
+      session: {
+        formData: {
+          'starting-or-returning': {
+            startingOrReturning: 'starting',
+          },
+          'applying-for-yourself-or-someone-else': {
+            applyingForYourselfOrSomeoneElse: 'someoneElse',
+          },
+          'address-of-property': {
+            addressPostcode: 'W1 1BW',
+          },
+          'landlord-is-a-housing-association': {
+            landlordIsAHousingAssociation: 'no',
+          },
+        },
+      },
+    } as unknown as Request;
+    await expect(getNextStep(req, 'landlord-is-a-housing-association', flowConfig, {})).resolves.toBe(
+      'application-type'
+    );
+  });
+
+  it('goes to you-need-to-use-another-form-landlord-association when landlordIsAHousingAssociation is yes', async () => {
+    const req = {
+      session: {
+        formData: {
+          'starting-or-returning': {
+            startingOrReturning: 'starting',
+          },
+          'applying-for-yourself-or-someone-else': {
+            applyingForYourselfOrSomeoneElse: 'someoneElse',
+          },
+          'address-of-property': {
+            addressPostcode: 'W1 1BW',
+          },
+          'landlord-is-a-housing-association': {
+            landlordIsAHousingAssociation: 'yes',
+          },
+        },
+      },
+    } as unknown as Request;
+    await expect(getNextStep(req, 'landlord-is-a-housing-association', flowConfig, {})).resolves.toBe(
+      'you-need-to-use-another-form-landlord-association'
+    );
   });
 });
 

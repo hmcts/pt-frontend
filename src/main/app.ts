@@ -10,6 +10,7 @@ import { setupDev } from './development';
 import * as modules from './modules';
 
 import { AppInsights } from '@modules/appinsights';
+import { AuthProvider } from '@modules/auth-provider';
 import { setupErrorHandlers } from '@modules/error-handler';
 import { PropertiesVolume } from '@modules/properties-volume';
 import { Session } from '@modules/session';
@@ -37,6 +38,7 @@ export async function createApp(): Promise<Express> {
   await new PropertiesVolume().enableFor(app.locals.ENV);
   new Session().enableFor(app);
   new AppInsights().enable();
+  await new AuthProvider().enable();
 
   for (const moduleName of modules.modules) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

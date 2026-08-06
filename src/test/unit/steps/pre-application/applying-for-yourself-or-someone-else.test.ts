@@ -70,6 +70,7 @@ describe('pre-application applying-for-yourself-or-someone-else step', () => {
     });
   });
 });
+
 describe('forward navigation from applying-for-yourself-or-someone-else', () => {
   it('goes to address-of-property when applyingForYourselfOrSomeoneElse is myself', async () => {
     const req = {

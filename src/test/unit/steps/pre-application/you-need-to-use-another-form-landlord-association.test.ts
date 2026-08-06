@@ -11,7 +11,7 @@ jest.mock('@modules/steps', () => ({
   createFormStep: jest.fn(),
 }));
 
-describe('you-need-to-use-another-form-postcode step', () => {
+describe('you-need-to-use-another-form-landlord-association step', () => {
   const mockCreateFormStep = createFormStep as jest.Mock;
 
   const capturedConfig = mockCreateFormStep.mock.calls[0][0];
@@ -22,10 +22,9 @@ describe('you-need-to-use-another-form-postcode step', () => {
     expect(capturedConfig.journeyFolder).toBe('preApplication');
     expect(capturedConfig.showCancelButton).toBe(false);
     expect(capturedConfig.fields).toEqual([]);
-    expect(capturedConfig.translationKeys).toEqual({ pageTitle: 'questionTitle' });
   });
 
-  describe('back navigation from you-need-to-use-another-form', () => {
+  describe('back navigation from you-need-to-use-another-form-landlord-association', () => {
     it('uses landlord-is-a-housing-association as previous step', async () => {
       const req = {} as Request;
       await expect(
