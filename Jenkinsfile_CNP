@@ -25,8 +25,32 @@ def secrets = [
     secret('pt-frontend-idam-secret', 'PT_FRONTEND_IDAM_SECRET'),
     secret('pt-idam-test-user-password', 'IDAM_PT_USER_PASSWORD'),
     secret('pt-api-idam-secret', 'PT_API_IDAM_SECRET'),
+    secret('JIRA-AUTH-TOKEN', 'JIRA_AUTH_TOKEN'),
   ]
 ]
+
+def configureFunctionalTestEnv(String testUrl) {
+  env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+  env.TEST_URL = testUrl
+}
+
+def uploadFunctionalResultsToZephyr(String environmentName) {
+  env.EXECUTION_BUILD = env.GIT_COMMIT
+  env.EXECUTION_ENVIRONMENT = environmentName
+  env.EXECUTION_TEST_CYCLE_DESCRIPTION =
+    "pt-frontend ${environmentName} build ${env.BUILD_NUMBER} for commit ${env.GIT_COMMIT}\n${env.BUILD_URL}"
+  yarnBuilder.yarn('node zephyr-scripts/run-with-log.js -- tsx zephyr-scripts/run-zephyr.ts')
+}
+
+def archiveFunctionalAndZephyrOutputs() {
+  steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**,tmp/zephyr/**'
+}
+
+/** First PR label matching prefix → value after prefix (e.g. e2e-tag:@smoke → @smoke) */
+def prLabelSuffix(githubApi, String prefix) {
+  def labels = githubApi.getLabelsbyPattern(env.BRANCH_NAME, prefix)
+  return (labels && labels.size() > 0) ? labels[0].replaceFirst('^' + prefix, '') : null
+}
 
 withPipeline(type, product, component) {
   def githubApi = new GithubAPI(this)
@@ -38,6 +62,22 @@ withPipeline(type, product, component) {
   env.XUI_BASE_URI = "https://manage-case.aat.platform.hmcts.net"
   env.CASE_TYPE_ID = "PT"
   onPR() {
+    env.E2E_TEST_SCOPE = '@sanity'
+    if (githubApi.getLabelsbyPattern(env.BRANCH_NAME, "enable_critical_test").size() > 0) {
+      env.E2E_TEST_SCOPE = '@PR'
+    }
+    def e2eTag = prLabelSuffix(githubApi, 'e2e-tag:')
+    if (e2eTag?.trim()) {
+      env.E2E_TEST_SCOPE = e2eTag.trim()
+    }
+
+    def e2eSpec = prLabelSuffix(githubApi, 'e2e-spec:')
+    if (e2eSpec?.trim()) {
+      env.E2E_SPEC = e2eSpec.trim()
+    }
+
+    env.TEST_URL = "https://pt-frontend-pr-${env.CHANGE_ID}.preview.platform.hmcts.net/"
+
     def apiLabels = githubApi.getLabelsbyPattern(env.BRANCH_NAME, "pt-api-pr:")
     if (apiLabels && apiLabels.size() > 0) {
       def labelName = apiLabels[0]
@@ -52,13 +92,36 @@ withPipeline(type, product, component) {
       AppPipelineDsl.PactRoles.CONSUMER,
       AppPipelineDsl.PactRoles.CONSUMER_DEPLOY_CHECK
     ])
+
+    before('functionalTest:preview') {
+      configureFunctionalTestEnv(env.TEST_URL)
+      sh 'rm -rf functional-output tmp/zephyr'
+    }
+
+    afterAlways('functionalTest:preview') {
+      archiveFunctionalAndZephyrOutputs()
+    }
   }
 
   onMaster() {
+    env.E2E_TEST_SCOPE = '@regression'
     env.TEST_URL = "https://pt.aat.platform.hmcts.net/"
     enablePactAs([
       AppPipelineDsl.PactRoles.CONSUMER,
       AppPipelineDsl.PactRoles.CONSUMER_DEPLOY_CHECK
     ])
+
+    before('functionalTest:aat') {
+      configureFunctionalTestEnv(env.TEST_URL)
+      sh 'rm -rf functional-output tmp/zephyr'
+    }
+
+    afterSuccess('functionalTest:aat') {
+      uploadFunctionalResultsToZephyr('aat')
+    }
+
+    afterAlways('functionalTest:aat') {
+      archiveFunctionalAndZephyrOutputs()
+    }
   }
 }
