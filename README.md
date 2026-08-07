@@ -19,7 +19,7 @@ then running the command:
 nvm use
 ```
 
-will ensure you are running the same version of node as determined in the CICD pipelines (it autodetects the .nvmrc file within this repository)..
+will ensure you are running the same version of node as determined in the CICD pipelines (it autodetects the .nvmrc file within this repository).
 
 You can take this a step further and integrate auto-detection directly into your [shell](https://github.com/nvm-sh/nvm?tab=readme-ov-file#calling-nvm-use-automatically-in-a-directory-with-a-nvmrc-file)
 
