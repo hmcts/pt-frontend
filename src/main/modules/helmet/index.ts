@@ -23,8 +23,7 @@ export class Helmet {
       // is not an allowed source of script in the following Content Security Policy directive:
       // "script-src 'self' *.google-analytics.com 'sha256-GUQ5ad8JK5KmEWmROf3LZd9ge94daqNvd8xy9YS1iDw='".
       // seems to be related to webpack
-      scriptSrc.push("'unsafe-eval'");
-      scriptSrc.push("'unsafe-inline'");
+      scriptSrc.push("'unsafe-eval'", "'unsafe-inline'");
     } else {
       scriptSrc.push("'sha256-GUQ5ad8JK5KmEWmROf3LZd9ge94daqNvd8xy9YS1iDw='");
     }
