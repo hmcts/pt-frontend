@@ -8,7 +8,7 @@
   },
   "errors": {
     "propertyIncludesOtherFacilities": {
-      "required": "Enter does the tenancy include any other facilities"
+      "required": "Select whether the tenancy includes any other facilities"
     },
     "propertyFacilitiesDescription": {
       "required": "Enter what other facilities your tenancy includes",
