@@ -1,5 +1,5 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["src/**/*", "codecept.conf.ts"],
+  "include": ["src/**/*", "codecept.conf.ts", "zephyr-scripts/**/*"],
   "exclude": []
 }
