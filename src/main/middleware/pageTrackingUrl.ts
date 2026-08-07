@@ -15,7 +15,6 @@ const getPageTrackingUrl = (path: string): string => {
 };
 
 export const pageTrackingUrlMiddleware = (req: Request, res: Response, next: NextFunction): void => {
-  const pageTrackingUrl = getPageTrackingUrl(req.path);
-  res.locals.pageTrackingUrl = pageTrackingUrl;
+  res.locals.pageTrackingUrl = getPageTrackingUrl(req.path);
   next();
 };

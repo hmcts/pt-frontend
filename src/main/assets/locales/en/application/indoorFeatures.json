@@ -1,0 +1,13 @@
+{
+  "pageTitle": "Indoor features",
+  "tellUsAbout": "Tell us about the property’s features, such as:",
+  "bullet1": "what type of heating it has",
+  "bullet2": "whether it has double glazing",
+  "bullet3": "what type of flooring it has (for example, carpet, tiles or wood flooring)",
+  "questionTitle": "Tell us about the property’s indoor features (optional)",
+  "errors": {
+    "indoorFeatures": {
+      "invalid": "Enter a valid description of the property’s indoor features"
+    }
+  }
+}

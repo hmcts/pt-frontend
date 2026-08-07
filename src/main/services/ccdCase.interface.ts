@@ -1,3 +1,9 @@
+import { UUID } from 'node:crypto';
+
+export const CITIZEN_CREATE_CASE = 'citizen-create-application';
+export const CITIZEN_UPDATE_CASE = 'citizen-update-application';
+export const CITIZEN_SUBMIT_CASE = 'citizen-submit-application';
+
 export type YesNoValue = 'YES' | 'NO' | null;
 export type YesNoNotSureValue = 'YES' | 'NO' | 'NOT_SURE' | null;
 export enum YesNoEnum {
@@ -20,8 +26,12 @@ export interface CcdCollectionItem<T> {
 export type CaseData = CcdCaseData;
 
 /** Case data payload from CCD (START callback case_data or CcdCase.data). */
-export interface CcdCaseData {
-  placeholder?: string;
+export interface CcdCaseData extends ContactPreferences, LandlordDetails, PropertyDetails {
+  //TODO: build this out once data model added to pt-api
+  applicantFirstName?: string;
+  applicantLastName?: string;
+  applicationType?: string;
+  tenancyType?: string;
 }
 
 /** Case representation used by services: id + case_data. */
@@ -63,4 +73,51 @@ export interface StartCallbackData {
   _links: CcdStartCallbackLinks;
   case_details: CcdCaseDetails;
   event_id: string;
+}
+
+//
+/** Case data payload returned from PT API get case(s) calls */
+export interface ApplicationData extends ContactPreferences, LandlordDetails, PropertyDetails {
+  caseReference: bigint;
+  createdDate: string;
+  submittedOn?: string;
+
+  applicantFirstName: string;
+  applicantLastName: string;
+  email: string;
+  postcode: string;
+  applicantIdamUserId: UUID;
+  applicationType: string;
+  tenancyType?: string;
+}
+
+export interface ContactPreferences {
+  textUpdates?: string | boolean;
+  textUpdatesPhoneNumber?: string;
+  phoneNumberForCalls?: string;
+}
+
+export interface LandlordDetails {
+  landlordPhoneNumber?: string;
+  landlordHasLettingAgentOrRepresentative?: string;
+  landlordEmailAddress?: string;
+}
+
+export interface PropertyDetails {
+  propertyType?: string;
+  propertyTypeRoomDescription?: string;
+  propertyTypeFlatFloor?: string;
+  propertyTypeOtherDescription?: string;
+  hasFloorPlanOfProperty?: string | boolean;
+  propertyLayoutDescription?: string;
+  indoorFeatures?: string;
+  propertyIncludesOtherFacilities?: string | boolean;
+  propertyFacilitiesDescription?: string;
+  propertySharedWithLandlord?: string | boolean;
+  propertySharedWithLandlordDetails?: string;
+  furnitureProvided?: string | boolean;
+  furnitureProvidedDetails?: string;
+  servicesProvided?: string | boolean;
+  servicesProvidedDetails?: string;
+  hasRepairsAndImprovements?: string | boolean;
 }

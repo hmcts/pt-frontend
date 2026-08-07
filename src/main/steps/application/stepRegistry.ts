@@ -1,35 +1,27 @@
-import { step as applicationType } from './application-type';
-import { step as checkYourAnswersAndSubmit } from './check-your-answers-and-submit';
-import { step as contactPreferences } from './contact-preferences';
-import { step as currentRentAndOtherCosts } from './current-rent-and-other-costs';
-import { step as helpWithFees } from './help-with-fees';
-import { step as inspectionAndHearing } from './inspection-and-hearing';
-import { step as landlordDetails } from './landlord-details';
-import { step as landlordsNotice } from './landlords-notice';
-import { step as marketRent } from './market-rent';
-import { step as propertyDetails } from './property-details';
-import { step as supportForHealthConditions } from './support-for-health-conditions';
+import { applicationDocumentsStepRegistry } from './application-documents/stepRegistry';
+import { inspectionAndHearingStepRegistry } from './inspection-and-hearing/stepRegistry';
+import { landlordDetailsStepRegistry } from './landlord-details/stepRegistry';
+import { reviewSubmitAndPayStepRegistry } from './review-submit-and-pay/stepRegistry';
+import { supportForHealthConditionsStepRegistry } from './support-for-health-conditions/stepRegistry';
 import { step as taskList } from './task-list';
-import { step as tenancyAgreement } from './tenancy-agreement';
-import { step as whoIsOnTheTenancy } from './who-is-on-the-tenancy';
+import { tenantDetailsStepRegistry } from './tenant-details/stepRegistry';
+import { thePropertyStepRegistry } from './the-property/stepRegistry';
+import { theRentStepRegistry } from './the-rent/stepRegistry';
+import { yourApplicationStepRegistry } from './your-application/stepRegistry';
 
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
 export const stepRegistry = {
   'task-list': taskList,
-  'application-type': applicationType,
-  'contact-preferences': contactPreferences,
-  'who-is-on-the-tenancy': whoIsOnTheTenancy,
-  'landlord-details': landlordDetails,
-  'landlords-notice': landlordsNotice,
-  'tenancy-agreement': tenancyAgreement,
-  'current-rent-and-other-costs': currentRentAndOtherCosts,
-  'market-rent': marketRent,
-  'property-details': propertyDetails,
-  'inspection-and-hearing': inspectionAndHearing,
-  'support-for-health-conditions': supportForHealthConditions,
-  'help-with-fees': helpWithFees,
-  'check-your-answers-and-submit': checkYourAnswersAndSubmit,
+  ...yourApplicationStepRegistry,
+  ...tenantDetailsStepRegistry,
+  ...landlordDetailsStepRegistry,
+  ...applicationDocumentsStepRegistry,
+  ...theRentStepRegistry,
+  ...thePropertyStepRegistry,
+  ...inspectionAndHearingStepRegistry,
+  ...supportForHealthConditionsStepRegistry,
+  ...reviewSubmitAndPayStepRegistry,
 } satisfies Record<string, StepDefinition>;
 
 export type ApplicationStepName = keyof typeof stepRegistry;

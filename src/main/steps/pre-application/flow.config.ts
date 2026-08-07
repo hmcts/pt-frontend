@@ -4,7 +4,7 @@ import type { RespondToClaimStepName } from './stepRegistry';
 
 import { getFormData } from '@modules/steps';
 import type { JourneyFlowConfig, StepConfig } from '@modules/steps/stepFlow.interface';
-import { isValidEnglishPostcode } from '@utils/postcode';
+import { isPartOfInitialRollout, isValidEnglishPostcode } from '@utils/postcode';
 
 export const PRE_APPLICATION_ROUTE = '/pre-application';
 
@@ -22,7 +22,13 @@ export const flowConfig: JourneyFlowConfig = {
     'you-need-to-use-another-form',
     'address-of-property',
     'you-need-to-use-another-form-postcode',
+    'you-need-to-use-another-form-non-english-address',
     'landlord-is-a-housing-association',
+    'you-need-to-use-another-form-landlord-association',
+    'application-type',
+    'only-challenging-validity-of-landlord-notice',
+    'who-is-named-on-your-tenancy-agreement',
+    'you-need-to-use-another-form-joint-tenant',
   ],
   steps: {
     'starting-or-returning': {
@@ -44,11 +50,39 @@ export const flowConfig: JourneyFlowConfig = {
       requiresAuth: false,
       showCondition: (req: Request) => {
         const postCode = req.session.formData?.['address-of-property']?.addressPostcode;
+        return postCode && isValidEnglishPostcode(postCode) && !isPartOfInitialRollout(postCode);
+      },
+    },
+    'you-need-to-use-another-form-non-english-address': {
+      requiresAuth: false,
+      showCondition: (req: Request) => {
+        const postCode = req.session.formData?.['address-of-property']?.addressPostcode;
         return postCode && !isValidEnglishPostcode(postCode);
       },
     },
     'landlord-is-a-housing-association': {
       requiresAuth: false,
+    },
+    'you-need-to-use-another-form-landlord-association': {
+      requiresAuth: false,
+      showCondition: (req: Request) =>
+        getFormData(req, 'landlord-is-a-housing-association').landlordIsAHousingAssociation !== 'no',
+    },
+    'application-type': {
+      requiresAuth: false,
+    },
+    'only-challenging-validity-of-landlord-notice': {
+      requiresAuth: false,
+      showCondition: (req: Request) =>
+        getFormData(req, 'application-type').applicationType === 'onlyChallengeLegalValidity',
+    },
+    'who-is-named-on-your-tenancy-agreement': {
+      requiresAuth: false,
+    },
+    'you-need-to-use-another-form-joint-tenant': {
+      requiresAuth: false,
+      showCondition: (req: Request) =>
+        getFormData(req, 'who-is-named-on-your-tenancy-agreement').tenantOrJointTenant !== 'tenant',
     },
   } satisfies Partial<Record<RespondToClaimStepName, StepConfig>>,
 };

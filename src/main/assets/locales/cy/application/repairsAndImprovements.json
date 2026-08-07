@@ -1,0 +1,15 @@
+{
+  "pageHeading": "cy Repairs and improvements",
+  "repairsAndImprovementsInfo": "cy Tell us if you or any past tenants have made any improvements, or replaced fixing, fittings or furniture. Only include improvement or repair work you or the other tenants were not responsible for under the terms of the tenancy.",
+  "questionTitle": "cy Have you or any past tenants made any changes or repairs to the property?",
+  "options": {
+    "notSure": {
+      "label": "cy I’m not sure"
+    }
+  },
+  "errors": {
+    "hasRepairsAndImprovements": {
+      "required": "cy Select whether you or any past tenants made any changes or repairs to the property"
+    }
+  }
+}
