@@ -314,11 +314,9 @@ export function createStepNavigation(
     ): Promise<string | null> => {
       const flowConfig = await resolveFlowConfig(req, flowConfigOrResolver);
       const formData = req.session?.formData || {};
-      const caseReference = req.res?.locals.validatedCase?.id;
+      const caseReference = req.params?.caseReference;
       const nextStep = await getNextStep(req, currentStepName, flowConfig, formData, currentStepData);
-      return nextStep
-        ? withInternalNavParam(getStepUrl(nextStep, flowConfig, caseReference), nextStep, flowConfig, req)
-        : null;
+      return nextStep ? getStepUrl(nextStep, flowConfig, caseReference as string) : null;
     },
 
     getBackUrl: async (req: Request, currentStepName: string): Promise<string | null> => {
@@ -328,9 +326,7 @@ export function createStepNavigation(
         req.res?.locals.validatedCase?.id ??
         (typeof req.params?.caseReference === 'string' ? req.params.caseReference : undefined);
       const previousStep = await getPreviousStep(req, currentStepName, flowConfig, formData);
-      return previousStep
-        ? withInternalNavParam(getStepUrl(previousStep, flowConfig, caseReference), previousStep, flowConfig, req)
-        : null;
+      return previousStep ? getStepUrl(previousStep, flowConfig, caseReference) : null;
     },
 
     getStepUrl: (stepName: string, caseReference?: string): string => {
@@ -425,23 +421,6 @@ function lastVisibleAndCanGoBack(
     }
   }
   return undefined;
-}
-
-// True when stepName belongs to a section but is not that section's first
-// visible step. Flat journeys (no sections) and non-section steps return false.
-function isMiddleSectionStep(stepName: string, flowConfig: JourneyFlowConfig, req: Request): boolean {
-  const section = flowConfig.sections?.find(s => s.steps.includes(stepName));
-  return section !== undefined && firstVisible(section.steps, flowConfig, req) !== stepName;
-}
-
-// Tags an internal-navigation URL (Back / Save and continue) that points at a
-// mid-section step with ?nav=1, so the respond-to-claim access guard lets it
-// through. First-visible steps, the hub and non-section steps stay bare.
-function withInternalNavParam(url: string, stepName: string, flowConfig: JourneyFlowConfig, req: Request): string {
-  if (!isMiddleSectionStep(stepName, flowConfig, req)) {
-    return url;
-  }
-  return `${url}${url.includes('?') ? '&' : '?'}nav=1`;
 }
 
 export function checkStepDependencies(
