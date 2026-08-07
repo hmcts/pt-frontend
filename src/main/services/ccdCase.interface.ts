@@ -26,40 +26,12 @@ export interface CcdCollectionItem<T> {
 export type CaseData = CcdCaseData;
 
 /** Case data payload from CCD (START callback case_data or CcdCase.data). */
-export interface CcdCaseData {
+export interface CcdCaseData extends ContactPreferences, LandlordDetails, PropertyDetails {
   //TODO: build this out once data model added to pt-api
   applicantFirstName?: string;
   applicantLastName?: string;
   applicationType?: string;
   tenancyType?: string;
-
-  // contact preferences
-  textUpdates?: string | boolean;
-  textUpdatesPhoneNumber?: string;
-  phoneNumberForCalls?: string;
-
-  // landlord details
-  landlordPhoneNumber?: string;
-  landlordHasLettingAgentOrRepresentative?: string;
-  landlordEmailAddress?: string;
-
-  // property details
-  propertyType?: string;
-  propertyTypeRoomDescription?: string;
-  propertyTypeFlatFloor?: string;
-  propertyTypeOtherDescription?: string;
-  hasFloorPlanOfProperty?: string | boolean;
-  propertyLayoutDescription?: string;
-  indoorFeatures?: string;
-  propertyIncludesOtherFacilities?: string | boolean;
-  propertyFacilitiesDescription?: string;
-  propertySharedWithLandlord?: string | boolean;
-  propertySharedWithLandlordDetails?: string;
-  furnitureProvided?: string | boolean;
-  furnitureProvidedDetails?: string;
-  servicesProvided?: string | boolean;
-  servicesProvidedDetails?: string;
-  hasRepairsAndImprovements?: string | boolean;
 }
 
 /** Case representation used by services: id + case_data. */
@@ -103,7 +75,9 @@ export interface StartCallbackData {
   event_id: string;
 }
 
-export interface ApplicationData {
+//
+/** Case data payload returned from PT API get case(s) calls */
+export interface ApplicationData extends ContactPreferences, LandlordDetails, PropertyDetails {
   caseReference: bigint;
   createdDate: string;
   submittedOn?: string;
@@ -115,18 +89,21 @@ export interface ApplicationData {
   applicantIdamUserId: UUID;
   applicationType: string;
   tenancyType?: string;
+}
 
-  // contact preferences
+export interface ContactPreferences {
   textUpdates?: string | boolean;
   textUpdatesPhoneNumber?: string;
   phoneNumberForCalls?: string;
+}
 
-  // landlord details
+export interface LandlordDetails {
   landlordPhoneNumber?: string;
   landlordHasLettingAgentOrRepresentative?: string;
   landlordEmailAddress?: string;
+}
 
-  // property details
+export interface PropertyDetails {
   propertyType?: string;
   propertyTypeRoomDescription?: string;
   propertyTypeFlatFloor?: string;
