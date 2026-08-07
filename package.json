@@ -16,6 +16,7 @@
     "test": "npx if-env CI=true && exit 0 || yarn test:unit",
     "test:unit": "jest",
     "test:coverage": "jest --coverage",
+    "fortifyScan": "./src/test/java/gradlew -p src/test/java fortifyScan",
     "test:routes": "jest -c jest.routes.config.js",
     "test:a11y": "echo 'Accessibility tests implemented later in the pipeline'",
     "test:smoke": "NODE_TLS_REJECT_UNAUTHORIZED=0 jest -c jest.smoke.config.js",
