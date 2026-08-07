@@ -12,6 +12,7 @@ export enum YesNoEnum {
   PREFER_NOT_TO_SAY = 'PREFER_NOT_TO_SAY',
 }
 export type FrequencyValue = 'WEEKLY' | 'MONTHLY';
+export type RentPaymentFrequencyValue = 'WEEKLY' | 'FORTNIGHTLY' | 'MONTHLY' | 'YEARLY' | null;
 export enum LanguageUsed {
   ENGLISH = 'ENGLISH',
   WELSH = 'WELSH',
@@ -127,4 +128,11 @@ export interface RentDetails {
   // previous tribunal determination
   tribunalPreviouslyDeterminedRent?: YesNoValue;
   previousTribunalCaseReference?: string;
+
+  // rent payment frequency and amount
+  rentPaymentFrequency?: RentPaymentFrequencyValue;
+  rentCostWeekly?: string;
+  rentCostFortnightly?: string;
+  rentCostMonthly?: string;
+  rentCostYearly?: string;
 }
