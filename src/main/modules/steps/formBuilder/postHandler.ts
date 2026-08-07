@@ -32,9 +32,10 @@ function shouldUseSessionFormData(flowConfig?: JourneyFlowConfig): boolean {
 }
 
 function resolveSaveForLaterRedirect(req: Request, flowConfig: JourneyFlowConfig | undefined): string {
-  const caseId = req.res?.locals.validatedCase?.id;
+  // const caseId = req.res?.locals.validatedCase?.id;
+  const caseId = req.params?.caseReference;
   if (flowConfig?.hubStepName && caseId) {
-    return getStepUrl(flowConfig.hubStepName, flowConfig, caseId);
+    return getStepUrl(flowConfig.hubStepName, flowConfig, caseId as string);
   }
   // TODO: once dashboardUrl setup, use following and remove below-> return (caseId && getDashboardUrl(caseId)) || '/';
   return '/';

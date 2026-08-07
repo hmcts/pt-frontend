@@ -1,17 +1,17 @@
-import { flowConfig } from '../../../flow.config';
+import { flowConfig } from '../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
 const journeyName = 'application';
-const stepName = 'contact-preferences';
+const stepName = 'upload-evidence-improvements-or-repairs';
 
 export const step: StepDefinition = createFormStep({
   stepName,
   journeyFolder: journeyName,
   stepDir: __dirname,
   flowConfig,
-  customTemplate: `${__dirname}/contactPreferences.njk`,
+  customTemplate: `${__dirname}/uploadEvidenceImprovementsOrRepairs.njk`,
   showCancelButton: false,
   isAnswered: () => false,
   translationKeys: {

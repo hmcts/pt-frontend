@@ -1,0 +1,11 @@
+{
+  "pageTitle": "cy Contact by phone call",
+  "contactByPhoneInfo": "cy The tribunal may need to contact you urgently by phone call if they need information from you to process your application.",
+  "questionTitle": "cy Enter a phone number for phone calls (optional)",
+  "questionHint": "cy We will only call you if we need to contact you urgently",
+  "errors": {
+    "phoneNumberForCalls": {
+      "invalid": "cy Phone number must be in the correct format, like 01632 960 001, 07700 900 982 or +44 808 157 0192"
+    }
+  }
+}
