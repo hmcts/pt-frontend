@@ -4,5 +4,5 @@ export function isValidEmail(email: string): boolean {
   // one @, no whitespace either side, and a dot in the domain.
   // stricter patterns reject valid addresses (apostrophes, plus addressing) which would
   // block a citizen from applying
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(sanitisedEmail);
+  return /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/.test(sanitisedEmail);
 }
