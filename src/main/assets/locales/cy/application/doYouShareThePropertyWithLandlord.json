@@ -8,11 +8,11 @@
   },
   "errors": {
     "propertySharedWithLandlord": {
-      "required": "cy Enter do you share the propertyu with your landlord"
+      "required": "cy Select whether you share the property with your landlord"
     },
     "propertySharedWithLandlordDetails": {
-      "required": "cy Enter how you share the property with the landlord",
-      "invalid": "cy Enter a valid description of how you share the property with the landlord"
+      "required": "cy Enter how you share the property with your landlord",
+      "invalid": "cy How you share your property must be 1 characters or more"
     }
   }
 }
