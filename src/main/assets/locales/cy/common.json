@@ -13,6 +13,7 @@
     "saveForLater": "cy Save for later",
     "cancel": "cy Cancel"
   },
+  "youNeedToUseAnotherForm": "cy You need to use another form to apply",
   "myApplications": "cy My applications",
   "startNewApplicationLinkText": "cy Start a new application",
   "myApplicationsTable": {
@@ -82,7 +83,7 @@
     "contactPreferences": "cy Contact preferences",
     "whoIsOnTheTenancy": "cy Who is on the tenancy",
     "landlordDetails": "cy Landlord details including any representatives",
-    "landlordsNotice": "cy Landlord's notice proposing a new rent",
+    "landlordsNotice": "cy Landlord’s notice proposing a new rent",
     "yourTenancyAgreement": "cy Your tenancy agreement",
     "theCurrentRentAndOtherCosts": "cy The current rent and other costs",
     "whatYouThinkMarketRentShouldBe": "cy What you think the market rent should be",

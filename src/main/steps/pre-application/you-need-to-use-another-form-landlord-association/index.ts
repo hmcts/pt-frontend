@@ -13,8 +13,5 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/youNeedToUseAnotherFormLandlordAssociation.njk`,
   showCancelButton: false,
-  translationKeys: {
-    pageTitle: 'questionTitle',
-  },
   fields: [],
 });
