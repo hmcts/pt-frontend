@@ -8,4 +8,5 @@ export const ptNonEnglishPostCode = {
   renterRightsUrl: 'https://rentersrights.campaign.gov.scot/',
   noticeVariationRentFromUrl: 'https://www.gov.wales/notice-variation-rent-form-rhw12',
   guidanceUrl: 'https://www.gov.uk/guidance/apply-for-an-open-market-rent-determination',
+  postcode: '#addressPostcode',
 };

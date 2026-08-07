@@ -5,7 +5,7 @@ I want to access the correct guidance for my country
 So that I can continue with the appropriate service
 
   Background:
-    Given I am on the "Sorry, this service is only available in England" page
+    Given I enter non english postal code and navigate to the "Sorry, this service is only available in England" page
 
   @AC1 @JIRA-TEST-KEY:PTSD-747
   Scenario: AC1 - Scotland link navigation

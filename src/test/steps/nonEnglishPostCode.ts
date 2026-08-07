@@ -14,7 +14,7 @@ Given(
     I.checkOption(ptApplyingFor.applyingForMyselfOption);
     I.click(ptApplyingFor.continueButton);
     I.waitForText(ptPostalCodeOutsideCoverage.pageHeading);
-    I.fillField('input[name="addressPostcode"]', ptNonEnglishPostCode.nonEnglishpostcode);
+    I.fillField(ptNonEnglishPostCode.postcode, ptNonEnglishPostCode.nonEnglishpostcode);
     I.click(ptPostalCodeOutsideCoverage.continueButton);
     I.waitForText(ptNonEnglishPostCode.pageHeading);
   }

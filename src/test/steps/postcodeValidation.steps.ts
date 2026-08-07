@@ -14,7 +14,7 @@ Given('I landed on postal code page successfully', () => {
   I.waitForText(ptPostalCodeOutsideCoverage.pageHeading);
 });
 When('I enter postcode {string}', (postcode: string) => {
-  I.fillField('input[name="addressPostcode"]', postcode);
+  I.fillField(postcodeData.postalAddressCode, postcode);
 });
 Then('I should see {string}', (outcome: string) => {
   I.see(outcome);

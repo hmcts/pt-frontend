@@ -5,4 +5,5 @@ export const postcodeData = {
   invalidPostcode: 'ABC123',
   emptyPostcode: '',
   errorMessage: 'Enter a valid postcode',
+  postalAddressCode: '#addressPostcode',
 };

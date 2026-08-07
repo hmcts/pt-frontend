@@ -10,7 +10,7 @@ So that the system validates it and directs me to the correct journey
 @AC1 @AC2 @AC4 @JIRA-TEST-KEY:PTSD-767 @JIRA-TEST-KEY:PTSD-770 @JIRA-TEST-KEY:PTSD-768 
   Scenario Outline: Validate postcode journey
     When I enter postcode "<postcode>"
-    And I click Continue
+    And I click 'Continue'
     Then I should see "<outcome>"
 
     Examples:
@@ -22,5 +22,5 @@ So that the system validates it and directs me to the correct journey
   @AC5 @JIRA-TEST-KEY:PTSD-771
   Scenario: Invalid postcode format
     When I enter postcode "ABC123"
-    And I click Continue
+    And I click 'Continue'
     Then I should see postcode validation error
