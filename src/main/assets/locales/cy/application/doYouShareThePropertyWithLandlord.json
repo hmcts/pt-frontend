@@ -1,0 +1,18 @@
+{
+  "questionTitle": "cy Do you share the property with your landlord?",
+  "questionHint": "cy For example, if you have had limited or exclusive access to rooms, facilities or other features",
+  "options": {
+    "propertySharedWithLandlordDetails": {
+      "label": "cy Tell us how you share the property with the landlord"
+    }
+  },
+  "errors": {
+    "propertySharedWithLandlord": {
+      "required": "cy Select whether you share the property with your landlord"
+    },
+    "propertySharedWithLandlordDetails": {
+      "required": "cy Enter how you share the property with your landlord",
+      "invalid": "cy How you share your property must be 1 characters or more"
+    }
+  }
+}

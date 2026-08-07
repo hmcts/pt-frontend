@@ -1,0 +1,18 @@
+{
+  "questionTitle": "Are any services provided in your tenancy?",
+  "questionHint": "For example, cleaning or gardening",
+  "options": {
+    "servicesProvidedDetails": {
+      "label": "Describe the services provided"
+    }
+  },
+  "errors": {
+    "servicesProvided": {
+      "required": "Enter whether any services are provided in your tenancy"
+    },
+    "servicesProvidedDetails": {
+      "required": "Enter a description of the services provided",
+      "invalid": "Enter a valid description of the services provided"
+    }
+  }
+}
