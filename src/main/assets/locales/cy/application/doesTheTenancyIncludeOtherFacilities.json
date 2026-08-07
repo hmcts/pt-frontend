@@ -8,7 +8,7 @@
   },
   "errors": {
     "propertyIncludesOtherFacilities": {
-      "required": "cy Enter does the tenancy include any other facilities"
+      "required": "cy Select whether the tenancy includes any other facilities"
     },
     "propertyFacilitiesDescription": {
       "required": "cy Enter what other facilities your tenancy includes",
