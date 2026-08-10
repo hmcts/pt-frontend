@@ -21,8 +21,10 @@ export const flowConfig: JourneyFlowConfig = {
     'upload-floor-plan-of-property': {
       showCondition: (req: Request) => getFormData(req, 'floor-plan-of-property').hasFloorPlanOfProperty === 'yes',
     },
-    'upload-evidence-improvements-or-repairs': {
-      showCondition: (req: Request) => getFormData(req, 'repairs-and-improvements').hasRepairsAndImprovements === 'yes',
+    // HDPD-593 is only asked when the rent includes council tax. When it does not,
+    // the section traversal skips it and HDPD-592 continues to HDPD-594.
+    'council-tax-frequency': {
+      showCondition: (req: Request) => getFormData(req, 'rent-includes-council-tax').rentIncludesCouncilTax === 'YES',
     },
   } satisfies Partial<Record<ApplicationStepName, StepConfig>>,
 };

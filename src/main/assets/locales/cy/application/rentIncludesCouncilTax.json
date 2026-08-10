@@ -1,4 +1,16 @@
 {
-  "pageTitle": "cyDoes your rent include council tax?",
-  "heading": "cyDoes your rent include council tax?"
+  "questionTitle": "cyDoes your rent include council tax?",
+  "options": {
+    "YES": {
+      "label": "cyYes"
+    },
+    "NO": {
+      "label": "cyNo"
+    }
+  },
+  "errors": {
+    "rentIncludesCouncilTax": {
+      "required": "cySelect whether your rent includes council tax"
+    }
+  }
 }

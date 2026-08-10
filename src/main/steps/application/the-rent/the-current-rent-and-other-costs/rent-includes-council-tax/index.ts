@@ -6,10 +6,12 @@ import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 const journeyName = 'application';
 const stepName = 'rent-includes-council-tax';
 
+const fieldName = 'rentIncludesCouncilTax';
+
 /**
- * Stub for HDPD-592: does your rent include council tax?
- * Heading only, so HDPD-591's 'Save and continue' has a destination.
- * HDPD-592 will add the Yes/No radio and its validation.
+ * Stateless step: does the rent include council tax?
+ * A required Yes/No radio. 'Yes' routes on to HDPD-593 via that step's
+ * showCondition; 'No' skips it, so this step needs no routing of its own.
  */
 
 export const step: StepDefinition = createFormStep({
@@ -19,10 +21,21 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/rentIncludesCouncilTax.njk`,
   showCancelButton: false,
-  isAnswered: () => false,
-  translationKeys: {
-    pageTitle: 'pageTitle',
-    heading: 'heading',
-  },
-  fields: [],
+  // Task-list status tag: 'NO' is a complete answer, so presence is enough.
+  isAnswered: req => Boolean(req.session.ccdCase?.rentIncludesCouncilTax),
+  fields: [
+    {
+      name: fieldName,
+      type: 'radio',
+      required: true,
+      isPageHeading: true,
+      legendClasses: 'govuk-fieldset__legend--l',
+      translationKey: { label: 'questionTitle' },
+      errorMessage: `errors.${fieldName}.required`,
+      options: [
+        { value: 'YES', translationKey: 'options.YES.label' },
+        { value: 'NO', translationKey: 'options.NO.label' },
+      ],
+    },
+  ],
 });
