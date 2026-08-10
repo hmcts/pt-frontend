@@ -68,6 +68,8 @@ const sectionDefs = [
       'tribunal-previously-determined-rent',
       'rent-payment-frequency',
       'rent-includes-council-tax',
+      'council-tax-frequency',
+      'rent-inclusive-of-utility-charges',
     ],
   },
   {
