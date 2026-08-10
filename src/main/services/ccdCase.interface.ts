@@ -135,4 +135,7 @@ export interface RentDetails {
   rentCostFortnightly?: string;
   rentCostMonthly?: string;
   rentCostYearly?: string;
+
+  // council tax
+  rentIncludesCouncilTax?: YesNoValue;
 }
