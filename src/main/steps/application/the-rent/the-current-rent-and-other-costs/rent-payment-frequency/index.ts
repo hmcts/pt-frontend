@@ -24,8 +24,7 @@ const amountFieldNames = {
   YEARLY: 'rentCostYearly',
 } as const;
 
-/** Builds the revealed amount input for one frequency. */
-const amountSubField = (frequency: keyof typeof amountFieldNames) => {
+const buildAmountSubField = (frequency: keyof typeof amountFieldNames) => {
   const name = amountFieldNames[frequency];
 
   return {
@@ -36,7 +35,9 @@ const amountSubField = (frequency: keyof typeof amountFieldNames) => {
       labelClasses: 'govuk-label--s',
       classes: 'govuk-input--width-10',
       prefix: { text: '£' },
-      attributes: { inputmode: 'numeric' },
+      // 'decimal' rather than 'numeric' so the mobile keypad includes a decimal
+      // point, otherwise pence cannot be entered.
+      attributes: { inputmode: 'decimal' },
       translationKey: {
         label: `${name}.label`,
         hint: `${name}.hint`,
@@ -62,9 +63,7 @@ export const step: StepDefinition = createFormStep({
   customTemplate: `${__dirname}/rentPaymentFrequency.njk`,
   showCancelButton: false,
   isAnswered: req => Boolean(req.session.ccdCase?.rentPaymentFrequency),
-  translationKeys: {
-    pageTitle: 'pageTitle',
-  },
+
   // Runs after setFormData has written the whole POST body to the session. The
   // conditional reveal only hides inputs with CSS, so the browser submits all
   // four amounts; this discards the three that do not apply.
@@ -93,14 +92,14 @@ export const step: StepDefinition = createFormStep({
       translationKey: { label: 'questionTitle', hint: 'questionHint' },
       errorMessage: `errors.${frequencyFieldName}.required`,
       options: [
-        { value: 'WEEKLY', translationKey: 'options.WEEKLY.label', subFields: amountSubField('WEEKLY') },
+        { value: 'WEEKLY', translationKey: 'options.WEEKLY.label', subFields: buildAmountSubField('WEEKLY') },
         {
           value: 'FORTNIGHTLY',
           translationKey: 'options.FORTNIGHTLY.label',
-          subFields: amountSubField('FORTNIGHTLY'),
+          subFields: buildAmountSubField('FORTNIGHTLY'),
         },
-        { value: 'MONTHLY', translationKey: 'options.MONTHLY.label', subFields: amountSubField('MONTHLY') },
-        { value: 'YEARLY', translationKey: 'options.YEARLY.label', subFields: amountSubField('YEARLY') },
+        { value: 'MONTHLY', translationKey: 'options.MONTHLY.label', subFields: buildAmountSubField('MONTHLY') },
+        { value: 'YEARLY', translationKey: 'options.YEARLY.label', subFields: buildAmountSubField('YEARLY') },
       ],
     },
   ],

@@ -63,14 +63,12 @@ describe('application rent-payment-frequency step', () => {
     jest.clearAllMocks();
   });
 
-  // AC05
   it('errors when no frequency is selected', async () => {
     const { res } = await post(body({}));
 
     expect(res.redirect).not.toHaveBeenCalled();
   });
 
-  // AC01 + AC02
   it.each([
     ['WEEKLY', weeklyField],
     ['FORTNIGHTLY', fortnightlyField],
@@ -84,14 +82,12 @@ describe('application rent-payment-frequency step', () => {
     expect(req.session.formData[stepName][amountField]).toBe('850.50');
   });
 
-  // AC04
   it('errors when a frequency is selected but the amount is empty', async () => {
     const { res } = await post(body({ rentPaymentFrequency: 'MONTHLY' }));
 
     expect(res.redirect).not.toHaveBeenCalled();
   });
 
-  // AC03
   it.each(['abc', '£850', '1,200', '-850'])('errors when the amount is %s', async amount => {
     const { res } = await post(body({ rentPaymentFrequency: 'MONTHLY', [monthlyField]: amount }));
 
@@ -141,7 +137,6 @@ describe('application rent-payment-frequency step', () => {
     });
   });
 
-  // AC06
   it('continues on save for later with nothing selected', async () => {
     const { res } = await post(body({ action: 'saveForLater' }));
 
