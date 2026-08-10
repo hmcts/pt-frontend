@@ -21,11 +21,18 @@ export const config: CodeceptJS.MainConfig = {
       enabled: true,
     },
     tryTo: {
-      enabled: true,
+      enabled: false,
     },
     screenshotOnFail: {
       enabled: true,
       fullPageScreenshots: true,
+    },
+    cucumberJsonReporter: {
+      enabled: true,
+      require: 'codeceptjs-cucumber-json-reporter',
+      attachScreenshots: true,
+      attachComments: true,
+      outputFile: '../../zephyr/cucumber-report.json',
     },
   },
 };

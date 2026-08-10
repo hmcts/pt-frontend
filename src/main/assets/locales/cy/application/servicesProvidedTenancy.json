@@ -8,11 +8,11 @@
   },
   "errors": {
     "servicesProvided": {
-      "required": "cy Enter whether any services are provided in your tenancy"
+      "required": "cy Select whether services are provided in your tenancy"
     },
     "servicesProvidedDetails": {
-      "required": "cy Enter a description of the services provided",
-      "invalid": "cy Enter a valid description of the services provided"
+      "required": "cy Enter the services provided in your tenancy",
+      "invalid": "cy Details about the services provided must be 2 characters or more"
     }
   }
 }
