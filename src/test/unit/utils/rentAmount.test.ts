@@ -41,4 +41,19 @@ describe('getRentAmountError', () => {
       expect(getRentAmountError(amount)).toBe('decimalPlaces');
     });
   });
+
+  describe('amounts that are too large', () => {
+    // The backend column is numeric(18,2): 18 digits in total, 2 after the
+    // decimal point, so 16 before it.
+    it.each(['12345678901234567', '99999999999999999.99', '10000000000000000'])(
+      'rejects %s for being too large',
+      amount => {
+        expect(getRentAmountError(amount)).toBe('tooLarge');
+      }
+    );
+
+    it('accepts the largest storable amount', () => {
+      expect(getRentAmountError('9999999999999999.99')).toBeUndefined();
+    });
+  });
 });

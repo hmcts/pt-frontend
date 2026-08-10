@@ -38,22 +38,26 @@
     "rentCostWeekly": {
       "required": "cyEnter the current weekly rent",
       "invalid": "cyCurrent rent amount must contain numbers only",
-      "decimalPlaces": "cyCurrent rent amount must be a number with no more than 2 decimal places, like 950 or 950.50"
+      "decimalPlaces": "cyCurrent rent amount must be a number with no more than 2 decimal places, like 950 or 950.50",
+      "tooLarge": "cyCurrent rent amount must be 16 digits or less"
     },
     "rentCostFortnightly": {
       "required": "cyEnter the current fortnightly rent",
       "invalid": "cyCurrent rent amount must contain numbers only",
-      "decimalPlaces": "cyCurrent rent amount must be a number with no more than 2 decimal places, like 950 or 950.50"
+      "decimalPlaces": "cyCurrent rent amount must be a number with no more than 2 decimal places, like 950 or 950.50",
+      "tooLarge": "cyCurrent rent amount must be 16 digits or less"
     },
     "rentCostMonthly": {
       "required": "cyEnter the current monthly rent",
       "invalid": "cyCurrent rent amount must contain numbers only",
-      "decimalPlaces": "cyCurrent rent amount must be a number with no more than 2 decimal places, like 950 or 950.50"
+      "decimalPlaces": "cyCurrent rent amount must be a number with no more than 2 decimal places, like 950 or 950.50",
+      "tooLarge": "cyCurrent rent amount must be 16 digits or less"
     },
     "rentCostYearly": {
       "required": "cyEnter the current yearly rent",
       "invalid": "cyCurrent rent amount must contain numbers only",
-      "decimalPlaces": "cyCurrent rent amount must be a number with no more than 2 decimal places, like 950 or 950.50"
+      "decimalPlaces": "cyCurrent rent amount must be a number with no more than 2 decimal places, like 950 or 950.50",
+      "tooLarge": "cyCurrent rent amount must be 16 digits or less"
     }
   }
 }

@@ -1,22 +1,18 @@
 /**
- * A rent amount is a plain positive number with optional pence, for example
- * '850' or '850.50'. The '£' is rendered by the input's prefix and is not part
- * of the submitted value, so a typed '£' is rejected. Thousands separators are
- * rejected too, since the backend column is numeric(18,2) and stores a raw
- * number.
+ * A rent amount is a plain positive number with optional pence, e.g. '850.50'.
+ * The '£' is a prefix on the input and is not part of the submitted value.
  *
- * Returns why the amount is invalid rather than a bare boolean, so the step can
- * show a message that matches the mistake: 'invalid' for anything that is not a
- * plain number, 'decimalPlaces' for a number with more than two decimals.
- *
- * Empty values are handled by the field's `required` check, not here, so that
- * 'you left it blank' and 'that is not a number' can show different messages
- * (HDPD-591 AC03 and AC04).
+ * Returns the reason an amount is invalid rather than a boolean, so the step can
+ * show a message matching the mistake. Empty values are left to the field's
+ * `required` check so 'blank' and 'not a number' read differently.
  */
-export type RentAmountError = 'invalid' | 'decimalPlaces';
+export type RentAmountError = 'invalid' | 'decimalPlaces' | 'tooLarge';
 
 const NUMBER_PATTERN = /^\d+(\.\d+)?$/;
+
+// numeric(18,2): 18 digits total, 2 after the point, so 16 before it.
 const MAX_DECIMAL_PLACES = 2;
+const MAX_INTEGER_DIGITS = 16;
 
 export function getRentAmountError(rentAmount: string): RentAmountError | undefined {
   const trimmed = rentAmount.trim();
@@ -25,9 +21,14 @@ export function getRentAmountError(rentAmount: string): RentAmountError | undefi
     return 'invalid';
   }
 
-  const decimals = trimmed.split('.')[1];
+  const [integerDigits, decimals] = trimmed.split('.');
+
   if (decimals && decimals.length > MAX_DECIMAL_PLACES) {
     return 'decimalPlaces';
+  }
+
+  if (integerDigits.length > MAX_INTEGER_DIGITS) {
+    return 'tooLarge';
   }
 
   return undefined;
