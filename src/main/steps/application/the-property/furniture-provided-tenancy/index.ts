@@ -41,7 +41,7 @@ export const step: StepDefinition = createFormStep({
                 hint: 'options.furnitureProvidedDetails.hint',
               },
               validator: (value): boolean | string => {
-                if (value && String(value).length > 500) {
+                if (value && (String(value).length < 2 || String(value).length > 500)) {
                   return 'errors.furnitureProvidedDetails.invalid';
                 }
                 return true;

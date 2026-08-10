@@ -148,7 +148,12 @@ module.exports = defineConfig([
     },
   },
   {
-    files: ['src/test/functional/**/*.ts', 'src/test/steps/**/*.ts', 'src/test/smoke/**/*.ts'],
+    files: [
+      'src/test/functional/**/*.ts',
+      'src/test/steps/**/*.ts',
+      'src/test/smoke/**/*.ts',
+      'zephyr-scripts/**/*.ts',
+    ],
     rules: {
       quotes: [
         'error',
