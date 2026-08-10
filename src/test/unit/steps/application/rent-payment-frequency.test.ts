@@ -13,6 +13,13 @@ jest.mock('../../../../main/modules/i18n', () => ({
   getCommonTranslations: jest.fn(() => ({})),
 }));
 
+/**
+ * Covers only what this step adds on top of the form builder: that each
+ * frequency maps to its own amount field, that a hidden amount is not
+ * validated, and that beforeRedirect clears the amounts that do not apply.
+ * Required and validator behaviour is the framework's, and the amount rules
+ * are covered by rentAmount.test.ts.
+ */
 describe('application rent-payment-frequency step', () => {
   const nunjucksEnv = { render: jest.fn(() => '') } as unknown as Environment;
 
@@ -63,48 +70,17 @@ describe('application rent-payment-frequency step', () => {
     jest.clearAllMocks();
   });
 
-  it('errors when no frequency is selected', async () => {
-    const { res } = await post(body({}));
-
-    expect(res.redirect).not.toHaveBeenCalled();
-  });
-
   it.each([
     ['WEEKLY', weeklyField],
     ['FORTNIGHTLY', fortnightlyField],
     ['MONTHLY', monthlyField],
     ['YEARLY', yearlyField],
-  ])('saves the amount and continues when %s is selected', async (frequency, amountField) => {
+  ])('saves the amount against the field for %s', async (frequency, amountField) => {
     const { req, res } = await post(body({ rentPaymentFrequency: frequency, [amountField]: '850.50' }));
 
     expect(res.redirect).toHaveBeenCalled();
     expect(req.session.formData[stepName].rentPaymentFrequency).toBe(frequency);
     expect(req.session.formData[stepName][amountField]).toBe('850.50');
-  });
-
-  it('errors when a frequency is selected but the amount is empty', async () => {
-    const { res } = await post(body({ rentPaymentFrequency: 'MONTHLY' }));
-
-    expect(res.redirect).not.toHaveBeenCalled();
-  });
-
-  it.each(['abc', '£850', '1,200', '-850'])('errors when the amount is %s', async amount => {
-    const { res } = await post(body({ rentPaymentFrequency: 'MONTHLY', [monthlyField]: amount }));
-
-    expect(res.redirect).not.toHaveBeenCalled();
-  });
-
-  it('errors when the amount has more than two decimal places', async () => {
-    const { res } = await post(body({ rentPaymentFrequency: 'MONTHLY', [monthlyField]: '1033.333' }));
-
-    expect(res.redirect).not.toHaveBeenCalled();
-  });
-
-  it('accepts an amount with pence', async () => {
-    const { req, res } = await post(body({ rentPaymentFrequency: 'MONTHLY', [monthlyField]: '1033.33' }));
-
-    expect(res.redirect).toHaveBeenCalled();
-    expect(req.session.formData[stepName][monthlyField]).toBe('1033.33');
   });
 
   it('does not validate the amounts for frequencies that are not selected', async () => {
@@ -135,11 +111,5 @@ describe('application rent-payment-frequency step', () => {
       [monthlyField]: '',
       [yearlyField]: '',
     });
-  });
-
-  it('continues on save for later with nothing selected', async () => {
-    const { res } = await post(body({ action: 'saveForLater' }));
-
-    expect(res.redirect).toHaveBeenCalled();
   });
 });
