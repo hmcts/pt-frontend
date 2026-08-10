@@ -24,14 +24,24 @@ export const step: StepDefinition = createFormStep({
   showCancelButton: false,
   // Task-list status tag: 'NO' is a complete answer, so presence is enough.
   isAnswered: req => Boolean(req.session.ccdCase?.tribunalPreviouslyDeterminedRent),
-  translationKeys: {
-    pageTitle: 'pageTitle',
-  },
-  // Runs after the answers are written to the session, so the stored reference
-  // is normalised rather than kept exactly as typed.
+
+  // Runs after the answers are written to the session. Normalises the stored
+  // reference, and drops it if the answer is not 'YES' setFormData currently
+  // replaces the step's data on each POST, but it
+  // keeps the step correct regardless of that behaviour.
   beforeRedirect: req => {
     const stepData = req.session.formData?.[stepName];
-    const caseReference = stepData?.[caseReferenceFieldName];
+
+    if (!stepData) {
+      return;
+    }
+
+    if (stepData.tribunalPreviouslyDeterminedRent !== 'YES') {
+      delete stepData[caseReferenceFieldName];
+      return;
+    }
+
+    const caseReference = stepData[caseReferenceFieldName];
 
     if (typeof caseReference === 'string' && caseReference) {
       stepData[caseReferenceFieldName] = normaliseTribunalCaseReference(caseReference);

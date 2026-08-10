@@ -91,6 +91,16 @@ describe('application tribunal-previously-determined-rent step', () => {
     );
   });
 
+  it('clears any previously entered case reference when NO is selected', async () => {
+    const { req } = await post({
+      action: 'continue',
+      tribunalPreviouslyDeterminedRent: 'NO',
+      [caseReferenceField]: 'LON/00AD/SMO/2023/0001',
+    });
+
+    expect(req.session.formData['tribunal-previously-determined-rent'][caseReferenceField]).toBeUndefined();
+  });
+
   it('errors when no option is selected', async () => {
     const { res } = await post({ action: 'continue' });
 
