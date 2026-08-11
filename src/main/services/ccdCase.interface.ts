@@ -32,6 +32,7 @@ export interface CcdCaseData extends ContactPreferences, LandlordDetails, Proper
   applicantLastName?: string;
   applicationType?: string;
   tenancyType?: string;
+  lettingAgentDetails?: LettingAgentDetails;
 }
 
 /** Case representation used by services: id + case_data. */
@@ -89,12 +90,17 @@ export interface ApplicationData extends ContactPreferences, LandlordDetails, Pr
   applicantIdamUserId: UUID;
   applicationType: string;
   tenancyType?: string;
+  lettingAgentDetails?: LettingAgentDetails;
 }
 
 export interface ContactPreferences {
   textUpdates?: string | boolean;
   textUpdatesPhoneNumber?: string;
   phoneNumberForCalls?: string;
+}
+
+export interface LettingAgentDetails {
+  lettingAgentEmailAddress?: string;
 }
 
 export interface LandlordDetails {

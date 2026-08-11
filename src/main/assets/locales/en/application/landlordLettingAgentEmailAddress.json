@@ -1,0 +1,8 @@
+{
+  "questionTitle": "Your landlord's letting agent’s email address",
+  "errors": {
+    "lettingAgentEmailAddress": {
+      "invalid": "Enter an email address in the correct format, like name@example.com"
+    }
+  }
+}

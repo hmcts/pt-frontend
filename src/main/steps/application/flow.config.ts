@@ -24,5 +24,23 @@ export const flowConfig: JourneyFlowConfig = {
     'upload-evidence-improvements-or-repairs': {
       showCondition: (req: Request) => getFormData(req, 'repairs-and-improvements').hasRepairsAndImprovements === 'yes',
     },
+    'landlord-letting-agent-email-address': {
+      showCondition: (req: Request) => {
+        const answer = getFormData(
+          req,
+          'landlord-has-letting-agent-or-representative'
+        ).landlordHasLettingAgentOrRepresentative;
+        return answer === 'lettingAgentOnly' || answer === 'lettingAgentAndRepresentative';
+      },
+    },
+    'landlord-letting-agent-phone-number': {
+      showCondition: (req: Request) => {
+        const answer = getFormData(
+          req,
+          'landlord-has-letting-agent-or-representative'
+        ).landlordHasLettingAgentOrRepresentative;
+        return answer === 'lettingAgentOnly' || answer === 'lettingAgentAndRepresentative';
+      },
+    },
   } satisfies Partial<Record<ApplicationStepName, StepConfig>>,
 };
