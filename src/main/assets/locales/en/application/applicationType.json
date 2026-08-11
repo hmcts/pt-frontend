@@ -1,7 +1,7 @@
 {
   "pageTitle": "Application type",
   "heading": "Application type",
-  "subHeading": "The answers cannot be changed. If you need to change any of these answers, you must start a new application from your <a class=\"govuk-link govuk-link--no-visited-state\" href=\"/\">applications page</a>.",
+  "subHeading": "These answers cannot be changed. If you need to change any of these answers, you must start a new application from your <a class=\"govuk-link govuk-link--no-visited-state\" href=\"/\">applications page</a>.",
   "applicationTypeQuestion": "Which application do you want to make?",
   "challengeRentIncrease": "Challenge the rent increase proposed in a landlord’s notice proposing a new rent",
   "challengeExcessiveRent": "Challenge my rent as excessive within the first 6 months of the tenancy",
