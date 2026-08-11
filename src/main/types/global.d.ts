@@ -1,3 +1,4 @@
+import { PTCaseData } from '@services/ccdCase.interface';
 import { type Session, type SessionData } from 'express-session';
 import { type Environment } from 'nunjucks';
 import { type TFunction } from 'i18next';
@@ -10,7 +11,7 @@ interface CustomSessionData extends SessionData {
   formData?: Record<string, any>;
   uploadedDocs?: Record<string, Record<string, unknown[]>>;
   returnToCya?: string;
-  ccdCase?: CcdCase;
+  ccdCase?: PTCaseData;
   genApp?: {
     applicationId?: string;
     showDuplicateSubmissionPage?: boolean;

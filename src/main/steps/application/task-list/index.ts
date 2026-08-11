@@ -45,10 +45,9 @@ export const step: StepDefinition = {
 
       const user = req.session?.user;
 
-      if (!req.session.ccdCase || req.session.ccdCase?.id !== caseReference) {
-        const ptApi = getPtApi(user);
-        req.session.ccdCase = await ptApi.getCaseByCaseReference(caseReference);
-      }
+      const ptApi = getPtApi(user);
+      req.session.ccdCase = await ptApi.getCaseByCaseReference(caseReference);
+      delete req.session.formData;
 
       const name = [req.session.ccdCase?.applicantFirstName, req.session.ccdCase?.applicantLastName]
         .filter(Boolean)
