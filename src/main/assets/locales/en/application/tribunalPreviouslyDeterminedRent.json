@@ -1,0 +1,23 @@
+{
+  "questionTitle": "Has the tribunal previously determined the rent for your tenancy?",
+  "options": {
+    "YES": {
+      "label": "Yes"
+    },
+    "NO": {
+      "label": "No"
+    }
+  },
+  "previousTribunalCaseReference": {
+    "label": "What was the tribunal’s case reference number for the previous determination? (optional)",
+    "hint": "It’s the 18-digit reference on any letter from the tribunal in your last tenancy determination application - for example, ‘LON/00AD/SMO/2023/0001’"
+  },
+  "errors": {
+    "tribunalPreviouslyDeterminedRent": {
+      "required": "Select whether the tribunal has previously determined the rent for your tenancy"
+    },
+    "previousTribunalCaseReference": {
+      "invalid": "Case reference number must be in the format 'LON/00AD/SMO/2023/0001'"
+    }
+  }
+}
