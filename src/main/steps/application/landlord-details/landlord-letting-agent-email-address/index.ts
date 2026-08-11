@@ -17,8 +17,8 @@ export const step: StepDefinition = createFormStep({
   showCancelButton: false,
   isAnswered: req =>
     Boolean(
-      req.session.ccdCase?.lettingAgentEmailAddress &&
-      isValidEmail(req.session.ccdCase?.lettingAgentDetails?.lettingAgentEmailAddress)
+      req.session.ccdCase?.lettingAgentDetails?.lettingAgentEmailAddress &&
+      isValidEmail(req.session.ccdCase.lettingAgentDetails.lettingAgentEmailAddress)
     ),
   beforeRedirect: req => {
     const lettingAgentEmailAddress = (req.body.lettingAgentEmailAddress as string | undefined) ?? '';
