@@ -1,0 +1,63 @@
+{
+  "questionTitle": "cyHow often do you pay your rent?",
+  "questionHint": "cyIn your current tenancy agreement",
+  "options": {
+    "WEEKLY": {
+      "label": "cyWeekly"
+    },
+    "FORTNIGHTLY": {
+      "label": "cyFortnightly (every 2 weeks)"
+    },
+    "MONTHLY": {
+      "label": "cyMonthly"
+    },
+    "YEARLY": {
+      "label": "cyYearly"
+    }
+  },
+  "rentCostWeekly": {
+    "label": "cyHow much is the current weekly rent?",
+    "hint": "cyShown in your tenancy agreement"
+  },
+  "rentCostFortnightly": {
+    "label": "cyHow much is the current fortnightly rent?",
+    "hint": "cyShown in your tenancy agreement"
+  },
+  "rentCostMonthly": {
+    "label": "cyHow much is the current monthly rent?",
+    "hint": "cyShown in your tenancy agreement"
+  },
+  "rentCostYearly": {
+    "label": "cyHow much is the current yearly rent?",
+    "hint": "cyShown in your tenancy agreement"
+  },
+  "errors": {
+    "rentPaymentFrequency": {
+      "required": "cySelect how often you pay your rent"
+    },
+    "rentCostWeekly": {
+      "required": "cyEnter the current weekly rent",
+      "invalid": "cyCurrent rent amount must contain numbers only",
+      "decimalPlaces": "cyCurrent rent amount must be a number with no more than 2 decimal places, like 950 or 950.50",
+      "tooLarge": "cyCurrent rent amount must be 16 digits or less"
+    },
+    "rentCostFortnightly": {
+      "required": "cyEnter the current fortnightly rent",
+      "invalid": "cyCurrent rent amount must contain numbers only",
+      "decimalPlaces": "cyCurrent rent amount must be a number with no more than 2 decimal places, like 950 or 950.50",
+      "tooLarge": "cyCurrent rent amount must be 16 digits or less"
+    },
+    "rentCostMonthly": {
+      "required": "cyEnter the current monthly rent",
+      "invalid": "cyCurrent rent amount must contain numbers only",
+      "decimalPlaces": "cyCurrent rent amount must be a number with no more than 2 decimal places, like 950 or 950.50",
+      "tooLarge": "cyCurrent rent amount must be 16 digits or less"
+    },
+    "rentCostYearly": {
+      "required": "cyEnter the current yearly rent",
+      "invalid": "cyCurrent rent amount must contain numbers only",
+      "decimalPlaces": "cyCurrent rent amount must be a number with no more than 2 decimal places, like 950 or 950.50",
+      "tooLarge": "cyCurrent rent amount must be 16 digits or less"
+    }
+  }
+}
