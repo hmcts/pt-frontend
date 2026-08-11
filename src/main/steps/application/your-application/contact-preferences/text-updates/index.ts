@@ -3,7 +3,7 @@ import { flowConfig } from '../../../flow.config';
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { CcdCaseData } from '@services/ccdCase.interface';
-import { isValidPhoneNumber } from '@utils/phoneNumber';
+import { VALID_MOBILE_NUMBER_REGEX, isValidPhoneNumber } from '@utils/phoneNumber';
 
 const journeyName = 'application';
 const stepName = 'text-updates';
@@ -41,7 +41,7 @@ export const step: StepDefinition = createFormStep({
                 label: 'options.yesTextBox.label',
               },
               validator: (value): boolean | string => {
-                if (value && !isValidPhoneNumber(value as string)) {
+                if (value && !isValidPhoneNumber(value as string, VALID_MOBILE_NUMBER_REGEX)) {
                   return 'errors.textUpdatesPhoneNumber.invalid';
                 }
                 return true;
@@ -57,7 +57,10 @@ export const step: StepDefinition = createFormStep({
 
 function isAnswered(ccdCase: CcdCaseData): boolean {
   if (ccdCase.textUpdates === 'yes') {
-    return Boolean(ccdCase.textUpdatesPhoneNumber && isValidPhoneNumber(ccdCase.textUpdatesPhoneNumber as string));
+    return Boolean(
+      ccdCase.textUpdatesPhoneNumber &&
+      isValidPhoneNumber(ccdCase.textUpdatesPhoneNumber as string, VALID_MOBILE_NUMBER_REGEX)
+    );
   }
   return ccdCase.textUpdates === 'no';
 }
