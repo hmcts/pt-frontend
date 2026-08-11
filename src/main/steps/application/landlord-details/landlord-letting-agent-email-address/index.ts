@@ -1,8 +1,7 @@
 import { flowConfig } from '../../flow.config';
 
-import { createFormStep, getFormData, setFormData } from '@modules/steps';
+import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import type { LettingAgentDetails } from '@services/ccdCase.interface';
 import { isValidEmail } from '@utils/email';
 
 const journeyName = 'application';
@@ -17,19 +16,8 @@ export const step: StepDefinition = createFormStep({
   showCancelButton: false,
   isAnswered: req =>
     Boolean(
-      req.session.ccdCase?.lettingAgentDetails?.lettingAgentEmailAddress &&
-      isValidEmail(req.session.ccdCase.lettingAgentDetails.lettingAgentEmailAddress)
+      req.session.ccdCase?.lettingAgentEmailAddress && isValidEmail(req.session.ccdCase?.lettingAgentEmailAddress)
     ),
-  beforeRedirect: req => {
-    const lettingAgentEmailAddress = (req.body.lettingAgentEmailAddress as string | undefined) ?? '';
-    const existingAnswers = getFormData(req, stepName).lettingAgentDetails as LettingAgentDetails | undefined;
-    setFormData(req, stepName, {
-      lettingAgentDetails: {
-        ...existingAnswers,
-        lettingAgentEmailAddress,
-      },
-    });
-  },
   fields: [
     {
       name: 'lettingAgentEmailAddress',
