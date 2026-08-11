@@ -2,7 +2,8 @@ import { flowConfig } from '../../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { isValidPhoneNumber } from '@utils/phoneNumber';
+import { PTCaseData } from '@services/ccdCase.interface';
+import { VALID_PHONE_NUMBER_REGEX, isValidPhoneNumber } from '@utils/phoneNumber';
 
 const journeyName = 'application';
 const stepName = 'contact-by-phone';
@@ -19,7 +20,10 @@ export const step: StepDefinition = createFormStep({
     contactByPhoneInfo: 'contactByPhoneInfo',
   },
   isAnswered: req =>
-    Boolean(req.session.ccdCase?.phoneNumberForCalls && isValidPhoneNumber(req.session.ccdCase.phoneNumberForCalls)),
+    Boolean(
+      req.session.ccdCase?.applicantContactPreferences?.phoneNumber &&
+      isValidPhoneNumber(req.session.ccdCase?.applicantContactPreferences?.phoneNumber, VALID_PHONE_NUMBER_REGEX)
+    ),
   fields: [
     {
       name: 'phoneNumberForCalls',
@@ -31,11 +35,21 @@ export const step: StepDefinition = createFormStep({
       classes: 'govuk-input--width-10',
       translationKey: { label: 'questionTitle', hint: 'questionHint' },
       validator: (value): boolean | string => {
-        if (value && !isValidPhoneNumber(value as string)) {
+        if (value && !isValidPhoneNumber(value as string, VALID_PHONE_NUMBER_REGEX)) {
           return 'errors.phoneNumberForCalls.invalid';
         }
         return true;
       },
     },
   ],
+  getInitialFormData: req => {
+    const formData = req.session.formData;
+    const caseData: PTCaseData | undefined = req.session.ccdCase;
+    const phoneNumberForCalls: string | undefined =
+      formData?.['contact-by-phone']?.phoneNumberForCalls ?? caseData?.applicantContactPreferences?.phoneNumber;
+
+    return {
+      ...(phoneNumberForCalls && { phoneNumberForCalls }),
+    };
+  },
 });

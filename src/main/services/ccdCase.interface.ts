@@ -26,12 +26,16 @@ export interface CcdCollectionItem<T> {
 export type CaseData = CcdCaseData;
 
 /** Case data payload from CCD (START callback case_data or CcdCase.data). */
-export interface CcdCaseData extends ContactPreferences, LandlordDetails, PropertyDetails, LettingAgentDetails {
+export interface CcdCaseData {
   //TODO: build this out once data model added to pt-api
   applicantFirstName?: string;
   applicantLastName?: string;
   applicationType?: string;
   tenancyType?: string;
+
+  applicantContactPreferencesTextUpdates?: string | boolean;
+  applicantContactPreferencesTextUpdatesPhoneNumber?: string;
+  applicantContactPreferencesPhoneNumberForCalls?: string;
 }
 
 /** Case representation used by services: id + case_data. */
@@ -75,26 +79,27 @@ export interface StartCallbackData {
   event_id: string;
 }
 
-//
 /** Case data payload returned from PT API get case(s) calls */
-export interface ApplicationData extends ContactPreferences, LandlordDetails, PropertyDetails, LettingAgentDetails {
+export interface PTCaseData extends LandlordDetails, PropertyDetails, LettingAgentDetails {
   caseReference: bigint;
   createdDate: string;
   submittedOn?: string;
 
-  applicantFirstName: string;
-  applicantLastName: string;
-  email: string;
-  postcode: string;
-  applicantIdamUserId: UUID;
-  applicationType: string;
+  applicantFirstName?: string;
+  applicantLastName?: string;
+  email?: string;
+  postcode?: string;
+  applicantIdamUserId?: UUID;
+  applicationType?: string;
   tenancyType?: string;
+
+  applicantContactPreferences?: ContactPreferences;
 }
 
 export interface ContactPreferences {
-  textUpdates?: string | boolean;
-  textUpdatesPhoneNumber?: string;
-  phoneNumberForCalls?: string;
+  contactByText?: string;
+  mobilePhoneNumber?: string;
+  phoneNumber?: string;
 }
 
 export interface LettingAgentDetails {

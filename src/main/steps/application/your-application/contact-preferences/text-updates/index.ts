@@ -2,8 +2,8 @@ import { flowConfig } from '../../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { CcdCaseData } from '@services/ccdCase.interface';
-import { isValidMobilePhoneNumber } from '@utils/phoneNumber';
+import { PTCaseData } from '@services/ccdCase.interface';
+import { VALID_MOBILE_NUMBER_REGEX, isValidPhoneNumber } from '@utils/phoneNumber';
 
 const journeyName = 'application';
 const stepName = 'text-updates';
@@ -27,7 +27,7 @@ export const step: StepDefinition = createFormStep({
       errorMessage: 'errors.textUpdates.required',
       options: [
         {
-          value: 'yes',
+          value: 'Yes',
           translationKey: 'common:yes',
           subFields: {
             textUpdatesPhoneNumber: {
@@ -35,13 +35,15 @@ export const step: StepDefinition = createFormStep({
               type: 'text',
               maxLength: 20,
               required: true,
+              //TODO: check this
               errorMessage: 'errors.textUpdatesPhoneNumber',
               classes: 'govuk-input--width-10',
               translationKey: {
                 label: 'options.yesTextBox.label',
               },
               validator: (value): boolean | string => {
-                if (value && !isValidMobilePhoneNumber(value as string)) {
+                if (value && !isValidPhoneNumber(value as string, VALID_MOBILE_NUMBER_REGEX)) {
+                  // TODO - check this
                   return 'errors.textUpdatesPhoneNumber';
                 }
                 return true;
@@ -49,17 +51,32 @@ export const step: StepDefinition = createFormStep({
             },
           },
         },
-        { value: 'no', translationKey: 'options.no.label' },
+        { value: 'No', translationKey: 'options.no.label' },
       ],
     },
   ],
+  getInitialFormData: req => {
+    const formData = req.session.formData;
+    const caseData: PTCaseData | undefined = req.session.ccdCase;
+    const textUpdates: string | undefined =
+      formData?.['text-updates']?.textUpdates ?? caseData?.applicantContactPreferences?.contactByText;
+    const textUpdatesPhoneNumber: string | undefined =
+      formData?.['text-updates']?.['textUpdates.textUpdatesPhoneNumber'] ??
+      caseData?.applicantContactPreferences?.mobilePhoneNumber;
+
+    return {
+      ...(textUpdates && { textUpdates }),
+      ...(textUpdatesPhoneNumber && { 'textUpdates.textUpdatesPhoneNumber': textUpdatesPhoneNumber }),
+    };
+  },
 });
 
-function isAnswered(ccdCase: CcdCaseData): boolean {
-  if (ccdCase.textUpdates === 'yes') {
+function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  if (ccdCase?.applicantContactPreferences?.contactByText === 'yes') {
     return Boolean(
-      ccdCase.textUpdatesPhoneNumber && isValidMobilePhoneNumber(ccdCase.textUpdatesPhoneNumber as string)
+      ccdCase?.applicantContactPreferences?.mobilePhoneNumber &&
+      isValidPhoneNumber(ccdCase?.applicantContactPreferences?.mobilePhoneNumber as string, VALID_MOBILE_NUMBER_REGEX)
     );
   }
-  return ccdCase.textUpdates === 'no';
+  return ccdCase?.applicantContactPreferences?.contactByText === 'no';
 }
