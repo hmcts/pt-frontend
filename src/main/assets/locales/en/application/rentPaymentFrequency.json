@@ -37,25 +37,25 @@
     },
     "rentCostWeekly": {
       "required": "Enter the current weekly rent",
-      "invalid": "Current rent amount must contain numbers only",
+      "invalid": "Current rent amount must be a number with no more than 2 decimal places, like 950 or 950.50",
       "decimalPlaces": "Current rent amount must be a number with no more than 2 decimal places, like 950 or 950.50",
       "tooLarge": "Current rent amount must be 16 digits or less"
     },
     "rentCostFortnightly": {
       "required": "Enter the current fortnightly rent",
-      "invalid": "Current rent amount must contain numbers only",
+      "invalid": "Current rent amount must be a number with no more than 2 decimal places, like 950 or 950.50",
       "decimalPlaces": "Current rent amount must be a number with no more than 2 decimal places, like 950 or 950.50",
       "tooLarge": "Current rent amount must be 16 digits or less"
     },
     "rentCostMonthly": {
       "required": "Enter the current monthly rent",
-      "invalid": "Current rent amount must contain numbers only",
+      "invalid": "Current rent amount must be a number with no more than 2 decimal places, like 950 or 950.50",
       "decimalPlaces": "Current rent amount must be a number with no more than 2 decimal places, like 950 or 950.50",
       "tooLarge": "Current rent amount must be 16 digits or less"
     },
     "rentCostYearly": {
       "required": "Enter the current yearly rent",
-      "invalid": "Current rent amount must contain numbers only",
+      "invalid": "Current rent amount must be a number with no more than 2 decimal places, like 950 or 950.50",
       "decimalPlaces": "Current rent amount must be a number with no more than 2 decimal places, like 950 or 950.50",
       "tooLarge": "Current rent amount must be 16 digits or less"
     }
