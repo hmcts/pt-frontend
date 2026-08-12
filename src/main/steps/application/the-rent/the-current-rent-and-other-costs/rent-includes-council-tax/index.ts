@@ -26,8 +26,8 @@ export const step: StepDefinition = createFormStep({
       translationKey: { label: 'questionTitle' },
       errorMessage: `errors.${fieldName}.required`,
       options: [
-        { value: 'YES', translationKey: 'common:yes' },
-        { value: 'NO', translationKey: 'common:no' },
+        { value: 'yes', translationKey: 'common:yes' },
+        { value: 'no', translationKey: 'common:no' },
       ],
     },
   ],

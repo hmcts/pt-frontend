@@ -21,8 +21,11 @@ export const flowConfig: JourneyFlowConfig = {
     'upload-floor-plan-of-property': {
       showCondition: (req: Request) => getFormData(req, 'floor-plan-of-property').hasFloorPlanOfProperty === 'yes',
     },
+    'upload-evidence-improvements-or-repairs': {
+      showCondition: (req: Request) => getFormData(req, 'repairs-and-improvements').hasRepairsAndImprovements === 'yes',
+    },
     'council-tax-frequency': {
-      showCondition: (req: Request) => getFormData(req, 'rent-includes-council-tax').rentIncludesCouncilTax === 'YES',
+      showCondition: (req: Request) => getFormData(req, 'rent-includes-council-tax').rentIncludesCouncilTax === 'yes',
     },
   } satisfies Partial<Record<ApplicationStepName, StepConfig>>,
 };
