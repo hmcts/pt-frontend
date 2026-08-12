@@ -26,6 +26,10 @@ Then('the citizen is taken to the you need to use another form page', () => {
   I.waitForText(landlordHousingAssociation.anotherFormPageHeading);
 });
 
+Then('the citizen is taken to application type page', () => {
+  I.waitForText(landlordHousingAssociation.landlordapplicationTypeHeading);
+});
+
 Then('the standard validation message is displayed', () => {
   I.waitForText(landlordHousingAssociation.validationErrorMessage, 10, '.govuk-error-summary');
 });

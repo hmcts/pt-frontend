@@ -8,7 +8,7 @@ Background:
   Scenario: Citizen selects No
     When the citizen selects No
     And the citizen clicks Continue
-    Then the citizen is taken to the IDAM account creation page
+    Then the citizen is taken to application type page
 
   @AC2 @JIRA-TEST-KEY:PTSD-441
   Scenario: Citizen selects Yes

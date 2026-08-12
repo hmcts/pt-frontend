@@ -10,5 +10,5 @@ export const ptConfirmApplicationType = {
   validationErrorHeading: 'There is a problem',
   validationErrorMessage: 'Select which application you want to make',
   applyingForUrl: 'https://pt.aat.platform.hmcts.net/pre-application/application-type',
-  paperApplicationFormUrl: 'https://assets.publishing.service.gov.uk/media/6a44d59593349b85b718da0b/MR1_0726_save.pdf',
+  paperApplicationFormUrl: 'https://assets.publishing.service.gov.uk/media/6a75ddfe0a700895e2d79f9c/MR1_0826_save.pdf',
 };

@@ -2,8 +2,6 @@ import { ptConfirmApplicationType } from '../functional/page-data/ptConfirmAppli
 
 const { I } = inject();
 
-// const ptUrl = (path: string): string => new URL(path, testConfig.TEST_URL).toString();
-
 Given('I am on the "What type of application do you want to make" page', () => {
   I.amOnPage(ptConfirmApplicationType.applyingForUrl);
   I.waitForText(ptConfirmApplicationType.pageHeading);
@@ -33,10 +31,16 @@ Then('I can see error message is displayed', () => {
 When('I selects download paper form', () => {
   I.click(ptConfirmApplicationType.downloadPaperForm);
   I.waitForNumberOfTabs(2, 10);
-  I.switchToNextTab();
 });
 
-Then('I am taken in to  the paper application form', () => {
+Then('I am taken in to  the paper application form', async () => {
+  const tabs = await I.grabNumberOfOpenTabs();
+  console.log('Open tabs:', tabs);
+  I.switchToNextTab();
+  I.wait(5);
+  const currentUrl = await I.grabCurrentUrl();
+  console.log('Current URL:', currentUrl);
+  I.wait(2);
   I.waitInUrl(ptConfirmApplicationType.paperApplicationFormUrl);
   I.closeCurrentTab();
 });

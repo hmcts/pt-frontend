@@ -4,6 +4,7 @@ export const landlordHousingAssociation = {
   noOption: 'No',
   continueButton: 'Continue',
   validationErrorMessage: 'Select whether your landlord is a housing association',
-  anotherFormPageHeading: 'You need to use another form',
+  anotherFormPageHeading: 'You need to use another form to apply',
+  landlordapplicationTypeHeading: 'Application type',
   landingHousingAssociationUrl: '/pre-application/landlord-is-a-housing-association',
 };
