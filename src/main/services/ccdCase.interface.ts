@@ -99,6 +99,7 @@ export interface ContactPreferences {
 
 export interface LettingAgentDetails {
   lettingAgentEmailAddress?: string;
+  lettingAgentPhoneNumber?: string;
 }
 
 export interface LandlordDetails {

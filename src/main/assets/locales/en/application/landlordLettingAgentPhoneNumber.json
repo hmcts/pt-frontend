@@ -1,4 +1,9 @@
 {
-  "pageTitle": "Landlord's letting agent phone number (placeholder)",
-  "heading": "Landlord's letting agent phone number (placeholder)"
+  "pageTitle": "Your landlord's letting agent’s phone number (optional)",
+  "heading": "Your landlord's letting agent’s phone number (optional)",
+  "errors": {
+    "lettingAgentPhoneNumber": {
+      "invalid": "Enter a phone number in the correct format, including the country code for international numbers"
+    }
+  }
 }
