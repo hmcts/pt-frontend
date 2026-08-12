@@ -47,6 +47,8 @@ const sectionDefs = [
       'landlord-has-letting-agent-or-representative',
       'landlord-letting-agent-email-address',
       'landlord-letting-agent-phone-number',
+      'landlord-representative-details',
+      'check-your-answers-landlord-details',
     ],
   },
   {
