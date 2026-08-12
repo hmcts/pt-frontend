@@ -74,6 +74,30 @@ Outputs:
 TEST_HEADLESS=false yarn test:functional
 ```
 
+### Tag or feature scope
+
+`yarn test:functional` honours the same env vars as Jenkins (PCS-style):
+
+```bash
+# Run only @sanity scenarios (PR default)
+E2E_TEST_SCOPE=@sanity yarn test:functional
+
+# Run scenarios tagged @PR or @regression
+E2E_TEST_SCOPE=@regression yarn test:functional
+
+# Run features whose filename contains a keyword
+E2E_SPEC=idam-login yarn test:functional
+```
+
+| Tag           | Typical use                                              |
+| ------------- | -------------------------------------------------------- |
+| `@sanity`     | Minimal PR check (AC1 redirect only)                     |
+| `@PR`         | Critical login path on PR (`enable_critical_test` label) |
+| `@smoke`      | Smoke-style subset                                       |
+| `@health`     | Health-check style scenario                              |
+| `@regression` | Full suite on master                                     |
+| `@nightly`    | Nightly scheduled run default                            |
+
 ### Different environment
 
 ```bash
@@ -119,6 +143,40 @@ Each scenario uses `@JIRA-EPIC:` on the feature and `@JIRA-TEST-KEY:` on each sc
 2. Add step definitions under `src/test/steps/` (matched by `./src/test/steps/**/*.ts`)
 3. Put shared labels/copy in `page-data/` and helpers in `utils/`
 4. Run with `yarn test:functional`
+
+---
+
+## CI pipeline stages
+
+### PR and master (`Jenkinsfile_CNP`)
+
+Follows the same CNP pattern as [pcs-frontend](https://github.com/hmcts/pcs-frontend): deploy to preview/AAT, then `yarn test:functional` with tag scope.
+
+| Context    | `E2E_TEST_SCOPE`    | `TEST_URL`  | Zephyr upload                |
+| ---------- | ------------------- | ----------- | ---------------------------- |
+| **PR**     | `@sanity` (default) | Preview URL | No — archives only           |
+| **Master** | `@regression`       | AAT         | Yes — after successful tests |
+
+**PR label overrides** (same names as PCS):
+
+- `enable_critical_test` → `E2E_TEST_SCOPE=@PR`
+- `e2e-tag:<tag>` → e.g. `e2e-tag:@smoke`
+- `e2e-spec:<keyword>` → filter by feature filename keyword
+- `enable_full_functional_tests` → runs `yarn test:fullfunctional` (all scenarios, no tag filter)
+
+Do not add `enable_full_functional_tests` when you need `e2e-tag:` / `e2e-spec:` overrides — that label runs the full suite instead.
+
+After Zephyr upload on master, the pipeline archives `tmp/zephyr/**` (upload logs). The test run URL is printed to the console; Slack integration can capture it later.
+
+### Nightly (`Jenkinsfile_nightly`)
+
+| Parameter             | Maps to                         | Default        |
+| --------------------- | ------------------------------- | -------------- |
+| `E2E_TARGET_ENV`      | `TEST_URL`, vault `pt-kv-<env>` | `aat`          |
+| `PLAYWRIGHT_GREP_TAG` | `E2E_TEST_SCOPE`                | `@nightly`     |
+| `PLAYWRIGHT_SPEC`     | `E2E_SPEC`                      | (all features) |
+
+Runs `yarn test:functional:zephyr` against the selected environment and uploads results to Zephyr.
 
 ---
 
