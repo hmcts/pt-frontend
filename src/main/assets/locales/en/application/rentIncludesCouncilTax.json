@@ -1,13 +1,5 @@
 {
   "questionTitle": "Does your rent include council tax?",
-  "options": {
-    "YES": {
-      "label": "Yes"
-    },
-    "NO": {
-      "label": "No"
-    }
-  },
   "errors": {
     "rentIncludesCouncilTax": {
       "required": "Select whether your rent includes council tax"

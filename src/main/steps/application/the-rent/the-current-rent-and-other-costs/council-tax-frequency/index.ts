@@ -6,12 +6,6 @@ import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 const journeyName = 'application';
 const stepName = 'council-tax-frequency';
 
-/**
- * Stub for HDPD-593: how often is council tax paid? (optional)
- * Heading only, so HDPD-592's 'Yes' answer has a destination.
- * HDPD-593 will add the frequency radio and its revealed amount inputs.
- */
-
 export const step: StepDefinition = createFormStep({
   stepName,
   journeyFolder: journeyName,
