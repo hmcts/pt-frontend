@@ -21,15 +21,14 @@ static Map secret(String secretName, String envVariable) {
   ]
 }
 
-def ptE2eVaultSecrets = [
-  secret('pt-frontend-idam-secret', 'PT_FRONTEND_IDAM_SECRET'),
-  secret('pt-api-idam-secret', 'PT_API_IDAM_SECRET'),
-]
+// def ptE2eVaultSecrets = [
+//   secret('pt-frontend-idam-secret', 'PT_FRONTEND_IDAM_SECRET'),
+// ]
 
 
 withNightlyPipeline(type, product, component) {
   enableSlackNotifications('#pt-tech')
-  loadVaultSecrets(["pt-kv-${env.ENVIRONMENT}": ptE2eVaultSecrets])
+  loadVaultSecrets(secrets)
   enableFortifyScan()
 
    afterAlways('fortify-scan') {
