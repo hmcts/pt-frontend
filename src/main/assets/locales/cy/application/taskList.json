@@ -28,6 +28,8 @@
       "theProperty": "cyThe property",
       "inspectionAndHearing": "cyInspection and hearing",
       "supportForHealthConditions": "cySupport for physical or mental health conditions",
+      "rogueSection": "cyRogue section",
+      "rogueTasks": "cyRogue tasks",
       "reviewSubmitAndPay": "cyReview, submit and pay"
     }
   }

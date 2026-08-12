@@ -15,9 +15,16 @@ export class Nunjucks {
 
     const mojFrontendPath = path.dirname(require.resolve('@ministryofjustice/frontend/moj/template.njk'));
     const mojFrontendRoot = path.resolve(mojFrontendPath, '..');
+    const govukFrontendPath = path.dirname(require.resolve('govuk-frontend/dist/govuk/template.njk'));
+    const govukFrontendRoot = path.resolve(govukFrontendPath, '..');
 
     app.locals.nunjucksEnv = nunjucks.configure(
-      [path.join(__dirname, '..', '..', 'views'), path.join(__dirname, '..', '..', 'steps'), mojFrontendRoot],
+      [
+        path.join(__dirname, '..', '..', 'views'),
+        path.join(__dirname, '..', '..', 'steps'),
+        mojFrontendRoot,
+        govukFrontendRoot,
+      ],
       {
         autoescape: true,
         watch: this.developmentMode,

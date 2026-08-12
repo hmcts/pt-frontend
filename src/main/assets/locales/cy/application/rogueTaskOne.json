@@ -1,0 +1,20 @@
+{
+  "questionTitle": "cy What is this page doing here?",
+  "questionHint": "cy You're right to ask, this is pretty unexpected in the application",
+  "options": {
+    "notSure": {
+      "label": "cy I’m not sure"
+    },
+    "mightBeDreaming": {
+      "label": "cy I might be dreaming"
+    },
+    "goneRogue": {
+      "label": "cy This dev has gone rogue1"
+    }
+  },
+  "errors": {
+    "hasRogueTaskOne": {
+      "required": "cy You shall not pass until a selection has been made"
+    }
+  }
+}

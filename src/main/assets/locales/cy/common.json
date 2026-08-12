@@ -91,6 +91,7 @@
     "propertyInspection": "cy Tell us if you think an inspection, a hearing, or both are needed",
     "extraSupport": "cy Tell us if you need extra support during your case",
     "tellUsIfYouNeedHelp": "cy Tell us if you are eligible for help with fees",
-    "checkYourAnswersAndSubmit": "cy Check your answers and submit your application"
+    "checkYourAnswersAndSubmit": "cy Check your answers and submit your application",
+    "rogueTasks": "cy Rogue tasks"
   }
 }

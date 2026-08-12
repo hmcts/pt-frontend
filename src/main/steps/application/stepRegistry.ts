@@ -2,6 +2,7 @@ import { applicationDocumentsStepRegistry } from './application-documents/stepRe
 import { inspectionAndHearingStepRegistry } from './inspection-and-hearing/stepRegistry';
 import { landlordDetailsStepRegistry } from './landlord-details/stepRegistry';
 import { reviewSubmitAndPayStepRegistry } from './review-submit-and-pay/stepRegistry';
+import { rogueTasksStepRegistry } from './rogue-section/stepRegistry';
 import { supportForHealthConditionsStepRegistry } from './support-for-health-conditions/stepRegistry';
 import { step as taskList } from './task-list';
 import { tenantDetailsStepRegistry } from './tenant-details/stepRegistry';
@@ -22,6 +23,7 @@ export const stepRegistry = {
   ...inspectionAndHearingStepRegistry,
   ...supportForHealthConditionsStepRegistry,
   ...reviewSubmitAndPayStepRegistry,
+  ...rogueTasksStepRegistry,
 } satisfies Record<string, StepDefinition>;
 
 export type ApplicationStepName = keyof typeof stepRegistry;

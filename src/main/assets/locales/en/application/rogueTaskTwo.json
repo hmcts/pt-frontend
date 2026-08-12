@@ -1,0 +1,21 @@
+{
+  "questionTitle": "Wait, there's more?",
+  "questionHint": "I'd love some feedback, let me know if you're happy to provide some below",
+  "options": {
+    "Yes": {
+      "label": "Yes",
+      "feedbackLabel": "Great thanks for the feedback, enter in the text box below"
+    },
+    "No": {
+      "label": "No"
+    }
+  },
+  "errors": {
+    "hasRogueTaskTwo": {
+      "required": "I'd really love some feedback, please make a selection"
+    },
+    "feedback": {
+      "required": "Please enter your feedback"
+    }
+  }
+}

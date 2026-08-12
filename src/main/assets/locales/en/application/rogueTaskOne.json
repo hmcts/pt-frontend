@@ -1,0 +1,20 @@
+{
+  "questionTitle": "What is this page doing here?",
+  "questionHint": "You're right to ask, this is pretty unexpected in the application",
+  "options": {
+    "notSure": {
+      "label": "I’m not sure"
+    },
+    "mightBeDreaming": {
+      "label": "I might be dreaming"
+    },
+    "goneRogue": {
+      "label": "This dev has gone rogue!"
+    }
+  },
+  "errors": {
+    "hasRogueTaskOne": {
+      "required": "You shall not pass until a selection has been made"
+    }
+  }
+}

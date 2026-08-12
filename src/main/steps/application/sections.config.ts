@@ -12,12 +12,19 @@ export const APPLICATION_SECTION_GROUPS = [
   { id: 'theProperty', titleKey: 'taskList.groups.theProperty' },
   { id: 'inspectionAndHearing', titleKey: 'taskList.groups.inspectionAndHearing' },
   { id: 'supportForHealthConditions', titleKey: 'taskList.groups.supportForHealthConditions' },
+  { id: 'rogueSection', titleKey: 'taskList.groups.rogueSection' },
   { id: 'reviewSubmitAndPay', titleKey: 'taskList.groups.reviewSubmitAndPay' },
 ] as const;
 
 export type ApplicationGroupId = (typeof APPLICATION_SECTION_GROUPS)[number]['id'];
 
 const sectionDefs = [
+  {
+    id: 'rogueTasks',
+    groupId: 'rogueSection',
+    titleKey: 'taskList.rogueTasks',
+    steps: ['rogue-task-one', 'rogue-task-two'],
+  },
   {
     id: 'applicationType',
     groupId: 'yourApplication',
