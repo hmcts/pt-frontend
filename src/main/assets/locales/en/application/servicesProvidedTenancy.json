@@ -8,11 +8,11 @@
   },
   "errors": {
     "servicesProvided": {
-      "required": "Enter whether any services are provided in your tenancy"
+      "required": "Select whether services are provided in your tenancy"
     },
     "servicesProvidedDetails": {
-      "required": "Enter a description of the services provided",
-      "invalid": "Enter a valid description of the services provided"
+      "required": "Enter the services provided in your tenancy",
+      "invalid": "Details about the services provided must be 2 characters or more"
     }
   }
 }
