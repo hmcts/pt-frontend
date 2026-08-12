@@ -13,22 +13,17 @@ def component = "frontend"
 
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
-static Map secret(String secretName, String envVariable) {
-  [$class     : 'AzureKeyVaultSecret',
-   secretType : 'Secret',
-   name       : secretName,
-   envVariable: envVariable
-  ]
-}
-
-// def ptE2eVaultSecrets = [
-//   secret('pt-frontend-idam-secret', 'PT_FRONTEND_IDAM_SECRET'),
-// ]
+// static Map secret(String secretName, String envVariable) {
+//   [$class     : 'AzureKeyVaultSecret',
+//    secretType : 'Secret',
+//    name       : secretName,
+//    envVariable: envVariable
+//   ]
+// }
 
 
 withNightlyPipeline(type, product, component) {
   enableSlackNotifications('#pt-tech')
-  loadVaultSecrets(secrets)
   enableFortifyScan()
 
    afterAlways('fortify-scan') {
