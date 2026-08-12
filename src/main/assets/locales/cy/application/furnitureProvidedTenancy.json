@@ -8,11 +8,11 @@
   },
   "errors": {
     "furnitureProvided": {
-      "required": "cy Enter whether furniture provided in your tenancy"
+      "required": "cy Select whether furniture is provided in your tenancy"
     },
     "furnitureProvidedDetails": {
-      "required": "cy Enter a description of the furniture provided",
-      "invalid": "cy Enter a valid description of the furniture provided"
+      "required": "cy Enter what furniture is provided in your tenancy",
+      "invalid": "cy Details about furniture provided must be 2 characters or more"
     }
   }
 }
