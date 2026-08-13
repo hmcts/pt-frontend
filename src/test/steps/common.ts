@@ -31,11 +31,3 @@ When('I click {string} link', (linkText: string) => {
 Then('the page should include {string}', (text: string) => {
   I.waitForText(text);
 });
-
-export const selectOptionByLabel = (label: string): void => {
-  I.checkOption(label);
-};
-
-When('I click {string}', (buttonText: string) => {
-  I.click(buttonText);
-});
