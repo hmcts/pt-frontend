@@ -213,7 +213,7 @@ describe('PostHandler - Save for Later Fix', () => {
 
       // Valid form + save for later
       mockRequest.body = {
-        phoneNumberForCalls: 'yes',
+        phoneNumberForCalls: '07123456789',
         action: 'saveForLater',
       };
 
@@ -222,7 +222,7 @@ describe('PostHandler - Save for Later Fix', () => {
       expect(getCaseApiMock).toHaveBeenCalledTimes(1);
       expect(updateCaseMock).toHaveBeenCalledTimes(1);
       expect(updateCaseMock).toHaveBeenCalledWith('1234123412341234', {
-        applicantContactPreferencesPhoneNumberForCalls: '07777777774',
+        applicantContactPreferencesPhoneNumberForCalls: '07123456789',
         applicantContactPreferencesTextUpdates: 'Yes',
         applicantContactPreferencesTextUpdatesPhoneNumber: '+447777777777',
       });

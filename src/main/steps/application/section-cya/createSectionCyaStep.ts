@@ -77,12 +77,10 @@ export function createSectionCyaStep({
 
         if (sectionId) {
           try {
-            const allFormData = req.session.formData
-              ? Object.values(req.session.formData).reduce((acc, stepData) => ({ ...acc, ...stepData }), {})
-              : {};
+            const ccdCase = req.session.ccdCase;
             const ccdCaseApi = getCaseApi(req.session.user);
-            const caseReference = String(req.session.ccdCase?.caseReference);
-            const data = prepareDataForSave(sectionId, allFormData);
+            const caseReference = String(ccdCase?.caseReference);
+            const data = prepareDataForSave(sectionId, req, ccdCase);
 
             await ccdCaseApi.updateCase(caseReference, data);
 

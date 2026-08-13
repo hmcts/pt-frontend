@@ -171,9 +171,10 @@ export function createPostHandler(
         const sectionId = findSectionIdForStep(stepName);
         if (sectionId) {
           try {
+            const ccdCase = req.session.ccdCase;
             const ccdCaseApi = getCaseApi(req.session.user);
-            const caseReference = String(req.session.ccdCase?.caseReference);
-            const data = prepareDataForSave(sectionId, allFormData);
+            const caseReference = String(ccdCase?.caseReference);
+            const data = prepareDataForSave(sectionId, req, ccdCase);
 
             await ccdCaseApi.updateCase(caseReference, data);
           } catch (error) {
