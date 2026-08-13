@@ -36,6 +36,7 @@
     "@routes": "dist/main/routes",
     "@modules": "dist/main/modules",
     "@services": "dist/main/services",
+    "@steps": "dist/main/steps",
     "@utils": "dist/main/utils"
   },
   "dependencies": {
@@ -64,6 +65,7 @@
     "connect-redis": "7.1.1",
     "cookie-parser": "1.4.7",
     "csrf-sync": "4.2.1",
+    "escape-html": "1.0.3",
     "express": "5.2.1",
     "express-nunjucks": "3.1.2",
     "express-rate-limit": "^7.5.0",
@@ -115,6 +117,7 @@
     "@tootallnate/once": "^3.0.1",
     "@types/chai": "^5.2.1",
     "@types/chai-as-promised": "7.1.8",
+    "@types/escape-html": "1.0.4",
     "@types/express": "5.0.6",
     "@types/express-session": "^1.18.2",
     "@types/git-rev-sync": "^2.0.2",

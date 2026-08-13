@@ -5,7 +5,7 @@ import { getServiceAuthToken } from '../auth/service/get-service-auth-token';
 import { UserDetails } from '../auth/user/oidc';
 
 import { Logger } from '@modules/logger';
-import { CITIZEN_CREATE_CASE, CcdCase, CcdCaseData } from '@services/ccdCase.interface';
+import { CITIZEN_CREATE_CASE, CITIZEN_UPDATE_CASE, CcdCase, CcdCaseData } from '@services/ccdCase.interface';
 
 const logger = Logger.getLogger('service-auth-token');
 
@@ -34,6 +34,11 @@ export class CcdApiClient {
       logger.error(err);
       throw err;
     }
+  }
+
+  async updateCase(caseReference: string, data: Partial<CcdCaseData>): Promise<CcdCase> {
+    const eventTrigger = await this.getEventTrigger(caseReference, CITIZEN_UPDATE_CASE);
+    return this.triggerEvent(caseReference, data, CITIZEN_UPDATE_CASE, eventTrigger.token);
   }
 
   async getEventTrigger(caseId: string, eventName: string): Promise<CcdEventTriggerResponse> {

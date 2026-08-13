@@ -2,6 +2,7 @@ import { flowConfig } from '../../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { PTCaseData } from '@services/ccdCase.interface';
 import { VALID_PHONE_NUMBER_REGEX, isValidPhoneNumber } from '@utils/phoneNumber';
 
 const journeyName = 'application';
@@ -18,11 +19,7 @@ export const step: StepDefinition = createFormStep({
     pageTitle: 'pageTitle',
     contactByPhoneInfo: 'contactByPhoneInfo',
   },
-  isAnswered: req =>
-    Boolean(
-      req.session.ccdCase?.phoneNumberForCalls &&
-      isValidPhoneNumber(req.session.ccdCase?.phoneNumberForCalls, VALID_PHONE_NUMBER_REGEX)
-    ),
+  isAnswered: () => true,
   fields: [
     {
       name: 'phoneNumberForCalls',
@@ -41,4 +38,14 @@ export const step: StepDefinition = createFormStep({
       },
     },
   ],
+  getInitialFormData: req => {
+    const formData = req.session.formData;
+    const caseData: PTCaseData | undefined = req.session.ccdCase;
+    const phoneNumberForCalls: string | undefined =
+      formData?.['contact-by-phone']?.phoneNumberForCalls ?? caseData?.applicantContactPreferences?.phoneNumber;
+
+    return {
+      ...(phoneNumberForCalls && { phoneNumberForCalls }),
+    };
+  },
 });

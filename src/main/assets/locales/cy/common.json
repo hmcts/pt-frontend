@@ -5,13 +5,15 @@
   "contactUsForHelpText": "cyContact us for help",
   "yes": "cy Yes",
   "no": "cy No",
+  "change": "cy Change",
   "back": "cy Back",
   "logout": "cy Logout",
   "buttons": {
     "saveAndContinue": "cy Save and continue",
     "continue": "cy Continue",
     "saveForLater": "cy Save for later",
-    "cancel": "cy Cancel"
+    "cancel": "cy Cancel",
+    "completeThisSection": "cy Complete this section"
   },
   "youNeedToUseAnotherForm": "cy You need to use another form to apply",
   "myApplications": "cy My applications",
