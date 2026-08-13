@@ -1,3 +1,60 @@
 {
-  "heading": "cyHow often is council tax paid? (optional)"
+  "questionTitle": "cyHow often is council tax paid? (optional)",
+  "options": {
+    "WEEKLY": {
+      "label": "cyWeekly"
+    },
+    "FORTNIGHTLY": {
+      "label": "cyFortnightly (every 2 weeks)"
+    },
+    "MONTHLY": {
+      "label": "cyMonthly"
+    },
+    "YEARLY": {
+      "label": "cyYearly"
+    },
+    "OTHER": {
+      "label": "cyOther"
+    }
+  },
+  "councilTaxCostWeekly": {
+    "label": "cyHow much does council tax cost weekly? (optional)"
+  },
+  "councilTaxCostFortnightly": {
+    "label": "cyHow much does council tax cost fortnightly? (optional)"
+  },
+  "councilTaxCostMonthly": {
+    "label": "cyHow much does council tax cost monthly? (optional)"
+  },
+  "councilTaxCostYearly": {
+    "label": "cyHow much does council tax cost yearly? (optional)"
+  },
+  "councilTaxFrequencyAndCostDetails": {
+    "label": "cyHow often is council tax paid and how much does it cost?"
+  },
+  "errors": {
+    "councilTaxCostWeekly": {
+      "invalid": "cyCouncil tax amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "decimalPlaces": "cyCouncil tax amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "tooLarge": "cyCouncil tax amount must be 16 digits or less"
+    },
+    "councilTaxCostFortnightly": {
+      "invalid": "cyCouncil tax amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "decimalPlaces": "cyCouncil tax amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "tooLarge": "cyCouncil tax amount must be 16 digits or less"
+    },
+    "councilTaxCostMonthly": {
+      "invalid": "cyCouncil tax amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "decimalPlaces": "cyCouncil tax amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "tooLarge": "cyCouncil tax amount must be 16 digits or less"
+    },
+    "councilTaxCostYearly": {
+      "invalid": "cyCouncil tax amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "decimalPlaces": "cyCouncil tax amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "tooLarge": "cyCouncil tax amount must be 16 digits or less"
+    },
+    "councilTaxFrequencyAndCostDetails": {
+      "maxLength": "cyDetails of how often council tax is paid and how much it costs must be 500 characters or less"
+    }
+  }
 }
