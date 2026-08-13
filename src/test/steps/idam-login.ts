@@ -106,9 +106,3 @@ Then('IDAM will show an error page', () => {
   I.waitInUrl(idamLogin.idamHost);
   I.waitForText(idamLogin.loginErrorHeading);
 });
-
-Then('user is taken to the IDAM login page', async () => {
-  I.waitInUrl(idamLogin.idamHost);
-  await acceptCookiesIfPresent();
-  I.waitForText(idamLogin.signInOrCreateHeading);
-});
