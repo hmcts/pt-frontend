@@ -13,6 +13,7 @@ export enum YesNoEnum {
 }
 export type FrequencyValue = 'WEEKLY' | 'MONTHLY';
 export type RentPaymentFrequencyValue = 'WEEKLY' | 'FORTNIGHTLY' | 'MONTHLY' | 'YEARLY' | null;
+export type CouncilTaxFrequencyValue = 'WEEKLY' | 'FORTNIGHTLY' | 'MONTHLY' | 'YEARLY' | 'OTHER' | null;
 export enum LanguageUsed {
   ENGLISH = 'ENGLISH',
   WELSH = 'WELSH',
@@ -138,4 +139,10 @@ export interface RentDetails {
 
   // council tax
   rentIncludesCouncilTax?: YesNoValue;
+  councilTaxFrequency?: CouncilTaxFrequencyValue;
+  councilTaxCostWeekly?: string;
+  councilTaxCostFortnightly?: string;
+  councilTaxCostMonthly?: string;
+  councilTaxCostYearly?: string;
+  councilTaxFrequencyAndCostDetails?: string;
 }
