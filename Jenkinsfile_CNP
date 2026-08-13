@@ -9,7 +9,6 @@ def type = "nodejs"
 def product = "pt"
 def component = "frontend"
 
-// Script binding, not a local: methods below (uploadFunctionalResultsToZephyr) cannot see `def` variables
 yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 static Map < String, Object > secret(String secretName, String envVariable) {
@@ -121,7 +120,6 @@ withPipeline(type, product, component) {
       sh 'rm -rf functional-output tmp/zephyr'
     }
 
-    // Upload pass and fail results alike, so Zephyr reflects the real state of the suite
     afterAlways('functionalTest:aat') {
       try {
         uploadFunctionalResultsToZephyr('aat')
