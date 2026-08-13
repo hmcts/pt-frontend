@@ -6,7 +6,7 @@ export const VALID_MOBILE_NUMBER_REGEX = /^(\+447\d{9}|07\d{9})$/;
 
 export function isValidPhoneNumber(phoneNumber: string, regex: RegExp): boolean {
   // first strip the phone number of any whitespace/formatting, keep digits and leading +
-  const sanitisedPhoneNumber = phoneNumber.replace(/[^\d+]/g, '');
+  const sanitisedPhoneNumber = phoneNumber.replace(/\s+/g, '');
   // validates whether sanitisedPhoneNumber against provided regex
   return regex.test(sanitisedPhoneNumber);
 }

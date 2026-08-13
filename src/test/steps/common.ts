@@ -15,6 +15,27 @@ Then('the page URL should be {string}', (url: string) => {
   I.waitInUrl(url);
 });
 
+When('I select the option {string} under {string}', (option: string, question: string) => {
+  I.waitForText(question);
+  I.checkOption(option);
+});
+
+When('I click {string}', (buttonText: string) => {
+  I.click(buttonText);
+});
+
+When('I click {string} link', (linkText: string) => {
+  I.click(linkText);
+});
+
 Then('the page should include {string}', (text: string) => {
   I.waitForText(text);
+});
+
+export const selectOptionByLabel = (label: string): void => {
+  I.checkOption(label);
+};
+
+When('I click {string}', (buttonText: string) => {
+  I.click(buttonText);
 });
