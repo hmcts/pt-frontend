@@ -162,7 +162,7 @@ Follows the same CNP pattern as [pcs-frontend](https://github.com/hmcts/pcs-fron
 - `enable_critical_test` → `E2E_TEST_SCOPE=@PR`
 - `e2e-tag:<tag>` → e.g. `e2e-tag:@smoke`
 - `e2e-spec:<keyword>` → filter by feature filename keyword
-- `enable_full_functional_tests` → runs `yarn test:functional:full` (all scenarios, no tag filter)
+- `enable_full_functional_tests` → runs `yarn test:fullfunctional` (all scenarios, no tag filter)
 
 Do not add `enable_full_functional_tests` when you need `e2e-tag:` / `e2e-spec:` overrides — that label runs the full suite instead.
 
