@@ -35,14 +35,14 @@ export const step: StepDefinition = createFormStep({
               type: 'text',
               maxLength: 20,
               required: true,
-              errorMessage: 'errors.textUpdatesPhoneNumber.required',
+              errorMessage: 'errors.textUpdatesPhoneNumber',
               classes: 'govuk-input--width-10',
               translationKey: {
                 label: 'options.yesTextBox.label',
               },
               validator: (value): boolean | string => {
                 if (value && !isValidPhoneNumber(value as string, VALID_MOBILE_NUMBER_REGEX)) {
-                  return 'errors.textUpdatesPhoneNumber.invalid';
+                  return 'errors.textUpdatesPhoneNumber';
                 }
                 return true;
               },
