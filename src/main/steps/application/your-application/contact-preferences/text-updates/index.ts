@@ -71,12 +71,12 @@ export const step: StepDefinition = createFormStep({
   },
 });
 
-function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (ccdCase?.applicantContactPreferences?.contactByText === 'yes') {
+export function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  if (ccdCase?.applicantContactPreferences?.contactByText === 'Yes') {
     return Boolean(
       ccdCase?.applicantContactPreferences?.mobilePhoneNumber &&
       isValidPhoneNumber(ccdCase?.applicantContactPreferences?.mobilePhoneNumber as string, VALID_MOBILE_NUMBER_REGEX)
     );
   }
-  return ccdCase?.applicantContactPreferences?.contactByText === 'no';
+  return ccdCase?.applicantContactPreferences?.contactByText === 'No';
 }

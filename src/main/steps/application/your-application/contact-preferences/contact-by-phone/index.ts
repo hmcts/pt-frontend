@@ -19,11 +19,7 @@ export const step: StepDefinition = createFormStep({
     pageTitle: 'pageTitle',
     contactByPhoneInfo: 'contactByPhoneInfo',
   },
-  isAnswered: req =>
-    Boolean(
-      req.session.ccdCase?.applicantContactPreferences?.phoneNumber &&
-      isValidPhoneNumber(req.session.ccdCase?.applicantContactPreferences?.phoneNumber, VALID_PHONE_NUMBER_REGEX)
-    ),
+  isAnswered: () => true,
   fields: [
     {
       name: 'phoneNumberForCalls',

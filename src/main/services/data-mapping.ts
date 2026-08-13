@@ -1,13 +1,28 @@
-export function prepareDataForSave(sectionId: string, data: Record<string, unknown>): Record<string, unknown> {
+import { Request } from 'express';
+
+import { PTCaseData } from '@services/ccdCase.interface';
+
+export function prepareDataForSave(
+  sectionId: string,
+  req: Request,
+  ccdCase: PTCaseData | undefined
+): Record<string, unknown> {
+  const allFormData = req.session.formData
+    ? Object.values(req.session.formData).reduce((acc, stepData) => ({ ...acc, ...stepData }), {})
+    : {};
+
   switch (sectionId) {
     case 'contactPreferences': {
-      const contactByText = data?.textUpdates === 'Yes';
+      const contactByText = allFormData?.textUpdates ?? ccdCase?.applicantContactPreferences?.contactByText;
+      const isContactByText = contactByText === 'Yes';
       return {
-        applicantContactPreferencesTextUpdates: data?.textUpdates,
-        applicantContactPreferencesTextUpdatesPhoneNumber: contactByText
-          ? data?.['textUpdates.textUpdatesPhoneNumber']
-          : null,
-        applicantContactPreferencesPhoneNumberForCalls: data?.phoneNumberForCalls,
+        applicantContactPreferencesTextUpdates: contactByText,
+        applicantContactPreferencesTextUpdatesPhoneNumber: isContactByText
+          ? (allFormData?.['textUpdates.textUpdatesPhoneNumber'] ??
+            ccdCase?.applicantContactPreferences?.mobilePhoneNumber)
+          : undefined,
+        applicantContactPreferencesPhoneNumberForCalls:
+          allFormData?.phoneNumberForCalls ?? ccdCase?.applicantContactPreferences?.phoneNumber,
       };
     }
     // case 'whoIsOnTheTenancy': {
