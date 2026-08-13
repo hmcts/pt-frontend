@@ -9,7 +9,7 @@ def type = "nodejs"
 def product = "pt"
 def component = "frontend"
 
-def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
+yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 static Map < String, Object > secret(String secretName, String envVariable) {
   [
@@ -35,6 +35,10 @@ def configureFunctionalTestEnv(String testUrl) {
 }
 
 def uploadFunctionalResultsToZephyr(String environmentName) {
+  if (!steps.fileExists('functional-output/zephyr/cucumber-report.json')) {
+    steps.echo 'No cucumber report found, skipping Zephyr upload'
+    return
+  }
   env.EXECUTION_BUILD = env.GIT_COMMIT
   env.EXECUTION_ENVIRONMENT = environmentName
   env.EXECUTION_TEST_CYCLE_DESCRIPTION =
@@ -116,12 +120,12 @@ withPipeline(type, product, component) {
       sh 'rm -rf functional-output tmp/zephyr'
     }
 
-    afterSuccess('functionalTest:aat') {
-      uploadFunctionalResultsToZephyr('aat')
-    }
-
     afterAlways('functionalTest:aat') {
-      archiveFunctionalAndZephyrOutputs()
+      try {
+        uploadFunctionalResultsToZephyr('aat')
+      } finally {
+        archiveFunctionalAndZephyrOutputs()
+      }
     }
   }
 }
