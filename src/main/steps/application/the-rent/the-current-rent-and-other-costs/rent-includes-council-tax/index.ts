@@ -6,11 +6,7 @@ import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 const journeyName = 'application';
 const stepName = 'rent-includes-council-tax';
 
-/**
- * Stub for HDPD-592: does your rent include council tax?
- * Heading only, so HDPD-591's 'Save and continue' has a destination.
- * HDPD-592 will add the Yes/No radio and its validation.
- */
+const fieldName = 'rentIncludesCouncilTax';
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -19,10 +15,20 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/rentIncludesCouncilTax.njk`,
   showCancelButton: false,
-  isAnswered: () => false,
-  translationKeys: {
-    pageTitle: 'pageTitle',
-    heading: 'heading',
-  },
-  fields: [],
+  isAnswered: req => Boolean(req.session.ccdCase?.rentIncludesCouncilTax),
+  fields: [
+    {
+      name: fieldName,
+      type: 'radio',
+      required: true,
+      isPageHeading: true,
+      legendClasses: 'govuk-fieldset__legend--l',
+      translationKey: { label: 'questionTitle' },
+      errorMessage: `errors.${fieldName}.required`,
+      options: [
+        { value: 'yes', translationKey: 'common:yes' },
+        { value: 'no', translationKey: 'common:no' },
+      ],
+    },
+  ],
 });

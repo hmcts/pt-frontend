@@ -24,5 +24,8 @@ export const flowConfig: JourneyFlowConfig = {
     'upload-evidence-improvements-or-repairs': {
       showCondition: (req: Request) => getFormData(req, 'repairs-and-improvements').hasRepairsAndImprovements === 'yes',
     },
+    'council-tax-frequency': {
+      showCondition: (req: Request) => getFormData(req, 'rent-includes-council-tax').rentIncludesCouncilTax === 'yes',
+    },
   } satisfies Partial<Record<ApplicationStepName, StepConfig>>,
 };
