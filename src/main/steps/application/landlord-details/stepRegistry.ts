@@ -1,3 +1,4 @@
+import { step as checkYourAnswersLandlordDetails } from './check-your-answers-landlord-details';
 import { step as landlordEmailAddress } from './landlord-email-address';
 import { step as landlordHasLettingAgentOrRepresentative } from './landlord-has-letting-agent-or-representative';
 import { step as landlordName } from './landlord-name';
@@ -14,4 +15,5 @@ export const landlordDetailsStepRegistry = {
   'landlord-has-letting-agent-or-representative': landlordHasLettingAgentOrRepresentative,
   'landlord-representative-email-address': landlordRepresentativeEmailAddress,
   'landlord-representative-phone-number': landlordRepresentativePhoneNumber,
+  'check-your-answers-landlord-details': checkYourAnswersLandlordDetails,
 } satisfies Record<string, StepDefinition>;
