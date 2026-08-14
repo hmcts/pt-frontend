@@ -80,6 +80,7 @@
     "jquery": "3.7.1",
     "jsonwebtoken": "^9.0.3",
     "jwt-decode": "4.0.0",
+    "libphonenumber-js": "^1.13.11",
     "lodash": "4.18.1",
     "luxon": "3.7.2",
     "minimatch": "10.2.6",
