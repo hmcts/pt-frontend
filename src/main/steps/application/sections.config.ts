@@ -70,6 +70,8 @@ const sectionDefs = [
       'rent-includes-council-tax',
       'council-tax-frequency',
       'rent-inclusive-of-utility-charges',
+      'utilities-paid-frequency',
+      'current-tenancy-start-date',
     ],
   },
   {
