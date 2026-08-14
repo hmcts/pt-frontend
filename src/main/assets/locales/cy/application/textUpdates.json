@@ -1,6 +1,6 @@
 {
   "pageTitle": "cy Text updates",
-  "textUpdatesInfo": "cy We can send you text updates about your case as well as email updates. These are free to receive.",
+  "textUpdatesInfo": "cy We may send you text updates about your case as well as email updates. These are free to receive.",
   "questionTitle": "cy Do you want to receive text updates?",
   "options": {
     "yesTextBox": {
@@ -14,9 +14,6 @@
     "textUpdates": {
       "required": "cy Select whether you want to receive text updates"
     },
-    "textUpdatesPhoneNumber": {
-      "required": "cy Enter a mobile phone number",
-      "invalid": "cy Phone number must be a mobile phone number, like 07700 900 982 or +44 7808157019"
-    }
+    "textUpdatesPhoneNumber": "cy Phone number must be a mobile phone number, like 07700 900 982 or +44 7808157019"
   }
 }

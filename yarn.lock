@@ -3976,14 +3976,14 @@ __metadata:
   linkType: hard
 
 "@pact-foundation/pact@npm:^17.0.1":
-  version: 17.1.1
-  resolution: "@pact-foundation/pact@npm:17.1.1"
+  version: 17.1.2
+  resolution: "@pact-foundation/pact@npm:17.1.2"
   dependencies:
     "@pact-foundation/pact-core": "npm:^20.1.0"
     "@scarf/scarf": "npm:^1.4.0"
     axios: "npm:^1.12.2"
     body-parser: "npm:^2.2.0"
-    chalk: "npm:6.0.0"
+    chalk: "npm:4.1.2"
     express: "npm:^5.1.0"
     graphql: "npm:^16.11.0"
     graphql-tag: "npm:^2.12.6"
@@ -3995,7 +3995,7 @@ __metadata:
     randexp: "npm:^0.5.3"
     router: "npm:^2.2.0"
     stack-utils: "npm:^2.0.6"
-  checksum: 10/94aa0e9e5e29f7d4464c3faa25a7e3d1e9c1f931c7461082373d99b47e1ca6644c280683a66ab8d949a0e02646a5673bbddbac386f950839304e3542947679f0
+  checksum: 10/a883121c18b3ca4b1296d706e408108587fb814f7636544b43efda4a86e664e3367bd5b7a0fe60fd1607ca99755340a22fdb485a6c3a1af2d976f44c06d565d8
   languageName: node
   linkType: hard
 
@@ -7089,13 +7089,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:6.0.0":
-  version: 6.0.0
-  resolution: "chalk@npm:6.0.0"
-  checksum: 10/bdcb895b9c848ddbce38f38df5a10a3e272d6c04d759161789c4a2fa5a1fa78bf9eecf4eef73433a2a3be7324d6da96c3c9baf5c80862f37683cc0b890597831
-  languageName: node
-  linkType: hard
-
 "char-regex@npm:^1.0.2":
   version: 1.0.2
   resolution: "char-regex@npm:1.0.2"
@@ -9128,9 +9121,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jest@npm:29.16.0":
-  version: 29.16.0
-  resolution: "eslint-plugin-jest@npm:29.16.0"
+"eslint-plugin-jest@npm:29.16.1":
+  version: 29.16.1
+  resolution: "eslint-plugin-jest@npm:29.16.1"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.0.0"
   peerDependencies:
@@ -9145,7 +9138,7 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  checksum: 10/f57ddcfe950dde5792bee08a7dfe10e7a557c35a23a7e37f7c174e17271993b9310f180d253e3f4fbe31f205ffc1cff111131b47e24471601bef50493e4403a8
+  checksum: 10/c13741296e115c757f11f912712b49ad35eac1c09323c65a88a75898244ae4c42e9b5046c0e48263321a048701d891a0a887ae7a3650752873d22e86c9d564f8
   languageName: node
   linkType: hard
 
@@ -13579,12 +13572,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^3.3.17":
-  version: 3.3.17
-  resolution: "nanoid@npm:3.3.17"
+"nanoid@npm:3.3.18":
+  version: 3.3.18
+  resolution: "nanoid@npm:3.3.18"
   bin:
     nanoid: bin/nanoid.cjs
-  checksum: 10/54c3238ba6ea31c173ccf70922481814892075dbf1b4636abec249d0b34d5594fc9a8892c04872068674010a11fa3d18316dc06e59e700def131ff9d8e740426
+  checksum: 10/1b3b4fdac831b92b56d1dbe8b1e63a372432faf86ea383134e3b53141ef8108a60b7f84343b5cefecac9550bb74edf8164da93ea07d1c4f757039bc75d8a5d9e
   languageName: node
   linkType: hard
 
@@ -14655,7 +14648,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.5.6":
+"postcss@npm:^8.5.26":
   version: 8.5.26
   resolution: "postcss@npm:8.5.26"
   dependencies:
@@ -14966,7 +14959,7 @@ __metadata:
     eslint-config-prettier: "npm:10.1.8"
     eslint-import-resolver-typescript: "npm:4.4.5"
     eslint-plugin-import: "npm:2.32.0"
-    eslint-plugin-jest: "npm:29.16.0"
+    eslint-plugin-jest: "npm:29.16.1"
     express: "npm:5.2.1"
     express-nunjucks: "npm:3.1.2"
     express-rate-limit: "npm:^7.5.0"
@@ -15003,7 +14996,7 @@ __metadata:
     otpauth: "npm:^9.5.0"
     pa11y: "npm:^8.0.0"
     playwright: "npm:^1.60.0"
-    postcss: "npm:^8.4.27"
+    postcss: "npm:^8.5.6"
     prettier: "npm:3.8.4"
     require-directory: "npm:2.1.1"
     sass: "npm:1.102.0"
