@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure@feature/DTSPO-34202-keyvault-fixing")
+@Library("Infrastructure@library-branch-controls")
 
 import uk.gov.hmcts.contino.AppPipelineDsl
 import uk.gov.hmcts.contino.GithubAPI
