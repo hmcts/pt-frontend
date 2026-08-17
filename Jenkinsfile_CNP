@@ -9,6 +9,7 @@ def type = "nodejs"
 def product = "pt"
 def component = "frontend"
 
+
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 static Map < String, Object > secret(String secretName, String envVariable) {
