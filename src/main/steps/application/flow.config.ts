@@ -27,5 +27,9 @@ export const flowConfig: JourneyFlowConfig = {
     'council-tax-frequency': {
       showCondition: (req: Request) => getFormData(req, 'rent-includes-council-tax').rentIncludesCouncilTax === 'yes',
     },
+    'utilities-paid-frequency': {
+      showCondition: (req: Request) =>
+        getFormData(req, 'rent-inclusive-of-utility-charges').rentInclusiveOfUtilityCharges === 'yes',
+    },
   } satisfies Partial<Record<ApplicationStepName, StepConfig>>,
 };
