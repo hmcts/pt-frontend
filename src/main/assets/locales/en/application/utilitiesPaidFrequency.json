@@ -1,3 +1,60 @@
 {
-  "heading": "How often are utilities paid? (optional)"
+  "questionTitle": "How often are utilities paid? (optional)",
+  "options": {
+    "WEEKLY": {
+      "label": "Weekly"
+    },
+    "FORTNIGHTLY": {
+      "label": "Fortnightly (every 2 weeks)"
+    },
+    "MONTHLY": {
+      "label": "Monthly"
+    },
+    "YEARLY": {
+      "label": "Yearly"
+    },
+    "OTHER": {
+      "label": "Other"
+    }
+  },
+  "utilitiesCostWeekly": {
+    "label": "How much do all utilities cost in your property weekly? (optional)"
+  },
+  "utilitiesCostFortnightly": {
+    "label": "How much do all utilities cost in your property fortnightly? (optional)"
+  },
+  "utilitiesCostMonthly": {
+    "label": "How much do all utilities cost in your property monthly? (optional)"
+  },
+  "utilitiesCostYearly": {
+    "label": "How much do all utilities cost in your property yearly? (optional)"
+  },
+  "utilitiesFrequencyAndCostDetails": {
+    "label": "How often are utilities paid and how much do they cost?"
+  },
+  "errors": {
+    "utilitiesCostWeekly": {
+      "invalid": "Utilities amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "decimalPlaces": "Utilities amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "tooLarge": "Utilities amount must be 16 digits or less"
+    },
+    "utilitiesCostFortnightly": {
+      "invalid": "Utilities amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "decimalPlaces": "Utilities amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "tooLarge": "Utilities amount must be 16 digits or less"
+    },
+    "utilitiesCostMonthly": {
+      "invalid": "Utilities amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "decimalPlaces": "Utilities amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "tooLarge": "Utilities amount must be 16 digits or less"
+    },
+    "utilitiesCostYearly": {
+      "invalid": "Utilities amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "decimalPlaces": "Utilities amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "tooLarge": "Utilities amount must be 16 digits or less"
+    },
+    "utilitiesFrequencyAndCostDetails": {
+      "maxLength": "Details of how often utilities are paid and how much they cost must be 500 characters or less"
+    }
+  }
 }
