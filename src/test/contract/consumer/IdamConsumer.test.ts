@@ -9,8 +9,7 @@ const mockProvider = new PactV4({
   dir: './pact/pacts',
 });
 
-// eslint-disable-next-line jest/no-disabled-tests
-describe.skip('Idam Consumer Pact Test', () => {
+describe('Idam Consumer Pact Test', () => {
   const ACCESS_TOKEN = 'someAccessToken';
 
   test('should receive user information from /o/userinfo', async () => {
