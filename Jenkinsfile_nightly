@@ -4,8 +4,7 @@ properties([
 // H allow predefined but random minute see https://en.wikipedia.org/wiki/Cron#Non-standard_characters
 pipelineTriggers([cron('H 07 * * 1-5')])
 ])
-
-@Library("Infrastructure@library-branch-controls")
+@Library("Infrastructure@2.4.8")
 
 def type = "nodejs"
 def product = "pt"
