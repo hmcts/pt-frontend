@@ -16,6 +16,8 @@ export type PaymentFrequency = 'WEEKLY' | 'FORTNIGHTLY' | 'MONTHLY' | 'YEARLY';
 export type RentPaymentFrequencyValue = PaymentFrequency | null;
 export type CouncilTaxFrequencyValue = PaymentFrequency | 'OTHER' | null;
 export type UtilitiesPaidFrequencyValue = PaymentFrequency | 'OTHER' | null;
+export type DateValue = { day: string; month: string; year: string };
+export type CurrentTenancyStartDateValue = DateValue | null;
 export enum LanguageUsed {
   ENGLISH = 'ENGLISH',
   WELSH = 'WELSH',
@@ -156,4 +158,7 @@ export interface RentDetails {
   utilitiesCostMonthly?: string;
   utilitiesCostYearly?: string;
   utilitiesFrequencyAndCostDetails?: string;
+
+  // tenancy dates
+  currentTenancyStartDate?: CurrentTenancyStartDateValue;
 }
