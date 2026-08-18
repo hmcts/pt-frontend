@@ -17,9 +17,12 @@ describe('phone number validation', () => {
     expect(isValidMobilePhoneNumber('+44 7123 456789')).toBe(true);
     expect(isValidMobilePhoneNumber('+33 6 12 34 56 78')).toBe(true);
     expect(isValidMobilePhoneNumber('+61 412 345 678')).toBe(true);
+    expect(isValidMobilePhoneNumber('+1 415 555 0132')).toBe(true);
+    expect(isValidMobilePhoneNumber('+1 416 555 0199')).toBe(true);
     expect(isValidMobilePhoneNumber('01303 715342')).toBe(false);
     expect(isValidMobilePhoneNumber('+44 20 7946 0018')).toBe(false);
     expect(isValidMobilePhoneNumber('+33 1 42 34 56 78')).toBe(false);
+    expect(isValidMobilePhoneNumber('+1 800 555 0199')).toBe(false);
     expect(isValidMobilePhoneNumber('invalid')).toBe(false);
   });
 });
