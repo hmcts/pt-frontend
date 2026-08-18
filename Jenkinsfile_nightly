@@ -5,7 +5,7 @@ properties([
 pipelineTriggers([cron('H 07 * * 1-5')])
 ])
 
-@Library("Infrastructure@2.4.8")
+@Library("Infrastructure@library-branch-controls")
 
 def type = "nodejs"
 def product = "pt"
@@ -15,7 +15,7 @@ def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 withNightlyPipeline(type, product, component) {
   enableSlackNotifications('#pt-tech')
-  enableFortifyScan()
+  //enableFortifyScan()
 
    afterAlways('fortify-scan') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
