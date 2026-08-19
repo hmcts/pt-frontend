@@ -1,3 +1,13 @@
 {
-  "heading": "When did your current tenancy start?"
+  "questionTitle": "When did your current tenancy start?",
+  "questionHint": "Enter the date in your tenancy agreement, or include the month and year if you're not sure",
+  "errors": {
+    "date": {
+      "required": "Your tenancy start date must include a day, month and year",
+      "notRealDate": "Tenancy start date must be a real date",
+      "futureDate": "Tenancy start date must be in the past",
+      "missingOne": "Your tenancy start date must include a {{missingField}}",
+      "missingTwo": "Your tenancy start date must include a {{first}} and {{second}}"
+    }
+  }
 }

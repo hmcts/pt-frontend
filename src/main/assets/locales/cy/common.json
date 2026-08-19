@@ -13,6 +13,11 @@
     "saveForLater": "cy Save for later",
     "cancel": "cy Cancel"
   },
+  "date": {
+    "day": "cyDay",
+    "month": "cyMonth",
+    "year": "cyYear"
+  },
   "youNeedToUseAnotherForm": "cy You need to use another form to apply",
   "myApplications": "cy My applications",
   "startNewApplicationLinkText": "cy Start a new application",

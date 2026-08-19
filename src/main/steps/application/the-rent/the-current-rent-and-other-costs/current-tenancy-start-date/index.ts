@@ -5,6 +5,7 @@ import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
 const journeyName = 'application';
 const stepName = 'current-tenancy-start-date';
+const fieldName = 'currentTenancyStartDate';
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -13,9 +14,16 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/currentTenancyStartDate.njk`,
   showCancelButton: false,
-  isAnswered: () => false,
-  translationKeys: {
-    heading: 'heading',
-  },
-  fields: [],
+  isAnswered: req => Boolean(req.session.ccdCase?.currentTenancyStartDate),
+  fields: [
+    {
+      name: fieldName,
+      type: 'date',
+      required: true,
+      noFutureDate: true,
+      isPageHeading: true,
+      legendClasses: 'govuk-fieldset__legend--l',
+      translationKey: { label: 'questionTitle', hint: 'questionHint' },
+    },
+  ],
 });
