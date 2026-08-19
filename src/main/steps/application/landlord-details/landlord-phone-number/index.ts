@@ -2,7 +2,7 @@ import { flowConfig } from '../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { VALID_PHONE_NUMBER_REGEX, isValidPhoneNumber } from '@utils/phoneNumber';
+import { isValidPhoneNumber } from '@utils/phoneNumber';
 
 const journeyName = 'application';
 const stepName = 'landlord-phone-number';
@@ -15,10 +15,7 @@ export const step: StepDefinition = createFormStep({
   customTemplate: `${__dirname}/landlordPhoneNumber.njk`,
   showCancelButton: false,
   isAnswered: req =>
-    Boolean(
-      req.session.ccdCase?.landlordPhoneNumber &&
-      isValidPhoneNumber(req.session.ccdCase?.landlordPhoneNumber, VALID_PHONE_NUMBER_REGEX)
-    ),
+    Boolean(req.session.ccdCase?.landlordPhoneNumber && isValidPhoneNumber(req.session.ccdCase.landlordPhoneNumber)),
   fields: [
     {
       name: 'landlordPhoneNumber',
@@ -30,7 +27,7 @@ export const step: StepDefinition = createFormStep({
       classes: 'govuk-input--width-10',
       translationKey: { label: 'questionTitle', hint: 'questionHint' },
       validator: (value): boolean | string => {
-        if (value && !isValidPhoneNumber(value as string, VALID_PHONE_NUMBER_REGEX)) {
+        if (value && !isValidPhoneNumber(value as string)) {
           return 'errors.landlordPhoneNumber.invalid';
         }
         return true;

@@ -1,12 +1,21 @@
-// validates whether a number is a valid landline or mobile number
-export const VALID_PHONE_NUMBER_REGEX = /^(\+[1-9]\d{1,14}|0\d{10})$/;
+import { parsePhoneNumberFromString } from 'libphonenumber-js/max';
 
-// validates whether a number is a valid mobile phone number only
-export const VALID_MOBILE_NUMBER_REGEX = /^(\+447\d{9}|07\d{9})$/;
+// Parses the number; defaults to GB when no country code is given (e.g. 07...).
+function parsePhoneNumber(phoneNumber: string) {
+  return parsePhoneNumberFromString(phoneNumber, 'GB');
+}
 
-export function isValidPhoneNumber(phoneNumber: string, regex: RegExp): boolean {
-  // first strip the phone number of any whitespace/formatting, keep digits and leading +
-  const sanitisedPhoneNumber = phoneNumber.replace(/\s+/g, '');
-  // validates whether sanitisedPhoneNumber against provided regex
-  return regex.test(sanitisedPhoneNumber);
+// Valid UK or international landline or mobile.
+export function isValidPhoneNumber(phoneNumber: string): boolean {
+  return parsePhoneNumber(phoneNumber)?.isValid() ?? false;
+}
+
+// Valid mobile, including shared mobile/landline ranges used by countries such as the US and Canada which are returned as FIXED_LINE_OR_MOBILE. Definite landlines are returned as FIXED_LINE and will not be accepted.
+export function isValidMobilePhoneNumber(phoneNumber: string): boolean {
+  const parsedPhoneNumber = parsePhoneNumber(phoneNumber);
+  const phoneNumberType = parsedPhoneNumber?.getType();
+
+  return Boolean(
+    parsedPhoneNumber?.isValid() && (phoneNumberType === 'MOBILE' || phoneNumberType === 'FIXED_LINE_OR_MOBILE')
+  );
 }

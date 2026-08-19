@@ -2,29 +2,7 @@
 
 properties([
 // H allow predefined but random minute see https://en.wikipedia.org/wiki/Cron#Non-standard_characters
-  pipelineTriggers([cron('H 07 * * 1-5')]),
-  parameters([
-    text(
-      name: 'RUN_NOTE',
-      defaultValue: 'Daily nightly schedule run',
-      description: 'Optional note for this run (e.g. verify a fix). Scheduled runs keep the default.'
-    ),
-    choice(
-      name: 'E2E_TARGET_ENV',
-      choices: ['aat', 'demo', 'perftest', 'ithc'],
-      description: 'CNP env for vault pt-kv-<name> and Playwright TEST_URL. Scheduled runs default to aat.'
-    ),
-    string(
-      name: 'PLAYWRIGHT_SPEC',
-      defaultValue: '',
-      description: 'Feature file filter: each keyword must appear in a *.feature filename under src/test/functional/features (case-sensitive). Separate keywords with comma or semicolon. Ex.: idam-login. Blank = all features.'
-    ),
-    choice(
-      name: 'PLAYWRIGHT_GREP_TAG',
-      choices: ['@nightly', '@smoke', '@regression', '@sanity'],
-      description: 'CodeceptJS grep tag (E2E_TEST_SCOPE). First option is the default for scheduled runs.'
-    ),
-  ])
+pipelineTriggers([cron('H 07 * * 1-5')])
 ])
 
 @Library("Infrastructure@2.4.8")
@@ -35,60 +13,12 @@ def component = "frontend"
 
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
-static Map secret(String secretName, String envVariable) {
-  [$class     : 'AzureKeyVaultSecret',
-   secretType : 'Secret',
-   name       : secretName,
-   envVariable: envVariable
-  ]
-}
-
-def ptE2eVaultSecrets = [
-  secret('pt-frontend-idam-secret', 'PT_FRONTEND_IDAM_SECRET'),
-  secret('pt-idam-test-user-password', 'IDAM_PT_USER_PASSWORD'),
-  secret('pt-api-idam-secret', 'PT_API_IDAM_SECRET'),
-  secret('JIRA-AUTH-TOKEN', 'JIRA_AUTH_TOKEN'),
-]
-
 withNightlyPipeline(type, product, component) {
   enableSlackNotifications('#pt-tech')
-  handleEnvironmentSetting()
-  loadVaultSecrets(["pt-kv-${env.ENVIRONMENT}": ptE2eVaultSecrets])
-  setFunctionalTestEnvVars()
   enableFortifyScan()
 
-  afterSuccess('build') {
-    env.EXECUTION_BUILD = env.GIT_COMMIT
-    env.EXECUTION_ENVIRONMENT = env.ENVIRONMENT
-    env.EXECUTION_TEST_CYCLE_DESCRIPTION =
-      "pt-frontend nightly ${env.ENVIRONMENT} build ${env.BUILD_NUMBER} for commit ${env.GIT_COMMIT}\n${env.BUILD_URL}"
-    sh 'rm -rf functional-output tmp/zephyr'
-    yarnBuilder.yarn('test:functional:zephyr')
-  }
-
-  afterAlways('build') {
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**,tmp/zephyr/**'
-  }
-
-  afterAlways('fortify-scan') {
+   afterAlways('fortify-scan') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
   }
-}
-
-def handleEnvironmentSetting() {
-  env.ENVIRONMENT = (params.E2E_TARGET_ENV?.trim() ?: 'aat').toLowerCase()
-  env.TEST_URL = "https://pt.${env.ENVIRONMENT}.platform.hmcts.net/"
-  env.E2E_TEST_SCOPE = params.PLAYWRIGHT_GREP_TAG?.trim() ?: '@nightly'
-  env.E2E_SPEC = params.PLAYWRIGHT_SPEC?.trim() ?: ''
-}
-
-def setFunctionalTestEnvVars() {
-  env.NODE_CONFIG_ENV = 'test'
-  env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
-  env.PT_API_URL = "http://pt-api-${env.ENVIRONMENT}.service.core-compute-${env.ENVIRONMENT}.internal"
-  env.DATA_STORE_URL_BASE = "http://ccd-data-store-api-${env.ENVIRONMENT}.service.core-compute-${env.ENVIRONMENT}.internal"
-  env.CDAM_URL = "http://ccd-case-document-am-api-${env.ENVIRONMENT}.service.core-compute-${env.ENVIRONMENT}.internal"
-  env.XUI_BASE_URI = "https://manage-case.${env.ENVIRONMENT}.platform.hmcts.net"
-  env.CASE_TYPE_ID = "PT"
 }
 
