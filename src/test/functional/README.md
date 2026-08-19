@@ -46,13 +46,13 @@ lib/
 
 ## Prerequisites
 
-| Requirement                 | Notes                                                                       |
-| --------------------------- | --------------------------------------------------------------------------- |
-| Node 18+                    |                                                                             |
-| Yarn                        |                                                                             |
-| Java 21+                    | Required for Zephyr upload (`yarn test:functional:zephyr`)                  |
-| Azure Key Vault `pt-kv1-aat`| Citizen test user password                                                  |
-| `JIRA_AUTH_TOKEN`           | Required for Zephyr upload (`JIRA_PROJECT_ID` defaults to `29506` for PTSD) |
+| Requirement                  | Notes                                                                       |
+| ---------------------------- | --------------------------------------------------------------------------- |
+| Node 18+                     |                                                                             |
+| Yarn                         |                                                                             |
+| Java 21+                     | Required for Zephyr upload (`yarn test:functional:zephyr`)                  |
+| Azure Key Vault `pt-kv1-aat` | Citizen test user password                                                  |
+| `JIRA_AUTH_TOKEN`            | Required for Zephyr upload (`JIRA_PROJECT_ID` defaults to `29506` for PTSD) |
 
 ## Running tests
 
@@ -96,7 +96,7 @@ PR/pipeline env mappings are in `config/custom-environment-variables.json`.
 | Item     | Value / location                                                                      |
 | -------- | ------------------------------------------------------------------------------------- |
 | Email    | `pt-citizen@test.com` (`idam.testUser.email` in `config/test.json`)                   |
-| Password | Azure Key Vault secret `pt-idam-test-user-password` in `pt-kv1-aat`                    |
+| Password | Azure Key Vault secret `pt-idam-test-user-password` in `pt-kv1-aat`                   |
 | Env var  | `IDAM_PT_USER_PASSWORD` (or `IDAM_PT_USER_PASSWORD_B64` for awkward shell characters) |
 
 In Jenkins, the secret is mapped to `IDAM_PT_USER_PASSWORD` via `Jenkinsfile_CNP`. If the password is missing, login tests fail early with a message pointing to Key Vault.
