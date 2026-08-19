@@ -18,6 +18,7 @@ Then I am taken to challenging legal validation notice page
 
 @AC3 @JIRA-TEST-KEY:PTSD-763
 Scenario: No option selected
+
 Given I am on the "What type of application do you want to make" page
 When I click 'Continue'
 Then I can see error message is displayed

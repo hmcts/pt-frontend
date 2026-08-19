@@ -5,7 +5,7 @@ Feature: Are you applying for yourself or someone else?
   So that I can proceed through the correct journey
 
   Background:
-    Given the citizen is on the Applying For page
+   Given the citizen is on the Applying For page
 
   @AC1 @JIRA-TEST-KEY:PTSD-727
   Scenario: Citizen is applying for themselves

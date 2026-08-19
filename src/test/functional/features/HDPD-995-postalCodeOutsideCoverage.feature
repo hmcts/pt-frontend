@@ -11,7 +11,7 @@ Feature: Verify online application form ,download the paper and gov.uk link afte
 
   @AC2 @JIRA-TEST-KEY:PTSD-447
   Scenario: User select downloading the paper form
-    When the citizen selects the downloading the paper form link
+     When the citizen selects the downloading the paper form link
     Then the citizen is taken to the paper application form
 
   @AC3 @JIRA-TEST-KEY:PTSD-448

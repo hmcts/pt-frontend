@@ -16,5 +16,5 @@ Feature: Verify links on "You need to use another form to apply" page
 
   @AC3 @JIRA-TEST-KEY:PTSD-445
   Scenario: Verify guidance on GOV.UK link
-    When the citizen selects the guidance on GOV.UK link
+     When the citizen selects the guidance on GOV.UK link
     Then the citizen is taken to the GOV.UK guidance page

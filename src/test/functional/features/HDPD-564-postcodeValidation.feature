@@ -9,7 +9,7 @@ So that the system validates it and directs me to the correct journey
 
 @AC1 @AC2 @AC4 @JIRA-TEST-KEY:PTSD-767 @JIRA-TEST-KEY:PTSD-770 @JIRA-TEST-KEY:PTSD-768 
   Scenario Outline: Validate postcode journey
-    When I enter postcode "<postcode>"
+   When I enter postcode "<postcode>"
     And I click 'Continue'
     Then I should see "<outcome>"
 

@@ -3,7 +3,6 @@ import { ptApplyingFor } from '../functional/page-data/ptApplyingFor.page.data';
 import { ptStartingOrReturning } from '../functional/page-data/ptStartingOrReturning.page.data';
 
 const { I } = inject();
-
 const ptUrl = (path: string): string => new URL(path, testConfig.TEST_URL).toString();
 
 Given('the citizen is on the Applying For page', () => {

@@ -14,7 +14,7 @@ So that I can continue with the appropriate service
 
   @AC2 @JIRA-TEST-KEY:PTSD-748
   Scenario: AC2 - Wales link navigation
-    When I select wales link
+     When I select wales link
     Then I should be redirected to notice-variation-rent-form
   @AC3 @JIRA-TEST-KEY:PTSD-749
   Scenario: AC3 - Guidance on GOV.UK link navigation

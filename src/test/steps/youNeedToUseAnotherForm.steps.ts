@@ -2,8 +2,8 @@ import { config as testConfig } from '../config';
 import { ptApplyingFor } from '../functional/page-data/ptApplyingFor.page.data';
 import { ptStartingOrReturning } from '../functional/page-data/ptStartingOrReturning.page.data';
 import { youNeedToUseAnotherForm } from '../functional/page-data/ptYouNeedToUseAnotherForm.page.data';
-const { I } = inject();
 
+const { I } = inject();
 const ptUrl = (path: string): string => new URL(path, testConfig.TEST_URL).toString();
 
 async function usePlaywrightPage(action: (page: import('playwright').Page) => Promise<void>): Promise<void> {

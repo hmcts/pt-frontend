@@ -2,7 +2,6 @@ import { config as testConfig } from '../config';
 import { ptStartingOrReturning } from '../functional/page-data/ptStartingOrReturning.page.data';
 
 const { I } = inject();
-
 const ptUrl = (path: string): string => new URL(path, testConfig.TEST_URL).toString();
 
 Given('the citizen is on the Starting Or Returning Application page', () => {

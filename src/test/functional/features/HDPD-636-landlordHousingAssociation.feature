@@ -12,7 +12,7 @@ Background:
 
   @AC2 @JIRA-TEST-KEY:PTSD-441
   Scenario: Citizen selects Yes
-    When the citizen selects Yes
+     When the citizen selects Yes
     And the citizen clicks Continue
     Then the citizen is taken to the you need to use another form page
 

@@ -9,7 +9,7 @@ Feature: You need to use another form
 
   @AC2 @JIRA-TEST-KEY:PTSD-444
   Scenario: Citizen opens the paper application form
-    Given I select apply for some one else option and landed on the you need to use another form to apply page
+   Given I select apply for some one else option and landed on the you need to use another form to apply page
     When the citizen selects the downloading the paper form link
     Then the citizen is taken to the paper application form
 

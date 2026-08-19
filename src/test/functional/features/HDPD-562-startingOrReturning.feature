@@ -7,7 +7,7 @@ Feature: Starting or Returning Application
   @AC1 @JIRA-TEST-KEY:PTSD-651
   Scenario: User selects start a new application
     When the citizen selects start a new application
-    Then the citizen is taken to the apply for yourself or someone else page
+  Then the citizen is taken to the apply for yourself or someone else page
 
   @AC2 @JIRA-TEST-KEY:PTSD-657
   Scenario: User selects return to an application
