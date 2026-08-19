@@ -76,6 +76,7 @@ const sectionDefs = [
     groupId: 'theProperty',
     titleKey: 'taskList.propertyDetails',
     steps: [
+      'property-address',
       'what-are-you-renting',
       'floor-plan-of-property',
       'upload-floor-plan-of-property',
@@ -89,7 +90,6 @@ const sectionDefs = [
       'repairs-and-improvements',
       'upload-evidence-improvements-or-repairs',
       'check-your-answers-the-property',
-      'property-address',
     ],
   },
   {
