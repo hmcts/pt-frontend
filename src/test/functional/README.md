@@ -51,7 +51,7 @@ lib/
 | Node 18+                    |                                                                             |
 | Yarn                        |                                                                             |
 | Java 21+                    | Required for Zephyr upload (`yarn test:functional:zephyr`)                  |
-| Azure Key Vault `pt-kv1-aat` | Citizen test user password                                                  |
+| Azure Key Vault `pt-kv1-aat`| Citizen test user password                                                  |
 | `JIRA_AUTH_TOKEN`           | Required for Zephyr upload (`JIRA_PROJECT_ID` defaults to `29506` for PTSD) |
 
 ## Running tests
