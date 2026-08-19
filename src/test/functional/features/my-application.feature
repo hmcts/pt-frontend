@@ -1,6 +1,6 @@
 
 @JIRA-EPIC:HDPD-295
-Feature: My application page
+Feature: My application and tenancy type page
   As a PT user
   I want to be authenticated to the PT upon entering my credentials in IDAM
   So that I can start my application.
