@@ -72,6 +72,7 @@ const sectionDefs = [
       'rent-inclusive-of-utility-charges',
       'utilities-paid-frequency',
       'current-tenancy-start-date',
+      'tenancy-end-date',
     ],
   },
   {
