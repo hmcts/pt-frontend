@@ -10,9 +10,12 @@ export function isValidPhoneNumber(phoneNumber: string): boolean {
   return parsePhoneNumber(phoneNumber)?.isValid() ?? false;
 }
 
-// Valid UK or international mobile only; landlines rejected.
+// Valid mobile, including shared mobile/landline ranges used by countries such as the US and Canada which are returned as FIXED_LINE_OR_MOBILE. Definite landlines are returned as FIXED_LINE and will not be accepted.
 export function isValidMobilePhoneNumber(phoneNumber: string): boolean {
   const parsedPhoneNumber = parsePhoneNumber(phoneNumber);
+  const phoneNumberType = parsedPhoneNumber?.getType();
 
-  return Boolean(parsedPhoneNumber?.isValid() && parsedPhoneNumber.getType() === 'MOBILE');
+  return Boolean(
+    parsedPhoneNumber?.isValid() && (phoneNumberType === 'MOBILE' || phoneNumberType === 'FIXED_LINE_OR_MOBILE')
+  );
 }
