@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure@library-branch-controls")
+@Library("Infrastructure@2.4.8")
 
 import uk.gov.hmcts.contino.AppPipelineDsl
 import uk.gov.hmcts.contino.GithubAPI
@@ -22,7 +22,7 @@ static Map < String, Object > secret(String secretName, String envVariable) {
 }
 
 def secrets = [
-  'pt-kv-${env}': [
+  'pt-kv1-${env}': [
     secret('pt-frontend-idam-secret', 'PT_FRONTEND_IDAM_SECRET'),
     secret('pt-idam-test-user-password', 'IDAM_PT_USER_PASSWORD'),
     secret('pt-api-idam-secret', 'PT_API_IDAM_SECRET'),
