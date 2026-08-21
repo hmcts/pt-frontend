@@ -1,3 +1,12 @@
 {
-  "heading": "cyWhen does your tenancy end?"
+  "questionTitle": "cyWhen does your tenancy end?",
+  "errors": {
+    "date": {
+      "required": "cyTenancy end date must include a day, month and year",
+      "notRealDate": "cyTenancy end date must be a real date",
+      "missingOne": "cyTenancy end date must include a {{missingField}}",
+      "missingTwo": "cyTenancy end date must include a {{first}} and {{second}}",
+      "yearMustBeSameOrAfter": "cyTenancy end date must be {{minYear}} or later"
+    }
+  }
 }

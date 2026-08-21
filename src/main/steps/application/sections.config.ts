@@ -73,6 +73,7 @@ const sectionDefs = [
       'utilities-paid-frequency',
       'current-tenancy-start-date',
       'tenancy-end-date',
+      'current-tenancy-replace-original-tenancy',
     ],
   },
   {
