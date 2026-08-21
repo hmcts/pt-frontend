@@ -138,6 +138,11 @@ export function buildComponentConfig({
       component.rows = textareaAttributes.rows || 5;
       component.maxlength = field.maxLength || null;
       component.attributes = textareaAttributes;
+      component.label = {
+        text: label,
+        isPageHeading: field.isPageHeading,
+        classes: field.labelClasses,
+      };
       componentType = 'textarea';
       break;
     }
