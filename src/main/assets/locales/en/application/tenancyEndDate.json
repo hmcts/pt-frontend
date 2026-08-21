@@ -1,3 +1,11 @@
 {
-  "heading": "When does your tenancy end?"
+  "questionTitle": "When does your tenancy end?",
+  "errors": {
+    "date": {
+      "required": "Tenancy end date must include a day, month and year",
+      "notRealDate": "Tenancy end date must be a real date",
+      "missingOne": "Tenancy end date must include a {{missingField}}",
+      "missingTwo": "Tenancy end date must include a {{first}} and {{second}}"
+    }
+  }
 }
