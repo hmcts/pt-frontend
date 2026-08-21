@@ -24,5 +24,19 @@ export const flowConfig: JourneyFlowConfig = {
     'upload-evidence-improvements-or-repairs': {
       showCondition: (req: Request) => getFormData(req, 'repairs-and-improvements').hasRepairsAndImprovements === 'yes',
     },
+    'landlord-representative-email-address': {
+      showCondition: (req: Request) => hasLandlordRepresentative(req),
+    },
+    'landlord-representative-phone-number': {
+      showCondition: (req: Request) => hasLandlordRepresentative(req),
+    },
   } satisfies Partial<Record<ApplicationStepName, StepConfig>>,
 };
+
+function hasLandlordRepresentative(req: Request): boolean {
+  const answer = getFormData(
+    req,
+    'landlord-has-letting-agent-or-representative'
+  ).landlordHasLettingAgentOrRepresentative;
+  return ['representativeOnly', 'lettingAgentAndRepresentative'].includes(answer as string);
+}
