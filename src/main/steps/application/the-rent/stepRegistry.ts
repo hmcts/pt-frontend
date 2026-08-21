@@ -1,5 +1,6 @@
 import { step as councilTaxFrequency } from './the-current-rent-and-other-costs/council-tax-frequency';
 import { step as currentRentAndOtherCosts } from './the-current-rent-and-other-costs/current-rent-and-other-costs';
+import { step as currentTenancyReplaceOriginalTenancy } from './the-current-rent-and-other-costs/current-tenancy-replace-original-tenancy';
 import { step as currentTenancyStartDate } from './the-current-rent-and-other-costs/current-tenancy-start-date';
 import { step as rentIncludesCouncilTax } from './the-current-rent-and-other-costs/rent-includes-council-tax';
 import { step as rentInclusiveOfUtilityCharges } from './the-current-rent-and-other-costs/rent-inclusive-of-utility-charges';
@@ -21,5 +22,6 @@ export const theRentStepRegistry = {
   'utilities-paid-frequency': utilitiesPaidFrequency,
   'current-tenancy-start-date': currentTenancyStartDate,
   'tenancy-end-date': tenancyEndDate,
+  'current-tenancy-replace-original-tenancy': currentTenancyReplaceOriginalTenancy,
   'proposed-market-rent': proposedMarketRent,
 } satisfies Record<string, StepDefinition>;
