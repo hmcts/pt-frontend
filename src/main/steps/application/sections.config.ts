@@ -63,7 +63,17 @@ const sectionDefs = [
     id: 'theCurrentRentAndOtherCosts',
     groupId: 'theRent',
     titleKey: 'taskList.theCurrentRentAndOtherCosts',
-    steps: ['current-rent-and-other-costs'],
+    steps: [
+      'current-rent-and-other-costs',
+      'tribunal-previously-determined-rent',
+      'rent-payment-frequency',
+      'rent-includes-council-tax',
+      'council-tax-frequency',
+      'rent-inclusive-of-utility-charges',
+      'utilities-paid-frequency',
+      'current-tenancy-start-date',
+      'tenancy-end-date',
+    ],
   },
   {
     id: 'whatYouThinkMarketRentShouldBe',
