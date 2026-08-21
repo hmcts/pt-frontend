@@ -57,7 +57,7 @@ const sectionDefs = [
     id: 'yourTenancyAgreement',
     groupId: 'applicationDocuments',
     titleKey: 'taskList.yourTenancyAgreement',
-    steps: ['have-tenancy-agreement'],
+    steps: ['have-tenancy-agreement', 'upload-tenancy-agreement', 'check-your-answers-your-tenancy-agreement'],
   },
   {
     id: 'theCurrentRentAndOtherCosts',
