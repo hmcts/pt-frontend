@@ -41,10 +41,13 @@ const sectionDefs = [
     groupId: 'landlordDetails',
     titleKey: 'taskList.landlordDetails',
     steps: [
+      'landlord-name',
       'landlord-email-address',
       'landlord-phone-number',
       'landlord-has-letting-agent-or-representative',
-      'landlord-name',
+      'landlord-representative-email-address',
+      'landlord-representative-phone-number',
+      'check-your-answers-landlord-details',
     ],
   },
   {
