@@ -10,11 +10,11 @@ Feature: IDAM login to Property Tribunal
     When they enter the PT UI url
     Then they are redirected to the IDAM authentication page
 
-#  @ac2 @JIRA-TEST-KEY:PTSD-672
-#  Scenario: AC2 - Successful login redirects back to PT
-#    Given the user has reached the IDAM authentication page
-#    When the user enters their credentials successfully
-#    Then the user will be redirected back to the PT UI
+  @ac2 @JIRA-TEST-KEY:PTSD-672
+  Scenario: AC2 - Successful login redirects back to PT
+    Given the user has reached the IDAM authentication page
+    When the user enters their credentials successfully
+    Then the user will be redirected back to the PT UI
 
   @ac3 @JIRA-TEST-KEY:PTSD-456
   Scenario: AC3 - Unsuccessful login shows an error
