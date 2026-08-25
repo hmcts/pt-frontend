@@ -9,8 +9,8 @@
     }
   },
   "previousTribunalCaseReference": {
-    "label": "cyWhat was the tribunal’s case reference number for the previous determination? (optional)",
-    "hint": "cyIt’s the 18-digit reference on any letter from the tribunal in your last tenancy determination application - for example, ‘LON/00AD/SMO/2023/0001’"
+    "label": "cyWhat was the tribunal's case reference number for the previous determination? (optional)",
+    "hint": "cyIt's the 18-digit reference on any letter from the tribunal in your last tenancy determination application - for example, 'LON/00AD/SMO/2023/0001'"
   },
   "errors": {
     "tribunalPreviouslyDeterminedRent": {
