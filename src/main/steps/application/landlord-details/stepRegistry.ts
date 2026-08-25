@@ -6,6 +6,8 @@ import { step as landlordLettingAgentPhoneNumber } from './landlord-letting-agen
 import { step as landlordName } from './landlord-name';
 import { step as landlordPhoneNumber } from './landlord-phone-number';
 import { step as landlordRepresentativeDetails } from './landlord-representative-details';
+import { step as landlordRepresentativeEmailAddress } from './landlord-representative-email-address';
+import { step as landlordRepresentativePhoneNumber } from './landlord-representative-phone-number';
 
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
@@ -17,5 +19,7 @@ export const landlordDetailsStepRegistry = {
   'landlord-letting-agent-email-address': landlordLettingAgentEmailAddress,
   'landlord-letting-agent-phone-number': landlordLettingAgentPhoneNumber,
   'landlord-representative-details': landlordRepresentativeDetails,
+  'landlord-representative-email-address': landlordRepresentativeEmailAddress,
+  'landlord-representative-phone-number': landlordRepresentativePhoneNumber,
   'check-your-answers-landlord-details': checkYourAnswersLandlordDetails,
 } satisfies Record<string, StepDefinition>;

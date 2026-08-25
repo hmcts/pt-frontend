@@ -106,6 +106,7 @@ export interface LandlordDetails {
   landlordPhoneNumber?: string;
   landlordHasLettingAgentOrRepresentative?: string;
   landlordEmailAddress?: string;
+  representativeEmailAddress?: string;
 }
 
 export interface PropertyDetails {
