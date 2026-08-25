@@ -24,7 +24,7 @@ export const step: StepDefinition = createFormStep({
     if (!stepData) {
       return;
     }
-    if (stepData[fieldName] !== 'YES') {
+    if (stepData[fieldName] !== 'yes') {
       for (const part of startDatePartNames) {
         stepData[`${fieldName}.${startDateFieldName}-${part}`] = '';
       }
@@ -42,8 +42,8 @@ export const step: StepDefinition = createFormStep({
       errorMessage: `errors.${fieldName}.required`,
       options: [
         {
-          value: 'YES',
-          translationKey: 'options.YES.label',
+          value: 'yes',
+          translationKey: 'common:yes',
           subFields: {
             [startDateFieldName]: {
               name: startDateFieldName,
@@ -54,8 +54,8 @@ export const step: StepDefinition = createFormStep({
             },
           },
         },
-        { value: 'NO', translationKey: 'options.NO.label' },
-        { value: 'NOT_SURE', translationKey: 'options.NOT_SURE.label' },
+        { value: 'no', translationKey: 'common:no' },
+        { value: 'notSure', translationKey: 'options.notSure.label' },
       ],
     },
   ],

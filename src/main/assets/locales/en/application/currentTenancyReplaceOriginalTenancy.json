@@ -2,13 +2,7 @@
   "questionTitle": "Does your current tenancy replace an original tenancy?",
   "questionHint": "An original tenancy is the first assured shorthold tenancy given to you by the same landlord for the same property",
   "options": {
-    "YES": {
-      "label": "Yes"
-    },
-    "NO": {
-      "label": "No"
-    },
-    "NOT_SURE": {
+    "notSure": {
       "label": "I'm not sure"
     }
   },
