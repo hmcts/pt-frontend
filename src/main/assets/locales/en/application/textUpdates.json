@@ -1,6 +1,6 @@
 {
   "pageTitle": "Text updates",
-  "textUpdatesInfo": "We can send you text updates about your case as well as email updates. These are free to receive.",
+  "textUpdatesInfo": "We may send you text updates about your case as well as email updates. These are free to receive.",
   "questionTitle": "Do you want to receive text updates?",
   "options": {
     "yesTextBox": {
@@ -14,9 +14,6 @@
     "textUpdates": {
       "required": "Select whether you want to receive text updates"
     },
-    "textUpdatesPhoneNumber": {
-      "required": "Enter a mobile phone number",
-      "invalid": "Enter a UK mobile phone number, like 07700 900 982"
-    }
+    "textUpdatesPhoneNumber": "Phone number must be a mobile phone number, like 07700 900 982 or +44 7808157019"
   }
 }

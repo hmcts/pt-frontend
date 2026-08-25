@@ -26,7 +26,7 @@ export interface CcdCollectionItem<T> {
 export type CaseData = CcdCaseData;
 
 /** Case data payload from CCD (START callback case_data or CcdCase.data). */
-export interface CcdCaseData extends ContactPreferences, LandlordDetails, PropertyDetails {
+export interface CcdCaseData extends ContactPreferences, LandlordDetails, PropertyDetails, LettingAgentDetails {
   //TODO: build this out once data model added to pt-api
   applicantFirstName?: string;
   applicantLastName?: string;
@@ -77,7 +77,7 @@ export interface StartCallbackData {
 
 //
 /** Case data payload returned from PT API get case(s) calls */
-export interface ApplicationData extends ContactPreferences, LandlordDetails, PropertyDetails {
+export interface ApplicationData extends ContactPreferences, LandlordDetails, PropertyDetails, LettingAgentDetails {
   caseReference: bigint;
   createdDate: string;
   submittedOn?: string;
@@ -95,6 +95,10 @@ export interface ContactPreferences {
   textUpdates?: string | boolean;
   textUpdatesPhoneNumber?: string;
   phoneNumberForCalls?: string;
+}
+
+export interface LettingAgentDetails {
+  lettingAgentEmailAddress?: string;
 }
 
 export interface LandlordDetails {
