@@ -74,6 +74,7 @@ const sectionDefs = [
       'current-tenancy-start-date',
       'tenancy-end-date',
       'current-tenancy-replace-original-tenancy',
+      'other-household-management-charges',
     ],
   },
   {

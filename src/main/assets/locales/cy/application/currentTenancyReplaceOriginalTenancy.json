@@ -1,3 +1,24 @@
 {
-  "heading": "cyDoes your current tenancy replace an original tenancy?"
+  "questionTitle": "cyDoes your current tenancy replace an original tenancy?",
+  "questionHint": "cyAn original tenancy is the first assured shorthold tenancy given to you by the same landlord for the same property",
+  "options": {
+    "notSure": {
+      "label": "cyI'm not sure"
+    }
+  },
+  "originalTenancyStartDate": {
+    "label": "cyWhen did your original tenancy start?"
+  },
+  "errors": {
+    "currentTenancyReplaceOriginalTenancy": {
+      "required": "cySelect whether your current tenancy replaces an original tenancy"
+    },
+    "date": {
+      "required": "cyOriginal tenancy start date must include a day, month and year",
+      "notRealDate": "cyOriginal tenancy start date must be a real date",
+      "missingOne": "cyOriginal tenancy start date must include a {{missingField}}",
+      "missingTwo": "cyOriginal tenancy start date must include a {{first}} and {{second}}",
+      "yearMustBeSameOrAfter": "cyOriginal tenancy start date must be {{minYear}} or later"
+    }
+  }
 }

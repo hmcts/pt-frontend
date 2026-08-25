@@ -19,6 +19,7 @@ export type UtilitiesPaidFrequencyValue = PaymentFrequency | 'OTHER' | null;
 export type DateValue = { day: string; month: string; year: string };
 export type CurrentTenancyStartDateValue = DateValue | null;
 export type TenancyEndDateValue = DateValue | null;
+export type OriginalTenancyStartDateValue = DateValue | null;
 export enum LanguageUsed {
   ENGLISH = 'ENGLISH',
   WELSH = 'WELSH',
@@ -163,4 +164,6 @@ export interface RentDetails {
   // tenancy dates
   currentTenancyStartDate?: CurrentTenancyStartDateValue;
   tenancyEndDate?: TenancyEndDateValue;
+  currentTenancyReplaceOriginalTenancy?: YesNoNotSureValue;
+  originalTenancyStartDate?: OriginalTenancyStartDateValue;
 }
