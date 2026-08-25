@@ -3,7 +3,7 @@ import { flowConfig } from '../../../flow.config';
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccdCase.interface';
-import { VALID_MOBILE_NUMBER_REGEX, isValidPhoneNumber } from '@utils/phoneNumber';
+import { isValidMobilePhoneNumber } from '@utils/phoneNumber';
 
 const journeyName = 'application';
 const stepName = 'text-updates';
@@ -35,15 +35,13 @@ export const step: StepDefinition = createFormStep({
               type: 'text',
               maxLength: 20,
               required: true,
-              //TODO: check this
               errorMessage: 'errors.textUpdatesPhoneNumber',
               classes: 'govuk-input--width-10',
               translationKey: {
                 label: 'options.yesTextBox.label',
               },
               validator: (value): boolean | string => {
-                if (value && !isValidPhoneNumber(value as string, VALID_MOBILE_NUMBER_REGEX)) {
-                  // TODO - check this
+                if (value && !isValidMobilePhoneNumber(value as string)) {
                   return 'errors.textUpdatesPhoneNumber';
                 }
                 return true;
@@ -75,7 +73,7 @@ export function isAnswered(ccdCase: PTCaseData | undefined): boolean {
   if (ccdCase?.applicantContactPreferences?.contactByText === 'Yes') {
     return Boolean(
       ccdCase?.applicantContactPreferences?.mobilePhoneNumber &&
-      isValidPhoneNumber(ccdCase?.applicantContactPreferences?.mobilePhoneNumber as string, VALID_MOBILE_NUMBER_REGEX)
+      isValidMobilePhoneNumber(ccdCase?.applicantContactPreferences?.mobilePhoneNumber as string)
     );
   }
   return ccdCase?.applicantContactPreferences?.contactByText === 'No';
