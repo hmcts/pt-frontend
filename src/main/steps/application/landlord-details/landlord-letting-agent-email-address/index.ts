@@ -26,7 +26,7 @@ export const step: StepDefinition = createFormStep({
       isPageHeading: true,
       labelClasses: 'govuk-label--l',
       classes: 'govuk-input--width-20',
-      translationKey: { label: 'questionTitle' },
+      translationKey: { label: 'heading' },
       validator: (value): boolean | string => {
         if (value && !isValidEmail(value as string)) {
           return 'errors.lettingAgentEmailAddress.invalid';
