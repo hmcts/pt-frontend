@@ -42,5 +42,14 @@ export const flowConfig: JourneyFlowConfig = {
         return answer === 'lettingAgentOnly' || answer === 'lettingAgentAndRepresentative';
       },
     },
+    'landlord-representative-details': {
+      showCondition: (req: Request) => {
+        const answer = getFormData(
+          req,
+          'landlord-has-letting-agent-or-representative'
+        ).landlordHasLettingAgentOrRepresentative;
+        return answer === 'representativeOnly' || answer === 'lettingAgentAndRepresentative';
+      },
+    },
   } satisfies Partial<Record<ApplicationStepName, StepConfig>>,
 };
