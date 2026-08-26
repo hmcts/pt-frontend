@@ -13,10 +13,17 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/applicationType.njk`,
   showCancelButton: false,
-  isAnswered: () => false,
+  isAnswered: () => true,
   translationKeys: {
     pageTitle: 'pageTitle',
     heading: 'heading',
   },
   fields: [],
+  extendGetContent: req => {
+    const caseData = req.session.ccdCase;
+    return {
+      applicationType: caseData.applicationType,
+      tenancyType: caseData.tenancyType,
+    };
+  },
 });
