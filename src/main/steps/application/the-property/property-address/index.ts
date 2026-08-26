@@ -2,7 +2,7 @@ import { flowConfig } from '../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { CcdCaseData } from '@services/ccdCase.interface';
+import { PTCaseData } from '@services/ccdCase.interface';
 import { isValidPostcode } from '@utils/postcode';
 
 const journeyName = 'application';
@@ -107,6 +107,6 @@ export const step: StepDefinition = createFormStep({
   ],
 });
 
-function isAnswered(ccdCase: CcdCaseData): boolean {
-  return Boolean(ccdCase.addressLine1 && ccdCase.townOrCity && ccdCase.postcode);
+function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  return Boolean(ccdCase?.addressLine1 && ccdCase?.townOrCity && ccdCase?.postcode);
 }
