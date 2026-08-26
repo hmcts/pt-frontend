@@ -138,5 +138,6 @@ export interface PropertyDetails {
   furnitureProvidedDetails?: string;
   servicesProvided?: string | boolean;
   servicesProvidedDetails?: string;
+  landlordRepairsResponsibility?: string;
   hasRepairsAndImprovements?: string | boolean;
 }

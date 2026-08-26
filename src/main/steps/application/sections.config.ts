@@ -93,6 +93,7 @@ const sectionDefs = [
       'furniture-provided-tenancy',
       'services-provided-tenancy',
       'what-repairs-landlord-responsibility',
+      'what-repairs-tenant-responsibility',
       'repairs-and-improvements',
       'upload-evidence-improvements-or-repairs',
       'check-your-answers-the-property',
