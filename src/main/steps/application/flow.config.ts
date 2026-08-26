@@ -31,6 +31,10 @@ export const flowConfig: JourneyFlowConfig = {
       showCondition: (req: Request) =>
         getFormData(req, 'rent-inclusive-of-utility-charges').rentInclusiveOfUtilityCharges === 'yes',
     },
+    'other-household-management-charges-details': {
+      showCondition: (req: Request) =>
+        getFormData(req, 'other-household-management-charges').otherHouseholdManagementCharges === 'yes',
+    },
     'landlord-letting-agent-email-address': {
       showCondition: (req: Request) => {
         const answer = getFormData(

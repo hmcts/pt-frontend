@@ -81,6 +81,8 @@ const sectionDefs = [
       'tenancy-end-date',
       'current-tenancy-replace-original-tenancy',
       'other-household-management-charges',
+      'other-household-management-charges-details',
+      'check-your-answers-current-rent-and-other-costs',
     ],
   },
   {
