@@ -1,3 +1,9 @@
 {
-  "heading": "cyAre you charged separately for anything else?"
+  "questionTitle": "cyAre you charged separately for anything else?",
+  "questionHint": "cySuch as maintenance, repairs, management costs, or something else",
+  "errors": {
+    "otherHouseholdManagementCharges": {
+      "required": "cySelect whether you are charged separately for anything else"
+    }
+  }
 }
