@@ -41,10 +41,16 @@ const sectionDefs = [
     groupId: 'landlordDetails',
     titleKey: 'taskList.landlordDetails',
     steps: [
+      'landlord-name',
       'landlord-email-address',
       'landlord-phone-number',
       'landlord-has-letting-agent-or-representative',
-      'landlord-name',
+      'landlord-letting-agent-email-address',
+      'landlord-letting-agent-phone-number',
+      'landlord-representative-details',
+      'landlord-representative-email-address',
+      'landlord-representative-phone-number',
+      'check-your-answers-landlord-details',
     ],
   },
   {
@@ -57,7 +63,7 @@ const sectionDefs = [
     id: 'yourTenancyAgreement',
     groupId: 'applicationDocuments',
     titleKey: 'taskList.yourTenancyAgreement',
-    steps: ['have-tenancy-agreement'],
+    steps: ['have-tenancy-agreement', 'upload-tenancy-agreement', 'check-your-answers-your-tenancy-agreement'],
   },
   {
     id: 'theCurrentRentAndOtherCosts',

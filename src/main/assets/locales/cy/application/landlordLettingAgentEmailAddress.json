@@ -1,0 +1,9 @@
+{
+  "pageTitle": "cyYour landlord's letting agent’s email address",
+  "heading": "cyYour landlord's letting agent’s email address",
+  "errors": {
+    "lettingAgentEmailAddress": {
+      "invalid": "cyEnter an email address in the correct format, like name@example.com"
+    }
+  }
+}
