@@ -118,6 +118,11 @@ export interface ApplicationDocuments {
 }
 
 export interface PropertyDetails {
+  addressLine1?: string;
+  addressLine2?: string;
+  townOrCity?: string;
+  county?: string;
+  postcode?: string;
   propertyType?: string;
   propertyTypeRoomDescription?: string;
   propertyTypeFlatFloor?: string;
