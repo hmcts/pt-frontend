@@ -35,7 +35,7 @@ export type CaseData = CcdCaseData;
 
 /** Case data payload from CCD (START callback case_data or CcdCase.data). */
 export interface CcdCaseData
-  extends ContactPreferences, LandlordDetails, PropertyDetails, LettingAgentDetails, RentDetails {
+  extends ContactPreferences, LandlordDetails, PropertyDetails, LettingAgentDetails, RentDetails, ApplicationDocuments {
   //TODO: build this out once data model added to pt-api
   applicantFirstName?: string;
   applicantLastName?: string;
@@ -87,7 +87,7 @@ export interface StartCallbackData {
 //
 /** Case data payload returned from PT API get case(s) calls */
 export interface ApplicationData
-  extends ContactPreferences, LandlordDetails, PropertyDetails, LettingAgentDetails, RentDetails {
+  extends ContactPreferences, LandlordDetails, PropertyDetails, LettingAgentDetails, RentDetails, ApplicationDocuments {
   caseReference: bigint;
   createdDate: string;
   submittedOn?: string;
@@ -117,9 +117,20 @@ export interface LandlordDetails {
   landlordHasLettingAgentOrRepresentative?: string;
   landlordEmailAddress?: string;
   representativeEmailAddress?: string;
+  representativePhoneNumber?: string;
+}
+
+export interface ApplicationDocuments {
+  hasTenancyAgreement?: string;
+  noTenancyAgreementReason?: string;
 }
 
 export interface PropertyDetails {
+  addressLine1?: string;
+  addressLine2?: string;
+  townOrCity?: string;
+  county?: string;
+  postcode?: string;
   propertyType?: string;
   propertyTypeRoomDescription?: string;
   propertyTypeFlatFloor?: string;
@@ -135,6 +146,7 @@ export interface PropertyDetails {
   furnitureProvidedDetails?: string;
   servicesProvided?: string | boolean;
   servicesProvidedDetails?: string;
+  landlordRepairsResponsibility?: string;
   hasRepairsAndImprovements?: string | boolean;
 }
 

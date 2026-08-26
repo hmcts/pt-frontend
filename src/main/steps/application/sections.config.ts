@@ -63,7 +63,7 @@ const sectionDefs = [
     id: 'yourTenancyAgreement',
     groupId: 'applicationDocuments',
     titleKey: 'taskList.yourTenancyAgreement',
-    steps: ['have-tenancy-agreement'],
+    steps: ['have-tenancy-agreement', 'upload-tenancy-agreement', 'check-your-answers-your-tenancy-agreement'],
   },
   {
     id: 'theCurrentRentAndOtherCosts',
@@ -96,6 +96,7 @@ const sectionDefs = [
     groupId: 'theProperty',
     titleKey: 'taskList.propertyDetails',
     steps: [
+      'property-address',
       'what-are-you-renting',
       'floor-plan-of-property',
       'upload-floor-plan-of-property',
@@ -106,10 +107,10 @@ const sectionDefs = [
       'furniture-provided-tenancy',
       'services-provided-tenancy',
       'what-repairs-landlord-responsibility',
+      'what-repairs-tenant-responsibility',
       'repairs-and-improvements',
       'upload-evidence-improvements-or-repairs',
       'check-your-answers-the-property',
-      'property-address',
     ],
   },
   {
