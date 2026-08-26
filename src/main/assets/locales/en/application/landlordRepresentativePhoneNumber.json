@@ -1,4 +1,9 @@
 {
-  "pageTitle": "Your landlord's representative’s phone number (placeholder)",
-  "heading": "Your landlord's representative’s phone number (placeholder)"
+  "pageTitle": "Your landlord's representative’s phone number (optional)",
+  "heading": "Your landlord's representative’s phone number (optional)",
+  "errors": {
+    "representativePhoneNumber": {
+      "invalid": "Enter a phone number in the correct format, including the country code for international numbers"
+    }
+  }
 }
