@@ -17,6 +17,7 @@ import { step as whatRepairsTenantResponsibility } from './what-repairs-tenant-r
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
 export const thePropertyStepRegistry = {
+  'property-address': propertyAddress,
   'what-are-you-renting': whatAreYouRenting,
   'floor-plan-of-property': floorPlanOfProperty,
   'upload-floor-plan-of-property': uploadFloorPlanOfProperty,
@@ -31,5 +32,4 @@ export const thePropertyStepRegistry = {
   'repairs-and-improvements': repairsAndImprovements,
   'upload-evidence-improvements-or-repairs': uploadEvidenceImprovementsOrRepairs,
   'check-your-answers-the-property': checkYourAnswersTheProperty,
-  'property-address': propertyAddress,
 } satisfies Record<string, StepDefinition>;

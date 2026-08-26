@@ -5,35 +5,35 @@ import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { isValidPhoneNumber } from '@utils/phoneNumber';
 
 const journeyName = 'application';
-const stepName = 'landlord-letting-agent-phone-number';
+const stepName = 'landlord-representative-phone-number';
 
 export const step: StepDefinition = createFormStep({
   stepName,
   journeyFolder: journeyName,
   stepDir: __dirname,
   flowConfig,
-  customTemplate: `${__dirname}/landlordLettingAgentPhoneNumber.njk`,
+  customTemplate: `${__dirname}/landlordRepresentativePhoneNumber.njk`,
   showCancelButton: false,
   isAnswered: req =>
     Boolean(
-      req.session.ccdCase?.lettingAgentPhoneNumber && isValidPhoneNumber(req.session.ccdCase?.lettingAgentPhoneNumber)
+      req.session.ccdCase?.representativePhoneNumber &&
+      isValidPhoneNumber(req.session.ccdCase.representativePhoneNumber)
     ),
   translationKeys: {
     pageTitle: 'pageTitle',
   },
   fields: [
     {
-      name: 'lettingAgentPhoneNumber',
+      name: 'representativePhoneNumber',
       type: 'text',
       required: false,
       isPageHeading: true,
       labelClasses: 'govuk-label--l',
-      legendClasses: 'govuk-fieldset__legend--l',
-      classes: 'govuk-input--width-10',
+      classes: 'govuk-input--width-20',
       translationKey: { label: 'heading' },
       validator: (value): boolean | string => {
         if (value && !isValidPhoneNumber(value as string)) {
-          return 'errors.lettingAgentPhoneNumber.invalid';
+          return 'errors.representativePhoneNumber.invalid';
         }
         return true;
       },
