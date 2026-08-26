@@ -242,6 +242,30 @@ describe('componentBuilders', () => {
         expect(result.component.rows).toBe(10);
         expect(result.component.maxlength).toBe(500);
       });
+
+      it('should pass isPageHeading and labelClasses onto the textarea label', () => {
+        const field: FormFieldConfig = {
+          name: 'description',
+          type: 'textarea',
+          labelClasses: 'govuk-label--l',
+          isPageHeading: true,
+        };
+
+        const result = buildComponentConfig(
+          buildArgs(field, {
+            label: 'Description',
+            hint: 'Provide details',
+            fieldValue: '',
+          })
+        );
+
+        expect(result.componentType).toBe('textarea');
+        expect(result.component.label).toEqual({
+          text: 'Description',
+          isPageHeading: true,
+          classes: 'govuk-label--l',
+        });
+      });
     });
 
     it('passes hintClasses onto the GOV.UK hint object for text inputs', () => {
