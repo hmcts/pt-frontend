@@ -174,4 +174,7 @@ export interface RentDetails {
   tenancyEndDate?: TenancyEndDateValue;
   currentTenancyReplaceOriginalTenancy?: YesNoNotSureValue;
   originalTenancyStartDate?: OriginalTenancyStartDateValue;
+
+  // other charges
+  otherHouseholdManagementCharges?: YesNoValue;
 }
