@@ -1,4 +1,11 @@
 {
-  "pageTitle": "cyApplication type",
-  "heading": "cyApplication type"
+  "pageTitle": "cy Application type",
+  "heading": "cy Application type",
+  "subHeading": "cy These answers cannot be changed. If you need to change any of these answers, you must start a new application from your <a class=\"govuk-link govuk-link--no-visited-state\" href=\"/\">applications page</a>.",
+  "applicationTypeQuestion": "cy Which application do you want to make?",
+  "challengeRentIncrease": "cy Challenge the rent increase proposed in a landlord’s notice proposing a new rent",
+  "challengeExcessiveRent": "cy Challenge my rent as excessive within the first 6 months of the tenancy",
+  "tenancyTypeQuestion": "cy Which type of tenancy are you applying about?",
+  "assuredPeriodicTenancy": "cy Assured periodic tenancy",
+  "agriculturalOccupancy": "cy Agricultural occupancy"
 }
