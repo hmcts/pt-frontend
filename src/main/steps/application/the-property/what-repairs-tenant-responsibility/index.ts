@@ -3,7 +3,7 @@ import { flowConfig } from '../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { CcdCaseData } from '@services/ccdCase.interface';
+import { PTCaseData } from '@services/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'what-repairs-tenant-responsibility';
@@ -35,9 +35,9 @@ export const step: StepDefinition = createFormStep({
   ],
 });
 
-function isAnswered(ccdCase: CcdCaseData): boolean {
-  if (ccdCase.tenantRepairsResponsibility === undefined) {
+function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  if (ccdCase?.tenantRepairsResponsibility === undefined) {
     return false;
   }
-  return textAreaIsValidLength(ccdCase.tenantRepairsResponsibility);
+  return textAreaIsValidLength(ccdCase?.tenantRepairsResponsibility);
 }
