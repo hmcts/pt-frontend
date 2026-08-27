@@ -2,7 +2,7 @@
   "port": 4000,
   "useCSRFProtection": true,
   "appInsights": {
-    "instrumentationKey": false
+    "connectionString": false
   },
   "security": {
     "referrerPolicy": "same-origin",
@@ -38,7 +38,7 @@
   },
   "session": {
     "redis-connection-string": "redis://localhost:6379",
-    "pt-session-secret": "pt-supersecret",
+    "pt-session-secret": "NEED TO INSERT SECRET",
     "prefix": "pt-session",
     "cookieName": "pt_session",
     "redis": {
