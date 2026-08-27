@@ -58,10 +58,9 @@ export class Session {
     app.use(session(sessionMiddleware));
 
     // Make timeout config available to templates
-    app.locals.nunjucksEnv?.addGlobal('sessionTimeout', {
-      sessionWarningMinutes,
-      sessionTimeoutMinutes,
-      checkIntervalSeconds,
+    app.use((_req, res, next) => {
+      res.locals.sessionTimeout = { sessionWarningMinutes, sessionTimeoutMinutes, checkIntervalSeconds };
+      next();
     });
 
     this.logger.info('Session middleware configured with Redis store');
