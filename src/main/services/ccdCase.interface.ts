@@ -88,7 +88,8 @@ export interface StartCallbackData {
 }
 
 /** Case data payload returned from PT API get case(s) calls */
-export interface PTCaseData extends LandlordDetails, PropertyDetails, LettingAgentDetails, RentDetails, ApplicationDocuments {
+export interface PTCaseData
+  extends LandlordDetails, PropertyDetails, LettingAgentDetails, RentDetails, ApplicationDocuments {
   caseReference: bigint;
   createdDate: string;
   submittedOn?: string;
