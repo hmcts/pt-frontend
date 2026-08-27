@@ -18,8 +18,16 @@ export class Session {
       this.logger.info('Successfully connected to Redis');
     });
 
-    redis.on('error', (err: typeof Error) => {
-      this.logger.error(`Redis connection error (${new URL(redisConnectionString).host})`, err);
+    const redisHost = ((): string => {
+      try {
+        return new URL(redisConnectionString).host || 'unknown';
+      } catch {
+        return 'unparseable';
+      }
+    })();
+
+    redis.on('error', (err: Error) => {
+      this.logger.error(`Redis connection error (${redisHost})`, err);
     });
 
     redis.on('ready', () => {
