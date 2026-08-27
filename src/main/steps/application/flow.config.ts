@@ -38,6 +38,10 @@ export const flowConfig: JourneyFlowConfig = {
       showCondition: (req: Request) =>
         getFormData(req, 'other-household-management-charges').otherHouseholdManagementCharges === 'yes',
     },
+    'additional-rental-service-charges-vary': {
+      showCondition: (req: Request) =>
+        getFormData(req, 'other-household-management-charges').otherHouseholdManagementCharges === 'yes',
+    },
     'landlord-letting-agent-email-address': {
       showCondition: (req: Request) => {
         const answer = getFormData(
