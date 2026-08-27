@@ -64,6 +64,12 @@ export class Session {
       checkIntervalSeconds,
     });
 
+    // Make timeout config available to templates
+    app.use((_req, res, next) => {
+      res.locals.sessionTimeout = { sessionWarningMinutes, sessionTimeoutMinutes, checkIntervalSeconds };
+      next();
+    });
+
     this.logger.info('Session middleware configured with Redis store');
     this.logger.info(
       `Session timeout: ${sessionTimeoutMinutes} minutes, warning at ${sessionWarningMinutes} minutes before expiry`
