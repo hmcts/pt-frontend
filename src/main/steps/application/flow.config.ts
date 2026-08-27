@@ -27,6 +27,17 @@ export const flowConfig: JourneyFlowConfig = {
     'upload-evidence-improvements-or-repairs': {
       showCondition: (req: Request) => getFormData(req, 'repairs-and-improvements').hasRepairsAndImprovements === 'yes',
     },
+    'council-tax-frequency': {
+      showCondition: (req: Request) => getFormData(req, 'rent-includes-council-tax').rentIncludesCouncilTax === 'yes',
+    },
+    'utilities-paid-frequency': {
+      showCondition: (req: Request) =>
+        getFormData(req, 'rent-inclusive-of-utility-charges').rentInclusiveOfUtilityCharges === 'yes',
+    },
+    'other-household-management-charges-details': {
+      showCondition: (req: Request) =>
+        getFormData(req, 'other-household-management-charges').otherHouseholdManagementCharges === 'yes',
+    },
     'landlord-letting-agent-email-address': {
       showCondition: (req: Request) => {
         const answer = getFormData(

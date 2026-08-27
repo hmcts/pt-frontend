@@ -15,6 +15,11 @@
     "cancel": "Cancel",
     "completeThisSection": "Complete this section"
   },
+  "date": {
+    "day": "Day",
+    "month": "Month",
+    "year": "Year"
+  },
   "youNeedToUseAnotherForm": "You need to use another form to apply",
   "myApplications": "My applications",
   "startNewApplicationLinkText": "Start a new application",
