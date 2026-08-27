@@ -101,8 +101,8 @@
     "zod-i18n-map": "2.27.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.29.0",
-    "@babel/preset-env": "^7.26.9",
+    "@babel/core": "^8.0.0",
+    "@babel/preset-env": "^8.0.0",
     "@codeceptjs/allure-legacy": "^1.0.2",
     "@codeceptjs/configure": "^0.10.0",
     "@eslint/compat": "2.1.0",
