@@ -158,4 +158,6 @@ export interface PropertyDetails {
 export interface InspectionAndHearing {
   agreeToDecisionWithoutInspection?: string | boolean;
   noDecisionWithoutInspectionReason?: string;
+  agreeToDecisionWithoutHearing?: string | boolean;
+  noDecisionWithoutHearingReason?: string;
 }
