@@ -190,4 +190,5 @@ export interface RentDetails {
 
   // other charges
   otherHouseholdManagementCharges?: YesNoValue;
+  otherHouseholdManagementChargesDetails?: string;
 }
