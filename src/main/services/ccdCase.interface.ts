@@ -35,7 +35,14 @@ export type CaseData = CcdCaseData;
 
 /** Case data payload from CCD (START callback case_data or CcdCase.data). */
 export interface CcdCaseData
-  extends ContactPreferences, LandlordDetails, PropertyDetails, LettingAgentDetails, RentDetails, ApplicationDocuments {
+  extends
+    ContactPreferences,
+    LandlordDetails,
+    PropertyDetails,
+    LettingAgentDetails,
+    RentDetails,
+    ApplicationDocuments,
+    HelpWithFeesDetails {
   //TODO: build this out once data model added to pt-api
   applicantFirstName?: string;
   applicantLastName?: string;
@@ -190,4 +197,9 @@ export interface RentDetails {
 
   // other charges
   otherHouseholdManagementCharges?: YesNoValue;
+}
+
+export interface HelpWithFeesDetails {
+  appliedForHelpWithFees?: YesNoValue;
+  referenceNumber?: string;
 }
