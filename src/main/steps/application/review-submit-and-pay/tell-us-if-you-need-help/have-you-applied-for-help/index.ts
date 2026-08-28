@@ -24,7 +24,7 @@ export const step: StepDefinition = createFormStep({
 
     const referenceNumberFieldName = 'appliedForHelpWithFees.referenceNumber';
 
-    if (stepData.appliedForHelpWithFees !== 'YES') {
+    if (stepData.appliedForHelpWithFees !== 'Yes') {
       delete stepData[referenceNumberFieldName];
       return;
     }
