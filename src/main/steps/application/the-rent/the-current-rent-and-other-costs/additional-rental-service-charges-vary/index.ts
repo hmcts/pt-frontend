@@ -3,6 +3,7 @@ import { flowConfig } from '../../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { CcdCaseData } from '@services/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'additional-rental-service-charges-vary';
@@ -17,7 +18,7 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/additionalRentalServiceChargesVary.njk`,
   showCancelButton: false,
-  isAnswered: req => Boolean(req.session.ccdCase?.additionalRentalServiceChargesVary),
+  isAnswered: req => isAnswered(req.session.ccdCase),
 
   beforeRedirect: req => {
     const stepData = req.session.formData?.[stepName];
@@ -65,3 +66,10 @@ export const step: StepDefinition = createFormStep({
     },
   ],
 });
+function isAnswered(ccdCase: CcdCaseData): boolean {
+  const answer = ccdCase.additionalRentalServiceChargesVary as string | undefined;
+  if (answer === 'yes') {
+    return Boolean(ccdCase.varyingAdditionalRentalServiceChargesDetails);
+  }
+  return answer === 'no';
+}
