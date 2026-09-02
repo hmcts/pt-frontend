@@ -2,6 +2,10 @@
   "api": {
     "url": "PT_API_URL"
   },
+  "ccd": {
+    "url": "CCD_URL",
+    "caseTypeId": "CASE_TYPE_ID"
+  },
   "frontend": {
     "url": "TEST_URL"
   },

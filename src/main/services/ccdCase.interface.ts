@@ -12,6 +12,14 @@ export enum YesNoEnum {
   PREFER_NOT_TO_SAY = 'PREFER_NOT_TO_SAY',
 }
 export type FrequencyValue = 'WEEKLY' | 'MONTHLY';
+export type PaymentFrequency = 'WEEKLY' | 'FORTNIGHTLY' | 'MONTHLY' | 'YEARLY';
+export type RentPaymentFrequencyValue = PaymentFrequency | null;
+export type CouncilTaxFrequencyValue = PaymentFrequency | 'OTHER' | null;
+export type UtilitiesPaidFrequencyValue = PaymentFrequency | 'OTHER' | null;
+export type DateValue = { day: string; month: string; year: string };
+export type CurrentTenancyStartDateValue = DateValue | null;
+export type TenancyEndDateValue = DateValue | null;
+export type OriginalTenancyStartDateValue = DateValue | null;
 export enum LanguageUsed {
   ENGLISH = 'ENGLISH',
   WELSH = 'WELSH',
@@ -32,6 +40,7 @@ export interface CcdCaseData
     LandlordDetails,
     PropertyDetails,
     LettingAgentDetails,
+    RentDetails,
     ApplicationDocuments,
     InspectionAndHearing {
   //TODO: build this out once data model added to pt-api
@@ -90,6 +99,7 @@ export interface ApplicationData
     LandlordDetails,
     PropertyDetails,
     LettingAgentDetails,
+    RentDetails,
     ApplicationDocuments,
     InspectionAndHearing {
   caseReference: bigint;
@@ -153,6 +163,47 @@ export interface PropertyDetails {
   landlordRepairsResponsibility?: string;
   tenantRepairsResponsibility?: string;
   hasRepairsAndImprovements?: string | boolean;
+}
+
+/** Fields captured across the details of rent journey. */
+export interface RentDetails {
+  // previous tribunal determination
+  tribunalPreviouslyDeterminedRent?: YesNoValue;
+  previousTribunalCaseReference?: string;
+
+  // rent payment frequency and amount
+  rentPaymentFrequency?: RentPaymentFrequencyValue;
+  rentCostWeekly?: string;
+  rentCostFortnightly?: string;
+  rentCostMonthly?: string;
+  rentCostYearly?: string;
+
+  // council tax
+  rentIncludesCouncilTax?: YesNoValue;
+  councilTaxFrequency?: CouncilTaxFrequencyValue;
+  councilTaxCostWeekly?: string;
+  councilTaxCostFortnightly?: string;
+  councilTaxCostMonthly?: string;
+  councilTaxCostYearly?: string;
+  councilTaxFrequencyAndCostDetails?: string;
+
+  // utilities
+  rentInclusiveOfUtilityCharges?: YesNoValue;
+  utilitiesPaidFrequency?: UtilitiesPaidFrequencyValue;
+  utilitiesCostWeekly?: string;
+  utilitiesCostFortnightly?: string;
+  utilitiesCostMonthly?: string;
+  utilitiesCostYearly?: string;
+  utilitiesFrequencyAndCostDetails?: string;
+
+  // tenancy dates
+  currentTenancyStartDate?: CurrentTenancyStartDateValue;
+  tenancyEndDate?: TenancyEndDateValue;
+  currentTenancyReplaceOriginalTenancy?: YesNoNotSureValue;
+  originalTenancyStartDate?: OriginalTenancyStartDateValue;
+
+  // other charges
+  otherHouseholdManagementCharges?: YesNoValue;
 }
 
 export interface InspectionAndHearing {
