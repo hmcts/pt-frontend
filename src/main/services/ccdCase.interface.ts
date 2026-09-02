@@ -209,4 +209,6 @@ export interface RentDetails {
 export interface InspectionAndHearing {
   agreeToDecisionWithoutInspection?: string | boolean;
   noDecisionWithoutInspectionReason?: string;
+  agreeToDecisionWithoutHearing?: string | boolean;
+  noDecisionWithoutHearingReason?: string;
 }

@@ -117,7 +117,7 @@ const sectionDefs = [
     id: 'propertyInspection',
     groupId: 'inspectionAndHearing',
     titleKey: 'taskList.propertyInspection',
-    steps: ['property-inspection', 'hearing'],
+    steps: ['property-inspection', 'hearing', 'check-your-answers-inspection-and-hearing'],
   },
   {
     id: 'extraSupport',
