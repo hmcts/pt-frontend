@@ -4006,8 +4006,8 @@ __metadata:
   linkType: hard
 
 "@pact-foundation/pact@npm:^17.0.1":
-  version: 17.1.2
-  resolution: "@pact-foundation/pact@npm:17.1.2"
+  version: 17.1.3
+  resolution: "@pact-foundation/pact@npm:17.1.3"
   dependencies:
     "@pact-foundation/pact-core": "npm:^20.1.0"
     "@scarf/scarf": "npm:^1.4.0"
@@ -4025,7 +4025,7 @@ __metadata:
     randexp: "npm:^0.5.3"
     router: "npm:^2.2.0"
     stack-utils: "npm:^2.0.6"
-  checksum: 10/a883121c18b3ca4b1296d706e408108587fb814f7636544b43efda4a86e664e3367bd5b7a0fe60fd1607ca99755340a22fdb485a6c3a1af2d976f44c06d565d8
+  checksum: 10/47b92f7d0f492c1857bce14828daa8406d88fc3b9a2aeed52d9ab7a6632ba65a1337c52ce942a53834040786ab267409196431f8d38ac4e6289a66fc2a038ac8
   languageName: node
   linkType: hard
 
@@ -9118,9 +9118,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jest@npm:29.16.2":
-  version: 29.16.2
-  resolution: "eslint-plugin-jest@npm:29.16.2"
+"eslint-plugin-jest@npm:29.16.6":
+  version: 29.16.6
+  resolution: "eslint-plugin-jest@npm:29.16.6"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.0.0"
   peerDependencies:
@@ -9135,7 +9135,7 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  checksum: 10/fa9688bdb0086e36287feb677d26e8a54321db824c18bfd1e68dd5c3650fdd63ee0c251bd35b276ab38e5e1e95b0e98e3b8de3a3bb221f50a456b9dbc702d179
+  checksum: 10/080eb1b22e583c06ac881963f7cf8aa52448ef015d743fd7fe519853ff7a6ebac05d55001f64e4d7298af006d5d7e636186e83a6850695b3f901d7e62acfe77b
   languageName: node
   linkType: hard
 
@@ -10743,15 +10743,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:26.4.0":
-  version: 26.4.0
-  resolution: "i18next@npm:26.4.0"
+"i18next@npm:26.4.1":
+  version: 26.4.1
+  resolution: "i18next@npm:26.4.1"
   peerDependencies:
     typescript: ^5 || ^6 || ^7
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10/22368a457a67391ab11ffd95acf0eed306cce27fdcc8828206acd9eb0ec5993e403db34edf95ec5a45d6e3914c03153b0e8509b589a77536127a6a1622970c78
+  checksum: 10/b8d546a9dd20b0c3915dd0751827f2461c2694224029a3ffcb65812e941d401df9c3c0e3b02f4d9a4dfea55a8e203e98fd7b0ccd7f43109382d6b04c84532aab
   languageName: node
   linkType: hard
 
@@ -12234,14 +12234,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-yaml@npm:4.3.1":
-  version: 4.3.1
-  resolution: "js-yaml@npm:4.3.1"
+"js-yaml@npm:4.3.2":
+  version: 4.3.2
+  resolution: "js-yaml@npm:4.3.2"
   dependencies:
     argparse: "npm:^2.0.1"
   bin:
     js-yaml: bin/js-yaml.js
-  checksum: 10/2ce71b5d632abbd77da80447bf860e8a0264e54bffe94840984887d58b023761495b523727547904517a6107a1ef189854b361e0fc44995ee13a84f222d7bd42
+  checksum: 10/05c44b9c73e4901d92703b155e76518df64bf01ac62e4c036b47de4b391e19b72e32656e8954d51b436307f08cc9d0c0d4ec617d061cf2f65fffee9f3114bee7
   languageName: node
   linkType: hard
 
@@ -14852,12 +14852,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"protobufjs@npm:8.7.2":
-  version: 8.7.2
-  resolution: "protobufjs@npm:8.7.2"
+"protobufjs@npm:8.8.0":
+  version: 8.8.0
+  resolution: "protobufjs@npm:8.8.0"
   dependencies:
     long: "npm:^5.3.2"
-  checksum: 10/868113c527dd57d8bb6f2ee2b561e895e68fecec0895fd859e6d232be9976dfd0a3c4a9083f7bc4af99a0eca1bcaec75092645a5b9bfeabf4fb196fdeee11c6a
+  checksum: 10/fcb4b6cc8f52e61d8f489cd428fba56d06a4e086fc9116fb4ab580039baf0dc5e911d851bb04867dd6ff9fb3372466d7bef374db7dac47320dba9992adc21895
   languageName: node
   linkType: hard
 
@@ -14977,7 +14977,7 @@ __metadata:
     eslint-config-prettier: "npm:10.1.8"
     eslint-import-resolver-typescript: "npm:4.4.5"
     eslint-plugin-import: "npm:2.32.0"
-    eslint-plugin-jest: "npm:29.16.2"
+    eslint-plugin-jest: "npm:29.16.6"
     express: "npm:5.2.1"
     express-nunjucks: "npm:3.1.2"
     express-rate-limit: "npm:^7.5.0"
@@ -14989,7 +14989,7 @@ __metadata:
     helmet: "npm:8.3.0"
     html-webpack-plugin: "npm:5.6.8"
     husky: "npm:9.1.7"
-    i18next: "npm:26.4.0"
+    i18next: "npm:26.4.1"
     i18next-fs-backend: "npm:2.6.7"
     i18next-http-middleware: "npm:3.9.7"
     ioredis: "npm:5.11.1"
