@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure@2.5.3")
+@Library("Infrastructure@2.5.4")
 
 import uk.gov.hmcts.contino.AppPipelineDsl
 import uk.gov.hmcts.contino.GithubAPI
@@ -25,7 +25,6 @@ def secrets = [
   'pt-kv1-${env}': [
     secret('pt-frontend-idam-secret', 'PT_FRONTEND_IDAM_SECRET'),
     secret('pt-idam-test-user-password', 'IDAM_PT_USER_PASSWORD'),
-    secret('pt-api-idam-secret', 'PT_API_IDAM_SECRET'),
   ]
 ]
 
@@ -35,19 +34,14 @@ withPipeline(type, product, component) {
   env.NODE_CONFIG_ENV = 'test'
   env.PT_API_URL = "http://pt-api-aat.service.core-compute-aat.internal"
   env.DATA_STORE_URL_BASE = "http://ccd-data-store-api-aat.service.core-compute-aat.internal"
-  env.CDAM_URL = "http://ccd-case-document-am-api-aat.service.core-compute-aat.internal"
-  env.XUI_BASE_URI = "https://manage-case.aat.platform.hmcts.net"
   env.CASE_TYPE_ID = "PT"
   onPR() {
     def apiLabels = githubApi.getLabelsbyPattern(env.BRANCH_NAME, "pt-api-pr:")
     if (apiLabels && apiLabels.size() > 0) {
       def labelName = apiLabels[0]
       env.PT_API_CHANGE_ID = labelName.replace("pt-api-pr:", "")
-      env.DATA_STORE_URL_BASE = "https://ccd-data-store-api-pct-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
+      env.DATA_STORE_URL_BASE = "https://ccd-data-store-api-pt-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
       env.PT_API_URL = "https://pt-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
-      env.CDAM_URL = "http://pt-api-pr-${env.PT_API_CHANGE_ID}-cdam"
-      env.XUI_BASE_URI = "https://xui-pt-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
-      env.CASE_API_URL = "https://pt-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
     }
     enablePactAs([
       AppPipelineDsl.PactRoles.CONSUMER,

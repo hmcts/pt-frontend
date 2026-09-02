@@ -1,0 +1,8 @@
+{
+  "questionTitle": "cyDoes your rent include council tax?",
+  "errors": {
+    "rentIncludesCouncilTax": {
+      "required": "cySelect whether your rent includes council tax"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "questionTitle": "Are you charged separately for anything else?",
+  "questionHint": "Such as maintenance, repairs, management costs, or something else",
+  "errors": {
+    "otherHouseholdManagementCharges": {
+      "required": "Select whether you are charged separately for anything else"
+    }
+  }
+}
