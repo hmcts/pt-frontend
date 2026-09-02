@@ -35,7 +35,14 @@ export type CaseData = CcdCaseData;
 
 /** Case data payload from CCD (START callback case_data or CcdCase.data). */
 export interface CcdCaseData
-  extends ContactPreferences, LandlordDetails, PropertyDetails, LettingAgentDetails, RentDetails, ApplicationDocuments {
+  extends
+    ContactPreferences,
+    LandlordDetails,
+    PropertyDetails,
+    LettingAgentDetails,
+    RentDetails,
+    ApplicationDocuments,
+    InspectionAndHearing {
   //TODO: build this out once data model added to pt-api
   applicantFirstName?: string;
   applicantLastName?: string;
@@ -87,7 +94,14 @@ export interface StartCallbackData {
 //
 /** Case data payload returned from PT API get case(s) calls */
 export interface ApplicationData
-  extends ContactPreferences, LandlordDetails, PropertyDetails, LettingAgentDetails, RentDetails, ApplicationDocuments {
+  extends
+    ContactPreferences,
+    LandlordDetails,
+    PropertyDetails,
+    LettingAgentDetails,
+    RentDetails,
+    ApplicationDocuments,
+    InspectionAndHearing {
   caseReference: bigint;
   createdDate: string;
   submittedOn?: string;
@@ -191,4 +205,11 @@ export interface RentDetails {
   // other charges
   otherHouseholdManagementCharges?: YesNoValue;
   otherHouseholdManagementChargesDetails?: string;
+}
+
+export interface InspectionAndHearing {
+  agreeToDecisionWithoutInspection?: string | boolean;
+  noDecisionWithoutInspectionReason?: string;
+  agreeToDecisionWithoutHearing?: string | boolean;
+  noDecisionWithoutHearingReason?: string;
 }
