@@ -11,11 +11,12 @@
   },
   "errors": {
     "currentTenancyReplaceOriginalTenancy": {
-      "required": "Select whether your current tenancy replaces an original tenancy"
+      "required": "Select whether your current tenancy replaces an existing tenancy"
     },
     "date": {
       "required": "Original tenancy start date must include a day, month and year",
       "notRealDate": "Original tenancy start date must be a real date",
+      "futureDate": "Original tenancy start date must be in the past",
       "missingOne": "Original tenancy start date must include a {{missingField}}",
       "missingTwo": "Original tenancy start date must include a {{first}} and {{second}}",
       "yearMustBeSameOrAfter": "Original tenancy start date must be {{minYear}} or later"
