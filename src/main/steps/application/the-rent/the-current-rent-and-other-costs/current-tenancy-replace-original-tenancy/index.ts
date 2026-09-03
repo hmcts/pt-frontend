@@ -2,7 +2,7 @@ import { flowConfig } from '../../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { CcdCaseData } from '@services/ccdCase.interface';
+import { PTCaseData } from '@services/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'current-tenancy-replace-original-tenancy';
@@ -63,10 +63,10 @@ export const step: StepDefinition = createFormStep({
   ],
 });
 
-function isAnswered(ccdCase: CcdCaseData): boolean {
-  const answer = ccdCase.currentTenancyReplaceOriginalTenancy as string | undefined;
+function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  const answer = ccdCase?.currentTenancyReplaceOriginalTenancy as string | undefined;
   if (answer === 'yes') {
-    const startDate = ccdCase.originalTenancyStartDate;
+    const startDate = ccdCase?.originalTenancyStartDate;
     return Boolean(startDate?.day && startDate?.month && startDate?.year);
   }
   return answer === 'no' || answer === 'notSure';
