@@ -37,16 +37,15 @@ export const step: StepDefinition = {
   stepDir: __dirname,
   getController: () =>
     createGetController(VIEW, stepName, stepNavigation, async (req: Request) => {
-      const t: TFunction = getTranslationFunction(req);
       const caseReference = String(req.params.caseReference);
+      const user = req.session?.user;
+      const ptApi = getPtApi(user);
 
+      req.session.ccdCase = await ptApi.getCaseByCaseReference(caseReference);
+
+      const t: TFunction = getTranslationFunction(req);
       const allStatuses = await getAllSectionStatuses(flowConfig, stepRegistry, req);
       const groups = buildGroups(allStatuses, t, req, caseReference);
-
-      const user = req.session?.user;
-
-      const ptApi = getPtApi(user);
-      req.session.ccdCase = await ptApi.getCaseByCaseReference(caseReference);
 
       const name = [req.session.ccdCase?.applicantFirstName, req.session.ccdCase?.applicantLastName]
         .filter(Boolean)
