@@ -117,7 +117,7 @@ const sectionDefs = [
     id: 'propertyInspection',
     groupId: 'inspectionAndHearing',
     titleKey: 'taskList.propertyInspection',
-    steps: ['property-inspection'],
+    steps: ['property-inspection', 'hearing', 'check-your-answers-inspection-and-hearing'],
   },
   {
     id: 'extraSupport',
@@ -129,7 +129,12 @@ const sectionDefs = [
     id: 'tellUsIfYouNeedHelp',
     groupId: 'reviewSubmitAndPay',
     titleKey: 'taskList.tellUsIfYouNeedHelp',
-    steps: ['help-with-fees'],
+    steps: [
+      'help-with-fees',
+      'have-you-applied-for-help',
+      'you-need-to-apply-for-help-with-fees',
+      'check-your-answers-help-with-fees',
+    ],
   },
   {
     id: 'checkYourAnswersAndSubmit',

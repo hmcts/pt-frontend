@@ -156,7 +156,13 @@ export interface StartCallbackData {
  * To reflect ApplicationDto in pt-api
  * */
 export interface PTCaseData
-  extends LandlordDetails, PropertyDetails, LettingAgentDetails, RentDetails, ApplicationDocuments {
+  extends
+    LandlordDetails,
+    PropertyDetails,
+    LettingAgentDetails,
+    RentDetails,
+    ApplicationDocuments,
+    InspectionAndHearing {
   caseReference: bigint;
   createdDate: string;
   submittedOn?: string;
@@ -261,4 +267,16 @@ export interface RentDetails {
 
   // other charges
   otherHouseholdManagementCharges?: YesNoValue;
+}
+
+export interface InspectionAndHearing {
+  agreeToDecisionWithoutInspection?: string | boolean;
+  noDecisionWithoutInspectionReason?: string;
+  agreeToDecisionWithoutHearing?: string | boolean;
+  noDecisionWithoutHearingReason?: string;
+}
+
+export interface HelpWithFeesDetails {
+  appliedForHelpWithFees?: YesNoValue;
+  referenceNumber?: string;
 }

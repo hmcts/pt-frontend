@@ -6,44 +6,43 @@ import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { CcdCaseData } from '@services/ccdCase.interface';
 
 const journeyName = 'application';
-const stepName = 'property-inspection';
+const stepName = 'hearing';
 
 export const step: StepDefinition = createFormStep({
   stepName,
   journeyFolder: journeyName,
   stepDir: __dirname,
   flowConfig,
-  customTemplate: `${__dirname}/propertyInspection.njk`,
+  customTemplate: `${__dirname}/hearing.njk`,
   showCancelButton: false,
   isAnswered: req => isAnswered(req.session.ccdCase),
   fields: [
     {
-      name: 'agreeToDecisionWithoutInspection',
+      name: 'agreeToDecisionWithoutHearing',
       type: 'radio',
       required: true,
       isPageHeading: false,
       legendClasses: 'govuk-fieldset__legend--m',
       translationKey: { label: 'questionTitle' },
-      errorMessage: 'errors.agreeToDecisionWithoutInspection.required',
+      errorMessage: 'errors.agreeToDecisionWithoutHearing.required',
       options: [
         { value: 'yes', translationKey: 'common:yes' },
         {
           value: 'no',
           translationKey: 'common:no',
           subFields: {
-            noDecisionWithoutInspectionReason: {
-              name: 'noDecisionWithoutInspectionReason',
+            noDecisionWithoutHearingReason: {
+              name: 'noDecisionWithoutHearingReason',
               type: 'textarea',
               maxLength: 500,
               required: true,
-              errorMessage: 'errors.noDecisionWithoutInspectionReason.required',
+              errorMessage: 'errors.noDecisionWithoutHearingReason.required',
               translationKey: {
-                label: 'options.noDecisionWithoutInspectionReason.label',
-                hint: 'options.noDecisionWithoutInspectionReason.hint',
+                label: 'options.noDecisionWithoutHearingReason.label',
               },
               validator: (value): boolean | string => {
                 if (value && String(value).length > 500) {
-                  return 'errors.noDecisionWithoutInspectionReason.invalid';
+                  return 'errors.noDecisionWithoutHearingReason.invalid';
                 }
                 return true;
               },
@@ -56,11 +55,10 @@ export const step: StepDefinition = createFormStep({
 });
 
 function isAnswered(ccdCase: CcdCaseData): boolean {
-  if (ccdCase.agreeToDecisionWithoutInspection === 'no') {
+  if (ccdCase.agreeToDecisionWithoutHearing === 'no') {
     return Boolean(
-      (ccdCase.noDecisionWithoutInspectionReason as string) &&
-      textAreaIsValidLength(ccdCase.noDecisionWithoutInspectionReason as string)
+      ccdCase.noDecisionWithoutHearingReason && textAreaIsValidLength(ccdCase.noDecisionWithoutHearingReason as string)
     );
   }
-  return ccdCase.agreeToDecisionWithoutInspection === 'yes';
+  return ccdCase.agreeToDecisionWithoutHearing === 'yes';
 }

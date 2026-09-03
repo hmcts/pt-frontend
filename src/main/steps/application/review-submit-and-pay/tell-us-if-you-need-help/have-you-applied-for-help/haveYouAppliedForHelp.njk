@@ -3,29 +3,18 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "macros/csrf.njk" import csrfProtection %}
-
 {% block pageTitle %}{{ questionTitle }} &ndash; HM Courts &amp; Tribunals Service &ndash; GOV.UK{% endblock %}
-
 {% block mainContent %}
-
   {% if errorSummary %}
     {{ govukErrorSummary(errorSummary) }}
   {% endif %}
-
-  <h1 class="govuk-heading-l">{{ t('pageHeading') }}</h1>
-  <p class="govuk-body">{{ t('guidance.paragraph1') }}</p>
-  <p class="govuk-body">{{ t('guidance.paragraph2') }}</p>
-  <p class="govuk-body">{{ t('guidance.paragraph3') }}</p>
-
   <form method="post" action="{{ url }}" novalidate>
     {% for field in fields %}
       {% if field.componentType == 'radios' %}
         {{ govukRadios(field.component) }}
       {% endif %}
     {% endfor %}
-
     {{ stepButtons(saveAndContinue, saveForLater) }}
     {{ csrfProtection(csrfToken) }}
   </form>
-
 {% endblock %}
