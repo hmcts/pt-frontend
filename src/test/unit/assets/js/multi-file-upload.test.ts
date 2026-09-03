@@ -69,7 +69,7 @@ const render = (serverErrorSummary = false, multiple = false): void => {
                   <label class="govuk-button govuk-button--secondary" for="documents">Choose file</label>
                 </div>
               </div>
-              <div class="moj-multi-file__uploaded-files">
+              <div class="moj-multi-file__uploaded-files" data-testid="feedback">
                 <ul class="moj-multi-file-upload__list"></ul>
               </div>
             </div>
@@ -331,6 +331,55 @@ describe('initMultiFileUpload', () => {
       hooksOf().deleteHook(null, undefined, jsonXhr(null, 200), 'OK');
 
       expect(summary()?.hidden).toBe(true);
+    });
+  });
+
+  describe('the files added list', () => {
+    const feedback = (): HTMLElement => document.querySelector('[data-testid="feedback"]') as HTMLElement;
+
+    it('stays hidden when the file is rejected before it is uploaded', () => {
+      upload(fileOf('virus.exe'));
+
+      expect(feedback().classList).toContain('moj-hidden');
+    });
+
+    it('stays hidden when several files are dropped on a single document field', () => {
+      upload(fileOf('one.pdf'), fileOf('two.pdf'));
+
+      expect(feedback().classList).toContain('moj-hidden');
+    });
+
+    it('hides again once a failed row is cleared', () => {
+      failedRow();
+      expect(feedback().classList).not.toContain('moj-hidden');
+
+      hooksOf().errorHook(
+        null,
+        fileOf('floor-plan.pdf'),
+        jsonXhr({ error: { message: 'This file could not be uploaded' } }),
+        'Bad Request',
+        new Error('failed')
+      );
+
+      expect(feedback().classList).toContain('moj-hidden');
+    });
+
+    it('shows while a document is listed', () => {
+      uploadedRow();
+      upload(fileOf('another.pdf'));
+
+      expect(feedback().classList).not.toContain('moj-hidden');
+    });
+
+    it('hides when the last document is removed alongside a failed row', () => {
+      const row = uploadedRow();
+      failedRow();
+
+      row.remove();
+      document.querySelectorAll('.moj-multi-file-upload__row').forEach(r => r.remove());
+      hooksOf().deleteHook(null, undefined, jsonXhr(null, 200), 'OK');
+
+      expect(feedback().classList).toContain('moj-hidden');
     });
   });
 

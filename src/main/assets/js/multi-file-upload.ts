@@ -132,11 +132,20 @@ const clearInlineError = (container: HTMLElement): void => {
   }
 };
 
+// onFileChange and onDrop reveal the list before the file is checked, so a rejected file leaves
+// the heading on its own.
+const syncFeedbackVisibility = (container: HTMLElement): void => {
+  const feedback = container.querySelector('.moj-multi-file__uploaded-files');
+  const rows = container.querySelectorAll('.moj-multi-file-upload__row').length;
+  feedback?.classList.toggle('moj-hidden', rows === 0);
+};
+
 const removeFailedRows = (container: HTMLElement): void => {
   container.querySelectorAll('.moj-multi-file-upload__row--error, .moj-multi-file-upload__error').forEach(element => {
     const row = element.closest('.moj-multi-file-upload__row');
     (row ?? element).remove();
   });
+  syncFeedbackVisibility(container);
 };
 
 const showError = (container: UploadContainer, message: string): void => {
@@ -157,6 +166,7 @@ const showError = (container: UploadContainer, message: string): void => {
   summary.hidden = false;
 
   setInlineError(container, message);
+  syncFeedbackVisibility(container);
 };
 
 const clearError = (container: UploadContainer): void => {
@@ -233,6 +243,7 @@ export const initMultiFileUpload = (): MultiFileUpload[] => {
         deleteHook: (_instance: unknown, _file: File | undefined, xhr: XMLHttpRequest) => {
           if (xhr.status >= 200 && xhr.status < 300) {
             clearError(container);
+            syncFeedbackVisibility(container);
             return;
           }
           showError(container, container.dataset.errorDelete ?? '');
