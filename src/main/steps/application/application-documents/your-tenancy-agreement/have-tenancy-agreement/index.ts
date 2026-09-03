@@ -3,7 +3,7 @@ import { flowConfig } from '../../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { CcdCaseData } from '@services/ccdCase.interface';
+import { PTCaseData } from '@services/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'have-tenancy-agreement';
@@ -51,7 +51,11 @@ export const step: StepDefinition = createFormStep({
   ],
 });
 
-function isAnswered(ccdCase: CcdCaseData): boolean {
+function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  if (!ccdCase) {
+    return false;
+  }
+
   const { hasTenancyAgreement, noTenancyAgreementReason } = ccdCase;
   if (hasTenancyAgreement === 'no') {
     return Boolean(noTenancyAgreementReason && textAreaIsValidLength(noTenancyAgreementReason));
