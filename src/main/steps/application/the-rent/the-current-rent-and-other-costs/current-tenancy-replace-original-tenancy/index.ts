@@ -2,6 +2,7 @@ import { flowConfig } from '../../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { CcdCaseData } from '@services/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'current-tenancy-replace-original-tenancy';
@@ -17,7 +18,7 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/currentTenancyReplaceOriginalTenancy.njk`,
   showCancelButton: false,
-  isAnswered: req => Boolean(req.session.ccdCase?.currentTenancyReplaceOriginalTenancy),
+  isAnswered: req => isAnswered(req.session.ccdCase),
 
   beforeRedirect: req => {
     const stepData = req.session.formData?.[stepName];
@@ -49,6 +50,7 @@ export const step: StepDefinition = createFormStep({
               name: startDateFieldName,
               type: 'date' as const,
               required: true,
+              noFutureDate: true,
               legendClasses: 'govuk-fieldset__legend--s',
               translationKey: { label: `${startDateFieldName}.label` },
             },
@@ -60,3 +62,12 @@ export const step: StepDefinition = createFormStep({
     },
   ],
 });
+
+function isAnswered(ccdCase: CcdCaseData): boolean {
+  const answer = ccdCase.currentTenancyReplaceOriginalTenancy as string | undefined;
+  if (answer === 'yes') {
+    const startDate = ccdCase.originalTenancyStartDate;
+    return Boolean(startDate?.day && startDate?.month && startDate?.year);
+  }
+  return answer === 'no' || answer === 'notSure';
+}
