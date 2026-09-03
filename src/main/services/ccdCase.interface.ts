@@ -26,6 +26,24 @@ export enum LanguageUsed {
   ENGLISH_AND_WELSH = 'ENGLISH_AND_WELSH',
 }
 
+/** CCD SDK Document type -- flat reference with URLs. */
+export interface CcdDocumentReference {
+  document_url: string;
+  document_binary_url: string;
+  document_filename: string;
+  document_hash?: string;
+  category_id?: string;
+  upload_timestamp?: string;
+}
+
+/** Wraps CCD Document with metadata fields (matches backend UploadedDocument). */
+export interface CcdUploadedDocument {
+  documentType?: string;
+  document: CcdDocumentReference;
+  contentType?: string;
+  sizeInBytes?: number;
+}
+
 export interface CcdCollectionItem<T> {
   id?: string;
   value: T;
@@ -33,22 +51,63 @@ export interface CcdCollectionItem<T> {
 
 export type CaseData = CcdCaseData;
 
-/** Case data payload from CCD (START callback case_data or CcdCase.data). */
-export interface CcdCaseData
-  extends
-    ContactPreferences,
-    LandlordDetails,
-    PropertyDetails,
-    LettingAgentDetails,
-    RentDetails,
-    ApplicationDocuments,
-    InspectionAndHearing,
-    HelpWithFeesDetails {
-  //TODO: build this out once data model added to pt-api
+/**
+ * Case data payload from CCD (START callback case_data or CcdCase.data).
+ * To reflect PTCase.java in pt-api
+ * */
+export interface CcdCaseData {
   applicantFirstName?: string;
   applicantLastName?: string;
   applicationType?: string;
   tenancyType?: string;
+
+  applicantContactPreferencesTextUpdates?: string | boolean;
+  applicantContactPreferencesTextUpdatesPhoneNumber?: string;
+  applicantContactPreferencesPhoneNumberForCalls?: string;
+
+  tenantDetailsCompanyName?: string;
+  tenantDetailsReferenceNumberForCommunications?: string;
+
+  hearingInspectionDetailsHearingRequested?: string | boolean;
+  hearingInspectionDetailsAgreeToDecisionWithoutInspection?: string | boolean;
+  hearingInspectionDetailsNoDecisionWithoutInspectionReason?: string;
+
+  noticeOfRentIncreaseDetailsReceivedLandlordNoticeProposingNewRent?: string | boolean;
+  noticeOfRentIncreaseDetailsNoUploadOfNoticeProposingNewRentReason?: string;
+  noticeOfRentIncreaseDetailsLandlordNoticeProposingNewRentDocument?: CcdUploadedDocument;
+  noticeOfRentIncreaseDetailsNoticeLegallyValid?: string | boolean;
+  noticeOfRentIncreaseDetailsNoticeNotLegallyValidDetails?: string;
+  noticeOfRentIncreaseDetailsNoticeNotLegallyValidDocument?: CcdUploadedDocument;
+  noticeOfRentIncreaseDetailsRentIncreaseToCauseHardship?: string | boolean;
+  noticeOfRentIncreaseDetailsRentIncreaseToCauseHardshipDocument?: CcdUploadedDocument;
+
+  propertyDetailsAddressLine1?: string;
+  propertyDetailsAddressLine2?: string;
+  propertyDetailsPostTown?: string;
+  propertyDetailsCounty?: string;
+  propertyDetailsPostcode?: string;
+  propertyDetailsPropertyType?: string;
+  propertyDetailsRentingFlatDetails?: string;
+  propertyDetailsRentingRoomDetails?: string;
+  propertyDetailsOtherMethodRentingDetails?: string;
+  propertyDetailsPropertyFloorPlanAvailable?: string | boolean;
+  propertyDetailsFloorPlanManualDetails?: string;
+  propertyDetailsFloorPlanDocument?: CcdUploadedDocument;
+  propertyDetailsIndoorFeatures?: string;
+  propertyDetailsOtherFacilitiesAvailable?: string | boolean;
+  propertyDetailsOtherFacilitiesDetails?: string;
+  propertyDetailsOutsidePropertyDocument?: CcdUploadedDocument;
+  propertyDetailsPropertyRoomsDocuments?: CcdCollectionItem<CcdUploadedDocument>[];
+  propertyDetailsFurnitureProvidedInTenancy?: string | boolean;
+  propertyDetailsFurnitureProvidedInTenancyDetails?: string;
+  propertyDetailsAdditionalServicesProvidedInTenancy?: string | boolean;
+  propertyDetailsAdditionalServicesProvidedInTenancyDetails?: string;
+  propertyDetailsSharePropertyWithLandlord?: string | boolean;
+  propertyDetailsSharePropertyWithLandlordDetails?: string;
+  propertyDetailsLandlordRepairsDetails?: string;
+  propertyDetailsTenantRepairsDetails?: string;
+  propertyDetailsAnyTenantsMadePropertyRepairs?: string;
+  propertyDetailsRepairsEvidenceDocument?: CcdUploadedDocument;
 }
 
 /** Case representation used by services: id + case_data. */
@@ -92,34 +151,38 @@ export interface StartCallbackData {
   event_id: string;
 }
 
-//
-/** Case data payload returned from PT API get case(s) calls */
-export interface ApplicationData
+/**
+ * Case data payload returned from PT API get case(s) calls
+ * To reflect ApplicationDto in pt-api
+ * */
+export interface PTCaseData
   extends
-    ContactPreferences,
     LandlordDetails,
     PropertyDetails,
     LettingAgentDetails,
     RentDetails,
     ApplicationDocuments,
-    InspectionAndHearing {
+    InspectionAndHearing,
+    HelpWithFeesDetails {
   caseReference: bigint;
   createdDate: string;
   submittedOn?: string;
 
-  applicantFirstName: string;
-  applicantLastName: string;
-  email: string;
-  postcode: string;
-  applicantIdamUserId: UUID;
-  applicationType: string;
+  applicantFirstName?: string;
+  applicantLastName?: string;
+  email?: string;
+  postcode?: string;
+  applicantIdamUserId?: UUID;
+  applicationType?: string;
   tenancyType?: string;
+
+  applicantContactPreferences?: ContactPreferences;
 }
 
 export interface ContactPreferences {
-  textUpdates?: string | boolean;
-  textUpdatesPhoneNumber?: string;
-  phoneNumberForCalls?: string;
+  contactByText?: string;
+  mobilePhoneNumber?: string;
+  phoneNumber?: string;
 }
 
 export interface LettingAgentDetails {

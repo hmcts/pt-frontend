@@ -22,8 +22,8 @@ export const step: StepDefinition = createFormStep({
   extendGetContent: req => {
     const caseData = req.session.ccdCase;
     return {
-      applicationType: caseData.applicationType,
-      tenancyType: caseData.tenancyType,
+      applicationType: caseData?.applicationType,
+      tenancyType: caseData?.tenancyType,
     };
   },
 });
