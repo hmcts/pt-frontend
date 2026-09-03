@@ -74,6 +74,9 @@ export const flowConfig: JourneyFlowConfig = {
     'landlord-representative-phone-number': {
       showCondition: (req: Request) => hasLandlordRepresentative(req),
     },
+    'you-need-to-apply-for-help-with-fees': {
+      showCondition: (req: Request) => getFormData(req, 'have-you-applied-for-help').appliedForHelpWithFees === 'No',
+    },
   } satisfies Partial<Record<ApplicationStepName, StepConfig>>,
 };
 
