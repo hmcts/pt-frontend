@@ -3,7 +3,7 @@ import config from 'config';
 
 import { getServiceAuthToken } from '../../auth/service/get-service-auth-token';
 import { UserDetails } from '../../auth/user/oidc';
-import { ApplicationData } from '../ccdCase.interface';
+import { PTCaseData } from '../ccdCase.interface';
 
 import { Logger } from '@modules/logger';
 
@@ -12,9 +12,9 @@ const logger = Logger.getLogger('service-auth-token');
 export class PtApiClient {
   constructor(private readonly client: AxiosInstance) {}
 
-  async getAllCasesByUser(): Promise<ApplicationData[]> {
+  async getAllCasesByUser(): Promise<PTCaseData[]> {
     try {
-      const response = await this.client.get<ApplicationData[]>('/applications');
+      const response = await this.client.get<PTCaseData[]>('/applications');
       return response.data;
     } catch (err) {
       logger.error(err);
@@ -22,9 +22,9 @@ export class PtApiClient {
     }
   }
 
-  async getCaseByCaseReference(caseReference: string): Promise<ApplicationData> {
+  async getCaseByCaseReference(caseReference: string): Promise<PTCaseData> {
     try {
-      const response = await this.client.get<ApplicationData>(`/applications/${caseReference}`);
+      const response = await this.client.get<PTCaseData>(`/applications/${caseReference}`);
       return response.data;
     } catch (err) {
       logger.error(err);

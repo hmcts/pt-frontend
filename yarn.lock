@@ -4749,6 +4749,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/escape-html@npm:1.0.4":
+  version: 1.0.4
+  resolution: "@types/escape-html@npm:1.0.4"
+  checksum: 10/61c1409df141268bdb2b40e511614193a9f2d3fed224788a14454ba9504787efa01bbd083826f163a6d33a97815b71e161ce1bdf6b77dd7b3569f3a885ad7722
+  languageName: node
+  linkType: hard
+
 "@types/esrecurse@npm:^4.3.1":
   version: 4.3.1
   resolution: "@types/esrecurse@npm:4.3.1"
@@ -8987,7 +8994,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"escape-html@npm:^1.0.3, escape-html@npm:~1.0.3":
+"escape-html@npm:1.0.3, escape-html@npm:^1.0.3, escape-html@npm:~1.0.3":
   version: 1.0.3
   resolution: "escape-html@npm:1.0.3"
   checksum: 10/6213ca9ae00d0ab8bccb6d8d4e0a98e76237b2410302cf7df70aaa6591d509a2a37ce8998008cbecae8fc8ffaadf3fb0229535e6a145f3ce0b211d060decbb24
@@ -14957,6 +14964,7 @@ __metadata:
     "@types/cookie-parser": "npm:1.4.10"
     "@types/csurf": "npm:1.11.5"
     "@types/es6-promisify": "npm:6.0.4"
+    "@types/escape-html": "npm:1.0.4"
     "@types/express": "npm:5.0.6"
     "@types/express-session": "npm:^1.18.2"
     "@types/git-rev-sync": "npm:^2.0.2"
@@ -14990,6 +14998,7 @@ __metadata:
     csrf-sync: "npm:4.2.1"
     css-loader: "npm:6.11.0"
     debug: "npm:4.4.3"
+    escape-html: "npm:1.0.3"
     eslint: "npm:10.9.1"
     eslint-config-prettier: "npm:10.1.8"
     eslint-import-resolver-typescript: "npm:4.4.5"
