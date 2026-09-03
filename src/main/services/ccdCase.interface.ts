@@ -162,7 +162,8 @@ export interface PTCaseData
     LettingAgentDetails,
     RentDetails,
     ApplicationDocuments,
-    InspectionAndHearing {
+    InspectionAndHearing,
+    HelpWithFeesDetails {
   caseReference: bigint;
   createdDate: string;
   submittedOn?: string;
