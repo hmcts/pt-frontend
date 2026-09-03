@@ -1,0 +1,40 @@
+{% extends "stepsTemplate.njk" %}
+{% from "macros/stepButtons.njk" import stepButtons %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% block pageTitle %}{{ pageTitle }} &ndash; HM Courts &amp; Tribunals Service &ndash; GOV.UK{% endblock %}
+
+{% block mainContent %}
+
+  {% if errorSummary %}
+    {{ govukErrorSummary(errorSummary) }}
+  {% endif %}
+
+  <p class="govuk-body">{{ t('validSection13') }}</p>
+
+  <p class="govuk-body">{{ t('bulletHeading') }}</p>
+  <ul class="govuk-list govuk-list--bullet">
+    <li>{{ t('bullet1') }}</li>
+    <li>{{ t('bullet2') }}</li>
+    <li>{{ t('bullet3') }}</li>
+    <li>{{ t('bullet4') }}</li>
+    <li>{{ t('bullet5') }}</li>
+  </ul>
+
+  <p class="govuk-body">{{ t('stillChallengeIncrease') }}</p>
+  <p class="govuk-body">{{ t('mustStillSubmitApplication') }}</p>
+
+  <form method="post" action="{{ url }}" novalidate>
+    {% for field in fields %}
+      {% if field.componentType == 'radios' %}
+        {{ govukRadios(field.component) }}
+      {% endif %}
+    {% endfor %}
+
+    {{ stepButtons(saveAndContinue, saveForLater) }}
+    {{ csrfProtection(csrfToken) }}
+  </form>
+
+{% endblock %}
