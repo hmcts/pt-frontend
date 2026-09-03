@@ -42,7 +42,8 @@ export interface CcdCaseData
     LettingAgentDetails,
     RentDetails,
     ApplicationDocuments,
-    InspectionAndHearing {
+    InspectionAndHearing,
+    HelpWithFeesDetails {
   //TODO: build this out once data model added to pt-api
   applicantFirstName?: string;
   applicantLastName?: string;
@@ -211,4 +212,9 @@ export interface InspectionAndHearing {
   noDecisionWithoutInspectionReason?: string;
   agreeToDecisionWithoutHearing?: string | boolean;
   noDecisionWithoutHearingReason?: string;
+}
+
+export interface HelpWithFeesDetails {
+  appliedForHelpWithFees?: YesNoValue;
+  referenceNumber?: string;
 }
