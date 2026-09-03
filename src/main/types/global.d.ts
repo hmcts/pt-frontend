@@ -8,7 +8,6 @@ interface CustomSessionData extends SessionData {
   user?: UserInfoResponseWithToken;
   returnTo?: string;
   formData?: Record<string, any>;
-  uploadedDocs?: Record<string, Record<string, unknown[]>>;
   returnToCya?: string;
   ccdCase?: CcdCase;
   genApp?: {

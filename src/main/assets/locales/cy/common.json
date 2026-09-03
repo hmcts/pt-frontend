@@ -28,7 +28,17 @@
     "statusHeading": "cy Status"
   },
   "errors": {
-    "title": "cy There is a problem"
+    "title": "cy There is a problem",
+    "prefix": "cy Error:",
+    "documentUpload": {
+      "wrongFileType": "cy The selected file must be a DOC, DOCX, XLS, XLSX, PPT, PPTX, PDF, RTF, TXT, CSV, JPG, JPEG, PNG, BMP, TIF or TIFF",
+      "fileTooLarge": "cy The selected file must be smaller than 100MB",
+      "filenameTooLong": "cy The selected file name must be 255 characters or fewer",
+      "uploadFailed": "cy The selected file could not be uploaded — try again",
+      "deleteFailed": "cy The selected file could not be removed — try again",
+      "onlyOneFile": "cy You can only upload one file",
+      "removeFileFirst": "cy Remove the uploaded file before adding another"
+    }
   },
   "errorPages": {
     "pageNotFound": {
@@ -97,5 +107,13 @@
     "extraSupport": "cy Tell us if you need extra support during your case",
     "tellUsIfYouNeedHelp": "cy Tell us if you are eligible for help with fees",
     "checkYourAnswersAndSubmit": "cy Check your answers and submit your application"
+  },
+  "documentUpload": {
+    "uploadButton": "cy Upload file",
+    "filesAddedHeading": "cy Files added",
+    "deleteButton": "cy Remove",
+    "chooseFile": "cy Choose file",
+    "dropFile": "cy or drop file",
+    "label": "cy Upload a file"
   }
 }
