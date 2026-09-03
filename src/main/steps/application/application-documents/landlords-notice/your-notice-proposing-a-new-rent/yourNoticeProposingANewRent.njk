@@ -12,6 +12,10 @@
     {{ govukErrorSummary(errorSummary) }}
   {% endif %}
 
+  {% if heading %}
+    <h1 class="govuk-heading-l">{{ heading }}</h1>
+  {% endif %}
+  
   <p class="govuk-body">{{ t('validSection13') }}</p>
 
   <p class="govuk-body">{{ t('bulletHeading') }}</p>

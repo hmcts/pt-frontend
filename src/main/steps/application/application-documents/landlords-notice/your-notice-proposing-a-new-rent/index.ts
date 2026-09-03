@@ -29,14 +29,15 @@ export const step: StepDefinition = createFormStep({
   },
   translationKeys: {
     pageTitle: 'pageTitle',
+    heading: 'heading',
   },
   fields: [
     {
       name: 'noticeLegallyValid',
       type: 'radio',
       required: true,
-      isPageHeading: true,
-      legendClasses: 'govuk-fieldset__legend--l',
+      isPageHeading: false,
+      legendClasses: 'govuk-fieldset__legend--m',
       translationKey: { label: 'questionTitle' },
       errorMessage: 'errors.noticeLegallyValid.required',
       options: [
