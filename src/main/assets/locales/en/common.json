@@ -20,6 +20,17 @@
     "month": "Month",
     "year": "Year"
   },
+  "characterCount": {
+    "charactersUnderLimitText": {
+      "one": "You have %{count} character remaining",
+      "other": "You have %{count} characters remaining"
+    },
+    "charactersAtLimitText": "You have 0 characters remaining",
+    "charactersOverLimitText": {
+      "one": "You have %{count} character too many",
+      "other": "You have %{count} characters too many"
+    }
+  },
   "youNeedToUseAnotherForm": "You need to use another form to apply",
   "myApplications": "My applications",
   "startNewApplicationLinkText": "Start a new application",
