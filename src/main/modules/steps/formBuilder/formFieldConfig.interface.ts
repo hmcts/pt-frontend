@@ -2,6 +2,8 @@ import type { Request } from 'express';
 
 import type { FormBuilderFlowConfig } from './flowConfig';
 
+import type { DocumentFieldKey } from '@modules/documents/documentFields';
+
 export type FormFieldType =
   | 'radio'
   | 'checkbox'
@@ -92,6 +94,8 @@ export interface FormFieldConfig {
   ) => boolean | string;
   // File upload configuration
   accept?: string;
+
+  multiple?: boolean;
   maxFileSize?: number;
   uploadUrl?: string;
   deleteUrl?: string;
@@ -143,7 +147,7 @@ export interface FormBuilderConfig {
   basePath?: string;
   flowConfig?: FormBuilderFlowConfig;
   showCancelButton?: boolean;
-  // documentStorage omitted — PCS CCD upload integration; add when PT has upload steps.
+  documentField?: DocumentFieldKey;
   isAnswered?: (req: Request) => boolean;
 }
 

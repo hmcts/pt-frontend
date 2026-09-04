@@ -53,7 +53,7 @@ export class CcdApiClient {
 
   async triggerEvent(
     caseId: string,
-    data: Partial<CcdCaseData>,
+    data: Record<string, unknown>,
     eventName: string,
     eventToken: string,
     retries = 0

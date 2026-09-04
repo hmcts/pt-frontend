@@ -7,6 +7,7 @@ import { createGetController } from '../controller';
 import { createStepNavigation } from '../flow';
 import { getTranslationFunction, loadStepNamespace } from '../i18n';
 
+import { withFileUploadUrls } from './fileUploadUtils';
 import { getStaticBasePath, getStaticEntryStepId, resolveFormBuilderFlowConfig } from './flowConfig';
 import { buildFormContent } from './formContent';
 import { getFormData } from './helpers';
@@ -57,6 +58,7 @@ export function createFormStep(config: FormBuilderConfig): StepDefinition {
     customTemplate,
     basePath: configuredBasePath,
     isAnswered,
+    documentField,
   } = config;
 
   if (!flowConfig) {
@@ -95,8 +97,9 @@ export function createFormStep(config: FormBuilderConfig): StepDefinition {
         const interpolationValues = extendGetContent ? await extendGetContent(req, emptyFormContent) : {};
         const initialFormData = getInitialFormData ? await getInitialFormData(req) : undefined;
         const resolvedFlowConfig = await resolveFormBuilderFlowConfig(req, flowConfig);
+        const requestFields = withFileUploadUrls(req, fields, documentField);
         const formContent = buildFormContent(
-          fields,
+          requestFields,
           t,
           initialFormData ?? getPersistedFormDataFromResolvedConfig(req, stepName, resolvedFlowConfig),
           {},
@@ -133,7 +136,8 @@ export function createFormStep(config: FormBuilderConfig): StepDefinition {
       beforeRedirect,
       translationKeys,
       showCancelButton,
-      extendGetContent
+      extendGetContent,
+      documentField
     ),
   };
 }

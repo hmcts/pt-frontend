@@ -35,6 +35,7 @@ withPipeline(type, product, component) {
   env.PT_API_URL = "http://pt-api-aat.service.core-compute-aat.internal"
   env.DATA_STORE_URL_BASE = "http://ccd-data-store-api-aat.service.core-compute-aat.internal"
   env.CASE_TYPE_ID = "PT"
+  env.CDAM_URL = "http://ccd-case-document-am-api-aat.service.core-compute-aat.internal"
   onPR() {
     def apiLabels = githubApi.getLabelsbyPattern(env.BRANCH_NAME, "pt-api-pr:")
     if (apiLabels && apiLabels.size() > 0) {
@@ -42,6 +43,7 @@ withPipeline(type, product, component) {
       env.PT_API_CHANGE_ID = labelName.replace("pt-api-pr:", "")
       env.DATA_STORE_URL_BASE = "https://ccd-data-store-api-pt-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
       env.PT_API_URL = "https://pt-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
+      env.CDAM_URL = "http://pt-api-pr-${env.PT_API_CHANGE_ID}-cdam"
     }
     enablePactAs([
       AppPipelineDsl.PactRoles.CONSUMER,
