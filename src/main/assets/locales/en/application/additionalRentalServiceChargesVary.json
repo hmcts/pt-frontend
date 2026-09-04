@@ -15,7 +15,7 @@
     },
     "varyingAdditionalRentalServiceChargesDetails": {
       "required": "Enter how the charges you pay vary",
-      "invalid": "Details of how the charges you pay vary must be 500 characters or less"
+      "invalid": "How the charges you pay vary must be 500 characters or less"
     }
   }
 }
