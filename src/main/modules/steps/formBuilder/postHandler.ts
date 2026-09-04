@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import type { TFunction } from 'i18next';
 
+import { findSectionIdForStep } from '../../../steps/application/sections.config';
 import { safeRedirect303 } from '../../../steps/utils/safeRedirect';
 import { createStepNavigation, getStepUrl } from '../flow';
 import { getTranslationFunction, loadStepNamespace } from '../i18n';
@@ -26,6 +27,8 @@ import type {
 } from '@modules/steps/formBuilder/formFieldConfig.interface';
 import { validateConfigInDevelopment } from '@modules/steps/formBuilder/schema';
 import type { JourneyFlowConfig } from '@modules/steps/stepFlow.interface';
+import { getCaseApi } from '@services/ccdApiClient';
+import { prepareDataForSave } from '@services/data-mapping';
 
 function shouldUseSessionFormData(flowConfig?: JourneyFlowConfig): boolean {
   return flowConfig?.useSessionFormData !== false;
@@ -165,6 +168,21 @@ export function createPostHandler(
       }
 
       if (isSaveForLater) {
+        const sectionId = findSectionIdForStep(stepName);
+        if (sectionId) {
+          try {
+            const ccdCase = req.session.ccdCase;
+            const ccdCaseApi = getCaseApi(req.session.user);
+            const caseReference = String(ccdCase?.caseReference);
+            const data = prepareDataForSave(sectionId, req, ccdCase);
+
+            await ccdCaseApi.updateCase(caseReference, data);
+          } catch (error) {
+            return next(error);
+          }
+        }
+
+        delete req.session.formData;
         delete req.session.returnToCya;
         return safeRedirect303(res, resolveSaveForLaterRedirect(req, resolvedFlowConfig), '/', ['/']);
       }

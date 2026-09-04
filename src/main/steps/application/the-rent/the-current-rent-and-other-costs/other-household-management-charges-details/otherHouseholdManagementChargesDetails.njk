@@ -1,7 +1,7 @@
 {% extends "stepsTemplate.njk" %}
 {% from "macros/stepButtons.njk" import stepButtons %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
-{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/character-count/macro.njk" import govukCharacterCount %}
 {% from "macros/csrf.njk" import csrfProtection %}
 
 {% block pageTitle %}{{ pageTitle }} &ndash; HM Courts &amp; Tribunals Service &ndash; GOV.UK{% endblock %}
@@ -22,8 +22,8 @@
 
   <form method="post" action="{{ url }}" novalidate>
     {% for field in fields %}
-      {% if field.componentType == 'textarea' %}
-        {{ govukTextarea(field.component) }}
+      {% if field.componentType == 'characterCount' %}
+        {{ govukCharacterCount(field.component) }}
       {% endif %}
     {% endfor %}
 

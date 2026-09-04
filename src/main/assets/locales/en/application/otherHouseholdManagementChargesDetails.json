@@ -7,7 +7,7 @@
   "questionTitle": "Describe what you are charged separately for",
   "errors": {
     "otherHouseholdManagementChargesDetails": {
-      "invalid": "Details of what you are charged separately for must be 500 characters or less"
+      "invalid": "Description of what you are charged separately for must be 500 characters or less"
     }
   }
 }

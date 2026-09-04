@@ -7,7 +7,7 @@
   "questionTitle": "cyDescribe what you are charged separately for",
   "errors": {
     "otherHouseholdManagementChargesDetails": {
-      "invalid": "cyDetails of what you are charged separately for must be 500 characters or less"
+      "invalid": "cyDescription of what you are charged separately for must be 500 characters or less"
     }
   }
 }

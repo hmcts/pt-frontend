@@ -20,6 +20,7 @@ export const step: StepDefinition = createFormStep({
       name: fieldName,
       type: 'date',
       required: true,
+      noPastDate: true,
       isPageHeading: true,
       legendClasses: 'govuk-fieldset__legend--l',
       translationKey: { label: 'questionTitle' },

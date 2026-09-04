@@ -8,6 +8,19 @@ import { CcdCaseModel } from '../../../../../main/services/ccdCaseData.model';
 
 jest.mock('@modules/i18n');
 jest.mock('../../../../../main/modules/steps/flow');
+jest.mock('@services/ccdApiClient', () => {
+  const updateCaseMock = jest.fn();
+
+  return {
+    getCaseApi: jest.fn(() => ({
+      updateCase: updateCaseMock,
+    })),
+    __getEventTriggerMock: updateCaseMock, // expose it for the test
+  };
+});
+
+const { getCaseApi: getCaseApiMock, __getEventTriggerMock: updateCaseMock } =
+  jest.requireMock('@services/ccdApiClient');
 
 const flowConfig: JourneyFlowConfig = {
   stepOrder: [],
@@ -24,7 +37,19 @@ describe('PostHandler - Save for Later Fix', () => {
     mockRequest = {
       body: {},
       session: {
-        formData: {},
+        ccdCase: {
+          caseReference: 1234123412341234n,
+          createdDate: '2026-05-08T14:04:16.801467',
+        },
+        formData: {
+          'text-updates': {
+            textUpdates: 'Yes',
+            'textUpdates.textUpdatesPhoneNumber': '+447777777777',
+          },
+          'contact-by-phone': {
+            phoneNumberForCalls: '07777777774',
+          },
+        },
         user: {
           accessToken: 'test-token',
           idToken: 'test-id-token',
@@ -179,26 +204,27 @@ describe('PostHandler - Save for Later Fix', () => {
       const mockBeforeRedirect = jest.fn().mockResolvedValue(undefined);
       const { post } = createPostHandler(
         fields,
-        'free-legal-advice',
-        'test.njk',
-        'respondToClaim',
+        'contact-by-phone',
+        'contactByPhone.njk',
+        'application',
         flowConfig,
         mockBeforeRedirect
       );
 
       // Valid form + save for later
       mockRequest.body = {
-        hadLegalAdvice: 'yes',
+        phoneNumberForCalls: '07123456789',
         action: 'saveForLater',
       };
 
       await post(mockRequest as unknown as Request, mockResponse as Response, mockNext);
 
-      // Should save to session
-      expect(
-        (mockRequest.session as { formData?: Record<string, unknown> } | undefined)?.formData?.['free-legal-advice']
-      ).toEqual({
-        hadLegalAdvice: 'yes',
+      expect(getCaseApiMock).toHaveBeenCalledTimes(1);
+      expect(updateCaseMock).toHaveBeenCalledTimes(1);
+      expect(updateCaseMock).toHaveBeenCalledWith('1234123412341234', {
+        applicantContactPreferencesPhoneNumberForCalls: '07123456789',
+        applicantContactPreferencesTextUpdates: 'Yes',
+        applicantContactPreferencesTextUpdatesPhoneNumber: '+447777777777',
       });
 
       // Should call beforeRedirect (save to CCD)
