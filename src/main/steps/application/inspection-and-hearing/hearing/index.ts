@@ -3,7 +3,7 @@ import { flowConfig } from '../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { CcdCaseData } from '@services/ccdCase.interface';
+import { PTCaseData } from '@services/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'hearing';
@@ -54,11 +54,12 @@ export const step: StepDefinition = createFormStep({
   ],
 });
 
-function isAnswered(ccdCase: CcdCaseData): boolean {
-  if (ccdCase.agreeToDecisionWithoutHearing === 'no') {
+function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  if (ccdCase?.agreeToDecisionWithoutHearing === 'no') {
     return Boolean(
-      ccdCase.noDecisionWithoutHearingReason && textAreaIsValidLength(ccdCase.noDecisionWithoutHearingReason as string)
+      ccdCase?.noDecisionWithoutHearingReason &&
+      textAreaIsValidLength(ccdCase?.noDecisionWithoutHearingReason as string)
     );
   }
-  return ccdCase.agreeToDecisionWithoutHearing === 'yes';
+  return ccdCase?.agreeToDecisionWithoutHearing === 'yes';
 }

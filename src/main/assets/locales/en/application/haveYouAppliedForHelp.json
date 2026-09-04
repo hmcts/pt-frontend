@@ -1,0 +1,18 @@
+{
+  "pageTitle": "Have you already applied for help with your application fee?",
+  "questionTitle": "Have you already applied for help with your application fee?",
+  "questionHint": "If you have, you should have a reference number, for example, HWF-A1B-23C",
+  "referenceNumber": {
+    "label": "Enter your help with fees reference number",
+    "hint": "For example, HWF-A1B-23C"
+  },
+  "errors": {
+    "appliedForHelpWithFees": {
+      "required": "Select whether you have already applied for help with your application fee"
+    },
+    "referenceNumber": {
+      "required": "Enter your help with fees reference number",
+      "invalid": "Help with fees reference number must be in the correct format, like HWF-A1B-23C"
+    }
+  }
+}
