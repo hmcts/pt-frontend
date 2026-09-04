@@ -110,7 +110,7 @@
     "@eslint/compat": "2.1.0",
     "@eslint/eslintrc": "3.3.7",
     "@eslint/js": "10.0.1",
-    "@eslint/plugin-kit": "0.7.2",
+    "@eslint/plugin-kit": "0.7.3",
     "@hmcts/playwright-common": "1.1.5",
     "@hmcts/zephyr-automation-nodejs": "^0.0.8",
     "@playwright/test": "^1.60.0",
@@ -180,7 +180,7 @@
     "**/*.{js,ts}": "eslint --fix"
   },
   "resolutions": {
-    "@eslint/plugin-kit": "0.7.2",
+    "@eslint/plugin-kit": "0.7.3",
     "@grpc/grpc-js": "1.14.4",
     "@opentelemetry/core": "2.10.0",
     "@opentelemetry/propagator-jaeger": "^2.9.0",
