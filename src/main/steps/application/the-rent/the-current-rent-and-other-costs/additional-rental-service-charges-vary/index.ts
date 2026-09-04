@@ -3,7 +3,7 @@ import { flowConfig } from '../../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { CcdCaseData } from '@services/ccdCase.interface';
+import { PTCaseData } from '@services/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'additional-rental-service-charges-vary';
@@ -46,7 +46,7 @@ export const step: StepDefinition = createFormStep({
           subFields: {
             [detailsFieldName]: {
               name: detailsFieldName,
-              type: 'textarea' as const,
+              type: 'character-count' as const,
               required: true,
               maxLength: 500,
               labelClasses: 'govuk-label--s',
@@ -66,10 +66,10 @@ export const step: StepDefinition = createFormStep({
     },
   ],
 });
-function isAnswered(ccdCase: CcdCaseData): boolean {
-  const answer = ccdCase.additionalRentalServiceChargesVary as string | undefined;
+function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  const answer = ccdCase?.additionalRentalServiceChargesVary as string | undefined;
   if (answer === 'yes') {
-    return Boolean(ccdCase.varyingAdditionalRentalServiceChargesDetails);
+    return Boolean(ccdCase?.varyingAdditionalRentalServiceChargesDetails);
   }
   return answer === 'no';
 }
