@@ -1,3 +1,13 @@
 {
-  "heading": "cyOther charges (optional)"
+  "pageTitle": "cyOther charges (optional)",
+  "tellUsAbout": "cyInclude:",
+  "bullet1": "cythe charge type (for example, maintenance or repairs)",
+  "bullet2": "cythe charge amount",
+  "bullet3": "cyhow often you are charged (for example, weekly, monthly or yearly)",
+  "questionTitle": "cyDescribe what you are charged separately for",
+  "errors": {
+    "otherHouseholdManagementChargesDetails": {
+      "invalid": "cyDescription of what you are charged separately for must be 500 characters or less"
+    }
+  }
 }

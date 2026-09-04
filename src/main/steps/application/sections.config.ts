@@ -82,6 +82,7 @@ const sectionDefs = [
       'current-tenancy-replace-original-tenancy',
       'other-household-management-charges',
       'other-household-management-charges-details',
+      'additional-rental-service-charges-vary',
       'check-your-answers-current-rent-and-other-costs',
     ],
   },
