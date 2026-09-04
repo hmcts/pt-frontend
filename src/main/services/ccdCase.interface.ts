@@ -61,53 +61,129 @@ export interface CcdCaseData {
   applicationType?: string;
   tenancyType?: string;
 
-  applicantContactPreferencesTextUpdates?: string | boolean;
-  applicantContactPreferencesTextUpdatesPhoneNumber?: string;
-  applicantContactPreferencesPhoneNumberForCalls?: string;
+  applicantContactPreferences?: {
+    textUpdates?: string | boolean;
+    textUpdatesPhoneNumber?: string;
+    phoneNumberForCalls?: string;
+  };
 
-  tenantDetailsCompanyName?: string;
-  tenantDetailsReferenceNumberForCommunications?: string;
+  tenantDetails?: {
+    companyName?: string;
+    referenceNumberForCommunications?: string;
+  };
 
-  hearingInspectionDetailsHearingRequested?: string | boolean;
-  hearingInspectionDetailsAgreeToDecisionWithoutInspection?: string | boolean;
-  hearingInspectionDetailsNoDecisionWithoutInspectionReason?: string;
+  hearingInspectionDetails?: {
+    hearingRequested?: string | boolean;
+    agreeToDecisionWithoutInspection?: string | boolean;
+    noDecisionWithoutInspectionReason?: string;
+  };
 
-  noticeOfRentIncreaseDetailsReceivedLandlordNoticeProposingNewRent?: string | boolean;
-  noticeOfRentIncreaseDetailsNoUploadOfNoticeProposingNewRentReason?: string;
-  noticeOfRentIncreaseDetailsLandlordNoticeProposingNewRentDocument?: CcdUploadedDocument;
-  noticeOfRentIncreaseDetailsNoticeLegallyValid?: string | boolean;
-  noticeOfRentIncreaseDetailsNoticeNotLegallyValidDetails?: string;
-  noticeOfRentIncreaseDetailsNoticeNotLegallyValidDocument?: CcdUploadedDocument;
-  noticeOfRentIncreaseDetailsRentIncreaseToCauseHardship?: string | boolean;
-  noticeOfRentIncreaseDetailsRentIncreaseToCauseHardshipDocument?: CcdUploadedDocument;
+  noticeOfRentIncreaseDetails?: {
+    receivedLandlordNoticeProposingNewRent?: string | boolean;
+    noUploadOfNoticeProposingNewRentReason?: string;
+    landlordNoticeProposingNewRentDocument?: CcdUploadedDocument;
+    noticeLegallyValid?: string | boolean;
+    noticeNotLegallyValidDetails?: string;
+    noticeNotLegallyValidDocument?: CcdUploadedDocument;
+    rentIncreaseToCauseHardship?: string | boolean;
+    rentIncreaseToCauseHardshipDocument?: CcdUploadedDocument;
+  };
 
-  propertyDetailsAddressLine1?: string;
-  propertyDetailsAddressLine2?: string;
-  propertyDetailsPostTown?: string;
-  propertyDetailsCounty?: string;
-  propertyDetailsPostcode?: string;
-  propertyDetailsPropertyType?: string;
-  propertyDetailsRentingFlatDetails?: string;
-  propertyDetailsRentingRoomDetails?: string;
-  propertyDetailsOtherMethodRentingDetails?: string;
-  propertyDetailsPropertyFloorPlanAvailable?: string | boolean;
-  propertyDetailsFloorPlanManualDetails?: string;
-  propertyDetailsFloorPlanDocument?: CcdUploadedDocument;
-  propertyDetailsIndoorFeatures?: string;
-  propertyDetailsOtherFacilitiesAvailable?: string | boolean;
-  propertyDetailsOtherFacilitiesDetails?: string;
-  propertyDetailsOutsidePropertyDocument?: CcdUploadedDocument;
-  propertyDetailsPropertyRoomsDocuments?: CcdCollectionItem<CcdUploadedDocument>[];
-  propertyDetailsFurnitureProvidedInTenancy?: string | boolean;
-  propertyDetailsFurnitureProvidedInTenancyDetails?: string;
-  propertyDetailsAdditionalServicesProvidedInTenancy?: string | boolean;
-  propertyDetailsAdditionalServicesProvidedInTenancyDetails?: string;
-  propertyDetailsSharePropertyWithLandlord?: string | boolean;
-  propertyDetailsSharePropertyWithLandlordDetails?: string;
-  propertyDetailsLandlordRepairsDetails?: string;
-  propertyDetailsTenantRepairsDetails?: string;
-  propertyDetailsAnyTenantsMadePropertyRepairs?: string;
-  propertyDetailsRepairsEvidenceDocument?: CcdUploadedDocument;
+  propertyDetails?: {
+    addressLine1?: string;
+    addressLine2?: string;
+    postTown?: string;
+    county?: string;
+    postcode?: string;
+    propertyType?: string;
+    rentingFlatDetails?: string;
+    rentingRoomDetails?: string;
+    otherMethodRentingDetails?: string;
+    propertyFloorPlanAvailable?: string | boolean;
+    floorPlanManualDetails?: string;
+    floorPlanDocument?: CcdUploadedDocument;
+    indoorFeatures?: string;
+    otherFacilitiesAvailable?: string | boolean;
+    otherFacilitiesDetails?: string;
+    outsidePropertyDocument?: CcdUploadedDocument;
+    propertyRoomsDocuments?: CcdCollectionItem<CcdUploadedDocument>[];
+    furnitureProvidedInTenancy?: string | boolean;
+    furnitureProvidedInTenancyDetails?: string;
+    additionalServicesProvidedInTenancy?: string | boolean;
+    additionalServicesProvidedInTenancyDetails?: string;
+    sharePropertyWithLandlord?: string | boolean;
+    sharePropertyWithLandlordDetails?: string;
+    landlordRepairsDetails?: string;
+    tenantRepairsDetails?: string;
+    anyTenantsMadePropertyRepairs?: string;
+    repairsEvidenceDocument?: CcdUploadedDocument;
+  };
+
+  currentRentDetails?: {
+    tribunalPreviouslyDeterminedTenancyRent?: string | boolean;
+    previousTribunalCaseReference?: string;
+    rentPaymentFrequency?: string;
+    rentCostWeekly?: number;
+    rentCostFortnightly?: number;
+    rentCostMonthly?: number;
+    rentCostYearly?: number;
+    rentIncludesCouncilTax?: string | boolean;
+    councilTaxFrequency?: string;
+    councilTaxCostWeekly?: number;
+    councilTaxCostFortnightly?: number;
+    councilTaxCostMonthly?: number;
+    councilTaxCostYearly?: number;
+    councilTaxFrequencyAndCostDetails?: string;
+    utilitiesPaidFrequency?: string;
+    utilitiesPaidCostWeekly?: number;
+    utilitiesPaidCostFortnightly?: number;
+    utilitiesPaidCostMonthly?: number;
+    utilitiesPaidCostYearly?: number;
+    utilitiesPaidFrequencyAndCostDetails?: string;
+    currentTenancyStartDate?: string;
+    currentTenancyEndDate?: string;
+    currentTenancyReplaceOriginalTenancy?: string;
+    originalTenancyStartDate?: string;
+    additionalRentalServiceChargesVary?: string | boolean;
+    additionalRentalVaryingServiceChargesDetails?: string;
+    anyOtherHouseholdManagementCharges?: string | boolean;
+    otherHouseholdManagementChargesDetails?: string;
+  };
+
+  marketRentDetails?: {
+    applicantSuggestedMonthlyMarketRent?: number;
+    applicantSuggestedMonthlyMarketRentReasons?: string;
+    suggestedMarketRentEvidence?: CcdUploadedDocument;
+    additionalInfoToConsiderWhenDeterminingRent?: string | boolean;
+    additionalInfoToConsiderWhenDeterminingRentDetails?: string;
+  };
+
+  tenancyAgreementDetails?: {
+    copyOfTenancyAgreement?: string | boolean;
+    noTenancyAgreementReason?: string;
+    tenancyAgreementDocument?: CcdUploadedDocument;
+  };
+
+  landlordDetails?: {
+    landlordPartyDetails?: PartyDetails;
+    representativeType?: string;
+    lettingAgentPartyDetails?: PartyDetails;
+    representativePartyDetails?: PartyDetails;
+  };
+}
+
+export interface PartyDetails {
+  firstName?: string;
+  lastName?: string;
+  organisationName?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  postTown?: string;
+  county?: string;
+  postcode?: string;
+  emailAddress?: string;
+  phoneNumber?: string;
+  dxNumber?: string;
 }
 
 /** Case representation used by services: id + case_data. */
