@@ -1,3 +1,21 @@
 {
-  "heading": "Do the charges you pay for these services vary?"
+  "questionTitle": "Do the charges you pay for these services vary?",
+  "questionHint": "For example, if the charge varies at different times, or with the size of the work needed",
+  "options": {
+    "no": {
+      "label": "No - I am charged the same every time"
+    }
+  },
+  "varyingAdditionalRentalServiceChargesDetails": {
+    "label": "Tell us how the charges you pay vary"
+  },
+  "errors": {
+    "additionalRentalServiceChargesVary": {
+      "required": "Select whether the charges you pay for these services vary"
+    },
+    "varyingAdditionalRentalServiceChargesDetails": {
+      "required": "Enter how the charges you pay vary",
+      "invalid": "How the charges you pay vary must be 500 characters or less"
+    }
+  }
 }

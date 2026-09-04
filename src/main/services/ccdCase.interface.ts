@@ -269,6 +269,8 @@ export interface RentDetails {
   // other charges
   otherHouseholdManagementCharges?: YesNoValue;
   otherHouseholdManagementChargesDetails?: string;
+  additionalRentalServiceChargesVary?: YesNoValue;
+  varyingAdditionalRentalServiceChargesDetails?: string;
 }
 
 export interface InspectionAndHearing {
