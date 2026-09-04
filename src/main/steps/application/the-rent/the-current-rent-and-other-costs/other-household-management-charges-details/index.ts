@@ -22,7 +22,7 @@ export const step: StepDefinition = createFormStep({
   fields: [
     {
       name: fieldName,
-      type: 'textarea',
+      type: 'character-count',
       required: false,
       isPageHeading: false,
       labelClasses: 'govuk-label--m',
