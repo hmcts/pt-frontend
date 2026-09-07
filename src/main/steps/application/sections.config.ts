@@ -57,7 +57,12 @@ const sectionDefs = [
     id: 'landlordsNotice',
     groupId: 'applicationDocuments',
     titleKey: 'taskList.landlordsNotice',
-    steps: ['have-landlords-notice'],
+    steps: [
+      'have-landlords-notice',
+      'your-notice-proposing-a-new-rent',
+      'upload-evidence-notice-not-legally-valid',
+      'hardship',
+    ],
   },
   {
     id: 'yourTenancyAgreement',
@@ -82,6 +87,7 @@ const sectionDefs = [
       'current-tenancy-replace-original-tenancy',
       'other-household-management-charges',
       'other-household-management-charges-details',
+      'additional-rental-service-charges-vary',
       'check-your-answers-current-rent-and-other-costs',
     ],
   },
