@@ -16,13 +16,14 @@ export function prepareDataForSave(
       const contactByText = allFormData?.textUpdates ?? ccdCase?.applicantContactPreferences?.contactByText;
       const isContactByText = contactByText === 'Yes';
       return {
-        applicantContactPreferencesTextUpdates: contactByText,
-        applicantContactPreferencesTextUpdatesPhoneNumber: isContactByText
-          ? (allFormData?.['textUpdates.textUpdatesPhoneNumber'] ??
-            ccdCase?.applicantContactPreferences?.mobilePhoneNumber)
-          : undefined,
-        applicantContactPreferencesPhoneNumberForCalls:
-          allFormData?.phoneNumberForCalls ?? ccdCase?.applicantContactPreferences?.phoneNumber,
+        applicantContactPreferences: {
+          textUpdates: contactByText,
+          textUpdatesPhoneNumber: isContactByText
+            ? (allFormData?.['textUpdates.textUpdatesPhoneNumber'] ??
+              ccdCase?.applicantContactPreferences?.mobilePhoneNumber)
+            : undefined,
+          phoneNumberForCalls: allFormData?.phoneNumberForCalls ?? ccdCase?.applicantContactPreferences?.phoneNumber,
+        },
       };
     }
     // case 'whoIsOnTheTenancy': {

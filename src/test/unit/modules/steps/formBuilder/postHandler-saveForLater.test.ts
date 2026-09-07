@@ -222,9 +222,11 @@ describe('PostHandler - Save for Later Fix', () => {
       expect(getCaseApiMock).toHaveBeenCalledTimes(1);
       expect(updateCaseMock).toHaveBeenCalledTimes(1);
       expect(updateCaseMock).toHaveBeenCalledWith('1234123412341234', {
-        applicantContactPreferencesPhoneNumberForCalls: '07123456789',
-        applicantContactPreferencesTextUpdates: 'Yes',
-        applicantContactPreferencesTextUpdatesPhoneNumber: '+447777777777',
+        applicantContactPreferences: {
+          phoneNumberForCalls: '07123456789',
+          textUpdates: 'Yes',
+          textUpdatesPhoneNumber: '+447777777777',
+        },
       });
 
       // Should call beforeRedirect (save to CCD)

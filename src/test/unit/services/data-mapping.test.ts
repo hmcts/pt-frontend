@@ -27,9 +27,11 @@ describe('prepareDataForSave', () => {
       const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
 
       expect(mappedData).toEqual({
-        applicantContactPreferencesPhoneNumberForCalls: '07777777774',
-        applicantContactPreferencesTextUpdates: 'Yes',
-        applicantContactPreferencesTextUpdatesPhoneNumber: '+447777777777',
+        applicantContactPreferences: {
+          phoneNumberForCalls: '07777777774',
+          textUpdates: 'Yes',
+          textUpdatesPhoneNumber: '+447777777777',
+        },
       });
     });
     it('should correctly map data for contact preferences section based on ccd case data values where form data not present', () => {
@@ -57,9 +59,10 @@ describe('prepareDataForSave', () => {
       const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
 
       expect(mappedData).toEqual({
-        applicantContactPreferencesPhoneNumberForCalls: '07777777774',
-        applicantContactPreferencesTextUpdates: 'No',
-        applicantContactPreferencesTextUpdatesPhoneNumber: undefined,
+        applicantContactPreferences: {
+          phoneNumberForCalls: '07777777774',
+          textUpdates: 'No',
+        },
       });
     });
     it('should correctly map data for text updates when previously answered as no', () => {
@@ -90,9 +93,11 @@ describe('prepareDataForSave', () => {
       const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
 
       expect(mappedData).toEqual({
-        applicantContactPreferencesPhoneNumberForCalls: '07777766666',
-        applicantContactPreferencesTextUpdates: 'Yes',
-        applicantContactPreferencesTextUpdatesPhoneNumber: '+447777777777',
+        applicantContactPreferences: {
+          phoneNumberForCalls: '07777766666',
+          textUpdates: 'Yes',
+          textUpdatesPhoneNumber: '+447777777777',
+        },
       });
     });
     it('should appropriately map the data if nothing present in form data or case data', () => {
@@ -117,9 +122,11 @@ describe('prepareDataForSave', () => {
       const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
 
       expect(mappedData).toEqual({
-        applicantContactPreferencesPhoneNumberForCalls: undefined,
-        applicantContactPreferencesTextUpdates: undefined,
-        applicantContactPreferencesTextUpdatesPhoneNumber: undefined,
+        applicantContactPreferences: {
+          phoneNumberForCalls: undefined,
+          textUpdates: undefined,
+          textUpdatesPhoneNumber: undefined,
+        },
       });
     });
   });
