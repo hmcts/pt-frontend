@@ -1,5 +1,7 @@
+import { step as checkYourAnswersLandlordsNotice } from './landlords-notice/check-your-answers-landlords-notice';
 import { step as hardship } from './landlords-notice/hardship';
 import { step as haveLandlordsNotice } from './landlords-notice/have-landlords-notice';
+import { step as uploadEvidenceExperienceHardship } from './landlords-notice/upload-evidence-experience-hardship';
 import { step as uploadEvidenceNoticeNotLegallyValid } from './landlords-notice/upload-evidence-notice-not-legally-valid';
 import { step as yourNoticeProposingANewRent } from './landlords-notice/your-notice-proposing-a-new-rent';
 import { step as checkYourAnswersYourTenancyAgreement } from './your-tenancy-agreement/check-your-answers-your-tenancy-agreement';
@@ -13,6 +15,8 @@ export const applicationDocumentsStepRegistry = {
   'your-notice-proposing-a-new-rent': yourNoticeProposingANewRent,
   'upload-evidence-notice-not-legally-valid': uploadEvidenceNoticeNotLegallyValid,
   hardship,
+  'upload-evidence-experience-hardship': uploadEvidenceExperienceHardship,
+  'check-your-answers-landlords-notice': checkYourAnswersLandlordsNotice,
   'have-tenancy-agreement': haveTenancyAgreement,
   'upload-tenancy-agreement': uploadTenancyAgreement,
   'check-your-answers-your-tenancy-agreement': checkYourAnswersYourTenancyAgreement,

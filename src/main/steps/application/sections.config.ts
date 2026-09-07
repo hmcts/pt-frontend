@@ -62,6 +62,8 @@ const sectionDefs = [
       'your-notice-proposing-a-new-rent',
       'upload-evidence-notice-not-legally-valid',
       'hardship',
+      'upload-evidence-experience-hardship',
+      'check-your-answers-landlords-notice',
     ],
   },
   {

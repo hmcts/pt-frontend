@@ -203,6 +203,8 @@ export interface ApplicationDocuments {
   noTenancyAgreementReason?: string;
   noticeLegallyValid?: string;
   noticeNotLegallyValidReason?: string;
+  rentIncreaseCauseHardship?: string;
+  rentIncreaseHardshipDetails?: string;
 }
 
 export interface PropertyDetails {
