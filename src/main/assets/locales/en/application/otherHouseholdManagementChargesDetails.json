@@ -1,3 +1,13 @@
 {
-  "heading": "Other charges (optional)"
+  "pageTitle": "Other charges (optional)",
+  "tellUsAbout": "Include:",
+  "bullet1": "the charge type (for example, maintenance or repairs)",
+  "bullet2": "the charge amount",
+  "bullet3": "how often you are charged (for example, weekly, monthly or yearly)",
+  "questionTitle": "Describe what you are charged separately for",
+  "errors": {
+    "otherHouseholdManagementChargesDetails": {
+      "invalid": "Description of what you are charged separately for must be 500 characters or less"
+    }
+  }
 }

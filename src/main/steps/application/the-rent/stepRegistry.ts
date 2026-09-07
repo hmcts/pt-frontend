@@ -1,3 +1,4 @@
+import { step as additionalRentalServiceChargesVary } from './the-current-rent-and-other-costs/additional-rental-service-charges-vary';
 import { step as checkYourAnswersCurrentRentAndOtherCosts } from './the-current-rent-and-other-costs/check-your-answers-current-rent-and-other-costs';
 import { step as councilTaxFrequency } from './the-current-rent-and-other-costs/council-tax-frequency';
 import { step as currentRentAndOtherCosts } from './the-current-rent-and-other-costs/current-rent-and-other-costs';
@@ -28,6 +29,7 @@ export const theRentStepRegistry = {
   'other-household-management-charges': otherHouseholdManagementCharges,
   'current-tenancy-replace-original-tenancy': currentTenancyReplaceOriginalTenancy,
   'other-household-management-charges-details': otherHouseholdManagementChargesDetails,
+  'additional-rental-service-charges-vary': additionalRentalServiceChargesVary,
   'check-your-answers-current-rent-and-other-costs': checkYourAnswersCurrentRentAndOtherCosts,
   'proposed-market-rent': proposedMarketRent,
 } satisfies Record<string, StepDefinition>;
