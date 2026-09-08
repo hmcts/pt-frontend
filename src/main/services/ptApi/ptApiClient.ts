@@ -7,7 +7,7 @@ import { PTCaseData } from '../ccdCase.interface';
 
 import { Logger } from '@modules/logger';
 
-const logger = Logger.getLogger('service-auth-token');
+const logger = Logger.getLogger('pt-api-client');
 
 export class PtApiClient {
   constructor(private readonly client: AxiosInstance) {}
