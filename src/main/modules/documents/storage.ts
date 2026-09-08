@@ -111,7 +111,9 @@ export const readDocuments = async (req: Request, fieldKey: string): Promise<Ccd
   (await readAllDocuments(req))[fieldKey] ?? [];
 
 const toPayload = (field: DocumentFieldDefinition, docs: CcdUploadedDocument[]): Record<string, unknown> => ({
-  [field.ccdField]: field.multiple ? docs.map(value => ({ value })) : (docs[0] ?? null),
+  [field.slice]: {
+    [field.ccdField]: field.multiple ? docs.map(value => ({ value })) : (docs[0] ?? null),
+  },
 });
 
 const submitEvent = async (req: Request, eventName: string, data: Record<string, unknown>): Promise<void> => {
