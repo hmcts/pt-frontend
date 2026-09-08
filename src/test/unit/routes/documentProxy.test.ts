@@ -42,7 +42,7 @@ const cdamDocument = {
 
 const storedDocument = (id: number, url: string, filename = 'floor-plan.pdf') => ({
   id,
-  documentType: 'floorPlan',
+  documentType: 'propertyFloorPlan',
   document: {
     document_url: url,
     document_binary_url: `${url}/binary`,
@@ -92,7 +92,7 @@ describe('documentProxy', () => {
       expect(mockedSaveDocuments).toHaveBeenCalledWith(
         expect.anything(),
         'floorPlanDocument',
-        expect.arrayContaining([expect.objectContaining({ documentType: 'floorPlan' })])
+        expect.arrayContaining([expect.objectContaining({ documentType: 'propertyFloorPlan' })])
       );
     });
 

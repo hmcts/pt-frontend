@@ -54,7 +54,7 @@ describe('document storage', () => {
 
       expect(all.floorPlanDocument).toEqual([
         {
-          documentType: 'floorPlan',
+          documentType: 'propertyFloorPlan',
           document: {
             document_url: 'http://cdam/cases/documents/floor-plan',
             document_binary_url: 'http://cdam/cases/documents/floor-plan/binary',
@@ -91,7 +91,7 @@ describe('document storage', () => {
 
   describe('saving', () => {
     const newDocument = {
-      documentType: 'floorPlan',
+      documentType: 'propertyFloorPlan',
       document: {
         document_url: 'http://cdam/cases/documents/new',
         document_binary_url: 'http://cdam/cases/documents/new/binary',
@@ -110,21 +110,21 @@ describe('document storage', () => {
       expect(caseId).toBe(CASE_REFERENCE);
       expect(eventName).toBe('citizen-upload-document');
       expect(token).toBe('event-token');
-      expect(data).toMatchObject({ propertyDetailsFloorPlanDocument: newDocument });
+      expect(data).toMatchObject({ propertyDetails: { floorPlanDocument: newDocument } });
       expect(getCaseByCaseReference).not.toHaveBeenCalled();
     });
 
     test('carries the document hash, which the event submit verifies', async () => {
       await saveDocuments(req(), 'floorPlanDocument', [newDocument]);
 
-      expect(triggerEvent.mock.calls[0][1].propertyDetailsFloorPlanDocument.document.document_hash).toBe('hash-abc');
+      expect(triggerEvent.mock.calls[0][1].propertyDetails.floorPlanDocument.document.document_hash).toBe('hash-abc');
     });
 
     test('wraps collection fields in CCD collection items', async () => {
       await saveDocuments(req(), 'roomsDocuments', [newDocument]);
 
       expect(triggerEvent.mock.calls[0][1]).toMatchObject({
-        propertyDetailsRoomsDocuments: [{ value: newDocument }],
+        propertyDetails: { roomsDocuments: [{ value: newDocument }] },
       });
     });
 
@@ -140,7 +140,7 @@ describe('document storage', () => {
     test('clears the control field on an upload, so a spent id is not carried forward', async () => {
       await saveDocuments(req(), 'floorPlanDocument', [
         {
-          documentType: 'floorPlan',
+          documentType: 'propertyFloorPlan',
           document: {
             document_url: 'u',
             document_binary_url: 'b',

@@ -3,11 +3,9 @@ import { DOCUMENT_FIELDS, documentFieldFor } from '@modules/documents/documentFi
 const entries = Object.entries(DOCUMENT_FIELDS);
 
 describe('DOCUMENT_FIELDS', () => {
-  test.each(entries)('%s names a CCD field prefixed with its slice', (_key, field) => {
-    const suffix = field.ccdField.slice(field.slice.length);
-
-    expect(field.ccdField.startsWith(field.slice)).toBe(true);
-    expect(suffix.charAt(0)).toBe(suffix.charAt(0).toUpperCase());
+  test.each(entries)('%s names a CCD field that is not prefixed with its slice', (_key, field) => {
+    expect(field.ccdField.startsWith(field.slice)).toBe(false);
+    expect(field.ccdField).not.toHaveLength(0);
   });
 
   test('gives every field its own document type', () => {
