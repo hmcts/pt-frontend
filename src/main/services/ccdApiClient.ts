@@ -7,7 +7,7 @@ import { UserDetails } from '../auth/user/oidc';
 import { Logger } from '@modules/logger';
 import { CITIZEN_CREATE_CASE, CITIZEN_UPDATE_CASE, CcdCase, CcdCaseData } from '@services/ccdCase.interface';
 
-const logger = Logger.getLogger('service-auth-token');
+const logger = Logger.getLogger('ccd-api-client');
 
 export class CcdApiClient {
   readonly maxRetries: number = 3;
