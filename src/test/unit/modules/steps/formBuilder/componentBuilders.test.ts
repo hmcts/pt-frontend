@@ -108,6 +108,64 @@ describe('componentBuilders', () => {
   });
 
   describe('buildComponentConfig', () => {
+    describe('file field', () => {
+      const fileField = (overrides: Partial<FormFieldConfig> = {}): FormFieldConfig =>
+        ({ name: 'documents', type: 'file', ...overrides }) as FormFieldConfig;
+
+      it('builds a file upload component carrying the upload and delete URLs', () => {
+        const result = buildComponentConfig(
+          buildArgs(
+            fileField({
+              uploadUrl: '/1234/documents/floorPlanDocument/upload',
+              deleteUrl: '/1234/documents/floorPlanDocument/delete',
+            })
+          )
+        );
+
+        expect(result.componentType).toBe('fileUpload');
+        expect(result.component.uploadUrl).toBe('/1234/documents/floorPlanDocument/upload');
+        expect(result.component.deleteUrl).toBe('/1234/documents/floorPlanDocument/delete');
+      });
+
+      it('passes the error messages the upload component renders', () => {
+        const result = buildComponentConfig(buildArgs(fileField()));
+
+        expect(result.component.errorWrongFileType).toBe('This file type is not accepted');
+        expect(result.component.errorFileTooLarge).toBe('This file is too large');
+        expect(result.component.errorFilenameTooLong).toBe('This file name is too long');
+        expect(result.component.errorUploadFailed).toBe('This file could not be uploaded');
+        expect(result.component.errorDelete).toBe('This file could not be removed');
+        expect(result.component.errorSummaryTitle).toBe('There is a problem');
+        expect(result.component.errorPrefix).toBe('Error:');
+      });
+
+      it('defaults a single-document field to rejecting multiple files', () => {
+        const result = buildComponentConfig(buildArgs(fileField()));
+
+        expect(result.component.multiple).toBe(false);
+      });
+
+      it('marks a collection field as accepting multiple files', () => {
+        const result = buildComponentConfig(buildArgs(fileField({ multiple: true })));
+
+        expect(result.component.multiple).toBe(true);
+      });
+
+      it('falls back to an empty list when the case holds no documents', () => {
+        const result = buildComponentConfig(buildArgs(fileField()));
+
+        expect(result.component.value).toEqual([]);
+      });
+
+      it('uses the documents already saved against the case', () => {
+        const documents = [{ index: 0, id: 7, document_filename: 'floor-plan.pdf' }];
+
+        const result = buildComponentConfig(buildArgs(fileField(), { fieldValue: documents }));
+
+        expect(result.component.value).toBe(documents);
+      });
+    });
+
     describe('text field', () => {
       it('should build basic text input component', () => {
         const field: FormFieldConfig = {

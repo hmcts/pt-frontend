@@ -10,6 +10,7 @@ import type {
   FormFieldConfig,
   FormFieldOption,
 } from '@modules/steps/formBuilder/formFieldConfig.interface';
+import { ACCEPT_ATTRIBUTE_EXTENSIONS, maxFileSizeMB, maxFilenameLength } from '@utils/documentUploadValidation';
 
 function createFieldsetLegend(
   label: string,
@@ -241,6 +242,35 @@ export function buildComponentConfig({
         },
       ];
       componentType = 'dateInput';
+      break;
+    }
+    case 'file': {
+      component.value = fieldValue || [];
+      component.accept = field.accept || ACCEPT_ATTRIBUTE_EXTENSIONS;
+      component.multiple = field.multiple === true;
+      component.maxFileSize = field.maxFileSize ?? maxFileSizeMB();
+      component.maxFilenameLength = maxFilenameLength();
+      component.uploadUrl = field.uploadUrl || '';
+      component.deleteUrl = field.deleteUrl || '';
+      component.classes = field.classes || 'govuk-file-upload';
+      component.uploadButtonText = t('documentUpload.uploadButton', 'Upload file');
+      component.filesAddedHeading = t('documentUpload.filesAddedHeading', 'Files added');
+      component.deleteButtonText = t('documentUpload.deleteButton', 'Delete');
+      component.errorWrongFileType = t('errors.documentUpload.wrongFileType', 'This file type is not accepted');
+      component.errorFileTooLarge = t('errors.documentUpload.fileTooLarge', 'This file is too large');
+      component.errorFilenameTooLong = t('errors.documentUpload.filenameTooLong', 'This file name is too long');
+      component.errorUploadFailed = t('errors.documentUpload.uploadFailed', 'This file could not be uploaded');
+      component.errorDelete = t('errors.documentUpload.deleteFailed', 'This file could not be removed');
+      component.errorSummaryTitle = t('errors.title', 'There is a problem');
+      component.errorPrefix = t('errors.prefix', 'Error:');
+      component.chooseFileText = t('documentUpload.chooseFile', 'Choose file');
+      component.dropFileText = t('documentUpload.dropFile', 'or drop file');
+      component.errorOnlyOneFile = t('errors.documentUpload.onlyOneFile', 'You can only upload one file');
+      component.errorRemoveFileFirst = t(
+        'errors.documentUpload.removeFileFirst',
+        'Remove the uploaded file before adding another'
+      );
+      componentType = 'fileUpload';
       break;
     }
     default:
