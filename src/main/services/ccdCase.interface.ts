@@ -3,6 +3,8 @@ import { UUID } from 'node:crypto';
 export const CITIZEN_CREATE_CASE = 'citizen-create-application';
 export const CITIZEN_UPDATE_CASE = 'citizen-update-application';
 export const CITIZEN_SUBMIT_CASE = 'citizen-submit-application';
+export const CITIZEN_UPLOAD_DOCUMENT = 'citizen-upload-document';
+export const CITIZEN_DELETE_DOCUMENT = 'citizen-delete-document';
 
 export type YesNoValue = 'YES' | 'NO' | null;
 export type YesNoNotSureValue = 'YES' | 'NO' | 'NOT_SURE' | null;

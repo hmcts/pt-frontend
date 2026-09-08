@@ -19,6 +19,14 @@
     "url": "http://ccd-data-store-api-aat.service.core-compute-aat.internal",
     "caseTypeId": "PT"
   },
+  "cdam": {
+    "url": "http://ccd-case-document-am-api-aat.service.core-compute-aat.internal"
+  },
+  "documentUpload": {
+    "maxFileSizeMB": 100,
+    "maxTotalFileSizeMB": 500,
+    "maxFilenameLength": 255
+  },
   "idam": {
     "authorizationURL": "https://idam-web-public.aat.platform.hmcts.net/login",
     "tokenURL": "https://idam-api.aat.platform.hmcts.net/o/token",
