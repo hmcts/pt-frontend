@@ -20,6 +20,17 @@
     "month": "cyMonth",
     "year": "cyYear"
   },
+  "characterCount": {
+    "charactersUnderLimitText": {
+      "one": "cyYou have %{count} character remaining",
+      "other": "cyYou have %{count} characters remaining"
+    },
+    "charactersAtLimitText": "cyYou have 0 characters remaining",
+    "charactersOverLimitText": {
+      "one": "cyYou have %{count} character too many",
+      "other": "cyYou have %{count} characters too many"
+    }
+  },
   "youNeedToUseAnotherForm": "cy You need to use another form to apply",
   "myApplications": "cy My applications",
   "startNewApplicationLinkText": "cy Start a new application",
