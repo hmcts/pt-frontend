@@ -54,7 +54,7 @@ describe('document storage', () => {
 
       expect(all.floorPlanDocument).toEqual([
         {
-          documentType: 'floorPlan',
+          documentType: 'propertyFloorPlan',
           document: {
             document_url: 'http://cdam/cases/documents/floor-plan',
             document_binary_url: 'http://cdam/cases/documents/floor-plan/binary',
@@ -91,7 +91,7 @@ describe('document storage', () => {
 
   describe('saving', () => {
     const newDocument = {
-      documentType: 'floorPlan',
+      documentType: 'propertyFloorPlan',
       document: {
         document_url: 'http://cdam/cases/documents/new',
         document_binary_url: 'http://cdam/cases/documents/new/binary',
@@ -140,7 +140,7 @@ describe('document storage', () => {
     test('clears the control field on an upload, so a spent id is not carried forward', async () => {
       await saveDocuments(req(), 'floorPlanDocument', [
         {
-          documentType: 'floorPlan',
+          documentType: 'propertyFloorPlan',
           document: {
             document_url: 'u',
             document_binary_url: 'b',

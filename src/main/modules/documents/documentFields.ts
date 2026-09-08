@@ -13,7 +13,7 @@ export const DOCUMENT_FIELDS = {
     slice: 'propertyDetails',
     ptApiField: 'floorPlanDocument',
     ccdField: 'floorPlanDocument',
-    documentType: 'floorPlan',
+    documentType: 'propertyFloorPlan',
   },
   outsidePropertyDocument: {
     slice: 'propertyDetails',
@@ -25,7 +25,7 @@ export const DOCUMENT_FIELDS = {
     slice: 'propertyDetails',
     ptApiField: 'repairsEvidenceDocument',
     ccdField: 'repairsEvidenceDocument',
-    documentType: 'repairsEvidence',
+    documentType: 'tenantRepairsEvidence',
   },
   roomsDocuments: {
     slice: 'propertyDetails',

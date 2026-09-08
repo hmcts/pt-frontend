@@ -76,7 +76,7 @@ describe('withFileUploadUrls', () => {
 describe('setFileFieldValues', () => {
   const storedDocument = {
     id: 7,
-    documentType: 'floorPlan',
+    documentType: 'propertyFloorPlan',
     document: {
       document_url: 'http://cdam/cases/documents/abc',
       document_binary_url: 'http://cdam/cases/documents/abc/binary',
