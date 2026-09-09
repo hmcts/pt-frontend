@@ -3068,10 +3068,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@noble/hashes@npm:2.2.0"
-  checksum: 10/b1b78bedc2a01394be047429f3d888905015fe8a09f1b7e43e0b5736b54133df62f73dcc73ede43af38e96e86156afb45b86973fdeaa95d9f0880333c3fc0907
+"@noble/hashes@npm:2.4.0":
+  version: 2.4.0
+  resolution: "@noble/hashes@npm:2.4.0"
+  checksum: 10/88d4cdd6cef00f412a39f65bda1d24cba2264c6cacdd1c6c48d7ed66fd9be865ffb7231024fb81177975c684b8a463879b89c5ae6960370b05a546c0fd8afa2c
   languageName: node
   linkType: hard
 
@@ -12306,10 +12306,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jose@npm:6.2.10":
-  version: 6.2.10
-  resolution: "jose@npm:6.2.10"
-  checksum: 10/232fccd0d98105242fa5455b729a40048932e2dd697442d934c39d83f4d9b4e331b5f1905971fccdacb51c0d3594fc7864a38af8d02b23cf7182317d6f38e220
+"jose@npm:6.2.12":
+  version: 6.2.12
+  resolution: "jose@npm:6.2.12"
+  checksum: 10/42ef7b598d22fe4ed0a4d0407f9dd9ae9f56dabd31cbad6cb4f67e296953a46b5d63603f8a599a3ee4c5659bf29bb14e846237f0381ea679116520b53e71e4ea
   languageName: node
   linkType: hard
 
@@ -14311,11 +14311,11 @@ __metadata:
   linkType: hard
 
 "otpauth@npm:^9.5.0":
-  version: 9.5.1
-  resolution: "otpauth@npm:9.5.1"
+  version: 9.5.2
+  resolution: "otpauth@npm:9.5.2"
   dependencies:
-    "@noble/hashes": "npm:2.2.0"
-  checksum: 10/6e5cfa7b4b90f6125da7d23977a4395d230dc8c5d0d9853cad0ec933bb0286ee5721ba42f89b8b3d7a325ea1c48308fbd7c2d9e7fa5adc471aae7f7400a2803d
+    "@noble/hashes": "npm:2.4.0"
+  checksum: 10/4a1e189619a7e4e601f29a4e50ee3ff6949135091bcb998086e9be9865a1760c4eef7ba1bea77b0f4bd258a9ff2502ac8a8607af97cd5f82f092eb839c65ce32
   languageName: node
   linkType: hard
 
@@ -14881,13 +14881,13 @@ __metadata:
   linkType: hard
 
 "postcss@npm:^8.5.26":
-  version: 8.5.26
-  resolution: "postcss@npm:8.5.26"
+  version: 8.5.28
+  resolution: "postcss@npm:8.5.28"
   dependencies:
-    nanoid: "npm:^3.3.17"
+    nanoid: "npm:^3.3.18"
     picocolors: "npm:^1.1.1"
     source-map-js: "npm:^1.2.1"
-  checksum: 10/842a624f822f77cb37264cc24f0cf97c0a69dd8d6f7b4a6d76b5a8dc95355899dd044f33a2d4e890da858293de570fce18dff453f3b629ff14cac67a3591895a
+  checksum: 10/c34814c1da499f370cd3b02a085a2d866989a966629b7bd4025f4a2a10d538a2ec83dc3181e1008550edb4cf44e49a0c40ec82332b08d9600877e6841240ad05
   languageName: node
   linkType: hard
 
@@ -15225,7 +15225,7 @@ __metadata:
     jest-html-reporter: "npm:3.10.2"
     jest-junit: "npm:16.0.0"
     jest-pact: "npm:0.13.0"
-    jose: "npm:6.2.10"
+    jose: "npm:6.2.12"
     jquery: "npm:3.7.1"
     jsonwebtoken: "npm:^9.0.3"
     jwt-decode: "npm:4.0.0"

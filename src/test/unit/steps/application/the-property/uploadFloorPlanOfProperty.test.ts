@@ -15,7 +15,7 @@ const mockedReadDocuments = readDocuments as jest.MockedFunction<typeof readDocu
 
 const storedDocument = (filename: string) => ({
   id: 7,
-  documentType: 'floorPlan',
+  documentType: 'propertyFloorPlan',
   document: {
     document_url: 'http://cdam/cases/documents/abc',
     document_binary_url: 'http://cdam/cases/documents/abc/binary',
