@@ -17,7 +17,13 @@ import { maxFileSizeBytes, validateUploadedFile } from '@utils/documentUploadVal
 
 const logger = Logger.getLogger('documentProxy');
 
-const upload = multer({ limits: { fileSize: maxFileSizeBytes() } });
+const upload = multer({
+  limits: {
+    fileSize: maxFileSizeBytes(),
+    // Limit how large an array index can be in a field name to reduce DoS risk
+    fieldArrayIndexLimit: 100,
+  } as multer.Options['limits'],
+});
 
 const caseLocks = new Map<string, Promise<unknown>>();
 
