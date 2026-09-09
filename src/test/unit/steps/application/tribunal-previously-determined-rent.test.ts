@@ -13,6 +13,8 @@ jest.mock('../../../../main/modules/i18n', () => ({
   getCommonTranslations: jest.fn(() => ({})),
 }));
 
+const CASE_REF = '1234123412341234';
+
 describe('application tribunal-previously-determined-rent step', () => {
   const nunjucksEnv = { render: jest.fn(() => '') } as unknown as Environment;
   const caseReferenceField = 'tribunalPreviouslyDeterminedRent.previousTribunalCaseReference';
@@ -27,7 +29,8 @@ describe('application tribunal-previously-determined-rent step', () => {
       body,
       originalUrl: '/1234123412341234/tribunal-previously-determined-rent',
       query: { lang: 'en' },
-      session: { formData: {} },
+      params: { caseReference: CASE_REF },
+      session: { formData: { [CASE_REF]: {} } },
       app: { locals: { nunjucksEnv } },
       i18n: { getResourceBundle: jest.fn(() => ({})) },
       res,
@@ -50,7 +53,7 @@ describe('application tribunal-previously-determined-rent step', () => {
   it('saves the answer and continues when NO is selected', async () => {
     const { req, res } = await post({ action: 'continue', tribunalPreviouslyDeterminedRent: 'NO' });
 
-    expect(req.session.formData['tribunal-previously-determined-rent']).toStrictEqual({
+    expect(req.session.formData[CASE_REF]['tribunal-previously-determined-rent']).toStrictEqual({
       tribunalPreviouslyDeterminedRent: 'NO',
     });
     expect(res.redirect).toHaveBeenCalled();
@@ -73,7 +76,7 @@ describe('application tribunal-previously-determined-rent step', () => {
       [caseReferenceField]: 'LON/00AD/SMO/2023/0001',
     });
 
-    expect(req.session.formData['tribunal-previously-determined-rent']).toStrictEqual({
+    expect(req.session.formData[CASE_REF]['tribunal-previously-determined-rent']).toStrictEqual({
       tribunalPreviouslyDeterminedRent: 'YES',
       [caseReferenceField]: 'LON/00AD/SMO/2023/0001',
     });
@@ -86,7 +89,7 @@ describe('application tribunal-previously-determined-rent step', () => {
       [caseReferenceField]: '  lon/00ad/smo/2023/0001  ',
     });
 
-    expect(req.session.formData['tribunal-previously-determined-rent'][caseReferenceField]).toBe(
+    expect(req.session.formData[CASE_REF]['tribunal-previously-determined-rent'][caseReferenceField]).toBe(
       'LON/00AD/SMO/2023/0001'
     );
   });
@@ -98,7 +101,7 @@ describe('application tribunal-previously-determined-rent step', () => {
       [caseReferenceField]: 'LON/00AD/SMO/2023/0001',
     });
 
-    expect(req.session.formData['tribunal-previously-determined-rent'][caseReferenceField]).toBeUndefined();
+    expect(req.session.formData[CASE_REF]['tribunal-previously-determined-rent'][caseReferenceField]).toBeUndefined();
   });
 
   it('errors when no option is selected', async () => {

@@ -1,5 +1,6 @@
 import { Request } from 'express';
 
+import { getAllFormData } from '@modules/steps/formBuilder/helpers';
 import { PTCaseData } from '@services/ccdCase.interface';
 
 export function prepareDataForSave(
@@ -7,9 +8,7 @@ export function prepareDataForSave(
   req: Request,
   ccdCase: PTCaseData | undefined
 ): Record<string, unknown> {
-  const allFormData = req.session.formData
-    ? Object.values(req.session.formData).reduce((acc, stepData) => ({ ...acc, ...stepData }), {})
-    : {};
+  const allFormData = getAllFormData(req);
 
   switch (sectionId) {
     case 'contactPreferences': {

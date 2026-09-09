@@ -18,6 +18,8 @@ jest.mock('../../../../main/modules/i18n', () => ({
  * clearing the amounts and details that do not apply. Amount format rules are
  * covered by rentAmount.test.ts.
  */
+const CASE_REF = '1234123412341234';
+
 describe('application council-tax-frequency step', () => {
   const nunjucksEnv = { render: jest.fn(() => '') } as unknown as Environment;
 
@@ -48,7 +50,8 @@ describe('application council-tax-frequency step', () => {
       body: requestBody,
       originalUrl: `/1234123412341234/${stepName}`,
       query: { lang: 'en' },
-      session: { formData: {} },
+      params: { caseReference: CASE_REF },
+      session: { formData: { [CASE_REF]: {} } },
       app: { locals: { nunjucksEnv } },
       i18n: { getResourceBundle: jest.fn(() => ({})) },
       res,
@@ -77,7 +80,7 @@ describe('application council-tax-frequency step', () => {
       })
     );
 
-    expect(req.session.formData[stepName]).toStrictEqual({
+    expect(req.session.formData[CASE_REF][stepName]).toStrictEqual({
       councilTaxFrequency: 'WEEKLY',
       [weeklyField]: '120',
       [fortnightlyField]: '',
@@ -96,7 +99,7 @@ describe('application council-tax-frequency step', () => {
       })
     );
 
-    expect(req.session.formData[stepName][detailsField]).toBe('');
+    expect(req.session.formData[CASE_REF][stepName][detailsField]).toBe('');
   });
 
   it('clears all amounts and keeps the details when OTHER is selected', async () => {
@@ -108,7 +111,7 @@ describe('application council-tax-frequency step', () => {
       })
     );
 
-    expect(req.session.formData[stepName]).toStrictEqual({
+    expect(req.session.formData[CASE_REF][stepName]).toStrictEqual({
       councilTaxFrequency: 'OTHER',
       [weeklyField]: '',
       [fortnightlyField]: '',
@@ -122,7 +125,7 @@ describe('application council-tax-frequency step', () => {
     const { req, res } = await post(body({ [weeklyField]: '120', [detailsField]: 'some text' }));
 
     expect(res.redirect).toHaveBeenCalled();
-    expect(req.session.formData[stepName][weeklyField]).toBe('');
-    expect(req.session.formData[stepName][detailsField]).toBe('');
+    expect(req.session.formData[CASE_REF][stepName][weeklyField]).toBe('');
+    expect(req.session.formData[CASE_REF][stepName][detailsField]).toBe('');
   });
 });

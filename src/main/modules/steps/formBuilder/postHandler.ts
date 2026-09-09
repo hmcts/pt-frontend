@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import type { TFunction } from 'i18next';
 
+import { HTTPError } from '../../../HttpError';
 import { findSectionIdForStep } from '../../../steps/application/sections.config';
 import { safeRedirect303 } from '../../../steps/utils/safeRedirect';
 import { createStepNavigation, getStepUrl } from '../flow';
@@ -12,6 +13,8 @@ import { setFileFieldValues, withFileUploadUrls } from './fileUploadUtils';
 import { type FormBuilderFlowConfig, resolveFormBuilderFlowConfig } from './flowConfig';
 import { buildFormContent } from './formContent';
 import {
+  clearFormData,
+  getAllFormData,
   getCustomErrorTranslations,
   getTranslationErrors,
   normalizeCheckboxFields,
@@ -31,6 +34,7 @@ import { validateConfigInDevelopment } from '@modules/steps/formBuilder/schema';
 import type { JourneyFlowConfig } from '@modules/steps/stepFlow.interface';
 import { getCaseApi } from '@services/ccdApiClient';
 import { prepareDataForSave } from '@services/data-mapping';
+import { toCaseReference16 } from '@utils/caseReference';
 
 function shouldUseSessionFormData(flowConfig?: JourneyFlowConfig): boolean {
   return flowConfig?.useSessionFormData !== false;
@@ -85,11 +89,7 @@ export function createPostHandler(
 
       const resolvedFlowConfig = await resolveFormBuilderFlowConfig(req, flowConfig);
 
-      const allFormData = shouldUseSessionFormData(resolvedFlowConfig)
-        ? req.session.formData
-          ? Object.values(req.session.formData).reduce((acc, stepData) => ({ ...acc, ...stepData }), {})
-          : {}
-        : {};
+      const allFormData = shouldUseSessionFormData(resolvedFlowConfig) ? getAllFormData(req) : {};
 
       // Normalize checkbox fields BEFORE validation to ensure checkbox values are arrays
       // This is critical because validation functions (like required functions) need normalized checkbox arrays
@@ -175,11 +175,15 @@ export function createPostHandler(
       if (isSaveForLater) {
         const sectionId = findSectionIdForStep(stepName);
         if (sectionId) {
+          // Write target comes from the route; session.ccdCase can be stale.
+          const caseReference = toCaseReference16(req.params?.caseReference);
+          if (!caseReference) {
+            return next(new HTTPError('Invalid case reference format', 404));
+          }
+
           try {
-            const ccdCase = req.session.ccdCase;
             const ccdCaseApi = getCaseApi(req.session.user);
-            const caseReference = String(ccdCase?.caseReference);
-            const data = prepareDataForSave(sectionId, req, ccdCase);
+            const data = prepareDataForSave(sectionId, req, req.session.ccdCase);
 
             await ccdCaseApi.updateCase(caseReference, data);
           } catch (error) {
@@ -187,7 +191,7 @@ export function createPostHandler(
           }
         }
 
-        delete req.session.formData;
+        clearFormData(req);
         delete req.session.returnToCya;
         return safeRedirect303(res, resolveSaveForLaterRedirect(req, resolvedFlowConfig), '/', ['/']);
       }

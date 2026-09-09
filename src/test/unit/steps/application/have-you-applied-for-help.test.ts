@@ -13,6 +13,8 @@ jest.mock('../../../../main/modules/i18n', () => ({
   getCommonTranslations: jest.fn(() => ({})),
 }));
 
+const CASE_REF = '1234123412341234';
+
 describe('application have-you-applied-for-help step', () => {
   const nunjucksEnv = { render: jest.fn(() => '') } as unknown as Environment;
   const referenceNumberField = 'appliedForHelpWithFees.referenceNumber';
@@ -27,8 +29,8 @@ describe('application have-you-applied-for-help step', () => {
       body,
       originalUrl: '/1234123412341234/have-you-applied-for-help',
       query: { lang: 'en' },
-      params: { caseReference: '1234123412341234' },
-      session: { formData: {} },
+      params: { caseReference: CASE_REF },
+      session: { formData: { [CASE_REF]: {} } },
       app: { locals: { nunjucksEnv } },
       i18n: { getResourceBundle: jest.fn(() => ({})) },
       res,
@@ -49,7 +51,7 @@ describe('application have-you-applied-for-help step', () => {
       [referenceNumberField]: 'HWF-A1B-23C',
     });
 
-    expect(req.session.formData['have-you-applied-for-help']).toStrictEqual({
+    expect(req.session.formData[CASE_REF]['have-you-applied-for-help']).toStrictEqual({
       appliedForHelpWithFees: 'Yes',
       [referenceNumberField]: 'HWF-A1B-23C',
     });
@@ -62,7 +64,7 @@ describe('application have-you-applied-for-help step', () => {
       [referenceNumberField]: 'HWF-A1B-23C',
     });
 
-    expect(req.session.formData['have-you-applied-for-help']).toStrictEqual({
+    expect(req.session.formData[CASE_REF]['have-you-applied-for-help']).toStrictEqual({
       appliedForHelpWithFees: 'No',
     });
   });

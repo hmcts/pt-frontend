@@ -3,18 +3,23 @@ import { Request } from 'express';
 import { PTCaseData } from '@services/ccdCase.interface';
 import { prepareDataForSave } from '@services/data-mapping';
 
+const CASE_REF = '1234123412341234';
+
 describe('prepareDataForSave', () => {
   describe('contactPreferences data mapping', () => {
     it('should correctly map data for contact preferences section when values are present in the form data', () => {
       const mockReq = {
+        params: { caseReference: CASE_REF },
         session: {
           formData: {
-            'text-updates': {
-              textUpdates: 'Yes',
-              'textUpdates.textUpdatesPhoneNumber': '+447777777777',
-            },
-            'contact-by-phone': {
-              phoneNumberForCalls: '07777777774',
+            [CASE_REF]: {
+              'text-updates': {
+                textUpdates: 'Yes',
+                'textUpdates.textUpdatesPhoneNumber': '+447777777777',
+              },
+              'contact-by-phone': {
+                phoneNumberForCalls: '07777777774',
+              },
             },
           },
         },
@@ -36,11 +41,14 @@ describe('prepareDataForSave', () => {
     });
     it('should correctly map data for contact preferences section based on ccd case data values where form data not present', () => {
       const mockReq = {
+        params: { caseReference: CASE_REF },
         session: {
           formData: {
-            'text-updates': {
-              textUpdates: 'No',
-              'textUpdates.textUpdatesPhoneNumber': '',
+            [CASE_REF]: {
+              'text-updates': {
+                textUpdates: 'No',
+                'textUpdates.textUpdatesPhoneNumber': '',
+              },
             },
           },
         },
@@ -67,14 +75,17 @@ describe('prepareDataForSave', () => {
     });
     it('should correctly map data for text updates when previously answered as no', () => {
       const mockReq = {
+        params: { caseReference: CASE_REF },
         session: {
           formData: {
-            'text-updates': {
-              textUpdates: 'Yes',
-              'textUpdates.textUpdatesPhoneNumber': '+447777777777',
-            },
-            'contact-by-phone': {
-              phoneNumberForCalls: '07777766666',
+            [CASE_REF]: {
+              'text-updates': {
+                textUpdates: 'Yes',
+                'textUpdates.textUpdatesPhoneNumber': '+447777777777',
+              },
+              'contact-by-phone': {
+                phoneNumberForCalls: '07777766666',
+              },
             },
           },
         },
@@ -102,14 +113,17 @@ describe('prepareDataForSave', () => {
     });
     it('should appropriately map the data if nothing present in form data or case data', () => {
       const mockReq = {
+        params: { caseReference: CASE_REF },
         session: {
           formData: {
-            'text-updates': {
-              textUpdates: undefined,
-              'textUpdates.textUpdatesPhoneNumber': undefined,
-            },
-            'contact-by-phone': {
-              phoneNumberForCalls: undefined,
+            [CASE_REF]: {
+              'text-updates': {
+                textUpdates: undefined,
+                'textUpdates.textUpdatesPhoneNumber': undefined,
+              },
+              'contact-by-phone': {
+                phoneNumberForCalls: undefined,
+              },
             },
           },
         },

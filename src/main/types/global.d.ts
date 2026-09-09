@@ -8,7 +8,10 @@ interface CustomSessionData extends SessionData {
   nonce?: string;
   user?: UserInfoResponseWithToken;
   returnTo?: string;
-  formData?: Record<string, any>;
+  /** Answers bucketed by case reference (or DRAFT_SCOPE before a case exists) -> step name. */
+  formData?: Record<string, Record<string, any>>;
+  /** Last case reference seen on a route, used to drop case-derived state when it changes. */
+  activeCaseReference?: string;
   returnToCya?: string;
   ccdCase?: PTCaseData;
   genApp?: {

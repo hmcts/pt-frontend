@@ -11,6 +11,7 @@ import type { FormError } from './errorUtils';
 import { Logger } from '@modules/logger';
 import type { FormFieldConfig } from '@modules/steps/formBuilder/formFieldConfig.interface';
 import type { StepFormData } from '@modules/steps/stepFormData.interface';
+import { toCaseReference16 } from '@utils/caseReference';
 
 const logger = Logger.getLogger('form-builder-helpers');
 
@@ -251,16 +252,46 @@ export function getCustomErrorTranslations(t: TFunction, fields: FormFieldConfig
   return stepSpecificErrors;
 }
 
+// Answers are bucketed per case: session.formData[scope][stepName]. The scope comes only from
+// the route, so one case can never read or overwrite another. Journeys without a case use DRAFT_SCOPE.
+export const DRAFT_SCOPE = 'draft';
+
+export const getFormDataScope = (req: Request): string => toCaseReference16(req.params?.caseReference) ?? DRAFT_SCOPE;
+
+export const getScopedFormData = (req: Request): Record<string, StepFormData> =>
+  req.session?.formData?.[getFormDataScope(req)] ?? {};
+
 export const getFormData = (req: Request, stepName: string): StepFormData => {
-  return req.session.formData?.[stepName] || {};
+  return getScopedFormData(req)[stepName] || {};
 };
 
 export const setFormData = (req: Request, stepName: string, data: StepFormData): void => {
+  const scope = getFormDataScope(req);
   if (!req.session.formData) {
     req.session.formData = {};
   }
-  req.session.formData[stepName] = data;
+  if (!req.session.formData[scope]) {
+    req.session.formData[scope] = {};
+  }
+  req.session.formData[scope][stepName] = data;
 };
+
+/** One field of a step's answers, narrowed to a string. */
+export const getFormDataString = (req: Request, stepName: string, field: string): string | undefined => {
+  const value = getFormData(req, stepName)[field];
+  return typeof value === 'string' ? value : undefined;
+};
+
+/** Clear the current case only. */
+export const clearFormData = (req: Request): void => {
+  if (req.session.formData) {
+    delete req.session.formData[getFormDataScope(req)];
+  }
+};
+
+/** The current case's answers flattened into one field map. Same-named fields across steps collide. */
+export const getAllFormData = (req: Request): Record<string, unknown> =>
+  Object.values(getScopedFormData(req)).reduce((acc, stepData) => ({ ...acc, ...stepData }), {});
 
 export function validateForm(
   req: Request,
@@ -274,11 +305,7 @@ export function validateForm(
   const formData: Record<string, unknown> = { ...req.body };
 
   // Merge allFormData if provided, otherwise get from session
-  const mergedAllData: Record<string, unknown> =
-    allFormData ||
-    (req.session.formData
-      ? Object.values(req.session.formData).reduce((acc, stepData) => ({ ...acc, ...stepData }), {})
-      : {});
+  const mergedAllData: Record<string, unknown> = allFormData || getAllFormData(req);
 
   // Merge current form data into all data for validation context
   const validationAllData = { ...mergedAllData, ...formData };

@@ -4,7 +4,7 @@ import type { Environment } from 'nunjucks';
 import { flowConfig } from '../../../../main/steps/pre-application/flow.config';
 import { step } from '../../../../main/steps/pre-application/landlord-is-a-housing-association';
 
-import { getNextStep, validateForm } from '@modules/steps';
+import { DRAFT_SCOPE, getNextStep, validateForm } from '@modules/steps';
 import { getPreviousStep } from '@modules/steps/flow';
 
 jest.mock('../../../../main/modules/steps/i18n', () => ({
@@ -36,14 +36,16 @@ describe('pre-application landlord-is-a-housing-association step', () => {
     query: { lang: 'en' },
     session: {
       formData: {
-        'starting-or-returning': {
-          startingOrReturning: 'starting',
-        },
-        'applying-for-yourself-or-someone-else': {
-          applyingForYourselfOrSomeoneElse: 'someoneElse',
-        },
-        'address-of-property': {
-          addressPostcode: 'W1 1BW',
+        [DRAFT_SCOPE]: {
+          'starting-or-returning': {
+            startingOrReturning: 'starting',
+          },
+          'applying-for-yourself-or-someone-else': {
+            applyingForYourselfOrSomeoneElse: 'someoneElse',
+          },
+          'address-of-property': {
+            addressPostcode: 'W1 1BW',
+          },
         },
       },
     },
@@ -70,7 +72,7 @@ describe('pre-application landlord-is-a-housing-association step', () => {
 
     await step.postController.post(req, res, next);
 
-    expect(req.session.formData).toStrictEqual({
+    expect(req.session.formData[DRAFT_SCOPE]).toStrictEqual({
       'starting-or-returning': {
         startingOrReturning: 'starting',
       },
@@ -92,17 +94,19 @@ describe('forward navigation from landlord-is-a-housing-association', () => {
     const req = {
       session: {
         formData: {
-          'starting-or-returning': {
-            startingOrReturning: 'starting',
-          },
-          'applying-for-yourself-or-someone-else': {
-            applyingForYourselfOrSomeoneElse: 'someoneElse',
-          },
-          'address-of-property': {
-            addressPostcode: 'W1 1BW',
-          },
-          'landlord-is-a-housing-association': {
-            landlordIsAHousingAssociation: 'no',
+          [DRAFT_SCOPE]: {
+            'starting-or-returning': {
+              startingOrReturning: 'starting',
+            },
+            'applying-for-yourself-or-someone-else': {
+              applyingForYourselfOrSomeoneElse: 'someoneElse',
+            },
+            'address-of-property': {
+              addressPostcode: 'W1 1BW',
+            },
+            'landlord-is-a-housing-association': {
+              landlordIsAHousingAssociation: 'no',
+            },
           },
         },
       },
@@ -116,17 +120,19 @@ describe('forward navigation from landlord-is-a-housing-association', () => {
     const req = {
       session: {
         formData: {
-          'starting-or-returning': {
-            startingOrReturning: 'starting',
-          },
-          'applying-for-yourself-or-someone-else': {
-            applyingForYourselfOrSomeoneElse: 'someoneElse',
-          },
-          'address-of-property': {
-            addressPostcode: 'W1 1BW',
-          },
-          'landlord-is-a-housing-association': {
-            landlordIsAHousingAssociation: 'yes',
+          [DRAFT_SCOPE]: {
+            'starting-or-returning': {
+              startingOrReturning: 'starting',
+            },
+            'applying-for-yourself-or-someone-else': {
+              applyingForYourselfOrSomeoneElse: 'someoneElse',
+            },
+            'address-of-property': {
+              addressPostcode: 'W1 1BW',
+            },
+            'landlord-is-a-housing-association': {
+              landlordIsAHousingAssociation: 'yes',
+            },
           },
         },
       },
@@ -142,14 +148,16 @@ describe('back navigation from landlord-is-a-housing-association', () => {
     const req = {
       session: {
         formData: {
-          'starting-or-returning': {
-            startingOrReturning: 'starting',
-          },
-          'applying-for-yourself-or-someone-else': {
-            applyingForYourselfOrSomeoneElse: 'someoneElse',
-          },
-          'address-of-property': {
-            addressPostcode: 'B5 4BU',
+          [DRAFT_SCOPE]: {
+            'starting-or-returning': {
+              startingOrReturning: 'starting',
+            },
+            'applying-for-yourself-or-someone-else': {
+              applyingForYourselfOrSomeoneElse: 'someoneElse',
+            },
+            'address-of-property': {
+              addressPostcode: 'B5 4BU',
+            },
           },
         },
       },
