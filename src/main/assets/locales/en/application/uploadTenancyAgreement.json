@@ -1,4 +1,9 @@
 {
-  "pageTitle": "Upload tenancy agreement (placeholder)",
-  "heading": "Upload tenancy agreement (placeholder)"
+  "pageTitle": "Upload tenancy agreement",
+  "heading": "Upload tenancy agreement",
+  "errors": {
+    "documents": {
+      "required": "Select a file to upload"
+    }
+  }
 }
