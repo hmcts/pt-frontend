@@ -26,6 +26,8 @@ jest.mock('@modules/steps/flow', () => ({
 
 jest.mock('../../../main/middleware', () => ({
   oidcMiddleware: jest.fn((req, res, next) => next()),
+  caseReferenceParamMiddleware: jest.fn((req, res, next) => next()),
+  caseSessionScopeMiddleware: jest.fn((req, res, next) => next()),
 }));
 
 const mockFlowConfig = {
@@ -396,6 +398,7 @@ describe('registerAllJourneys', () => {
     jest.doMock('../../../main/middleware', () => ({
       oidcMiddleware: jest.fn((req, res, next) => next()),
       caseReferenceParamMiddleware: mockCaseReferenceParamMiddleware,
+      caseSessionScopeMiddleware: jest.fn((req, res, next) => next()),
       requireEventAccess: mockRequireEventAccess,
     }));
   });
@@ -445,6 +448,7 @@ describe('registerAllJourneys', () => {
     jest.doMock('../../../main/middleware', () => ({
       oidcMiddleware: jest.fn((req, res, next) => next()),
       caseReferenceParamMiddleware: caseRefMw,
+      caseSessionScopeMiddleware: jest.fn((req, res, next) => next()),
       requireEventAccess: jest.fn(() => jest.fn((req, res, next) => next())),
     }));
 
