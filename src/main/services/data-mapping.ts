@@ -1,27 +1,40 @@
 import { Request } from 'express';
 
-import { getAllFormData } from '@modules/steps/formBuilder/helpers';
+import { getFormDataString } from '@modules/steps/formBuilder/helpers';
 import { PTCaseData } from '@services/ccdCase.interface';
+import { toCaseReference16 } from '@utils/caseReference';
+
+/** Saved answers are only safe to fall back on when they belong to the case being written. */
+function caseForThisRequest(req: Request, ccdCase: PTCaseData | undefined): PTCaseData | undefined {
+  const routeCaseReference = toCaseReference16(req.params?.caseReference);
+  if (!routeCaseReference || ccdCase?.caseReference === undefined) {
+    return undefined;
+  }
+  return String(ccdCase.caseReference) === routeCaseReference ? ccdCase : undefined;
+}
 
 export function prepareDataForSave(
   sectionId: string,
   req: Request,
   ccdCase: PTCaseData | undefined
 ): Record<string, unknown> {
-  const allFormData = getAllFormData(req);
+  const saved = caseForThisRequest(req, ccdCase);
 
   switch (sectionId) {
     case 'contactPreferences': {
-      const contactByText = allFormData?.textUpdates ?? ccdCase?.applicantContactPreferences?.contactByText;
+      const contactByText =
+        getFormDataString(req, 'text-updates', 'textUpdates') ?? saved?.applicantContactPreferences?.contactByText;
       const isContactByText = contactByText === 'Yes';
       return {
         applicantContactPreferences: {
           textUpdates: contactByText,
           textUpdatesPhoneNumber: isContactByText
-            ? (allFormData?.['textUpdates.textUpdatesPhoneNumber'] ??
-              ccdCase?.applicantContactPreferences?.mobilePhoneNumber)
+            ? (getFormDataString(req, 'text-updates', 'textUpdates.textUpdatesPhoneNumber') ??
+              saved?.applicantContactPreferences?.mobilePhoneNumber)
             : undefined,
-          phoneNumberForCalls: allFormData?.phoneNumberForCalls ?? ccdCase?.applicantContactPreferences?.phoneNumber,
+          phoneNumberForCalls:
+            getFormDataString(req, 'contact-by-phone', 'phoneNumberForCalls') ??
+            saved?.applicantContactPreferences?.phoneNumber,
         },
       };
     }
