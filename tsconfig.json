@@ -26,7 +26,7 @@
       "@steps": ["steps/index.ts"]
     },
     "typeRoots": ["./node_modules/@types", "./src/main/types"],
-    "types": ["jest", "node", "express"]
+    "types": ["jest", "node", "express", "multer"]
   },
   "include": ["src/main/**/*", "src/main/assets/locales/**/*", "src/test/unit/**/*"],
   "exclude": ["**/codecept.conf.ts", "**/__mocks__/*", "**/*.test.ts", "**/*.spec.ts"],

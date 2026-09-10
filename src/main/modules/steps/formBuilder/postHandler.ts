@@ -8,6 +8,7 @@ import { getTranslationFunction, loadStepNamespace } from '../i18n';
 
 import { renderWithErrors } from './errorUtils';
 import { translateFields } from './fieldTranslation';
+import { setFileFieldValues, withFileUploadUrls } from './fileUploadUtils';
 import { type FormBuilderFlowConfig, resolveFormBuilderFlowConfig } from './flowConfig';
 import { buildFormContent } from './formContent';
 import {
@@ -19,6 +20,7 @@ import {
   validateForm,
 } from './helpers';
 
+import type { DocumentFieldKey } from '@modules/documents/documentFields';
 import type {
   BuiltFormContent,
   ExtendGetContent,
@@ -53,7 +55,8 @@ export function createPostHandler(
   beforeRedirect?: (req: Request) => Promise<void> | void,
   translationKeys?: TranslationKeys,
   showCancelButton?: boolean,
-  extendGetContent?: ExtendGetContent
+  extendGetContent?: ExtendGetContent,
+  documentField?: DocumentFieldKey
 ): { post: (req: Request, res: Response, next: NextFunction) => Promise<void | Response> } {
   // Validate config in development mode
   if (process.env.NODE_ENV !== 'production') {
@@ -91,14 +94,16 @@ export function createPostHandler(
       // Normalize checkbox fields BEFORE validation to ensure checkbox values are arrays
       // This is critical because validation functions (like required functions) need normalized checkbox arrays
       // Note: We only normalize checkboxes here, NOT date fields, because date validation expects individual day/month/year keys
-      normalizeCheckboxFields(req, fields);
+      const requestFields = withFileUploadUrls(req, fields, documentField);
+      await setFileFieldValues(req, requestFields, documentField);
+      normalizeCheckboxFields(req, requestFields);
 
       // Get interpolation values from extendGetContent if available (for dynamic translation values)
       const emptyFormContent = { fields: [] } as BuiltFormContent;
       const interpolationValues = extendGetContent ? await extendGetContent(req, emptyFormContent) : {};
 
       const fieldsWithLabels = translateFields(
-        fields,
+        requestFields,
         t,
         {},
         {},
@@ -111,12 +116,12 @@ export function createPostHandler(
       const stepSpecificErrors = getCustomErrorTranslations(t, fieldsWithLabels);
       const isSaveForLater = action === 'saveForLater';
 
-      const fieldErrors = getTranslationErrors(t, fields, undefined, interpolationValues);
+      const fieldErrors = getTranslationErrors(t, requestFields, undefined, interpolationValues);
       const errors = validateForm(req, fieldsWithLabels, { ...fieldErrors, ...stepSpecificErrors }, allFormData, t);
 
       if (!isSaveForLater && Object.keys(errors).length > 0) {
         const formContent = buildFormContent(
-          fields,
+          requestFields,
 
           t,
 
@@ -138,7 +143,7 @@ export function createPostHandler(
           res,
           viewPath,
           errors,
-          fields,
+          requestFields,
           fullContent,
           stepName,
           journeyFolder,
@@ -150,7 +155,7 @@ export function createPostHandler(
       }
 
       // Process field data (normalize checkboxes + consolidate date fields) before saving
-      processFieldData(req, fields);
+      processFieldData(req, requestFields);
       const { action: _, ...bodyWithoutAction } = req.body;
       if (shouldUseSessionFormData(resolvedFlowConfig)) {
         setFormData(req, stepName, bodyWithoutAction);
