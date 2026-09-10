@@ -5,6 +5,7 @@ import type { TFunction } from 'i18next';
 import type { ApplicationSectionId } from '../sections.config';
 
 import { PTCaseData } from '@services/ccdCase.interface';
+import { toCaseReference16 } from '@utils/caseReference';
 
 // Shared helpers for the application creation section-CYA row builders.
 
@@ -27,8 +28,15 @@ export function groupQuestionAndDetail(questionRow: SummaryListRow, detailRow: S
   detailRow.key.classes = 'govuk-!-font-weight-regular';
 }
 
-/** Reads the validated case off the request. */
-export const getValidatedCase = (req: Request): PTCaseData | undefined => req.session.ccdCase as PTCaseData | undefined;
+/** The loaded case, but only when it belongs to the case being viewed. */
+export const getValidatedCase = (req: Request): PTCaseData | undefined => {
+  const ccdCase = req.session.ccdCase as PTCaseData | undefined;
+  const caseRef = toCaseReference16(req.params?.caseReference);
+  if (!caseRef || ccdCase?.caseReference === undefined) {
+    return undefined;
+  }
+  return String(ccdCase.caseReference) === caseRef ? ccdCase : undefined;
+};
 
 /** Escape user-entered free text and preserve newlines as <br> (GDS pattern). */
 export const escapeWithLineBreaks = (value: string): string => escapeHtml(value).replace(/\n/g, '<br>');
@@ -76,29 +84,27 @@ export const makeChange =
 
 export interface BaseRowContext {
   rows: SummaryListRow[];
-  validatedCase: PTCaseData;
+  validatedCase: PTCaseData | undefined;
   t: TFunction;
   change: ReturnType<typeof makeChange>;
   yesNoNotSure: ReturnType<typeof makeYesNoNotSure>;
 }
 
-/** Bootstrap shared by every section-CYA builder — validates the case and wires the
- *  change-link + yes/no helpers. Returns undefined when there is no validated case. */
+/** Bootstrap shared by every section-CYA builder; the loaded case is an optional fallback. */
 export function createRowContext(
   req: Request,
   sectionId: ApplicationSectionId,
   t: TFunction
 ): BaseRowContext | undefined {
-  const validatedCase = getValidatedCase(req);
-  const caseRef = validatedCase?.caseReference;
-  if (!validatedCase || !caseRef) {
+  const caseRef = toCaseReference16(req.params?.caseReference);
+  if (!caseRef) {
     return undefined;
   }
   return {
     rows: [],
-    validatedCase,
+    validatedCase: getValidatedCase(req),
     t,
-    change: makeChange(String(caseRef), sectionId, t),
+    change: makeChange(caseRef, sectionId, t),
     yesNoNotSure: makeYesNoNotSure(t),
   };
 }
