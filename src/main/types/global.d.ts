@@ -42,7 +42,6 @@ declare module 'express' {
 
   interface Application {
     locals: {
-      developmentMode?: boolean;
       nunjucksEnv?: Environment;
       ENV?: string;
     };
