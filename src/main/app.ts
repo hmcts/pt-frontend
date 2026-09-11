@@ -16,9 +16,10 @@ import { Helmet } from '@modules/helmet';
 import { PropertiesVolume } from '@modules/properties-volume';
 import { Session } from '@modules/session';
 import { registerAllJourneys } from '@routes/registerSteps';
+import { isLocalDev } from '@utils/environment';
 
 const env = process.env.NODE_ENV || 'development';
-const developmentMode = env === 'development';
+const developmentMode = isLocalDev();
 
 const limiter = RateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -28,7 +29,6 @@ const limiter = RateLimit({
 export async function createApp(): Promise<Express> {
   const app = express();
   app.locals.ENV = env;
-  app.locals.developmentMode = process.env.NODE_ENV !== 'production';
 
   setupDev(app, developmentMode);
 
