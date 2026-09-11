@@ -1,4 +1,31 @@
 {
-  "pageTitle": "Property address",
-  "heading": "Property address"
+  "pageTitle": "What is the address of the property?",
+  "heading": "What is the address of the property?",
+  "labels": {
+    "addressLine1": "Address line 1",
+    "addressLine2": "Address line 2 (optional)",
+    "townOrCity": "Town or city",
+    "county": "County (optional)",
+    "postcode": "Postcode"
+  },
+  "errors": {
+    "addressLine1": {
+      "required": "Enter address line 1",
+      "invalid": "Address line 1 must be 2 characters or more"
+    },
+    "addressLine2": {
+      "invalid": "Address line 2 must be 2 characters or more"
+    },
+    "townOrCity": {
+      "required": "Enter town or city",
+      "invalid": "Town or city must be 2 characters or more"
+    },
+    "county": {
+      "invalid": "County must be 2 characters or more"
+    },
+    "postcode": {
+      "required": "Enter postcode",
+      "invalid": "Enter a valid postcode"
+    }
+  }
 }

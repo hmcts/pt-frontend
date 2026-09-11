@@ -2,7 +2,7 @@
   "port": 4000,
   "useCSRFProtection": true,
   "appInsights": {
-    "instrumentationKey": false
+    "connectionString": false
   },
   "security": {
     "referrerPolicy": "same-origin",
@@ -18,6 +18,14 @@
   "ccd": {
     "url": "http://ccd-data-store-api-aat.service.core-compute-aat.internal",
     "caseTypeId": "PT"
+  },
+  "cdam": {
+    "url": "http://ccd-case-document-am-api-aat.service.core-compute-aat.internal"
+  },
+  "documentUpload": {
+    "maxFileSizeMB": 100,
+    "maxTotalFileSizeMB": 500,
+    "maxFilenameLength": 255
   },
   "idam": {
     "authorizationURL": "https://idam-web-public.aat.platform.hmcts.net/login",
@@ -38,7 +46,7 @@
   },
   "session": {
     "redis-connection-string": "redis://localhost:6379",
-    "pt-session-secret": "pt-supersecret",
+    "pt-session-secret": "NEED TO INSERT SECRET",
     "prefix": "pt-session",
     "cookieName": "pt_session",
     "redis": {

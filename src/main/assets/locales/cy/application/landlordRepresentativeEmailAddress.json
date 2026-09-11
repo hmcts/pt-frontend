@@ -1,0 +1,10 @@
+{
+  "pageTitle": "cyYour landlord's representative’s email address",
+  "heading": "cyYour landlord's representative’s email address",
+  "errors": {
+    "representativeEmailAddress": {
+      "required": "cyEnter an email address",
+      "invalid": "cyEnter an email address in the correct format, like name@example.com"
+    }
+  }
+}

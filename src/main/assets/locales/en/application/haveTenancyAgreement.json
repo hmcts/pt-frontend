@@ -1,4 +1,18 @@
 {
-  "pageTitle": "Have tenancy agreement",
-  "heading": "Have tenancy agreement?"
+  "pageTitle": "Do you have a copy of your tenancy agreement to upload?",
+  "heading": "Do you have a copy of your tenancy agreement to upload?",
+  "options": {
+    "noTenancyAgreementReason": {
+      "label": "Why can you not upload your tenancy agreement?"
+    }
+  },
+  "errors": {
+    "hasTenancyAgreement": {
+      "required": "Select yes if you have a copy of your tenancy agreement to upload"
+    },
+    "noTenancyAgreementReason": {
+      "required": "Enter why you cannot upload your tenancy agreement",
+      "invalid": "Why you cannot upload your tenancy agreement must be 500 characters or less"
+    }
+  }
 }

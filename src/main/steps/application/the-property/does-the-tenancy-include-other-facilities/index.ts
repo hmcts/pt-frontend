@@ -3,7 +3,7 @@ import { flowConfig } from '../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { CcdCaseData } from '@services/ccdCase.interface';
+import { PTCaseData } from '@services/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'does-the-tenancy-include-other-facilities';
@@ -52,11 +52,11 @@ export const step: StepDefinition = createFormStep({
   ],
 });
 
-function isAnswered(ccdCase: CcdCaseData): boolean {
-  if (ccdCase.propertyIncludesOtherFacilities === 'yes') {
+function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  if (ccdCase?.propertyIncludesOtherFacilities === 'yes') {
     return Boolean(
-      ccdCase.propertyFacilitiesDescription && textAreaIsValidLength(ccdCase.propertyFacilitiesDescription)
+      ccdCase?.propertyFacilitiesDescription && textAreaIsValidLength(ccdCase.propertyFacilitiesDescription)
     );
   }
-  return ccdCase.propertyIncludesOtherFacilities === 'no';
+  return ccdCase?.propertyIncludesOtherFacilities === 'no';
 }

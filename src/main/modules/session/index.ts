@@ -18,9 +18,16 @@ export class Session {
       this.logger.info('Successfully connected to Redis');
     });
 
-    redis.on('error', (err: typeof Error) => {
-      this.logger.error(`REDIS CONNECTION ERROR: ${redisConnectionString}`);
-      this.logger.error('REDIS ERROR:', err);
+    const redisHost = ((): string => {
+      try {
+        return new URL(redisConnectionString).host || 'unknown';
+      } catch {
+        return 'unparseable';
+      }
+    })();
+
+    redis.on('error', (err: Error) => {
+      this.logger.error(`Redis connection error (${redisHost})`, err);
     });
 
     redis.on('ready', () => {
@@ -58,10 +65,9 @@ export class Session {
     app.use(session(sessionMiddleware));
 
     // Make timeout config available to templates
-    app.locals.nunjucksEnv?.addGlobal('sessionTimeout', {
-      sessionWarningMinutes,
-      sessionTimeoutMinutes,
-      checkIntervalSeconds,
+    app.use((_req, res, next) => {
+      res.locals.sessionTimeout = { sessionWarningMinutes, sessionTimeoutMinutes, checkIntervalSeconds };
+      next();
     });
 
     this.logger.info('Session middleware configured with Redis store');

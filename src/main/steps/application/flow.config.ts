@@ -21,8 +21,76 @@ export const flowConfig: JourneyFlowConfig = {
     'upload-floor-plan-of-property': {
       showCondition: (req: Request) => getFormData(req, 'floor-plan-of-property').hasFloorPlanOfProperty === 'yes',
     },
+    'upload-tenancy-agreement': {
+      showCondition: (req: Request) => getFormData(req, 'have-tenancy-agreement').hasTenancyAgreement === 'yes',
+    },
+    'upload-evidence-notice-not-legally-valid': {
+      showCondition: (req: Request) => getFormData(req, 'your-notice-proposing-a-new-rent').noticeLegallyValid === 'no',
+    },
+    'upload-evidence-experience-hardship': {
+      showCondition: (req: Request) => getFormData(req, 'hardship').rentIncreaseCauseHardship === 'yes',
+    },
     'upload-evidence-improvements-or-repairs': {
       showCondition: (req: Request) => getFormData(req, 'repairs-and-improvements').hasRepairsAndImprovements === 'yes',
     },
+    'council-tax-frequency': {
+      showCondition: (req: Request) => getFormData(req, 'rent-includes-council-tax').rentIncludesCouncilTax === 'yes',
+    },
+    'utilities-paid-frequency': {
+      showCondition: (req: Request) =>
+        getFormData(req, 'rent-inclusive-of-utility-charges').rentInclusiveOfUtilityCharges === 'yes',
+    },
+    'other-household-management-charges-details': {
+      showCondition: (req: Request) =>
+        getFormData(req, 'other-household-management-charges').otherHouseholdManagementCharges === 'yes',
+    },
+    'additional-rental-service-charges-vary': {
+      showCondition: (req: Request) =>
+        getFormData(req, 'other-household-management-charges').otherHouseholdManagementCharges === 'yes',
+    },
+    'landlord-letting-agent-email-address': {
+      showCondition: (req: Request) => {
+        const answer = getFormData(
+          req,
+          'landlord-has-letting-agent-or-representative'
+        ).landlordHasLettingAgentOrRepresentative;
+        return answer === 'lettingAgentOnly' || answer === 'lettingAgentAndRepresentative';
+      },
+    },
+    'landlord-letting-agent-phone-number': {
+      showCondition: (req: Request) => {
+        const answer = getFormData(
+          req,
+          'landlord-has-letting-agent-or-representative'
+        ).landlordHasLettingAgentOrRepresentative;
+        return answer === 'lettingAgentOnly' || answer === 'lettingAgentAndRepresentative';
+      },
+    },
+    'landlord-representative-details': {
+      showCondition: (req: Request) => {
+        const answer = getFormData(
+          req,
+          'landlord-has-letting-agent-or-representative'
+        ).landlordHasLettingAgentOrRepresentative;
+        return answer === 'representativeOnly' || answer === 'lettingAgentAndRepresentative';
+      },
+    },
+    'landlord-representative-email-address': {
+      showCondition: (req: Request) => hasLandlordRepresentative(req),
+    },
+    'landlord-representative-phone-number': {
+      showCondition: (req: Request) => hasLandlordRepresentative(req),
+    },
+    'you-need-to-apply-for-help-with-fees': {
+      showCondition: (req: Request) => getFormData(req, 'have-you-applied-for-help').appliedForHelpWithFees === 'No',
+    },
   } satisfies Partial<Record<ApplicationStepName, StepConfig>>,
 };
+
+function hasLandlordRepresentative(req: Request): boolean {
+  const answer = getFormData(
+    req,
+    'landlord-has-letting-agent-or-representative'
+  ).landlordHasLettingAgentOrRepresentative;
+  return ['representativeOnly', 'lettingAgentAndRepresentative'].includes(answer as string);
+}

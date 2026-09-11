@@ -2,6 +2,18 @@
   "api": {
     "url": "PT_API_URL"
   },
+  "ccd": {
+    "url": "CCD_URL",
+    "caseTypeId": "CASE_TYPE_ID"
+  },
+  "cdam": {
+    "url": "CDAM_URL"
+  },
+  "documentUpload": {
+    "maxFileSizeMB": "DOCUMENT_UPLOAD_MAX_FILE_SIZE_MB",
+    "maxTotalFileSizeMB": "DOCUMENT_UPLOAD_MAX_TOTAL_FILE_SIZE_MB",
+    "maxFilenameLength": "DOCUMENT_UPLOAD_MAX_FILENAME_LENGTH"
+  },
   "frontend": {
     "url": "TEST_URL"
   },
@@ -13,6 +25,7 @@
     }
   },
   "authProvider": {
+    "url": "S2S_URL",
     "secret": "S2S_AUTH_PROVIDER_SECRET"
   },
   "session": {

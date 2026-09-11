@@ -2,7 +2,7 @@ import { flowConfig } from '../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { CcdCaseData } from '@services/ccdCase.interface';
+import { PTCaseData } from '@services/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'floor-plan-of-property';
@@ -52,7 +52,9 @@ export const step: StepDefinition = createFormStep({
   ],
 });
 
-function isAnswered(ccdCase: CcdCaseData): boolean {
-  const { hasFloorPlanOfProperty, propertyLayoutDescription } = ccdCase;
-  return hasFloorPlanOfProperty === 'yes' || (hasFloorPlanOfProperty === 'no' && Boolean(propertyLayoutDescription));
+function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  return (
+    ccdCase?.hasFloorPlanOfProperty === 'yes' ||
+    (ccdCase?.hasFloorPlanOfProperty === 'no' && Boolean(ccdCase?.propertyLayoutDescription))
+  );
 }

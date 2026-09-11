@@ -3,7 +3,7 @@ import { flowConfig } from '../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { CcdCaseData } from '@services/ccdCase.interface';
+import { PTCaseData } from '@services/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'services-provided-tenancy';
@@ -54,9 +54,11 @@ export const step: StepDefinition = createFormStep({
   ],
 });
 
-function isAnswered(ccdCase: CcdCaseData): boolean {
-  if (ccdCase.servicesProvided === 'yes') {
-    return Boolean(ccdCase.servicesProvidedDetails && textAreaIsValidLength(ccdCase.servicesProvidedDetails as string));
+function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  if (ccdCase?.servicesProvided === 'yes') {
+    return Boolean(
+      ccdCase?.servicesProvidedDetails && textAreaIsValidLength(ccdCase?.servicesProvidedDetails as string)
+    );
   }
-  return ccdCase.servicesProvided === 'no';
+  return ccdCase?.servicesProvided === 'no';
 }

@@ -1,0 +1,16 @@
+{
+  "pageTitle": "cyYou need to apply for help with fees",
+  "heading": "cyYou need to apply for help with fees",
+  "youNeedToApplyBeforeContinuing": "cyYou need to <a href=\"https://www.gov.uk/get-help-with-court-fees\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"govuk-link\">apply for help with fees (opens in new tab)</a> before you continue with this application.",
+  "afterYouHaveApplied": "cyAfter you have applied then you will receive a help with fees reference number. You should enter the reference number when you return to this application.",
+  "referenceNumber": {
+    "label": "cyEnter your help with fees reference number",
+    "hint": "cyFor example, HWF-A1B-23C"
+  },
+  "errors": {
+    "referenceNumber": {
+      "required": "cyEnter your help with fees reference number",
+      "invalid": "cyHelp with fees reference number must be in the correct format, like HWF-A1B-23C"
+    }
+  }
+}

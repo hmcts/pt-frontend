@@ -1,0 +1,21 @@
+{
+  "pageTitle": "Hardship",
+  "heading": "Hardship",
+  "questionTitle": "Will a rent increase on the proposed start date cause you hardship?",
+  "introParagraph1": "If the tribunal agrees with the landlord's proposed market rent, it can delay the new rent date if it thinks you will experience hardship.",
+  "introParagraph2": "If you want the tribunal to delay the new rent date, you must provide full details of your financial circumstances.",
+  "options": {
+    "rentIncreaseHardshipDetails": {
+      "label": "Tell us how you would experience financial hardship if the rent was increased on the proposed start date (optional)",
+      "hint": "You can upload any supporting evidence next"
+    }
+  },
+  "errors": {
+    "rentIncreaseCauseHardship": {
+      "required": "Select whether you think a rent increase on the proposed start date will cause you hardship"
+    },
+    "rentIncreaseHardshipDetails": {
+      "invalid": "Explanation must be 500 characters or less"
+    }
+  }
+}

@@ -4,7 +4,7 @@ nodejs:
   ingressHost: pt.{{ .Values.global.environment }}.platform.hmcts.net
   image: 'hmctsprod.azurecr.io/pt/frontend:latest'
   keyVaults:
-    pt-kv:
+    pt-kv1:
       secrets:
         - app-insights-connection-string
         - redis-connection-string
@@ -14,10 +14,9 @@ nodejs:
         - pt-frontend-idam-secret
         - pt-frontend-s2s-secret
   environment:
-    REDIS_TTL: 6000
-    REDIS_SESSION_PREFIX: 'pt'
     PT_API_URL: 'http://pt-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal'
     S2S_URL: 'http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal'
+    CDAM_URL: 'http://ccd-case-document-am-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal'
 
 redis:
   enabled: false

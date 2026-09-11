@@ -12,6 +12,7 @@ import * as modules from './modules';
 import { AppInsights } from '@modules/appinsights';
 import { AuthProvider } from '@modules/auth-provider';
 import { setupErrorHandlers } from '@modules/error-handler';
+import { Helmet } from '@modules/helmet';
 import { PropertiesVolume } from '@modules/properties-volume';
 import { Session } from '@modules/session';
 import { registerAllJourneys } from '@routes/registerSteps';
@@ -36,7 +37,18 @@ export async function createApp(): Promise<Express> {
   app.use(bodyParser.urlencoded({ extended: false }));
 
   await new PropertiesVolume().enableFor(app.locals.ENV);
+
+  // Helmet before the static handler so assets keep their security headers;
+  new Helmet(developmentMode).enableFor(app);
+
+  app.get('/favicon.ico', limiter, (_req, res) => {
+    res.sendFile(path.join(__dirname, '/public/assets/images/favicon.ico'));
+  });
+  // static before session so asset requests don't hit Redis — `rolling: true`
+  // does a GET + EXPIRE on every request.
+  app.use(expressStatic(path.join(__dirname, 'public')));
   new Session().enableFor(app);
+
   new AppInsights().enable();
   await new AuthProvider().enable();
 
@@ -46,10 +58,6 @@ export async function createApp(): Promise<Express> {
     await moduleInstance.enableFor(app);
   }
 
-  app.get('/favicon.ico', limiter, (req, res) => {
-    res.sendFile(path.join(__dirname, '/public/assets/images/favicon.ico'));
-  });
-  app.use(expressStatic(path.join(__dirname, 'public')));
   app.use((req, res, next) => {
     res.setHeader('Cache-Control', 'no-cache, max-age=0, must-revalidate, no-store');
     next();

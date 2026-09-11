@@ -1,4 +1,9 @@
 {
   "pageTitle": "What repairs are the landlord’s responsibility? (optional)",
-  "heading": "What repairs are the landlord’s responsibility? (optional)"
+  "hint": "This is sometimes written in your tenancy agreement",
+  "errors": {
+    "landlordRepairsResponsibility": {
+      "invalid": "Enter a valid description of the repairs the landlord is responsible for"
+    }
+  }
 }

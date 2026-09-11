@@ -1,6 +1,6 @@
 import { Application, Request, Response } from 'express';
 
-import { ApplicationData } from '@services/ccdCase.interface';
+import { PTCaseData } from '@services/ccdCase.interface';
 import { getPtApi } from '@services/ptApi/ptApiClient';
 import { formatDate } from '@utils/date';
 
@@ -10,7 +10,7 @@ export default function (app: Application): void {
       const ptApi = getPtApi(req.session.user);
       const userApplications = await ptApi.getAllCasesByUser();
 
-      const mappedUserApplications = userApplications.map((application: ApplicationData) => {
+      const mappedUserApplications = userApplications.map((application: PTCaseData) => {
         return [
           {
             html: `<a class="govuk-link govuk-link--no-visited-state" href="/${application.caseReference}/task-list">${application.caseReference}</a>`,

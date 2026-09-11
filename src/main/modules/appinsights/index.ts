@@ -4,8 +4,9 @@ const appInsights = require('applicationinsights');
 
 export class AppInsights {
   enable(): void {
-    if (config.get('appInsights.instrumentationKey')) {
-      appInsights.setup(config.get('appInsights.instrumentationKey')).setSendLiveMetrics(true).start();
+    const connectionString = config.get<string | false>('appInsights.connectionString');
+    if (connectionString) {
+      appInsights.setup(connectionString).setSendLiveMetrics(true).start();
 
       appInsights.defaultClient.context.tags[appInsights.defaultClient.context.keys.cloudRole] = 'pt-frontend';
       appInsights.defaultClient.trackTrace({

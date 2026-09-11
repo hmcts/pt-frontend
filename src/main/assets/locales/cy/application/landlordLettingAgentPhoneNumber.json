@@ -1,0 +1,9 @@
+{
+  "pageTitle": "cyYour landlord's letting agent’s phone number (optional)",
+  "heading": "cyYour landlord's letting agent’s phone number (optional)",
+  "errors": {
+    "lettingAgentPhoneNumber": {
+      "invalid": "cyEnter a phone number in the correct format, including the country code for international numbers"
+    }
+  }
+}

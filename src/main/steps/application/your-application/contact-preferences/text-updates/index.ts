@@ -2,7 +2,7 @@ import { flowConfig } from '../../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { CcdCaseData } from '@services/ccdCase.interface';
+import { PTCaseData } from '@services/ccdCase.interface';
 import { isValidMobilePhoneNumber } from '@utils/phoneNumber';
 
 const journeyName = 'application';
@@ -27,7 +27,7 @@ export const step: StepDefinition = createFormStep({
       errorMessage: 'errors.textUpdates.required',
       options: [
         {
-          value: 'yes',
+          value: 'Yes',
           translationKey: 'common:yes',
           subFields: {
             textUpdatesPhoneNumber: {
@@ -49,17 +49,32 @@ export const step: StepDefinition = createFormStep({
             },
           },
         },
-        { value: 'no', translationKey: 'options.no.label' },
+        { value: 'No', translationKey: 'options.no.label' },
       ],
     },
   ],
+  getInitialFormData: req => {
+    const formData = req.session.formData;
+    const caseData: PTCaseData | undefined = req.session.ccdCase;
+    const textUpdates: string | undefined =
+      formData?.['text-updates']?.textUpdates ?? caseData?.applicantContactPreferences?.contactByText;
+    const textUpdatesPhoneNumber: string | undefined =
+      formData?.['text-updates']?.['textUpdates.textUpdatesPhoneNumber'] ??
+      caseData?.applicantContactPreferences?.mobilePhoneNumber;
+
+    return {
+      ...(textUpdates && { textUpdates }),
+      ...(textUpdatesPhoneNumber && { 'textUpdates.textUpdatesPhoneNumber': textUpdatesPhoneNumber }),
+    };
+  },
 });
 
-function isAnswered(ccdCase: CcdCaseData): boolean {
-  if (ccdCase.textUpdates === 'yes') {
+export function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  if (ccdCase?.applicantContactPreferences?.contactByText === 'Yes') {
     return Boolean(
-      ccdCase.textUpdatesPhoneNumber && isValidMobilePhoneNumber(ccdCase.textUpdatesPhoneNumber as string)
+      ccdCase?.applicantContactPreferences?.mobilePhoneNumber &&
+      isValidMobilePhoneNumber(ccdCase?.applicantContactPreferences?.mobilePhoneNumber as string)
     );
   }
-  return ccdCase.textUpdates === 'no';
+  return ccdCase?.applicantContactPreferences?.contactByText === 'No';
 }

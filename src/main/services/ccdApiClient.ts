@@ -5,9 +5,9 @@ import { getServiceAuthToken } from '../auth/service/get-service-auth-token';
 import { UserDetails } from '../auth/user/oidc';
 
 import { Logger } from '@modules/logger';
-import { CITIZEN_CREATE_CASE, CcdCase, CcdCaseData } from '@services/ccdCase.interface';
+import { CITIZEN_CREATE_CASE, CITIZEN_UPDATE_CASE, CcdCase, CcdCaseData } from '@services/ccdCase.interface';
 
-const logger = Logger.getLogger('service-auth-token');
+const logger = Logger.getLogger('ccd-api-client');
 
 export class CcdApiClient {
   readonly maxRetries: number = 3;
@@ -36,6 +36,11 @@ export class CcdApiClient {
     }
   }
 
+  async updateCase(caseReference: string, data: Partial<CcdCaseData>): Promise<CcdCase> {
+    const eventTrigger = await this.getEventTrigger(caseReference, CITIZEN_UPDATE_CASE);
+    return this.triggerEvent(caseReference, data, CITIZEN_UPDATE_CASE, eventTrigger.token);
+  }
+
   async getEventTrigger(caseId: string, eventName: string): Promise<CcdEventTriggerResponse> {
     try {
       const response = await this.client.get<CcdEventTriggerResponse>(`/cases/${caseId}/event-triggers/${eventName}`);
@@ -48,7 +53,7 @@ export class CcdApiClient {
 
   async triggerEvent(
     caseId: string,
-    data: Partial<CcdCaseData>,
+    data: Record<string, unknown>,
     eventName: string,
     eventToken: string,
     retries = 0
