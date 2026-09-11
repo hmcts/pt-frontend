@@ -21,6 +21,12 @@ async function acceptCookiesIfPresent(): Promise<void> {
   });
 }
 
+export async function verifyRedirectedToPtUI(): Promise<void> {
+  I.waitForText(idamLogin.postLoginHeading);
+  I.waitForText(idamLogin.postLoginServiceName);
+  I.waitForText(idamLogin.logoutLink);
+}
+
 async function openIdamLoginFromPt(): Promise<void> {
   I.amOnPage(ptUrl(ptPreApplication.startingOrReturningUrl));
   I.waitForText(ptPreApplication.startingOrReturningHeading);
@@ -41,7 +47,7 @@ async function ensureSignInFormVisible(): Promise<void> {
   });
 }
 
-async function submitSignInCredentials(email: string, password: string): Promise<void> {
+export async function submitSignInCredentials(email: string, password: string): Promise<void> {
   await ensureSignInFormVisible();
 
   await usePlaywrightPage(async page => {
@@ -72,7 +78,7 @@ Given('a user wants to log in to PT', () => {
   // Scenario setup only — navigation happens in the When step.
 });
 
-When('they enter the PT UI url', () => {
+Given('the user navigates to PT url', () => {
   // PT AAT currently sends unauthenticated users straight to IDAM.
   I.amOnPage(testConfig.TEST_URL);
 });
@@ -105,4 +111,10 @@ Then('the user will be redirected back to the PT UI', async () => {
 Then('IDAM will show an error page', () => {
   I.waitInUrl(idamLogin.idamHost);
   I.waitForText(idamLogin.loginErrorHeading);
+});
+
+Then('user is taken to the IDAM login page', async () => {
+  I.waitInUrl(idamLogin.idamHost);
+  await acceptCookiesIfPresent();
+  I.waitForText(idamLogin.signInOrCreateHeading);
 });
