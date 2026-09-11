@@ -2,6 +2,7 @@
 import { createApp } from './app';
 
 import { Logger } from '@modules/logger';
+import { isLocalDev } from '@utils/environment';
 
 const logger = Logger.getLogger('server');
 
@@ -24,7 +25,7 @@ async function startServer() {
     server.close(() => process.exit(0));
 
     // force shutdown after 1000 in dev to kill the hmr websocket
-    if (process.env.NODE_ENV !== 'production') {
+    if (isLocalDev()) {
       setTimeout(() => process.exit(0), 1000).unref();
     }
   };
