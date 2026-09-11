@@ -4,7 +4,7 @@
     "roomOrRooms": {
       "label": "cy Room or rooms",
       "roomOrRoomsDescriptionLabel": "cy Describe what type of property your room or rooms are in (optional)",
-      "roomOrRoomsDescriptionHint": "cy For example, ‘One room in a house on the ground floor’"
+      "roomOrRoomsDescriptionHint": "cy For example, ‘One room in a house on the ground floor'"
     },
     "flat": {
       "label": "cy Flat",

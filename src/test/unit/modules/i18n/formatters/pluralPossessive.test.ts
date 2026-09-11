@@ -35,22 +35,22 @@ describe('pluralPossessive formatter', () => {
 
     it('should add apostrophe only for words ending with s', () => {
       const result = formatterFn('James', 'en', {});
-      expect(result).toBe('James’');
+      expect(result).toBe("James'");
     });
 
     it('should add apostrophe and s for words not ending with s', () => {
       const result = formatterFn('John', 'en', {});
-      expect(result).toBe('John’s');
+      expect(result).toBe("John's");
     });
 
     it('should handle empty string', () => {
       const result = formatterFn('', 'en', {});
-      expect(result).toBe('’s');
+      expect(result).toBe("'s");
     });
 
     it('should handle single character s', () => {
       const result = formatterFn('s', 'en', {});
-      expect(result).toBe('s’');
+      expect(result).toBe("s'");
     });
 
     it('should use custom format when provided', () => {
@@ -65,7 +65,7 @@ describe('pluralPossessive formatter', () => {
 
     it('should default to apostrophe when format is not provided', () => {
       const result = formatterFn('James', 'en', {});
-      expect(result).toBe('James’');
+      expect(result).toBe("James'");
     });
 
     it('should throw when options is undefined', () => {
@@ -74,7 +74,7 @@ describe('pluralPossessive formatter', () => {
 
     it('should default to apostrophe when format is empty string', () => {
       const result = formatterFn('James', 'en', { format: '' });
-      expect(result).toBe('James’');
+      expect(result).toBe("James'");
     });
   });
 
@@ -112,17 +112,17 @@ describe('pluralPossessive formatter', () => {
 
     it('should handle words with multiple s characters', () => {
       const result = formatterFn('assess', 'en', {});
-      expect(result).toBe('assess’');
+      expect(result).toBe("assess'");
     });
 
     it('should not add apostrophe and s for words ending with uppercase S (case-sensitive)', () => {
       const result = formatterFn('JAMES', 'en', {});
-      expect(result).toBe('JAMES’');
+      expect(result).toBe("JAMES'");
     });
 
     it('should handle mixed case words ending with s', () => {
       const result = formatterFn('James', 'en', {});
-      expect(result).toBe('James’');
+      expect(result).toBe("James'");
     });
   });
 
