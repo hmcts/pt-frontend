@@ -4,7 +4,7 @@ import type { Environment } from 'nunjucks';
 import { step } from '../../../../main/steps/pre-application/address-of-property';
 import { flowConfig } from '../../../../main/steps/pre-application/flow.config';
 
-import { validateForm } from '@modules/steps';
+import { DRAFT_SCOPE, validateForm } from '@modules/steps';
 import { getNextStep, getPreviousStep } from '@modules/steps/flow';
 
 jest.mock('../../../../main/modules/steps/i18n', () => ({
@@ -36,11 +36,13 @@ describe('pre-application address-of-property step', () => {
     query: { lang: 'en' },
     session: {
       formData: {
-        'starting-or-returning': {
-          startingOrReturning: 'starting',
-        },
-        'applying-for-yourself-or-someone-else': {
-          applyingForYourselfOrSomeoneElse: 'myself',
+        [DRAFT_SCOPE]: {
+          'starting-or-returning': {
+            startingOrReturning: 'starting',
+          },
+          'applying-for-yourself-or-someone-else': {
+            applyingForYourselfOrSomeoneElse: 'myself',
+          },
         },
       },
     },
@@ -67,7 +69,7 @@ describe('pre-application address-of-property step', () => {
 
     await step.postController.post(req, res, next);
 
-    expect(req.session.formData).toStrictEqual({
+    expect(req.session.formData[DRAFT_SCOPE]).toStrictEqual({
       'starting-or-returning': { startingOrReturning: 'starting' },
       'applying-for-yourself-or-someone-else': { applyingForYourselfOrSomeoneElse: 'myself' },
       'address-of-property': {
@@ -81,14 +83,16 @@ describe('forward navigation from address-of-property', () => {
     const req = {
       session: {
         formData: {
-          'starting-or-returning': {
-            startingOrReturning: 'starting',
-          },
-          'applying-for-yourself-or-someone-else': {
-            applyingForYourselfOrSomeoneElse: 'myself',
-          },
-          'address-of-property': {
-            addressPostcode: 'B5 4BU',
+          [DRAFT_SCOPE]: {
+            'starting-or-returning': {
+              startingOrReturning: 'starting',
+            },
+            'applying-for-yourself-or-someone-else': {
+              applyingForYourselfOrSomeoneElse: 'myself',
+            },
+            'address-of-property': {
+              addressPostcode: 'B5 4BU',
+            },
           },
         },
       },
@@ -102,14 +106,16 @@ describe('forward navigation from address-of-property', () => {
     const req = {
       session: {
         formData: {
-          'starting-or-returning': {
-            startingOrReturning: 'starting',
-          },
-          'applying-for-yourself-or-someone-else': {
-            applyingForYourselfOrSomeoneElse: 'someoneElse',
-          },
-          'address-of-property': {
-            addressPostcode: 'W1 1BW',
+          [DRAFT_SCOPE]: {
+            'starting-or-returning': {
+              startingOrReturning: 'starting',
+            },
+            'applying-for-yourself-or-someone-else': {
+              applyingForYourselfOrSomeoneElse: 'someoneElse',
+            },
+            'address-of-property': {
+              addressPostcode: 'W1 1BW',
+            },
           },
         },
       },
@@ -123,14 +129,16 @@ describe('forward navigation from address-of-property', () => {
     const req = {
       session: {
         formData: {
-          'starting-or-returning': {
-            startingOrReturning: 'starting',
-          },
-          'applying-for-yourself-or-someone-else': {
-            applyingForYourselfOrSomeoneElse: 'someoneElse',
-          },
-          'address-of-property': {
-            addressPostcode: 'BT1 1BW',
+          [DRAFT_SCOPE]: {
+            'starting-or-returning': {
+              startingOrReturning: 'starting',
+            },
+            'applying-for-yourself-or-someone-else': {
+              applyingForYourselfOrSomeoneElse: 'someoneElse',
+            },
+            'address-of-property': {
+              addressPostcode: 'BT1 1BW',
+            },
           },
         },
       },
@@ -146,11 +154,13 @@ describe('back navigation from address-of-property', () => {
     const req = {
       session: {
         formData: {
-          'starting-or-returning': {
-            startingOrReturning: 'starting',
-          },
-          'applying-for-yourself-or-someone-else': {
-            applyingForYourselfOrSomeoneElse: 'myself',
+          [DRAFT_SCOPE]: {
+            'starting-or-returning': {
+              startingOrReturning: 'starting',
+            },
+            'applying-for-yourself-or-someone-else': {
+              applyingForYourselfOrSomeoneElse: 'myself',
+            },
           },
         },
       },

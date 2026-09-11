@@ -2,7 +2,7 @@ import type { Environment } from 'nunjucks';
 
 import { step } from '../../../../main/steps/new-application/tenancy-type';
 
-import { validateForm } from '@modules/steps';
+import { DRAFT_SCOPE, validateForm } from '@modules/steps';
 
 jest.mock('@services/ccdApiClient', () => {
   const createCaseMock = jest.fn(() => ({
@@ -58,7 +58,9 @@ describe('new-application tenancy-type step', () => {
         roles: ['citizen'],
       },
       formData: {
-        'application-type': { applicationType: 'challengeRentIncrease' },
+        [DRAFT_SCOPE]: {
+          'application-type': { applicationType: 'challengeRentIncrease' },
+        },
       },
     },
     app: { locals: { nunjucksEnv } },
@@ -84,7 +86,7 @@ describe('new-application tenancy-type step', () => {
 
     await step.postController.post(req, res, next);
 
-    expect(req.session.formData).toBeUndefined();
+    expect(req.session.formData[DRAFT_SCOPE]).toBeUndefined();
 
     expect(getCaseApiMock).toHaveBeenCalledTimes(1);
     expect(getCaseApiMock).toHaveBeenCalledWith({

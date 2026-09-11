@@ -23,6 +23,8 @@ jest.mock('../../../../main/modules/steps/formBuilder/helpers', () => {
   };
 });
 
+const CASE_REF = '1234123412341234';
+
 describe('application landlord-email-address step', () => {
   const nunjucksEnv = { render: jest.fn() } as unknown as Environment;
 
@@ -31,7 +33,8 @@ describe('application landlord-email-address step', () => {
     body: {},
     originalUrl: '/case/1234/application/landlord-email-address',
     query: { lang: 'en' },
-    session: { formData: {} },
+    params: { caseReference: CASE_REF },
+    session: { formData: { [CASE_REF]: {} } },
     app: { locals: { nunjucksEnv } },
     i18n: { getResourceBundle: jest.fn(() => ({})) },
     res: { locals: {} },
@@ -55,7 +58,7 @@ describe('application landlord-email-address step', () => {
 
     await step.postController.post(req, res, next);
 
-    expect(req.session.formData).toStrictEqual({
+    expect(req.session.formData[CASE_REF]).toStrictEqual({
       'landlord-email-address': {
         landlordEmailAddress: 'landlord@example.com',
       },

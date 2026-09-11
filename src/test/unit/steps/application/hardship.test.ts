@@ -13,6 +13,8 @@ jest.mock('../../../../main/modules/i18n', () => ({
   getCommonTranslations: jest.fn(() => ({})),
 }));
 
+const CASE_REF = '1234123412341234';
+
 describe('application hardship step', () => {
   const nunjucksEnv = { render: jest.fn(() => '') } as unknown as Environment;
   const stepName = 'hardship';
@@ -25,10 +27,11 @@ describe('application hardship step', () => {
 
     const req = {
       body,
-      originalUrl: `/1234123412341234/${stepName}`,
+      originalUrl: `/${CASE_REF}/${stepName}`,
       query: { lang: 'en' },
+      params: { caseReference: CASE_REF },
       session: {
-        formData: {},
+        formData: { [CASE_REF]: {} },
       },
       app: { locals: { nunjucksEnv } },
       i18n: { getResourceBundle: jest.fn(() => ({})) },
@@ -57,7 +60,7 @@ describe('application hardship step', () => {
     });
 
     expect(res.redirect).toHaveBeenCalled();
-    expect(req.session.formData[stepName]).toStrictEqual({
+    expect(req.session.formData[CASE_REF][stepName]).toStrictEqual({
       rentIncreaseCauseHardship: 'no',
     });
   });

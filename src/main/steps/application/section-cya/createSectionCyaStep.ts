@@ -1,17 +1,19 @@
 import type { NextFunction, Request, Response } from 'express';
 import type { TFunction } from 'i18next';
 
+import { HTTPError } from '../../../HttpError';
 import { APPLICATION_ROUTE, flowConfig } from '../flow.config';
 import { findSectionIdForStep } from '../sections.config';
 
 import type { SummaryListRow } from './cyaRow';
 
-import { createGetController, createStepNavigation, getTranslationFunction } from '@modules/steps';
+import { clearFormData, createGetController, createStepNavigation, getTranslationFunction } from '@modules/steps';
 import { getStepUrl } from '@modules/steps/flow';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { getCaseApi } from '@services/ccdApiClient';
 import { prepareDataForSave } from '@services/data-mapping';
 import { getFlowConfigForJourney } from '@steps';
+import { toCaseReference16 } from '@utils/caseReference';
 
 const journeyName = 'application';
 
@@ -53,7 +55,7 @@ export function createSectionCyaStep({
     stepDir,
     getController: () =>
       createGetController(VIEW, stepName, stepNavigation, async (req: Request) => {
-        const caseRef = req.session.ccdCase?.caseReference;
+        const caseRef = req.params?.caseReference;
         const t: TFunction = getTranslationFunction(req);
         const cardTitle = t(cardTitleKey);
         const rows = buildRows(req, t);
@@ -72,19 +74,22 @@ export function createSectionCyaStep({
       post: async (req: Request, res: Response, next: NextFunction) => {
         const action = req.body?.action;
         const isSaveForLater = action === 'saveForLater';
-        const caseRef = req.session.ccdCase?.caseReference;
         const sectionId = findSectionIdForStep(stepName);
+
+        // Write target comes from the route; session.ccdCase can be stale.
+        const caseRef = toCaseReference16(req.params?.caseReference);
+        if (!caseRef) {
+          return next(new HTTPError('Invalid case reference format', 404));
+        }
 
         if (sectionId) {
           try {
-            const ccdCase = req.session.ccdCase;
             const ccdCaseApi = getCaseApi(req.session.user);
-            const caseReference = String(ccdCase?.caseReference);
-            const data = prepareDataForSave(sectionId, req, ccdCase);
+            const data = prepareDataForSave(sectionId, req, req.session.ccdCase);
 
-            await ccdCaseApi.updateCase(caseReference, data);
+            await ccdCaseApi.updateCase(caseRef, data);
 
-            delete req.session.formData;
+            clearFormData(req);
           } catch (error) {
             return next(error);
           }
