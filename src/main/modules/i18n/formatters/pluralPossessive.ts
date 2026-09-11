@@ -7,7 +7,7 @@ export const pluralPossessive = (i18n: typeof i18next): void => {
     'pluralPossessive',
     (value: string, lng: string | undefined, options: { format?: string }): string => {
       if (!options?.format) {
-        options.format = '’';
+        options.format = "'";
       }
 
       const trimmedValue = value.trim();
