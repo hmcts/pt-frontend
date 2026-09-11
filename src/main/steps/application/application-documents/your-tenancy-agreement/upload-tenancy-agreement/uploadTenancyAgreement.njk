@@ -1,14 +1,23 @@
 {% extends "stepsTemplate.njk" %}
 {% from "macros/stepButtons.njk" import stepButtons %}
 {% from "macros/csrf.njk" import csrfProtection %}
-
+{% from "macros/fileUploadMoj.njk" import fileUploadMoj %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% block pageTitle %}
   {{ pageTitle }} &ndash; HM Courts &amp; Tribunals Service &ndash; GOV.UK{% endblock %}
 {% block mainContent %}
+  {% if errorSummary %}
+    {{ govukErrorSummary(errorSummary) }}
+  {% endif %}
   {% if heading %}
     <h1 class="govuk-heading-l">{{ heading }}</h1>
   {% endif %}
   <form method="post" action="{{ url }}" novalidate>
+    {% for field in fields %}
+      {% if field.componentType == 'fileUpload' %}
+        {{ fileUploadMoj(field.component) }}
+      {% endif %}
+    {% endfor %}
     {{ stepButtons(saveAndContinue, saveForLater) }}
     {{ csrfProtection(csrfToken) }}
   </form>
