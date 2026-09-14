@@ -10,6 +10,7 @@
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "macros/csrf.njk" import csrfProtection %}
+{% from "macros/fileUploadMoj.njk" import fileUploadMoj %}
 
 {% block pageTitle %}
   {{ pageTitle }} &ndash; HM Courts &amp; Tribunals Service &ndash; GOV.UK
@@ -62,7 +63,7 @@
               {% elif field.componentType == 'dateInput' %}
               {{ govukDateInput(field.component) }}
               {% elif field.componentType == 'fileUpload' %}
-              {{ fileUploadMoj(field.component, field.component.uploadButtonText, field.component.filesAddedHeading, field.component.value) }}
+              {{ fileUploadMoj(field.component) }}
             {% endif %}
           {% endif %}
         {% endfor %}
@@ -86,7 +87,7 @@
             {% elif field.componentType == 'dateInput' %}
             {{ govukDateInput(field.component) }}
             {% elif field.componentType == 'fileUpload' %}
-            {{ fileUploadMoj(field.component, field.component.uploadButtonText, field.component.filesAddedHeading, field.component.value) }}
+            {{ fileUploadMoj(field.component) }}
           {% endif %}
         {% endif %}
       {% endfor %}

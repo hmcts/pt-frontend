@@ -9,7 +9,6 @@ interface CustomSessionData extends SessionData {
   user?: UserInfoResponseWithToken;
   returnTo?: string;
   formData?: Record<string, any>;
-  uploadedDocs?: Record<string, Record<string, unknown[]>>;
   returnToCya?: string;
   ccdCase?: PTCaseData;
   genApp?: {
@@ -43,7 +42,6 @@ declare module 'express' {
 
   interface Application {
     locals: {
-      developmentMode?: boolean;
       nunjucksEnv?: Environment;
       ENV?: string;
     };

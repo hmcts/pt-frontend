@@ -15,9 +15,7 @@ jest.mock('express', () => ({
 
 const app = {
   get: jest.fn(),
-  locals: {
-    developmentMode: true,
-  },
+  locals: {},
 } as unknown as Application;
 
 describe('login route', () => {

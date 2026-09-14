@@ -5,6 +5,7 @@ import session from 'express-session';
 import { Redis } from 'ioredis';
 
 import { Logger } from '@modules/logger';
+import { isSecureTransport } from '@utils/environment';
 
 export class Session {
   logger = Logger.getLogger('session');
@@ -54,7 +55,7 @@ export class Session {
       rolling: true,
       cookie: {
         sameSite: 'lax',
-        secure: !app.locals.developmentMode,
+        secure: isSecureTransport(),
         maxAge: sessionTimeoutMinutes * 60 * 1000,
       },
       name: config.get<string>('session.cookieName'),

@@ -1,3 +1,7 @@
+// MOJ's vendored govuk-frontend configures it with `with (...)`, so it has to load before our own
+// plain `@use 'govuk-frontend'` — Sass refuses to configure a module that is already loaded.
+@use '@ministryofjustice/frontend/moj/components/multi-file-upload/multi-file-upload';
+@use '@ministryofjustice/frontend/moj/utilities/hidden';
 @use 'govuk-frontend' as *;
 
 @use './components/pt-header.scss';
