@@ -1,6 +1,6 @@
 import { flowConfig } from '../../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormData } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { isValidHelpWithFeesReference, normaliseHelpWithFeesReference } from '@utils/helpWithFeesReference';
 
@@ -17,10 +17,7 @@ export const step: StepDefinition = createFormStep({
   isAnswered: req =>
     Boolean(req.session.ccdCase?.referenceNumber && isValidHelpWithFeesReference(req.session.ccdCase.referenceNumber)),
   beforeRedirect: req => {
-    const stepData = req.session.formData?.[stepName];
-    if (!stepData) {
-      return;
-    }
+    const stepData = getFormData(req, stepName);
 
     const referenceNumber = stepData.referenceNumber;
 
