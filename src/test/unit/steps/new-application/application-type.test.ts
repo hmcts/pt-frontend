@@ -4,7 +4,7 @@ import type { Environment } from 'nunjucks';
 import { step } from '../../../../main/steps/new-application/application-type';
 import { flowConfig } from '../../../../main/steps/new-application/flow.config';
 
-import { getNextStep, validateForm } from '@modules/steps';
+import { DRAFT_SCOPE, getNextStep, validateForm } from '@modules/steps';
 
 jest.mock('../../../../main/modules/steps/i18n', () => ({
   loadStepNamespace: jest.fn(),
@@ -33,7 +33,7 @@ describe('new-application application-type step', () => {
     body: {},
     originalUrl: '/new-application/application-type',
     query: { lang: 'en' },
-    session: { formData: {} },
+    session: { formData: { [DRAFT_SCOPE]: {} } },
     app: { locals: { nunjucksEnv } },
     i18n: { getResourceBundle: jest.fn(() => ({})) },
     res: { locals: {}, redirect: jest.fn() },
@@ -57,7 +57,7 @@ describe('new-application application-type step', () => {
 
     await step.postController.post(req, res, next);
 
-    expect(req.session.formData).toStrictEqual({
+    expect(req.session.formData[DRAFT_SCOPE]).toStrictEqual({
       'application-type': { applicationType: 'challengeRentIncrease' },
     });
   });
@@ -66,8 +66,10 @@ describe('new-application application-type step', () => {
       const req = {
         session: {
           formData: {
-            'application-type': {
-              applicationType: 'challengeRentIncrease',
+            [DRAFT_SCOPE]: {
+              'application-type': {
+                applicationType: 'challengeRentIncrease',
+              },
             },
           },
         },

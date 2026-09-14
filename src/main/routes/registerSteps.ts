@@ -1,7 +1,7 @@
 import { Application, IRouter, Request, Router } from 'express';
 import type { RequestHandler } from 'express';
 
-import { caseReferenceParamMiddleware, oidcMiddleware } from '../middleware';
+import { caseReferenceParamMiddleware, caseSessionScopeMiddleware, oidcMiddleware } from '../middleware';
 import { getFlowConfigForJourney, getStepForJourney, getStepsForJourney, journeyRegistry } from '../steps';
 
 import { Logger } from '@modules/logger';
@@ -178,6 +178,7 @@ export function registerAllJourneys(app: Application): void {
     // Apply journey-specific middleware
     // Note: Auto-save is handled via formBuilder's beforeRedirect, not middleware
     journeyRouter.param('caseReference', caseReferenceParamMiddleware);
+    journeyRouter.param('caseReference', caseSessionScopeMiddleware);
 
     // Stacked onto the :caseReference param callback so handlers fire after
     // validatedCase loads, before per-step middleware. Mounting via .use() would fire too early.

@@ -1,6 +1,6 @@
 import { flowConfig } from '../../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormData } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { getRentAmountError } from '@utils/rentAmount';
 
@@ -68,10 +68,7 @@ export const step: StepDefinition = createFormStep({
   // conditional reveal only hides inputs with CSS, so the browser submits all
   // four amounts; this discards the three that do not apply.
   beforeRedirect: req => {
-    const stepData = req.session.formData?.[stepName];
-    if (!stepData) {
-      return;
-    }
+    const stepData = getFormData(req, stepName);
 
     const selected = stepData[frequencyFieldName];
 

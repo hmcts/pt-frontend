@@ -20,6 +20,8 @@ jest.mock('../../../../main/modules/i18n', () => ({
  * Required and validator behaviour is the framework's, and the amount rules
  * are covered by rentAmount.test.ts.
  */
+const CASE_REF = '1234123412341234';
+
 describe('application rent-payment-frequency step', () => {
   const nunjucksEnv = { render: jest.fn(() => '') } as unknown as Environment;
 
@@ -50,7 +52,8 @@ describe('application rent-payment-frequency step', () => {
       body: requestBody,
       originalUrl: `/1234123412341234/${stepName}`,
       query: { lang: 'en' },
-      session: { formData: {} },
+      params: { caseReference: CASE_REF },
+      session: { formData: { [CASE_REF]: {} } },
       app: { locals: { nunjucksEnv } },
       i18n: { getResourceBundle: jest.fn(() => ({})) },
       res,
@@ -79,8 +82,8 @@ describe('application rent-payment-frequency step', () => {
     const { req, res } = await post(body({ rentPaymentFrequency: frequency, [amountField]: '850.50' }));
 
     expect(res.redirect).toHaveBeenCalled();
-    expect(req.session.formData[stepName].rentPaymentFrequency).toBe(frequency);
-    expect(req.session.formData[stepName][amountField]).toBe('850.50');
+    expect(req.session.formData[CASE_REF][stepName].rentPaymentFrequency).toBe(frequency);
+    expect(req.session.formData[CASE_REF][stepName][amountField]).toBe('850.50');
   });
 
   it('does not validate the amounts for frequencies that are not selected', async () => {
@@ -104,7 +107,7 @@ describe('application rent-payment-frequency step', () => {
       })
     );
 
-    expect(req.session.formData[stepName]).toStrictEqual({
+    expect(req.session.formData[CASE_REF][stepName]).toStrictEqual({
       rentPaymentFrequency: 'WEEKLY',
       [weeklyField]: '200',
       [fortnightlyField]: '',

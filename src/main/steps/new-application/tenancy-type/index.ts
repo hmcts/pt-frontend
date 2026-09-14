@@ -2,7 +2,7 @@ import { Request } from 'express';
 
 import { flowConfig } from '../flow.config';
 
-import { createFormStep, getFormData } from '@modules/steps';
+import { clearFormData, createFormStep, getFormData } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { getCaseApi } from '@services/ccdApiClient';
 import { CcdCaseData } from '@services/ccdCase.interface';
@@ -57,7 +57,7 @@ export const step: StepDefinition = createFormStep({
     const caseReference = ccdCase.id;
     const redirectPath = `/${caseReference}/task-list`;
 
-    delete req.session.formData;
+    clearFormData(req);
 
     return req.res!.redirect(303, redirectPath);
   },
