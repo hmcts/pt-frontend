@@ -1,4 +1,4 @@
-export type DocumentSlice = 'propertyDetails' | 'noticeOfRentIncreaseDetails';
+export type DocumentSlice = 'propertyDetails' | 'noticeOfRentIncreaseDetails' | 'tenancyAgreementDetails';
 
 export interface DocumentFieldDefinition {
   slice: DocumentSlice;
@@ -51,6 +51,12 @@ export const DOCUMENT_FIELDS = {
     ptApiField: 'rentIncreaseToCauseHardshipDocument',
     ccdField: 'rentIncreaseToCauseHardshipDocument',
     documentType: 'hardshipEvidence',
+  },
+  tenancyAgreementDocument: {
+    slice: 'tenancyAgreementDetails',
+    ptApiField: 'tenancyAgreementDocument',
+    ccdField: 'tenancyAgreementDocument',
+    documentType: 'tenancyAgreement',
   },
 } satisfies Record<string, DocumentFieldDefinition>;
 

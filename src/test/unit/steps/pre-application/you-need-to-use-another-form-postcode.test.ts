@@ -1,10 +1,11 @@
 import type { Request } from 'express';
 
-import { createFormStep } from '@modules/steps';
+import { DRAFT_SCOPE, createFormStep } from '@modules/steps';
 
 import './../../../../main/steps/pre-application/you-need-to-use-another-form-postcode/index';
 
 jest.mock('@modules/steps', () => ({
+  ...jest.requireActual('@modules/steps'),
   createFormStep: jest.fn(),
 }));
 
@@ -22,7 +23,9 @@ describe('you-need-to-use-another-form-postcode step', () => {
   });
 
   describe('extendGetContent', () => {
-    const makeReq = (formData?: Record<string, unknown>): Request => ({ session: { formData } }) as unknown as Request;
+    // Answers are bucketed per case; this journey runs before a case exists, so the draft bucket.
+    const makeReq = (formData?: Record<string, unknown>): Request =>
+      ({ session: { formData: formData && { [DRAFT_SCOPE]: formData } } }) as unknown as Request;
 
     it('returns the postcode when present', () => {
       const req = makeReq({

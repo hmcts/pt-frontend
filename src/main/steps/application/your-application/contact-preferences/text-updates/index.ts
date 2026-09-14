@@ -1,6 +1,6 @@
 import { flowConfig } from '../../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccdCase.interface';
 import { isValidMobilePhoneNumber } from '@utils/phoneNumber';
@@ -54,12 +54,11 @@ export const step: StepDefinition = createFormStep({
     },
   ],
   getInitialFormData: req => {
-    const formData = req.session.formData;
     const caseData: PTCaseData | undefined = req.session.ccdCase;
     const textUpdates: string | undefined =
-      formData?.['text-updates']?.textUpdates ?? caseData?.applicantContactPreferences?.contactByText;
+      getFormDataString(req, 'text-updates', 'textUpdates') ?? caseData?.applicantContactPreferences?.contactByText;
     const textUpdatesPhoneNumber: string | undefined =
-      formData?.['text-updates']?.['textUpdates.textUpdatesPhoneNumber'] ??
+      getFormDataString(req, 'text-updates', 'textUpdates.textUpdatesPhoneNumber') ??
       caseData?.applicantContactPreferences?.mobilePhoneNumber;
 
     return {

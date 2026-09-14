@@ -2,12 +2,13 @@ import type { Request } from 'express';
 
 import { flowConfig } from '../../../../main/steps/pre-application/flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { DRAFT_SCOPE, createFormStep } from '@modules/steps';
 import { getPreviousStep } from '@modules/steps/flow';
 
 import './../../../../main/steps/pre-application/you-need-to-use-another-form-non-english-address/index';
 
 jest.mock('@modules/steps', () => ({
+  ...jest.requireActual('@modules/steps'),
   createFormStep: jest.fn(),
 }));
 
@@ -29,7 +30,7 @@ describe('you-need-to-use-another-form-non-english-address step', () => {
     it('uses address-of-property as previous step', async () => {
       const req = {
         session: {
-          formData: {},
+          formData: { [DRAFT_SCOPE]: {} },
         },
       } as unknown as Request;
       await expect(
