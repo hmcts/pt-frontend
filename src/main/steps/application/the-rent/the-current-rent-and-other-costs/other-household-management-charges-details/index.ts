@@ -36,11 +36,19 @@ export const step: StepDefinition = createFormStep({
       },
     },
   ],
+  getInitialFormData: req => {
+    const value =
+      req.session.formData?.[stepName]?.[fieldName] ?? req.session.ccdCase?.currentRentsDetails?.[fieldName];
+
+    return {
+      ...(value && { [fieldName]: value }),
+    };
+  },
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (ccdCase?.otherHouseholdManagementChargesDetails === undefined) {
+  if (ccdCase?.currentRentsDetails?.otherHouseholdManagementChargesDetails === undefined) {
     return false;
   }
-  return textAreaIsValidLength(ccdCase?.otherHouseholdManagementChargesDetails);
+  return textAreaIsValidLength(ccdCase?.currentRentsDetails?.otherHouseholdManagementChargesDetails);
 }

@@ -6,7 +6,7 @@ import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 const journeyName = 'application';
 const stepName = 'other-household-management-charges';
 
-const fieldName = 'otherHouseholdManagementCharges';
+const fieldName = 'anyOtherHouseholdManagementCharges';
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -15,7 +15,14 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/otherHouseholdManagementCharges.njk`,
   showCancelButton: false,
-  isAnswered: req => Boolean(req.session.ccdCase?.otherHouseholdManagementCharges),
+  isAnswered: req => Boolean(req.session.ccdCase?.currentRentsDetails?.anyOtherHouseholdManagementCharges),
+  beforeRedirect: req => {
+    if (req.session.formData?.[stepName]?.[fieldName] === 'Yes') {
+      return;
+    }
+    delete req.session.formData?.['other-household-management-charges-details'];
+    delete req.session.formData?.['additional-rental-service-charges-vary'];
+  },
   fields: [
     {
       name: fieldName,
@@ -26,9 +33,17 @@ export const step: StepDefinition = createFormStep({
       translationKey: { label: 'questionTitle', hint: 'questionHint' },
       errorMessage: `errors.${fieldName}.required`,
       options: [
-        { value: 'yes', translationKey: 'common:yes' },
-        { value: 'no', translationKey: 'common:no' },
+        { value: 'Yes', translationKey: 'common:yes' },
+        { value: 'No', translationKey: 'common:no' },
       ],
     },
   ],
+  getInitialFormData: req => {
+    const value =
+      req.session.formData?.[stepName]?.[fieldName] ?? req.session.ccdCase?.currentRentsDetails?.[fieldName];
+
+    return {
+      ...(value && { [fieldName]: value }),
+    };
+  },
 });

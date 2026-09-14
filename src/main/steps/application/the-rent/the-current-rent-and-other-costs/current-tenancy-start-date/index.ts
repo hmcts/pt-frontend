@@ -2,6 +2,7 @@ import { flowConfig } from '../../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { toDateParts } from '@utils/date';
 
 const journeyName = 'application';
 const stepName = 'current-tenancy-start-date';
@@ -14,7 +15,7 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/currentTenancyStartDate.njk`,
   showCancelButton: false,
-  isAnswered: req => Boolean(req.session.ccdCase?.currentTenancyStartDate),
+  isAnswered: req => Boolean(req.session.ccdCase?.currentRentsDetails?.currentTenancyStartDate),
   fields: [
     {
       name: fieldName,
@@ -26,4 +27,13 @@ export const step: StepDefinition = createFormStep({
       translationKey: { label: 'questionTitle', hint: 'questionHint' },
     },
   ],
+  getInitialFormData: req => {
+    const value =
+      req.session.formData?.[stepName]?.[fieldName] ??
+      toDateParts(req.session.ccdCase?.currentRentsDetails?.currentTenancyStartDate);
+
+    return {
+      ...(value && { [fieldName]: value }),
+    };
+  },
 });

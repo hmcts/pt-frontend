@@ -15,7 +15,13 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/rentInclusiveOfUtilityCharges.njk`,
   showCancelButton: false,
-  isAnswered: req => Boolean(req.session.ccdCase?.rentInclusiveOfUtilityCharges),
+  isAnswered: req => Boolean(req.session.ccdCase?.currentRentsDetails?.rentInclusiveOfUtilityCharges),
+  beforeRedirect: req => {
+    if (req.session.formData?.[stepName]?.[fieldName] === 'Yes') {
+      return;
+    }
+    delete req.session.formData?.['utilities-paid-frequency'];
+  },
   fields: [
     {
       name: fieldName,
@@ -26,9 +32,17 @@ export const step: StepDefinition = createFormStep({
       translationKey: { label: 'questionTitle', hint: 'questionHint' },
       errorMessage: `errors.${fieldName}.required`,
       options: [
-        { value: 'yes', translationKey: 'common:yes' },
-        { value: 'no', translationKey: 'common:no' },
+        { value: 'Yes', translationKey: 'common:yes' },
+        { value: 'No', translationKey: 'common:no' },
       ],
     },
   ],
+  getInitialFormData: req => {
+    const value =
+      req.session.formData?.[stepName]?.[fieldName] ?? req.session.ccdCase?.currentRentsDetails?.[fieldName];
+
+    return {
+      ...(value && { [fieldName]: value }),
+    };
+  },
 });
