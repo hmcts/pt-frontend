@@ -1,6 +1,6 @@
 import { flowConfig } from '../../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormData } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { toDateParts } from '@utils/date';
 
@@ -29,7 +29,7 @@ export const step: StepDefinition = createFormStep({
   ],
   getInitialFormData: req => {
     const value =
-      req.session.formData?.[stepName]?.[fieldName] ??
+      getFormData(req, stepName)[fieldName] ??
       toDateParts(req.session.ccdCase?.currentRentsDetails?.currentTenancyEndDate);
 
     return {

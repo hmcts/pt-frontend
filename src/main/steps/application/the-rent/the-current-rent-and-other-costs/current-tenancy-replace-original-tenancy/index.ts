@@ -1,6 +1,6 @@
 import { flowConfig } from '../../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormData } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccdCase.interface';
 import { toDateParts } from '@utils/date';
@@ -22,10 +22,7 @@ export const step: StepDefinition = createFormStep({
   isAnswered: req => isAnswered(req.session.ccdCase),
 
   beforeRedirect: req => {
-    const stepData = req.session.formData?.[stepName];
-    if (!stepData) {
-      return;
-    }
+    const stepData = getFormData(req, stepName);
     if (stepData[fieldName] !== 'Yes') {
       for (const part of startDatePartNames) {
         stepData[`${fieldName}.${startDateFieldName}-${part}`] = '';
@@ -63,7 +60,7 @@ export const step: StepDefinition = createFormStep({
     },
   ],
   getInitialFormData: req => {
-    const stepData = req.session.formData?.[stepName];
+    const stepData = getFormData(req, stepName);
     const rentDetails = req.session.ccdCase?.currentRentsDetails;
     const answer = stepData?.[fieldName] ?? rentDetails?.currentTenancyReplaceOriginalTenancy;
     const startDate = answer === 'Yes' ? toDateParts(rentDetails?.originalTenancyStartDate) : undefined;

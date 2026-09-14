@@ -27,6 +27,8 @@ const flowConfig: JourneyFlowConfig = {
   steps: {},
 };
 
+const CASE_REF = '1234123412341234';
+
 describe('PostHandler - Save for Later Fix', () => {
   let mockRequest: Partial<Request>;
   let mockResponse: Partial<Response>;
@@ -36,18 +38,21 @@ describe('PostHandler - Save for Later Fix', () => {
   beforeEach(() => {
     mockRequest = {
       body: {},
+      params: { caseReference: CASE_REF },
       session: {
         ccdCase: {
           caseReference: 1234123412341234n,
           createdDate: '2026-05-08T14:04:16.801467',
         },
         formData: {
-          'text-updates': {
-            textUpdates: 'Yes',
-            'textUpdates.textUpdatesPhoneNumber': '+447777777777',
-          },
-          'contact-by-phone': {
-            phoneNumberForCalls: '07777777774',
+          [CASE_REF]: {
+            'text-updates': {
+              textUpdates: 'Yes',
+              'textUpdates.textUpdatesPhoneNumber': '+447777777777',
+            },
+            'contact-by-phone': {
+              phoneNumberForCalls: '07777777774',
+            },
           },
         },
         user: {
@@ -185,7 +190,9 @@ describe('PostHandler - Save for Later Fix', () => {
       await post(mockRequest as unknown as Request, mockResponse as Response, mockNext);
 
       expect(
-        (mockRequest.session as { formData?: Record<string, unknown> } | undefined)?.formData?.['free-legal-advice']
+        (mockRequest.session as { formData?: Record<string, Record<string, unknown>> } | undefined)?.formData?.[
+          CASE_REF
+        ]?.['free-legal-advice']
       ).toBeUndefined();
       expect(mockResponse.redirect).toHaveBeenCalledWith(303, '/next-step');
     });
@@ -234,6 +241,78 @@ describe('PostHandler - Save for Later Fix', () => {
 
       // Should redirect to dashboard
       expect(mockResponse.redirect).toHaveBeenCalledWith(303, '/');
+    });
+
+    it('writes to the case in the route, not the one cached in the session', async () => {
+      // session.ccdCase is refreshed only by task-list, so on a page reached without going through
+      // it the cached case is a *different* case than the one being edited. The route must win.
+      const OTHER_CASE = '9999999999999999';
+      mockRequest.params = { caseReference: OTHER_CASE };
+      (mockRequest.session as unknown as { formData: Record<string, unknown> }).formData = {
+        [OTHER_CASE]: { 'contact-by-phone': {} },
+      };
+
+      const { post } = createPostHandler(fields, 'contact-by-phone', 'contactByPhone.njk', 'application', flowConfig);
+      mockRequest.body = { phoneNumberForCalls: '07123456789', action: 'saveForLater' };
+
+      await post(mockRequest as unknown as Request, mockResponse as Response, mockNext);
+
+      expect(updateCaseMock).toHaveBeenCalledWith(OTHER_CASE, expect.anything());
+    });
+
+    it('only sends the routed case answers to CCD, never another case in the same session', async () => {
+      const OTHER_CASE = '9999999999999999';
+      mockRequest.params = { caseReference: OTHER_CASE };
+      (mockRequest.session as unknown as { formData: Record<string, unknown> }).formData = {
+        // CASE_REF holds a completed contact-preferences section that must not leak into OTHER_CASE
+        [CASE_REF]: {
+          'text-updates': { textUpdates: 'Yes', 'textUpdates.textUpdatesPhoneNumber': '+447777777777' },
+        },
+        [OTHER_CASE]: {},
+      };
+
+      const { post } = createPostHandler(fields, 'contact-by-phone', 'contactByPhone.njk', 'application', flowConfig);
+      mockRequest.body = { phoneNumberForCalls: '07123456789', action: 'saveForLater' };
+
+      await post(mockRequest as unknown as Request, mockResponse as Response, mockNext);
+
+      expect(updateCaseMock).toHaveBeenCalledWith(OTHER_CASE, {
+        applicantContactPreferences: {
+          phoneNumberForCalls: '07123456789',
+          textUpdates: undefined,
+          textUpdatesPhoneNumber: undefined,
+        },
+      });
+    });
+
+    it('404s rather than guessing when the route has no valid case reference', async () => {
+      mockRequest.params = {};
+
+      const { post } = createPostHandler(fields, 'contact-by-phone', 'contactByPhone.njk', 'application', flowConfig);
+      mockRequest.body = { phoneNumberForCalls: '07123456789', action: 'saveForLater' };
+
+      await post(mockRequest as unknown as Request, mockResponse as Response, mockNext);
+
+      expect(updateCaseMock).not.toHaveBeenCalled();
+      expect(mockNext).toHaveBeenCalledWith(expect.objectContaining({ status: 404 }));
+    });
+
+    it('clears only the routed case answers on save for later', async () => {
+      const OTHER_CASE = '9999999999999999';
+      mockRequest.params = { caseReference: OTHER_CASE };
+      const formData: Record<string, unknown> = {
+        [CASE_REF]: { 'text-updates': { textUpdates: 'Yes' } },
+        [OTHER_CASE]: { 'contact-by-phone': { phoneNumberForCalls: '07123456789' } },
+      };
+      (mockRequest.session as unknown as { formData: Record<string, unknown> }).formData = formData;
+
+      const { post } = createPostHandler(fields, 'contact-by-phone', 'contactByPhone.njk', 'application', flowConfig);
+      mockRequest.body = { phoneNumberForCalls: '07123456789', action: 'saveForLater' };
+
+      await post(mockRequest as unknown as Request, mockResponse as Response, mockNext);
+
+      expect(formData[OTHER_CASE]).toBeUndefined();
+      expect(formData[CASE_REF]).toEqual({ 'text-updates': { textUpdates: 'Yes' } });
     });
 
     it('should use case ID from res.locals.validatedCase', async () => {

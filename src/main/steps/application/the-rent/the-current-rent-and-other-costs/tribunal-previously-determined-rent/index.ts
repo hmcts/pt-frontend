@@ -1,6 +1,6 @@
 import { flowConfig } from '../../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormData } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { isValidTribunalCaseReference, normaliseTribunalCaseReference } from '@utils/tribunalCaseReference';
 
@@ -30,11 +30,7 @@ export const step: StepDefinition = createFormStep({
   // replaces the step's data on each POST, but it
   // keeps the step correct regardless of that behaviour.
   beforeRedirect: req => {
-    const stepData = req.session.formData?.[stepName];
-
-    if (!stepData) {
-      return;
-    }
+    const stepData = getFormData(req, stepName);
 
     if (stepData.tribunalPreviouslyDeterminedTenancyRent !== 'Yes') {
       delete stepData[caseReferenceFieldName];
@@ -87,7 +83,7 @@ export const step: StepDefinition = createFormStep({
     },
   ],
   getInitialFormData: req => {
-    const stepData = req.session.formData?.[stepName];
+    const stepData = getFormData(req, stepName);
     const rentDetails = req.session.ccdCase?.currentRentsDetails;
     const answer =
       stepData?.tribunalPreviouslyDeterminedTenancyRent ?? rentDetails?.tribunalPreviouslyDeterminedTenancyRent;

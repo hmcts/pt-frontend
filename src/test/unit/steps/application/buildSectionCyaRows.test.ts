@@ -7,15 +7,18 @@ const t = ((key: string) => key) as unknown as TFunction;
 
 type Row = { key: { text: string }; value: { text?: string; html?: string } };
 
+const CASE_REF = '1234123412341234';
+
 const buildReq = (
   formData: Record<string, unknown> = {},
   currentRentsDetails: Record<string, unknown> = {},
   lang = 'en'
 ): Request =>
   ({
+    params: { caseReference: CASE_REF },
     session: {
-      formData,
-      ccdCase: { caseReference: 1234123412341234, currentRentsDetails },
+      formData: { [CASE_REF]: formData },
+      ccdCase: { caseReference: CASE_REF, currentRentsDetails },
     },
     i18n: { language: lang },
   }) as unknown as Request;
@@ -28,7 +31,7 @@ const valueOf = (rows: Row[], key: string): string | undefined => {
 };
 
 describe('buildSectionCyaRows for the current rent and other costs', () => {
-  it('returns no rows when there is no validated case', () => {
+  it('returns no rows when the route has no case reference', () => {
     const req = { session: {} } as unknown as Request;
 
     expect(buildSectionCyaRows(req, t)).toEqual([]);

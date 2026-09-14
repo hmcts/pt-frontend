@@ -1,7 +1,7 @@
 import { textAreaIsValidLength } from '../../../../utils/fieldValidators';
 import { flowConfig } from '../../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormData } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccdCase.interface';
 
@@ -21,10 +21,7 @@ export const step: StepDefinition = createFormStep({
   isAnswered: req => isAnswered(req.session.ccdCase),
 
   beforeRedirect: req => {
-    const stepData = req.session.formData?.[stepName];
-    if (!stepData) {
-      return;
-    }
+    const stepData = getFormData(req, stepName);
     if (stepData[fieldName] !== 'Yes') {
       stepData[`${fieldName}.${detailsFieldName}`] = '';
     }
@@ -66,7 +63,7 @@ export const step: StepDefinition = createFormStep({
     },
   ],
   getInitialFormData: req => {
-    const stepData = req.session.formData?.[stepName];
+    const stepData = getFormData(req, stepName);
     const rentDetails = req.session.ccdCase?.currentRentsDetails;
     const answer = stepData?.[fieldName] ?? rentDetails?.additionalRentalServiceChargesVary;
     const details =

@@ -1,6 +1,6 @@
 import { flowConfig } from '../../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataScope, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
 const journeyName = 'application';
@@ -17,11 +17,11 @@ export const step: StepDefinition = createFormStep({
   showCancelButton: false,
   isAnswered: req => Boolean(req.session.ccdCase?.currentRentsDetails?.anyOtherHouseholdManagementCharges),
   beforeRedirect: req => {
-    if (req.session.formData?.[stepName]?.[fieldName] === 'Yes') {
+    if (getFormDataString(req, stepName, fieldName) === 'Yes') {
       return;
     }
-    delete req.session.formData?.['other-household-management-charges-details'];
-    delete req.session.formData?.['additional-rental-service-charges-vary'];
+    delete req.session.formData?.[getFormDataScope(req)]?.['other-household-management-charges-details'];
+    delete req.session.formData?.[getFormDataScope(req)]?.['additional-rental-service-charges-vary'];
   },
   fields: [
     {
@@ -39,8 +39,7 @@ export const step: StepDefinition = createFormStep({
     },
   ],
   getInitialFormData: req => {
-    const value =
-      req.session.formData?.[stepName]?.[fieldName] ?? req.session.ccdCase?.currentRentsDetails?.[fieldName];
+    const value = getFormDataString(req, stepName, fieldName) ?? req.session.ccdCase?.currentRentsDetails?.[fieldName];
 
     return {
       ...(value && { [fieldName]: value }),

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { Logger } from '@modules/logger';
+import { getScopedFormData } from '@modules/steps/formBuilder/helpers';
 import type { JourneyFlowConfig, JourneyFlowConfigResolver, SectionConfig } from '@modules/steps/stepFlow.interface';
 
 const logger = Logger.getLogger('flow');
@@ -313,7 +314,7 @@ export function createStepNavigation(
       currentStepData: Record<string, unknown> = {}
     ): Promise<string | null> => {
       const flowConfig = await resolveFlowConfig(req, flowConfigOrResolver);
-      const formData = req.session?.formData || {};
+      const formData = getScopedFormData(req);
       const caseReference = req.params?.caseReference;
       const nextStep = await getNextStep(req, currentStepName, flowConfig, formData, currentStepData);
       return nextStep ? getStepUrl(nextStep, flowConfig, caseReference as string) : null;
@@ -321,7 +322,7 @@ export function createStepNavigation(
 
     getBackUrl: async (req: Request, currentStepName: string): Promise<string | null> => {
       const flowConfig = await resolveFlowConfig(req, flowConfigOrResolver);
-      const formData = req.session?.formData || {};
+      const formData = getScopedFormData(req);
       const caseReference =
         req.res?.locals.validatedCase?.id ??
         (typeof req.params?.caseReference === 'string' ? req.params.caseReference : undefined);
@@ -452,7 +453,7 @@ export function stepDependencyCheckMiddleware(flowConfigOrResolver: JourneyFlowC
     }
 
     const flowConfig = await resolveFlowConfig(req, flowConfigOrResolver);
-    const formData = req.session?.formData || {};
+    const formData = getScopedFormData(req);
 
     const caseId = res.locals?.validatedCase?.id;
     let basePath = flowConfig.basePath || '';

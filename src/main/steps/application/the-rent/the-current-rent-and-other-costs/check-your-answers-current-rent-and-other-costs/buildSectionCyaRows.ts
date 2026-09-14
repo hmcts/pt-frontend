@@ -5,6 +5,7 @@ import { DateTime } from 'luxon';
 import { SummaryListRow, createRowContext, escapeWithLineBreaks, isYes } from '../../../section-cya/cyaRow';
 import { ApplicationSectionId } from '../../../sections.config';
 
+import { getFormData } from '@modules/steps';
 import type { DateValue, RentDetails } from '@services/ccdCase.interface';
 import { toDateParts } from '@utils/date';
 
@@ -60,21 +61,21 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
     return [];
   }
   const { rows, validatedCase, change } = ctx;
-  const formData = req.session.formData;
+  const stepData = (step: string): Record<string, unknown> => getFormData(req, step);
   const lang = req.i18n?.language ?? 'en';
 
-  const rentDetails = validatedCase.currentRentsDetails;
+  const rentDetails = validatedCase?.currentRentsDetails;
 
   const read = (step: string, field: string): string | undefined =>
-    (formData?.[step]?.[field] as string | undefined) ??
+    (stepData(step)[field] as string | undefined) ??
     (rentDetails?.[(caseFieldNames[field] ?? field) as keyof RentDetails] as string | undefined);
 
   const readSubField = (step: string, parent: string, field: string): string | undefined =>
-    (formData?.[step]?.[`${parent}.${field}`] as string | undefined) ??
+    (stepData(step)[`${parent}.${field}`] as string | undefined) ??
     (rentDetails?.[(caseFieldNames[field] ?? field) as keyof RentDetails] as string | undefined);
 
   const readDate = (step: string, field: string): DateValue | undefined =>
-    (formData?.[step]?.[field] as DateValue | undefined) ??
+    (stepData(step)[field] as DateValue | undefined) ??
     toDateParts(rentDetails?.[field as keyof RentDetails] as string | undefined);
 
   const pushYesNo = (step: string, field: string, answer: string): void => {
@@ -192,7 +193,7 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
     pushYesNo('current-tenancy-replace-original-tenancy', 'currentTenancyReplaceOriginalTenancy', replacesOriginal);
 
     if (isYes(replacesOriginal)) {
-      const parts = formData?.['current-tenancy-replace-original-tenancy'];
+      const parts = stepData('current-tenancy-replace-original-tenancy');
       const prefix = 'currentTenancyReplaceOriginalTenancy.originalTenancyStartDate';
       const originalDate = parts?.[`${prefix}-day`]
         ? {

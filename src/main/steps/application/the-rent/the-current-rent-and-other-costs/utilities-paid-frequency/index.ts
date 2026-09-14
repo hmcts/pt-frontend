@@ -1,7 +1,7 @@
 import { textAreaIsValidLength } from '../../../../utils/fieldValidators';
 import { flowConfig } from '../../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormData } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { getRentAmountError } from '@utils/rentAmount';
 
@@ -59,10 +59,7 @@ export const step: StepDefinition = createFormStep({
   isAnswered: req => Boolean(req.session.ccdCase?.currentRentsDetails?.utilitiesPaidFrequency),
 
   beforeRedirect: req => {
-    const stepData = req.session.formData?.[stepName];
-    if (!stepData) {
-      return;
-    }
+    const stepData = getFormData(req, stepName);
     const selected = stepData[frequencyFieldName];
     const selectedAmountField = amountFieldNames[selected as keyof typeof amountFieldNames];
     for (const name of Object.values(amountFieldNames)) {
@@ -115,7 +112,7 @@ export const step: StepDefinition = createFormStep({
     },
   ],
   getInitialFormData: req => {
-    const stepData = req.session.formData?.[stepName];
+    const stepData = getFormData(req, stepName);
     const rentDetails = req.session.ccdCase?.currentRentsDetails;
     const frequency = stepData?.[frequencyFieldName] ?? rentDetails?.[frequencyFieldName];
     const amountFieldName = amountFieldNames[frequency as keyof typeof amountFieldNames];
