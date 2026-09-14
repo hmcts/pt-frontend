@@ -334,7 +334,7 @@ export function validateForm(
     }
 
     if (field.type === 'date') {
-      // Nested date fields use parent-prefixed keys, top-level date fields don’t.
+      // Nested date fields use parent-prefixed keys, top-level date fields don't.
       const prefix = parentFieldName ? `${parentFieldName}.${field.name}` : field.name;
       const dayKey = `${prefix}-day`;
       const monthKey = `${prefix}-month`;

@@ -6,6 +6,7 @@ import type {
   FormFieldConfig,
   FormFieldOption,
 } from '@modules/steps/formBuilder/formFieldConfig.interface';
+import { isDiagnosticsEnabled } from '@utils/environment';
 
 const logger = Logger.getLogger('form-builder-schema');
 
@@ -196,7 +197,7 @@ export function validateFormBuilderConfig(config: unknown): {
  * @returns The config if valid, logs errors in development mode
  */
 export function validateConfigInDevelopment(config: FormBuilderConfig): FormBuilderConfig {
-  if (process.env.NODE_ENV !== 'production') {
+  if (isDiagnosticsEnabled()) {
     const result = validateFormBuilderConfig(config);
     if (!result.success && result.errors) {
       logger.warn('FormBuilderConfig validation failed for step:', config.stepName);

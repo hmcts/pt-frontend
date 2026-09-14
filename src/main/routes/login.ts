@@ -7,12 +7,14 @@ import { getRedirectUrl, getUserDetails } from '../auth/user/oidc';
 import { CALLBACK_URL, SIGN_IN_URL, SIGN_OUT_URL } from '../urls';
 
 import { Logger } from '@modules/logger';
+import { isSecureTransport } from '@utils/environment';
 
 const logger = Logger.getLogger('login routes');
 
 export default function (app: Application): void {
-  const protocol = app.locals.developmentMode ? 'http://' : 'https://';
-  const port = app.locals.developmentMode ? `:${config.get('port')}` : '';
+  const secure = isSecureTransport();
+  const protocol = secure ? 'https://' : 'http://';
+  const port = secure ? '' : `:${config.get('port')}`;
 
   app.get(SIGN_IN_URL, (req, res) => res.redirect(getRedirectUrl(`${protocol}${res.locals.host}${port}`)));
   app.get(SIGN_OUT_URL, async (req, res) => {

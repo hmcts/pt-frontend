@@ -31,6 +31,7 @@ import { validateConfigInDevelopment } from '@modules/steps/formBuilder/schema';
 import type { JourneyFlowConfig } from '@modules/steps/stepFlow.interface';
 import { getCaseApi } from '@services/ccdApiClient';
 import { prepareDataForSave } from '@services/data-mapping';
+import { isDiagnosticsEnabled } from '@utils/environment';
 
 function shouldUseSessionFormData(flowConfig?: JourneyFlowConfig): boolean {
   return flowConfig?.useSessionFormData !== false;
@@ -59,7 +60,7 @@ export function createPostHandler(
   documentField?: DocumentFieldKey
 ): { post: (req: Request, res: Response, next: NextFunction) => Promise<void | Response> } {
   // Validate config in development mode
-  if (process.env.NODE_ENV !== 'production') {
+  if (isDiagnosticsEnabled()) {
     validateConfigInDevelopment({
       stepName,
       journeyFolder,
