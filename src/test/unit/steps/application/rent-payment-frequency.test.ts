@@ -71,10 +71,10 @@ describe('application rent-payment-frequency step', () => {
   });
 
   it.each([
-    ['WEEKLY', weeklyField],
-    ['FORTNIGHTLY', fortnightlyField],
-    ['MONTHLY', monthlyField],
-    ['YEARLY', yearlyField],
+    ['weekly', weeklyField],
+    ['fortnightly', fortnightlyField],
+    ['monthly', monthlyField],
+    ['yearly', yearlyField],
   ])('saves the amount against the field for %s', async (frequency, amountField) => {
     const { req, res } = await post(body({ rentPaymentFrequency: frequency, [amountField]: '850.50' }));
 
@@ -86,7 +86,7 @@ describe('application rent-payment-frequency step', () => {
   it('does not validate the amounts for frequencies that are not selected', async () => {
     const { res } = await post(
       body({
-        rentPaymentFrequency: 'WEEKLY',
+        rentPaymentFrequency: 'weekly',
         [weeklyField]: '200',
         [monthlyField]: 'not-a-number',
       })
@@ -98,14 +98,14 @@ describe('application rent-payment-frequency step', () => {
   it('clears the amounts for frequencies that are not selected', async () => {
     const { req } = await post(
       body({
-        rentPaymentFrequency: 'WEEKLY',
+        rentPaymentFrequency: 'weekly',
         [weeklyField]: '200',
         [monthlyField]: '800',
       })
     );
 
     expect(req.session.formData[stepName]).toStrictEqual({
-      rentPaymentFrequency: 'WEEKLY',
+      rentPaymentFrequency: 'weekly',
       [weeklyField]: '200',
       [fortnightlyField]: '',
       [monthlyField]: '',
