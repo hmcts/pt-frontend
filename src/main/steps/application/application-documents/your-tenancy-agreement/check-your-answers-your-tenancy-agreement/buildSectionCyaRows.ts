@@ -15,15 +15,7 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
     return [];
   }
   const { rows, validatedCase, change } = ctx;
-  const tenancyDetails = (
-    validatedCase as {
-      tenancyAgreementDetails?: {
-        copyOfTenancyAgreement?: string;
-        noTenancyAgreementReason?: string;
-        tenancyAgreementDocument?: { filename?: string };
-      };
-    }
-  ).tenancyAgreementDetails;
+  const tenancyDetails = validatedCase?.tenancyAgreementDetails;
 
   const addRow = (field: string, value: string | undefined, changeHref: string, valueText: string = value ?? '') => {
     if (value) {

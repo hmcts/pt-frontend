@@ -51,12 +51,13 @@ export const step: StepDefinition = createFormStep({
   ],
 });
 
-function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (!ccdCase) {
+export function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  const tenancyAgreementDetails = ccdCase?.tenancyAgreementDetails;
+  if (!tenancyAgreementDetails) {
     return false;
   }
 
-  const { copyOfTenancyAgreement, noTenancyAgreementReason } = ccdCase;
+  const { copyOfTenancyAgreement, noTenancyAgreementReason } = tenancyAgreementDetails;
   if (copyOfTenancyAgreement === 'No') {
     return Boolean(noTenancyAgreementReason && textAreaIsValidLength(noTenancyAgreementReason));
   }
