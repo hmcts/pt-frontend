@@ -1,7 +1,6 @@
 import { step as additionalRentalServiceChargesVary } from './the-current-rent-and-other-costs/additional-rental-service-charges-vary';
 import { step as checkYourAnswersCurrentRentAndOtherCosts } from './the-current-rent-and-other-costs/check-your-answers-current-rent-and-other-costs';
 import { step as councilTaxFrequency } from './the-current-rent-and-other-costs/council-tax-frequency';
-import { step as currentRentAndOtherCosts } from './the-current-rent-and-other-costs/current-rent-and-other-costs';
 import { step as currentTenancyReplaceOriginalTenancy } from './the-current-rent-and-other-costs/current-tenancy-replace-original-tenancy';
 import { step as currentTenancyStartDate } from './the-current-rent-and-other-costs/current-tenancy-start-date';
 import { step as otherHouseholdManagementCharges } from './the-current-rent-and-other-costs/other-household-management-charges';
@@ -17,7 +16,6 @@ import { step as proposedMarketRent } from './what-you-think-market-rent-should-
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
 export const theRentStepRegistry = {
-  'current-rent-and-other-costs': currentRentAndOtherCosts,
   'tribunal-previously-determined-rent': tribunalPreviouslyDeterminedRent,
   'rent-payment-frequency': rentPaymentFrequency,
   'rent-includes-council-tax': rentIncludesCouncilTax,
