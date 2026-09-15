@@ -277,7 +277,7 @@ export interface LandlordDetails {
 }
 
 export interface ApplicationDocuments {
-  hasTenancyAgreement?: string;
+  copyOfTenancyAgreement?: string;
   noTenancyAgreementReason?: string;
   noticeLegallyValid?: string;
   noticeNotLegallyValidReason?: string;

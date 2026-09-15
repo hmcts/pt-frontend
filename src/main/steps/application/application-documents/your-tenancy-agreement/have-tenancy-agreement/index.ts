@@ -21,17 +21,17 @@ export const step: StepDefinition = createFormStep({
   },
   fields: [
     {
-      name: 'hasTenancyAgreement',
+      name: 'copyOfTenancyAgreement',
       type: 'radio',
       required: true,
       isPageHeading: true,
       legendClasses: 'govuk-fieldset__legend--l',
       translationKey: { label: 'heading' },
-      errorMessage: 'errors.hasTenancyAgreement.required',
+      errorMessage: 'errors.copyOfTenancyAgreement.required',
       options: [
-        { value: 'yes', translationKey: 'common:yes' },
+        { value: 'Yes', translationKey: 'common:yes' },
         {
-          value: 'no',
+          value: 'No',
           translationKey: 'common:no',
           subFields: {
             noTenancyAgreementReason: {
@@ -56,9 +56,9 @@ function isAnswered(ccdCase: PTCaseData | undefined): boolean {
     return false;
   }
 
-  const { hasTenancyAgreement, noTenancyAgreementReason } = ccdCase;
-  if (hasTenancyAgreement === 'no') {
+  const { copyOfTenancyAgreement, noTenancyAgreementReason } = ccdCase;
+  if (copyOfTenancyAgreement === 'No') {
     return Boolean(noTenancyAgreementReason && textAreaIsValidLength(noTenancyAgreementReason));
   }
-  return hasTenancyAgreement === 'yes';
+  return copyOfTenancyAgreement === 'Yes';
 }

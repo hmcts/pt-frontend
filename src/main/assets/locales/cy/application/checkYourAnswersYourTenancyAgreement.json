@@ -1,4 +1,24 @@
 {
   "pageTitle": "cyCheck your answers - Your tenancy agreement",
-  "heading": "cyCheck your answers - Your tenancy agreement (placeholder)"
+  "heading": "cyCheck your answers",
+  "cardTitle": "cyYour tenancy agreement",
+  "rows": {
+    "copyOfTenancyAgreement": {
+      "label": "cyDo you have a copy of your tenancy agreement to upload?",
+      "changeHidden": "cywhether you have a copy of your tenancy agreement",
+      "options": {
+        "Yes": "cyYes",
+        "No": "cyNo"
+      }
+    },
+    "noTenancyAgreementReason": {
+      "label": "cyWhy can you not upload your tenancy agreement?",
+      "changeHidden": "cywhy you cannot upload your tenancy agreement"
+    },
+    "tenancyAgreementDocument": {
+      "label": "cyTenancy agreement",
+      "changeHidden": "cytenancy agreement"
+    }
+  },
+  "reviewAndChangeInfo": "cyYou can review and change your answers before you submit your application."
 }

@@ -47,9 +47,23 @@ export function prepareDataForSave(
     // case 'landlordsNotice': {
     //   return {};
     // }
-    // case 'yourTenancyAgreement': {
-    //   return {};
-    // }
+    case 'yourTenancyAgreement': {
+      const copyOfTenancyAgreement =
+        getFormDataString(req, 'have-tenancy-agreement', 'copyOfTenancyAgreement') ??
+        (saved as { tenancyAgreementDetails?: { copyOfTenancyAgreement?: string } } | undefined)
+          ?.tenancyAgreementDetails?.copyOfTenancyAgreement;
+      const isYes = copyOfTenancyAgreement === 'Yes';
+      return {
+        tenancyAgreementDetails: {
+          copyOfTenancyAgreement,
+          noTenancyAgreementReason: isYes
+            ? undefined
+            : (getFormDataString(req, 'have-tenancy-agreement', 'copyOfTenancyAgreement.noTenancyAgreementReason') ??
+              (saved as { tenancyAgreementDetails?: { noTenancyAgreementReason?: string } } | undefined)
+                ?.tenancyAgreementDetails?.noTenancyAgreementReason),
+        },
+      };
+    }
     // case 'theCurrentRentAndOtherCosts': {
     //   return {};
     // }
