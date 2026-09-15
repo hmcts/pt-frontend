@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from 'config';
 
-import { getServiceAuthToken } from '../../../main/auth/service/get-service-auth-token';
+import { requireServiceAuthToken } from '../../../main/auth/service/get-service-auth-token';
 
 import { deleteDocument, uploadDocument } from '@services/cdamService';
 
@@ -14,7 +14,7 @@ jest.mock('axios');
 jest.mock('../../../main/auth/service/get-service-auth-token');
 
 const mockedAxios = axios as jest.Mocked<typeof axios>;
-const mockedGetServiceAuthToken = getServiceAuthToken as jest.MockedFunction<typeof getServiceAuthToken>;
+const mockedRequireServiceAuthToken = requireServiceAuthToken as jest.MockedFunction<typeof requireServiceAuthToken>;
 
 const CDAM_URL = config.get<string>('cdam.url');
 const USER_TOKEN = 'user-token';
@@ -49,7 +49,7 @@ describe('cdamService', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockedGetServiceAuthToken.mockReturnValue('s2s-token');
+    mockedRequireServiceAuthToken.mockReturnValue('s2s-token');
     instance = { post: jest.fn(), delete: jest.fn(), get: jest.fn() };
     mockedAxios.create.mockReturnValue(instance as never);
   });
@@ -104,7 +104,9 @@ describe('cdamService', () => {
     });
 
     test('fails loudly when the S2S token refresh has failed', async () => {
-      mockedGetServiceAuthToken.mockReturnValue(undefined as unknown as string);
+      mockedRequireServiceAuthToken.mockImplementation(() => {
+        throw new Error('No S2S token available — the service auth token refresh has failed');
+      });
 
       await expect(uploadDocument(file, USER_TOKEN)).rejects.toThrow(
         'No S2S token available — the service auth token refresh has failed'
