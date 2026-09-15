@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import config from 'config';
 
-import { getServiceAuthToken } from '../auth/service/get-service-auth-token';
+import { requireServiceAuthToken } from '../auth/service/get-service-auth-token';
 import { UserDetails } from '../auth/user/oidc';
 
 import { Logger } from '@modules/logger';
@@ -90,7 +90,7 @@ export const getCaseApi = (userDetails: UserDetails): CcdApiClient => {
       baseURL: config.get('ccd.url'),
       headers: {
         Authorization: 'Bearer ' + userDetails.accessToken,
-        ServiceAuthorization: 'Bearer ' + getServiceAuthToken(),
+        ServiceAuthorization: `Bearer ${requireServiceAuthToken()}`,
         experimental: 'true',
         Accept: '*/*',
         'Content-Type': 'application/json',
