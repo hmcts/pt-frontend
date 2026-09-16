@@ -2,7 +2,7 @@
   "pageTitle": "cyWhat repairs are the tenant's responsibility? (optional)",
   "hint": "cyThis is sometimes written in your tenancy agreement",
   "errors": {
-    "tenantRepairsResponsibility": {
+    "tenantRepairsDetails": {
       "invalid": "cyEnter a valid description of the repairs the tenant is responsible for"
     }
   }
