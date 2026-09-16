@@ -30,6 +30,9 @@ const toIsoDate = (day?: unknown, month?: unknown, year?: unknown): string | und
   return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 };
 
+const dateParts = (req: Request, step: string, field: string): DateParts | undefined =>
+  getFormData(req, step)[field] as DateParts | undefined;
+
 export function prepareDataForSave(
   sectionId: string,
   req: Request,
@@ -71,8 +74,8 @@ export function prepareDataForSave(
     case 'theCurrentRentAndOtherCosts': {
       const rentDetails = saved?.currentRentsDetails;
 
-      const dateParts = (step: string, field: string): DateParts | undefined =>
-        getFormData(req, step)[field] as DateParts | undefined;
+      const startDate = dateParts(req, 'current-tenancy-start-date', 'currentTenancyStartDate');
+      const endDate = dateParts(req, 'tenancy-end-date', 'currentTenancyEndDate');
 
       const tribunalDetermined =
         getFormDataString(req, 'tribunal-previously-determined-rent', 'tribunalPreviouslyDeterminedTenancyRent') ??
@@ -224,17 +227,10 @@ export function prepareDataForSave(
               : undefined,
 
           currentTenancyStartDate:
-            toIsoDate(
-              dateParts('current-tenancy-start-date', 'currentTenancyStartDate')?.day,
-              dateParts('current-tenancy-start-date', 'currentTenancyStartDate')?.month,
-              dateParts('current-tenancy-start-date', 'currentTenancyStartDate')?.year
-            ) ?? rentDetails?.currentTenancyStartDate?.split('T')[0],
+            toIsoDate(startDate?.day, startDate?.month, startDate?.year) ??
+            rentDetails?.currentTenancyStartDate?.split('T')[0],
           currentTenancyEndDate:
-            toIsoDate(
-              dateParts('tenancy-end-date', 'currentTenancyEndDate')?.day,
-              dateParts('tenancy-end-date', 'currentTenancyEndDate')?.month,
-              dateParts('tenancy-end-date', 'currentTenancyEndDate')?.year
-            ) ?? rentDetails?.currentTenancyEndDate?.split('T')[0],
+            toIsoDate(endDate?.day, endDate?.month, endDate?.year) ?? rentDetails?.currentTenancyEndDate?.split('T')[0],
           currentTenancyReplaceOriginalTenancy: replacesOriginal,
           originalTenancyStartDate:
             replacesOriginal === 'Yes'
