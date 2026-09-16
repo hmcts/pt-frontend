@@ -253,6 +253,7 @@ export interface PTCaseData
 
   applicantContactPreferences?: ContactPreferences;
   currentRentsDetails?: RentDetails;
+  propertyDetails?: PropertyDetails;
 }
 
 export interface ContactPreferences {
@@ -304,8 +305,8 @@ export interface PropertyDetails {
   furnitureProvidedDetails?: string;
   servicesProvided?: string | boolean;
   servicesProvidedDetails?: string;
-  landlordRepairsResponsibility?: string;
-  tenantRepairsResponsibility?: string;
+  landlordRepairsDetails?: string;
+  tenantRepairsDetails?: string;
   hasRepairsAndImprovements?: string | boolean;
 }
 
