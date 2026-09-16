@@ -25,7 +25,6 @@ export class PtApiClient {
   async getCaseByCaseReference(caseReference: string): Promise<PTCaseData> {
     try {
       const response = await this.client.get<PTCaseData>(`/applications/${caseReference}`);
-      console.log(response.data);
       return response.data;
     } catch (err) {
       logger.error(err);

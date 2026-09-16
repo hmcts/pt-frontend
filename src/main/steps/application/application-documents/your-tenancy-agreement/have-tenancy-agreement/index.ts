@@ -1,7 +1,7 @@
 import { textAreaIsValidLength } from '../../../../utils/fieldValidators';
 import { flowConfig } from '../../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccdCase.interface';
 
@@ -49,6 +49,22 @@ export const step: StepDefinition = createFormStep({
       ],
     },
   ],
+  getInitialFormData: req => {
+    const caseData: PTCaseData | undefined = req.session.ccdCase;
+    const copyOfTenancyAgreement: string | undefined =
+      getFormDataString(req, 'have-tenancy-agreement', 'copyOfTenancyAgreement') ??
+      caseData?.tenancyAgreementDetails?.copyOfTenancyAgreement;
+    const noTenancyAgreementReason: string | undefined =
+      getFormDataString(req, 'have-tenancy-agreement', 'copyOfTenancyAgreement.noTenancyAgreementReason') ??
+      caseData?.tenancyAgreementDetails?.noTenancyAgreementReason;
+
+    return {
+      ...(copyOfTenancyAgreement && { copyOfTenancyAgreement }),
+      ...(noTenancyAgreementReason && {
+        'copyOfTenancyAgreement.noTenancyAgreementReason': noTenancyAgreementReason,
+      }),
+    };
+  },
 });
 
 export function isAnswered(ccdCase: PTCaseData | undefined): boolean {
