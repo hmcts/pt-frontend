@@ -2,7 +2,7 @@
   "pageTitle": "cyWhat repairs are the landlord's responsibility? (optional)",
   "hint": "cyThis is sometimes written in your tenancy agreement",
   "errors": {
-    "landlordRepairsResponsibility": {
+    "landlordRepairsDetails": {
       "invalid": "cyEnter a valid description of the repairs the landlord is responsible for"
     }
   }
