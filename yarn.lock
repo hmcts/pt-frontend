@@ -5760,12 +5760,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:26.4.1":
-  version: 26.4.1
-  resolution: "@types/node@npm:26.4.1"
+"@types/node@npm:26.5.1":
+  version: 26.5.1
+  resolution: "@types/node@npm:26.5.1"
   dependencies:
-    undici-types: "npm:~8.3.0"
-  checksum: 10/63fbe80250fc8824d52a1c8787b591f17be566db11560fad0a29e9e3d230303ca7a3e77d5c474d60438d14120dcb9323950641db754197b4822e4fae3c506927
+    undici-types: "npm:~8.9.0"
+  checksum: 10/5b509d30dc9344c91cba3291acecf6f424320cb763c8192befd50cc8b1a8207dd7dcff8c4f313eea6468e9f2121cc78ffb6affbd7ecd951b4b32e2629ea9856d
   languageName: node
   linkType: hard
 
@@ -11161,10 +11161,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"govuk-frontend@npm:6.5.0":
-  version: 6.5.0
-  resolution: "govuk-frontend@npm:6.5.0"
-  checksum: 10/6f1343c53dcc5ce48b21652a7bedf2f0bd40e6ed15f6777d4b549f1b76d093f1d79da5b23f18fbec13aed15f7d070dec8cf7db7a0539fd9f844d94855ece94b9
+"govuk-frontend@npm:6.5.1":
+  version: 6.5.1
+  resolution: "govuk-frontend@npm:6.5.1"
+  checksum: 10/e428a9886b020c3816939df77d2c0c575bb853f64d061e43f040f93f572f63ef300c87fb3bcfa76020ea0f01070f160f0b57d1664b402a3c964c40420f8f8510
   languageName: node
   linkType: hard
 
@@ -15972,7 +15972,7 @@ __metadata:
     "@types/lodash": "npm:4.17.25"
     "@types/luxon": "npm:3.7.5"
     "@types/multer": "npm:^2.2.0"
-    "@types/node": "npm:26.4.1"
+    "@types/node": "npm:26.5.1"
     "@types/nunjucks": "npm:3.2.6"
     "@types/pa11y": "npm:^5.3.7"
     "@types/require-directory": "npm:2.1.7"
@@ -16011,7 +16011,7 @@ __metadata:
     git-rev-sync: "npm:^3.0.2"
     glob: "npm:^13.0.6"
     globals: "npm:17.12.0"
-    govuk-frontend: "npm:6.5.0"
+    govuk-frontend: "npm:6.5.1"
     helmet: "npm:8.3.0"
     html-webpack-plugin: "npm:5.6.8"
     husky: "npm:9.1.7"
@@ -18677,13 +18677,6 @@ __metadata:
   version: 1.13.8
   resolution: "underscore@npm:1.13.8"
   checksum: 10/b50ac5806d059cc180b1bd9adea6f7ed500021f4dc782dfc75d66a90337f6f0506623c1b37863f4a9bf64ffbeb5769b638a54b7f2f5966816189955815953139
-  languageName: node
-  linkType: hard
-
-"undici-types@npm:~8.3.0":
-  version: 8.3.0
-  resolution: "undici-types@npm:8.3.0"
-  checksum: 10/6681d2837ac75a75ac1cc46090aa2b8ddc7c6b8ecc295a6cdb06838752a730da3d8afeecf05e5ab7903160eafad3a8b6ffa1927e5ded260590f4d4fef18646d5
   languageName: node
   linkType: hard
 

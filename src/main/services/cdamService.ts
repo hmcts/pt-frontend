@@ -2,7 +2,7 @@ import axios, { AxiosInstance } from 'axios';
 import config from 'config';
 import FormData from 'form-data';
 
-import { getServiceAuthToken } from '../auth/service/get-service-auth-token';
+import { requireServiceAuthToken } from '../auth/service/get-service-auth-token';
 
 import { Logger } from '@modules/logger';
 import type { CdamDocument, CdamRawDocument, CdamUploadResponse } from '@services/documentUpload.interface';
@@ -14,14 +14,6 @@ const JURISDICTION = 'PT';
 
 const getCdamUrl = (): string => config.get('cdam.url');
 const getCaseTypeId = (): string => config.get('ccd.caseTypeId');
-
-const requireServiceAuthToken = (): string => {
-  const serviceAuthToken = getServiceAuthToken();
-  if (!serviceAuthToken) {
-    throw new Error('No S2S token available — the service auth token refresh has failed');
-  }
-  return serviceAuthToken;
-};
 
 const cdamClient = (userToken: string): AxiosInstance =>
   axios.create({
