@@ -8,6 +8,6 @@ export const myApplication = {
   tenancyTypeErrorMessage: 'Select which type of tenancy you are applying about',
   taskListUrl: 'task-list',
   taskListHeading: 'Application for pt citizen',
-  challengeRentIncreaseOption: 'Challenge the rent increase proposed in a landlord’s notice',
+  challengeRentIncreaseOption: 'Challenge my rent as excessive within the first 6 months of the tenancy',
   assuredPeriodicTenancyOption: 'Assured periodic tenancy',
 };
