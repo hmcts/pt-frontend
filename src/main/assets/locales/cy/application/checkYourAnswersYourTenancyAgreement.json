@@ -1,7 +1,7 @@
 {
-  "pageTitle": "cyCheck your answers - Your tenancy agreement",
+  "pageTitle": "cyCheck your answers - Tenancy agreement",
   "heading": "cyCheck your answers",
-  "cardTitle": "cyYour tenancy agreement",
+  "cardTitle": "cyTenancy agreement",
   "rows": {
     "copyOfTenancyAgreement": {
       "label": "cyDo you have a copy of your tenancy agreement to upload?",
@@ -16,7 +16,7 @@
       "changeHidden": "cywhy you cannot upload your tenancy agreement"
     },
     "tenancyAgreementDocument": {
-      "label": "cyTenancy agreement",
+      "label": "cyUpload tenancy agreement",
       "changeHidden": "cytenancy agreement"
     }
   },
