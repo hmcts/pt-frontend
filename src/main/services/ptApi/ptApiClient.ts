@@ -37,6 +37,7 @@ export const getPtApi = (userDetails: UserDetails): PtApiClient => {
   return new PtApiClient(
     axios.create({
       baseURL: config.get('api.url'),
+      timeout: config.get<number>('http.timeoutMs'),
       headers: {
         Authorization: 'Bearer ' + userDetails.accessToken,
         ServiceAuthorization: `Bearer ${requireServiceAuthToken()}`,

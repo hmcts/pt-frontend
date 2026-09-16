@@ -17,6 +17,7 @@ import { PropertiesVolume } from '@modules/properties-volume';
 import { Session } from '@modules/session';
 import { registerAllJourneys } from '@routes/registerSteps';
 import { isLocalDev } from '@utils/environment';
+import { staticCacheControl } from '@utils/staticCache';
 
 const env = process.env.NODE_ENV || 'development';
 const developmentMode = isLocalDev();
@@ -46,7 +47,13 @@ export async function createApp(): Promise<Express> {
   });
   // static before session so asset requests don't hit Redis — `rolling: true`
   // does a GET + EXPIRE on every request.
-  app.use(expressStatic(path.join(__dirname, 'public')));
+  app.use(
+    expressStatic(path.join(__dirname, 'public'), {
+      setHeaders: (res, filePath) => {
+        res.setHeader('Cache-Control', staticCacheControl(filePath));
+      },
+    })
+  );
   new Session().enableFor(app);
 
   new AppInsights().enable();

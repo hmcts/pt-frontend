@@ -12,6 +12,9 @@
       "preload": true
     }
   },
+  "http": {
+    "timeoutMs": 10000
+  },
   "api": {
     "url": "http://pt-api-aat.service.core-compute-aat.internal"
   },

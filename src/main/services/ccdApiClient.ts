@@ -88,6 +88,7 @@ export const getCaseApi = (userDetails: UserDetails): CcdApiClient => {
   return new CcdApiClient(
     axios.create({
       baseURL: config.get('ccd.url'),
+      timeout: config.get<number>('http.timeoutMs'),
       headers: {
         Authorization: 'Bearer ' + userDetails.accessToken,
         ServiceAuthorization: `Bearer ${requireServiceAuthToken()}`,
