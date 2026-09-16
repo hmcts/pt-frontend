@@ -1,10 +1,13 @@
 import { flowConfig } from '../../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString, getTranslationFunction } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { getRentAmountError } from '@utils/rentAmount';
 
 const journeyName = 'application';
 const stepName = 'proposed-market-rent';
+
+const fieldName = 'applicantSuggestedMonthlyMarketRent';
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -13,10 +16,52 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/proposedMarketRent.njk`,
   showCancelButton: false,
-  isAnswered: () => false,
+  isAnswered: req => Boolean(req.session.ccdCase?.marketRentDetails?.applicantSuggestedMonthlyMarketRent),
   translationKeys: {
     pageTitle: 'pageTitle',
-    heading: 'heading',
   },
-  fields: [],
+
+  // The heading asks for the rent in the frequency given in the current rent
+  // section, and reads without one until that question has been answered.
+  extendGetContent: req => {
+    const t = getTranslationFunction(req);
+    const paymentFrequency =
+      getFormDataString(req, 'rent-payment-frequency', 'rentPaymentFrequency') ??
+      req.session.ccdCase?.currentRentsDetails?.rentPaymentFrequency;
+
+    return {
+      frequency: paymentFrequency ? t(`frequency.${paymentFrequency}`) : '',
+    };
+  },
+  fields: [
+    {
+      name: fieldName,
+      type: 'text',
+      required: true,
+      isPageHeading: true,
+      labelClasses: 'govuk-label--l',
+      classes: 'govuk-input--width-10',
+      prefix: { text: '£' },
+      attributes: { inputmode: 'decimal' },
+      translationKey: { label: 'questionTitle', hint: 'questionHint' },
+      errorMessage: `errors.${fieldName}.required`,
+      validator: (value: unknown): boolean | string => {
+        if (!value) {
+          return true;
+        }
+
+        const error = getRentAmountError(value as string);
+        return error ? `errors.${fieldName}.${error}` : true;
+      },
+    },
+  ],
+  getInitialFormData: req => {
+    const value =
+      getFormDataString(req, stepName, fieldName) ??
+      req.session.ccdCase?.marketRentDetails?.applicantSuggestedMonthlyMarketRent;
+
+    return {
+      ...(value && { [fieldName]: String(value) }),
+    };
+  },
 });
