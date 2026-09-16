@@ -3,8 +3,13 @@ import type { TFunction } from 'i18next';
 
 import type { FormFieldConfig } from '@modules/steps/formBuilder/formFieldConfig.interface';
 import {
+  DRAFT_SCOPE,
+  clearFormData,
+  getAllFormData,
   getCustomErrorTranslations,
   getFormData,
+  getFormDataScope,
+  getFormDataString,
   getTranslation,
   getTranslationErrors,
   processFieldData,
@@ -473,91 +478,150 @@ describe('formBuilder helpers', () => {
     });
   });
 
-  describe('getFormData', () => {
-    it('should return form data from session', () => {
-      const req = {
-        session: {
-          formData: {
-            step1: {
-              field1: 'value1',
-            },
-          },
-        },
-      } as unknown as Request;
+  describe('case-scoped form data', () => {
+    const CASE_A = '1234123412341234';
+    const CASE_B = '9999999999999999';
 
-      const result = getFormData(req, 'step1');
-      expect(result).toEqual({
-        field1: 'value1',
+    const reqFor = (caseReference: string | undefined, formData?: Record<string, unknown>) =>
+      ({
+        params: caseReference ? { caseReference } : {},
+        session: formData === undefined ? {} : { formData },
+      }) as unknown as Request;
+
+    const bucket = (req: Request, scope: string) =>
+      (req.session as { formData?: Record<string, Record<string, unknown>> }).formData?.[scope];
+
+    describe('getFormDataScope', () => {
+      it('uses the route case reference', () => {
+        expect(getFormDataScope(reqFor(CASE_A))).toBe(CASE_A);
+      });
+
+      it('falls back to the draft scope when there is no case yet', () => {
+        expect(getFormDataScope(reqFor(undefined))).toBe(DRAFT_SCOPE);
+      });
+
+      it('falls back to the draft scope when the reference is not a valid case reference', () => {
+        expect(getFormDataScope(reqFor('not-a-case-ref'))).toBe(DRAFT_SCOPE);
       });
     });
 
-    it('should return empty object when step data does not exist', () => {
-      const req = {
-        session: {
-          formData: {},
-        },
-      } as unknown as Request;
+    describe('getFormData', () => {
+      it('should return form data from the current case bucket', () => {
+        const req = reqFor(CASE_A, { [CASE_A]: { step1: { field1: 'value1' } } });
+        expect(getFormData(req, 'step1')).toEqual({ field1: 'value1' });
+      });
 
-      const result = getFormData(req, 'step1');
-      expect(result).toEqual({});
+      it('should return empty object when step data does not exist', () => {
+        expect(getFormData(reqFor(CASE_A, { [CASE_A]: {} }), 'step1')).toEqual({});
+      });
+
+      it('should return empty object when session formData does not exist', () => {
+        expect(getFormData(reqFor(CASE_A, undefined), 'step1')).toEqual({});
+      });
+
+      it('does not read answers belonging to a different case', () => {
+        const req = reqFor(CASE_B, { [CASE_A]: { step1: { field1: 'case A only' } } });
+        expect(getFormData(req, 'step1')).toEqual({});
+      });
+
+      it('does not read draft-journey answers once a case exists', () => {
+        const req = reqFor(CASE_A, { [DRAFT_SCOPE]: { step1: { field1: 'from pre-application' } } });
+        expect(getFormData(req, 'step1')).toEqual({});
+      });
     });
 
-    it('should return empty object when session formData does not exist', () => {
-      const req = {
-        session: {},
-      } as unknown as Request;
+    describe('setFormData', () => {
+      it('should set form data under the current case', () => {
+        const req = reqFor(CASE_A, {});
+        const data = { field1: 'value1' };
 
-      const result = getFormData(req, 'step1');
-      expect(result).toEqual({});
+        setFormData(req, 'step1', data);
+        expect(bucket(req, CASE_A)?.step1).toEqual(data);
+      });
+
+      it('should create the formData object if it does not exist', () => {
+        const req = reqFor(CASE_A, undefined);
+        const data = { field1: 'value1' };
+
+        setFormData(req, 'step1', data);
+        expect(bucket(req, CASE_A)?.step1).toEqual(data);
+      });
+
+      it('should overwrite existing step data', () => {
+        const req = reqFor(CASE_A, { [CASE_A]: { step1: { field1: 'oldValue' } } });
+        const data = { field1: 'newValue' };
+
+        setFormData(req, 'step1', data);
+        expect(bucket(req, CASE_A)?.step1).toEqual(data);
+      });
+
+      it('does not overwrite another case bucket when saving', () => {
+        const req = reqFor(CASE_B, { [CASE_A]: { step1: { field1: 'case A' } } });
+
+        setFormData(req, 'step1', { field1: 'case B' });
+
+        expect(bucket(req, CASE_A)?.step1).toEqual({ field1: 'case A' });
+        expect(bucket(req, CASE_B)?.step1).toEqual({ field1: 'case B' });
+      });
+
+      it('writes pre-application answers to the draft bucket', () => {
+        const req = reqFor(undefined, {});
+
+        setFormData(req, 'address-of-property', { addressPostcode: 'B1 1AA' });
+
+        expect(bucket(req, DRAFT_SCOPE)?.['address-of-property']).toEqual({ addressPostcode: 'B1 1AA' });
+      });
     });
-  });
 
-  describe('setFormData', () => {
-    it('should set form data in session', () => {
-      const req = {
-        session: {
-          formData: {},
-        },
-      } as unknown as Request;
+    describe('clearFormData', () => {
+      it('clears only the active case bucket', () => {
+        const req = reqFor(CASE_B, {
+          [CASE_A]: { step1: { field1: 'case A' } },
+          [CASE_B]: { step1: { field1: 'case B' } },
+        });
 
-      const data = {
-        field1: 'value1',
-      };
+        clearFormData(req);
 
-      setFormData(req, 'step1', data);
-      expect((req.session as { formData?: Record<string, unknown> }).formData?.['step1']).toEqual(data);
+        expect(bucket(req, CASE_B)).toBeUndefined();
+        expect(bucket(req, CASE_A)?.step1).toEqual({ field1: 'case A' });
+      });
+
+      it('tolerates a session with no form data', () => {
+        const req = reqFor(CASE_A, undefined);
+        expect(() => clearFormData(req)).not.toThrow();
+      });
     });
 
-    it('should create formData object if it does not exist', () => {
-      const req = {
-        session: {},
-      } as unknown as Request;
+    describe('getAllFormData', () => {
+      it('flattens every step of the current case', () => {
+        const req = reqFor(CASE_A, {
+          [CASE_A]: { step1: { a: '1' }, step2: { b: '2' } },
+          [CASE_B]: { step1: { c: '3' } },
+        });
 
-      const data = {
-        field1: 'value1',
-      };
+        expect(getAllFormData(req)).toEqual({ a: '1', b: '2' });
+      });
 
-      setFormData(req, 'step1', data);
-      expect((req.session as { formData?: Record<string, unknown> }).formData?.['step1']).toEqual(data);
+      it('returns an empty map when the case has no answers', () => {
+        expect(getAllFormData(reqFor(CASE_A, {}))).toEqual({});
+      });
     });
 
-    it('should overwrite existing step data', () => {
-      const req = {
-        session: {
-          formData: {
-            step1: {
-              field1: 'oldValue',
-            },
-          },
-        },
-      } as unknown as Request;
+    describe('getFormDataString', () => {
+      it('returns a stored string field', () => {
+        const req = reqFor(CASE_A, { [CASE_A]: { step1: { field1: 'value1' } } });
+        expect(getFormDataString(req, 'step1', 'field1')).toBe('value1');
+      });
 
-      const data = {
-        field1: 'newValue',
-      };
+      it('returns undefined for a missing field', () => {
+        const req = reqFor(CASE_A, { [CASE_A]: { step1: {} } });
+        expect(getFormDataString(req, 'step1', 'field1')).toBeUndefined();
+      });
 
-      setFormData(req, 'step1', data);
-      expect((req.session as { formData?: Record<string, unknown> }).formData?.['step1']).toEqual(data);
+      it('returns undefined for a non-string value', () => {
+        const req = reqFor(CASE_A, { [CASE_A]: { step1: { field1: ['a', 'b'] } } });
+        expect(getFormDataString(req, 'step1', 'field1')).toBeUndefined();
+      });
     });
   });
 
@@ -565,8 +629,9 @@ describe('formBuilder helpers', () => {
     const createMockRequest = (body: Record<string, unknown> = {}, sessionFormData: Record<string, unknown> = {}) => {
       return {
         body,
+        params: {},
         session: {
-          formData: sessionFormData,
+          formData: { [DRAFT_SCOPE]: sessionFormData },
         },
       } as unknown as Request;
     };

@@ -13,14 +13,13 @@ import {
 } from '../i18n';
 
 import { Logger } from '@modules/logger';
+import { isDiagnosticsEnabled } from '@utils/environment';
 
 const logger = Logger.getLogger('i18n');
 
 export type TranslationContent = Record<string, unknown>;
 
 export type SupportedLang = AllowedLang;
-
-const isDevelopment = process.env.NODE_ENV !== 'production';
 
 function isObject(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === 'object' && !Array.isArray(value);
@@ -103,7 +102,7 @@ export async function loadStepNamespace(req: Request): Promise<void> {
 
   const localesDir = await findLocalesDir();
   if (!localesDir) {
-    if (isDevelopment) {
+    if (isDiagnosticsEnabled()) {
       logger.warn(`Locales directory not found. Translation file for ${step.name} will not be loaded.`);
     }
     return;
@@ -118,7 +117,7 @@ export async function loadStepNamespace(req: Request): Promise<void> {
       const resolvedLocalesDir = path.resolve(localesDir);
 
       if (!resolvedPath.startsWith(resolvedLocalesDir)) {
-        if (isDevelopment) {
+        if (isDiagnosticsEnabled()) {
           logger.warn(`Invalid translation path detected: ${translationPath}`);
         }
         return;
@@ -146,7 +145,7 @@ export async function loadStepNamespace(req: Request): Promise<void> {
       req.i18n!.loadNamespaces(stepNamespace, (err: Error) => (err ? reject(err) : resolve()));
     });
   } catch (error) {
-    if (isDevelopment) {
+    if (isDiagnosticsEnabled()) {
       const errorMessage = error instanceof Error ? error.message : String(error);
       if (!errorMessage.includes('ENOENT')) {
         logger.error(`Failed to load translation file for ${step.name}:`, error);
@@ -190,7 +189,7 @@ export function getTranslationFunction(req: Request, namespaces: string[] = ['co
 
 /** Validates and warns about missing translation keys in development. */
 export function validateTranslationKey(t: TFunction, key: string, context?: string): void {
-  if (isDevelopment) {
+  if (isDiagnosticsEnabled()) {
     const translation = t(key);
     if (translation === key) {
       logger.warn(`Missing translation key: "${key}"${context ? ` in ${context}` : ''}`);

@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import config from 'config';
 
-import { getServiceAuthToken } from '../../auth/service/get-service-auth-token';
+import { requireServiceAuthToken } from '../../auth/service/get-service-auth-token';
 import { UserDetails } from '../../auth/user/oidc';
 import { PTCaseData } from '../ccdCase.interface';
 
@@ -39,7 +39,7 @@ export const getPtApi = (userDetails: UserDetails): PtApiClient => {
       baseURL: config.get('api.url'),
       headers: {
         Authorization: 'Bearer ' + userDetails.accessToken,
-        ServiceAuthorization: getServiceAuthToken(),
+        ServiceAuthorization: `Bearer ${requireServiceAuthToken()}`,
         Accept: '*/*',
         'Content-Type': 'application/json',
       },

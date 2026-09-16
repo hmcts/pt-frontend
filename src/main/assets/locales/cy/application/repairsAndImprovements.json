@@ -4,7 +4,7 @@
   "questionTitle": "cy Have you or any past tenants made any changes or repairs to the property?",
   "options": {
     "notSure": {
-      "label": "cy I’m not sure"
+      "label": "cy I'm not sure"
     }
   },
   "errors": {
