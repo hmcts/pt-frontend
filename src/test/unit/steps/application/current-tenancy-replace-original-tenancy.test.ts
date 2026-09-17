@@ -20,34 +20,29 @@ describe('application current-tenancy-replace-original-tenancy step', () => {
     return step.isAnswered({ session: { ccdCase } } as any) as boolean;
   };
 
-  const startDate = { day: '1', month: '6', year: '2020' };
+  const startDate = '2020-06-01T00:00:00';
 
   it('is not answered when nothing has been selected', () => {
-    expect(isAnswered({})).toBe(false);
+    expect(isAnswered({ currentRentsDetails: {} })).toBe(false);
   });
 
   it('is answered when no is selected', () => {
-    expect(isAnswered({ currentTenancyReplaceOriginalTenancy: 'no' })).toBe(true);
+    expect(isAnswered({ currentRentsDetails: { currentTenancyReplaceOriginalTenancy: 'No' } })).toBe(true);
   });
 
   it('is answered when not sure is selected', () => {
-    expect(isAnswered({ currentTenancyReplaceOriginalTenancy: 'notSure' })).toBe(true);
+    expect(isAnswered({ currentRentsDetails: { currentTenancyReplaceOriginalTenancy: 'NotSure' } })).toBe(true);
   });
 
   it('is answered when yes is selected with a start date', () => {
-    expect(isAnswered({ currentTenancyReplaceOriginalTenancy: 'yes', originalTenancyStartDate: startDate })).toBe(true);
+    expect(
+      isAnswered({
+        currentRentsDetails: { currentTenancyReplaceOriginalTenancy: 'Yes', originalTenancyStartDate: startDate },
+      })
+    ).toBe(true);
   });
 
   it('is not answered when yes is selected without a start date', () => {
-    expect(isAnswered({ currentTenancyReplaceOriginalTenancy: 'yes' })).toBe(false);
-  });
-
-  it('is not answered when yes is selected and the start date is empty', () => {
-    expect(
-      isAnswered({
-        currentTenancyReplaceOriginalTenancy: 'yes',
-        originalTenancyStartDate: { day: '', month: '', year: '' },
-      })
-    ).toBe(false);
+    expect(isAnswered({ currentRentsDetails: { currentTenancyReplaceOriginalTenancy: 'Yes' } })).toBe(false);
   });
 });

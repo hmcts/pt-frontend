@@ -22,7 +22,7 @@ export const step: StepDefinition = createFormStep({
 
   beforeRedirect: req => {
     const stepData = getFormData(req, stepName);
-    if (stepData[fieldName] !== 'yes') {
+    if (stepData[fieldName] !== 'Yes') {
       stepData[`${fieldName}.${detailsFieldName}`] = '';
     }
   },
@@ -38,7 +38,7 @@ export const step: StepDefinition = createFormStep({
       errorMessage: `errors.${fieldName}.required`,
       options: [
         {
-          value: 'yes',
+          value: 'Yes',
           translationKey: 'common:yes',
           subFields: {
             [detailsFieldName]: {
@@ -58,15 +58,29 @@ export const step: StepDefinition = createFormStep({
             },
           },
         },
-        { value: 'no', translationKey: 'options.no.label' },
+        { value: 'No', translationKey: 'options.No.label' },
       ],
     },
   ],
+  getInitialFormData: req => {
+    const stepData = getFormData(req, stepName);
+    const rentDetails = req.session.ccdCase?.currentRentsDetails;
+    const answer = stepData?.[fieldName] ?? rentDetails?.additionalRentalServiceChargesVary;
+    const details =
+      answer === 'Yes'
+        ? (stepData?.[`${fieldName}.${detailsFieldName}`] ?? rentDetails?.varyingAdditionalRentalServiceChargesDetails)
+        : undefined;
+
+    return {
+      ...(answer && { [fieldName]: answer }),
+      ...(details && { [`${fieldName}.${detailsFieldName}`]: details }),
+    };
+  },
 });
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  const answer = ccdCase?.additionalRentalServiceChargesVary as string | undefined;
-  if (answer === 'yes') {
-    return Boolean(ccdCase?.varyingAdditionalRentalServiceChargesDetails);
+  const answer = ccdCase?.currentRentsDetails?.additionalRentalServiceChargesVary as string | undefined;
+  if (answer === 'Yes') {
+    return Boolean(ccdCase?.currentRentsDetails?.varyingAdditionalRentalServiceChargesDetails);
   }
-  return answer === 'no';
+  return answer === 'No';
 }

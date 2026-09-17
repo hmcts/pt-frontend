@@ -18,10 +18,10 @@ const frequencyFieldName = 'rentPaymentFrequency';
  */
 
 const amountFieldNames = {
-  WEEKLY: 'rentCostWeekly',
-  FORTNIGHTLY: 'rentCostFortnightly',
-  MONTHLY: 'rentCostMonthly',
-  YEARLY: 'rentCostYearly',
+  weekly: 'rentCostWeekly',
+  fortnightly: 'rentCostFortnightly',
+  monthly: 'rentCostMonthly',
+  yearly: 'rentCostYearly',
 } as const;
 
 const buildAmountSubField = (frequency: keyof typeof amountFieldNames) => {
@@ -62,7 +62,7 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/rentPaymentFrequency.njk`,
   showCancelButton: false,
-  isAnswered: req => Boolean(req.session.ccdCase?.rentPaymentFrequency),
+  isAnswered: req => Boolean(req.session.ccdCase?.currentRentsDetails?.rentPaymentFrequency),
 
   // Runs after setFormData has written the whole POST body to the session. The
   // conditional reveal only hides inputs with CSS, so the browser submits all
@@ -89,15 +89,29 @@ export const step: StepDefinition = createFormStep({
       translationKey: { label: 'questionTitle', hint: 'questionHint' },
       errorMessage: `errors.${frequencyFieldName}.required`,
       options: [
-        { value: 'WEEKLY', translationKey: 'options.WEEKLY.label', subFields: buildAmountSubField('WEEKLY') },
+        { value: 'weekly', translationKey: 'options.weekly.label', subFields: buildAmountSubField('weekly') },
         {
-          value: 'FORTNIGHTLY',
-          translationKey: 'options.FORTNIGHTLY.label',
-          subFields: buildAmountSubField('FORTNIGHTLY'),
+          value: 'fortnightly',
+          translationKey: 'options.fortnightly.label',
+          subFields: buildAmountSubField('fortnightly'),
         },
-        { value: 'MONTHLY', translationKey: 'options.MONTHLY.label', subFields: buildAmountSubField('MONTHLY') },
-        { value: 'YEARLY', translationKey: 'options.YEARLY.label', subFields: buildAmountSubField('YEARLY') },
+        { value: 'monthly', translationKey: 'options.monthly.label', subFields: buildAmountSubField('monthly') },
+        { value: 'yearly', translationKey: 'options.yearly.label', subFields: buildAmountSubField('yearly') },
       ],
     },
   ],
+  getInitialFormData: req => {
+    const stepData = getFormData(req, stepName);
+    const rentDetails = req.session.ccdCase?.currentRentsDetails;
+    const frequency = stepData?.[frequencyFieldName] ?? rentDetails?.[frequencyFieldName];
+    const amountFieldName = amountFieldNames[frequency as keyof typeof amountFieldNames];
+    const amount = amountFieldName
+      ? (stepData?.[`${frequencyFieldName}.${amountFieldName}`] ?? rentDetails?.[amountFieldName])
+      : undefined;
+
+    return {
+      ...(frequency && { [frequencyFieldName]: frequency }),
+      ...(amount && { [`${frequencyFieldName}.${amountFieldName}`]: String(amount) }),
+    };
+  },
 });

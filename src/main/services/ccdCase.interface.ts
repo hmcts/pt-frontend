@@ -14,14 +14,11 @@ export enum YesNoEnum {
   PREFER_NOT_TO_SAY = 'PREFER_NOT_TO_SAY',
 }
 export type FrequencyValue = 'WEEKLY' | 'MONTHLY';
-export type PaymentFrequency = 'WEEKLY' | 'FORTNIGHTLY' | 'MONTHLY' | 'YEARLY';
+export type PaymentFrequency = 'weekly' | 'fortnightly' | 'monthly' | 'yearly';
 export type RentPaymentFrequencyValue = PaymentFrequency | null;
-export type CouncilTaxFrequencyValue = PaymentFrequency | 'OTHER' | null;
-export type UtilitiesPaidFrequencyValue = PaymentFrequency | 'OTHER' | null;
+export type CouncilTaxFrequencyValue = PaymentFrequency | 'other' | null;
+export type UtilitiesPaidFrequencyValue = PaymentFrequency | 'other' | null;
 export type DateValue = { day: string; month: string; year: string };
-export type CurrentTenancyStartDateValue = DateValue | null;
-export type TenancyEndDateValue = DateValue | null;
-export type OriginalTenancyStartDateValue = DateValue | null;
 export enum LanguageUsed {
   ENGLISH = 'ENGLISH',
   WELSH = 'WELSH',
@@ -142,12 +139,13 @@ export interface CcdCaseData {
     utilitiesPaidCostMonthly?: number;
     utilitiesPaidCostYearly?: number;
     utilitiesPaidFrequencyAndCostDetails?: string;
+    rentInclusiveOfUtilityCharges?: string | boolean;
     currentTenancyStartDate?: string;
     currentTenancyEndDate?: string;
     currentTenancyReplaceOriginalTenancy?: string;
     originalTenancyStartDate?: string;
     additionalRentalServiceChargesVary?: string | boolean;
-    additionalRentalVaryingServiceChargesDetails?: string;
+    varyingAdditionalRentalServiceChargesDetails?: string;
     anyOtherHouseholdManagementCharges?: string | boolean;
     otherHouseholdManagementChargesDetails?: string;
   };
@@ -238,7 +236,6 @@ export interface PTCaseData
     LandlordDetails,
     PropertyDetails,
     LettingAgentDetails,
-    RentDetails,
     ApplicationDocuments,
     InspectionAndHearing,
     HelpWithFeesDetails {
@@ -255,6 +252,7 @@ export interface PTCaseData
   tenancyType?: string;
 
   applicantContactPreferences?: ContactPreferences;
+  currentRentsDetails?: RentDetails;
   propertyDetails?: PropertyDetails;
 }
 
@@ -315,7 +313,7 @@ export interface PropertyDetails {
 /** Fields captured across the details of rent journey. */
 export interface RentDetails {
   // previous tribunal determination
-  tribunalPreviouslyDeterminedRent?: YesNoValue;
+  tribunalPreviouslyDeterminedTenancyRent?: YesNoValue;
   previousTribunalCaseReference?: string;
 
   // rent payment frequency and amount
@@ -341,16 +339,16 @@ export interface RentDetails {
   utilitiesCostFortnightly?: string;
   utilitiesCostMonthly?: string;
   utilitiesCostYearly?: string;
-  utilitiesFrequencyAndCostDetails?: string;
+  utilitiesPaidFrequencyAndCostDetails?: string;
 
   // tenancy dates
-  currentTenancyStartDate?: CurrentTenancyStartDateValue;
-  tenancyEndDate?: TenancyEndDateValue;
+  currentTenancyStartDate?: string;
+  currentTenancyEndDate?: string;
   currentTenancyReplaceOriginalTenancy?: YesNoNotSureValue;
-  originalTenancyStartDate?: OriginalTenancyStartDateValue;
+  originalTenancyStartDate?: string;
 
   // other charges
-  otherHouseholdManagementCharges?: YesNoValue;
+  anyOtherHouseholdManagementCharges?: YesNoValue;
   otherHouseholdManagementChargesDetails?: string;
   additionalRentalServiceChargesVary?: YesNoValue;
   varyingAdditionalRentalServiceChargesDetails?: string;

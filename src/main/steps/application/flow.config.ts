@@ -34,19 +34,19 @@ export const flowConfig: JourneyFlowConfig = {
       showCondition: (req: Request) => getFormData(req, 'repairs-and-improvements').hasRepairsAndImprovements === 'yes',
     },
     'council-tax-frequency': {
-      showCondition: (req: Request) => getFormData(req, 'rent-includes-council-tax').rentIncludesCouncilTax === 'yes',
+      showCondition: (req: Request) => getFormData(req, 'rent-includes-council-tax').rentIncludesCouncilTax === 'Yes',
     },
     'utilities-paid-frequency': {
       showCondition: (req: Request) =>
-        getFormData(req, 'rent-inclusive-of-utility-charges').rentInclusiveOfUtilityCharges === 'yes',
+        getFormData(req, 'rent-inclusive-of-utility-charges').rentInclusiveOfUtilityCharges === 'Yes',
     },
     'other-household-management-charges-details': {
       showCondition: (req: Request) =>
-        getFormData(req, 'other-household-management-charges').otherHouseholdManagementCharges === 'yes',
+        getFormData(req, 'other-household-management-charges').anyOtherHouseholdManagementCharges === 'Yes',
     },
     'additional-rental-service-charges-vary': {
       showCondition: (req: Request) =>
-        getFormData(req, 'other-household-management-charges').otherHouseholdManagementCharges === 'yes',
+        getFormData(req, 'other-household-management-charges').anyOtherHouseholdManagementCharges === 'Yes',
     },
     'landlord-letting-agent-email-address': {
       showCondition: (req: Request) => {
