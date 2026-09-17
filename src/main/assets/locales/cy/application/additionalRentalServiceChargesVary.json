@@ -2,7 +2,7 @@
   "questionTitle": "cyDo the charges you pay for these services vary?",
   "questionHint": "cyFor example, if the charge varies at different times, or with the size of the work needed",
   "options": {
-    "no": {
+    "No": {
       "label": "cyNo - I am charged the same every time"
     }
   },

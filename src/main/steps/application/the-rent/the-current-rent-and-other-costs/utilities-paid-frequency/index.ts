@@ -9,13 +9,21 @@ const journeyName = 'application';
 const stepName = 'utilities-paid-frequency';
 
 const frequencyFieldName = 'utilitiesPaidFrequency';
-const detailsFieldName = 'utilitiesFrequencyAndCostDetails';
+const detailsFieldName = 'utilitiesPaidFrequencyAndCostDetails';
 
 const amountFieldNames = {
-  WEEKLY: 'utilitiesCostWeekly',
-  FORTNIGHTLY: 'utilitiesCostFortnightly',
-  MONTHLY: 'utilitiesCostMonthly',
-  YEARLY: 'utilitiesCostYearly',
+  weekly: 'utilitiesPaidCostWeekly',
+  fortnightly: 'utilitiesPaidCostFortnightly',
+  monthly: 'utilitiesPaidCostMonthly',
+  yearly: 'utilitiesPaidCostYearly',
+} as const;
+
+// RentDetails mirrors CurrentRentsDetailsDto, which drops "Paid" from the utilities cost fields.
+const caseFieldNames = {
+  utilitiesPaidCostWeekly: 'utilitiesCostWeekly',
+  utilitiesPaidCostFortnightly: 'utilitiesCostFortnightly',
+  utilitiesPaidCostMonthly: 'utilitiesCostMonthly',
+  utilitiesPaidCostYearly: 'utilitiesCostYearly',
 } as const;
 
 const buildAmountSubField = (frequency: keyof typeof amountFieldNames) => {
@@ -48,7 +56,7 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/utilitiesPaidFrequency.njk`,
   showCancelButton: false,
-  isAnswered: req => Boolean(req.session.ccdCase?.utilitiesPaidFrequency),
+  isAnswered: req => Boolean(req.session.ccdCase?.currentRentsDetails?.utilitiesPaidFrequency),
 
   beforeRedirect: req => {
     const stepData = getFormData(req, stepName);
@@ -59,7 +67,7 @@ export const step: StepDefinition = createFormStep({
         stepData[`${frequencyFieldName}.${name}`] = '';
       }
     }
-    if (selected !== 'OTHER') {
+    if (selected !== 'other') {
       stepData[`${frequencyFieldName}.${detailsFieldName}`] = '';
     }
   },
@@ -73,17 +81,17 @@ export const step: StepDefinition = createFormStep({
       legendClasses: 'govuk-fieldset__legend--l',
       translationKey: { label: 'questionTitle' },
       options: [
-        { value: 'WEEKLY', translationKey: 'options.WEEKLY.label', subFields: buildAmountSubField('WEEKLY') },
+        { value: 'weekly', translationKey: 'options.weekly.label', subFields: buildAmountSubField('weekly') },
         {
-          value: 'FORTNIGHTLY',
-          translationKey: 'options.FORTNIGHTLY.label',
-          subFields: buildAmountSubField('FORTNIGHTLY'),
+          value: 'fortnightly',
+          translationKey: 'options.fortnightly.label',
+          subFields: buildAmountSubField('fortnightly'),
         },
-        { value: 'MONTHLY', translationKey: 'options.MONTHLY.label', subFields: buildAmountSubField('MONTHLY') },
-        { value: 'YEARLY', translationKey: 'options.YEARLY.label', subFields: buildAmountSubField('YEARLY') },
+        { value: 'monthly', translationKey: 'options.monthly.label', subFields: buildAmountSubField('monthly') },
+        { value: 'yearly', translationKey: 'options.yearly.label', subFields: buildAmountSubField('yearly') },
         {
-          value: 'OTHER',
-          translationKey: 'options.OTHER.label',
+          value: 'other',
+          translationKey: 'options.other.label',
           subFields: {
             [detailsFieldName]: {
               name: detailsFieldName,
@@ -103,4 +111,21 @@ export const step: StepDefinition = createFormStep({
       ],
     },
   ],
+  getInitialFormData: req => {
+    const stepData = getFormData(req, stepName);
+    const rentDetails = req.session.ccdCase?.currentRentsDetails;
+    const frequency = stepData?.[frequencyFieldName] ?? rentDetails?.[frequencyFieldName];
+    const amountFieldName = amountFieldNames[frequency as keyof typeof amountFieldNames];
+    const amount = amountFieldName
+      ? (stepData?.[`${frequencyFieldName}.${amountFieldName}`] ??
+        rentDetails?.[caseFieldNames[amountFieldName as keyof typeof caseFieldNames]])
+      : undefined;
+    const details = stepData?.[`${frequencyFieldName}.${detailsFieldName}`] ?? rentDetails?.[detailsFieldName];
+
+    return {
+      ...(frequency && { [frequencyFieldName]: frequency }),
+      ...(amount && { [`${frequencyFieldName}.${amountFieldName}`]: String(amount) }),
+      ...(details && { [`${frequencyFieldName}.${detailsFieldName}`]: details }),
+    };
+  },
 });

@@ -17,7 +17,7 @@ const CASE_REF = '1234123412341234';
 
 describe('application tribunal-previously-determined-rent step', () => {
   const nunjucksEnv = { render: jest.fn(() => '') } as unknown as Environment;
-  const caseReferenceField = 'tribunalPreviouslyDeterminedRent.previousTribunalCaseReference';
+  const caseReferenceField = 'tribunalPreviouslyDeterminedTenancyRent.previousTribunalCaseReference';
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const post = async (body: Record<string, unknown>): Promise<{ req: any; res: any; next: jest.Mock }> => {
@@ -51,10 +51,10 @@ describe('application tribunal-previously-determined-rent step', () => {
   });
 
   it('saves the answer and continues when NO is selected', async () => {
-    const { req, res } = await post({ action: 'continue', tribunalPreviouslyDeterminedRent: 'NO' });
+    const { req, res } = await post({ action: 'continue', tribunalPreviouslyDeterminedTenancyRent: 'No' });
 
     expect(req.session.formData[CASE_REF]['tribunal-previously-determined-rent']).toStrictEqual({
-      tribunalPreviouslyDeterminedRent: 'NO',
+      tribunalPreviouslyDeterminedTenancyRent: 'No',
     });
     expect(res.redirect).toHaveBeenCalled();
   });
@@ -62,7 +62,7 @@ describe('application tribunal-previously-determined-rent step', () => {
   it('continues when YES is selected without a case reference', async () => {
     const { res } = await post({
       action: 'continue',
-      tribunalPreviouslyDeterminedRent: 'YES',
+      tribunalPreviouslyDeterminedTenancyRent: 'Yes',
       [caseReferenceField]: '',
     });
 
@@ -72,12 +72,12 @@ describe('application tribunal-previously-determined-rent step', () => {
   it('saves the case reference when YES is selected with one', async () => {
     const { req } = await post({
       action: 'continue',
-      tribunalPreviouslyDeterminedRent: 'YES',
+      tribunalPreviouslyDeterminedTenancyRent: 'Yes',
       [caseReferenceField]: 'LON/00AD/SMO/2023/0001',
     });
 
     expect(req.session.formData[CASE_REF]['tribunal-previously-determined-rent']).toStrictEqual({
-      tribunalPreviouslyDeterminedRent: 'YES',
+      tribunalPreviouslyDeterminedTenancyRent: 'Yes',
       [caseReferenceField]: 'LON/00AD/SMO/2023/0001',
     });
   });
@@ -85,7 +85,7 @@ describe('application tribunal-previously-determined-rent step', () => {
   it('stores the case reference uppercased', async () => {
     const { req } = await post({
       action: 'continue',
-      tribunalPreviouslyDeterminedRent: 'YES',
+      tribunalPreviouslyDeterminedTenancyRent: 'Yes',
       [caseReferenceField]: '  lon/00ad/smo/2023/0001  ',
     });
 
@@ -97,7 +97,7 @@ describe('application tribunal-previously-determined-rent step', () => {
   it('clears any previously entered case reference when NO is selected', async () => {
     const { req } = await post({
       action: 'continue',
-      tribunalPreviouslyDeterminedRent: 'NO',
+      tribunalPreviouslyDeterminedTenancyRent: 'No',
       [caseReferenceField]: 'LON/00AD/SMO/2023/0001',
     });
 
@@ -113,7 +113,7 @@ describe('application tribunal-previously-determined-rent step', () => {
   it('errors when the case reference is not in the tribunal format', async () => {
     const { res } = await post({
       action: 'continue',
-      tribunalPreviouslyDeterminedRent: 'YES',
+      tribunalPreviouslyDeterminedTenancyRent: 'Yes',
       [caseReferenceField]: 'LON/0000/SMO/2023/0001',
     });
 
@@ -123,7 +123,7 @@ describe('application tribunal-previously-determined-rent step', () => {
   it('does not validate the case reference when NO is selected', async () => {
     const { res } = await post({
       action: 'continue',
-      tribunalPreviouslyDeterminedRent: 'NO',
+      tribunalPreviouslyDeterminedTenancyRent: 'No',
       [caseReferenceField]: 'not-a-valid-reference',
     });
 

@@ -77,7 +77,6 @@ const sectionDefs = [
     groupId: 'theRent',
     titleKey: 'taskList.theCurrentRentAndOtherCosts',
     steps: [
-      'current-rent-and-other-costs',
       'tribunal-previously-determined-rent',
       'rent-payment-frequency',
       'rent-includes-council-tax',
