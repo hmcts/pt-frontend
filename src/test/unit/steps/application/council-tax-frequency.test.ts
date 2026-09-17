@@ -74,14 +74,14 @@ describe('application council-tax-frequency step', () => {
   it('clears the amounts for frequencies that are not selected', async () => {
     const { req } = await post(
       body({
-        councilTaxFrequency: 'WEEKLY',
+        councilTaxFrequency: 'weekly',
         [weeklyField]: '120',
         [monthlyField]: '500',
       })
     );
 
     expect(req.session.formData[CASE_REF][stepName]).toStrictEqual({
-      councilTaxFrequency: 'WEEKLY',
+      councilTaxFrequency: 'weekly',
       [weeklyField]: '120',
       [fortnightlyField]: '',
       [monthlyField]: '',
@@ -93,7 +93,7 @@ describe('application council-tax-frequency step', () => {
   it('clears the details when a frequency other than OTHER is selected', async () => {
     const { req } = await post(
       body({
-        councilTaxFrequency: 'MONTHLY',
+        councilTaxFrequency: 'monthly',
         [monthlyField]: '150',
         [detailsField]: 'Paid quarterly, around 400 each time',
       })
@@ -105,14 +105,14 @@ describe('application council-tax-frequency step', () => {
   it('clears all amounts and keeps the details when OTHER is selected', async () => {
     const { req } = await post(
       body({
-        councilTaxFrequency: 'OTHER',
+        councilTaxFrequency: 'other',
         [weeklyField]: '120',
         [detailsField]: 'Paid quarterly, around 400 each time',
       })
     );
 
     expect(req.session.formData[CASE_REF][stepName]).toStrictEqual({
-      councilTaxFrequency: 'OTHER',
+      councilTaxFrequency: 'other',
       [weeklyField]: '',
       [fortnightlyField]: '',
       [monthlyField]: '',
