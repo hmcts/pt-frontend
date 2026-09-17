@@ -3,6 +3,7 @@ import { flowConfig } from '../../../flow.config';
 import { createFormStep, getFormData } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccdCase.interface';
+import { toDateParts } from '@utils/date';
 
 const journeyName = 'application';
 const stepName = 'current-tenancy-replace-original-tenancy';
@@ -22,7 +23,7 @@ export const step: StepDefinition = createFormStep({
 
   beforeRedirect: req => {
     const stepData = getFormData(req, stepName);
-    if (stepData[fieldName] !== 'yes') {
+    if (stepData[fieldName] !== 'Yes') {
       for (const part of startDatePartNames) {
         stepData[`${fieldName}.${startDateFieldName}-${part}`] = '';
       }
@@ -40,7 +41,7 @@ export const step: StepDefinition = createFormStep({
       errorMessage: `errors.${fieldName}.required`,
       options: [
         {
-          value: 'yes',
+          value: 'Yes',
           translationKey: 'common:yes',
           subFields: {
             [startDateFieldName]: {
@@ -53,18 +54,36 @@ export const step: StepDefinition = createFormStep({
             },
           },
         },
-        { value: 'no', translationKey: 'common:no' },
-        { value: 'notSure', translationKey: 'options.notSure.label' },
+        { value: 'No', translationKey: 'common:no' },
+        { value: 'NotSure', translationKey: 'options.NotSure.label' },
       ],
     },
   ],
+  getInitialFormData: req => {
+    const stepData = getFormData(req, stepName);
+    const rentDetails = req.session.ccdCase?.currentRentsDetails;
+    const answer = stepData?.[fieldName] ?? rentDetails?.currentTenancyReplaceOriginalTenancy;
+    const startDate = answer === 'Yes' ? toDateParts(rentDetails?.originalTenancyStartDate) : undefined;
+
+    return {
+      ...(answer && { [fieldName]: answer }),
+      ...Object.fromEntries(
+        startDatePartNames
+          .map(part => [
+            `${fieldName}.${startDateFieldName}-${part}`,
+            stepData?.[`${fieldName}.${startDateFieldName}-${part}`] ?? startDate?.[part],
+          ])
+          .filter(([, value]) => value)
+      ),
+    };
+  },
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  const answer = ccdCase?.currentTenancyReplaceOriginalTenancy as string | undefined;
-  if (answer === 'yes') {
-    const startDate = ccdCase?.originalTenancyStartDate;
-    return Boolean(startDate?.day && startDate?.month && startDate?.year);
+  const answer = ccdCase?.currentRentsDetails?.currentTenancyReplaceOriginalTenancy as string | undefined;
+  if (answer === 'Yes') {
+    const startDate = ccdCase?.currentRentsDetails?.originalTenancyStartDate;
+    return Boolean(startDate);
   }
-  return answer === 'no' || answer === 'notSure';
+  return answer === 'No' || answer === 'NotSure';
 }
