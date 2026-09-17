@@ -3,10 +3,10 @@
   "questionTitle": "cyWhat do you think is the {{frequency}} market rent you should pay?",
   "questionHint": "cyYou can tell us your reasons next",
   "frequency": {
-    "weekly": "cyweekly",
-    "fortnightly": "cyfortnightly",
-    "monthly": "cymonthly",
-    "yearly": "cyyearly"
+    "weekly": "weekly",
+    "fortnightly": "fortnightly",
+    "monthly": "monthly",
+    "yearly": "yearly"
   },
   "errors": {
     "applicantSuggestedMonthlyMarketRent": {
