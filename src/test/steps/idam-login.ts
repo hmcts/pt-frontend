@@ -15,8 +15,10 @@ async function usePlaywrightPage(action: (page: import('playwright').Page) => Pr
 async function acceptCookiesIfPresent(): Promise<void> {
   await usePlaywrightPage(async page => {
     const acceptCookies = page.getByRole('button', { name: idamLogin.acceptAdditionalCookiesButton });
-    if ((await acceptCookies.count()) > 0) {
-      await acceptCookies.click();
+    try {
+      await acceptCookies.click({ timeout: 2000 });
+    } catch {
+      // Cookie banner is not always shown, and can appear after the heading.
     }
   });
 }
@@ -41,30 +43,62 @@ async function ensureSignInFormVisible(): Promise<void> {
   });
 }
 
-async function submitSignInCredentials(email: string, password: string): Promise<void> {
+function isPtHost(url: string): boolean {
+  const ptHost = new URL(testConfig.TEST_URL).hostname;
+  try {
+    return new URL(url).hostname === ptHost;
+  } catch {
+    return false;
+  }
+}
+
+async function waitForPtRedirect(page: import('playwright').Page): Promise<void> {
+  const ptHost = new URL(testConfig.TEST_URL).hostname;
+
+  try {
+    await page.waitForURL(url => isPtHost(url.toString()), {
+      timeout: testConfig.LoginRedirectTimeout,
+      waitUntil: 'domcontentloaded',
+    });
+  } catch (error) {
+    const wrapped = new Error(
+      `Timed out waiting for redirect to PT (${ptHost}) after IDAM sign-in. Current URL: ${page.url()}`
+    ) as Error & { cause?: unknown };
+    wrapped.cause = error;
+    throw wrapped;
+  }
+}
+
+async function submitSignInCredentials(
+  email: string,
+  password: string,
+  options?: { waitForPtRedirect?: boolean }
+): Promise<void> {
   await ensureSignInFormVisible();
+  await acceptCookiesIfPresent();
 
   await usePlaywrightPage(async page => {
     await fillFieldByLabel(page, idamLogin.emailAddressLabel, email);
     await fillFieldByLabel(page, idamLogin.passwordLabel, password);
+
+    if (options?.waitForPtRedirect) {
+      // Start waiting before the click so a fast OAuth redirect is not missed.
+      const redirected = waitForPtRedirect(page);
+      await clickButtonOrLink(page, idamLogin.signInButton, { waitForLoad: false });
+      await redirected;
+      return;
+    }
+
     await clickButtonOrLink(page, idamLogin.signInButton);
   });
 }
 
 async function waitForPtHost(): Promise<void> {
-  const ptHost = new URL(testConfig.TEST_URL).hostname;
-
   await usePlaywrightPage(async page => {
-    await page.waitForURL(
-      url => {
-        try {
-          return new URL(url).hostname === ptHost;
-        } catch {
-          return false;
-        }
-      },
-      { timeout: testConfig.WaitForTimeout }
-    );
+    if (isPtHost(page.url())) {
+      return;
+    }
+    await waitForPtRedirect(page);
   });
 }
 
@@ -88,7 +122,7 @@ Given('the user has reached the IDAM authentication page', async () => {
 });
 
 When('the user enters their credentials successfully', async () => {
-  await submitSignInCredentials(resolveIdamEmail(), resolveIdamPassword());
+  await submitSignInCredentials(resolveIdamEmail(), resolveIdamPassword(), { waitForPtRedirect: true });
 });
 
 When('the user enters their credentials incorrectly', async () => {
