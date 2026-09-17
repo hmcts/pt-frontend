@@ -9,11 +9,12 @@ export interface DocumentFieldDefinition {
 }
 
 export const DOCUMENT_FIELDS = {
-  floorPlanDocument: {
+  floorPlanDocuments: {
     slice: 'propertyDetails',
-    ptApiField: 'floorPlanDocument',
-    ccdField: 'floorPlanDocument',
+    ptApiField: 'floorPlanDocuments',
+    ccdField: 'floorPlanDocuments',
     documentType: 'propertyFloorPlan',
+    multiple: true,
   },
   outsidePropertyDocument: {
     slice: 'propertyDetails',
