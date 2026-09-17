@@ -1,3 +1,161 @@
 {
-  "heading": "Check your answers"
+  "pageTitle": "Check your answers - Current rent and other costs",
+  "heading": "Check your answers",
+  "cardTitle": "Current rent and other costs",
+  "rows": {
+    "tribunalPreviouslyDeterminedTenancyRent": {
+      "label": "Has the tribunal previously determined the rent for your tenancy?",
+      "changeHidden": "whether the tribunal previously determined the rent",
+      "options": {
+        "yes": "Yes",
+        "no": "No"
+      }
+    },
+    "previousTribunalCaseReference": {
+      "label": "Previous tribunal case reference",
+      "changeHidden": "previous tribunal case reference"
+    },
+    "rentPaymentFrequency": {
+      "label": "How often do you pay your rent?",
+      "changeHidden": "how often you pay your rent",
+      "options": {
+        "weekly": "Weekly",
+        "fortnightly": "Fortnightly (every 2 weeks)",
+        "monthly": "Monthly",
+        "yearly": "Yearly"
+      }
+    },
+    "rentCostWeekly": {
+      "label": "How much is the current weekly rent?",
+      "changeHidden": "the current weekly rent"
+    },
+    "rentCostFortnightly": {
+      "label": "How much is the current fortnightly rent?",
+      "changeHidden": "the current fortnightly rent"
+    },
+    "rentCostMonthly": {
+      "label": "How much is the current monthly rent?",
+      "changeHidden": "the current monthly rent"
+    },
+    "rentCostYearly": {
+      "label": "How much is the current yearly rent?",
+      "changeHidden": "the current yearly rent"
+    },
+    "rentIncludesCouncilTax": {
+      "label": "Does your rent include council tax?",
+      "changeHidden": "whether your rent includes council tax",
+      "options": {
+        "yes": "Yes",
+        "no": "No"
+      }
+    },
+    "councilTaxFrequency": {
+      "label": "How often is council tax paid? (optional)",
+      "changeHidden": "how often council tax is paid",
+      "options": {
+        "weekly": "Weekly",
+        "fortnightly": "Fortnightly (every 2 weeks)",
+        "monthly": "Monthly",
+        "yearly": "Yearly",
+        "other": "Other"
+      }
+    },
+    "councilTaxCostWeekly": {
+      "label": "How much does council tax cost weekly? (optional)",
+      "changeHidden": "how much council tax costs weekly"
+    },
+    "councilTaxCostFortnightly": {
+      "label": "How much does council tax cost fortnightly? (optional)",
+      "changeHidden": "how much council tax costs fortnightly"
+    },
+    "councilTaxCostMonthly": {
+      "label": "How much does council tax cost monthly? (optional)",
+      "changeHidden": "how much council tax costs monthly"
+    },
+    "councilTaxCostYearly": {
+      "label": "How much does council tax cost yearly? (optional)",
+      "changeHidden": "how much council tax costs yearly"
+    },
+    "rentInclusiveOfUtilityCharges": {
+      "label": "Does the rent include any charges for utilities?",
+      "changeHidden": "whether the rent includes charges for utilities",
+      "options": {
+        "yes": "Yes",
+        "no": "No"
+      }
+    },
+    "utilitiesPaidFrequency": {
+      "label": "How often are utilities paid? (optional)",
+      "changeHidden": "how often utilities are paid",
+      "options": {
+        "weekly": "Weekly",
+        "fortnightly": "Fortnightly (every 2 weeks)",
+        "monthly": "Monthly",
+        "yearly": "Yearly",
+        "other": "Other"
+      }
+    },
+    "utilitiesPaidCostWeekly": {
+      "label": "How much do utilities cost weekly? (optional)",
+      "changeHidden": "how much utilities cost weekly"
+    },
+    "utilitiesPaidCostFortnightly": {
+      "label": "How much do utilities cost fortnightly? (optional)",
+      "changeHidden": "how much utilities cost fortnightly"
+    },
+    "utilitiesPaidCostMonthly": {
+      "label": "How much do utilities cost monthly? (optional)",
+      "changeHidden": "how much utilities cost monthly"
+    },
+    "utilitiesPaidCostYearly": {
+      "label": "How much do utilities cost yearly? (optional)",
+      "changeHidden": "how much utilities cost yearly"
+    },
+    "currentTenancyStartDate": {
+      "label": "When did your current tenancy start?",
+      "changeHidden": "when your current tenancy started"
+    },
+    "currentTenancyEndDate": {
+      "label": "When does your tenancy end?",
+      "changeHidden": "when your tenancy ends"
+    },
+    "currentTenancyReplaceOriginalTenancy": {
+      "label": "Does your current tenancy replace an original tenancy?",
+      "changeHidden": "whether your current tenancy replaces an original tenancy",
+      "options": {
+        "yes": "Yes",
+        "no": "No",
+        "notsure": "I'm not sure"
+      }
+    },
+    "originalTenancyStartDate": {
+      "label": "When did the original tenancy start?",
+      "changeHidden": "when the original tenancy started"
+    },
+    "anyOtherHouseholdManagementCharges": {
+      "label": "Are you charged separately for anything else?",
+      "changeHidden": "whether you are charged separately for anything else",
+      "options": {
+        "yes": "Yes",
+        "no": "No"
+      }
+    },
+    "otherHouseholdManagementChargesDetails": {
+      "label": "Other charges (optional)",
+      "changeHidden": "other charges"
+    },
+    "additionalRentalServiceChargesVary": {
+      "label": "Do the charges you pay for these services vary?",
+      "changeHidden": "whether the charges you pay for these services vary",
+      "options": {
+        "yes": "Yes",
+        "no": "No"
+      }
+    },
+    "varyingAdditionalRentalServiceChargesDetails": {
+      "label": "How the charges vary",
+      "changeHidden": "how the charges vary"
+    }
+  },
+  "reviewAndChangeInfo": "You can review and change your answers before you submit your application."
 }
