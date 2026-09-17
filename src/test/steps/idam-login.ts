@@ -15,10 +15,8 @@ async function usePlaywrightPage(action: (page: import('playwright').Page) => Pr
 async function acceptCookiesIfPresent(): Promise<void> {
   await usePlaywrightPage(async page => {
     const acceptCookies = page.getByRole('button', { name: idamLogin.acceptAdditionalCookiesButton });
-    try {
-      await acceptCookies.click({ timeout: 2000 });
-    } catch {
-      // Cookie banner is not always shown, and can appear after the heading.
+    if ((await acceptCookies.count()) > 0) {
+      await acceptCookies.click();
     }
   });
 }
@@ -44,12 +42,7 @@ async function ensureSignInFormVisible(): Promise<void> {
 }
 
 function isPtHost(url: string): boolean {
-  const ptHost = new URL(testConfig.TEST_URL).hostname;
-  try {
-    return new URL(url).hostname === ptHost;
-  } catch {
-    return false;
-  }
+  return new URL(url).hostname === new URL(testConfig.TEST_URL).hostname;
 }
 
 async function waitForPtRedirect(page: import('playwright').Page): Promise<void> {
