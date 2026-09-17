@@ -1,6 +1,5 @@
 import { myApplication } from '../functional/page-data/myapplication.page.data';
 import { resolveIdamEmail, resolveIdamPassword } from '../functional/utils/idamPassword';
-import { clickButtonOrLink } from '../functional/utils/playwrightActions';
 
 import { selectOptionByLabel } from './common';
 import { submitSignInCredentials, verifyRedirectedToPtUI } from './idam-login';
@@ -13,7 +12,18 @@ async function usePlaywrightPage(action: (page: import('playwright').Page) => Pr
 
 async function clickMyApplicationsLink(): Promise<void> {
   await usePlaywrightPage(async page => {
-    await clickButtonOrLink(page, myApplication.startNewApplicationLinkText);
+    // Wait for dashboard page to load
+    await page.waitForLoadState('networkidle');
+
+    const link = page.getByRole('link', {
+      name: myApplication.startNewApplicationLinkText,
+    });
+
+    await link.waitFor({ state: 'visible', timeout: 30000 });
+
+    await link.scrollIntoViewIfNeeded();
+
+    await link.click();
   });
 }
 
