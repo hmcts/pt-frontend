@@ -26,7 +26,7 @@ export async function fillFieldByLabel(page: Page, label: string, value: string)
     .fill(value);
 }
 
-export async function clickButtonOrLink(page: Page, label: string): Promise<void> {
+export async function clickButtonOrLink(page: Page, label: string, options?: { waitForLoad?: boolean }): Promise<void> {
   const button = page
     .locator(
       `button:text-is("${label}"),
@@ -38,5 +38,7 @@ export async function clickButtonOrLink(page: Page, label: string): Promise<void
     .first();
 
   await button.click();
-  await page.waitForLoadState('domcontentloaded');
+  if (options?.waitForLoad !== false) {
+    await page.waitForLoadState('domcontentloaded');
+  }
 }

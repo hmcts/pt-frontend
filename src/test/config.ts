@@ -17,7 +17,8 @@ export const config = {
   IDAM_PT_USER_PASSWORD: process.env.IDAM_PT_USER_PASSWORD || '',
   TestHeadlessBrowser: process.env.TEST_HEADLESS ? process.env.TEST_HEADLESS === 'true' : true,
   TestSlowMo: 250,
-  WaitForTimeout: 10000,
+  WaitForTimeout: 20000,
+  LoginRedirectTimeout: 45000,
 
   Gherkin: {
     features: './src/test/functional/features/**/*.feature',
@@ -33,7 +34,8 @@ config.helpers = {
     browser: 'chromium',
     waitForTimeout: config.WaitForTimeout,
     waitForAction: 1000,
-    waitForNavigation: 'networkidle0',
+    waitForNavigation: 'domcontentloaded',
     ignoreHTTPSErrors: true,
+    slowMo: config.TestSlowMo,
   },
 };
