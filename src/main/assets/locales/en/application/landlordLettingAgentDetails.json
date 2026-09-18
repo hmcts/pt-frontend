@@ -1,0 +1,27 @@
+{
+  "pageTitle": "Your landlord's letting agent's details",
+  "heading": "Your landlord's letting agent's details",
+  "labels": {
+    "lettingAgentFirstName": "First name",
+    "lettingAgentLastName": "Last name",
+    "lettingAgentCompanyName": "Company name (optional)",
+    "lettingAgentDXNumber": {
+      "label": "DX number for communication (optional)",
+      "hint": "For example, AB123"
+    },
+    "lettingAgentReferenceNumber": {
+      "label": "Reference number for communication (optional)",
+      "hint": "For example, AB123"
+    }
+  },
+  "errors": {
+    "lettingAgentFirstName": {
+      "required": "Enter the letting agent's first name",
+      "invalid": "First name must be 2 characters or more"
+    },
+    "lettingAgentLastName": {
+      "required": "Enter the letting agent's last name",
+      "invalid": "Last name must be 2 characters or more"
+    }
+  }
+}
