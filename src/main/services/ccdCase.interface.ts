@@ -151,8 +151,8 @@ export interface CcdCaseData {
   };
 
   marketRentDetails?: {
-    applicantSuggestedMonthlyMarketRent?: number;
-    applicantSuggestedMonthlyMarketRentReasons?: string;
+    applicantSuggestedMarketRent?: number;
+    applicantSuggestedMarketRentReasons?: string;
     suggestedMarketRentEvidence?: CcdUploadedDocument;
     additionalInfoToConsiderWhenDeterminingRent?: string | boolean;
     additionalInfoToConsiderWhenDeterminingRentDetails?: string;
@@ -254,6 +254,7 @@ export interface PTCaseData
   applicantContactPreferences?: ContactPreferences;
   currentRentsDetails?: RentDetails;
   propertyDetails?: PropertyDetails;
+  marketRentDetails?: MarketRentDetails;
 }
 
 export interface ContactPreferences {
@@ -352,6 +353,12 @@ export interface RentDetails {
   otherHouseholdManagementChargesDetails?: string;
   additionalRentalServiceChargesVary?: YesNoValue;
   varyingAdditionalRentalServiceChargesDetails?: string;
+}
+
+/** Fields captured across the what you think the market rent should be journey. */
+export interface MarketRentDetails {
+  applicantSuggestedMarketRent?: number;
+  applicantSuggestedMarketRentReasons?: string;
 }
 
 export interface InspectionAndHearing {
