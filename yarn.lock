@@ -10355,15 +10355,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-rate-limit@npm:^7.5.0":
-  version: 7.5.1
-  resolution: "express-rate-limit@npm:7.5.1"
-  peerDependencies:
-    express: ">= 4.11"
-  checksum: 10/357c3398450144ab7bbce2841d0bf4f93a0f3fd9d1d5ed9a0ee331b557af969cc790941dc37b47f8d9b5672964aa0e31666f770e1f48b334dc7d1e69f6433040
-  languageName: node
-  linkType: hard
-
 "express-session@npm:1.19.0":
   version: 1.19.0
   resolution: "express-session@npm:1.19.0"
@@ -16045,7 +16036,6 @@ __metadata:
     eslint-plugin-jest: "npm:29.16.6"
     express: "npm:5.2.1"
     express-nunjucks: "npm:3.1.2"
-    express-rate-limit: "npm:^7.5.0"
     express-session: "npm:1.19.0"
     form-data: "npm:4.0.6"
     git-rev-sync: "npm:^3.0.2"
