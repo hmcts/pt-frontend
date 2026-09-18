@@ -252,8 +252,16 @@ export interface PTCaseData
   tenancyType?: string;
 
   applicantContactPreferences?: ContactPreferences;
+  tenantDetails?: TenantDetails;
   currentRentsDetails?: RentDetails;
   propertyDetails?: PropertyDetails;
+}
+
+export interface TenantDetails {
+  firstName?: string;
+  lastName?: string;
+  companyName?: string;
+  referenceNumberForCommunications?: string;
 }
 
 export interface ContactPreferences {

@@ -1,4 +1,25 @@
 {
   "pageTitle": "cyYour information",
-  "heading": "cyYour information"
+  "heading": "cyYour information",
+  "labels": {
+    "applicantFirstName": "cyFirst name",
+    "applicantLastName": "cyLast name",
+    "companyName": "cyCompany name (optional)",
+    "referenceNumberForCommunications": "cyReference number for communication (optional)"
+  },
+  "hints": {
+    "referenceNumberForCommunications": "cyFor example, AB123"
+  },
+  "errors": {
+    "applicantFirstName": {
+      "required": "cyEnter first name"
+    },
+    "applicantLastName": {
+      "required": "cyEnter last name"
+    },
+    "applicantFirstNameMaxLength": "cyFirst name must be 100 characters or less",
+    "applicantLastNameMaxLength": "cyLast name must be 100 characters or less",
+    "companyNameMaxLength": "cyCompany name must be 100 characters or less",
+    "referenceNumberForCommunicationsMaxLength": "cyReference number for communication must be 100 characters or less"
+  }
 }

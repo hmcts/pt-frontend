@@ -2,6 +2,7 @@ import { flowConfig } from '../../flow.config';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { PTCaseData } from '@services/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'your-information';
@@ -13,10 +14,64 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/yourInformation.njk`,
   showCancelButton: false,
-  isAnswered: () => false,
+  isAnswered: req => isAnswered(req.session.ccdCase),
   translationKeys: {
     pageTitle: 'pageTitle',
     heading: 'heading',
   },
-  fields: [],
+  fields: [
+    {
+      name: 'applicantFirstName',
+      type: 'text',
+      required: true,
+      isPageHeading: false,
+      maxLength: 100,
+      translationKey: { label: 'labels.applicantFirstName' },
+      errorMessage: 'errors.applicantFirstName.required',
+      attributes: {
+        autocomplete: 'given-name',
+        spellcheck: false,
+      },
+    },
+    {
+      name: 'applicantLastName',
+      type: 'text',
+      required: true,
+      isPageHeading: false,
+      maxLength: 100,
+      translationKey: { label: 'labels.applicantLastName' },
+      errorMessage: 'errors.applicantLastName.required',
+      attributes: {
+        autocomplete: 'family-name',
+        spellcheck: false,
+      },
+    },
+    {
+      name: 'companyName',
+      type: 'text',
+      required: false,
+      isPageHeading: false,
+      maxLength: 100,
+      translationKey: { label: 'labels.companyName' },
+      attributes: {
+        autocomplete: 'organization',
+      },
+    },
+    {
+      name: 'referenceNumberForCommunications',
+      type: 'text',
+      required: false,
+      isPageHeading: false,
+      maxLength: 100,
+      translationKey: {
+        label: 'labels.referenceNumberForCommunications',
+        hint: 'hints.referenceNumberForCommunications',
+      },
+      classes: 'govuk-input--width-20',
+    },
+  ],
 });
+
+function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  return Boolean(ccdCase?.applicantFirstName && ccdCase?.applicantLastName);
+}
