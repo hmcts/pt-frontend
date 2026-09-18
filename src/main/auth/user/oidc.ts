@@ -70,7 +70,7 @@ const createIdamToken = (params: Record<string, string>): Promise<AxiosResponse<
   } else {
     throw new Error('Missing data for createIdamToken.');
   }
-  return axios.post(tokenUrl, data, { headers });
+  return axios.post(tokenUrl, data, { headers, timeout: config.get<number>('http.timeoutMs') });
 };
 
 export const getIdamToken = async (

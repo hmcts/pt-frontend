@@ -18,6 +18,7 @@ const getCaseTypeId = (): string => config.get('ccd.caseTypeId');
 const cdamClient = (userToken: string): AxiosInstance =>
   axios.create({
     baseURL: getCdamUrl(),
+    timeout: config.get<number>('http.timeoutMs'),
     headers: {
       Authorization: `Bearer ${userToken}`,
       ServiceAuthorization: `Bearer ${requireServiceAuthToken()}`,
