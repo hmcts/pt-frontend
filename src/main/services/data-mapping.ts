@@ -284,6 +284,9 @@ export function prepareDataForSave(
             getFormDataString(req, 'proposed-market-rent', 'applicantSuggestedMarketRent') ??
               marketRentDetails?.applicantSuggestedMarketRent
           ),
+          applicantSuggestedMarketRentReasons:
+            getFormDataString(req, 'proposed-market-rent-reasons', 'applicantSuggestedMarketRentReasons') ??
+            marketRentDetails?.applicantSuggestedMarketRentReasons,
         },
       };
     }
