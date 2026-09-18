@@ -31,7 +31,7 @@ export class CcdApiClient {
 
       return response.data;
     } catch (err) {
-      logger.error(err);
+      logger.error('Failed to create case', err);
       throw err;
     }
   }
@@ -46,7 +46,7 @@ export class CcdApiClient {
       const response = await this.client.get<CcdEventTriggerResponse>(`/cases/${caseId}/event-triggers/${eventName}`);
       return response.data;
     } catch (err) {
-      logger.error(err);
+      logger.error('Failed to get event trigger', err, { caseId, eventName });
       throw err;
     }
   }
@@ -78,7 +78,7 @@ export class CcdApiClient {
         logger.error('Case could not be updated due to a version conflict.');
         throw err;
       }
-      logger.error(err);
+      logger.error('Failed to trigger event', err, { caseId, eventName });
       throw err;
     }
   }
@@ -88,6 +88,7 @@ export const getCaseApi = (userDetails: UserDetails): CcdApiClient => {
   return new CcdApiClient(
     axios.create({
       baseURL: config.get('ccd.url'),
+      timeout: config.get<number>('http.timeoutMs'),
       headers: {
         Authorization: 'Bearer ' + userDetails.accessToken,
         ServiceAuthorization: `Bearer ${requireServiceAuthToken()}`,
