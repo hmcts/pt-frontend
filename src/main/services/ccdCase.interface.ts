@@ -151,8 +151,8 @@ export interface CcdCaseData {
   };
 
   marketRentDetails?: {
-    applicantSuggestedMonthlyMarketRent?: number;
-    applicantSuggestedMonthlyMarketRentReasons?: string;
+    applicantSuggestedMarketRent?: number;
+    applicantSuggestedMarketRentReasons?: string;
     suggestedMarketRentEvidence?: CcdUploadedDocument;
     additionalInfoToConsiderWhenDeterminingRent?: string | boolean;
     additionalInfoToConsiderWhenDeterminingRentDetails?: string;
@@ -357,8 +357,8 @@ export interface RentDetails {
 
 /** Fields captured across the what you think the market rent should be journey. */
 export interface MarketRentDetails {
-  applicantSuggestedMonthlyMarketRent?: number;
-  applicantSuggestedMonthlyMarketRentReasons?: string;
+  applicantSuggestedMarketRent?: number;
+  applicantSuggestedMarketRentReasons?: string;
 }
 
 export interface InspectionAndHearing {

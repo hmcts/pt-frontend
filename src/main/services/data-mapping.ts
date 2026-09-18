@@ -280,9 +280,9 @@ export function prepareDataForSave(
 
       return {
         marketRentDetails: {
-          applicantSuggestedMonthlyMarketRent: toNumber(
-            getFormDataString(req, 'proposed-market-rent', 'applicantSuggestedMonthlyMarketRent') ??
-              marketRentDetails?.applicantSuggestedMonthlyMarketRent
+          applicantSuggestedMarketRent: toNumber(
+            getFormDataString(req, 'proposed-market-rent', 'applicantSuggestedMarketRent') ??
+              marketRentDetails?.applicantSuggestedMarketRent
           ),
         },
       };

@@ -9,7 +9,7 @@
     "yearly": "yearly"
   },
   "errors": {
-    "applicantSuggestedMonthlyMarketRent": {
+    "applicantSuggestedMarketRent": {
       "required": "Enter the market rent you think you should pay",
       "invalid": "Market rent amount must be a number with no more than 2 decimal places, like 120 or 120.50",
       "decimalPlaces": "Market rent amount must be a number with no more than 2 decimal places, like 120 or 120.50",

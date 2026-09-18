@@ -386,54 +386,54 @@ describe('prepareDataForSave', () => {
 
     it('should map the market rent from form data as a number', () => {
       const mockReq = reqWith({
-        'proposed-market-rent': { applicantSuggestedMonthlyMarketRent: '1200.50' },
+        'proposed-market-rent': { applicantSuggestedMarketRent: '1200.50' },
       });
 
       const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
 
-      expect(marketRentDetailsFrom(mappedData)).toEqual({ applicantSuggestedMonthlyMarketRent: 1200.5 });
+      expect(marketRentDetailsFrom(mappedData)).toEqual({ applicantSuggestedMarketRent: 1200.5 });
     });
 
     it('should fall back to the saved case', () => {
       const ccdCaseData = {
         caseReference: BigInt(CASE_REF),
-        marketRentDetails: { applicantSuggestedMonthlyMarketRent: 900 },
+        marketRentDetails: { applicantSuggestedMarketRent: 900 },
       } as unknown as PTCaseData;
 
       const mappedData = prepareDataForSave(sectionId, reqWith({}), ccdCaseData);
 
-      expect(marketRentDetailsFrom(mappedData)).toEqual({ applicantSuggestedMonthlyMarketRent: 900 });
+      expect(marketRentDetailsFrom(mappedData)).toEqual({ applicantSuggestedMarketRent: 900 });
     });
 
     it('should prefer form data over the saved case', () => {
       const mockReq = reqWith({
-        'proposed-market-rent': { applicantSuggestedMonthlyMarketRent: '1500' },
+        'proposed-market-rent': { applicantSuggestedMarketRent: '1500' },
       });
 
       const ccdCaseData = {
         caseReference: BigInt(CASE_REF),
-        marketRentDetails: { applicantSuggestedMonthlyMarketRent: 900 },
+        marketRentDetails: { applicantSuggestedMarketRent: 900 },
       } as unknown as PTCaseData;
 
       const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
 
-      expect(marketRentDetailsFrom(mappedData)).toEqual({ applicantSuggestedMonthlyMarketRent: 1500 });
+      expect(marketRentDetailsFrom(mappedData)).toEqual({ applicantSuggestedMarketRent: 1500 });
     });
 
     it('should leave the market rent undefined when it is empty or not numeric', () => {
       const empty = prepareDataForSave(
         sectionId,
-        reqWith({ 'proposed-market-rent': { applicantSuggestedMonthlyMarketRent: '' } }),
+        reqWith({ 'proposed-market-rent': { applicantSuggestedMarketRent: '' } }),
         {} as unknown as PTCaseData
       );
       const notANumber = prepareDataForSave(
         sectionId,
-        reqWith({ 'proposed-market-rent': { applicantSuggestedMonthlyMarketRent: 'not-a-number' } }),
+        reqWith({ 'proposed-market-rent': { applicantSuggestedMarketRent: 'not-a-number' } }),
         {} as unknown as PTCaseData
       );
 
-      expect(marketRentDetailsFrom(empty).applicantSuggestedMonthlyMarketRent).toBeUndefined();
-      expect(marketRentDetailsFrom(notANumber).applicantSuggestedMonthlyMarketRent).toBeUndefined();
+      expect(marketRentDetailsFrom(empty).applicantSuggestedMarketRent).toBeUndefined();
+      expect(marketRentDetailsFrom(notANumber).applicantSuggestedMarketRent).toBeUndefined();
     });
   });
 

@@ -69,7 +69,7 @@ describe('application proposed-market-rent step', () => {
     });
 
     it('returns the error key matching the reason the amount is invalid', () => {
-      expect(validate('not-a-number')).toBe('errors.applicantSuggestedMonthlyMarketRent.invalid');
+      expect(validate('not-a-number')).toBe('errors.applicantSuggestedMarketRent.invalid');
     });
   });
 
@@ -81,15 +81,15 @@ describe('application proposed-market-rent step', () => {
       }) as unknown as Request;
 
     it('returns the answer from the form data', () => {
-      const req = makeReq({ 'proposed-market-rent': { applicantSuggestedMonthlyMarketRent: '1200' } });
+      const req = makeReq({ 'proposed-market-rent': { applicantSuggestedMarketRent: '1200' } });
 
-      expect(capturedConfig.getInitialFormData(req)).toEqual({ applicantSuggestedMonthlyMarketRent: '1200' });
+      expect(capturedConfig.getInitialFormData(req)).toEqual({ applicantSuggestedMarketRent: '1200' });
     });
 
     it('falls back to the saved case and returns it as a string', () => {
-      const req = makeReq({}, { applicantSuggestedMonthlyMarketRent: 900 });
+      const req = makeReq({}, { applicantSuggestedMarketRent: 900 });
 
-      expect(capturedConfig.getInitialFormData(req)).toEqual({ applicantSuggestedMonthlyMarketRent: '900' });
+      expect(capturedConfig.getInitialFormData(req)).toEqual({ applicantSuggestedMarketRent: '900' });
     });
 
     it('returns nothing when the question has not been answered', () => {

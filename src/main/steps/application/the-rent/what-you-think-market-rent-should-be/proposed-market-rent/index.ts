@@ -7,7 +7,7 @@ import { getRentAmountError } from '@utils/rentAmount';
 const journeyName = 'application';
 const stepName = 'proposed-market-rent';
 
-const fieldName = 'applicantSuggestedMonthlyMarketRent';
+const fieldName = 'applicantSuggestedMarketRent';
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -16,7 +16,7 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/proposedMarketRent.njk`,
   showCancelButton: false,
-  isAnswered: req => Boolean(req.session.ccdCase?.marketRentDetails?.applicantSuggestedMonthlyMarketRent),
+  isAnswered: req => Boolean(req.session.ccdCase?.marketRentDetails?.applicantSuggestedMarketRent),
   translationKeys: {
     pageTitle: 'pageTitle',
   },
@@ -58,7 +58,7 @@ export const step: StepDefinition = createFormStep({
   getInitialFormData: req => {
     const value =
       getFormDataString(req, stepName, fieldName) ??
-      req.session.ccdCase?.marketRentDetails?.applicantSuggestedMonthlyMarketRent;
+      req.session.ccdCase?.marketRentDetails?.applicantSuggestedMarketRent;
 
     return {
       ...(value && { [fieldName]: String(value) }),
