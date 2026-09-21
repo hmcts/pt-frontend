@@ -22,7 +22,7 @@ export const flowConfig: JourneyFlowConfig = {
       showCondition: (req: Request) => getFormData(req, 'floor-plan-of-property').hasFloorPlanOfProperty === 'yes',
     },
     'upload-tenancy-agreement': {
-      showCondition: (req: Request) => getFormData(req, 'have-tenancy-agreement').hasTenancyAgreement === 'yes',
+      showCondition: (req: Request) => getFormData(req, 'have-tenancy-agreement').copyOfTenancyAgreement === 'Yes',
     },
     'upload-evidence-notice-not-legally-valid': {
       showCondition: (req: Request) => getFormData(req, 'your-notice-proposing-a-new-rent').noticeLegallyValid === 'no',

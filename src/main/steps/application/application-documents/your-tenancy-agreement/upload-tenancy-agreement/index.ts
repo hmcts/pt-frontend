@@ -17,12 +17,7 @@ export const step: StepDefinition = createFormStep({
   customTemplate: `${__dirname}/uploadTenancyAgreement.njk`,
   showCancelButton: false,
   documentField,
-  isAnswered: req => {
-    const application = req.session.ccdCase as {
-      tenancyAgreementDetails?: { tenancyAgreementDocument?: { url?: string } };
-    };
-    return Boolean(application?.tenancyAgreementDetails?.tenancyAgreementDocument?.url);
-  },
+  isAnswered: req => Boolean(req.session.ccdCase?.tenancyAgreementDetails?.tenancyAgreementDocument?.url),
   translationKeys: {
     pageTitle: 'pageTitle',
     heading: 'heading',

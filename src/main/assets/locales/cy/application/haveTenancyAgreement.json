@@ -7,7 +7,7 @@
     }
   },
   "errors": {
-    "hasTenancyAgreement": {
+    "copyOfTenancyAgreement": {
       "required": "cySelect yes if you have a copy of your tenancy agreement to upload"
     },
     "noTenancyAgreementReason": {
