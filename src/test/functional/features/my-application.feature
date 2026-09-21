@@ -1,4 +1,4 @@
-@JIRA-TEST-KEY:PTSD-1012
+@JIRA-TEST-KEY:PTSD-1012 @Chan1
 Feature: My application page
   As a PT user
   I want to be authenticated to the PT upon entering my credentials in IDAM
@@ -11,7 +11,7 @@ Feature: My application page
     Then check that the user is redirected to the my-application page
     When user clicks on the my application link
     Then check that the user is redirected to the application-type page
-    And I select the option "Challenge the rent increase proposed in a landlord’s notice"
+    And I select the option "Challenge my rent as excessive within the first 6 months of the tenancy"
     And I click "Continue"
     Then check that the user is redirected to the "tenancy-type" page
     And I select the option "Assured periodic tenancy"
@@ -25,7 +25,7 @@ Feature: My application page
     Then check that the user is redirected to the my-application page
     When user clicks on the my application link
     Then check that the user is redirected to the application-type page
-    And I select the option "Challenge the rent increase proposed in a landlord’s notice"
+    And I select the option "Challenge my rent as excessive within the first 6 months of the tenancy"
     And I click "Continue"
     And I click "Continue"
     Then I check that valid error message is displayed for the tenancy-type page
