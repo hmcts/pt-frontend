@@ -17,7 +17,7 @@ export class PtApiClient {
       const response = await this.client.get<PTCaseData[]>('/applications');
       return response.data;
     } catch (err) {
-      logger.error(err);
+      logger.error('Failed to list applications for user', err);
       throw err;
     }
   }
@@ -27,7 +27,7 @@ export class PtApiClient {
       const response = await this.client.get<PTCaseData>(`/applications/${caseReference}`);
       return response.data;
     } catch (err) {
-      logger.error(err);
+      logger.error('Failed to get application by case reference', err, { caseReference });
       throw err;
     }
   }
@@ -37,6 +37,7 @@ export const getPtApi = (userDetails: UserDetails): PtApiClient => {
   return new PtApiClient(
     axios.create({
       baseURL: config.get('api.url'),
+      timeout: config.get<number>('http.timeoutMs'),
       headers: {
         Authorization: 'Bearer ' + userDetails.accessToken,
         ServiceAuthorization: `Bearer ${requireServiceAuthToken()}`,

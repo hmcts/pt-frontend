@@ -14,6 +14,12 @@
     "maxTotalFileSizeMB": "DOCUMENT_UPLOAD_MAX_TOTAL_FILE_SIZE_MB",
     "maxFilenameLength": "DOCUMENT_UPLOAD_MAX_FILENAME_LENGTH"
   },
+  "http": {
+    "timeoutMs": {
+      "__name": "HTTP_TIMEOUT_MS",
+      "__format": "json"
+    }
+  },
   "frontend": {
     "url": "TEST_URL"
   },

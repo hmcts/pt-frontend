@@ -7,6 +7,9 @@ import { isLocalDev } from '@utils/environment';
 const logger = Logger.getLogger('server');
 
 const PORT = process.env.PORT || 4000;
+const HEADERS_TIMEOUT_MS = 20_000;
+const REQUEST_TIMEOUT_MS = 30_000;
+const KEEP_ALIVE_TIMEOUT_MS = 65_000;
 
 let isShuttingDown = false;
 
@@ -19,6 +22,10 @@ async function startServer() {
   const server = app.listen(PORT, () => {
     logger.info(`Application started: http://localhost:${PORT}`);
   });
+
+  server.headersTimeout = HEADERS_TIMEOUT_MS;
+  server.requestTimeout = REQUEST_TIMEOUT_MS;
+  server.keepAliveTimeout = KEEP_ALIVE_TIMEOUT_MS;
 
   return () => {
     setShuttingDown(true);
