@@ -55,6 +55,7 @@ export const step: StepDefinition = {
         backUrl: '/',
         groups,
         name: name || 'Claimant',
+        caseReference,
       };
     }),
 };
