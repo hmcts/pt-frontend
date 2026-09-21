@@ -78,12 +78,59 @@ const myFormat = printf((info: Record<string, unknown> & { [key: symbol]: unknow
   return `${logTimestamp} ${level}: ${message}${extraValues}${extraMetadata}`;
 });
 
+type Dict = Record<string, unknown>;
+
+const isAxiosShaped = (value: unknown): value is Dict =>
+  typeof value === 'object' &&
+  value !== null &&
+  ((value as Dict).isAxiosError === true || typeof (value as Dict).config === 'object');
+
+function summariseAxiosError(error: Dict): Dict {
+  const config = (error.config ?? {}) as Dict;
+  const response = error.response as { status?: number; data?: unknown } | undefined;
+  const data = response?.data;
+
+  return {
+    name: error.name,
+    message: error.message,
+    code: error.code,
+    status: response?.status,
+    method: typeof config.method === 'string' ? config.method.toUpperCase() : undefined,
+    url: `${config.baseURL ?? ''}${config.url ?? ''}`,
+    responseData: Buffer.isBuffer(data) ? `[Buffer ${data.length} bytes]` : data,
+    stack: error.stack,
+  };
+}
+
+const formatAxiosError = format(info => {
+  const record = info as unknown as Record<string | symbol, unknown>;
+
+  const splatValues = record[splatSymbol];
+  if (Array.isArray(splatValues)) {
+    record[splatSymbol] = splatValues.map(value =>
+      isAxiosShaped(value) ? { error: summariseAxiosError(value) } : value
+    );
+  }
+
+  return isAxiosShaped(info)
+    ? ({
+        level: info.level,
+        message: info.message,
+        timestamp: info.timestamp,
+        error: summariseAxiosError(info),
+        [Symbol.for('level')]: info[Symbol.for('level')],
+        [splatSymbol]: record[splatSymbol],
+      } as unknown as typeof info)
+    : info;
+});
+
 const isColorizable = process.stdout.isTTY === true && process.env.CI !== 'true';
 
 function transport(name: string) {
   const formatParts = [
     label({ label: name, message: true }),
     timestamp(),
+    formatAxiosError(),
     splat(),
     ...(isColorizable ? [colorize({ all: true })] : []),
     process.env.JSON_PRINT ? json() : myFormat,
