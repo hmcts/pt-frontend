@@ -77,9 +77,21 @@ export function prepareDataForSave(
     // case 'landlordsNotice': {
     //   return {};
     // }
-    // case 'yourTenancyAgreement': {
-    //   return {};
-    // }
+    case 'yourTenancyAgreement': {
+      const copyOfTenancyAgreement =
+        getFormDataString(req, 'have-tenancy-agreement', 'copyOfTenancyAgreement') ??
+        saved?.tenancyAgreementDetails?.copyOfTenancyAgreement;
+      const isYes = copyOfTenancyAgreement === 'Yes';
+      return {
+        tenancyAgreementDetails: {
+          copyOfTenancyAgreement,
+          noTenancyAgreementReason: isYes
+            ? undefined
+            : (getFormDataString(req, 'have-tenancy-agreement', 'copyOfTenancyAgreement.noTenancyAgreementReason') ??
+              saved?.tenancyAgreementDetails?.noTenancyAgreementReason),
+        },
+      };
+    }
 
     case 'theCurrentRentAndOtherCosts': {
       const rentDetails = saved?.currentRentsDetails;
@@ -285,9 +297,19 @@ export function prepareDataForSave(
       };
     }
 
-    // case 'whatYouThinkMarketRentShouldBe': {
-    //   return {};
-    // }
+    case 'whatYouThinkMarketRentShouldBe': {
+      const marketRentDetails = saved?.marketRentDetails;
+
+      return {
+        marketRentDetails: {
+          applicantSuggestedMarketRent: toNumber(
+            getFormDataString(req, 'proposed-market-rent', 'applicantSuggestedMarketRent') ??
+              marketRentDetails?.applicantSuggestedMarketRent
+          ),
+        },
+      };
+    }
+
     // case 'propertyDetails': {
     //   return {};
     // }

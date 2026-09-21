@@ -96,7 +96,7 @@ const sectionDefs = [
     id: 'whatYouThinkMarketRentShouldBe',
     groupId: 'theRent',
     titleKey: 'taskList.whatYouThinkMarketRentShouldBe',
-    steps: ['proposed-market-rent'],
+    steps: ['proposed-market-rent', 'proposed-market-rent-reasons'],
   },
   {
     id: 'propertyDetails',

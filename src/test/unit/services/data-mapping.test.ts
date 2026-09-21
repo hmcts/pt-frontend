@@ -372,6 +372,153 @@ describe('prepareDataForSave', () => {
     });
   });
 
+  describe('whatYouThinkMarketRentShouldBe data mapping', () => {
+    const sectionId = 'whatYouThinkMarketRentShouldBe';
+
+    const reqWith = (formData: Record<string, unknown>): Request =>
+      ({
+        params: { caseReference: CASE_REF },
+        session: { formData: { [CASE_REF]: formData } },
+      }) as unknown as Request;
+
+    const marketRentDetailsFrom = (mapped: Record<string, unknown>): Record<string, unknown> =>
+      (mapped as { marketRentDetails: Record<string, unknown> }).marketRentDetails;
+
+    it('should map the market rent from form data as a number', () => {
+      const mockReq = reqWith({
+        'proposed-market-rent': { applicantSuggestedMarketRent: '1200.50' },
+      });
+
+      const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
+
+      expect(marketRentDetailsFrom(mappedData)).toEqual({ applicantSuggestedMarketRent: 1200.5 });
+    });
+
+    it('should fall back to the saved case', () => {
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        marketRentDetails: { applicantSuggestedMarketRent: 900 },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareDataForSave(sectionId, reqWith({}), ccdCaseData);
+
+      expect(marketRentDetailsFrom(mappedData)).toEqual({ applicantSuggestedMarketRent: 900 });
+    });
+
+    it('should prefer form data over the saved case', () => {
+      const mockReq = reqWith({
+        'proposed-market-rent': { applicantSuggestedMarketRent: '1500' },
+      });
+
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        marketRentDetails: { applicantSuggestedMarketRent: 900 },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
+
+      expect(marketRentDetailsFrom(mappedData)).toEqual({ applicantSuggestedMarketRent: 1500 });
+    });
+
+    it('should leave the market rent undefined when it is empty or not numeric', () => {
+      const empty = prepareDataForSave(
+        sectionId,
+        reqWith({ 'proposed-market-rent': { applicantSuggestedMarketRent: '' } }),
+        {} as unknown as PTCaseData
+      );
+      const notANumber = prepareDataForSave(
+        sectionId,
+        reqWith({ 'proposed-market-rent': { applicantSuggestedMarketRent: 'not-a-number' } }),
+        {} as unknown as PTCaseData
+      );
+
+      expect(marketRentDetailsFrom(empty).applicantSuggestedMarketRent).toBeUndefined();
+      expect(marketRentDetailsFrom(notANumber).applicantSuggestedMarketRent).toBeUndefined();
+    });
+  });
+
+  describe('yourTenancyAgreement data mapping', () => {
+    it('should correctly map data when values are present in the form data', () => {
+      const mockReq = {
+        params: { caseReference: CASE_REF },
+        session: {
+          formData: {
+            [CASE_REF]: {
+              'have-tenancy-agreement': {
+                copyOfTenancyAgreement: 'No',
+                'copyOfTenancyAgreement.noTenancyAgreementReason': 'I never received one',
+              },
+            },
+          },
+        },
+      } as unknown as Request;
+
+      const mappedData = prepareDataForSave('yourTenancyAgreement', mockReq, {} as unknown as PTCaseData);
+
+      expect(mappedData).toEqual({
+        tenancyAgreementDetails: {
+          copyOfTenancyAgreement: 'No',
+          noTenancyAgreementReason: 'I never received one',
+        },
+      });
+    });
+
+    it('should clear noTenancyAgreementReason when answered Yes', () => {
+      const mockReq = {
+        params: { caseReference: CASE_REF },
+        session: {
+          formData: {
+            [CASE_REF]: {
+              'have-tenancy-agreement': {
+                copyOfTenancyAgreement: 'Yes',
+                'copyOfTenancyAgreement.noTenancyAgreementReason': 'stale reason',
+              },
+            },
+          },
+        },
+      } as unknown as Request;
+
+      const mappedData = prepareDataForSave('yourTenancyAgreement', mockReq, {} as unknown as PTCaseData);
+
+      expect(mappedData).toEqual({
+        tenancyAgreementDetails: {
+          copyOfTenancyAgreement: 'Yes',
+          noTenancyAgreementReason: undefined,
+        },
+      });
+    });
+
+    it('should fall back to saved case data when form data is not present', () => {
+      const mockReq = {
+        params: { caseReference: CASE_REF },
+        session: {
+          formData: {
+            [CASE_REF]: {
+              'have-tenancy-agreement': {},
+            },
+          },
+        },
+      } as unknown as Request;
+
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        tenancyAgreementDetails: {
+          copyOfTenancyAgreement: 'No',
+          noTenancyAgreementReason: 'Lost the agreement',
+        },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareDataForSave('yourTenancyAgreement', mockReq, ccdCaseData);
+
+      expect(mappedData).toEqual({
+        tenancyAgreementDetails: {
+          copyOfTenancyAgreement: 'No',
+          noTenancyAgreementReason: 'Lost the agreement',
+        },
+      });
+    });
+  });
+
   describe('case scoping', () => {
     const OTHER_CASE = '9999999999999999';
 
