@@ -28,6 +28,9 @@ export const step: StepDefinition = createFormStep({
       isPageHeading: false,
       translationKey: { label: 'labels.addressLine1' },
       errorMessage: 'errors.addressLine1.required',
+      attributes: {
+        autocomplete: 'address-line1',
+      },
       validator: (value): boolean | string => {
         if (value && String(value).length < 2) {
           return 'errors.addressLine1.invalid';
@@ -41,6 +44,9 @@ export const step: StepDefinition = createFormStep({
       required: false,
       isPageHeading: false,
       translationKey: { label: 'labels.addressLine2' },
+      attributes: {
+        autocomplete: 'address-line2',
+      },
       validator: (value): boolean | string => {
         if (value && String(value).length < 2) {
           return 'errors.addressLine2.invalid';
@@ -55,6 +61,9 @@ export const step: StepDefinition = createFormStep({
       isPageHeading: false,
       translationKey: { label: 'labels.townOrCity' },
       errorMessage: 'errors.townOrCity.required',
+      attributes: {
+        autocomplete: 'address-level2',
+      },
       validator: (value): boolean | string => {
         if (value && String(value).length < 2) {
           return 'errors.townOrCity.invalid';
@@ -68,6 +77,9 @@ export const step: StepDefinition = createFormStep({
       required: false,
       isPageHeading: false,
       translationKey: { label: 'labels.county' },
+      attributes: {
+        autocomplete: 'address-level1',
+      },
       validator: (value): boolean | string => {
         if (value && String(value).length < 2) {
           return 'errors.county.invalid';
@@ -82,6 +94,9 @@ export const step: StepDefinition = createFormStep({
       isPageHeading: false,
       translationKey: { label: 'labels.postcode' },
       errorMessage: 'errors.postcode.required',
+      attributes: {
+        autocomplete: 'postal-code',
+      },
       validator: (value): boolean | string => {
         if (value && !isValidPostcode(value as string)) {
           return 'errors.postcode.invalid';

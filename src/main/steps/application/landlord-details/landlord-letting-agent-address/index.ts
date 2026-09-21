@@ -28,9 +28,6 @@ export const step: StepDefinition = createFormStep({
       isPageHeading: false,
       translationKey: { label: 'labels.lettingAgentAddressLine1' },
       errorMessage: 'errors.lettingAgentAddressLine1.required',
-      attributes: {
-        autocomplete: 'letting-agent-address-line1',
-      },
       validator: (value): boolean | string => {
         if (value && String(value).length < 2) {
           return 'errors.lettingAgentAddressLine1.invalid';
@@ -44,9 +41,6 @@ export const step: StepDefinition = createFormStep({
       required: false,
       isPageHeading: false,
       translationKey: { label: 'labels.lettingAgentAddressLine2' },
-      attributes: {
-        autocomplete: 'letting-agent-address-line2',
-      },
       validator: (value): boolean | string => {
         if (value && String(value).length < 2) {
           return 'errors.lettingAgentAddressLine2.invalid';
@@ -61,9 +55,6 @@ export const step: StepDefinition = createFormStep({
       isPageHeading: false,
       translationKey: { label: 'labels.lettingAgentTownOrCity' },
       errorMessage: 'errors.lettingAgentTownOrCity.required',
-      attributes: {
-        autocomplete: 'letting-agent-address-level2',
-      },
       validator: (value): boolean | string => {
         if (value && String(value).length < 2) {
           return 'errors.lettingAgentTownOrCity.invalid';
@@ -77,9 +68,6 @@ export const step: StepDefinition = createFormStep({
       required: false,
       isPageHeading: false,
       translationKey: { label: 'labels.lettingAgentCounty' },
-      attributes: {
-        autocomplete: 'letting-agent-address-level1',
-      },
       validator: (value): boolean | string => {
         if (value && String(value).length < 2) {
           return 'errors.lettingAgentCounty.invalid';
@@ -94,9 +82,6 @@ export const step: StepDefinition = createFormStep({
       isPageHeading: false,
       translationKey: { label: 'labels.lettingAgentPostcode' },
       errorMessage: 'errors.lettingAgentPostcode.required',
-      attributes: {
-        autocomplete: 'letting-agent-postal-code',
-      },
       validator: (value): boolean | string => {
         if (value && !isValidPostcode(value as string)) {
           return 'errors.lettingAgentPostcode.invalid';
