@@ -270,6 +270,14 @@ export interface LettingAgentDetails {
 export interface LandlordDetails {
   landlordPhoneNumber?: string;
   landlordHasLettingAgentOrRepresentative?: string;
+
+  //landlord letting agent's address
+  landlordLettingAgentAddressLine1?: string;
+  landlordLettingAgentAddressLine2?: string;
+  landlordLettingAgentTownOrCity?: string;
+  landlordLettingAgentCounty?: string;
+  landlordLettingAgentPostcode?: string;
+
   landlordEmailAddress?: string;
   representativeEmailAddress?: string;
   representativePhoneNumber?: string;
