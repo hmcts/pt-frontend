@@ -24,7 +24,7 @@
   },
   "documentUpload": {
     "maxFileSizeMB": 100,
-    "maxTotalFileSizeMB": 500,
+    "maxTotalFileSizeMB": 300,
     "maxFilenameLength": 255
   },
   "idam": {
