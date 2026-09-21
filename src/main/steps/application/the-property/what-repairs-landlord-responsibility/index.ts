@@ -19,7 +19,7 @@ export const step: StepDefinition = createFormStep({
   translationKeys: { pageTitle: 'pageTitle' },
   fields: [
     {
-      name: 'landlordRepairsResponsibility',
+      name: 'landlordRepairsDetails',
       type: 'textarea',
       required: false,
       isPageHeading: true,
@@ -27,7 +27,7 @@ export const step: StepDefinition = createFormStep({
       translationKey: { label: 'pageTitle', hint: 'hint' },
       validator: (value): boolean | string => {
         if (value && String(value).length > 500) {
-          return 'errors.landlordRepairsResponsibility.invalid';
+          return 'errors.landlordRepairsDetails.invalid';
         }
         return true;
       },
@@ -36,8 +36,8 @@ export const step: StepDefinition = createFormStep({
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (ccdCase?.landlordRepairsResponsibility === undefined) {
+  if (ccdCase?.propertyDetails?.landlordRepairsDetails === undefined) {
     return false;
   }
-  return textAreaIsValidLength(ccdCase?.landlordRepairsResponsibility);
+  return textAreaIsValidLength(ccdCase.propertyDetails.landlordRepairsDetails);
 }

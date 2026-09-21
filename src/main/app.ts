@@ -3,7 +3,6 @@ import * as path from 'path';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import express, { Express, static as expressStatic } from 'express';
-import RateLimit from 'express-rate-limit';
 import { glob } from 'glob';
 
 import { setupDev } from './development';
@@ -17,14 +16,10 @@ import { PropertiesVolume } from '@modules/properties-volume';
 import { Session } from '@modules/session';
 import { registerAllJourneys } from '@routes/registerSteps';
 import { isLocalDev } from '@utils/environment';
+import { staticCacheControl } from '@utils/staticCache';
 
 const env = process.env.NODE_ENV || 'development';
 const developmentMode = isLocalDev();
-
-const limiter = RateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // max 100 requests per windowMs
-});
 
 export async function createApp(): Promise<Express> {
   const app = express();
@@ -41,12 +36,18 @@ export async function createApp(): Promise<Express> {
   // Helmet before the static handler so assets keep their security headers;
   new Helmet(developmentMode).enableFor(app);
 
-  app.get('/favicon.ico', limiter, (_req, res) => {
+  app.get('/favicon.ico', (_req, res) => {
     res.sendFile(path.join(__dirname, '/public/assets/images/favicon.ico'));
   });
   // static before session so asset requests don't hit Redis — `rolling: true`
   // does a GET + EXPIRE on every request.
-  app.use(expressStatic(path.join(__dirname, 'public')));
+  app.use(
+    expressStatic(path.join(__dirname, 'public'), {
+      setHeaders: (res, filePath) => {
+        res.setHeader('Cache-Control', staticCacheControl(filePath));
+      },
+    })
+  );
   new Session().enableFor(app);
 
   new AppInsights().enable();
