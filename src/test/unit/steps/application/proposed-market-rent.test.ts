@@ -89,11 +89,23 @@ describe('application proposed-market-rent step', () => {
     it('falls back to the saved case and returns it as a string', () => {
       const req = makeReq({}, { applicantSuggestedMarketRent: 900 });
 
-      expect(capturedConfig.getInitialFormData(req)).toEqual({ applicantSuggestedMarketRent: '900' });
+      expect(capturedConfig.getInitialFormData(req)).toEqual({ applicantSuggestedMarketRent: '900.00' });
     });
 
     it('returns nothing when the question has not been answered', () => {
       expect(capturedConfig.getInitialFormData(makeReq())).toEqual({});
+    });
+
+    it('shows pence to two decimal places when the saved amount has them', () => {
+      const req = makeReq({}, { applicantSuggestedMarketRent: 120.5 });
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({ applicantSuggestedMarketRent: '120.50' });
+    });
+
+    it('keeps a saved zero', () => {
+      const req = makeReq({}, { applicantSuggestedMarketRent: 0 });
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({ applicantSuggestedMarketRent: '0.00' });
     });
   });
 });
