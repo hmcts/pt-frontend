@@ -1,0 +1,15 @@
+export const noticeLegallyValid = {
+  landLordNoticeProposingNewRentLink: "Landlord's notice proposing a new rent",
+  pageHeading: 'Your notice proposing a new rent',
+  yesOption: 'Yes',
+  noOption: 'No',
+  explainWhyTextArea: 'Explain why the notice is not legally valid (optional)',
+  explanation: 'The notice does not contain the required information.',
+  saveAndContinueButton: 'Save and continue',
+  saveForLaterButton: 'Save for later',
+  hardshipPageUrl: '/hardship',
+  uploadEvidencePageHeading: 'Upload evidence to show why you think the notice is not legally valid (optional)',
+  dashboardUrl: '/your-notice-proposing-a-new-rent',
+  errorMessage: 'Select whether you think the notice is legally valid',
+  errorSummarySelector: '.govuk-error-summary',
+};

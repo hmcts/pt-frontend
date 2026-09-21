@@ -1,0 +1,17 @@
+export const sharePropertyWithLandlord = {
+  url: '/share-property-with-landlord',
+  pageHeading: 'Do you share the property with your landlord?',
+  hintText: 'For example, if you have had limited or exclusive access to rooms, facilities or other features',
+  yesOption: 'Yes',
+  noOption: 'No',
+  sharePropertyQuestion: 'Tell us how you share the property with the landlord',
+  sharePropertyTextArea: '//*[@id="propertySharedWithLandlord.propertySharedWithLandlordDetails"]',
+  sharePropertyDetails: 'I share the kitchen and bathroom with the landlord.',
+  saveAndContinueButton: 'Save and continue',
+  saveForLaterButton: 'Save for later',
+  nextPageHeading: 'Upload a photo of the outside of the property',
+  dashboardHeading: 'Citizen Dashboard',
+  radioButtonError: 'Select whether you share the property with your landlord',
+  textAreaMandatoryError: 'Enter how you share the property with your landlord',
+  errorSummarySelector: '.govuk-error-summary',
+};
