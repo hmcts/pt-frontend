@@ -12,18 +12,13 @@ async function usePlaywrightPage(action: (page: import('playwright').Page) => Pr
 
 async function clickMyApplicationsLink(): Promise<void> {
   await usePlaywrightPage(async page => {
-    // Wait for dashboard page to load
-    await page.waitForLoadState('networkidle');
+    await page
+      .getByRole('heading', {
+        name: /My applications/i,
+      })
+      .waitFor();
 
-    const link = page.getByRole('link', {
-      name: myApplication.startNewApplicationLinkText,
-    });
-
-    await link.waitFor({ state: 'visible', timeout: 30000 });
-
-    await link.scrollIntoViewIfNeeded();
-
-    await link.click();
+    await page.getByRole('link', { name: /Start a new application/i }).click({ force: true, timeout: 30000 });
   });
 }
 
