@@ -126,7 +126,7 @@
     "@types/jsonwebtoken": "^9",
     "@types/luxon": "3.7.5",
     "@types/multer": "^2.2.0",
-    "@types/node": "26.6.1",
+    "@types/node": "26.6.2",
     "@types/pa11y": "^5.3.7",
     "@types/serve-favicon": "^2.5.7",
     "@types/supertest": "^6.0.3",
@@ -184,7 +184,7 @@
   },
   "resolutions": {
     "@eslint/plugin-kit": "0.7.3",
-    "@grpc/grpc-js": "1.14.4",
+    "@grpc/grpc-js": "1.14.5",
     "@opentelemetry/core": "2.10.0",
     "@opentelemetry/propagator-jaeger": "^2.9.0",
     "@tootallnate/once": "^3.0.1",
