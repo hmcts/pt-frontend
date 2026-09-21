@@ -232,13 +232,7 @@ export interface StartCallbackData {
  * To reflect ApplicationDto in pt-api
  * */
 export interface PTCaseData
-  extends
-    LandlordDetails,
-    PropertyDetails,
-    LettingAgentDetails,
-    ApplicationDocuments,
-    InspectionAndHearing,
-    HelpWithFeesDetails {
+  extends LandlordDetails, PropertyDetails, LettingAgentDetails, InspectionAndHearing, HelpWithFeesDetails {
   caseReference: bigint;
   createdDate: string;
   submittedOn?: string;
@@ -255,12 +249,30 @@ export interface PTCaseData
   currentRentsDetails?: RentDetails;
   propertyDetails?: PropertyDetails;
   marketRentDetails?: MarketRentDetails;
+  tenancyAgreementDetails?: TenancyAgreementDetails;
+  noticeOfRentIncreaseDetails?: NoticeOfRentIncreaseDetails;
 }
 
 export interface ContactPreferences {
   contactByText?: string;
   mobilePhoneNumber?: string;
   phoneNumber?: string;
+}
+
+//Document shape returned from PT API
+export interface PtCaseDocument {
+  id?: number;
+  url?: string;
+  binaryUrl?: string;
+  filename?: string;
+  contentType?: string;
+  size?: number;
+}
+
+export interface TenancyAgreementDetails {
+  copyOfTenancyAgreement?: string;
+  noTenancyAgreementReason?: string;
+  tenancyAgreementDocument?: PtCaseDocument;
 }
 
 export interface LettingAgentDetails {
@@ -276,9 +288,7 @@ export interface LandlordDetails {
   representativePhoneNumber?: string;
 }
 
-export interface ApplicationDocuments {
-  hasTenancyAgreement?: string;
-  noTenancyAgreementReason?: string;
+export interface NoticeOfRentIncreaseDetails {
   noticeLegallyValid?: string;
   noticeNotLegallyValidReason?: string;
   rentIncreaseCauseHardship?: string;

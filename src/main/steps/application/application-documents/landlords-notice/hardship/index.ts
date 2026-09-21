@@ -62,5 +62,6 @@ export const step: StepDefinition = createFormStep({
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  return ccdCase?.rentIncreaseCauseHardship === 'yes' || ccdCase?.rentIncreaseCauseHardship === 'no';
+  const rentIncreaseCauseHardship = ccdCase?.noticeOfRentIncreaseDetails?.rentIncreaseCauseHardship;
+  return rentIncreaseCauseHardship === 'yes' || rentIncreaseCauseHardship === 'no';
 }
