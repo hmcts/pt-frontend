@@ -90,7 +90,7 @@ async function waitForPtRedirect(page: import('playwright').Page): Promise<void>
   }
 }
 
-async function submitSignInCredentials(
+export async function submitSignInCredentials(
   email: string,
   password: string,
   options?: { waitForPtRedirect?: boolean }
