@@ -54,12 +54,8 @@ Then('check that the user is redirected to the task-list citizen dashboard page'
   I.waitForText(myApplication.taskListHeading);
 });
 
-When('I select the option "Challenge the rent increase proposed in a landlord’s notice"', async (option: string) => {
+When('I select the option {string}', async (option: string) => {
   selectOptionByLabel(option);
-});
-
-When('I select the option "Assured periodic tenancy"', async () => {
-  selectOptionByLabel(myApplication.assuredPeriodicTenancyOption);
 });
 
 When('I select the option {string}', async (option: string) => {
