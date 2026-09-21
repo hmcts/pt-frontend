@@ -110,7 +110,7 @@ export const step: StepDefinition = createFormStep({
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
   return Boolean(
     ccdCase?.landlordLettingAgentAddressLine1 &&
-    ccdCase?.landlordLettingAgentAddressLine2 &&
+    ccdCase?.landlordLettingAgentTownOrCity &&
     ccdCase?.landlordLettingAgentPostcode
   );
 }
