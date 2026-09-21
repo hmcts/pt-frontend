@@ -33,3 +33,18 @@ export function getRentAmountError(rentAmount: string): RentAmountError | undefi
 
   return undefined;
 }
+
+/**
+ * Rebuilds an amount for the input. A typed value is returned as entered. A saved
+ * value comes back from the API as a number, so it is always shown to two decimal
+ * places. A saved zero is a real answer and is kept.
+ */
+export function formatRentAmount(value: unknown): string | undefined {
+  if (value === undefined || value === null || value === '') {
+    return undefined;
+  }
+  if (typeof value === 'string') {
+    return value;
+  }
+  return Number(value).toFixed(2);
+}
