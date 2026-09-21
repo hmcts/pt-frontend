@@ -126,7 +126,7 @@
     "@types/jsonwebtoken": "^9",
     "@types/luxon": "3.7.5",
     "@types/multer": "^2.2.0",
-    "@types/node": "26.6.1",
+    "@types/node": "26.6.2",
     "@types/pa11y": "^5.3.7",
     "@types/serve-favicon": "^2.5.7",
     "@types/supertest": "^6.0.3",
