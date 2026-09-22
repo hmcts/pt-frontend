@@ -18,3 +18,11 @@ Then('the page URL should be {string}', (url: string) => {
 Then('the page should include {string}', (text: string) => {
   I.waitForText(text);
 });
+
+export const selectOptionByLabel = (label: string): void => {
+  I.checkOption(label);
+};
+
+When('I click {string}', (buttonText: string) => {
+  I.click(buttonText);
+});

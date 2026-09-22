@@ -21,6 +21,22 @@ async function acceptCookiesIfPresent(): Promise<void> {
   });
 }
 
+export async function verifyRedirectedToPtUI(): Promise<void> {
+  await usePlaywrightPage(async page => {
+    await page
+      .getByRole('heading', {
+        name: /My applications/i,
+      })
+      .waitFor({ state: 'visible', timeout: 30000 });
+
+    await page
+      .getByRole('link', {
+        name: /Start a new application/i,
+      })
+      .waitFor({ state: 'visible', timeout: 30000 });
+  });
+}
+
 async function openIdamLoginFromPt(): Promise<void> {
   I.amOnPage(ptUrl(ptPreApplication.startingOrReturningUrl));
   I.waitForText(ptPreApplication.startingOrReturningHeading);
@@ -33,11 +49,23 @@ async function openIdamLoginFromPt(): Promise<void> {
 
 async function ensureSignInFormVisible(): Promise<void> {
   await usePlaywrightPage(async page => {
-    const emailField = page.getByRole('textbox', { name: idamLogin.emailAddressLabel, exact: true });
-    if ((await emailField.count()) === 0) {
-      await clickButtonOrLink(page, idamLogin.signInButton);
-      await emailField.first().waitFor({ state: 'visible' });
+    const currentUrl = page.url();
+    const idamLoginUrl = new URL('/login', 'https://idam-web-public.aat.platform.hmcts.net');
+    idamLoginUrl.searchParams.set('client_id', 'pt-frontend');
+    idamLoginUrl.searchParams.set('response_type', 'code');
+    idamLoginUrl.searchParams.set('redirect_uri', new URL('/oauth2/callback', testConfig.TEST_URL).toString());
+
+    if (!currentUrl || !currentUrl.includes(idamLogin.idamHost)) {
+      await page.goto(idamLoginUrl.toString(), { waitUntil: 'domcontentloaded', timeout: 30000 });
     }
+
+    const acceptCookies = page.getByRole('button', { name: idamLogin.acceptAdditionalCookiesButton });
+    if ((await acceptCookies.count()) > 0) {
+      await acceptCookies.click();
+    }
+
+    const emailField = page.getByRole('textbox', { name: idamLogin.emailAddressLabel, exact: true });
+    await emailField.waitFor({ state: 'visible', timeout: 30000 });
   });
 }
 
@@ -62,7 +90,7 @@ async function waitForPtRedirect(page: import('playwright').Page): Promise<void>
   }
 }
 
-async function submitSignInCredentials(
+export async function submitSignInCredentials(
   email: string,
   password: string,
   options?: { waitForPtRedirect?: boolean }
@@ -99,9 +127,10 @@ Given('a user wants to log in to PT', () => {
   // Scenario setup only — navigation happens in the When step.
 });
 
-When('they enter the PT UI url', () => {
+Given('the user navigates to PT url', () => {
   // PT AAT currently sends unauthenticated users straight to IDAM.
   I.amOnPage(testConfig.TEST_URL);
+  I.waitInUrl(idamLogin.idamHost);
 });
 
 Then('they are redirected to the IDAM authentication page', async () => {
@@ -132,4 +161,10 @@ Then('the user will be redirected back to the PT UI', async () => {
 Then('IDAM will show an error page', () => {
   I.waitInUrl(idamLogin.idamHost);
   I.waitForText(idamLogin.loginErrorHeading);
+});
+
+Then('user is taken to the IDAM login page', async () => {
+  I.waitInUrl(idamLogin.idamHost);
+  await acceptCookiesIfPresent();
+  I.waitForText(idamLogin.signInOrCreateHeading);
 });
