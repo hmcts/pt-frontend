@@ -287,9 +287,19 @@ export function prepareDataForSave(
       };
     }
 
-    // case 'whatYouThinkMarketRentShouldBe': {
-    //   return {};
-    // }
+    case 'whatYouThinkMarketRentShouldBe': {
+      const marketRentDetails = saved?.marketRentDetails;
+
+      return {
+        marketRentDetails: {
+          applicantSuggestedMarketRent: toNumber(
+            getFormDataString(req, 'proposed-market-rent', 'applicantSuggestedMarketRent') ??
+              marketRentDetails?.applicantSuggestedMarketRent
+          ),
+        },
+      };
+    }
+
     // case 'propertyDetails': {
     //   return {};
     // }
