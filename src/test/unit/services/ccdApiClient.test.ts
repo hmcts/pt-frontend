@@ -39,6 +39,7 @@ describe('createCase', () => {
       applicantFirstName: 'test',
       applicantLastName: 'name',
     });
+
     expect(result).toEqual({
       applicantFirstName: 'test',
       applicantLastName: 'name',
@@ -58,6 +59,54 @@ describe('createCase', () => {
         applicantLastName: 'name',
       })
     ).rejects.toThrow('CCD create case failed');
+  });
+});
+
+describe('updateCase', () => {
+  test('Should update case in ccd', async () => {
+    const mockedAxios = axios as jest.Mocked<typeof axios>;
+    mockedAxios.get.mockResolvedValue({
+      data: {
+        token: 'ccd_token_for_event',
+      },
+    });
+    mockedAxios.post.mockResolvedValue({
+      id: TEST_CASE_ID,
+      state: 'DRAFT',
+      data: {
+        applicantFirstName: 'test',
+        applicantLastName: 'name',
+      },
+    });
+
+    const caseApiInstance: CcdApiClient = new CcdApiClient(mockedAxios);
+    const result = await caseApiInstance.updateCase(TEST_CASE_ID, {
+      applicantFirstName: 'test',
+      applicantLastName: 'name',
+    });
+
+    expect(result).toEqual({
+      applicantFirstName: 'test',
+      applicantLastName: 'name',
+    });
+    expect(mockedAxios.get).toHaveBeenCalledWith('/cases/1234123412341234/event-triggers/citizen-update-application');
+  });
+});
+
+describe('deleteCase', () => {
+  test('Should update case in ccd', async () => {
+    const mockedAxios = axios as jest.Mocked<typeof axios>;
+    mockedAxios.get.mockResolvedValue({
+      data: {
+        token: 'ccd_token_for_event',
+      },
+    });
+    mockedAxios.post.mockResolvedValue({});
+
+    const caseApiInstance: CcdApiClient = new CcdApiClient(mockedAxios);
+    await caseApiInstance.deleteCase(TEST_CASE_ID);
+
+    expect(mockedAxios.get).toHaveBeenCalledWith('/cases/1234123412341234/event-triggers/citizen-delete-application');
   });
 });
 
