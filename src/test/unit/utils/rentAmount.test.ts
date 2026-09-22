@@ -1,4 +1,4 @@
-import { formatRentAmount, getRentAmountError } from '@utils/rentAmount';
+import { displayRentAmount, formatRentAmount, getRentAmountError } from '@utils/rentAmount';
 
 /**
  * A rent amount is entered as a plain number with optional pence, e.g. '850' or
@@ -79,5 +79,30 @@ describe('formatRentAmount', () => {
     expect(formatRentAmount(undefined)).toBeUndefined();
     expect(formatRentAmount(null)).toBeUndefined();
     expect(formatRentAmount('')).toBeUndefined();
+  });
+});
+
+describe('displayRentAmount', () => {
+  it('shows a typed amount to two decimal places', () => {
+    expect(displayRentAmount('150')).toBe('150.00');
+    expect(displayRentAmount('120.5')).toBe('120.50');
+  });
+
+  it('shows a saved amount to two decimal places', () => {
+    expect(displayRentAmount(1000)).toBe('1000.00');
+  });
+
+  it('keeps a zero', () => {
+    expect(displayRentAmount(0)).toBe('0.00');
+    expect(displayRentAmount('0')).toBe('0.00');
+  });
+
+  it('returns nothing when there is no amount', () => {
+    expect(displayRentAmount(undefined)).toBeUndefined();
+    expect(displayRentAmount('')).toBeUndefined();
+  });
+
+  it('leaves a value that is not a number unchanged', () => {
+    expect(displayRentAmount('abc')).toBe('abc');
   });
 });
