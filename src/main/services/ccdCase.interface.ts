@@ -104,7 +104,7 @@ export interface CcdCaseData {
     indoorFeatures?: string;
     otherFacilitiesAvailable?: string | boolean;
     otherFacilitiesDetails?: string;
-    outsidePropertyDocument?: CcdUploadedDocument;
+    outsidePropertyDocuments?: CcdCollectionItem<CcdUploadedDocument>[];
     propertyRoomsDocuments?: CcdCollectionItem<CcdUploadedDocument>[];
     furnitureProvidedInTenancy?: string | boolean;
     furnitureProvidedInTenancyDetails?: string;

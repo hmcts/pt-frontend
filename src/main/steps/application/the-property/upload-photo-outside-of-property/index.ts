@@ -7,7 +7,7 @@ import { ACCEPT_ATTRIBUTE_EXTENSIONS } from '@utils/documentUploadValidation';
 
 const journeyName = 'application';
 const stepName = 'upload-photo-outside-of-property';
-const documentField = 'outsidePropertyDocument';
+const documentField = 'outsidePropertyDocuments';
 
 export const step: StepDefinition = createFormStep({
   stepName,
