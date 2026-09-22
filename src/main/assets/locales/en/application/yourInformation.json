@@ -20,6 +20,6 @@
     "applicantFirstNameMaxLength": "First name must be 100 characters or less",
     "applicantLastNameMaxLength": "Last name must be 100 characters or less",
     "companyNameMaxLength": "Company name must be 100 characters or less",
-    "referenceNumberForCommunicationsMaxLength": "Reference number for communication must be 100 characters or less"
+    "referenceNumberForCommunicationsMaxLength": "Reference number for communication must be 5 characters or less"
   }
 }

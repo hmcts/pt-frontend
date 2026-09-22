@@ -62,7 +62,7 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: false,
       isPageHeading: false,
-      maxLength: 100,
+      maxLength: 5,
       translationKey: {
         label: 'labels.referenceNumberForCommunications',
         hint: 'hints.referenceNumberForCommunications',
