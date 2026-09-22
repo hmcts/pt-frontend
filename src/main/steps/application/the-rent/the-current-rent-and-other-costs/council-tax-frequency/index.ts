@@ -3,7 +3,7 @@ import { flowConfig } from '../../../flow.config';
 
 import { createFormStep, getFormData } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { getRentAmountError } from '@utils/rentAmount';
+import { formatRentAmount, getRentAmountError } from '@utils/rentAmount';
 
 const journeyName = 'application';
 const stepName = 'council-tax-frequency';
@@ -112,14 +112,16 @@ export const step: StepDefinition = createFormStep({
     const rentDetails = req.session.ccdCase?.currentRentsDetails;
     const frequency = stepData?.[frequencyFieldName] ?? rentDetails?.[frequencyFieldName];
     const amountFieldName = amountFieldNames[frequency as keyof typeof amountFieldNames];
-    const amount = amountFieldName
-      ? (stepData?.[`${frequencyFieldName}.${amountFieldName}`] ?? rentDetails?.[amountFieldName])
-      : undefined;
+    const amount = formatRentAmount(
+      amountFieldName
+        ? (stepData?.[`${frequencyFieldName}.${amountFieldName}`] ?? rentDetails?.[amountFieldName])
+        : undefined
+    );
     const details = stepData?.[`${frequencyFieldName}.${detailsFieldName}`] ?? rentDetails?.[detailsFieldName];
 
     return {
       ...(frequency && { [frequencyFieldName]: frequency }),
-      ...(amount && { [`${frequencyFieldName}.${amountFieldName}`]: String(amount) }),
+      ...(amount !== undefined && { [`${frequencyFieldName}.${amountFieldName}`]: amount }),
       ...(details && { [`${frequencyFieldName}.${detailsFieldName}`]: details }),
     };
   },
