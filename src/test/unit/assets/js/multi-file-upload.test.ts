@@ -48,7 +48,7 @@ const render = (serverErrorSummary = false, multiple = false): void => {
                  data-upload-url="${UPLOAD_URL}"
                  data-delete-url="${DELETE_URL}"
                  data-accept=".pdf,.jpg"
-                 data-max-file-size-mb="100"
+                 data-max-file-size-mb="300"
                  data-max-filename-length="255"
                  data-error-wrong-file-type="This file type is not accepted"
                  data-error-file-too-large="This file is too large"
@@ -136,7 +136,7 @@ describe('initMultiFileUpload', () => {
     });
 
     it('reports a file over the size cap', () => {
-      upload(fileOf('floor-plan.pdf', 101 * 1024 * 1024));
+      upload(fileOf('floor-plan.pdf', 301 * 1024 * 1024));
 
       expect(summaryMessages()).toEqual(['This file is too large']);
       expect(uploaded()).not.toHaveBeenCalled();

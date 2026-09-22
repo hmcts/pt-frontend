@@ -45,15 +45,15 @@ describe('documentUploadValidation', () => {
     });
 
     test('rejects a file over the per-file cap', () => {
-      expect(validateUploadedFile(file({ size: 101 * 1024 * 1024 }))).toBe('fileTooLarge');
+      expect(validateUploadedFile(file({ size: 301 * 1024 * 1024 }))).toBe('fileTooLarge');
     });
 
     test('rejects a file that would push the case over the total cap', () => {
-      expect(validateUploadedFile(file({ size: 10 * 1024 * 1024 }), 499 * 1024 * 1024)).toBe('totalTooLarge');
+      expect(validateUploadedFile(file({ size: 10 * 1024 * 1024 }), 291 * 1024 * 1024)).toBe('totalTooLarge');
     });
 
     test('reports the type problem ahead of the size problem', () => {
-      expect(validateUploadedFile(file({ originalname: 'big.exe', mimetype: '', size: 200 * 1024 * 1024 }))).toBe(
+      expect(validateUploadedFile(file({ originalname: 'big.exe', mimetype: '', size: 400 * 1024 * 1024 }))).toBe(
         'wrongFileType'
       );
     });
