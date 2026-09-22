@@ -48,3 +48,16 @@ export function formatRentAmount(value: unknown): string | undefined {
   }
   return Number(value).toFixed(2);
 }
+
+/**
+ * Shows an amount on a summary page. Unlike the input, a typed value is also shown to
+ * two decimal places, since the citizen is checking it rather than editing it.
+ */
+export function displayRentAmount(value: unknown): string | undefined {
+  const amount = formatRentAmount(value);
+  if (amount === undefined) {
+    return undefined;
+  }
+  const parsed = Number(amount);
+  return Number.isFinite(parsed) ? parsed.toFixed(2) : amount;
+}
