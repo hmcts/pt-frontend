@@ -308,6 +308,7 @@ export interface PropertyDetails {
   hasFloorPlanOfProperty?: string | boolean;
   propertyLayoutDescription?: string;
   indoorFeatures?: string;
+  outsidePropertyDocuments?: PtCaseDocument[];
   propertyIncludesOtherFacilities?: string | boolean;
   propertyFacilitiesDescription?: string;
   propertySharedWithLandlord?: string | boolean;
