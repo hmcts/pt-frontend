@@ -143,3 +143,49 @@ describe('logger credential redaction', () => {
     expect(err.config?.headers?.Authorization).toBe(`Bearer ${USER_TOKEN}`);
   });
 });
+
+describe('logger binary redaction', () => {
+  let lines: string[];
+  let spy: jest.SpyInstance;
+
+  beforeEach(() => {
+    lines = [];
+    process.env.LOG_LEVEL = 'error';
+    spy = jest.spyOn(transports.Console.prototype, 'log').mockImplementation((...args: unknown[]) => {
+      const info = (args[0] ?? {}) as Record<PropertyKey, unknown>;
+      lines.push(String(info[messageSymbol] ?? info.message ?? ''));
+      (args[1] as (() => void) | undefined)?.();
+    });
+  });
+
+  afterEach(() => {
+    spy.mockRestore();
+    delete process.env.LOG_LEVEL;
+  });
+
+  it('summarises a buffer instead of expanding it byte by byte', () => {
+    const logger = Logger.getLogger(`binary-${Math.random()}`);
+
+    logger.error('Document upload failed', { file: { buffer: Buffer.alloc(1024) } });
+
+    const output = lines.join('\n');
+    expect(output).toContain('[Buffer 1024 bytes]');
+    expect(output).not.toContain('"type":"Buffer"');
+  });
+
+  it('does not leave the logger-level format stringifying a raw buffer', () => {
+    // winston defaults this format to json(), which expands a buffer byte by byte before the
+    // transport gets a chance to redact it.
+    const logger = Logger.getLogger(`binary-format-${Math.random()}`);
+    const format = (
+      logger as unknown as { format: { transform: (info: unknown, opts: unknown) => unknown; options: unknown } }
+    ).format;
+
+    const transformed = format.transform(
+      { level: 'error', message: 'Document upload failed', file: Buffer.alloc(1024) },
+      format.options
+    ) as Record<PropertyKey, unknown>;
+
+    expect(String(transformed[messageSymbol] ?? '')).not.toContain('"type":"Buffer"');
+  });
+});
