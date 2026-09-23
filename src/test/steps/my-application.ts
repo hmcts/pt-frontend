@@ -25,7 +25,7 @@ async function clickMyApplicationsLink(): Promise<void> {
 }
 
 Given('the user has successfully logged on to market-rent-determination application', async () => {
-  await submitSignInCredentials(resolveIdamEmail(), resolveIdamPassword());
+  await submitSignInCredentials(resolveIdamEmail(), resolveIdamPassword(), { waitForPtRedirect: true });
   await verifyRedirectedToPtUI();
 });
 
