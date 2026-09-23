@@ -3,7 +3,7 @@ import multer from 'multer';
 
 import { oidcMiddleware } from '../middleware/oidc';
 
-import { type DocumentFieldDefinition, documentFieldFor } from '@modules/documents/documentFields';
+import { type DocumentFieldDefinition, documentFieldFor, uploadLimitsFor } from '@modules/documents/documentFields';
 import {
   type CcdUploadedDocument,
   cdamToCcdDocument,
@@ -13,17 +13,27 @@ import {
 } from '@modules/documents/storage';
 import { Logger } from '@modules/logger';
 import { deleteDocument, uploadDocument } from '@services/cdamService';
-import { maxFileSizeBytes, validateUploadedFile } from '@utils/documentUploadValidation';
+import { maxFileSizeMB, validateUploadedFile } from '@utils/documentUploadValidation';
 
 const logger = Logger.getLogger('documentProxy');
 
-const upload = multer({
-  limits: {
-    fileSize: maxFileSizeBytes(),
-    // Limit how large an array index can be in a field name to reduce DoS risk
-    fieldArrayIndexLimit: 100,
-  } as multer.Options['limits'],
-});
+const uploadByLimit = new Map<number, ReturnType<typeof multer>>();
+
+const uploaderFor = (field: DocumentFieldDefinition): ReturnType<typeof multer> => {
+  const limitBytes = (field.maxFileSizeMB ?? maxFileSizeMB()) * 1024 * 1024;
+  let instance = uploadByLimit.get(limitBytes);
+  if (!instance) {
+    instance = multer({
+      limits: {
+        fileSize: limitBytes,
+        // Limit how large an array index can be in a field name to reduce DoS risk
+        fieldArrayIndexLimit: 100,
+      } as multer.Options['limits'],
+    });
+    uploadByLimit.set(limitBytes, instance);
+  }
+  return instance;
+};
 
 const caseLocks = new Map<string, Promise<unknown>>();
 
@@ -100,7 +110,13 @@ export default function (app: Application): void {
     '/:caseReference/documents/:field/upload',
     oidcMiddleware,
     (req: Request, res: Response, next: NextFunction) => {
-      upload.single('documents')(req, res, (err: unknown) => {
+      const field = documentFieldFor(fieldKeyOf(req));
+      if (!field) {
+        res.status(400).json(uploadError(getTranslations(req)('uploadFailed')));
+        return;
+      }
+
+      uploaderFor(field).single('documents')(req, res, (err: unknown) => {
         if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE') {
           res.status(400).json(uploadError(getTranslations(req)('fileTooLarge')));
           return;
@@ -128,7 +144,7 @@ export default function (app: Application): void {
           return;
         }
 
-        const validationError = validateUploadedFile(file, totalBytes(existing));
+        const validationError = validateUploadedFile(file, totalBytes(existing), uploadLimitsFor(field));
         if (validationError) {
           res.status(400).json(uploadError(t(validationError)));
           return;

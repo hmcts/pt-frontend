@@ -1,3 +1,10 @@
+import {
+  type UploadLimits,
+  acceptAttributeFor,
+  maxFileSizeMB,
+  maxTotalFileSizeBytes,
+} from '@utils/documentUploadValidation';
+
 export type DocumentSlice = 'propertyDetails' | 'noticeOfRentIncreaseDetails' | 'tenancyAgreementDetails';
 
 export interface DocumentFieldDefinition {
@@ -71,3 +78,13 @@ export type DocumentFieldKey = keyof typeof DOCUMENT_FIELDS;
 // so they widen here and the caller handles an unknown field.
 export const documentFieldFor = (key: string): DocumentFieldDefinition | undefined =>
   (DOCUMENT_FIELDS as Record<string, DocumentFieldDefinition>)[key];
+
+export const maxFileSizeMBFor = (key: string): number => documentFieldFor(key)?.maxFileSizeMB ?? maxFileSizeMB();
+
+export const acceptFor = (key: string): string => acceptAttributeFor(documentFieldFor(key)?.extraExtensions);
+
+export const uploadLimitsFor = (field: DocumentFieldDefinition): UploadLimits => ({
+  maxBytes: (field.maxFileSizeMB ?? maxFileSizeMB()) * 1024 * 1024,
+  maxTotalBytes: maxTotalFileSizeBytes(),
+  extraExtensions: field.extraExtensions,
+});

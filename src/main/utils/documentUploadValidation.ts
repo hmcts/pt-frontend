@@ -21,6 +21,14 @@ export const ALLOWED_EXTENSIONS = [
 
 export const ACCEPT_ATTRIBUTE_EXTENSIONS = ALLOWED_EXTENSIONS.join(',');
 
+export const acceptedExtensions = (extraExtensions: readonly string[] = []): readonly string[] => [
+  ...ALLOWED_EXTENSIONS,
+  ...extraExtensions,
+];
+
+export const acceptAttributeFor = (extraExtensions: readonly string[] = []): string =>
+  acceptedExtensions(extraExtensions).join(',');
+
 const ALLOWED_MIME_TYPES = new Set([
   'application/msword',
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -65,7 +73,11 @@ export type UploadValidationError =
   | 'totalTooLarge'
   | 'noFileSelected';
 
-export const validateFileType = (filename: string, mimeType: string): UploadValidationError | undefined => {
+export const validateFileType = (
+  filename: string,
+  mimeType: string,
+  extraExtensions: readonly string[] = []
+): UploadValidationError | undefined => {
   if (filename.length > maxFilenameLength()) {
     return 'filenameTooLong';
   }
@@ -75,21 +87,28 @@ export const validateFileType = (filename: string, mimeType: string): UploadVali
     return undefined;
   }
 
-  return ALLOWED_EXTENSIONS.includes(extensionOf(filename)) ? undefined : 'wrongFileType';
+  return acceptedExtensions(extraExtensions).includes(extensionOf(filename)) ? undefined : 'wrongFileType';
 };
+
+export interface UploadLimits {
+  maxBytes?: number;
+  maxTotalBytes?: number;
+  extraExtensions?: readonly string[];
+}
 
 export const validateUploadedFile = (
   file: { originalname: string; mimetype: string; size: number },
-  existingTotalBytes = 0
+  existingTotalBytes = 0,
+  limits: UploadLimits = {}
 ): UploadValidationError | undefined => {
-  const typeError = validateFileType(file.originalname, file.mimetype);
+  const typeError = validateFileType(file.originalname, file.mimetype, limits.extraExtensions);
   if (typeError) {
     return typeError;
   }
-  if (file.size > maxFileSizeBytes()) {
+  if (file.size > (limits.maxBytes ?? maxFileSizeBytes())) {
     return 'fileTooLarge';
   }
-  if (existingTotalBytes + file.size > maxTotalFileSizeBytes()) {
+  if (existingTotalBytes + file.size > (limits.maxTotalBytes ?? maxTotalFileSizeBytes())) {
     return 'totalTooLarge';
   }
   return undefined;
