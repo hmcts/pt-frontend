@@ -35,7 +35,6 @@ export const DOCUMENT_FIELDS = {
     ptApiField: 'repairsEvidenceDocument',
     ccdField: 'repairsEvidenceDocument',
     documentType: 'tenantRepairsEvidence',
-    multiple: true,
     maxFileSizeMB: 100,
     extraExtensions: ['.mp3', '.mp4'],
   },
