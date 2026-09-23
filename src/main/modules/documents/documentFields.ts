@@ -6,6 +6,8 @@ export interface DocumentFieldDefinition {
   ccdField: string;
   documentType: string;
   multiple?: boolean;
+  maxFileSizeMB?: number; // falls back to the maxFileSizeMB config value if not set
+  extraExtensions?: readonly string[]; // used to allow additional file types such as .mp3 and .mp4 outside of default
 }
 
 export const DOCUMENT_FIELDS = {
