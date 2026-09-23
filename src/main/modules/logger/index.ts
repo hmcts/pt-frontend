@@ -5,44 +5,6 @@ const splatSymbol = Symbol.for('splat');
 
 const container = new Container();
 
-const MAX_LOG_DEPTH = 6;
-const MAX_LOG_ARRAY_ITEMS = 50;
-
-// Buffer#toJSON() expands to one array element per byte, so stringifying anything that still holds a
-// large upload body aborts the process with an uncatchable V8 "invalid table size" fatal.
-function sanitiseLogValue(value: unknown, depth = 0, seen = new WeakSet<object>()): unknown {
-  if (Buffer.isBuffer(value)) {
-    return `[Buffer ${value.length} bytes]`;
-  }
-  if (ArrayBuffer.isView(value)) {
-    return `[${value.constructor.name} ${value.byteLength} bytes]`;
-  }
-  if (value === null || typeof value !== 'object') {
-    return value;
-  }
-  if (seen.has(value)) {
-    return '[Circular]';
-  }
-  if (depth >= MAX_LOG_DEPTH) {
-    return '[Object]';
-  }
-  seen.add(value);
-
-  if (Array.isArray(value)) {
-    return value.slice(0, MAX_LOG_ARRAY_ITEMS).map(item => sanitiseLogValue(item, depth + 1, seen));
-  }
-
-  const sanitised: Record<string, unknown> = {};
-  for (const key of Object.keys(value)) {
-    try {
-      sanitised[key] = sanitiseLogValue((value as Record<string, unknown>)[key], depth + 1, seen);
-    } catch {
-      sanitised[key] = '[Unreadable]';
-    }
-  }
-  return sanitised;
-}
-
 function stringifyLogValue(value: unknown): string {
   if (typeof value === 'string') {
     return value;
@@ -54,7 +16,7 @@ function stringifyLogValue(value: unknown): string {
     return 'undefined';
   }
   try {
-    return JSON.stringify(sanitiseLogValue(value));
+    return JSON.stringify(value);
   } catch {
     return String(value);
   }
