@@ -1,4 +1,4 @@
-# pt-frontend
+# pt-frontend-lp
 
 ## Getting Started
 
