@@ -1,3 +1,6 @@
+import { unlink } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+
 import { Application, NextFunction, Request, Response } from 'express';
 import multer from 'multer';
 
@@ -18,6 +21,9 @@ import { maxFileSizeBytes, validateUploadedFile } from '@utils/documentUploadVal
 const logger = Logger.getLogger('documentProxy');
 
 const upload = multer({
+  // Disk storage keeps the whole file out of the heap; memory storage buffers it, and a large enough
+  // buffer kills the process as soon as anything tries to serialise it.
+  dest: tmpdir(),
   limits: {
     fileSize: maxFileSizeBytes(),
     // Limit how large an array index can be in a field name to reduce DoS risk
@@ -180,6 +186,13 @@ export default function (app: Application): void {
       } catch (err) {
         logger.error('Document upload failed', err);
         res.status(500).json(uploadError(t('uploadFailed')));
+      } finally {
+        const uploadPath = req.file?.path;
+        if (uploadPath) {
+          await unlink(uploadPath).catch(cleanupError =>
+            logger.error('Failed to remove temporary upload file', cleanupError)
+          );
+        }
       }
     }
   );

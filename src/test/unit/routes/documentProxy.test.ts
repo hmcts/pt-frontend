@@ -1,3 +1,5 @@
+import { existsSync } from 'node:fs';
+
 import express, { type Express } from 'express';
 import request from 'supertest';
 
@@ -94,6 +96,20 @@ describe('documentProxy', () => {
         'floorPlanDocument',
         expect.arrayContaining([expect.objectContaining({ documentType: 'propertyFloorPlan' })])
       );
+    });
+
+    test('streams the upload from disk and removes the temporary file afterwards', async () => {
+      persistedAs(42);
+
+      const response = await request(buildApp())
+        .post(`${SINGLE_URL}/upload`)
+        .attach('documents', Buffer.from('a pdf'), 'floor-plan.pdf');
+
+      expect(response.status).toBe(200);
+      const [uploaded] = mockedUploadDocument.mock.calls[0];
+      expect(uploaded.buffer).toBeUndefined();
+      expect(uploaded.path).toEqual(expect.any(String));
+      expect(existsSync(uploaded.path)).toBe(false);
     });
 
     test('returns the persisted row id as the delete key', async () => {
