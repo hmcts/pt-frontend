@@ -133,10 +133,6 @@ function isPtHost(url: string): boolean {
 async function waitForPtRedirect(page: import('playwright').Page): Promise<void> {
   const ptHost = new URL(testConfig.TEST_URL).hostname;
 
-  if (isPtHost(page.url())) {
-    return;
-  }
-
   try {
     await page.waitForURL(url => isPtHost(url.toString()), {
       timeout: testConfig.LoginRedirectTimeout,
