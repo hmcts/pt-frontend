@@ -73,7 +73,7 @@ describe('document storage', () => {
         propertyDetails: { propertyRoomsDocuments: [ptApiDocument('room-1'), ptApiDocument('room-2')] },
       });
 
-      expect(await readDocuments(req(), 'roomsDocuments')).toHaveLength(2);
+      expect(await readDocuments(req(), 'propertyRoomsDocuments')).toHaveLength(2);
     });
 
     test('ignores documents pt-api returns without usable URLs', async () => {
@@ -121,7 +121,7 @@ describe('document storage', () => {
     });
 
     test('wraps collection fields in CCD collection items', async () => {
-      await saveDocuments(req(), 'roomsDocuments', [newDocument]);
+      await saveDocuments(req(), 'propertyRoomsDocuments', [newDocument]);
 
       expect(triggerEvent.mock.calls[0][1]).toMatchObject({
         propertyDetails: { roomsDocuments: [{ value: newDocument }] },

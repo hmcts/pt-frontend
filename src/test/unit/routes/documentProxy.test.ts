@@ -29,7 +29,7 @@ const mockedDeleteById = deleteDocumentById as jest.MockedFunction<typeof delete
 
 const CASE_REFERENCE = '1234123412341234';
 const SINGLE_URL = `/${CASE_REFERENCE}/documents/floorPlanDocument`;
-const COLLECTION_URL = `/${CASE_REFERENCE}/documents/roomsDocuments`;
+const COLLECTION_URL = `/${CASE_REFERENCE}/documents/propertyRoomsDocuments`;
 
 const cdamDocument = {
   document_url: 'http://cdam/cases/documents/abc',

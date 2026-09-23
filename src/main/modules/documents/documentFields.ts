@@ -27,7 +27,7 @@ export const DOCUMENT_FIELDS = {
     ccdField: 'repairsEvidenceDocument',
     documentType: 'tenantRepairsEvidence',
   },
-  roomsDocuments: {
+  propertyRoomsDocuments: {
     slice: 'propertyDetails',
     ptApiField: 'propertyRoomsDocuments',
     ccdField: 'roomsDocuments',
