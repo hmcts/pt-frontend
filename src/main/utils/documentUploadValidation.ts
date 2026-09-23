@@ -46,7 +46,7 @@ const asNumber = (key: string, fallback: number): number => {
   return Number.isFinite(value) ? value : fallback;
 };
 
-export const maxFileSizeMB = (): number => asNumber('documentUpload.maxFileSizeMB', 300);
+export const maxFileSizeMB = (): number => asNumber('documentUpload.maxFileSizeMB', 25);
 export const maxTotalFileSizeMB = (): number => asNumber('documentUpload.maxTotalFileSizeMB', 300);
 export const maxFilenameLength = (): number => asNumber('documentUpload.maxFilenameLength', 255);
 

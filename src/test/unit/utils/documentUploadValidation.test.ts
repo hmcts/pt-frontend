@@ -44,8 +44,12 @@ describe('documentUploadValidation', () => {
       expect(validateUploadedFile(file())).toBeUndefined();
     });
 
+    test('accepts a file at the per-file cap', () => {
+      expect(validateUploadedFile(file({ size: 25 * 1024 * 1024 }))).toBeUndefined();
+    });
+
     test('rejects a file over the per-file cap', () => {
-      expect(validateUploadedFile(file({ size: 301 * 1024 * 1024 }))).toBe('fileTooLarge');
+      expect(validateUploadedFile(file({ size: 26 * 1024 * 1024 }))).toBe('fileTooLarge');
     });
 
     test('rejects a file that would push the case over the total cap', () => {

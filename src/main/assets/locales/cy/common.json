@@ -45,7 +45,7 @@
     "prefix": "cy Error:",
     "documentUpload": {
       "wrongFileType": "cy The selected file must be a DOC, DOCX, XLS, XLSX, PPT, PPTX, PDF, RTF, TXT, CSV, JPG, JPEG, PNG, BMP, TIF or TIFF",
-      "fileTooLarge": "cy The selected file must be smaller than 300MB",
+      "fileTooLarge": "cy The selected file must be smaller than 25MB",
       "filenameTooLong": "cy The selected file name must be 255 characters or fewer",
       "uploadFailed": "cy The selected file could not be uploaded — try again",
       "deleteFailed": "cy The selected file could not be removed — try again",
