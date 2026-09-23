@@ -173,7 +173,7 @@
     "ts-jest": "29.4.12",
     "ts-loader": "9.6.2",
     "tsx": "^4.23.1",
-    "webpack": "5.111.0",
+    "webpack": "5.111.1",
     "webpack-cli": "7.2.3",
     "webpack-dev-middleware": "8.2.0",
     "webpack-node-externals": "3.0.0"
