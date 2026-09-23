@@ -146,8 +146,6 @@ describe('logger credential redaction', () => {
 
 describe('logger binary redaction', () => {
   it('does not leave the logger-level format stringifying a raw buffer', () => {
-    // winston defaults this format to json(), which expands a buffer byte by byte -- and aborts the
-    // process outright on a large one -- before the transport gets a chance to redact it.
     const logger = Logger.getLogger(`binary-format-${Math.random()}`);
     const format = (
       logger as unknown as { format: { transform: (info: unknown, opts: unknown) => unknown; options: unknown } }

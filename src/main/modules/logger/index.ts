@@ -143,8 +143,6 @@ function transport(name: string) {
 
 export class Logger {
   public static getLogger(name: string): ReturnType<typeof container.add> {
-    // Winston defaults the logger-level format to json(), which stringifies the raw info object --
-    // including any request body an axios error still holds -- before the transport format runs.
     return container.add(name, { format: formatAxiosError(), transports: [transport(name)] });
   }
 }
