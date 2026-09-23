@@ -1,6 +1,7 @@
 import {
   type UploadLimits,
   acceptAttributeFor,
+  maxFileSizeBytes,
   maxFileSizeMB,
   maxTotalFileSizeBytes,
 } from '@utils/documentUploadValidation';
@@ -79,12 +80,12 @@ export type DocumentFieldKey = keyof typeof DOCUMENT_FIELDS;
 export const documentFieldFor = (key: string): DocumentFieldDefinition | undefined =>
   (DOCUMENT_FIELDS as Record<string, DocumentFieldDefinition>)[key];
 
-export const maxFileSizeMBFor = (key: string): number => documentFieldFor(key)?.maxFileSizeMB ?? maxFileSizeMB();
+export const maxFileSizeMBFor = (key: string): number => maxFileSizeMB(documentFieldFor(key)?.maxFileSizeMB);
 
 export const acceptFor = (key: string): string => acceptAttributeFor(documentFieldFor(key)?.extraExtensions);
 
 export const uploadLimitsFor = (field: DocumentFieldDefinition): UploadLimits => ({
-  maxBytes: (field.maxFileSizeMB ?? maxFileSizeMB()) * 1024 * 1024,
+  maxBytes: maxFileSizeBytes(field.maxFileSizeMB),
   maxTotalBytes: maxTotalFileSizeBytes(),
   extraExtensions: field.extraExtensions,
 });

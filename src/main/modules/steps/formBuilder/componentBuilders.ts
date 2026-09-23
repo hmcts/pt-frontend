@@ -248,7 +248,7 @@ export function buildComponentConfig({
       component.value = fieldValue || [];
       component.accept = field.accept || acceptAttributeFor();
       component.multiple = field.multiple === true;
-      component.maxFileSize = field.maxFileSize ?? maxFileSizeMB();
+      component.maxFileSize = maxFileSizeMB(field.maxFileSize);
       component.maxFilenameLength = maxFilenameLength();
       component.uploadUrl = field.uploadUrl || '';
       component.deleteUrl = field.deleteUrl || '';

@@ -13,14 +13,14 @@ import {
 } from '@modules/documents/storage';
 import { Logger } from '@modules/logger';
 import { deleteDocument, uploadDocument } from '@services/cdamService';
-import { maxFileSizeMB, validateUploadedFile } from '@utils/documentUploadValidation';
+import { maxFileSizeBytes, validateUploadedFile } from '@utils/documentUploadValidation';
 
 const logger = Logger.getLogger('documentProxy');
 
 const uploadByLimit = new Map<number, ReturnType<typeof multer>>();
 
 const uploaderFor = (field: DocumentFieldDefinition): ReturnType<typeof multer> => {
-  const limitBytes = (field.maxFileSizeMB ?? maxFileSizeMB()) * 1024 * 1024;
+  const limitBytes = maxFileSizeBytes(field.maxFileSizeMB);
   let instance = uploadByLimit.get(limitBytes);
   if (!instance) {
     instance = multer({

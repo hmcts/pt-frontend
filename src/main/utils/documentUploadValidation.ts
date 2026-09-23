@@ -52,11 +52,12 @@ const asNumber = (key: string, fallback: number): number => {
   return Number.isFinite(value) ? value : fallback;
 };
 
-export const maxFileSizeMB = (): number => asNumber('documentUpload.maxFileSizeMB', 100);
-export const maxTotalFileSizeMB = (): number => asNumber('documentUpload.maxTotalFileSizeMB', 500);
+export const maxFileSizeMB = (fieldMaxMB?: number): number =>
+  fieldMaxMB ?? asNumber('documentUpload.maxFileSizeMB', 25);
+export const maxTotalFileSizeMB = (): number => asNumber('documentUpload.maxTotalFileSizeMB', 300);
 export const maxFilenameLength = (): number => asNumber('documentUpload.maxFilenameLength', 255);
 
-export const maxFileSizeBytes = (): number => maxFileSizeMB() * 1024 * 1024;
+export const maxFileSizeBytes = (fieldMaxMB?: number): number => maxFileSizeMB(fieldMaxMB) * 1024 * 1024;
 export const maxTotalFileSizeBytes = (): number => maxTotalFileSizeMB() * 1024 * 1024;
 
 export const extensionOf = (filename: string): string => {
