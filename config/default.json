@@ -26,8 +26,8 @@
     "url": "http://ccd-case-document-am-api-aat.service.core-compute-aat.internal"
   },
   "documentUpload": {
-    "maxFileSizeMB": 100,
-    "maxTotalFileSizeMB": 500,
+    "maxFileSizeMB": 25,
+    "maxTotalFileSizeMB": 300,
     "maxFilenameLength": 255
   },
   "idam": {
