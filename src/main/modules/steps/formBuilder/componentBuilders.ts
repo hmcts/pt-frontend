@@ -10,7 +10,7 @@ import type {
   FormFieldConfig,
   FormFieldOption,
 } from '@modules/steps/formBuilder/formFieldConfig.interface';
-import { ACCEPT_ATTRIBUTE_EXTENSIONS, maxFileSizeMB, maxFilenameLength } from '@utils/documentUploadValidation';
+import { acceptAttributeFor, maxFileSizeMB, maxFilenameLength } from '@utils/documentUploadValidation';
 
 function createFieldsetLegend(
   label: string,
@@ -246,7 +246,7 @@ export function buildComponentConfig({
     }
     case 'file': {
       component.value = fieldValue || [];
-      component.accept = field.accept || ACCEPT_ATTRIBUTE_EXTENSIONS;
+      component.accept = field.accept || acceptAttributeFor();
       component.multiple = field.multiple === true;
       component.maxFileSize = field.maxFileSize ?? maxFileSizeMB();
       component.maxFilenameLength = maxFilenameLength();

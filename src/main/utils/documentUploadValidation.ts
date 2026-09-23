@@ -19,8 +19,6 @@ export const ALLOWED_EXTENSIONS = [
   '.tiff',
 ];
 
-export const ACCEPT_ATTRIBUTE_EXTENSIONS = ALLOWED_EXTENSIONS.join(',');
-
 export const acceptedExtensions = (extraExtensions: readonly string[] = []): readonly string[] => [
   ...ALLOWED_EXTENSIONS,
   ...extraExtensions,
