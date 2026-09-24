@@ -1,33 +1,54 @@
 import type { Page } from 'playwright';
 
 export async function fillFieldByLabel(page: Page, label: string, value: string): Promise<void> {
-  const byLabel = page.getByLabel(label, { exact: true });
-  if ((await byLabel.count()) > 0) {
-    await byLabel.first().waitFor({ state: 'visible', timeout: 20000 });
-    await byLabel.first().fill(value);
-    return;
-  }
+  const genericSelector = label.toLowerCase().includes('password')
+    ? 'input[type="password"], input[name="password"]'
+    : 'input[type="email"], input[name="email"], input[name="username"], input[type="text"]';
 
-  const roleLocator = page.getByRole('textbox', { name: label, exact: true });
-  if ((await roleLocator.count()) > 0) {
-    await roleLocator.first().waitFor({ state: 'visible', timeout: 20000 });
-    await roleLocator.first().fill(value);
-    return;
-  }
+  const candidates = [
+    page.getByLabel(label, { exact: true }).first(),
+    page.getByRole('textbox', { name: label, exact: true }).first(),
+    page.locator(genericSelector).first(),
+  ];
+  const timeout = 15000;
 
-  const genericLocator = page.locator(
-    label.toLowerCase().includes('password')
-      ? 'input[type="password"], input[name="password"]'
-      : 'input[type="email"], input[name="email"], input[name="username"], input[type="text"]'
-  );
+  const field = await new Promise<(typeof candidates)[number]>((resolve, reject) => {
+    let settled = false;
+    let pending = candidates.length;
+    const notFound = (): void => {
+      reject(new Error(`Could not find input for label: ${label}. Current URL: ${page.url()}`));
+    };
+    const timer = setTimeout(() => {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      notFound();
+    }, timeout);
 
-  if ((await genericLocator.count()) > 0) {
-    await genericLocator.first().waitFor({ state: 'visible', timeout: 20000 });
-    await genericLocator.first().fill(value);
-    return;
-  }
+    for (const locator of candidates) {
+      locator
+        .waitFor({ state: 'visible', timeout })
+        .then(() => {
+          if (settled) {
+            return;
+          }
+          settled = true;
+          clearTimeout(timer);
+          resolve(locator);
+        })
+        .catch(() => {
+          pending -= 1;
+          if (pending === 0 && !settled) {
+            settled = true;
+            clearTimeout(timer);
+            notFound();
+          }
+        });
+    }
+  });
 
-  throw new Error(`Could not find input for label: ${label}`);
+  await field.fill(value);
 }
 
 export async function clickButtonOrLink(page: Page, label: string, options?: { waitForLoad?: boolean }): Promise<void> {
