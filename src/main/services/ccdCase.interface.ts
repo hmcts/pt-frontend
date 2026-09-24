@@ -100,7 +100,7 @@ export interface CcdCaseData {
     otherMethodRentingDetails?: string;
     propertyFloorPlanAvailable?: string | boolean;
     floorPlanManualDetails?: string;
-    floorPlanDocument?: CcdUploadedDocument;
+    floorPlanDocuments?: CcdCollectionItem<CcdUploadedDocument>[];
     indoorFeatures?: string;
     otherFacilitiesAvailable?: string | boolean;
     otherFacilitiesDetails?: string;
@@ -320,6 +320,7 @@ export interface PropertyDetails {
   landlordRepairsDetails?: string;
   tenantRepairsDetails?: string;
   hasRepairsAndImprovements?: string | boolean;
+  floorPlanDocuments?: { url?: string }[];
 }
 
 /** Fields captured across the details of rent journey. */

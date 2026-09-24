@@ -28,7 +28,7 @@ const mockedSaveDocuments = saveDocuments as jest.MockedFunction<typeof saveDocu
 const mockedDeleteById = deleteDocumentById as jest.MockedFunction<typeof deleteDocumentById>;
 
 const CASE_REFERENCE = '1234123412341234';
-const SINGLE_URL = `/${CASE_REFERENCE}/documents/floorPlanDocument`;
+const SINGLE_URL = `/${CASE_REFERENCE}/documents/tenancyAgreementDocument`;
 const COLLECTION_URL = `/${CASE_REFERENCE}/documents/propertyRoomsDocuments`;
 
 const cdamDocument = {
@@ -91,8 +91,8 @@ describe('documentProxy', () => {
       expect(mockedUploadDocument).toHaveBeenCalled();
       expect(mockedSaveDocuments).toHaveBeenCalledWith(
         expect.anything(),
-        'floorPlanDocument',
-        expect.arrayContaining([expect.objectContaining({ documentType: 'propertyFloorPlan' })])
+        'tenancyAgreementDocument',
+        expect.arrayContaining([expect.objectContaining({ documentType: 'tenancyAgreement' })])
       );
     });
 
