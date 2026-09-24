@@ -30,9 +30,12 @@ export function stripHtmlTags(text: string): string {
  * If the optional text box was left blank - isAnswered = true
  * If the optional text box was filled with text and is less than max value of 500 - isAnswered = true
  *
+ * A submitted form sends every line break as CRLF, which the character count on the page
+ * counted as one character, so the two disagreed by one per line break.
+ *
  * @param value - string entered for given text box
  * @param max - maximum valid length
  */
 export function textAreaIsValidLength(value: string | undefined, max = 500): boolean {
-  return !value || String(value).length <= max;
+  return !value || String(value).replace(/\r\n?/g, '\n').length <= max;
 }
