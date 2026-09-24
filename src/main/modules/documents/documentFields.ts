@@ -22,11 +22,12 @@ export const DOCUMENT_FIELDS = {
     ccdField: 'outsidePropertyDocument',
     documentType: 'outsideProperty',
   },
-  repairsEvidenceDocument: {
+  repairsEvidenceDocuments: {
     slice: 'propertyDetails',
-    ptApiField: 'repairsEvidenceDocument',
-    ccdField: 'repairsEvidenceDocument',
+    ptApiField: 'repairsEvidenceDocuments',
+    ccdField: 'repairsEvidenceDocuments',
     documentType: 'tenantRepairsEvidence',
+    multiple: true,
   },
   roomsDocuments: {
     slice: 'propertyDetails',
