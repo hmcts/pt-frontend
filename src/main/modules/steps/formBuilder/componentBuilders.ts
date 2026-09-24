@@ -257,7 +257,9 @@ export function buildComponentConfig({
       component.filesAddedHeading = t('documentUpload.filesAddedHeading', 'Files added');
       component.deleteButtonText = t('documentUpload.deleteButton', 'Delete');
       component.errorWrongFileType = t('errors.documentUpload.wrongFileType', 'This file type is not accepted');
-      component.errorFileTooLarge = t('errors.documentUpload.fileTooLarge', 'This file is too large');
+      component.errorFileTooLarge = t('errors.documentUpload.fileTooLarge', 'This file is too large', {
+        maxFileSize: maxFileSizeMB(field.maxFileSize),
+      });
       component.errorFilenameTooLong = t('errors.documentUpload.filenameTooLong', 'This file name is too long');
       component.errorUploadFailed = t('errors.documentUpload.uploadFailed', 'This file could not be uploaded');
       component.errorDelete = t('errors.documentUpload.deleteFailed', 'This file could not be removed');
