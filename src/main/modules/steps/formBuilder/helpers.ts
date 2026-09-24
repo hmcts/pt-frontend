@@ -499,7 +499,9 @@ export function validateForm(
         }
 
         // MaxLength validation
-        if (field.maxLength && typeof value === 'string' && value.length > field.maxLength) {
+        // A submitted form sends every line break as CRLF, which the character count on the page
+        // counts as one character, so measure it the same way the citizen was shown.
+        if (field.maxLength && typeof value === 'string' && value.replace(/\r\n?/g, '\n').length > field.maxLength) {
           if (!errors[fieldName]) {
             const fieldSpecificMaxLengthMsg = translations?.[`${fieldName}.maxLength`];
             const defaultMaxLengthMsg = translations?.defaultMaxLength?.replace('{max}', field.maxLength.toString());
