@@ -9,6 +9,7 @@ export const config: CodeceptJS.MainConfig = {
   output: './functional-output/functional/reports',
   helpers: testConfig.helpers,
   tests: './*_test.{js,ts}',
+  retry: 2,
   plugins: {
     allure: {
       enabled: true,
@@ -19,6 +20,7 @@ export const config: CodeceptJS.MainConfig = {
     },
     retryFailedStep: {
       enabled: true,
+      retries: 1,
     },
     tryTo: {
       enabled: false,

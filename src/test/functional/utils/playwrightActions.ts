@@ -1,32 +1,57 @@
 import type { Page } from 'playwright';
 
 export async function fillFieldByLabel(page: Page, label: string, value: string): Promise<void> {
-  const byLabel = page.getByLabel(label, { exact: true });
-  if ((await byLabel.count()) > 0) {
-    await byLabel.first().fill(value);
-    return;
-  }
+  const genericSelector = label.toLowerCase().includes('password')
+    ? 'input[type="password"], input[name="password"]'
+    : 'input[type="email"], input[name="email"], input[name="username"], input[type="text"]';
 
-  const roleLocator = page.getByRole('textbox', { name: label, exact: true });
-  if ((await roleLocator.count()) > 0) {
-    await roleLocator.first().fill(value);
-    return;
-  }
+  const candidates = [
+    page.getByLabel(label, { exact: true }).first(),
+    page.getByRole('textbox', { name: label, exact: true }).first(),
+    page.locator(genericSelector).first(),
+  ];
+  const timeout = 15000;
 
-  await page
-    .locator(
-      `
-      :has-text("${label}") ~ input:visible:enabled,
-      label:text-is("${label}") ~ textarea,
-      label:text-is("${label}") + div input,
-      :text-is("${label}") ~ textarea:visible:enabled
-    `
-    )
-    .first()
-    .fill(value);
+  const field = await new Promise<(typeof candidates)[number]>((resolve, reject) => {
+    let settled = false;
+    let pending = candidates.length;
+    const notFound = (): void => {
+      reject(new Error(`Could not find input for label: ${label}. Current URL: ${page.url()}`));
+    };
+    const timer = setTimeout(() => {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      notFound();
+    }, timeout);
+
+    for (const locator of candidates) {
+      locator
+        .waitFor({ state: 'visible', timeout })
+        .then(() => {
+          if (settled) {
+            return;
+          }
+          settled = true;
+          clearTimeout(timer);
+          resolve(locator);
+        })
+        .catch(() => {
+          pending -= 1;
+          if (pending === 0 && !settled) {
+            settled = true;
+            clearTimeout(timer);
+            notFound();
+          }
+        });
+    }
+  });
+
+  await field.fill(value);
 }
 
-export async function clickButtonOrLink(page: Page, label: string): Promise<void> {
+export async function clickButtonOrLink(page: Page, label: string, options?: { waitForLoad?: boolean }): Promise<void> {
   const button = page
     .locator(
       `button:text-is("${label}"),
@@ -38,5 +63,7 @@ export async function clickButtonOrLink(page: Page, label: string): Promise<void
     .first();
 
   await button.click();
-  await page.waitForLoadState('domcontentloaded');
+  if (options?.waitForLoad !== false) {
+    await page.waitForLoadState('domcontentloaded');
+  }
 }

@@ -12,6 +12,7 @@ import { step as tenancyEndDate } from './the-current-rent-and-other-costs/tenan
 import { step as tribunalPreviouslyDeterminedRent } from './the-current-rent-and-other-costs/tribunal-previously-determined-rent';
 import { step as utilitiesPaidFrequency } from './the-current-rent-and-other-costs/utilities-paid-frequency';
 import { step as proposedMarketRent } from './what-you-think-market-rent-should-be/proposed-market-rent';
+import { step as proposedMarketRentReasons } from './what-you-think-market-rent-should-be/proposed-market-rent-reasons';
 
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
@@ -30,4 +31,5 @@ export const theRentStepRegistry = {
   'additional-rental-service-charges-vary': additionalRentalServiceChargesVary,
   'check-your-answers-current-rent-and-other-costs': checkYourAnswersCurrentRentAndOtherCosts,
   'proposed-market-rent': proposedMarketRent,
+  'proposed-market-rent-reasons': proposedMarketRentReasons,
 } satisfies Record<string, StepDefinition>;

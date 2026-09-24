@@ -1,4 +1,19 @@
 {
-  "pageTitle": "cyWhat you think the market rent should be",
-  "heading": "cyWhat you think the market rent should be"
+  "pageTitle": "cyWhat do you think is the market rent you should pay?",
+  "questionTitle": "cyWhat do you think is the {{frequency}} market rent you should pay?",
+  "questionHint": "cyYou can tell us your reasons next",
+  "frequency": {
+    "weekly": "cyweekly",
+    "fortnightly": "cyfortnightly",
+    "monthly": "cymonthly",
+    "yearly": "cyyearly"
+  },
+  "errors": {
+    "applicantSuggestedMarketRent": {
+      "required": "cyEnter the market rent you think you should pay",
+      "invalid": "cyMarket rent amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "decimalPlaces": "cyMarket rent amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "tooLarge": "cyMarket rent amount must be 16 digits or less"
+    }
+  }
 }
