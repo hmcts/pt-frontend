@@ -1,3 +1,10 @@
+import {
+  type UploadLimits,
+  acceptAttributeFor,
+  maxFileSizeBytes,
+  maxTotalFileSizeBytes,
+} from '@utils/documentUploadValidation';
+
 export type DocumentSlice = 'propertyDetails' | 'noticeOfRentIncreaseDetails' | 'tenancyAgreementDetails';
 
 export interface DocumentFieldDefinition {
@@ -6,14 +13,17 @@ export interface DocumentFieldDefinition {
   ccdField: string;
   documentType: string;
   multiple?: boolean;
+  maxFileSizeMB?: number; // falls back to the maxFileSizeMB config value if not set
+  extraExtensions?: readonly string[]; // used to allow additional file types such as .mp3 and .mp4 outside of default
 }
 
 export const DOCUMENT_FIELDS = {
-  floorPlanDocument: {
+  floorPlanDocuments: {
     slice: 'propertyDetails',
-    ptApiField: 'floorPlanDocument',
-    ccdField: 'floorPlanDocument',
+    ptApiField: 'floorPlanDocuments',
+    ccdField: 'floorPlanDocuments',
     documentType: 'propertyFloorPlan',
+    multiple: true,
   },
   outsidePropertyDocument: {
     slice: 'propertyDetails',
@@ -26,6 +36,8 @@ export const DOCUMENT_FIELDS = {
     ptApiField: 'repairsEvidenceDocument',
     ccdField: 'repairsEvidenceDocument',
     documentType: 'tenantRepairsEvidence',
+    maxFileSizeMB: 100,
+    extraExtensions: ['.mp3', '.mp4'],
   },
   roomsDocuments: {
     slice: 'propertyDetails',
@@ -66,3 +78,13 @@ export type DocumentFieldKey = keyof typeof DOCUMENT_FIELDS;
 // so they widen here and the caller handles an unknown field.
 export const documentFieldFor = (key: string): DocumentFieldDefinition | undefined =>
   (DOCUMENT_FIELDS as Record<string, DocumentFieldDefinition>)[key];
+
+export const maxFileSizeMBFor = (key: string): number | undefined => documentFieldFor(key)?.maxFileSizeMB;
+
+export const acceptFor = (key: string): string => acceptAttributeFor(documentFieldFor(key)?.extraExtensions);
+
+export const uploadLimitsFor = (field: DocumentFieldDefinition): UploadLimits => ({
+  maxBytes: maxFileSizeBytes(field.maxFileSizeMB),
+  maxTotalBytes: maxTotalFileSizeBytes(),
+  extraExtensions: field.extraExtensions,
+});
