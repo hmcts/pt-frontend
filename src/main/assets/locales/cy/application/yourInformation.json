@@ -12,10 +12,12 @@
   },
   "errors": {
     "applicantFirstName": {
-      "required": "cyEnter first name"
+      "required": "cyEnter first name",
+      "invalid": "cyFirst name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes"
     },
     "applicantLastName": {
-      "required": "cyEnter last name"
+      "required": "cyEnter last name",
+      "invalid": "cyLast name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes"
     },
     "applicantFirstNameMaxLength": "cyFirst name must be 100 characters or less",
     "applicantLastNameMaxLength": "cyLast name must be 100 characters or less",

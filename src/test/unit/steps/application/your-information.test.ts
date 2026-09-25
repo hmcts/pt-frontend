@@ -30,6 +30,18 @@ describe('your-information step', () => {
     ]);
   });
 
+  it('rejects first and last names that include invalid characters', () => {
+    const firstNameField = capturedConfig.fields.find((field: { name: string }) => field.name === 'applicantFirstName');
+    const lastNameField = capturedConfig.fields.find((field: { name: string }) => field.name === 'applicantLastName');
+
+    expect(firstNameField.validator('Mary-Jane')).toBe(true);
+    expect(firstNameField.validator("O'Brien")).toBe(true);
+    expect(firstNameField.validator('John2')).toBe('errors.applicantFirstName.invalid');
+
+    expect(lastNameField.validator('Van Dyke')).toBe(true);
+    expect(lastNameField.validator('Smith@')).toBe('errors.applicantLastName.invalid');
+  });
+
   it('pre-populates first and last name from IDAM when CCD has no values', () => {
     const req = {
       params: { caseReference: '1234123412341234' },

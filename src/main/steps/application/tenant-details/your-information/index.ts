@@ -3,6 +3,7 @@ import { flowConfig } from '../../flow.config';
 import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccdCase.interface';
+import { isValidPersonName } from '@utils/personName';
 
 const journeyName = 'application';
 const stepName = 'your-information';
@@ -32,6 +33,12 @@ export const step: StepDefinition = createFormStep({
         autocomplete: 'given-name',
         spellcheck: false,
       },
+      validator: (value): boolean | string => {
+        if (value && !isValidPersonName(value as string)) {
+          return 'errors.applicantFirstName.invalid';
+        }
+        return true;
+      },
     },
     {
       name: 'applicantLastName',
@@ -44,6 +51,12 @@ export const step: StepDefinition = createFormStep({
       attributes: {
         autocomplete: 'family-name',
         spellcheck: false,
+      },
+      validator: (value): boolean | string => {
+        if (value && !isValidPersonName(value as string)) {
+          return 'errors.applicantLastName.invalid';
+        }
+        return true;
       },
     },
     {
