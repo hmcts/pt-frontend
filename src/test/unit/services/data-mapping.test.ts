@@ -616,4 +616,67 @@ describe('prepareDataForSave', () => {
       });
     });
   });
+
+  describe('whoIsOnTheTenancy data mapping', () => {
+    it('maps personal information form data for save', () => {
+      const mockReq = {
+        params: { caseReference: CASE_REF },
+        session: {
+          formData: {
+            [CASE_REF]: {
+              'your-information': {
+                applicantFirstName: 'John',
+                applicantLastName: 'Smith',
+                companyName: 'Smith Company',
+                referenceNumberForCommunications: 'AB123',
+              },
+            },
+          },
+        },
+      } as unknown as Request;
+
+      expect(prepareDataForSave('whoIsOnTheTenancy', mockReq, {} as unknown as PTCaseData)).toEqual({
+        applicantFirstName: 'John',
+        applicantLastName: 'Smith',
+        tenantDetails: {
+          companyName: 'Smith Company',
+          referenceNumberForCommunications: 'AB123',
+        },
+      });
+    });
+
+    it('falls back to saved case data when form fields are missing', () => {
+      const mockReq = {
+        params: { caseReference: CASE_REF },
+        session: {
+          formData: {
+            [CASE_REF]: {
+              'your-information': {
+                applicantFirstName: 'Amended',
+              },
+            },
+          },
+        },
+      } as unknown as Request;
+
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        applicantFirstName: 'John',
+        applicantLastName: 'Smith',
+        tenantDetails: {
+          companyName: 'Smith Company',
+          referenceNumberForCommunications: 'AB123',
+        },
+      } as unknown as PTCaseData;
+
+      expect(prepareDataForSave('whoIsOnTheTenancy', mockReq, ccdCaseData)).toEqual({
+        applicantFirstName: 'Amended',
+        applicantLastName: 'Smith',
+        tenantDetails: {
+          companyName: 'Smith Company',
+          referenceNumberForCommunications: 'AB123',
+        },
+      });
+    });
+  });
 });

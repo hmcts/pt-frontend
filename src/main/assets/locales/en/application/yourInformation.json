@@ -1,4 +1,27 @@
 {
   "pageTitle": "Your information",
-  "heading": "Your information"
+  "heading": "Your information",
+  "labels": {
+    "applicantFirstName": "First name",
+    "applicantLastName": "Last name",
+    "companyName": "Company name (optional)",
+    "referenceNumberForCommunications": "Reference number for communication (optional)"
+  },
+  "hints": {
+    "referenceNumberForCommunications": "For example, AB123"
+  },
+  "errors": {
+    "applicantFirstName": {
+      "required": "Enter a first name",
+      "invalid": "First name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes"
+    },
+    "applicantLastName": {
+      "required": "Enter a last name",
+      "invalid": "Last name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes"
+    },
+    "applicantFirstNameMaxLength": "First name must be 100 characters or less",
+    "applicantLastNameMaxLength": "Last name must be 100 characters or less",
+    "companyNameMaxLength": "Company name must be 100 characters or less",
+    "referenceNumberForCommunicationsMaxLength": "Reference number for communication must be 5 characters or less"
+  }
 }

@@ -58,9 +58,19 @@ export function prepareDataForSave(
         },
       };
     }
-    // case 'whoIsOnTheTenancy': {
-    //   return {};
-    // }
+    case 'whoIsOnTheTenancy': {
+      return {
+        applicantFirstName:
+          getFormDataString(req, 'your-information', 'applicantFirstName') ?? saved?.applicantFirstName,
+        applicantLastName: getFormDataString(req, 'your-information', 'applicantLastName') ?? saved?.applicantLastName,
+        tenantDetails: {
+          companyName: getFormDataString(req, 'your-information', 'companyName') ?? saved?.tenantDetails?.companyName,
+          referenceNumberForCommunications:
+            getFormDataString(req, 'your-information', 'referenceNumberForCommunications') ??
+            saved?.tenantDetails?.referenceNumberForCommunications,
+        },
+      };
+    }
     // case 'landlordDetails': {
     //   return {};
     // }
@@ -296,6 +306,9 @@ export function prepareDataForSave(
             getFormDataString(req, 'proposed-market-rent', 'applicantSuggestedMarketRent') ??
               marketRentDetails?.applicantSuggestedMarketRent
           ),
+          applicantSuggestedMarketRentReasons:
+            getFormDataString(req, 'proposed-market-rent-reasons', 'applicantSuggestedMarketRentReasons') ??
+            marketRentDetails?.applicantSuggestedMarketRentReasons,
         },
       };
     }
