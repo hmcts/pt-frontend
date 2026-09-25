@@ -7,7 +7,7 @@ import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
 const journeyName = 'application';
 const stepName = 'upload-floor-plan-of-property';
-const documentField = 'floorPlanDocument';
+const documentField = 'floorPlanDocuments';
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -17,10 +17,7 @@ export const step: StepDefinition = createFormStep({
   customTemplate: `${__dirname}/uploadFloorPlanOfProperty.njk`,
   showCancelButton: false,
   documentField,
-  isAnswered: req => {
-    const application = req.session.ccdCase as { propertyDetails?: { floorPlanDocument?: { url?: string } } };
-    return Boolean(application?.propertyDetails?.floorPlanDocument?.url);
-  },
+  isAnswered: req => Boolean(req.session.ccdCase?.propertyDetails?.floorPlanDocuments?.some(doc => doc.url)),
   translationKeys: {
     pageTitle: 'pageTitle',
     heading: 'heading',
