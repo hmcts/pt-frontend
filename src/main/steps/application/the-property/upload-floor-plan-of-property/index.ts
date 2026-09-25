@@ -1,9 +1,9 @@
 import { flowConfig } from '../../flow.config';
 
+import { acceptFor, maxFileSizeMBFor } from '@modules/documents/documentFields';
 import { readDocuments, toDisplayDocuments } from '@modules/documents/storage';
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { ACCEPT_ATTRIBUTE_EXTENSIONS } from '@utils/documentUploadValidation';
 
 const journeyName = 'application';
 const stepName = 'upload-floor-plan-of-property';
@@ -28,7 +28,8 @@ export const step: StepDefinition = createFormStep({
       name: 'documents',
       type: 'file',
       required: true,
-      accept: ACCEPT_ATTRIBUTE_EXTENSIONS,
+      accept: acceptFor(documentField),
+      maxFileSize: maxFileSizeMBFor(documentField),
       isPageHeading: false,
       labelClasses: 'govuk-body',
       translationKey: { label: 'documentUpload.label' },
