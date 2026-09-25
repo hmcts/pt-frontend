@@ -30,9 +30,14 @@ export function stripHtmlTags(text: string): string {
  * If the optional text box was left blank - isAnswered = true
  * If the optional text box was filled with text and is less than max value of 500 - isAnswered = true
  *
+ * Called from two places with differently-shaped input: field validators run on the raw request
+ * body, where a line break is still the submitted CRLF, and isAnswered checks run on stored data,
+ * where processFieldData has already normalised it to LF. Normalising here makes both agree with
+ * the character count the citizen was shown; it is a no operation for the stored case.
+ *
  * @param value - string entered for given text box
  * @param max - maximum valid length
  */
 export function textAreaIsValidLength(value: string | undefined, max = 500): boolean {
-  return !value || String(value).length <= max;
+  return !value || String(value).replace(/\r\n?/g, '\n').length <= max;
 }

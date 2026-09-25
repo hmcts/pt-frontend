@@ -79,8 +79,18 @@ export function normalizeCheckboxFields(req: Request, fields: FormFieldConfig[])
   }
 }
 
+// Stores the line endings the character count measured, so a value that fits the counter also
+// fits the column it is stored in.
+function normaliseLineEndings(req: Request, key: string): void {
+  const value = req.body[key];
+  if (typeof value === 'string') {
+    req.body[key] = value.replace(/\r\n?/g, '\n');
+  }
+}
+
 /**
- * Processes all field data (checkbox normalization + date field consolidation)
+ * Processes all field data (checkbox normalization, date field consolidation and line ending
+ * normalisation)
  * This should run AFTER validation because date field validation expects individual day/month/year keys
  */
 export function processFieldData(req: Request, fields: FormFieldConfig[]): void {
@@ -97,6 +107,16 @@ export function processFieldData(req: Request, fields: FormFieldConfig[]): void 
       delete req.body[`${field.name}-day`];
       delete req.body[`${field.name}-month`];
       delete req.body[`${field.name}-year`];
+    } else {
+      normaliseLineEndings(req, field.name);
+    }
+
+    // A field inside a conditional reveal posts under its dotted name, the same one validateForm
+    // reads it by.
+    for (const option of field.options ?? []) {
+      for (const subFieldName of Object.keys(option.subFields ?? {})) {
+        normaliseLineEndings(req, getNestedFieldName(field.name, subFieldName));
+      }
     }
   }
 }
@@ -499,7 +519,9 @@ export function validateForm(
         }
 
         // MaxLength validation
-        if (field.maxLength && typeof value === 'string' && value.length > field.maxLength) {
+        // A submitted form sends every line break as CRLF, which the character count on the page
+        // counts as one character, so measure it the same way the citizen was shown.
+        if (field.maxLength && typeof value === 'string' && value.replace(/\r\n?/g, '\n').length > field.maxLength) {
           if (!errors[fieldName]) {
             const fieldSpecificMaxLengthMsg = translations?.[`${fieldName}.maxLength`];
             const defaultMaxLengthMsg = translations?.defaultMaxLength?.replace('{max}', field.maxLength.toString());
