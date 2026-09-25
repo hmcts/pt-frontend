@@ -1,3 +1,5 @@
+import { createReadStream } from 'node:fs';
+
 import axios, { AxiosInstance } from 'axios';
 import config from 'config';
 import FormData from 'form-data';
@@ -13,12 +15,18 @@ const CLASSIFICATION = 'PUBLIC';
 const JURISDICTION = 'PT';
 
 const getCdamUrl = (): string => config.get('cdam.url');
+const getUploadTimeoutMs = (): number => config.get<number>('documentUpload.timeoutMs');
 const getCaseTypeId = (): string => config.get('ccd.caseTypeId');
 
 const cdamClient = (userToken: string): AxiosInstance =>
   axios.create({
     baseURL: getCdamUrl(),
     timeout: config.get<number>('http.timeoutMs'),
+    // follow-redirects keeps a copy of every byte written to the request so it can replay on a
+    // redirect; CDAM never redirects these calls, and opting out keeps large uploads off the heap.
+    maxRedirects: 0,
+    maxBodyLength: Infinity,
+    maxContentLength: Infinity,
     headers: {
       Authorization: `Bearer ${userToken}`,
       ServiceAuthorization: `Bearer ${requireServiceAuthToken()}`,
@@ -27,9 +35,10 @@ const cdamClient = (userToken: string): AxiosInstance =>
 
 export const uploadDocument = async (file: Express.Multer.File, userToken: string): Promise<CdamDocument> => {
   const formData = new FormData();
-  formData.append('files', file.buffer, {
+  formData.append('files', createReadStream(file.path), {
     filename: file.originalname,
     contentType: file.mimetype,
+    knownLength: file.size,
   });
   formData.append('classification', CLASSIFICATION);
   formData.append('caseTypeId', getCaseTypeId());
@@ -37,6 +46,7 @@ export const uploadDocument = async (file: Express.Multer.File, userToken: strin
 
   const response = await cdamClient(userToken).post<CdamUploadResponse>('/cases/documents', formData, {
     headers: formData.getHeaders(),
+    timeout: getUploadTimeoutMs(),
   });
 
   const raw: CdamRawDocument | undefined = response.data?.documents?.[0];

@@ -143,6 +143,6 @@ function transport(name: string) {
 
 export class Logger {
   public static getLogger(name: string): ReturnType<typeof container.add> {
-    return container.add(name, { transports: [transport(name)] });
+    return container.add(name, { format: formatAxiosError(), transports: [transport(name)] });
   }
 }

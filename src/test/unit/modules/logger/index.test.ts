@@ -143,3 +143,19 @@ describe('logger credential redaction', () => {
     expect(err.config?.headers?.Authorization).toBe(`Bearer ${USER_TOKEN}`);
   });
 });
+
+describe('logger binary redaction', () => {
+  it('does not leave the logger-level format stringifying a raw buffer', () => {
+    const logger = Logger.getLogger(`binary-format-${Math.random()}`);
+    const format = (
+      logger as unknown as { format: { transform: (info: unknown, opts: unknown) => unknown; options: unknown } }
+    ).format;
+
+    const transformed = format.transform(
+      { level: 'error', message: 'Document upload failed', file: Buffer.alloc(1024) },
+      format.options
+    ) as Record<PropertyKey, unknown>;
+
+    expect(String(transformed[messageSymbol] ?? '')).not.toContain('"type":"Buffer"');
+  });
+});

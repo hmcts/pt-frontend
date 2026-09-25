@@ -12,7 +12,11 @@
   "documentUpload": {
     "maxFileSizeMB": "DOCUMENT_UPLOAD_MAX_FILE_SIZE_MB",
     "maxTotalFileSizeMB": "DOCUMENT_UPLOAD_MAX_TOTAL_FILE_SIZE_MB",
-    "maxFilenameLength": "DOCUMENT_UPLOAD_MAX_FILENAME_LENGTH"
+    "maxFilenameLength": "DOCUMENT_UPLOAD_MAX_FILENAME_LENGTH",
+    "timeoutMs": {
+      "__name": "DOCUMENT_UPLOAD_TIMEOUT_MS",
+      "__format": "json"
+    }
   },
   "http": {
     "timeoutMs": {
