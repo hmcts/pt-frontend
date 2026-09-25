@@ -17,7 +17,6 @@ export const step: StepDefinition = createFormStep({
   customTemplate: `${__dirname}/uploadPhotoOutsideOfProperty.njk`,
   showCancelButton: false,
   documentField,
-  isAnswered: () => true,
   translationKeys: {
     pageTitle: 'pageTitle',
     heading: 'heading',
