@@ -37,6 +37,20 @@ withPipeline(type, product, component) {
   env.CASE_TYPE_ID = "PT"
   env.CDAM_URL = "http://ccd-case-document-am-api-aat.service.core-compute-aat.internal"
   onPR() {
+    // Functional tests are the PR e2e run. Skip them unless a label opts in.
+    // e2e-tag:@idam sets Codecept --grep; e2e-spec:idam-login filters feature paths.
+    env.RUN_FUNCTIONAL_TESTS = 'false'
+    def e2eTag = prLabelSuffix(githubApi, 'e2e-tag:')
+    if (e2eTag?.trim()) {
+      env.E2E_TEST_SCOPE = e2eTag.trim()
+      env.RUN_FUNCTIONAL_TESTS = 'true'
+    }
+    def e2eSpec = prLabelSuffix(githubApi, 'e2e-spec:')
+    if (e2eSpec?.trim()) {
+      env.E2E_SPEC = e2eSpec.trim()
+      env.RUN_FUNCTIONAL_TESTS = 'true'
+    }
+
     def apiLabels = githubApi.getLabelsbyPattern(env.BRANCH_NAME, "pt-api-pr:")
     if (apiLabels && apiLabels.size() > 0) {
       def labelName = apiLabels[0]
@@ -53,9 +67,16 @@ withPipeline(type, product, component) {
 
   onMaster() {
     env.TEST_URL = "https://pt.aat.platform.hmcts.net/"
+    env.RUN_FUNCTIONAL_TESTS = 'true'
     enablePactAs([
       AppPipelineDsl.PactRoles.CONSUMER,
       AppPipelineDsl.PactRoles.CONSUMER_DEPLOY_CHECK
     ])
   }
+}
+
+/** First PR label matching prefix → value after prefix (e.g. e2e-tag:@idam → @idam) */
+def prLabelSuffix(githubApi, String prefix) {
+  def labels = githubApi.getLabelsbyPattern(env.BRANCH_NAME, prefix)
+  return (labels && labels.size() > 0) ? labels[0].replaceFirst('^' + prefix, '') : null
 }
