@@ -111,6 +111,7 @@ const sectionDefs = [
       'does-the-tenancy-include-other-facilities',
       'do-you-share-the-property-with-landlord',
       'upload-photo-outside-of-property',
+      'upload-photo-of-each-room',
       'furniture-provided-tenancy',
       'services-provided-tenancy',
       'what-repairs-landlord-responsibility',

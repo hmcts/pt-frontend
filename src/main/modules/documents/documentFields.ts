@@ -39,7 +39,7 @@ export const DOCUMENT_FIELDS = {
     maxFileSizeMB: 100,
     extraExtensions: ['.mp3', '.mp4'],
   },
-  roomsDocuments: {
+  propertyRoomsDocuments: {
     slice: 'propertyDetails',
     ptApiField: 'propertyRoomsDocuments',
     ccdField: 'roomsDocuments',
