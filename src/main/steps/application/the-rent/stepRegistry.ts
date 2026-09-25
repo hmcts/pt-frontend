@@ -13,6 +13,7 @@ import { step as tribunalPreviouslyDeterminedRent } from './the-current-rent-and
 import { step as utilitiesPaidFrequency } from './the-current-rent-and-other-costs/utilities-paid-frequency';
 import { step as proposedMarketRent } from './what-you-think-market-rent-should-be/proposed-market-rent';
 import { step as proposedMarketRentReasons } from './what-you-think-market-rent-should-be/proposed-market-rent-reasons';
+import { step as uploadEvidenceProposedMarketRent } from './what-you-think-market-rent-should-be/upload-evidence-proposed-market-rent';
 
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
@@ -32,4 +33,5 @@ export const theRentStepRegistry = {
   'check-your-answers-current-rent-and-other-costs': checkYourAnswersCurrentRentAndOtherCosts,
   'proposed-market-rent': proposedMarketRent,
   'proposed-market-rent-reasons': proposedMarketRentReasons,
+  'upload-evidence-proposed-market-rent': uploadEvidenceProposedMarketRent,
 } satisfies Record<string, StepDefinition>;
