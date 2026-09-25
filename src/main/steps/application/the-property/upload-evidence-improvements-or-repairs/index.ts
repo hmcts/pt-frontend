@@ -17,7 +17,6 @@ export const step: StepDefinition = createFormStep({
   customTemplate: `${__dirname}/uploadEvidenceImprovementsOrRepairs.njk`,
   showCancelButton: false,
   documentField,
-  isAnswered: req => Boolean(req.session.ccdCase?.propertyDetails?.repairsEvidenceDocuments?.some(doc => doc.url)),
   translationKeys: {
     pageTitle: 'pageTitle',
     heading: 'heading',
