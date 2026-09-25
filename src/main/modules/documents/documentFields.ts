@@ -5,7 +5,11 @@ import {
   maxTotalFileSizeBytes,
 } from '@utils/documentUploadValidation';
 
-export type DocumentSlice = 'propertyDetails' | 'noticeOfRentIncreaseDetails' | 'tenancyAgreementDetails';
+export type DocumentSlice =
+  | 'propertyDetails'
+  | 'noticeOfRentIncreaseDetails'
+  | 'tenancyAgreementDetails'
+  | 'marketRentDetails';
 
 export interface DocumentFieldDefinition {
   slice: DocumentSlice;
@@ -69,6 +73,12 @@ export const DOCUMENT_FIELDS = {
     ptApiField: 'tenancyAgreementDocument',
     ccdField: 'tenancyAgreementDocument',
     documentType: 'tenancyAgreement',
+  },
+  suggestedMarketRentEvidence: {
+    slice: 'marketRentDetails',
+    ptApiField: 'suggestedMarketRentEvidence',
+    ccdField: 'suggestedMarketRentEvidence',
+    documentType: 'tenantProposedRentEvidence',
   },
 } satisfies Record<string, DocumentFieldDefinition>;
 

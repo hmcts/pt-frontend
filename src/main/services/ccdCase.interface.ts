@@ -370,6 +370,7 @@ export interface RentDetails {
 export interface MarketRentDetails {
   applicantSuggestedMarketRent?: number;
   applicantSuggestedMarketRentReasons?: string;
+  suggestedMarketRentEvidence?: PtCaseDocument;
 }
 
 export interface InspectionAndHearing {
