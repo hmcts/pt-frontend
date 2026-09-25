@@ -12,11 +12,11 @@
   },
   "errors": {
     "applicantFirstName": {
-      "required": "Enter first name",
+      "required": "Enter a first name",
       "invalid": "First name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes"
     },
     "applicantLastName": {
-      "required": "Enter last name",
+      "required": "Enter a last name",
       "invalid": "Last name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes"
     },
     "applicantFirstNameMaxLength": "First name must be 100 characters or less",
