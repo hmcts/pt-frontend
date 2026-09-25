@@ -1,0 +1,16 @@
+export const otherFacilities = {
+  url: '/citizen/other-facilities',
+  pageHeading: 'Does the tenancy include any other facilities?',
+  hintText: 'For example, a garden, garage, separate buildings or land',
+  yesOption: 'Yes',
+  noOption: 'No',
+  otherFacilitiesQuestion: 'What other facilities does your tenancy include?',
+  otherFacilitiesTextArea: '//*[@id="propertyIncludesOtherFacilities.propertyFacilitiesDescription"]',
+  facilitiesDetails: 'Garden, garage and storage shed',
+  saveAndContinueButton: 'Save and continue',
+  saveForLaterButton: 'Save for later',
+  nextPageHeading: 'Do you share the property with your landlord?',
+  radioButtonError: 'Select whether the tenancy includes any other facilities',
+  textAreaError: 'Enter what other facilities your tenancy includes',
+  errorSummarySelector: '.govuk-error-summary',
+};
