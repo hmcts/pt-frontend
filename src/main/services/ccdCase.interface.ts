@@ -104,7 +104,7 @@ export interface CcdCaseData {
     indoorFeatures?: string;
     otherFacilitiesAvailable?: string | boolean;
     otherFacilitiesDetails?: string;
-    outsidePropertyDocument?: CcdUploadedDocument;
+    outsidePropertyDocuments?: CcdCollectionItem<CcdUploadedDocument>[];
     propertyRoomsDocuments?: CcdCollectionItem<CcdUploadedDocument>[];
     furnitureProvidedInTenancy?: string | boolean;
     furnitureProvidedInTenancyDetails?: string;
@@ -308,6 +308,7 @@ export interface PropertyDetails {
   hasFloorPlanOfProperty?: string | boolean;
   propertyLayoutDescription?: string;
   indoorFeatures?: string;
+  outsidePropertyDocuments?: PtCaseDocument[];
   propertyIncludesOtherFacilities?: string | boolean;
   propertyFacilitiesDescription?: string;
   propertySharedWithLandlord?: string | boolean;
