@@ -79,8 +79,21 @@ export function normalizeCheckboxFields(req: Request, fields: FormFieldConfig[])
   }
 }
 
+// Stores the line endings the character count measured, so a value that fits the counter also
+// fits the column it is stored in.
+function normaliseLineEndings(req: Request, key: string): void {
+  const value = req.body[key];
+  if (typeof value === 'string') {
+    req.body[key] = value.replace(/\r\n?/g, '\n');
+  }
+}
+
+const isFreeTextField = (field: FormFieldConfig): boolean =>
+  field.type === 'textarea' || field.type === 'character-count';
+
 /**
- * Processes all field data (checkbox normalization + date field consolidation)
+ * Processes all field data (checkbox normalization, date field consolidation and line ending
+ * normalisation)
  * This should run AFTER validation because date field validation expects individual day/month/year keys
  */
 export function processFieldData(req: Request, fields: FormFieldConfig[]): void {
@@ -97,6 +110,18 @@ export function processFieldData(req: Request, fields: FormFieldConfig[]): void 
       delete req.body[`${field.name}-day`];
       delete req.body[`${field.name}-month`];
       delete req.body[`${field.name}-year`];
+    } else if (isFreeTextField(field)) {
+      normaliseLineEndings(req, field.name);
+    }
+
+    // A free text field inside a conditional reveal posts under its dotted name, the same one
+    // validateForm reads it by.
+    for (const option of field.options ?? []) {
+      for (const [subFieldName, subField] of Object.entries(option.subFields ?? {})) {
+        if (isFreeTextField(subField)) {
+          normaliseLineEndings(req, getNestedFieldName(field.name, subFieldName));
+        }
+      }
     }
   }
 }
