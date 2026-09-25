@@ -30,8 +30,10 @@ export function stripHtmlTags(text: string): string {
  * If the optional text box was left blank - isAnswered = true
  * If the optional text box was filled with text and is less than max value of 500 - isAnswered = true
  *
- * A submitted form sends every line break as CRLF, which the character count on the page
- * counted as one character, so the two disagreed by one per line break.
+ * Called from two places with differently-shaped input: field validators run on the raw request
+ * body, where a line break is still the submitted CRLF, and isAnswered checks run on stored data,
+ * where processFieldData has already normalised it to LF. Normalising here makes both agree with
+ * the character count the citizen was shown; it is a no operation for the stored case.
  *
  * @param value - string entered for given text box
  * @param max - maximum valid length

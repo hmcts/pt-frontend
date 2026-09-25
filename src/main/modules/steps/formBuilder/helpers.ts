@@ -88,9 +88,6 @@ function normaliseLineEndings(req: Request, key: string): void {
   }
 }
 
-const isFreeTextField = (field: FormFieldConfig): boolean =>
-  field.type === 'textarea' || field.type === 'character-count';
-
 /**
  * Processes all field data (checkbox normalization, date field consolidation and line ending
  * normalisation)
@@ -110,17 +107,15 @@ export function processFieldData(req: Request, fields: FormFieldConfig[]): void 
       delete req.body[`${field.name}-day`];
       delete req.body[`${field.name}-month`];
       delete req.body[`${field.name}-year`];
-    } else if (isFreeTextField(field)) {
+    } else {
       normaliseLineEndings(req, field.name);
     }
 
-    // A free text field inside a conditional reveal posts under its dotted name, the same one
-    // validateForm reads it by.
+    // A field inside a conditional reveal posts under its dotted name, the same one validateForm
+    // reads it by.
     for (const option of field.options ?? []) {
-      for (const [subFieldName, subField] of Object.entries(option.subFields ?? {})) {
-        if (isFreeTextField(subField)) {
-          normaliseLineEndings(req, getNestedFieldName(field.name, subFieldName));
-        }
+      for (const subFieldName of Object.keys(option.subFields ?? {})) {
+        normaliseLineEndings(req, getNestedFieldName(field.name, subFieldName));
       }
     }
   }
