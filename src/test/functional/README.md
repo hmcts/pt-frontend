@@ -54,6 +54,17 @@ lib/
 | Azure Key Vault `pt-kv1-aat` | Citizen test user password                                                  |
 | `JIRA_AUTH_TOKEN`            | Required for Zephyr upload (`JIRA_PROJECT_ID` defaults to `29506` for PTSD) |
 
+## Pull request runs
+
+Jenkins does not run these tests on a pull request unless the PR has a label:
+
+| Label                 | Effect                                                             |
+| --------------------- | ------------------------------------------------------------------ |
+| `e2e-tag:@idam`       | Run scenarios whose title or tags match `@idam` (`E2E_TEST_SCOPE`) |
+| `e2e-spec:idam-login` | Run feature files whose path contains `idam-login` (`E2E_SPEC`)    |
+
+Separate several spec keywords with a comma or semicolon, for example `e2e-spec:idam-login,my-application`. A tag and a spec label can be used together. Master still runs the full suite.
+
 ## Running tests
 
 ### All functional features
