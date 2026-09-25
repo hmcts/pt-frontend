@@ -17,13 +17,6 @@ export const step: StepDefinition = createFormStep({
   customTemplate: `${__dirname}/uploadPhotoOfEachRoom.njk`,
   showCancelButton: false,
   documentField,
-  isAnswered: req => {
-    const application = req.session.ccdCase as {
-      propertyDetails?: { propertyRoomsDocuments?: { url?: string }[] };
-    };
-    const docs = application?.propertyDetails?.propertyRoomsDocuments;
-    return Array.isArray(docs) && docs.length > 0;
-  },
   translationKeys: {
     pageTitle: 'pageTitle',
     heading: 'heading',
