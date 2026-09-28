@@ -17,8 +17,7 @@ export const step: StepDefinition = createFormStep({
   customTemplate: `${__dirname}/uploadLandlordsNotice.njk`,
   showCancelButton: false,
   documentField,
-  isAnswered: req =>
-    Boolean(req.session.ccdCase?.noticeOfRentIncreaseDetails?.landlordNoticeProposingNewRentDocument?.url),
+  isAnswered: () => true,
   translationKeys: {
     pageTitle: 'pageTitle',
     heading: 'heading',
@@ -28,7 +27,7 @@ export const step: StepDefinition = createFormStep({
     {
       name: 'documents',
       type: 'file',
-      required: true,
+      required: false,
       accept: acceptFor(documentField),
       maxFileSize: maxFileSizeMBFor(documentField),
       isPageHeading: false,

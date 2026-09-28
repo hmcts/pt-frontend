@@ -59,6 +59,6 @@ describe('upload-landlords-notice step', () => {
     const without = { session: { ccdCase: { noticeOfRentIncreaseDetails: {} } } };
 
     expect(capturedConfig.isAnswered(withDocument)).toBe(true);
-    expect(capturedConfig.isAnswered(without)).toBe(false);
+    expect(capturedConfig.isAnswered(without)).toBe(true);
   });
 });

@@ -1,10 +1,5 @@
 {
   "pageTitle": "cy Upload your landlord's notice proposing a new rent",
   "heading": "cy Upload your landlord's notice proposing a new rent",
-  "subHeading": "cy If you are taking a picture of a letter, put the letter on a flat surface and take the picture from above.",
-  "errors": {
-    "documents": {
-      "required": "cy Select your landlord's notice proposing a new rent to upload"
-    }
-  }
+  "subHeading": "cy If you are taking a picture of a letter, put the letter on a flat surface and take the picture from above."
 }
