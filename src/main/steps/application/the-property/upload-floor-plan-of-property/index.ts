@@ -1,13 +1,13 @@
 import { flowConfig } from '../../flow.config';
 
+import { acceptFor, maxFileSizeMBFor } from '@modules/documents/documentFields';
 import { readDocuments, toDisplayDocuments } from '@modules/documents/storage';
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { ACCEPT_ATTRIBUTE_EXTENSIONS } from '@utils/documentUploadValidation';
 
 const journeyName = 'application';
 const stepName = 'upload-floor-plan-of-property';
-const documentField = 'floorPlanDocument';
+const documentField = 'floorPlanDocuments';
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -17,10 +17,7 @@ export const step: StepDefinition = createFormStep({
   customTemplate: `${__dirname}/uploadFloorPlanOfProperty.njk`,
   showCancelButton: false,
   documentField,
-  isAnswered: req => {
-    const application = req.session.ccdCase as { propertyDetails?: { floorPlanDocument?: { url?: string } } };
-    return Boolean(application?.propertyDetails?.floorPlanDocument?.url);
-  },
+  isAnswered: req => Boolean(req.session.ccdCase?.propertyDetails?.floorPlanDocuments?.some(doc => doc.url)),
   translationKeys: {
     pageTitle: 'pageTitle',
     heading: 'heading',
@@ -31,7 +28,8 @@ export const step: StepDefinition = createFormStep({
       name: 'documents',
       type: 'file',
       required: true,
-      accept: ACCEPT_ATTRIBUTE_EXTENSIONS,
+      accept: acceptFor(documentField),
+      maxFileSize: maxFileSizeMBFor(documentField),
       isPageHeading: false,
       labelClasses: 'govuk-body',
       translationKey: { label: 'documentUpload.label' },

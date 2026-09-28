@@ -18,10 +18,10 @@ const fileField = (): FormFieldConfig => ({ name: 'documents', type: 'file' }) a
 
 describe('withFileUploadUrls', () => {
   test('derives the upload and delete URLs from the document field', () => {
-    const [field] = withFileUploadUrls(req(), [fileField()], 'floorPlanDocument');
+    const [field] = withFileUploadUrls(req(), [fileField()], 'floorPlanDocuments');
 
-    expect(field.uploadUrl).toBe(`/${CASE_REFERENCE}/documents/floorPlanDocument/upload`);
-    expect(field.deleteUrl).toBe(`/${CASE_REFERENCE}/documents/floorPlanDocument/delete`);
+    expect(field.uploadUrl).toBe(`/${CASE_REFERENCE}/documents/floorPlanDocuments/upload`);
+    expect(field.deleteUrl).toBe(`/${CASE_REFERENCE}/documents/floorPlanDocuments/delete`);
   });
 
   test('marks a collection field as accepting multiple files', () => {
@@ -31,7 +31,7 @@ describe('withFileUploadUrls', () => {
   });
 
   test('marks a single-document field as accepting one file', () => {
-    const [field] = withFileUploadUrls(req(), [fileField()], 'floorPlanDocument');
+    const [field] = withFileUploadUrls(req(), [fileField()], 'tenancyAgreementDocument');
 
     expect(field.multiple).toBe(false);
   });
@@ -40,7 +40,7 @@ describe('withFileUploadUrls', () => {
     const [field] = withFileUploadUrls(
       req(),
       [{ name: 'somethingElse', type: 'text' } as FormFieldConfig],
-      'floorPlanDocument'
+      'floorPlanDocuments'
     );
 
     expect(field.uploadUrl).toBeUndefined();
@@ -56,7 +56,7 @@ describe('withFileUploadUrls', () => {
   test('does not write the case reference onto the step field array shared by every request', () => {
     const stepFields = [fileField()];
 
-    withFileUploadUrls(req(), stepFields, 'floorPlanDocument');
+    withFileUploadUrls(req(), stepFields, 'floorPlanDocuments');
 
     expect(stepFields[0].uploadUrl).toBeUndefined();
   });
@@ -65,11 +65,11 @@ describe('withFileUploadUrls', () => {
     const stepFields = [fileField()];
     const otherReq = { params: { caseReference: '9999888877776666' }, body: {} } as unknown as Request;
 
-    const [first] = withFileUploadUrls(req(), stepFields, 'floorPlanDocument');
-    const [second] = withFileUploadUrls(otherReq, stepFields, 'floorPlanDocument');
+    const [first] = withFileUploadUrls(req(), stepFields, 'floorPlanDocuments');
+    const [second] = withFileUploadUrls(otherReq, stepFields, 'floorPlanDocuments');
 
-    expect(first.uploadUrl).toBe(`/${CASE_REFERENCE}/documents/floorPlanDocument/upload`);
-    expect(second.uploadUrl).toBe('/9999888877776666/documents/floorPlanDocument/upload');
+    expect(first.uploadUrl).toBe(`/${CASE_REFERENCE}/documents/floorPlanDocuments/upload`);
+    expect(second.uploadUrl).toBe('/9999888877776666/documents/floorPlanDocuments/upload');
   });
 });
 
@@ -90,7 +90,7 @@ describe('setFileFieldValues', () => {
     mockedReadDocuments.mockResolvedValue([storedDocument]);
     const request = req();
 
-    await setFileFieldValues(request, [fileField()], 'floorPlanDocument');
+    await setFileFieldValues(request, [fileField()], 'floorPlanDocuments');
 
     expect(request.body.documents).toHaveLength(1);
     expect(request.body.documents[0].document_filename).toBe('floor-plan.pdf');
@@ -101,7 +101,7 @@ describe('setFileFieldValues', () => {
     mockedReadDocuments.mockResolvedValue([]);
     const request = req();
 
-    await setFileFieldValues(request, [fileField()], 'floorPlanDocument');
+    await setFileFieldValues(request, [fileField()], 'floorPlanDocuments');
 
     expect(request.body.documents).toBeUndefined();
   });
@@ -112,7 +112,7 @@ describe('setFileFieldValues', () => {
     await setFileFieldValues(
       request,
       [{ name: 'somethingElse', type: 'text' } as FormFieldConfig],
-      'floorPlanDocument'
+      'floorPlanDocuments'
     );
 
     expect(mockedReadDocuments).not.toHaveBeenCalled();

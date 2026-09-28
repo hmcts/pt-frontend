@@ -7,7 +7,7 @@ import { uploadDocument } from '@services/cdamService';
 jest.mock('config', () => {
   const limits: Record<string, number> = {
     'documentUpload.maxFileSizeMB': 1,
-    'documentUpload.maxTotalFileSizeMB': 500,
+    'documentUpload.maxTotalFileSizeMB': 300,
     'documentUpload.maxFilenameLength': 255,
   };
   return { has: (key: string) => key in limits, get: (key: string) => limits[key] };
@@ -41,7 +41,7 @@ const buildApp = (): Express => {
 describe('documentProxy file size limit', () => {
   test('reports an oversized file in the shape the upload component reads', async () => {
     const response = await request(buildApp())
-      .post('/1234123412341234/documents/floorPlanDocument/upload')
+      .post('/1234123412341234/documents/floorPlanDocuments/upload')
       .attach('documents', Buffer.alloc(2 * 1024 * 1024), 'floor-plan.pdf');
 
     expect(response.status).toBe(400);

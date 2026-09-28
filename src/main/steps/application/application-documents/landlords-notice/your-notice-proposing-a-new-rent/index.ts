@@ -62,5 +62,6 @@ export const step: StepDefinition = createFormStep({
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  return ccdCase?.noticeLegallyValid === 'yes' || ccdCase?.noticeLegallyValid === 'no';
+  const noticeLegallyValid = ccdCase?.noticeOfRentIncreaseDetails?.noticeLegallyValid;
+  return noticeLegallyValid === 'yes' || noticeLegallyValid === 'no';
 }
