@@ -10,7 +10,7 @@ import type {
   FormFieldConfig,
   FormFieldOption,
 } from '@modules/steps/formBuilder/formFieldConfig.interface';
-import { ACCEPT_ATTRIBUTE_EXTENSIONS, maxFileSizeMB, maxFilenameLength } from '@utils/documentUploadValidation';
+import { acceptAttributeFor, maxFileSizeMB, maxFilenameLength } from '@utils/documentUploadValidation';
 
 function createFieldsetLegend(
   label: string,
@@ -246,9 +246,9 @@ export function buildComponentConfig({
     }
     case 'file': {
       component.value = fieldValue || [];
-      component.accept = field.accept || ACCEPT_ATTRIBUTE_EXTENSIONS;
+      component.accept = field.accept || acceptAttributeFor();
       component.multiple = field.multiple === true;
-      component.maxFileSize = field.maxFileSize ?? maxFileSizeMB();
+      component.maxFileSize = maxFileSizeMB(field.maxFileSize);
       component.maxFilenameLength = maxFilenameLength();
       component.uploadUrl = field.uploadUrl || '';
       component.deleteUrl = field.deleteUrl || '';
@@ -257,7 +257,9 @@ export function buildComponentConfig({
       component.filesAddedHeading = t('documentUpload.filesAddedHeading', 'Files added');
       component.deleteButtonText = t('documentUpload.deleteButton', 'Delete');
       component.errorWrongFileType = t('errors.documentUpload.wrongFileType', 'This file type is not accepted');
-      component.errorFileTooLarge = t('errors.documentUpload.fileTooLarge', 'This file is too large');
+      component.errorFileTooLarge = t('errors.documentUpload.fileTooLarge', 'This file is too large', {
+        maxFileSize: maxFileSizeMB(field.maxFileSize),
+      });
       component.errorFilenameTooLong = t('errors.documentUpload.filenameTooLong', 'This file name is too long');
       component.errorUploadFailed = t('errors.documentUpload.uploadFailed', 'This file could not be uploaded');
       component.errorDelete = t('errors.documentUpload.deleteFailed', 'This file could not be removed');

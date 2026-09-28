@@ -46,13 +46,15 @@ tenancyAgreementDocument: {
 Add `multiple: true` for a collection field. Leave it off for a single document — the absence is
 what enforces one file.
 
-| Property       | What it addresses                                                                                                        |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `slice`        | The complex field on the case — `propertyDetails` or `noticeOfRentIncreaseDetails`                                       |
-| `ptApiField`   | The name in pt-api's read API (mapped by ApplicationMapper.java), used when loading existing documents                   |
-| `ccdField`     | The name inside the complex type (eg. `propertyDetails` or `noticeOfRentIncreaseDetails`), used when writing through CCD |
-| `documentType` | The `DocumentType` enum sent with the document (full list found at DocumentType.java in pt-api)                          |
-| `multiple`     | Optional. Collection field rather than a single document                                                                 |
+| Property          | What it addresses                                                                                                        |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `slice`           | The complex field on the case — `propertyDetails` or `noticeOfRentIncreaseDetails`                                       |
+| `ptApiField`      | The name in pt-api's read API (mapped by ApplicationMapper.java), used when loading existing documents                   |
+| `ccdField`        | The name inside the complex type (eg. `propertyDetails` or `noticeOfRentIncreaseDetails`), used when writing through CCD |
+| `documentType`    | The `DocumentType` enum sent with the document (full list found at DocumentType.java in pt-api)                          |
+| `multiple`        | Optional. Collection field rather than a single document                                                                 |
+| `maxFileSizeMB`   | Optional. The maximum file size in MB. If not set the global default from the config is used                             |
+| `extraExtensions` | Optional. List of additional file types to be accepted as well as the default                                            |
 
 ## 2. Create the step
 
