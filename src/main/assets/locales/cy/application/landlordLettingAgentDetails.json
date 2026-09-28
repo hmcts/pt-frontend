@@ -8,20 +8,23 @@
     "lettingAgentDXNumber": {
       "label": "cy DX number for communication (optional)",
       "hint": "cy For example, AB123"
-    },
-    "lettingAgentReferenceNumber": {
-      "label": "cy Reference number for communication (optional)",
-      "hint": "cy For example, AB123"
     }
   },
   "errors": {
     "lettingAgentFirstName": {
       "required": "cy Enter the letting agent's first name",
-      "invalid": "cy First name must be 2 characters or more"
+      "invalidCharacters": "cy First name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes",
+      "invalidMinLength": "cy First name must be 2 characters or more",
+      "invalidMaxLength": "cy First name must be 100 characters or less"
     },
     "lettingAgentLastName": {
       "required": "cy Enter the letting agent's last name",
-      "invalid": "cy Last name must be 2 characters or more"
+      "invalidCharacters": "cy Last name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes",
+      "invalidMinLength": "cy Last name must be 2 characters or more",
+      "invalidMaxLength": "cy Last name must be 100 characters or less"
+    },
+    "lettingAgentCompanyName": {
+      "invalidMaxLength": "cy Company name must be 100 characters or less"
     }
   }
 }

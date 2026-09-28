@@ -8,10 +8,6 @@
     "lettingAgentDXNumber": {
       "label": "DX number for communication (optional)",
       "hint": "For example, AB123"
-    },
-    "lettingAgentReferenceNumber": {
-      "label": "Reference number for communication (optional)",
-      "hint": "For example, AB123"
     }
   },
   "errors": {

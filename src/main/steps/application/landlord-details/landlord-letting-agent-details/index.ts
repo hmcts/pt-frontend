@@ -86,16 +86,6 @@ export const step: StepDefinition = createFormStep({
       isPageHeading: false,
       translationKey: { label: 'labels.lettingAgentDXNumber.label', hint: 'labels.lettingAgentDXNumber.hint' },
     },
-    {
-      name: 'lettingAgentReferenceNumber',
-      type: 'text',
-      required: false,
-      isPageHeading: false,
-      translationKey: {
-        label: 'labels.lettingAgentReferenceNumber.label',
-        hint: 'labels.lettingAgentReferenceNumber.hint',
-      },
-    },
   ],
 });
 
