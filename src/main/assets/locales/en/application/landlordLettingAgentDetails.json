@@ -17,11 +17,18 @@
   "errors": {
     "lettingAgentFirstName": {
       "required": "Enter the letting agent's first name",
-      "invalid": "First name must be 2 characters or more"
+      "invalidCharacters": "First name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes",
+      "invalidMinLength": "First name must be 2 characters or more",
+      "invalidMaxLength": "First name must be 100 characters or less"
     },
     "lettingAgentLastName": {
       "required": "Enter the letting agent's last name",
-      "invalid": "Last name must be 2 characters or more"
+      "invalidCharacters": "Last name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes",
+      "invalidMinLength": "Last name must be 2 characters or more",
+      "invalidMaxLength": "Last name must be 100 characters or less"
+    },
+    "lettingAgentCompanyName": {
+      "invalidMaxLength": "Company name must be 100 characters or less"
     }
   }
 }
