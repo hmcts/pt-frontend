@@ -34,7 +34,7 @@ const sectionDefs = [
     id: 'whoIsOnTheTenancy',
     groupId: 'tenantDetails',
     titleKey: 'taskList.whoIsOnTheTenancy',
-    steps: ['your-information'],
+    steps: ['your-information', 'check-your-answers-tenant-details'],
   },
   {
     id: 'landlordDetails',

@@ -246,11 +246,19 @@ export interface PTCaseData
   tenancyType?: string;
 
   applicantContactPreferences?: ContactPreferences;
+  tenantDetails?: TenantDetails;
   currentRentsDetails?: RentDetails;
   propertyDetails?: PropertyDetails;
   marketRentDetails?: MarketRentDetails;
   tenancyAgreementDetails?: TenancyAgreementDetails;
   noticeOfRentIncreaseDetails?: NoticeOfRentIncreaseDetails;
+}
+
+export interface TenantDetails {
+  firstName?: string;
+  lastName?: string;
+  companyName?: string;
+  referenceNumberForCommunications?: string;
 }
 
 export interface ContactPreferences {
