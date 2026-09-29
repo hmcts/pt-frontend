@@ -31,9 +31,11 @@
     "maxFilenameLength": 255
   },
   "idam": {
-    "authorizationURL": "https://idam-web-public.aat.platform.hmcts.net/login",
+    "authorizationURL": "https://idam-web-public.aat.platform.hmcts.net/o/authorize",
     "tokenURL": "https://idam-api.aat.platform.hmcts.net/o/token",
+    "endSessionURL": "https://idam-web-public.aat.platform.hmcts.net/o/endSession",
     "clientID": "pt-frontend",
+    "authorizationScope": "openid profile roles",
     "clientSecret": "NEED TO INSERT SECRET",
     "systemUsername": "dummy_user",
     "systemPassword": "NEED TO INSERT SECRET",

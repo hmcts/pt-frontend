@@ -48,10 +48,11 @@ async function openIdamLoginFromPt(): Promise<void> {
 }
 
 function buildIdamLoginUrl(): string {
-  const idamLoginUrl = new URL('/login', 'https://idam-web-public.aat.platform.hmcts.net');
+  const idamLoginUrl = new URL('/o/authorize', 'https://idam-web-public.aat.platform.hmcts.net');
   idamLoginUrl.searchParams.set('client_id', 'pt-frontend');
   idamLoginUrl.searchParams.set('response_type', 'code');
   idamLoginUrl.searchParams.set('redirect_uri', new URL('/oauth2/callback', testConfig.TEST_URL).toString());
+  idamLoginUrl.searchParams.set('scope', 'openid profile roles');
   return idamLoginUrl.toString();
 }
 
