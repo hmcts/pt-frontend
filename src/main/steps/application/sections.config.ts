@@ -101,6 +101,7 @@ const sectionDefs = [
       'proposed-market-rent-reasons',
       'upload-evidence-proposed-market-rent',
       'anything-else-tribunal-should-consider',
+      'check-your-answers-what-you-think-market-rent-should-be',
     ],
   },
   {
