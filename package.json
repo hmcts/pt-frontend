@@ -87,7 +87,7 @@
     "luxon": "3.7.2",
     "minimatch": "10.2.6",
     "module-alias": "2.3.4",
-    "multer": "^2.3.0",
+    "multer": "^2.4.0",
     "node-cache": "5.1.2",
     "nunjucks": "3.2.4",
     "otpauth": "^9.5.0",
@@ -210,6 +210,7 @@
     "qs": "^6.16.0",
     "superagent": "^10.2.2",
     "tar": "^7.4.3",
+    "undici": "^8.10.2",
     "uuid": "^11.1.0"
   },
   "packageManager": "yarn@4.18.0"
