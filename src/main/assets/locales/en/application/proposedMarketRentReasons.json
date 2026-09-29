@@ -1,4 +1,17 @@
 {
   "pageTitle": "Your reasons for your proposed market rent",
-  "heading": "Your reasons for your proposed market rent (placeholder)"
+  "giveReasons": "You can give reasons and provide evidence from similar nearby properties, such as their:",
+  "bullet1": "size",
+  "bullet2": "features",
+  "bullet3": "location",
+  "bullet4": "rent amount",
+  "lettingAgents": "Information from letting agents, Rightmove or Zoopla can help, but actual rental agreements are stronger evidence.",
+  "rentalAgreements": "Details from rental agreements is usually stronger evidence than from housing associations, previous fair rent decisions or local housing allowance rates.",
+  "questionTitle": "What are your reasons for your proposed market rent? (optional)",
+  "questionHint": "You can upload any evidence next",
+  "errors": {
+    "applicantSuggestedMarketRentReasons": {
+      "invalid": "Your reasons for your proposed market rent must be 5000 characters or less"
+    }
+  }
 }
