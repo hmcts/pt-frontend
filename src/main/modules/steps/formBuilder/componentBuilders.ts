@@ -260,6 +260,15 @@ export function buildComponentConfig({
       component.errorFileTooLarge = t('errors.documentUpload.fileTooLarge', 'This file is too large', {
         maxFileSize: maxFileSizeMB(field.maxFileSize),
       });
+      component.extensionLimits = Object.fromEntries(
+        Object.entries(field.extraExtensions ?? {}).map(([extension, maxFileSize]) => [
+          extension,
+          {
+            maxFileSizeMB: maxFileSize,
+            error: t('errors.documentUpload.fileTooLarge', 'This file is too large', { maxFileSize }),
+          },
+        ])
+      );
       component.errorFilenameTooLong = t('errors.documentUpload.filenameTooLong', 'This file name is too long');
       component.errorUploadFailed = t('errors.documentUpload.uploadFailed', 'This file could not be uploaded');
       component.errorDelete = t('errors.documentUpload.deleteFailed', 'This file could not be removed');

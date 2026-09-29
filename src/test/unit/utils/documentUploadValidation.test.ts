@@ -45,7 +45,11 @@ describe('documentUploadValidation', () => {
     });
 
     test('accepts a file at the per-file cap', () => {
-      expect(validateUploadedFile(file({ size: 25 * 1024 * 1024 }))).toBeUndefined();
+      expect(validateUploadedFile(file({ size: 25_000_000 }))).toBeUndefined();
+    });
+
+    test('counts a megabyte as a million bytes, as the file size shown to the user does', () => {
+      expect(validateUploadedFile(file({ size: 25_000_001 }))).toBe('fileTooLarge');
     });
 
     test('rejects a file over the per-file cap', () => {
