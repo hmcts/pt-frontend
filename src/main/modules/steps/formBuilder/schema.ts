@@ -89,6 +89,7 @@ export const FormFieldConfigSchema: z.ZodType<FormFieldConfig> = z.lazy(() =>
     // File upload configuration
     accept: z.string().optional(),
     maxFileSize: z.number().optional(),
+    extraExtensions: z.record(z.string(), z.number()).optional(),
     uploadUrl: z.string().optional(),
     deleteUrl: z.string().optional(),
     // For date fields: if true, disallows future and current dates
