@@ -18,10 +18,14 @@ export const withFileUploadUrls = (
 
   const caseReference = String(req.params?.caseReference ?? '');
   const base = `/${caseReference}/documents/${documentField}`;
-  const multiple = documentFieldFor(documentField)?.multiple === true;
+  const definition = documentFieldFor(documentField);
+  const multiple = definition?.multiple === true;
+  const extraExtensions = definition?.extraExtensions;
 
   return fields.map(field =>
-    field.type === 'file' ? { ...field, uploadUrl: `${base}/upload`, deleteUrl: `${base}/delete`, multiple } : field
+    field.type === 'file'
+      ? { ...field, uploadUrl: `${base}/upload`, deleteUrl: `${base}/delete`, multiple, extraExtensions }
+      : field
   );
 };
 
