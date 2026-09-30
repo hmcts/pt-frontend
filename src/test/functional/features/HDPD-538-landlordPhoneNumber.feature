@@ -17,13 +17,13 @@ Feature: your landlord's phone number
     Scenario: Verify validation when invalid phone number is entered
         Given the citizen is on the Landlord Phone Number page
         When the citizen enters an invalid landlord phone number
-        And the citizen clicks landlord phone Save and continue
+        And I click "Continue"
         Then the citizen sees the landlord phone number validation error
 
     Scenario: Verify citizen can continue when landlord phone number is blank
         Given the citizen is on the Landlord Phone Number page
         When the citizen leaves the landlord phone number blank
-        And the citizen clicks landlord phone Save and continue
+        And I click "Continue"
         Then the citizen is navigated to the Does your landlord have a letting agent or representative page
 
 
@@ -31,10 +31,10 @@ Feature: your landlord's phone number
         Given the citizen is on the Landlord Phone Number page
         When the citizen enters a valid landlord phone number
         And the citizen clicks landlord phone Save for later
-         Then check that the user is redirected to the task-list citizen dashboard page
+        Then check that the user is redirected to the task-list citizen dashboard page
 
     Scenario: Verify Save and Continue with valid phone number
         Given the citizen is on the Landlord Phone Number page
         When the citizen enters a valid landlord phone number
-        And the citizen clicks landlord phone Save and continue
+        And I click "Continue"
         Then the citizen is navigated to the Does your landlord have a letting agent or representative page

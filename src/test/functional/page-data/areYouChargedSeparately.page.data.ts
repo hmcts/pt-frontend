@@ -10,4 +10,5 @@ export const areYouChargedSeparately = {
   nextPageHeadingForNoOption: 'Check your answers',
   validationError: 'Select whether you are charged for anything else',
   errorSummarySelector: '.govuk-error-summary',
+  otherchargeDetailUrl: '/other-household-management-charges-details,',
 };

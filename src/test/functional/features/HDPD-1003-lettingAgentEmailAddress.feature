@@ -1,5 +1,5 @@
 @JIRA-EPIC:HDPD-1003
-Feature: Letting Agent Email Address
+Feature: Enter and validate the letting agent's email address
 
     Background:
         Given the user navigates to PT url
@@ -14,27 +14,27 @@ Feature: Letting Agent Email Address
         Then check that the user is redirected to the task-list citizen dashboard page
 
     @AC1 @JIRA-TEST-KEY:PTSD-878
-    Scenario: AC1 - Verify page content
+    Scenario:Verify page content for the Letting Agent Email Address page
         Given the citizen is on the letting agent's email address page
         Then the page displays the heading "Your letting agent's email address"
 
     @AC2 @JIRA-TEST-KEY:PTSD-879
-    Scenario: AC2 - Valid email address entered
+    Scenario:Citizen enters a valid letting agent email address and continues successfully
         Given the citizen is on the letting agent's email address page
         When the citizen enters a valid email address
-        And the citizen clicks Save and continue
+        And I click "Continue"
         Then the citizen is taken to the letting agent's phone number page
 
     @AC3 @JIRA-TEST-KEY:PTSD-879
-    Scenario: AC2 - Blank email address
+    Scenario: Citizen attempts to continue without entering a letting agent email address
         Given the citizen is on the letting agent's email address page
         When the citizen leaves the email field blank
-        And the citizen clicks Save and continue
+        And I click "Continue"
         Then the citizen is taken to the letting agent's phone number page
 
     @AC4 @JIRA-TEST-KEY:PTSD-880
-    Scenario: AC3 - Invalid email address
+    Scenario:  Citizen enters an incorrectly formatted letting agent email address
         Given the citizen is on the letting agent's email address page
         When the citizen enters an invalid email address
-        And the citizen clicks Save and continue
+        And I click "Continue"
         Then the email address validation error is displayed

@@ -15,20 +15,20 @@ Feature: Notice legally valid
     @AC1 @JIRA-TEST-KEY:PTSD-811
     Scenario: Navigate to Hardship page when Yes is selected
         Given the citizen is on the Notice Legally Valid page
-        When the citizen selects Yes for notice validity
+        When the citizen selects "Yes" for notice validity
         And the citizen clicks Save and continue
         Then the citizen is taken to the Hardship page
 
     @AC2 @JIRA-TEST-KEY:PTSD-812
     Scenario: Display text area when No is selected
         Given the citizen is on the Notice Legally Valid page
-        When the citizen selects No for notice validity
+        When the citizen selects "No" for notice validity
         Then the explanation text area is displayed
 
     @AC3 @JIRA-TEST-KEY:PTSD-814
     Scenario: Navigate to Upload Evidence page when No is selected and explanation provided
         Given the citizen is on the Notice Legally Valid page
-        When the citizen selects No for notice validity
+        When the citizen selects "No" for notice validity
         And the citizen enters details into the optional text area
         And the citizen clicks Save and continue
         Then the citizen is taken to the Upload Evidence page
@@ -36,7 +36,7 @@ Feature: Notice legally valid
     @AC4 @JIRA-TEST-KEY:PTSD-815
     Scenario: Navigate to Upload Evidence page when No is selected and explanation not provided
         Given the citizen is on the Notice Legally Valid page
-        When the citizen selects No for notice validity
+        When the citizen selects "No" for notice validity
         And the citizen clicks Save and continue
         Then the citizen is taken to the Upload Evidence page
 

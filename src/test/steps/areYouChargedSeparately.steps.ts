@@ -2,11 +2,6 @@ import { areYouChargedSeparately } from '../functional/page-data/areYouChargedSe
 
 const { I } = inject();
 
-/**
-11
-* Page Load
-12
-*/
 Given('the citizen is on the Are You Charged Separately page', async () => {
   const currentUrl = await I.grabCurrentUrl();
   const targetUrl = currentUrl.replace('/task-list', areYouChargedSeparately.url);
@@ -23,12 +18,6 @@ Then('the page displays the correct content', () => {
   I.see(areYouChargedSeparately.saveForLaterButton);
 });
 
-/**
-30
-* AC2 - Yes Selection
-31
-*/
-
 When('the citizen selects Yes', () => {
   I.checkOption(areYouChargedSeparately.yesOption);
 });
@@ -39,13 +28,9 @@ When('the citizen clicks Save and continue', () => {
 
 Then('the citizen is taken to the next page', () => {
   I.see(areYouChargedSeparately.nextPageHeading);
+  I.seeInCurrentUrl(areYouChargedSeparately.otherchargeDetailUrl);
 });
 
-/**
-45
-* AC3 - No Selection
-46
-*/
 When('the citizen selects No', () => {
   I.checkOption(areYouChargedSeparately.noOption);
 });
@@ -53,12 +38,6 @@ When('the citizen selects No', () => {
 Then('the citizen is taken to the current rent and other costs page', () => {
   I.see(areYouChargedSeparately.nextPageHeadingForNoOption);
 });
-
-/**
-52
-* AC4 - Validation Error
-53
-*/
 
 When('the citizen clicks Save and continue without selecting an option', () => {
   I.click(areYouChargedSeparately.saveAndContinueButton);
