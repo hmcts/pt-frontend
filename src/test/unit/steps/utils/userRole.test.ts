@@ -1,6 +1,6 @@
 import type { Request } from 'express';
 
-import { getUserRoles, getUserType, isLegalRepresentativeUser } from '../../../../main/steps/utils/userRole';
+import { getUserRoles, getUserType, isLandlordUser } from '../../../../main/steps/utils/userRole';
 
 describe('isLegalRepresentativeUser', () => {
   it('returns true when roles contains solicitor', () => {
@@ -11,7 +11,7 @@ describe('isLegalRepresentativeUser', () => {
         },
       },
     } as unknown as Request;
-    expect(isLegalRepresentativeUser(req)).toBe(true);
+    expect(isLandlordUser(req)).toBe(true);
   });
 
   it('returns false when roles does not contain solicitor', () => {
@@ -22,7 +22,7 @@ describe('isLegalRepresentativeUser', () => {
         },
       },
     } as unknown as Request;
-    expect(isLegalRepresentativeUser(req)).toBe(false);
+    expect(isLandlordUser(req)).toBe(false);
   });
 });
 
@@ -35,7 +35,7 @@ describe('getUserType', () => {
         },
       },
     } as unknown as Request;
-    expect(getUserType(req)).toBe('legalrep');
+    expect(getUserType(req)).toBe('landlord');
   });
 
   it('returns citizen when roles does not contain solicitor', () => {

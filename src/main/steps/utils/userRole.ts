@@ -1,8 +1,9 @@
 import type { Request } from 'express';
 
-export const LEGAL_REPRESENTATIVE_USER_ROLES = ['solicitor'] as const;
+//TODO: establish what role a landlord will have and updated the following list
+export const LANDLORD_USER_ROLES = ['solicitor'] as const;
 
-export type UserType = 'citizen' | 'legalrep';
+export type UserType = 'citizen' | 'landlord';
 
 export function getUserRoles(req: Request): string[] {
   const roles = req.session?.user?.roles;
@@ -17,15 +18,13 @@ export function getUserRoles(req: Request): string[] {
     .filter(Boolean);
 }
 
-export function isLegalRepresentativeUser(req: Request): boolean {
-  return getUserRoles(req).some(role =>
-    LEGAL_REPRESENTATIVE_USER_ROLES.includes(role as (typeof LEGAL_REPRESENTATIVE_USER_ROLES)[number])
-  );
+export function isLandlordUser(req: Request): boolean {
+  return getUserRoles(req).some(role => LANDLORD_USER_ROLES.includes(role as (typeof LANDLORD_USER_ROLES)[number]));
 }
 
 export function getUserType(req: Request): UserType {
-  if (isLegalRepresentativeUser(req)) {
-    return 'legalrep';
+  if (isLandlordUser(req)) {
+    return 'landlord';
   }
 
   return 'citizen';
