@@ -2,7 +2,7 @@ import type { Request } from 'express';
 
 import { getUserRoles, getUserType, isLandlordUser } from '../../../../main/steps/utils/userRole';
 
-describe('isLegalRepresentativeUser', () => {
+describe('isLandlordUser', () => {
   it('returns true when roles contains solicitor', () => {
     const req = {
       session: {
@@ -27,7 +27,7 @@ describe('isLegalRepresentativeUser', () => {
 });
 
 describe('getUserType', () => {
-  it('returns legalrep when roles contains solicitor', () => {
+  it('returns landlord when roles contains solicitor', () => {
     const req = {
       session: {
         user: {
