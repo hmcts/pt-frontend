@@ -2,7 +2,6 @@ import { config as testConfig } from '../config';
 import { myApplication } from '../functional/page-data/myapplication.page.data';
 import { resolveIdamEmail, resolveIdamPassword } from '../functional/utils/idamPassword';
 
-import { selectOptionByLabel } from './common';
 import { submitSignInCredentials, verifyRedirectedToPtUI } from './idam-login';
 
 const { I } = inject();
@@ -84,16 +83,4 @@ When('I enter characters more than 500 in the description field', () => {
       textarea.dispatchEvent(new Event('change', { bubbles: true }));
     }
   }, 'c'.repeat(501));
-});
-
-Then('I check that the error message {string} is displayed on the page', (message: string) => {
-  I.waitForText(message);
-});
-
-When('I select the option {string} for the question {string}', (option: string) => {
-  I.checkOption(option);
-});
-
-When('I select the option {string}', async (option: string) => {
-  selectOptionByLabel(option);
 });
