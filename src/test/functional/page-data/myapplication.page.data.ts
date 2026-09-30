@@ -1,7 +1,5 @@
 export const myApplication = {
   myApplicationPageHeading: 'My applications',
-  otherChargesUrl: '/1785122055839707/other-household-management-charges',
-  otherChargesPageHeading: 'Are you charged separately for anything else',
   startNewApplicationLinkText: 'Start a new application',
   startNewApplicationUrl: 'new-application/application-type',
   applicationTypeHeading: 'Which application do you want to make?',

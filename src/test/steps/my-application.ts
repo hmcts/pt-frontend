@@ -1,11 +1,9 @@
-import { config as testConfig } from '../config';
 import { myApplication } from '../functional/page-data/myapplication.page.data';
 import { resolveIdamEmail, resolveIdamPassword } from '../functional/utils/idamPassword';
 
 import { submitSignInCredentials, verifyRedirectedToPtUI } from './idam-login';
 
 const { I } = inject();
-const ocUrl = (path: string): string => new URL(path, testConfig.TEST_URL).toString();
 
 async function usePlaywrightPage(action: (page: import('playwright').Page) => Promise<void>): Promise<void> {
   await I.usePlaywrightTo('run playwright action', async ({ page }) => action(page));
@@ -53,11 +51,6 @@ Then('I check that valid error message is displayed for the tenancy-type page', 
 Then('check that the user is redirected to the task-list citizen dashboard page', () => {
   I.waitInUrl(myApplication.taskListUrl);
   I.waitForText(myApplication.taskListHeading);
-});
-
-When('I navigate to the other charges page', () => {
-  I.amOnPage(ocUrl(myApplication.otherChargesUrl));
-  I.waitForText(myApplication.otherChargesPageHeading);
 });
 
 When('I add other charge details in description as {string}', (description: string) => {
