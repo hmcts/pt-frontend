@@ -36,7 +36,7 @@ Background: Other Charges page - User navigates to the other charges page
     And I select "No" for the question "Does your current tenancy replace an original tenancy?"
     And I click "Save and continue"
 
-  @JIRA-TEST-KEY:PTSD-850 @CT
+  @JIRA-TEST-KEY:PTSD-850
   Scenario: Other Charges page - Successfully add other charge description and see remaining characters are displayed
     When I select "Yes" for the question "Are you charged separately for anything else?"
     And I click "Save and continue"
@@ -44,7 +44,7 @@ Background: Other Charges page - User navigates to the other charges page
     Then I check that the text "You have 464 characters remaining" is displayed on the page
     And I click "Save and continue"
 
-  @JIRA-TEST-KEY:PTSD-853 @CT
+  @JIRA-TEST-KEY:PTSD-853
   Scenario: Other Charges page - Description exceeds 500 characters shows validation error
     When I select "Yes" for the question "Are you charged separately for anything else?"
     And I click "Save and continue"

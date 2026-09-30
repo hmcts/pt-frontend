@@ -1,4 +1,4 @@
-@JIRA-TEST-KEY:PTSD-850 @CT
+@JIRA-TEST-KEY:PTSD-850
 Feature: Council tax details can be added and updated
   As a PT user completing the form
   I want to enter and update council tax information
