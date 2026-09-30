@@ -11,7 +11,7 @@
       "required": "Select whether you have a notice proposing a new rent to upload"
     },
     "noLandlordsNoticeReason": {
-      "required": "Enter why you can not upload a notice proposing a new rent",
+      "required": "Enter why you cannot upload a notice proposing a new rent",
       "invalidMaxLength": "Your reasons why must be 500 characters or less",
       "invalidMinLength": "Your reasons why must be 2 characters or more"
     }
