@@ -97,6 +97,7 @@ export interface FormFieldConfig {
 
   multiple?: boolean;
   maxFileSize?: number;
+  extraExtensions?: Readonly<Record<string, number>>;
   uploadUrl?: string;
   deleteUrl?: string;
   // For date fields: prevent future dates from being entered

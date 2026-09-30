@@ -15,8 +15,9 @@ export const getRedirectUrl = (serviceUrl: string): string => {
   const id: string = config.get('idam.clientID');
   const loginUrl: string = config.get('idam.authorizationURL');
   const callbackUrl = encodeURI(serviceUrl + CALLBACK_URL);
+  const loginScope: string = encodeURIComponent(config.get('idam.authorizationScope'));
 
-  return `${loginUrl}?client_id=${id}&response_type=code&redirect_uri=${callbackUrl}`;
+  return `${loginUrl}?client_id=${id}&response_type=code&redirect_uri=${callbackUrl}&scope=${loginScope}`;
 };
 
 export const getUserDetails = async (serviceUrl: string, rawCode: string): Promise<UserDetails> => {
@@ -92,6 +93,11 @@ export const getIdamToken = async (
     response = await createIdamToken(params);
   }
   return response;
+};
+
+export const getEndIdamSessionUrl = (redirectUrl: string): string => {
+  const endSessionUrl: string = config.get('idam.endSessionURL');
+  return `${endSessionUrl}?post_logout_redirect_uri=${encodeURIComponent(redirectUrl)}`;
 };
 
 export interface UserDetails {
