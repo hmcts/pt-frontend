@@ -57,8 +57,10 @@ export const maxFileSizeMB = (fieldMaxMB?: number): number =>
 export const maxTotalFileSizeMB = (): number => asNumber('documentUpload.maxTotalFileSizeMB', 300);
 export const maxFilenameLength = (): number => asNumber('documentUpload.maxFilenameLength', 255);
 
-export const maxFileSizeBytes = (fieldMaxMB?: number): number => maxFileSizeMB(fieldMaxMB) * 1024 * 1024;
-export const maxTotalFileSizeBytes = (): number => maxTotalFileSizeMB() * 1024 * 1024;
+const BYTES_PER_MB = 1000 * 1000;
+
+export const maxFileSizeBytes = (fieldMaxMB?: number): number => maxFileSizeMB(fieldMaxMB) * BYTES_PER_MB;
+export const maxTotalFileSizeBytes = (): number => maxTotalFileSizeMB() * BYTES_PER_MB;
 
 export const extensionOf = (filename: string): string => {
   const dot = filename.lastIndexOf('.');
