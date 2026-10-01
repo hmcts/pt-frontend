@@ -65,7 +65,7 @@ describe('document storage', () => {
         },
       ]);
       expect(all.noticeNotLegallyValidDocument).toHaveLength(1);
-      expect(all.outsidePropertyDocument).toEqual([]);
+      expect(all.outsidePropertyDocuments).toEqual([]);
     });
 
     test('reads collection fields as lists', async () => {
