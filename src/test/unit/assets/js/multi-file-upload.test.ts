@@ -166,6 +166,39 @@ describe('initMultiFileUpload', () => {
     });
   });
 
+  describe('a file type with its own size cap', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+      render();
+      container().dataset.accept = '.pdf,.mp4';
+      container().dataset.extensionLimits = JSON.stringify({
+        '.mp4': { maxFileSizeMB: 100, error: 'The selected file must be smaller than 100MB' },
+      });
+      initMultiFileUpload();
+    });
+
+    it('uploads a file of that type over the default cap', () => {
+      upload(fileOf('clip.mp4', 99_000_000));
+
+      expect(summary()).toBeNull();
+      expect(uploaded()).toHaveBeenCalledTimes(1);
+    });
+
+    it('reports a file over its own cap with that cap in the message', () => {
+      upload(fileOf('clip.mp4', 104_000_000));
+
+      expect(summaryMessages()).toEqual(['The selected file must be smaller than 100MB']);
+      expect(uploaded()).not.toHaveBeenCalled();
+    });
+
+    it('holds other types to the default cap', () => {
+      upload(fileOf('floor-plan.pdf', 26_000_000));
+
+      expect(summaryMessages()).toEqual(['This file is too large']);
+      expect(uploaded()).not.toHaveBeenCalled();
+    });
+  });
+
   describe('the error summary', () => {
     it('marks the form group and links the message to the input', () => {
       upload(fileOf('virus.exe'));
