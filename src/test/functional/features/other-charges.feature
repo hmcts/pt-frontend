@@ -1,3 +1,4 @@
+@JIRA-TEST-KEY:HDPD-1024 @regression
 Feature: Other Charges description can be added
   As a user completing the form I want to add a description for other charges so that I can provide details when I am charged separately
 

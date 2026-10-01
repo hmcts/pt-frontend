@@ -1,4 +1,4 @@
-@JIRA-TEST-KEY:PTSD-850
+@JIRA-TEST-KEY:HDPD-593 @regression
 Feature: Council tax details can be added and updated
   As a PT user completing the form
   I want to enter and update council tax information
