@@ -1,4 +1,3 @@
-import { textAreaIsValidLength } from '../../../../utils/fieldValidators';
 import { flowConfig } from '../../../flow.config';
 
 import { createFormStep, getFormData } from '@modules/steps';
@@ -47,12 +46,6 @@ export const step: StepDefinition = createFormStep({
               maxLength: 500,
               translationKey: { label: `${detailsFieldName}.label` },
               errorMessage: `errors.${detailsFieldName}.required`,
-              validator: (value: unknown): boolean | string => {
-                if (!textAreaIsValidLength(value as string)) {
-                  return `errors.${detailsFieldName}.maxLength`;
-                }
-                return true;
-              },
             },
           },
         },

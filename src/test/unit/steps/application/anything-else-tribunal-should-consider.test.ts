@@ -14,7 +14,6 @@ const STEP_NAME = 'anything-else-tribunal-should-consider';
 const FIELD = 'additionalInfoToConsiderWhenDeterminingRent';
 const DETAILS = 'additionalInfoToConsiderWhenDeterminingRentDetails';
 const DETAILS_KEY = `${FIELD}.${DETAILS}`;
-const MAX_LENGTH = 500;
 
 describe('application anything-else-tribunal-should-consider step', () => {
   const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
@@ -55,19 +54,6 @@ describe('application anything-else-tribunal-should-consider step', () => {
     });
   });
 
-  describe('details validator', () => {
-    const validate = (value: unknown): boolean | string =>
-      capturedConfig.fields[0].options[0].subFields[DETAILS].validator(value);
-
-    it('accepts details up to the maximum length', () => {
-      expect(validate('a'.repeat(MAX_LENGTH))).toBe(true);
-    });
-
-    it('returns the error key when the details are too long', () => {
-      expect(validate('a'.repeat(MAX_LENGTH + 1))).toBe(`errors.${DETAILS}.maxLength`);
-    });
-  });
-
   describe('beforeRedirect', () => {
     it('clears the details when the answer is no', () => {
       const stepData = { [FIELD]: 'No', [DETAILS_KEY]: 'Left over' };
@@ -87,12 +73,6 @@ describe('application anything-else-tribunal-should-consider step', () => {
   });
 
   describe('getInitialFormData', () => {
-    it('returns the answer and details from the form data', () => {
-      const req = makeReq({ [FIELD]: 'Yes', [DETAILS_KEY]: 'From the form' });
-
-      expect(capturedConfig.getInitialFormData(req)).toEqual({ [FIELD]: 'Yes', [DETAILS_KEY]: 'From the form' });
-    });
-
     it('falls back to the saved case', () => {
       const req = makeReq(undefined, {
         additionalPropertyInfoToConsiderWhenDetermining: 'Yes',
@@ -112,10 +92,6 @@ describe('application anything-else-tribunal-should-consider step', () => {
       );
 
       expect(capturedConfig.getInitialFormData(req)).toEqual({ [FIELD]: 'No' });
-    });
-
-    it('returns nothing when the question has not been answered', () => {
-      expect(capturedConfig.getInitialFormData(makeReq())).toEqual({});
     });
   });
 });

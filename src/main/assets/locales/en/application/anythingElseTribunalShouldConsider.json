@@ -1,12 +1,13 @@
 {
+  "pageTitle": "Anything else the tribunal should consider",
   "questionTitle": "Is there anything else you think the tribunal should consider about your property when determining the rent? (optional)",
   "additionalInfoToConsiderWhenDeterminingRentDetails": {
     "label": "Tell us what you want the tribunal to consider"
   },
   "errors": {
     "additionalInfoToConsiderWhenDeterminingRentDetails": {
-      "required": "Enter what you want the tribunal to consider",
-      "maxLength": "What you want the tribunal to consider must be 500 characters or less"
-    }
+      "required": "Enter what you want the tribunal to consider"
+    },
+    "additionalInfoToConsiderWhenDeterminingRentDetailsMaxLength": "What you want the tribunal to consider must be 500 characters or less"
   }
 }
