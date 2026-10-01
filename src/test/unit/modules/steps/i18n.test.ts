@@ -29,10 +29,6 @@ jest.mock('@modules/i18n', () => ({
 
 const mockGetUserType = jest.fn();
 
-jest.mock('../../../../main/steps/utils/userRole', () => ({
-  getUserType: (...args: unknown[]) => mockGetUserType(...args),
-}));
-
 interface ReqOverrides {
   i18n?: Record<string, unknown>;
   step?: { name: string; journey: string };
@@ -184,42 +180,8 @@ describe('steps/i18n', () => {
 
       expect(addResourceBundle).toHaveBeenCalledWith('en', 'testFolder/testStep', mockTranslations, true, true);
       expect(loadNamespaces).toHaveBeenCalledWith('testFolder/testStep', expect.any(Function));
-    });
-
-    it('should merge landlord translations over default translations', async () => {
-      const loadNamespaces = jest.fn((_ns: string, cb: (err: unknown) => void) => cb(null));
-
-      (mainI18n.findLocalesDir as jest.Mock).mockResolvedValue('/test/locales');
-      (mainI18n.getRequestLanguage as jest.Mock).mockReturnValue('en');
-      mockGetUserType.mockReturnValue('landlord');
-
-      const addResourceBundle = jest.fn();
-      const req = buildReq({
-        i18n: { getResourceBundle: jest.fn().mockReturnValue(null), addResourceBundle, loadNamespaces },
-        step: stepContext,
-      });
-
-      jest.spyOn(fs, 'access').mockResolvedValue(undefined);
-      jest
-        .spyOn(fs, 'readFile')
-        .mockResolvedValueOnce(JSON.stringify({ title: 'Citizen title', nested: { keep: 'citizen', swap: 'base' } }))
-        .mockResolvedValueOnce(JSON.stringify({ title: 'Professional title', nested: { swap: 'professional' } }));
-
-      await loadStepNamespace(req);
-
-      expect(addResourceBundle).toHaveBeenCalledWith(
-        'en',
-        'testFolder/testStep',
-        {
-          title: 'Professional title',
-          nested: {
-            keep: 'citizen',
-            swap: 'professional',
-          },
-        },
-        true,
-        true
-      );
+      expect(fs.readFile).toHaveBeenCalledTimes(1);
+      expect(fs.readFile).toHaveBeenCalledWith(path.resolve('/test/locales', 'en', 'testFolder/testStep.json'), 'utf8');
     });
 
     it('should handle path traversal attack', async () => {

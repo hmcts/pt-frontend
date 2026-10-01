@@ -25,12 +25,9 @@ export const setupDev = (app: express.Express, developmentMode: boolean): void =
       ignored: (p: string) => /node_modules|\.git/.test(p),
     })
     .on('all', async (_event: string, filePath: string) => {
-      if (filePath.endsWith('.njk')) {
-        // publishSync();
-      } else if (filePath.startsWith(localesRoot) && filePath.endsWith('.json')) {
+      if (filePath.startsWith(localesRoot) && filePath.endsWith('.json')) {
         const i18next = require('i18next');
         await i18next.reloadResources();
-        // publishSync();
       }
     });
 };
