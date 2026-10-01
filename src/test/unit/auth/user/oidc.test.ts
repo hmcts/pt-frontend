@@ -2,7 +2,13 @@ import axios, { AxiosRequestHeaders, AxiosResponse, AxiosStatic } from 'axios';
 import { sign } from 'jsonwebtoken';
 import NodeCache from 'node-cache';
 
-import { OidcResponse, getRedirectUrl, getSystemUser, getUserDetails } from '../../../../main/auth/user/oidc';
+import {
+  OidcResponse,
+  getEndIdamSessionUrl,
+  getRedirectUrl,
+  getSystemUser,
+  getUserDetails,
+} from '../../../../main/auth/user/oidc';
 
 const config = require('config');
 
@@ -38,10 +44,21 @@ const mockSystemToken = sign(mockSystemPayload, mockSecret, { expiresIn: '1h' })
 describe('getRedirectUrl', () => {
   test('should create a valid URL to redirect to the login screen', () => {
     mockedConfig.get.mockReturnValueOnce('pt-frontend');
-    mockedConfig.get.mockReturnValueOnce('https://idam-web-public.aat.platform.hmcts.net/login');
+    mockedConfig.get.mockReturnValueOnce('https://idam-web-public.aat.platform.hmcts.net/o/authorize');
+    mockedConfig.get.mockReturnValueOnce('openid profile roles');
     expect(getRedirectUrl('http://localhost')).toBe(
-      'https://idam-web-public.aat.platform.hmcts.net/login?client_id=pt-frontend&response_type=code&redirect_uri=http://localhost/oauth2/callback'
+      'https://idam-web-public.aat.platform.hmcts.net/o/authorize?client_id=pt-frontend&response_type=code&redirect_uri=http://localhost/oauth2/callback&scope=openid%20profile%20roles'
     );
+  });
+});
+
+describe('getEndIdamSessionUrl', () => {
+  test('should create a URL to end the IDAM session and return to the service', () => {
+    mockedConfig.get.mockReturnValueOnce('https://idam-web-public.aat.platform.hmcts.net/o/endSession');
+    expect(getEndIdamSessionUrl('https://pt.aat.platform.hmcts.net')).toBe(
+      'https://idam-web-public.aat.platform.hmcts.net/o/endSession?post_logout_redirect_uri=https%3A%2F%2Fpt.aat.platform.hmcts.net'
+    );
+    expect(mockedConfig.get).toHaveBeenCalledWith('idam.endSessionURL');
   });
 });
 
@@ -142,7 +159,7 @@ describe('getSystemUser', () => {
 
   test('Cache enabled', async () => {
     mockedConfig.get.mockReturnValueOnce('pt-frontend');
-    mockedConfig.get.mockReturnValueOnce('https://idam-web-public.aat.platform.hmcts.net/login');
+    mockedConfig.get.mockReturnValueOnce('https://idam-web-public.aat.platform.hmcts.net/o/authorize');
     mockedConfig.get.mockReturnValueOnce('true');
     mockedAxios.post.mockResolvedValue(accessTokenResponse);
 
@@ -152,7 +169,7 @@ describe('getSystemUser', () => {
 
   test('Cache disabled', async () => {
     mockedConfig.get.mockReturnValueOnce('pt-frontend');
-    mockedConfig.get.mockReturnValueOnce('https://idam-web-public.aat.platform.hmcts.net/loginwddwdw');
+    mockedConfig.get.mockReturnValueOnce('https://idam-web-public.aat.platform.hmcts.net/o/authorize');
     mockedConfig.get.mockReturnValue('false');
     mockedAxios.post.mockResolvedValue(accessTokenResponse);
 
