@@ -221,6 +221,7 @@ export const initMultiFileUpload = (): MultiFileUpload[] => {
     const maxFileSizeMB = Number(container.dataset.maxFileSizeMb ?? 0);
     const extensionLimits = parseExtensionLimits(container.dataset.extensionLimits);
     const maxFilenameLength = Number(container.dataset.maxFilenameLength ?? 0);
+    const maxFiles = Number(container.dataset.maxFiles ?? 0);
 
     const preflight = (file: File): string | undefined => {
       if (maxFilenameLength && file.name.length > maxFilenameLength) {
@@ -228,6 +229,9 @@ export const initMultiFileUpload = (): MultiFileUpload[] => {
       }
       if (accepted.length && !accepted.includes(extensionOf(file.name))) {
         return container.dataset.errorWrongFileType;
+      }
+      if (file.size === 0) {
+        return container.dataset.errorFileEmpty;
       }
       const extensionLimit = extensionLimits[extensionOf(file.name)];
       const limitMB = extensionLimit?.maxFileSizeMB ?? maxFileSizeMB;
@@ -283,6 +287,9 @@ export const initMultiFileUpload = (): MultiFileUpload[] => {
           showError(container, container.dataset.errorOnlyOneFile ?? '');
           return;
         }
+      } else if (maxFiles && batch.length > maxFiles) {
+        showError(container, container.dataset.errorTooManyFiles ?? '');
+        return;
       }
 
       for (const file of batch) {
