@@ -7,6 +7,7 @@ import { step as indoorFeatures } from './indoor-features';
 import { step as propertyAddress } from './property-address';
 import { step as repairsAndImprovements } from './repairs-and-improvements';
 import { step as servicesProvidedTenancy } from './services-provided-tenancy';
+import { step as uploadAPhotoOfEachRoom } from './upload-a-photo-of-each-room';
 import { step as uploadEvidenceImprovementsOrRepairs } from './upload-evidence-improvements-or-repairs';
 import { step as uploadFloorPlanOfProperty } from './upload-floor-plan-of-property';
 import { step as uploadPhotoOutsideOfProperty } from './upload-photo-outside-of-property';
@@ -25,6 +26,7 @@ export const thePropertyStepRegistry = {
   'does-the-tenancy-include-other-facilities': doesTheTenancyIncludeOtherFacilities,
   'do-you-share-the-property-with-landlord': doYouShareThePropertyWithLandlord,
   'upload-photo-outside-of-property': uploadPhotoOutsideOfProperty,
+  'upload-a-photo-of-each-room': uploadAPhotoOfEachRoom,
   'furniture-provided-tenancy': furnitureProvidedTenancy,
   'services-provided-tenancy': servicesProvidedTenancy,
   'what-repairs-landlord-responsibility': whatRepairsLandlordResponsibility,
