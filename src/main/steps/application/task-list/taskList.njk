@@ -12,9 +12,12 @@
         <div class="govuk-grid-column-one-third govuk-!-margin-bottom-9">
             <aside aria-label="{{ t('sidebar.label') }}">
                 <h2 class="govuk-heading-m">{{ t('sidebar.heading') }}</h2>
-                <a class="govuk-link" href="{{ t('sidebar.guidanceLink.href') }}" target="_blank" rel="noopener noreferrer">
-                    {{ t('sidebar.guidanceLink.text') }}
-                </a>
+                <p class="govuk-body"><a class="govuk-link govuk-link--no-visited-state" href="{{ t('sidebar.deleteApplicationLink.href', { caseReference: caseReference }) }}">
+                  {{ t('sidebar.deleteApplicationLink.text') }}
+                </a></p>
+                <p class="govuk-body"><a class="govuk-link govuk-link--no-visited-state" href="{{ t('sidebar.guidanceLink.href') }}" target="_blank" rel="noopener noreferrer">
+                  {{ t('sidebar.guidanceLink.text') }}
+                </a></p>
             </aside>
         </div>
     </div>

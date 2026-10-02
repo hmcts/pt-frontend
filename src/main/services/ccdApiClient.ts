@@ -5,7 +5,13 @@ import { requireServiceAuthToken } from '../auth/service/get-service-auth-token'
 import { UserDetails } from '../auth/user/oidc';
 
 import { Logger } from '@modules/logger';
-import { CITIZEN_CREATE_CASE, CITIZEN_UPDATE_CASE, CcdCase, CcdCaseData } from '@services/ccdCase.interface';
+import {
+  CITIZEN_CREATE_CASE,
+  CITIZEN_DELETE_CASE,
+  CITIZEN_UPDATE_CASE,
+  CcdCase,
+  CcdCaseData,
+} from '@services/ccdCase.interface';
 
 const logger = Logger.getLogger('ccd-api-client');
 
@@ -37,8 +43,13 @@ export class CcdApiClient {
   }
 
   async updateCase(caseReference: string, data: Partial<CcdCaseData>): Promise<CcdCase> {
-    const eventTrigger = await this.getEventTrigger(caseReference, CITIZEN_UPDATE_CASE);
-    return this.triggerEvent(caseReference, data, CITIZEN_UPDATE_CASE, eventTrigger.token);
+    const { token } = await this.getEventTrigger(caseReference, CITIZEN_UPDATE_CASE);
+    return this.triggerEvent(caseReference, data, CITIZEN_UPDATE_CASE, token);
+  }
+
+  async deleteCase(caseReference: string): Promise<CcdCase> {
+    const { token } = await this.getEventTrigger(caseReference, CITIZEN_DELETE_CASE);
+    return this.triggerEvent(caseReference, {}, CITIZEN_DELETE_CASE, token);
   }
 
   async getEventTrigger(caseId: string, eventName: string): Promise<CcdEventTriggerResponse> {

@@ -1,0 +1,13 @@
+{
+  "questionTitle": "cy Are you sure you want to delete this application?",
+  "options": {
+    "no": {
+      "label": "cy No, I do not want to delete this application"
+    }
+  },
+  "errors": {
+    "applicationDeleteConfirmation": {
+      "required": "cy Select whether you want to delete this application"
+    }
+  }
+}
