@@ -297,7 +297,7 @@ describe('errorUtils', () => {
       const mockStatus = jest.fn().mockReturnValue({ render: mockRender });
       const res = { status: mockStatus } as unknown as Response;
       const req = {
-        originalUrl: '/respond-to-claim/correspondence-address',
+        originalUrl: '/application/correspondence-address',
       } as unknown as Request;
 
       const fieldValidation: Record<string, FormError> = {
@@ -308,7 +308,7 @@ describe('errorUtils', () => {
       await renderWithErrors(
         req,
         res,
-        'respond-to-claim/correspondence-address/correspondenceAddress.njk',
+        'application/correspondence-address/correspondenceAddress.njk',
         fieldValidation,
         [],
         {
@@ -319,7 +319,7 @@ describe('errorUtils', () => {
           } as Record<string, unknown>,
         },
         'correspondence-address',
-        'respondToClaim',
+        'application',
         { getBackUrl: jest.fn().mockResolvedValue('/back') }
       );
 
