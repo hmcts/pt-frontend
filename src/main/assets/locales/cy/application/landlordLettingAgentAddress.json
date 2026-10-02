@@ -1,0 +1,31 @@
+{
+  "pageTitle": "cy Your landlord's letting agent's address",
+  "heading": "cy Your landlord's letting agent's address",
+  "labels": {
+    "lettingAgentAddressLine1": "cy Address line 1",
+    "lettingAgentAddressLine2": "cy Address line 2 (optional)",
+    "lettingAgentTownOrCity": "cy Town or city",
+    "lettingAgentCounty": "cy County (optional)",
+    "lettingAgentPostcode": "cy Postcode"
+  },
+  "errors": {
+    "lettingAgentAddressLine1": {
+      "required": "cy Enter address line 1",
+      "invalid": "cy Address line 1 must be 2 characters or more"
+    },
+    "lettingAgentAddressLine2": {
+      "invalid": "cy Address line 2 must be 2 characters or more"
+    },
+    "lettingAgentTownOrCity": {
+      "required": "cy Enter town or city",
+      "invalid": "cy Town or city must be 2 characters or more"
+    },
+    "lettingAgentCounty": {
+      "invalid": "cy County must be 2 characters or more"
+    },
+    "lettingAgentPostcode": {
+      "required": "cy Enter a valid postcode",
+      "invalid": "cy Enter a valid postcode"
+    }
+  }
+}
