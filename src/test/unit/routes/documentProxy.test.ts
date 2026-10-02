@@ -28,8 +28,8 @@ const mockedSaveDocuments = saveDocuments as jest.MockedFunction<typeof saveDocu
 const mockedDeleteById = deleteDocumentById as jest.MockedFunction<typeof deleteDocumentById>;
 
 const CASE_REFERENCE = '1234123412341234';
-const SINGLE_URL = `/${CASE_REFERENCE}/documents/floorPlanDocument`;
-const COLLECTION_URL = `/${CASE_REFERENCE}/documents/roomsDocuments`;
+const SINGLE_URL = `/${CASE_REFERENCE}/documents/tenancyAgreementDocument`;
+const COLLECTION_URL = `/${CASE_REFERENCE}/documents/propertyRoomsDocuments`;
 
 const cdamDocument = {
   document_url: 'http://cdam/cases/documents/abc',
@@ -75,6 +75,8 @@ describe('documentProxy', () => {
     // The route reads the case three times: to check the field is free, again under the lock,
     // then after saving to pick up the new row id.
     const persistedAs = (id: number, filename = 'floor-plan.pdf') => {
+      // clearAllMocks() leaves mockResolvedValueOnce queues in place, so they accumulate across tests
+      mockedReadDocuments.mockReset();
       mockedReadDocuments.mockResolvedValueOnce([]);
       mockedReadDocuments.mockResolvedValueOnce([]);
       mockedReadDocuments.mockResolvedValue([storedDocument(id, cdamDocument.document_url, filename)]);
@@ -91,8 +93,8 @@ describe('documentProxy', () => {
       expect(mockedUploadDocument).toHaveBeenCalled();
       expect(mockedSaveDocuments).toHaveBeenCalledWith(
         expect.anything(),
-        'floorPlanDocument',
-        expect.arrayContaining([expect.objectContaining({ documentType: 'propertyFloorPlan' })])
+        'tenancyAgreementDocument',
+        expect.arrayContaining([expect.objectContaining({ documentType: 'tenancyAgreement' })])
       );
     });
 
@@ -208,7 +210,78 @@ describe('documentProxy', () => {
         .post(`/${CASE_REFERENCE}/documents/notAField/upload`)
         .attach('documents', Buffer.from('a pdf'), 'floor-plan.pdf');
 
-      expect(response.status).toBe(500);
+      expect(response.status).toBe(400);
+      expect(mockedUploadDocument).not.toHaveBeenCalled();
+    });
+
+    // repairsEvidenceDocuments opts into .mp3/.mp4 with a 100MB limit for those types only; its
+    // documents, and every other field, keep the 25MB global default and the document-only allowlist.
+    const MEDIA_URL = `/${CASE_REFERENCE}/documents/repairsEvidenceDocuments`;
+    const overGlobalLimit = () => Buffer.alloc(26_000_000);
+
+    test('accepts an mp4 over the global limit on a field that raises the limit for it', async () => {
+      persistedAs(42);
+
+      const response = await request(buildApp())
+        .post(`${MEDIA_URL}/upload`)
+        .attach('documents', overGlobalLimit(), 'evidence.mp4');
+
+      expect(response.status).toBe(200);
+      expect(mockedUploadDocument).toHaveBeenCalled();
+    });
+
+    test('holds a document on that field to the global limit', async () => {
+      persistedAs(42);
+
+      const response = await request(buildApp())
+        .post(`${MEDIA_URL}/upload`)
+        .attach('documents', overGlobalLimit(), 'evidence.pdf');
+
+      expect(response.status).toBe(400);
+      expect(response.body.error.message).toBe('This file is too large');
+      expect(mockedUploadDocument).not.toHaveBeenCalled();
+    });
+
+    test('rejects an mp4 over its own 100MB limit', async () => {
+      const response = await request(buildApp())
+        .post(`${MEDIA_URL}/upload`)
+        .attach('documents', Buffer.alloc(100_000_001), 'evidence.mp4');
+
+      expect(response.status).toBe(400);
+      expect(response.body.error.message).toBe('This file is too large');
+      expect(mockedUploadDocument).not.toHaveBeenCalled();
+    });
+
+    test('rejects the same file on a field that inherits the global limit', async () => {
+      persistedAs(42);
+
+      const response = await request(buildApp())
+        .post(`${SINGLE_URL}/upload`)
+        .attach('documents', overGlobalLimit(), 'floor-plan.pdf');
+
+      expect(response.status).toBe(400);
+      expect(mockedUploadDocument).not.toHaveBeenCalled();
+    });
+
+    test('accepts mp4 on a field that opts in', async () => {
+      persistedAs(42);
+
+      const response = await request(buildApp())
+        .post(`${MEDIA_URL}/upload`)
+        .attach('documents', Buffer.from('a clip'), 'evidence.mp4');
+
+      expect(response.status).toBe(200);
+      expect(mockedUploadDocument).toHaveBeenCalled();
+    });
+
+    test('rejects mp4 on a field that does not opt in', async () => {
+      persistedAs(42);
+
+      const response = await request(buildApp())
+        .post(`${SINGLE_URL}/upload`)
+        .attach('documents', Buffer.from('a clip'), 'floor-plan.mp4');
+
+      expect(response.status).toBe(400);
       expect(mockedUploadDocument).not.toHaveBeenCalled();
     });
 

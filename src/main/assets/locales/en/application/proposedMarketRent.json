@@ -1,4 +1,19 @@
 {
-  "pageTitle": "What you think the market rent should be",
-  "heading": "What you think the market rent should be"
+  "pageTitle": "What do you think is the market rent you should pay?",
+  "questionTitle": "What do you think is the {{frequency}} market rent you should pay?",
+  "questionHint": "You can tell us your reasons next",
+  "frequency": {
+    "weekly": "weekly",
+    "fortnightly": "fortnightly",
+    "monthly": "monthly",
+    "yearly": "yearly"
+  },
+  "errors": {
+    "applicantSuggestedMarketRent": {
+      "required": "Enter the market rent you think you should pay",
+      "invalid": "Market rent amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "decimalPlaces": "Market rent amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "tooLarge": "Market rent amount must be 16 digits or less"
+    }
+  }
 }

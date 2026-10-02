@@ -44,16 +44,24 @@ describe('documentUploadValidation', () => {
       expect(validateUploadedFile(file())).toBeUndefined();
     });
 
+    test('accepts a file at the per-file cap', () => {
+      expect(validateUploadedFile(file({ size: 25_000_000 }))).toBeUndefined();
+    });
+
+    test('counts a megabyte as a million bytes, as the file size shown to the user does', () => {
+      expect(validateUploadedFile(file({ size: 25_000_001 }))).toBe('fileTooLarge');
+    });
+
     test('rejects a file over the per-file cap', () => {
-      expect(validateUploadedFile(file({ size: 101 * 1024 * 1024 }))).toBe('fileTooLarge');
+      expect(validateUploadedFile(file({ size: 26 * 1024 * 1024 }))).toBe('fileTooLarge');
     });
 
     test('rejects a file that would push the case over the total cap', () => {
-      expect(validateUploadedFile(file({ size: 10 * 1024 * 1024 }), 499 * 1024 * 1024)).toBe('totalTooLarge');
+      expect(validateUploadedFile(file({ size: 10 * 1024 * 1024 }), 291 * 1024 * 1024)).toBe('totalTooLarge');
     });
 
     test('reports the type problem ahead of the size problem', () => {
-      expect(validateUploadedFile(file({ originalname: 'big.exe', mimetype: '', size: 200 * 1024 * 1024 }))).toBe(
+      expect(validateUploadedFile(file({ originalname: 'big.exe', mimetype: '', size: 400 * 1024 * 1024 }))).toBe(
         'wrongFileType'
       );
     });

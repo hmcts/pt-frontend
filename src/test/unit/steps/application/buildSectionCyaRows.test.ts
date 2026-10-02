@@ -250,7 +250,7 @@ describe('buildSectionCyaRows for the current rent and other costs', () => {
       ) as Row[];
 
       expect(valueOf(rows, 'rows.previousTribunalCaseReference.label')).toBe('LON/00AD/SMO/2023/0001');
-      expect(valueOf(rows, 'rows.rentCostMonthly.label')).toBe('£1000');
+      expect(valueOf(rows, 'rows.rentCostMonthly.label')).toBe('£1000.00');
       expect(valueOf(rows, 'rows.currentTenancyStartDate.label')).toBe('1 February 2000');
     });
 
@@ -267,7 +267,13 @@ describe('buildSectionCyaRows for the current rent and other costs', () => {
         t
       ) as Row[];
 
-      expect(valueOf(rows, 'rows.utilitiesPaidCostMonthly.label')).toBe('£80');
+      expect(valueOf(rows, 'rows.utilitiesPaidCostMonthly.label')).toBe('£80.00');
+    });
+
+    it('shows a saved amount of 0 rather than leaving the row out', () => {
+      const rows = buildSectionCyaRows(buildReq({}, { rentPaymentFrequency: 'weekly', rentCostWeekly: 0 }), t) as Row[];
+
+      expect(valueOf(rows, 'rows.rentCostWeekly.label')).toBe('£0.00');
     });
 
     it('prefers form data over the saved case', () => {
@@ -284,7 +290,7 @@ describe('buildSectionCyaRows for the current rent and other costs', () => {
         t
       ) as Row[];
 
-      expect(valueOf(rows, 'rows.rentCostWeekly.label')).toBe('£150');
+      expect(valueOf(rows, 'rows.rentCostWeekly.label')).toBe('£150.00');
     });
   });
 

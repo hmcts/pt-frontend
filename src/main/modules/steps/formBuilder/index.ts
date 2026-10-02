@@ -33,7 +33,7 @@ function getPersistedFormDataFromResolvedConfig(
 }
 
 /**
- * Converts camelCase to kebab-case (e.g., "respondToClaim" -> "respond-to-claim")
+ * Converts camelCase to kebab-case (e.g., "newApplication" -> "new-application")
  */
 function camelToKebabCase(str: string): string {
   return str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();

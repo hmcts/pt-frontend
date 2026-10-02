@@ -3,7 +3,13 @@ import multer from 'multer';
 
 import { oidcMiddleware } from '../middleware/oidc';
 
-import { type DocumentFieldDefinition, documentFieldFor } from '@modules/documents/documentFields';
+import {
+  type DocumentFieldDefinition,
+  documentFieldFor,
+  largestFileSizeMB,
+  maxFileSizeMBForFile,
+  uploadLimitsFor,
+} from '@modules/documents/documentFields';
 import {
   type CcdUploadedDocument,
   cdamToCcdDocument,
@@ -17,13 +23,23 @@ import { maxFileSizeBytes, validateUploadedFile } from '@utils/documentUploadVal
 
 const logger = Logger.getLogger('documentProxy');
 
-const upload = multer({
-  limits: {
-    fileSize: maxFileSizeBytes(),
-    // Limit how large an array index can be in a field name to reduce DoS risk
-    fieldArrayIndexLimit: 100,
-  } as multer.Options['limits'],
-});
+const uploadByLimit = new Map<number, ReturnType<typeof multer>>();
+
+const uploaderFor = (field: DocumentFieldDefinition): ReturnType<typeof multer> => {
+  const limitBytes = maxFileSizeBytes(largestFileSizeMB(field));
+  let instance = uploadByLimit.get(limitBytes);
+  if (!instance) {
+    instance = multer({
+      limits: {
+        fileSize: limitBytes,
+        // Limit how large an array index can be in a field name to reduce DoS risk
+        fieldArrayIndexLimit: 100,
+      } as multer.Options['limits'],
+    });
+    uploadByLimit.set(limitBytes, instance);
+  }
+  return instance;
+};
 
 const caseLocks = new Map<string, Promise<unknown>>();
 
@@ -78,13 +94,13 @@ const escapeHtml = (value: string): string => value.replace(/[&<>"']/g, char => 
 
 const getTranslations =
   (req: Request) =>
-  (key: string): string => {
+  (key: string, options: Record<string, unknown> = {}): string => {
     const translate = req.t;
     const fallbacks: Record<string, string> = {
       noFileSelected: 'Select a file to upload',
       wrongFileType: 'This file type is not accepted',
       fileTooLarge: 'This file is too large',
-      totalTooLarge: 'These files are too large in total',
+      totalTooLarge: 'Total upload size must not exceed 300MB',
       filenameTooLong: 'This file name is too long',
       uploadFailed: 'This file could not be uploaded',
       deleteFailed: 'This file could not be removed',
@@ -92,7 +108,9 @@ const getTranslations =
       removeFileFirst: 'Remove the uploaded file before adding another',
     };
     const fallback = fallbacks[key] ?? fallbacks.uploadFailed;
-    return typeof translate === 'function' ? String(translate(`errors.documentUpload.${key}`, fallback)) : fallback;
+    return typeof translate === 'function'
+      ? String(translate(`errors.documentUpload.${key}`, fallback, options))
+      : fallback;
   };
 
 export default function (app: Application): void {
@@ -100,9 +118,17 @@ export default function (app: Application): void {
     '/:caseReference/documents/:field/upload',
     oidcMiddleware,
     (req: Request, res: Response, next: NextFunction) => {
-      upload.single('documents')(req, res, (err: unknown) => {
+      const field = documentFieldFor(fieldKeyOf(req));
+      if (!field) {
+        res.status(400).json(uploadError(getTranslations(req)('uploadFailed')));
+        return;
+      }
+
+      uploaderFor(field).single('documents')(req, res, (err: unknown) => {
         if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE') {
-          res.status(400).json(uploadError(getTranslations(req)('fileTooLarge')));
+          res
+            .status(400)
+            .json(uploadError(getTranslations(req)('fileTooLarge', { maxFileSize: largestFileSizeMB(field) })));
           return;
         }
         if (err) {
@@ -128,9 +154,15 @@ export default function (app: Application): void {
           return;
         }
 
-        const validationError = validateUploadedFile(file, totalBytes(existing));
+        const validationError = validateUploadedFile(
+          file,
+          totalBytes(existing),
+          uploadLimitsFor(field, file.originalname)
+        );
         if (validationError) {
-          res.status(400).json(uploadError(t(validationError)));
+          res
+            .status(400)
+            .json(uploadError(t(validationError, { maxFileSize: maxFileSizeMBForFile(field, file.originalname) })));
           return;
         }
 

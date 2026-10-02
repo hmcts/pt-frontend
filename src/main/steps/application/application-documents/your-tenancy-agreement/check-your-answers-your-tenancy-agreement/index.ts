@@ -1,23 +1,11 @@
-import { flowConfig } from '../../../flow.config';
+import { createSectionCyaStep } from '../../../section-cya/createSectionCyaStep';
 
-import { createFormStep } from '@modules/steps';
-import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { buildSectionCyaRows } from './buildSectionCyaRows';
 
-const journeyName = 'application';
-const stepName = 'check-your-answers-your-tenancy-agreement';
-
-export const step: StepDefinition = createFormStep({
-  stepName,
-  journeyFolder: journeyName,
+export const step = createSectionCyaStep({
+  stepName: 'check-your-answers-your-tenancy-agreement',
+  cardTitleKey: 'cardTitle',
   stepDir: __dirname,
-  flowConfig,
-  customTemplate: `${__dirname}/checkYourAnswersYourTenancyAgreement.njk`,
-  showCancelButton: false,
-  isAnswered: () => false,
-  translationKeys: {
-    pageTitle: 'pageTitle',
-    heading: 'heading',
-    pageCaption: 'pageCaption',
-  },
-  fields: [],
+  buildRows: buildSectionCyaRows,
+  renderRowsAsPresentation: true,
 });

@@ -27,7 +27,7 @@ describe('DOCUMENT_FIELDS', () => {
 
 describe('documentFieldFor', () => {
   test('finds a field the registry declares', () => {
-    expect(documentFieldFor('floorPlanDocument')).toBe(DOCUMENT_FIELDS.floorPlanDocument);
+    expect(documentFieldFor('floorPlanDocuments')).toBe(DOCUMENT_FIELDS.floorPlanDocuments);
   });
 
   test('returns nothing for a field it does not, so callers can reject it', () => {

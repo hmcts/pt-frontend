@@ -46,13 +46,13 @@ describe('document storage', () => {
   describe('reading', () => {
     test('reads documents from pt-api, which nests them by slice', async () => {
       givenCase({
-        propertyDetails: { floorPlanDocument: ptApiDocument('floor-plan') },
+        propertyDetails: { floorPlanDocuments: [ptApiDocument('floor-plan')] },
         noticeOfRentIncreaseDetails: { noticeNotLegallyValidDocument: ptApiDocument('notice') },
       });
 
       const all = await readAllDocuments(req());
 
-      expect(all.floorPlanDocument).toEqual([
+      expect(all.floorPlanDocuments).toEqual([
         {
           documentType: 'propertyFloorPlan',
           document: {
@@ -65,7 +65,7 @@ describe('document storage', () => {
         },
       ]);
       expect(all.noticeNotLegallyValidDocument).toHaveLength(1);
-      expect(all.outsidePropertyDocument).toEqual([]);
+      expect(all.outsidePropertyDocuments).toEqual([]);
     });
 
     test('reads collection fields as lists', async () => {
@@ -73,19 +73,19 @@ describe('document storage', () => {
         propertyDetails: { propertyRoomsDocuments: [ptApiDocument('room-1'), ptApiDocument('room-2')] },
       });
 
-      expect(await readDocuments(req(), 'roomsDocuments')).toHaveLength(2);
+      expect(await readDocuments(req(), 'propertyRoomsDocuments')).toHaveLength(2);
     });
 
     test('ignores documents pt-api returns without usable URLs', async () => {
-      givenCase({ propertyDetails: { floorPlanDocument: { filename: 'orphan.pdf' } } });
+      givenCase({ propertyDetails: { floorPlanDocuments: [{ filename: 'orphan.pdf' }] } });
 
-      expect(await readDocuments(req(), 'floorPlanDocument')).toEqual([]);
+      expect(await readDocuments(req(), 'floorPlanDocuments')).toEqual([]);
     });
 
     test('copes with a case that has no documents at all', async () => {
       givenCase({});
 
-      expect(await readDocuments(req(), 'floorPlanDocument')).toEqual([]);
+      expect(await readDocuments(req(), 'floorPlanDocuments')).toEqual([]);
     });
   });
 
@@ -103,25 +103,29 @@ describe('document storage', () => {
     };
 
     test('submits a real CCD event, so data-store attaches the document and clears its TTL', async () => {
-      await saveDocuments(req(), 'floorPlanDocument', [newDocument]);
+      await saveDocuments(req(), 'floorPlanDocuments', [newDocument]);
 
       expect(getEventTrigger).toHaveBeenCalledWith(CASE_REFERENCE, 'citizen-upload-document');
       const [caseId, data, eventName, token] = triggerEvent.mock.calls[0];
       expect(caseId).toBe(CASE_REFERENCE);
       expect(eventName).toBe('citizen-upload-document');
       expect(token).toBe('event-token');
-      expect(data).toMatchObject({ propertyDetails: { floorPlanDocument: newDocument } });
+      expect(data).toMatchObject({
+        propertyDetails: { floorPlanDocuments: [{ value: newDocument }] },
+      });
       expect(getCaseByCaseReference).not.toHaveBeenCalled();
     });
 
     test('carries the document hash, which the event submit verifies', async () => {
-      await saveDocuments(req(), 'floorPlanDocument', [newDocument]);
+      await saveDocuments(req(), 'floorPlanDocuments', [newDocument]);
 
-      expect(triggerEvent.mock.calls[0][1].propertyDetails.floorPlanDocument.document.document_hash).toBe('hash-abc');
+      expect(triggerEvent.mock.calls[0][1].propertyDetails.floorPlanDocuments[0].value.document.document_hash).toBe(
+        'hash-abc'
+      );
     });
 
     test('wraps collection fields in CCD collection items', async () => {
-      await saveDocuments(req(), 'roomsDocuments', [newDocument]);
+      await saveDocuments(req(), 'propertyRoomsDocuments', [newDocument]);
 
       expect(triggerEvent.mock.calls[0][1]).toMatchObject({
         propertyDetails: { roomsDocuments: [{ value: newDocument }] },
@@ -138,7 +142,7 @@ describe('document storage', () => {
 
   describe('deleting', () => {
     test('clears the control field on an upload, so a spent id is not carried forward', async () => {
-      await saveDocuments(req(), 'floorPlanDocument', [
+      await saveDocuments(req(), 'floorPlanDocuments', [
         {
           documentType: 'propertyFloorPlan',
           document: {

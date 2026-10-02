@@ -58,18 +58,40 @@ export function prepareDataForSave(
         },
       };
     }
-    // case 'whoIsOnTheTenancy': {
-    //   return {};
-    // }
+    case 'whoIsOnTheTenancy': {
+      return {
+        applicantFirstName:
+          getFormDataString(req, 'your-information', 'applicantFirstName') ?? saved?.applicantFirstName,
+        applicantLastName: getFormDataString(req, 'your-information', 'applicantLastName') ?? saved?.applicantLastName,
+        tenantDetails: {
+          companyName: getFormDataString(req, 'your-information', 'companyName') ?? saved?.tenantDetails?.companyName,
+          referenceNumberForCommunications:
+            getFormDataString(req, 'your-information', 'referenceNumberForCommunications') ??
+            saved?.tenantDetails?.referenceNumberForCommunications,
+        },
+      };
+    }
     // case 'landlordDetails': {
     //   return {};
     // }
     // case 'landlordsNotice': {
     //   return {};
     // }
-    // case 'yourTenancyAgreement': {
-    //   return {};
-    // }
+    case 'yourTenancyAgreement': {
+      const copyOfTenancyAgreement =
+        getFormDataString(req, 'have-tenancy-agreement', 'copyOfTenancyAgreement') ??
+        saved?.tenancyAgreementDetails?.copyOfTenancyAgreement;
+      const isYes = copyOfTenancyAgreement === 'Yes';
+      return {
+        tenancyAgreementDetails: {
+          copyOfTenancyAgreement,
+          noTenancyAgreementReason: isYes
+            ? undefined
+            : (getFormDataString(req, 'have-tenancy-agreement', 'copyOfTenancyAgreement.noTenancyAgreementReason') ??
+              saved?.tenancyAgreementDetails?.noTenancyAgreementReason),
+        },
+      };
+    }
 
     case 'theCurrentRentAndOtherCosts': {
       const rentDetails = saved?.currentRentsDetails;
@@ -275,9 +297,22 @@ export function prepareDataForSave(
       };
     }
 
-    // case 'whatYouThinkMarketRentShouldBe': {
-    //   return {};
-    // }
+    case 'whatYouThinkMarketRentShouldBe': {
+      const marketRentDetails = saved?.marketRentDetails;
+
+      return {
+        marketRentDetails: {
+          applicantSuggestedMarketRent: toNumber(
+            getFormDataString(req, 'proposed-market-rent', 'applicantSuggestedMarketRent') ??
+              marketRentDetails?.applicantSuggestedMarketRent
+          ),
+          applicantSuggestedMarketRentReasons:
+            getFormDataString(req, 'proposed-market-rent-reasons', 'applicantSuggestedMarketRentReasons') ??
+            marketRentDetails?.applicantSuggestedMarketRentReasons,
+        },
+      };
+    }
+
     // case 'propertyDetails': {
     //   return {};
     // }

@@ -8,6 +8,7 @@ import { ApplicationSectionId } from '../../../sections.config';
 import { getFormData } from '@modules/steps';
 import type { DateValue, RentDetails } from '@services/ccdCase.interface';
 import { toDateParts } from '@utils/date';
+import { displayRentAmount } from '@utils/rentAmount';
 
 const SECTION_ID: ApplicationSectionId = 'theCurrentRentAndOtherCosts';
 
@@ -129,8 +130,8 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
       actions: { items: [change(step, `rows.${field}.changeHidden`)] },
     });
 
-    const amount = readSubField(step, field, amountField);
-    if (amount) {
+    const amount = displayRentAmount(readSubField(step, field, amountField));
+    if (amount !== undefined) {
       rows.push({
         key: { text: t(`rows.${amountField}.label`) },
         value: { text: `£${amount}` },

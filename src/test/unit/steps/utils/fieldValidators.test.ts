@@ -55,4 +55,16 @@ describe('textAreaIsValidLength', () => {
   it('returns true when value entered is a valid length', () => {
     expect(textAreaIsValidLength('Here is my test string')).toBe(true);
   });
+
+  it('counts a submitted line break as one character, matching the character count on the page', () => {
+    expect(textAreaIsValidLength('a'.repeat(4996) + '\r\n\r\n', 5000)).toBe(true);
+  });
+
+  it('counts a lone carriage return as one character', () => {
+    expect(textAreaIsValidLength('a'.repeat(4998) + '\r', 5000)).toBe(true);
+  });
+
+  it('still rejects a value over the max once line breaks are normalised', () => {
+    expect(textAreaIsValidLength('a'.repeat(4999) + '\r\n\r\n', 5000)).toBe(false);
+  });
 });

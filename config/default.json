@@ -13,7 +13,7 @@
     }
   },
   "http": {
-    "timeoutMs": 10000
+    "timeoutMs": 30000
   },
   "api": {
     "url": "http://pt-api-aat.service.core-compute-aat.internal"
@@ -26,14 +26,16 @@
     "url": "http://ccd-case-document-am-api-aat.service.core-compute-aat.internal"
   },
   "documentUpload": {
-    "maxFileSizeMB": 100,
-    "maxTotalFileSizeMB": 500,
+    "maxFileSizeMB": 25,
+    "maxTotalFileSizeMB": 300,
     "maxFilenameLength": 255
   },
   "idam": {
-    "authorizationURL": "https://idam-web-public.aat.platform.hmcts.net/login",
+    "authorizationURL": "https://idam-web-public.aat.platform.hmcts.net/o/authorize",
     "tokenURL": "https://idam-api.aat.platform.hmcts.net/o/token",
+    "endSessionURL": "https://idam-web-public.aat.platform.hmcts.net/o/endSession",
     "clientID": "pt-frontend",
+    "authorizationScope": "openid profile roles",
     "clientSecret": "NEED TO INSERT SECRET",
     "systemUsername": "dummy_user",
     "systemPassword": "NEED TO INSERT SECRET",
