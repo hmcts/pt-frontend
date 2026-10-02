@@ -1,0 +1,10 @@
+{
+  "pageTitle": "cyUpload your landlord’s notice proposing a new rent",
+  "heading": "cyUpload your landlord’s notice proposing a new rent",
+  "subHeading": "cyIf you are taking a picture of a letter, put the letter on a flat surface and take the picture from above.",
+  "errors": {
+    "documents": {
+      "required": "cySelect a file"
+    }
+  }
+}
