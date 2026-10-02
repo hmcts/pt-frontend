@@ -321,6 +321,7 @@ export interface PropertyDetails {
   propertyFacilitiesDescription?: string;
   propertySharedWithLandlord?: string | boolean;
   propertySharedWithLandlordDetails?: string;
+  propertyRoomsDocuments?: PtCaseDocument[];
   furnitureProvided?: string | boolean;
   furnitureProvidedDetails?: string;
   servicesProvided?: string | boolean;
