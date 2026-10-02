@@ -11,13 +11,8 @@
     {{ govukErrorSummary(errorSummary) }}
   {% endif %}
 
-  {% if heading %}
-    <h1 class="govuk-heading-l">{{ heading }}</h1>
-  {% endif %}
-  {% if subHeading %}
-    <p class="govuk-body">{{ subHeading }}</p>
-  {% endif %}
-
+  <h1 class="govuk-heading-l">{{ heading }}</h1>
+  <p class="govuk-body">{{ t('subHeading') }}</p>
 
   <form method="post" action="{{ url }}" novalidate>
     {% for field in fields %}

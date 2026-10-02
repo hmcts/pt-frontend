@@ -25,7 +25,7 @@ describe('withFileUploadUrls', () => {
   });
 
   test('marks a collection field as accepting multiple files', () => {
-    const [field] = withFileUploadUrls(req(), [fileField()], 'roomsDocuments');
+    const [field] = withFileUploadUrls(req(), [fileField()], 'propertyRoomsDocuments');
 
     expect(field.multiple).toBe(true);
   });
