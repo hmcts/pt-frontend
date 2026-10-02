@@ -27,7 +27,7 @@ export const step: StepDefinition = createFormStep({
     {
       name: 'documents',
       type: 'file',
-      required: false,
+      required: true,
       accept: acceptFor(documentField),
       maxFileSize: maxFileSizeMBFor(documentField),
       isPageHeading: false,
