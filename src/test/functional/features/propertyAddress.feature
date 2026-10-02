@@ -38,6 +38,7 @@ Feature: Validate Property address Page
     Scenario: Verify citizen can continue with optional fields left blank
         Given the citizen is on the Property Address page
         When the citizen enters valid mandatory property address details
+        And the citizen leaves optional property address fields blank
         And I click "Save and continue"
         Then the citizen is navigated to the What are you renting page
         Then the citizen is navigated to the What are you renting page

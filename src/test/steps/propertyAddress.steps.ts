@@ -24,6 +24,10 @@ When('the citizen enters valid mandatory property address details', () => {
   I.fillField(propertyAddress.postcode, propertyAddress.validPostcode);
 });
 
+When('the citizen leaves optional property address fields blank', () => {
+  // Intentionally blank
+});
+
 Then('the citizen is navigated to the What are you renting page', () => {
   I.waitForText(propertyAddress.nextPageHeading, 10);
 });
