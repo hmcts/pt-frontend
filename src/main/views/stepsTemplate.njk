@@ -15,11 +15,7 @@
 {% block head %}
   {{ super() }}
   {% include "webpack/css.njk" %}
-  {% if isLegalRepresentative %}
-    <link rel="stylesheet" href="/assets/ui-component-lib/ui-component-lib.css">
-  {% endif %}
 {% endblock %}
-
 
 {% block bodyStart %}
 {% endblock %}
@@ -47,7 +43,6 @@
     {#  {% include "components/timeout-modal.njk" %}#}
   {% endblock %}
 {% endblock %}
-
 
 {% block content %}
   <div class="govuk-grid-row">

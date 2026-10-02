@@ -1,6 +1,6 @@
 import type { Request } from 'express';
 
-import type { RespondToClaimStepName } from './stepRegistry';
+import type { PreApplicationStepName } from './stepRegistry';
 
 import { getFormData, getFormDataString } from '@modules/steps';
 import type { JourneyFlowConfig, StepConfig } from '@modules/steps/stepFlow.interface';
@@ -84,5 +84,5 @@ export const flowConfig: JourneyFlowConfig = {
       showCondition: (req: Request) =>
         getFormData(req, 'who-is-named-on-your-tenancy-agreement').tenantOrJointTenant !== 'tenant',
     },
-  } satisfies Partial<Record<RespondToClaimStepName, StepConfig>>,
+  } satisfies Partial<Record<PreApplicationStepName, StepConfig>>,
 };
