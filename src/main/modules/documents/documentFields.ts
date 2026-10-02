@@ -80,6 +80,7 @@ export const DOCUMENT_FIELDS = {
     ptApiField: 'suggestedMarketRentEvidence',
     ccdField: 'suggestedMarketRentEvidence',
     documentType: 'tenantProposedRentEvidence',
+    extraExtensions: { '.mp3': 100, '.mp4': 100 },
   },
 } satisfies Record<string, DocumentFieldDefinition>;
 
