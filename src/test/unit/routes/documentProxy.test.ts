@@ -29,7 +29,7 @@ const mockedDeleteById = deleteDocumentById as jest.MockedFunction<typeof delete
 
 const CASE_REFERENCE = '1234123412341234';
 const SINGLE_URL = `/${CASE_REFERENCE}/documents/tenancyAgreementDocument`;
-const COLLECTION_URL = `/${CASE_REFERENCE}/documents/roomsDocuments`;
+const COLLECTION_URL = `/${CASE_REFERENCE}/documents/propertyRoomsDocuments`;
 
 const cdamDocument = {
   document_url: 'http://cdam/cases/documents/abc',
@@ -214,9 +214,9 @@ describe('documentProxy', () => {
       expect(mockedUploadDocument).not.toHaveBeenCalled();
     });
 
-    // repairsEvidenceDocument opts into .mp3/.mp4 with a 100MB limit for those types only; its
+    // repairsEvidenceDocuments opts into .mp3/.mp4 with a 100MB limit for those types only; its
     // documents, and every other field, keep the 25MB global default and the document-only allowlist.
-    const MEDIA_URL = `/${CASE_REFERENCE}/documents/repairsEvidenceDocument`;
+    const MEDIA_URL = `/${CASE_REFERENCE}/documents/repairsEvidenceDocuments`;
     const overGlobalLimit = () => Buffer.alloc(26_000_000);
 
     test('accepts an mp4 over the global limit on a field that raises the limit for it', async () => {
