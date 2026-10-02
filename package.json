@@ -214,5 +214,5 @@
     "undici": "^8.10.2",
     "uuid": "^11.1.0"
   },
-  "packageManager": "yarn@4.18.0"
+  "packageManager": "yarn@4.18.1"
 }
