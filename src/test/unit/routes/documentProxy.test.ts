@@ -214,9 +214,9 @@ describe('documentProxy', () => {
       expect(mockedUploadDocument).not.toHaveBeenCalled();
     });
 
-    // repairsEvidenceDocument opts into .mp3/.mp4 with a 100MB limit for those types only; its
+    // repairsEvidenceDocuments opts into .mp3/.mp4 with a 100MB limit for those types only; its
     // documents, and every other field, keep the 25MB global default and the document-only allowlist.
-    const MEDIA_URL = `/${CASE_REFERENCE}/documents/repairsEvidenceDocument`;
+    const MEDIA_URL = `/${CASE_REFERENCE}/documents/repairsEvidenceDocuments`;
     const overGlobalLimit = () => Buffer.alloc(26_000_000);
 
     test('accepts an mp4 over the global limit on a field that raises the limit for it', async () => {
