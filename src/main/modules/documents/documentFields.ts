@@ -42,7 +42,7 @@ export const DOCUMENT_FIELDS = {
     multiple: true,
     extraExtensions: { '.mp3': 100, '.mp4': 100 },
   },
-  roomsDocuments: {
+  propertyRoomsDocuments: {
     slice: 'propertyDetails',
     ptApiField: 'propertyRoomsDocuments',
     ccdField: 'roomsDocuments',
