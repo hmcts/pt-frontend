@@ -115,7 +115,7 @@ export interface CcdCaseData {
     landlordRepairsDetails?: string;
     tenantRepairsDetails?: string;
     anyTenantsMadePropertyRepairs?: string;
-    repairsEvidenceDocument?: CcdUploadedDocument;
+    repairsEvidenceDocuments?: CcdCollectionItem<CcdUploadedDocument>[];
   };
 
   currentRentDetails?: {
@@ -323,6 +323,7 @@ export interface PropertyDetails {
   propertyFacilitiesDescription?: string;
   propertySharedWithLandlord?: string | boolean;
   propertySharedWithLandlordDetails?: string;
+  propertyRoomsDocuments?: PtCaseDocument[];
   furnitureProvided?: string | boolean;
   furnitureProvidedDetails?: string;
   servicesProvided?: string | boolean;
@@ -331,6 +332,7 @@ export interface PropertyDetails {
   tenantRepairsDetails?: string;
   hasRepairsAndImprovements?: string | boolean;
   floorPlanDocuments?: { url?: string }[];
+  repairsEvidenceDocuments?: { url?: string }[];
 }
 
 /** Fields captured across the details of rent journey. */
