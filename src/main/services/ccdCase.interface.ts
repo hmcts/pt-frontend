@@ -301,6 +301,7 @@ export interface NoticeOfRentIncreaseDetails {
   noticeNotLegallyValidReason?: string;
   rentIncreaseCauseHardship?: string;
   rentIncreaseHardshipDetails?: string;
+  landlordNoticeProposingNewRentDocument?: PtCaseDocument;
 }
 
 export interface PropertyDetails {
