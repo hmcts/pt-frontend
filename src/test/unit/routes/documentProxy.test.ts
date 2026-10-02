@@ -205,7 +205,7 @@ describe('documentProxy', () => {
         .attach('documents', Buffer.from('x'), 'room.pdf');
 
       expect(response.status).toBe(400);
-      expect(response.body.error.message).toBe('These files are too large in total');
+      expect(response.body.error.message).toBe('Total upload size must not exceed 300MB');
       expect(mockedSaveDocuments).not.toHaveBeenCalled();
       expect(mockedDeleteDocument).toHaveBeenCalledWith(cdamDocument.document_url, 'user-token');
     });
