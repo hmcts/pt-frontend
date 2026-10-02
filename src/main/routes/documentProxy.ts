@@ -100,7 +100,7 @@ const getTranslations =
       noFileSelected: 'Select a file to upload',
       wrongFileType: 'This file type is not accepted',
       fileTooLarge: 'This file is too large',
-      totalTooLarge: 'These files are too large in total',
+      totalTooLarge: 'Total upload size must not exceed 300MB',
       fileEmpty: 'The selected file is empty',
       passwordProtected: 'The selected file is password protected',
       filenameTooLong: 'This file name is too long',
