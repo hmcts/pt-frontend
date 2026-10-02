@@ -27,11 +27,12 @@ export const DOCUMENT_FIELDS = {
     documentType: 'propertyFloorPlan',
     multiple: true,
   },
-  outsidePropertyDocument: {
+  outsidePropertyDocuments: {
     slice: 'propertyDetails',
-    ptApiField: 'outsidePropertyDocument',
-    ccdField: 'outsidePropertyDocument',
+    ptApiField: 'outsidePropertyDocuments',
+    ccdField: 'outsidePropertyDocuments',
     documentType: 'outsideProperty',
+    multiple: true,
   },
   repairsEvidenceDocument: {
     slice: 'propertyDetails',
