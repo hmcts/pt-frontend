@@ -60,10 +60,19 @@ Jenkins does not run these tests on a pull request unless the PR has a label:
 
 | Label                 | Effect                                                             |
 | --------------------- | ------------------------------------------------------------------ |
+| `e2e-tag:@regression` | Run features tagged `@regression` (`E2E_TEST_SCOPE`)               |
 | `e2e-tag:@idam`       | Run scenarios whose title or tags match `@idam` (`E2E_TEST_SCOPE`) |
 | `e2e-spec:idam-login` | Run feature files whose path contains `idam-login` (`E2E_SPEC`)    |
 
 Separate several spec keywords with a comma or semicolon, for example `e2e-spec:idam-login,my-application`. A tag and a spec label can be used together. Master still runs the full suite.
+
+### Gherkin tags
+
+| Tag           | Purpose                                                                                        |
+| ------------- | ---------------------------------------------------------------------------------------------- |
+| `@regression` | Marks a feature as part of the PR/nightly regression pack. Required for `e2e-tag:@regression`. |
+| `@idam`       | Narrower filter for IDAM login scenarios.                                                      |
+| `@JIRA-*`     | Zephyr/Jira mapping (see [Jira tags](#jira-tags)).                                             |
 
 ## Running tests
 
@@ -127,9 +136,10 @@ Each scenario uses `@JIRA-EPIC:` on the feature and `@JIRA-TEST-KEY:` on each sc
 ## Adding a new feature
 
 1. Add a `.feature` file under `features/` with `@JIRA-*` tags on the feature and each scenario
-2. Add step definitions under `src/test/steps/` (matched by `./src/test/steps/**/*.ts`)
-3. Put shared labels/copy in `page-data/` and helpers in `utils/`
-4. Run with `yarn test:functional`
+2. Add `@regression` on the feature if it should run on PRs labelled `e2e-tag:@regression`
+3. Add step definitions under `src/test/steps/` (matched by `./src/test/steps/**/*.ts`)
+4. Put shared labels/copy in `page-data/` and helpers in `utils/`
+5. Run with `yarn test:functional`
 
 ---
 

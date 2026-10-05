@@ -1,4 +1,4 @@
-@JIRA-EPIC:HDPD-648
+@JIRA-EPIC:HDPD-648 @regression
 Feature: You need to use another form
 
   @AC1 @JIRA-TEST-KEY:PTSD-443
