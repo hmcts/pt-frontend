@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+import config from 'config';
+
 import { createApp } from './app';
 
 import { Logger } from '@modules/logger';
@@ -8,7 +10,6 @@ const logger = Logger.getLogger('server');
 
 const PORT = process.env.PORT || 4000;
 const HEADERS_TIMEOUT_MS = 20_000;
-const REQUEST_TIMEOUT_MS = 30_000;
 const KEEP_ALIVE_TIMEOUT_MS = 65_000;
 
 let isShuttingDown = false;
@@ -24,7 +25,8 @@ async function startServer() {
   });
 
   server.headersTimeout = HEADERS_TIMEOUT_MS;
-  server.requestTimeout = REQUEST_TIMEOUT_MS;
+  // Node default request timeout is 300s
+  server.requestTimeout = config.get<number>('documentUpload.timeoutMs');
   server.keepAliveTimeout = KEEP_ALIVE_TIMEOUT_MS;
 
   return () => {
