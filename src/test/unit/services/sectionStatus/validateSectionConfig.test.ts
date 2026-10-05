@@ -16,7 +16,7 @@ const flow = (sections?: SectionConfig[]): JourneyFlowConfig => ({
 });
 
 describe('validateSectionConfig', () => {
-  it('is a no-op for flows without sections (legalrep shape)', () => {
+  it('is a no-op for flows without sections', () => {
     expect(() => validateSectionConfig(flow())).not.toThrow();
   });
 
@@ -64,7 +64,7 @@ describe('validateSectionConfig', () => {
     expect(() => validateSectionConfig(config)).toThrow(/Journey 'testJourney'/);
   });
 
-  it('accepts a complex acyclic graph (the respond-to-claim shape)', () => {
+  it('accepts a complex acyclic graph (the application journey shape)', () => {
     const config = flow([
       section('startNowAndDetails'),
       section('personalDetails'),

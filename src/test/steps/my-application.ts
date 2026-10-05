@@ -1,7 +1,6 @@
 import { myApplication } from '../functional/page-data/myapplication.page.data';
 import { resolveIdamEmail, resolveIdamPassword } from '../functional/utils/idamPassword';
 
-import { selectOptionByLabel } from './common';
 import { submitSignInCredentials, verifyRedirectedToPtUI } from './idam-login';
 
 const { I } = inject();
@@ -54,10 +53,27 @@ Then('check that the user is redirected to the task-list citizen dashboard page'
   I.waitForText(myApplication.taskListHeading);
 });
 
-When('I select the option {string}', async (option: string) => {
-  selectOptionByLabel(option);
+When('I add other charge details in description as {string}', (description: string) => {
+  I.fillField('Describe what you are charged separately for', description);
 });
 
-When('I select the option {string}', async (option: string) => {
-  selectOptionByLabel(option);
+Then('I check that the text {string} is displayed on the page', (text: string) => {
+  I.waitForText(text);
+});
+
+When('I click back link', () => {
+  I.click('Back');
+});
+
+When('I enter characters more than 500 in the description field', () => {
+  I.clearField('Describe what you are charged separately for');
+  I.executeScript(value => {
+    const textarea = document.querySelector('textarea');
+
+    if (textarea instanceof HTMLTextAreaElement) {
+      textarea.value = value;
+      textarea.dispatchEvent(new Event('input', { bubbles: true }));
+      textarea.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  }, 'c'.repeat(501));
 });
