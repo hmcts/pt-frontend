@@ -1,0 +1,15 @@
+export const uploadTenancyAgreement = {
+  url: '/upload-tenancy-agreement',
+  pageHeading: 'Upload tenancy agreement',
+  uploadField: '#documents',
+  continueButton: 'Save and continue',
+  saveForLaterButton: 'Save for later',
+  validFile: 'src/test/data/tenancy-agreement.pdf',
+  emptyFile: 'src/test/data/empty.pdf',
+  unsupportedFile: 'src/test/data/unsupported_file.xyz',
+  invalidFile: 'src/test/data/test.txt',
+  noFileError: 'Select a file to upload',
+  invalidTypeError: 'The selected file must be a PDF, JPG, JPEG, PNG or DOC file',
+  tenancyAgreementLink: 'Your tenancy agreement',
+  copyOfTenancyAgreementRadioBtn: 'Yes',
+};
