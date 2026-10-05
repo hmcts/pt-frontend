@@ -31,7 +31,7 @@ const mockedDeleteById = deleteDocumentById as jest.MockedFunction<typeof delete
 
 const CASE_REFERENCE = '1234123412341234';
 const SINGLE_URL = `/${CASE_REFERENCE}/documents/tenancyAgreementDocument`;
-const COLLECTION_URL = `/${CASE_REFERENCE}/documents/roomsDocuments`;
+const COLLECTION_URL = `/${CASE_REFERENCE}/documents/propertyRoomsDocuments`;
 
 const cdamDocument = {
   document_url: 'http://cdam/cases/documents/abc',
@@ -230,20 +230,42 @@ describe('documentProxy', () => {
       expect(mockedUploadDocument).not.toHaveBeenCalled();
     });
 
-    // repairsEvidenceDocument raises the limit to 100MB and opts into .mp3/.mp4; every other
-    // field inherits the 25MB global default and the document-only allowlist.
-    const MEDIA_URL = `/${CASE_REFERENCE}/documents/repairsEvidenceDocument`;
-    const overGlobalLimit = () => Buffer.alloc(26 * 1024 * 1024);
+    // repairsEvidenceDocuments opts into .mp3/.mp4 with a 100MB limit for those types only; its
+    // documents, and every other field, keep the 25MB global default and the document-only allowlist.
+    const MEDIA_URL = `/${CASE_REFERENCE}/documents/repairsEvidenceDocuments`;
+    const overGlobalLimit = () => Buffer.alloc(26_000_000);
 
-    test('accepts a file over the global limit on a field that raises it', async () => {
+    test('accepts an mp4 over the global limit on a field that raises the limit for it', async () => {
+      persistedAs(42);
+
+      const response = await request(buildApp())
+        .post(`${MEDIA_URL}/upload`)
+        .attach('documents', overGlobalLimit(), 'evidence.mp4');
+
+      expect(response.status).toBe(200);
+      expect(mockedUploadDocument).toHaveBeenCalled();
+    });
+
+    test('holds a document on that field to the global limit', async () => {
       persistedAs(42);
 
       const response = await request(buildApp())
         .post(`${MEDIA_URL}/upload`)
         .attach('documents', overGlobalLimit(), 'evidence.pdf');
 
-      expect(response.status).toBe(200);
-      expect(mockedUploadDocument).toHaveBeenCalled();
+      expect(response.status).toBe(400);
+      expect(response.body.error.message).toBe('This file is too large');
+      expect(mockedUploadDocument).not.toHaveBeenCalled();
+    });
+
+    test('rejects an mp4 over its own 100MB limit', async () => {
+      const response = await request(buildApp())
+        .post(`${MEDIA_URL}/upload`)
+        .attach('documents', Buffer.alloc(100_000_001), 'evidence.mp4');
+
+      expect(response.status).toBe(400);
+      expect(response.body.error.message).toBe('This file is too large');
+      expect(mockedUploadDocument).not.toHaveBeenCalled();
     });
 
     test('rejects the same file on a field that inherits the global limit', async () => {

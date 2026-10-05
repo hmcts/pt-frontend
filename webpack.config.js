@@ -1,6 +1,5 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-// const webpack = require('webpack'); // TODO: enable when adding webpack-hot-middleware (pcs-frontend pattern)
 
 const sourcePath = path.resolve(__dirname, 'src/main/assets/js');
 const locales = path.resolve(__dirname, 'src/main/assets/locales');
@@ -12,11 +11,6 @@ const devMode = process.env.NODE_ENV !== 'production';
 const fileNameSuffix = devMode ? '-dev' : '.[contenthash]';
 const filename = `[name]${fileNameSuffix}.js`;
 
-// const appEntry = path.resolve(sourcePath, 'index.ts');
-// const entry = devMode
-//   ? ['webpack-hot-middleware/client?path=/__webpack_hmr&reload=true&overlay=true', appEntry]
-//   : appEntry;
-
 module.exports = {
   plugins: [
     ...govukFrontend.plugins,
@@ -25,11 +19,9 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: locales, to: 'locales' }],
     }),
-    // ...(devMode ? [new webpack.HotModuleReplacementPlugin()] : []),
   ],
   entry: path.resolve(sourcePath, 'index.ts'),
   mode: devMode ? 'development' : 'production',
-  // devtool: devMode ? 'source-map' : false,
   module: {
     rules: [
       ...scss.rules,

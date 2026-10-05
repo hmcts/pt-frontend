@@ -1,7 +1,9 @@
 import {
   type UploadLimits,
   acceptAttributeFor,
+  extensionOf,
   maxFileSizeBytes,
+  maxFileSizeMB,
   maxTotalFileSizeBytes,
 } from '@utils/documentUploadValidation';
 
@@ -14,7 +16,7 @@ export interface DocumentFieldDefinition {
   documentType: string;
   multiple?: boolean;
   maxFileSizeMB?: number; // falls back to the maxFileSizeMB config value if not set
-  extraExtensions?: readonly string[]; // used to allow additional file types such as .mp3 and .mp4 outside of default
+  extraExtensions?: Readonly<Record<string, number>>; // additional file types such as .mp3 and .mp4 outside of default, each mapped to its max size in MB
 }
 
 export const DOCUMENT_FIELDS = {
@@ -25,21 +27,22 @@ export const DOCUMENT_FIELDS = {
     documentType: 'propertyFloorPlan',
     multiple: true,
   },
-  outsidePropertyDocument: {
+  outsidePropertyDocuments: {
     slice: 'propertyDetails',
-    ptApiField: 'outsidePropertyDocument',
-    ccdField: 'outsidePropertyDocument',
+    ptApiField: 'outsidePropertyDocuments',
+    ccdField: 'outsidePropertyDocuments',
     documentType: 'outsideProperty',
+    multiple: true,
   },
-  repairsEvidenceDocument: {
+  repairsEvidenceDocuments: {
     slice: 'propertyDetails',
-    ptApiField: 'repairsEvidenceDocument',
-    ccdField: 'repairsEvidenceDocument',
+    ptApiField: 'repairsEvidenceDocuments',
+    ccdField: 'repairsEvidenceDocuments',
     documentType: 'tenantRepairsEvidence',
-    maxFileSizeMB: 100,
-    extraExtensions: ['.mp3', '.mp4'],
+    multiple: true,
+    extraExtensions: { '.mp3': 100, '.mp4': 100 },
   },
-  roomsDocuments: {
+  propertyRoomsDocuments: {
     slice: 'propertyDetails',
     ptApiField: 'propertyRoomsDocuments',
     ccdField: 'roomsDocuments',
@@ -81,10 +84,18 @@ export const documentFieldFor = (key: string): DocumentFieldDefinition | undefin
 
 export const maxFileSizeMBFor = (key: string): number | undefined => documentFieldFor(key)?.maxFileSizeMB;
 
-export const acceptFor = (key: string): string => acceptAttributeFor(documentFieldFor(key)?.extraExtensions);
+const extraExtensionsOf = (field?: DocumentFieldDefinition): string[] => Object.keys(field?.extraExtensions ?? {});
 
-export const uploadLimitsFor = (field: DocumentFieldDefinition): UploadLimits => ({
-  maxBytes: maxFileSizeBytes(field.maxFileSizeMB),
+export const acceptFor = (key: string): string => acceptAttributeFor(extraExtensionsOf(documentFieldFor(key)));
+
+export const maxFileSizeMBForFile = (field: DocumentFieldDefinition, filename: string): number =>
+  field.extraExtensions?.[extensionOf(filename)] ?? maxFileSizeMB(field.maxFileSizeMB);
+
+export const largestFileSizeMB = (field: DocumentFieldDefinition): number =>
+  Math.max(maxFileSizeMB(field.maxFileSizeMB), ...Object.values(field.extraExtensions ?? {}));
+
+export const uploadLimitsFor = (field: DocumentFieldDefinition, filename: string): UploadLimits => ({
+  maxBytes: maxFileSizeBytes(maxFileSizeMBForFile(field, filename)),
   maxTotalBytes: maxTotalFileSizeBytes(),
-  extraExtensions: field.extraExtensions,
+  extraExtensions: extraExtensionsOf(field),
 });

@@ -1,9 +1,7 @@
-import { promisify } from 'node:util';
-
 import config from 'config';
 import { Application, type Request, type Response } from 'express';
 
-import { getRedirectUrl, getUserDetails } from '../auth/user/oidc';
+import { getEndIdamSessionUrl, getRedirectUrl, getUserDetails } from '../auth/user/oidc';
 import { CALLBACK_URL, SIGN_IN_URL, SIGN_OUT_URL } from '../urls';
 
 import { Logger } from '@modules/logger';
@@ -16,10 +14,17 @@ export default function (app: Application): void {
   const protocol = secure ? 'https://' : 'http://';
   const port = secure ? '' : `:${config.get('port')}`;
 
-  app.get(SIGN_IN_URL, (req, res) => res.redirect(getRedirectUrl(`${protocol}${res.locals.host}${port}`)));
-  app.get(SIGN_OUT_URL, async (req, res) => {
-    await promisify(req.session.destroy.bind(req.session))();
-    res.setHeader('Clear-Site-Data', '*').clearCookie('connect.sid', { path: '/' }).redirect('/');
+  app.get(SIGN_IN_URL, (_req, res) => res.redirect(getRedirectUrl(`${protocol}${res.locals.host}${port}`)));
+  app.get(SIGN_OUT_URL, (req, res) => {
+    req.session.destroy((err: unknown) => {
+      if (err) {
+        logger.error('Session destroyed error:', err);
+      }
+      res
+        .clearCookie(config.get('session.cookieName'), { path: '/' })
+        .setHeader('Clear-Site-Data', '"cache", "cookies", "storage"')
+        .redirect(getEndIdamSessionUrl(`${protocol}${res.locals.host}${port}`));
+    });
   });
   app.get(CALLBACK_URL, callbackHandler(protocol, port));
 }
