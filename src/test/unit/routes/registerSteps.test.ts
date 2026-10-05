@@ -31,8 +31,7 @@ jest.mock('../../../main/middleware', () => ({
 }));
 
 const mockFlowConfig = {
-  basePath: '/respond-to-claim',
-  eventId: 'respondPossessionClaim',
+  basePath: '/pre-application',
   stepOrder: ['protected-step', 'unprotected-step', 'function-controller-step', 'middleware-step'],
   steps: {
     'protected-step': { requiresAuth: true },
@@ -81,12 +80,11 @@ const allSteps = [protectedStep, unprotectedStep, stepWithFunctionController, st
 
 jest.mock('../../../main/steps', () => ({
   journeyRegistry: {
-    respondToClaim: {
+    preApplication: {
       name: 'preApplication',
       default: {
         flowConfig: {
           basePath: '/pre-application',
-          eventId: 'respondPossessionClaim',
           stepOrder: ['protected-step', 'unprotected-step', 'function-controller-step', 'middleware-step'],
           steps: {
             'protected-step': { requiresAuth: true },
@@ -116,7 +114,7 @@ jest.mock('../../../main/steps', () => ({
     );
   }),
   getStepsForJourney: jest.fn((journeyName: string) => {
-    if (journeyName === 'respondToClaim') {
+    if (journeyName === 'preApplication') {
       return allSteps;
     }
     return [];
@@ -184,7 +182,7 @@ describe('registerSteps', () => {
     const protectedGetCall = mockGet.mock.calls.find(call => call[0] === '/steps/protected');
     expect(protectedGetCall).toBeDefined();
 
-    // [url, stepContext, oidc, dependencyCheck, legalRepHeaders, handler]
+    // [url, stepContext, oidc, dependencyCheck, handler]
     expect(protectedGetCall!).toHaveLength(5);
     expect(protectedGetCall![0]).toBe('/steps/protected');
     expect(typeof protectedGetCall![1]).toBe('function');
@@ -207,7 +205,7 @@ describe('registerSteps', () => {
 
     const unprotectedGetCall = mockGet.mock.calls.find(call => call[0] === '/steps/unprotected');
     expect(unprotectedGetCall).toBeDefined();
-    // [url, stepContext, dependencyCheck, legalRepHeaders, handler]
+    // [url, stepContext, dependencyCheck, handler]
     expect(unprotectedGetCall!).toHaveLength(4);
     expect(unprotectedGetCall![0]).toBe('/steps/unprotected');
     expect(typeof unprotectedGetCall![1]).toBe('function');
@@ -244,7 +242,7 @@ describe('registerSteps', () => {
     const stepWithMiddlewareCall = mockGet.mock.calls.find(call => call[0] === '/steps/with-middleware');
 
     expect(stepWithMiddlewareCall).toBeDefined();
-    // [url, stepContext, oidc, dependencyCheck, customMiddleware, legalRepHeaders, handler]
+    // [url, stepContext, oidc, dependencyCheck, customMiddleware, handler]
     expect(stepWithMiddlewareCall!).toHaveLength(6);
     expect(stepWithMiddlewareCall![0]).toBe('/steps/with-middleware');
     expect(typeof stepWithMiddlewareCall![1]).toBe('function');
@@ -266,7 +264,7 @@ describe('registerSteps', () => {
     expect(mockLogger.debug).toHaveBeenCalledWith('Language information', {
       url: '/steps/unprotected',
       step: 'unprotected-step',
-      journey: 'respondToClaim',
+      journey: 'preApplication',
       validatedLang: 'en',
       reqLanguage: 'en',
       langCookie: 'en',
@@ -291,7 +289,7 @@ describe('registerSteps', () => {
 
     stepContextMiddleware({}, res, next);
 
-    expect(res.locals.step).toEqual({ name: 'protected-step', journey: 'respondToClaim' });
+    expect(res.locals.step).toEqual({ name: 'protected-step', journey: 'preApplication' });
     expect(next).toHaveBeenCalledTimes(1);
   });
 
@@ -318,12 +316,11 @@ describe('registerSteps', () => {
 
     jest.doMock('../../../main/steps', () => ({
       journeyRegistry: {
-        respondToClaim: {
-          name: 'respondToClaim',
+        preApplication: {
+          name: 'preApplication',
           default: {
             flowConfig: {
-              basePath: '/respond-to-claim',
-              eventId: 'respondPossessionClaim',
+              basePath: '/pre-application',
               stepOrder: ['no-controllers'],
               steps: {
                 'no-controllers': { requiresAuth: true },
@@ -354,7 +351,7 @@ describe('registerSteps', () => {
     } as unknown as Application;
 
     expect(() => registerSteps(testApp, 'nonExistentJourney')).toThrow(
-      "Journey 'nonExistentJourney' not found in registry. Available journeys: respondToClaim"
+      "Journey 'nonExistentJourney' not found in registry. Available journeys: preApplication"
     );
   });
 
@@ -364,12 +361,12 @@ describe('registerSteps', () => {
       post: jest.fn(),
     } as unknown as Application;
 
-    registerSteps(testApp, 'respondToClaim');
+    registerSteps(testApp, 'preApplication');
 
     expect(testApp.get).toHaveBeenCalled();
     expect(testApp.post).toHaveBeenCalled();
-    expect(mockLogger.debug).toHaveBeenCalledWith('Registering steps for journey: respondToClaim', {
-      journeyName: 'respondToClaim',
+    expect(mockLogger.debug).toHaveBeenCalledWith('Registering steps for journey: preApplication', {
+      journeyName: 'preApplication',
       stepCount: 4,
     });
   });
@@ -411,7 +408,7 @@ describe('registerAllJourneys', () => {
 
     expect(mockUse).toHaveBeenCalledWith(expect.any(Function));
     expect(mockLogger.info).toHaveBeenCalledWith('Auto-registering all journeys from registry');
-    expect(mockLogger.info).toHaveBeenCalledWith("Journey 'respondToClaim' auto-registered and mounted");
+    expect(mockLogger.info).toHaveBeenCalledWith("Journey 'preApplication' auto-registered and mounted");
     expect(mockLogger.info).toHaveBeenCalledWith('All journeys registered successfully');
   });
 

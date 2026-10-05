@@ -31,20 +31,22 @@ export const DOCUMENT_FIELDS = {
     documentType: 'propertyFloorPlan',
     multiple: true,
   },
-  outsidePropertyDocument: {
+  outsidePropertyDocuments: {
     slice: 'propertyDetails',
-    ptApiField: 'outsidePropertyDocument',
-    ccdField: 'outsidePropertyDocument',
+    ptApiField: 'outsidePropertyDocuments',
+    ccdField: 'outsidePropertyDocuments',
     documentType: 'outsideProperty',
+    multiple: true,
   },
-  repairsEvidenceDocument: {
+  repairsEvidenceDocuments: {
     slice: 'propertyDetails',
-    ptApiField: 'repairsEvidenceDocument',
-    ccdField: 'repairsEvidenceDocument',
+    ptApiField: 'repairsEvidenceDocuments',
+    ccdField: 'repairsEvidenceDocuments',
     documentType: 'tenantRepairsEvidence',
+    multiple: true,
     extraExtensions: { '.mp3': 100, '.mp4': 100 },
   },
-  roomsDocuments: {
+  propertyRoomsDocuments: {
     slice: 'propertyDetails',
     ptApiField: 'propertyRoomsDocuments',
     ccdField: 'roomsDocuments',
@@ -80,6 +82,7 @@ export const DOCUMENT_FIELDS = {
     ptApiField: 'suggestedMarketRentEvidence',
     ccdField: 'suggestedMarketRentEvidence',
     documentType: 'tenantProposedRentEvidence',
+    extraExtensions: { '.mp3': 100, '.mp4': 100 },
   },
 } satisfies Record<string, DocumentFieldDefinition>;
 

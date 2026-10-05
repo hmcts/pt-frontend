@@ -54,7 +54,7 @@ export const step: StepDefinition = {
       return {
         backUrl: '/',
         groups,
-        name: name || 'Claimant',
+        name: name || 'Applicant',
       };
     }),
 };
