@@ -16,7 +16,8 @@
     "timeoutMs": {
       "__name": "DOCUMENT_UPLOAD_TIMEOUT_MS",
       "__format": "json"
-    }
+    },
+    "maxFilesPerUpload": "DOCUMENT_UPLOAD_MAX_FILES_PER_UPLOAD"
   },
   "http": {
     "timeoutMs": {

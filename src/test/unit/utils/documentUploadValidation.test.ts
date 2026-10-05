@@ -60,6 +60,10 @@ describe('documentUploadValidation', () => {
       expect(validateUploadedFile(file({ size: 10 * 1024 * 1024 }), 291 * 1024 * 1024)).toBe('totalTooLarge');
     });
 
+    test('rejects an empty file', () => {
+      expect(validateUploadedFile(file({ size: 0 }))).toBe('fileEmpty');
+    });
+
     test('reports the type problem ahead of the size problem', () => {
       expect(validateUploadedFile(file({ originalname: 'big.exe', mimetype: '', size: 400 * 1024 * 1024 }))).toBe(
         'wrongFileType'

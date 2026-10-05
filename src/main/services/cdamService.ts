@@ -14,6 +14,27 @@ const logger = Logger.getLogger('cdamService');
 const CLASSIFICATION = 'PUBLIC';
 const JURISDICTION = 'PT';
 
+export type CdamUploadRejection = 'passwordProtected' | 'fileEmpty';
+
+export class CdamUploadRejected extends Error {
+  constructor(readonly reason: CdamUploadRejection) {
+    super(reason);
+  }
+}
+
+const DM_STORE_REJECTIONS: readonly [string, CdamUploadRejection][] = [
+  ['password protected', 'passwordProtected'],
+  ['less than allowed limit', 'fileEmpty'],
+];
+
+const rejectionOf = (error: unknown): CdamUploadRejection | undefined => {
+  if (!axios.isAxiosError(error)) {
+    return undefined;
+  }
+  const message = String((error.response?.data as { error?: unknown } | undefined)?.error ?? '').toLowerCase();
+  return DM_STORE_REJECTIONS.find(([text]) => message.includes(text))?.[1];
+};
+
 const getCdamUrl = (): string => config.get('cdam.url');
 const getUploadTimeoutMs = (): number => config.get<number>('documentUpload.timeoutMs');
 const getCaseTypeId = (): string => config.get('ccd.caseTypeId');
@@ -44,10 +65,18 @@ export const uploadDocument = async (file: Express.Multer.File, userToken: strin
   formData.append('caseTypeId', getCaseTypeId());
   formData.append('jurisdictionId', JURISDICTION);
 
-  const response = await cdamClient(userToken).post<CdamUploadResponse>('/cases/documents', formData, {
-    headers: formData.getHeaders(),
-    timeout: getUploadTimeoutMs(),
-  });
+  const response = await cdamClient(userToken)
+    .post<CdamUploadResponse>('/cases/documents', formData, {
+      headers: formData.getHeaders(),
+      timeout: getUploadTimeoutMs(),
+    })
+    .catch((error: unknown) => {
+      const reason = rejectionOf(error);
+      if (reason) {
+        throw new CdamUploadRejected(reason);
+      }
+      throw error;
+    });
 
   const raw: CdamRawDocument | undefined = response.data?.documents?.[0];
   if (!raw?._links?.self?.href) {
