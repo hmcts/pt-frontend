@@ -6,6 +6,7 @@
   "yes": "cy Yes",
   "no": "cy No",
   "change": "cy Change",
+  "notAnswered": "cy Not answered",
   "back": "cy Back",
   "logout": "cy Logout",
   "buttons": {
