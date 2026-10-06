@@ -38,7 +38,8 @@
     "applicationNumberHeading": "Application number",
     "createdHeading": "Created",
     "submittedOnHeading": "Submitted on",
-    "statusHeading": "Status"
+    "statusHeading": "Status",
+    "notYetSubmitted": "Not yet submitted"
   },
   "errors": {
     "title": "There is a problem",

@@ -14,10 +14,6 @@ jest.mock('../../main/server', () => ({
   isShutdown: jest.fn(() => false),
 }));
 
-jest.mock('@modules/properties-volume', () => ({
-  PropertiesVolume: jest.fn().mockImplementation(() => ({ enableFor: jest.fn().mockResolvedValue(undefined) })),
-}));
-
 jest.mock('../../main/auth/service/get-service-auth-token', () => ({
   initAuthToken: jest.fn().mockResolvedValue(undefined),
   stopAuthTokenRefresh: jest.fn(),
