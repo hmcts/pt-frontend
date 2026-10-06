@@ -79,15 +79,18 @@ describe('documentProxy', () => {
   });
 
   describe('upload', () => {
-    // The route reads the case three times: to check the field is free, again under the lock,
-    // then after saving to pick up the new row id.
+    // The route reads the case twice: to check the field is free, then after saving to pick up the new row id.
     const persistedAs = (id: number, filename = 'floor-plan.pdf') => {
       // clearAllMocks() leaves mockResolvedValueOnce queues in place, so they accumulate across tests
       mockedReadDocuments.mockReset();
       mockedReadDocuments.mockResolvedValueOnce([]);
-      mockedReadDocuments.mockResolvedValueOnce([]);
       mockedReadDocuments.mockResolvedValue([storedDocument(id, cdamDocument.document_url, filename)]);
     };
+
+    const rejectedByPtApi = (callbackErrors: string[]) =>
+      Object.assign(new Error('Request failed with status code 422'), {
+        response: { status: 422, data: { callbackErrors } },
+      });
 
     test('uploads to CDAM then persists the reference against the case', async () => {
       persistedAs(42);
@@ -181,9 +184,9 @@ describe('documentProxy', () => {
       expect(mockedSaveDocuments).not.toHaveBeenCalled();
     });
 
-    test('refuses a file that arrives while another request is saving, and clears it from CDAM', async () => {
-      mockedReadDocuments.mockResolvedValueOnce([]);
-      mockedReadDocuments.mockResolvedValue([storedDocument(42, 'http://cdam/cases/documents/first')]);
+    test('refuses a file pt-api rejects because another upload filled the field first, and clears it from CDAM', async () => {
+      persistedAs(42);
+      mockedSaveDocuments.mockRejectedValue(rejectedByPtApi(['removeFileFirst']));
 
       const response = await request(buildApp())
         .post(`${SINGLE_URL}/upload`)
@@ -191,13 +194,11 @@ describe('documentProxy', () => {
 
       expect(response.status).toBe(400);
       expect(response.body.error.message).toContain('Remove the uploaded file');
-      expect(mockedSaveDocuments).not.toHaveBeenCalled();
       expect(mockedDeleteDocument).toHaveBeenCalledWith(cdamDocument.document_url, 'user-token');
     });
 
     test('allows a further file on a collection field', async () => {
       const first = storedDocument(42, 'http://cdam/cases/documents/first');
-      mockedReadDocuments.mockResolvedValueOnce([first]);
       mockedReadDocuments.mockResolvedValueOnce([first]);
       mockedReadDocuments.mockResolvedValue([first, storedDocument(43, cdamDocument.document_url, 'room.pdf')]);
 
@@ -209,12 +210,9 @@ describe('documentProxy', () => {
       expect(response.body.file.filename).toBe('43');
     });
 
-    test('refuses a file that takes the field over the total once a concurrent upload has saved, and clears it from CDAM', async () => {
-      mockedReadDocuments.mockReset();
-      mockedReadDocuments.mockResolvedValueOnce([]);
-      mockedReadDocuments.mockResolvedValue([
-        storedDocument(42, 'http://cdam/cases/documents/first', 'first.pdf', 300_000_000),
-      ]);
+    test('refuses a file pt-api rejects for taking the field over the total, and clears it from CDAM', async () => {
+      persistedAs(42);
+      mockedSaveDocuments.mockRejectedValue(rejectedByPtApi(['totalTooLarge']));
 
       const response = await request(buildApp())
         .post(`${COLLECTION_URL}/upload`)
@@ -222,7 +220,19 @@ describe('documentProxy', () => {
 
       expect(response.status).toBe(400);
       expect(response.body.error.message).toBe('Total upload size must not exceed 300MB');
-      expect(mockedSaveDocuments).not.toHaveBeenCalled();
+      expect(mockedDeleteDocument).toHaveBeenCalledWith(cdamDocument.document_url, 'user-token');
+    });
+
+    test('treats any other pt-api rejection as a failed upload', async () => {
+      persistedAs(42);
+      mockedSaveDocuments.mockRejectedValue(rejectedByPtApi(['Something else went wrong']));
+
+      const response = await request(buildApp())
+        .post(`${COLLECTION_URL}/upload`)
+        .attach('documents', Buffer.from('x'), 'room.pdf');
+
+      expect(response.status).toBe(500);
+      expect(response.body.error.message).toBe('This file could not be uploaded');
       expect(mockedDeleteDocument).toHaveBeenCalledWith(cdamDocument.document_url, 'user-token');
     });
 
