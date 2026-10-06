@@ -61,11 +61,12 @@ export const DOCUMENT_FIELDS = {
     ccdField: 'noticeNotLegallyValidDocument',
     documentType: 'noticeNotLegallyValidEvidence',
   },
-  rentIncreaseToCauseHardshipDocument: {
+  rentIncreaseToCauseHardshipDocuments: {
     slice: 'noticeOfRentIncreaseDetails',
-    ptApiField: 'rentIncreaseToCauseHardshipDocument',
-    ccdField: 'rentIncreaseToCauseHardshipDocument',
+    ptApiField: 'rentIncreaseToCauseHardshipDocuments',
+    ccdField: 'rentIncreaseToCauseHardshipDocuments',
     documentType: 'hardshipEvidence',
+    multiple: true,
   },
   tenancyAgreementDocument: {
     slice: 'tenancyAgreementDetails',

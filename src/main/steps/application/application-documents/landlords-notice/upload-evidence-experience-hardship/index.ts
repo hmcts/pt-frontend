@@ -7,7 +7,7 @@ import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
 const journeyName = 'application';
 const stepName = 'upload-evidence-experience-hardship';
-const documentField = 'rentIncreaseToCauseHardshipDocument';
+const documentField = 'rentIncreaseToCauseHardshipDocuments';
 
 export const step: StepDefinition = createFormStep({
   stepName,
