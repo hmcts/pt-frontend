@@ -47,10 +47,14 @@
     "documentUpload": {
       "wrongFileType": "cy The selected file must be a DOC, DOCX, XLS, XLSX, PPT, PPTX, PDF, RTF, TXT, CSV, JPG, JPEG, PNG, BMP, TIF or TIFF",
       "fileTooLarge": "cy The selected file must be smaller than {{ maxFileSize }}MB",
+      "totalTooLarge": "cy These files are too large in total",
+      "fileEmpty": "cy The selected file is empty",
+      "passwordProtected": "cy The selected file is password protected",
       "filenameTooLong": "cy The selected file name must be 255 characters or fewer",
       "uploadFailed": "cy The selected file could not be uploaded — try again",
       "deleteFailed": "cy The selected file could not be removed — try again",
       "onlyOneFile": "cy You can only upload one file",
+      "tooManyFiles": "cy You can only select up to {{ maxFiles }} files at the same time",
       "removeFileFirst": "cy Remove the uploaded file before adding another"
     }
   },

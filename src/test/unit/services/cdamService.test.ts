@@ -3,7 +3,7 @@ import config from 'config';
 
 import { requireServiceAuthToken } from '../../../main/auth/service/get-service-auth-token';
 
-import { deleteDocument, uploadDocument } from '@services/cdamService';
+import { CdamUploadRejected, deleteDocument, uploadDocument } from '@services/cdamService';
 
 jest.mock('@modules/logger', () => ({
   Logger: {
@@ -52,6 +52,14 @@ describe('cdamService', () => {
     mockedRequireServiceAuthToken.mockReturnValue('s2s-token');
     instance = { post: jest.fn(), delete: jest.fn(), get: jest.fn() };
     mockedAxios.create.mockReturnValue(instance as never);
+    (mockedAxios.isAxiosError as unknown as jest.Mock).mockImplementation(
+      (error: { isAxiosError?: boolean }) => error?.isAxiosError === true
+    );
+  });
+
+  const cdamError = (error: string) => ({
+    isAxiosError: true,
+    response: { status: 500, data: { status: 500, error } },
   });
 
   describe('uploadDocument', () => {
@@ -95,6 +103,25 @@ describe('cdamService', () => {
         content_type: 'application/pdf',
         size: 5,
       });
+    });
+
+    test.each([
+      ['passwordProtected', '422 UNPROCESSABLE_ENTITY: "{"error":"Your upload file is password protected."}"'],
+      ['fileEmpty', '422 UNPROCESSABLE_ENTITY: "{"error":"Your upload file size is less than allowed limit."}"'],
+    ])('reports %s when the document store refuses the file', async (reason, error) => {
+      instance.post.mockRejectedValue(cdamError(error));
+
+      const rejection = await uploadDocument(file, USER_TOKEN).catch((err: unknown) => err);
+
+      expect(rejection).toBeInstanceOf(CdamUploadRejected);
+      expect(rejection).toMatchObject({ reason });
+    });
+
+    test('passes any other CDAM failure through unchanged', async () => {
+      const failure = cdamError('500 INTERNAL_SERVER_ERROR');
+      instance.post.mockRejectedValue(failure);
+
+      await expect(uploadDocument(file, USER_TOKEN)).rejects.toBe(failure);
     });
 
     test('throws when CDAM returns no document', async () => {
