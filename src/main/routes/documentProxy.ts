@@ -18,8 +18,8 @@ import {
   saveDocuments,
 } from '@modules/documents/storage';
 import { Logger } from '@modules/logger';
-import { deleteDocument, uploadDocument } from '@services/cdamService';
-import { maxFileSizeBytes, validateUploadedFile } from '@utils/documentUploadValidation';
+import { CdamUploadRejected, deleteDocument, uploadDocument } from '@services/cdamService';
+import { maxFileSizeBytes, maxTotalFileSizeBytes, validateUploadedFile } from '@utils/documentUploadValidation';
 
 const logger = Logger.getLogger('documentProxy');
 
@@ -100,7 +100,9 @@ const getTranslations =
       noFileSelected: 'Select a file to upload',
       wrongFileType: 'This file type is not accepted',
       fileTooLarge: 'This file is too large',
-      totalTooLarge: 'These files are too large in total',
+      totalTooLarge: 'Total upload size must not exceed 300MB',
+      fileEmpty: 'The selected file is empty',
+      passwordProtected: 'The selected file is password protected',
       filenameTooLong: 'This file name is too long',
       uploadFailed: 'This file could not be uploaded',
       deleteFailed: 'This file could not be removed',
@@ -176,6 +178,9 @@ export default function (app: Application): void {
             if (!field.multiple && held.length > 0) {
               throw new UploadRejected('removeFileFirst');
             }
+            if (totalBytes(held) + file.size > maxTotalFileSizeBytes()) {
+              throw new UploadRejected('totalTooLarge');
+            }
 
             await saveDocuments(req, fieldKeyOf(req), [entry]);
 
@@ -210,6 +215,10 @@ export default function (app: Application): void {
           throw saveError;
         }
       } catch (err) {
+        if (err instanceof CdamUploadRejected) {
+          res.status(400).json(uploadError(t(err.reason)));
+          return;
+        }
         logger.error('Document upload failed', err);
         res.status(500).json(uploadError(t('uploadFailed')));
       }

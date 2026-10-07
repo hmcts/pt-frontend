@@ -22,4 +22,13 @@ describe('toDateParts', () => {
     expect(toDateParts(undefined)).toBeUndefined();
     expect(toDateParts('')).toBeUndefined();
   });
+
+  test('returns undefined when there is no date to format', () => {
+    expect(formatDate(undefined)).toBeUndefined();
+    expect(formatDate('')).toBeUndefined();
+  });
+
+  test('returns undefined rather than throwing for a value that is not a date', () => {
+    expect(formatDate('not-a-date')).toBeUndefined();
+  });
 });

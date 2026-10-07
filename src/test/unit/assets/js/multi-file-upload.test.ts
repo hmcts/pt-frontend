@@ -50,11 +50,14 @@ const render = (serverErrorSummary = false, multiple = false): void => {
                  data-accept=".pdf,.jpg"
                  data-max-file-size-mb="25"
                  data-max-filename-length="255"
+                 data-max-files="${multiple ? 3 : 1}"
                  data-error-wrong-file-type="This file type is not accepted"
                  data-error-file-too-large="This file is too large"
+                 data-error-file-empty="The selected file is empty"
                  data-error-filename-too-long="This file name is too long"
                  data-error-delete="This file could not be removed"
                  data-error-only-one-file="You can only upload one file"
+                 data-error-too-many-files="You can only select up to 3 files at the same time"
                  data-error-remove-file-first="Remove the uploaded file before adding another"
                  data-error-summary-title="There is a problem"
                  data-error-prefix="Error:"
@@ -146,6 +149,13 @@ describe('initMultiFileUpload', () => {
       upload(fileOf(`${'a'.repeat(256)}.exe`));
 
       expect(summaryMessages()).toEqual(['This file name is too long']);
+    });
+
+    it('reports an empty file', () => {
+      upload(fileOf('floor-plan.pdf', 0));
+
+      expect(summaryMessages()).toEqual(['The selected file is empty']);
+      expect(uploaded()).not.toHaveBeenCalled();
     });
 
     it('uploads an acceptable file without an error', () => {
@@ -257,6 +267,33 @@ describe('initMultiFileUpload', () => {
       expect(uploaded()).not.toHaveBeenCalled();
     });
 
+    it.each([
+      ['missing', undefined],
+      ['not a number', 'abc'],
+      ['higher than one', '5'],
+    ])('refuses several files at once whatever the file limit attribute is (%s)', (_case, value) => {
+      jest.clearAllMocks();
+      render();
+      if (value === undefined) {
+        container().removeAttribute('data-max-files');
+      } else {
+        container().dataset.maxFiles = value;
+      }
+      initMultiFileUpload();
+
+      upload(fileOf('one.pdf'), fileOf('two.pdf'));
+
+      expect(summaryMessages()).toEqual(['You can only upload one file']);
+      expect(uploaded()).not.toHaveBeenCalled();
+    });
+
+    it('accepts a single file', () => {
+      upload(fileOf('floor-plan.pdf'));
+
+      expect(summary()).toBeNull();
+      expect(uploaded()).toHaveBeenCalledTimes(1);
+    });
+
     it('refuses a second file once one is uploaded, and says to remove it first', () => {
       uploadedRow();
 
@@ -294,6 +331,19 @@ describe('initMultiFileUpload', () => {
 
       expect(summary()).toBeNull();
       expect(uploaded()).toHaveBeenCalledTimes(3);
+    });
+
+    it('accepts as many files at once as the field allows', () => {
+      upload(fileOf('one.pdf'), fileOf('two.pdf'), fileOf('three.pdf'));
+
+      expect(uploaded()).toHaveBeenCalledTimes(3);
+    });
+
+    it('refuses more files at once than the field allows and uploads none of them', () => {
+      upload(fileOf('one.pdf'), fileOf('two.pdf'), fileOf('three.pdf'), fileOf('four.pdf'));
+
+      expect(summaryMessages()).toEqual(['You can only select up to 3 files at the same time']);
+      expect(uploaded()).not.toHaveBeenCalled();
     });
 
     it('keeps accepting files after one is uploaded', () => {

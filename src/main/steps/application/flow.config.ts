@@ -14,7 +14,7 @@ export const flowConfig: JourneyFlowConfig = {
   useShowConditions: true,
   useSessionFormData: true,
   sections: applicationSections,
-  nonSectionStepOrder: ['task-list'],
+  nonSectionStepOrder: ['task-list', 'delete-application-confirmation', 'delete-application-success'],
   // First visible step of any section back-links to this hub step.
   hubStepName: 'task-list',
   steps: {
