@@ -6,6 +6,10 @@
   "introParagraph3": "cyYour landlord and any representatives will also see your answers and any documents you upload.",
   "sidebar": {
     "heading": "cyRelated content",
+    "deleteApplicationLink": {
+      "text": "cy Delete this application",
+      "href": "/{{caseReference}}/delete-application-confirmation"
+    },
     "guidanceLink": {
       "text": "cyGuidance about the application process",
       "href": "#"

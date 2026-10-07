@@ -124,7 +124,7 @@ const formatAxiosError = format(info => {
     : info;
 });
 
-const isColorizable = process.stdout.isTTY === true && process.env.CI !== 'true';
+const shouldColourise = process.stdout.isTTY && process.env.CI !== 'true';
 
 function transport(name: string) {
   const formatParts = [
@@ -132,7 +132,7 @@ function transport(name: string) {
     timestamp(),
     formatAxiosError(),
     splat(),
-    ...(isColorizable ? [colorize({ all: true })] : []),
+    ...(shouldColourise ? [colorize({ all: true })] : []),
     process.env.JSON_PRINT ? json() : myFormat,
   ];
   return new transports.Console({
