@@ -34,7 +34,7 @@ const sectionDefs = [
     id: 'whoIsOnTheTenancy',
     groupId: 'tenantDetails',
     titleKey: 'taskList.whoIsOnTheTenancy',
-    steps: ['your-information'],
+    steps: ['your-information', 'check-your-answers-tenant-details'],
   },
   {
     id: 'landlordDetails',
@@ -96,7 +96,7 @@ const sectionDefs = [
     id: 'whatYouThinkMarketRentShouldBe',
     groupId: 'theRent',
     titleKey: 'taskList.whatYouThinkMarketRentShouldBe',
-    steps: ['proposed-market-rent', 'proposed-market-rent-reasons'],
+    steps: ['proposed-market-rent', 'proposed-market-rent-reasons', 'upload-evidence-proposed-market-rent'],
   },
   {
     id: 'propertyDetails',
@@ -111,6 +111,7 @@ const sectionDefs = [
       'does-the-tenancy-include-other-facilities',
       'do-you-share-the-property-with-landlord',
       'upload-photo-outside-of-property',
+      'upload-photo-of-each-room',
       'furniture-provided-tenancy',
       'services-provided-tenancy',
       'what-repairs-landlord-responsibility',

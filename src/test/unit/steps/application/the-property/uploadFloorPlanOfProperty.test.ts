@@ -32,7 +32,7 @@ describe('upload-floor-plan-of-property step', () => {
 
   it('targets the floor plan document field, so the routes and arity follow from the registry', () => {
     expect(capturedConfig.stepName).toBe('upload-floor-plan-of-property');
-    expect(capturedConfig.documentField).toBe('floorPlanDocument');
+    expect(capturedConfig.documentField).toBe('floorPlanDocuments');
     expect(capturedConfig.fields).toEqual([expect.objectContaining({ name: 'documents', type: 'file' })]);
   });
 
@@ -41,7 +41,7 @@ describe('upload-floor-plan-of-property step', () => {
 
     const data = await capturedConfig.getInitialFormData({});
 
-    expect(mockedReadDocuments).toHaveBeenCalledWith(expect.anything(), 'floorPlanDocument');
+    expect(mockedReadDocuments).toHaveBeenCalledWith(expect.anything(), 'floorPlanDocuments');
     expect(data.documents).toEqual([expect.objectContaining({ id: 7, document_filename: 'floor-plan.pdf' })]);
   });
 
@@ -53,7 +53,9 @@ describe('upload-floor-plan-of-property step', () => {
   });
 
   it('is answered once the case holds a floor plan', () => {
-    const withDocument = { session: { ccdCase: { propertyDetails: { floorPlanDocument: { url: 'u' } } } } };
+    const withDocument = {
+      session: { ccdCase: { propertyDetails: { floorPlanDocuments: [{ url: 'u' }] } } },
+    };
     const without = { session: { ccdCase: { propertyDetails: {} } } };
 
     expect(capturedConfig.isAnswered(withDocument)).toBe(true);

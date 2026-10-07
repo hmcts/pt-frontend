@@ -1,6 +1,6 @@
 import { MultiFileUpload } from '@ministryofjustice/frontend';
 
-const MB = 1024 * 1024;
+const MB = 1000 * 1000;
 const ERROR_SUMMARY_TITLE_ID = 'upload-error-summary-title';
 
 interface UploadContainer extends HTMLElement {
@@ -15,6 +15,19 @@ const getCsrfToken = (): string =>
 const extensionOf = (filename: string): string => {
   const dot = filename.lastIndexOf('.');
   return dot < 0 ? '' : filename.slice(dot).toLowerCase();
+};
+
+interface ExtensionLimit {
+  maxFileSizeMB: number;
+  error: string;
+}
+
+const parseExtensionLimits = (value?: string): Record<string, ExtensionLimit> => {
+  try {
+    return value ? JSON.parse(value) : {};
+  } catch {
+    return {};
+  }
 };
 
 const patchXhrForCsrf = (uploadUrl: string, deleteUrl: string): void => {
@@ -206,7 +219,9 @@ export const initMultiFileUpload = (): MultiFileUpload[] => {
 
     const accepted = (container.dataset.accept ?? '').split(',').filter(Boolean);
     const maxFileSizeMB = Number(container.dataset.maxFileSizeMb ?? 0);
+    const extensionLimits = parseExtensionLimits(container.dataset.extensionLimits);
     const maxFilenameLength = Number(container.dataset.maxFilenameLength ?? 0);
+    const maxFiles = Number(container.dataset.maxFiles ?? 0);
 
     const preflight = (file: File): string | undefined => {
       if (maxFilenameLength && file.name.length > maxFilenameLength) {
@@ -215,8 +230,13 @@ export const initMultiFileUpload = (): MultiFileUpload[] => {
       if (accepted.length && !accepted.includes(extensionOf(file.name))) {
         return container.dataset.errorWrongFileType;
       }
-      if (maxFileSizeMB && file.size > maxFileSizeMB * MB) {
-        return container.dataset.errorFileTooLarge;
+      if (file.size === 0) {
+        return container.dataset.errorFileEmpty;
+      }
+      const extensionLimit = extensionLimits[extensionOf(file.name)];
+      const limitMB = extensionLimit?.maxFileSizeMB ?? maxFileSizeMB;
+      if (limitMB && file.size > limitMB * MB) {
+        return extensionLimit?.error ?? container.dataset.errorFileTooLarge;
       }
       return undefined;
     };
@@ -267,6 +287,9 @@ export const initMultiFileUpload = (): MultiFileUpload[] => {
           showError(container, container.dataset.errorOnlyOneFile ?? '');
           return;
         }
+      } else if (maxFiles && batch.length > maxFiles) {
+        showError(container, container.dataset.errorTooManyFiles ?? '');
+        return;
       }
 
       for (const file of batch) {

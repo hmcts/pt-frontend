@@ -47,6 +47,56 @@ describe('formBuilder helpers', () => {
   });
 
   describe('processFieldData', () => {
+    it('stores a line break as one character, matching the character count on the page', () => {
+      const req = {
+        body: {
+          reasons: 'first line\r\nsecond line',
+        },
+      } as unknown as Request;
+
+      const fields: FormFieldConfig[] = [
+        {
+          name: 'reasons',
+          type: 'character-count',
+        },
+      ];
+
+      processFieldData(req, fields);
+
+      expect(req.body.reasons).toBe('first line\nsecond line');
+    });
+
+    it('stores a line break in a conditional reveal the same way', () => {
+      const req = {
+        body: {
+          frequency: 'other',
+          'frequency.otherDetails': 'first line\r\nsecond line',
+        },
+      } as unknown as Request;
+
+      const fields: FormFieldConfig[] = [
+        {
+          name: 'frequency',
+          type: 'radio',
+          options: [
+            {
+              value: 'other',
+              subFields: {
+                otherDetails: {
+                  name: 'otherDetails',
+                  type: 'textarea',
+                },
+              },
+            },
+          ],
+        },
+      ];
+
+      processFieldData(req, fields);
+
+      expect(req.body['frequency.otherDetails']).toBe('first line\nsecond line');
+    });
+
     it('should convert checkbox string value to array', () => {
       const req = {
         body: {
@@ -1261,6 +1311,38 @@ describe('formBuilder helpers', () => {
 
         const errors = validateForm(req, fields, translations);
         expect(errors['contactMethod.emailAddress']).toBe('Email address must be 5 characters or less');
+      });
+
+      it('counts a submitted line break as one character, matching the character count on the page', () => {
+        const req = createMockRequest({
+          name: 'a'.repeat(9) + '\r\n',
+        });
+        const fields: FormFieldConfig[] = [
+          {
+            name: 'name',
+            type: 'character-count',
+            maxLength: 10,
+          },
+        ];
+
+        const errors = validateForm(req, fields, {});
+        expect(errors.name).toBeUndefined();
+      });
+
+      it('still reports a value over the max once line breaks are normalised', () => {
+        const req = createMockRequest({
+          name: 'a'.repeat(10) + '\r\n',
+        });
+        const fields: FormFieldConfig[] = [
+          {
+            name: 'name',
+            type: 'character-count',
+            maxLength: 10,
+          },
+        ];
+
+        const errors = validateForm(req, fields, {});
+        expect(errors.name).toBe('Must be 10 characters or less');
       });
     });
 

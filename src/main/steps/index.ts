@@ -1,7 +1,5 @@
 import type { Request, RequestHandler } from 'express';
 
-import { validateSectionConfig } from '../services/sectionStatus';
-
 import { flowConfig as applicationFlowConfig } from './application/flow.config';
 import { stepRegistry as applicationStepRegistry } from './application/stepRegistry';
 import { flowConfig as newApplicationFlowConfig } from './new-application/flow.config';
@@ -13,6 +11,7 @@ import { Logger } from '@modules/logger';
 import { getStepOrder } from '@modules/steps/flow';
 import type { JourneyFlowConfig } from '@modules/steps/stepFlow.interface';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { validateSectionConfig } from '@services/sectionStatus';
 
 const logger = Logger.getLogger('steps');
 
@@ -24,24 +23,16 @@ export interface ResolvedJourneyConfig {
 export interface JourneyConfig {
   name: string;
   slug: string;
-  // draftEvent?: CcdDraftEvent;
   default: ResolvedJourneyConfig;
   // Stacked onto the journey's :caseReference param callback (see registerAllJourneys).
   routeMiddleware?: RequestHandler[];
 }
-
-// JourneyVariant intentionally diverges from UserType ('citizen' | 'legalrep').
-// 'citizen' maps to 'default' — the registry key chosen so journeys without a
-// legalrep variant don't have to declare a 'citizen' key. Callers map at the
-// call site (see uploadCtx in documentProxy.ts).
-export type JourneyVariant = 'default' | 'legalrep';
 
 // Journey registry - add new journeys here
 export const journeyRegistry: Record<string, JourneyConfig> = {
   preApplication: {
     name: 'preApplication',
     slug: 'pre-application',
-    // draftEvent: RESPOND_TO_CLAIM_DRAFT_EVENT,
     default: {
       flowConfig: preApplicationFlowConfig,
       stepRegistry: preApplicationStepRegistry,
@@ -76,7 +67,7 @@ export function validateJourneyRegistry(registry: Record<string, JourneyConfig>)
     seenSlugs.add(journey.slug);
 
     // Sectionalised flows must have an acyclic dependsOn graph with valid refs.
-    // No-op for flows without sections (legalrep, gen-app).
+    // No-op for flows without sections
     validateSectionConfig(journey.default.flowConfig);
   }
 }
@@ -85,19 +76,6 @@ validateJourneyRegistry(journeyRegistry);
 
 export function journeyForSlug(slug: string): JourneyConfig | undefined {
   return Object.values(journeyRegistry).find(journey => journey.slug === slug);
-}
-
-// Variant-scoped step lookup. Variant is required (no default) to force every
-// caller to think about citizen vs legalrep — a silent default would let a
-// caller miss a legalrep-only step the day the registries diverge. Today the
-// citizen and legalrep stepRegistries are the same imported object, so both
-// variants resolve to the same step.
-export function findStep(slug: string, stepName: string): StepDefinition | undefined {
-  const journey = journeyForSlug(slug);
-  if (!journey) {
-    return undefined;
-  }
-  return journey.default?.stepRegistry[stepName];
 }
 
 function getJourneyConfigForRequest(journeyName: string): ResolvedJourneyConfig | undefined {

@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosResponse, isAxiosError } from 'axios';
 import config from 'config';
 
 import { requireServiceAuthToken } from '../auth/service/get-service-auth-token';
@@ -79,8 +79,8 @@ export class CcdApiClient {
 
       return response.data;
     } catch (err) {
-      const status = err?.response?.status;
-      if (retries < this.maxRetries && [502, 504].includes(status)) {
+      const status = isAxiosError(err) ? err.response?.status : undefined;
+      if (retries < this.maxRetries && (status === 502 || status === 504)) {
         ++retries;
         logger.info(`retrying send event due to ${status}. this is retry no (${retries})`);
         return this.triggerEvent(caseId, data, eventName, eventToken, retries);

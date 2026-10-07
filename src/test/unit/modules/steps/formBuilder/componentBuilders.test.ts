@@ -133,6 +133,7 @@ describe('componentBuilders', () => {
         expect(result.component.errorWrongFileType).toBe('This file type is not accepted');
         expect(result.component.errorFileTooLarge).toBe('This file is too large');
         expect(result.component.errorFilenameTooLong).toBe('This file name is too long');
+        expect(result.component.errorFileEmpty).toBe('The selected file is empty');
         expect(result.component.errorUploadFailed).toBe('This file could not be uploaded');
         expect(result.component.errorDelete).toBe('This file could not be removed');
         expect(result.component.errorSummaryTitle).toBe('There is a problem');
@@ -149,6 +150,22 @@ describe('componentBuilders', () => {
         const result = buildComponentConfig(buildArgs(fileField({ multiple: true })));
 
         expect(result.component.multiple).toBe(true);
+      });
+
+      it('limits a single-document field to one file at a time', () => {
+        const result = buildComponentConfig(buildArgs(fileField()));
+
+        expect(result.component.maxFiles).toBe(1);
+        expect(result.component.errorOnlyOneFile).toBe('You can only upload one file');
+      });
+
+      it('limits a collection field to the configured number of files at a time', () => {
+        const result = buildComponentConfig(buildArgs(fileField({ multiple: true })));
+
+        expect(result.component.maxFiles).toBe(3);
+        expect(result.component.errorTooManyFiles).toBe(
+          'You can only select up to {{ maxFiles }} files at the same time'
+        );
       });
 
       it('falls back to an empty list when the case holds no documents', () => {
