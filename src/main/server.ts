@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import './instrumentation';
 import { createApp } from './app';
 
 import { Logger } from '@modules/logger';
