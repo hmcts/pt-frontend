@@ -1,4 +1,5 @@
 @JIRA-TEST-KEY:HDPD-588 @regression
+
 Feature: Upload tenancy agreement
 
 
@@ -15,46 +16,40 @@ Feature: Upload tenancy agreement
         Then check that the user is redirected to the task-list citizen dashboard page
 
     @AC1 @JIRA-TEST-KEY:PTSD-881
-    Scenario: AC1 - Page content
+    Scenario: Page content
         Given the citizen is on the Upload tenancy agreement page
         Then the page displays the heading "Upload tenancy agreement"
         And the file upload component is displayed
         And the page displays "Save and continue" button
         And the page displays "Save for later" button
 
-    @AC2 @JIRA-TEST-KEY:PTSD-883
-    Scenario: AC2 - Upload valid file
+    @AC2 @JIRA-TEST-KEY:PTSD-882
+    Scenario: Upload valid file
         Given the citizen is on the Upload tenancy agreement page
         When the citizen uploads a valid tenancy agreement file
         Then the uploaded file name is displayed
 
     @AC3 @JIRA-TEST-KEY:PTSD-883
-    Scenario: AC3 - Save and continue
-        Given the citizen has uploaded a valid tenancy agreement file
-        When the citizen clicks "Save and continue"
+    Scenario: Save and continue
+        Given the citizen is on the Upload tenancy agreement page
+        And the citizen has uploaded a valid tenancy agreement file
+        When  I click 'Save and continue'
         Then the citizen is taken to the Check your answers page
 
     @AC3 @JIRA-TEST-KEY:PTSD-884
-    Scenario: AC4 - Save for later
+    Scenario: Save for later
         Given the citizen is on the Upload tenancy agreement page
         When I click "Save for later"
         Then check that the user is redirected to the task-list citizen dashboard page
 
     @AC4 @JIRA-TEST-KEY:PTSD-885
-    Scenario: AC5 - No file selected validation
+    Scenario: No file selected validation
         Given the citizen is on the Upload tenancy agreement page
-        When the citizen clicks "Save and continue"
-        Then I check that the error message "Select a file to upload" is displayed on the page
-
-    @AC5 @JIRA-TEST-KEY:PTSD-885
-    Scenario: AC5 - Unsupported file type
-        Given the citizen is on the Upload tenancy agreement page
-        When the citizen uploads an invalid file type
-        And  I click 'Save and continue'
+        When  I click 'Save and continue'
         Then I check that the error message "Select a file to upload" is displayed on the page
 
     @AC6 @JIRA-TEST-KEY:PTSD-885
-    Scenario: AC6 - empty file type
+    Scenario: empty file type
         Given the citizen is on the Upload tenancy agreement page
         When the citizen has uploaded a empty tenancy agreement file
         And  I click 'Save and continue'
@@ -62,7 +57,7 @@ Feature: Upload tenancy agreement
 
 
     @AC7 @JIRA-TEST-KEY:PTSD-885
-    Scenario: AC6 - empty file type
+    Scenario: empty file type
         Given the citizen is on the Upload tenancy agreement page
         When the citizen has uploaded unsuppprted file
         And  I click 'Save and continue'

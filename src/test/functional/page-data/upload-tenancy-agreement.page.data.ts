@@ -12,4 +12,5 @@ export const uploadTenancyAgreement = {
   invalidTypeError: 'The selected file must be a PDF, JPG, JPEG, PNG or DOC file',
   tenancyAgreementLink: 'Your tenancy agreement',
   copyOfTenancyAgreementRadioBtn: 'Yes',
+  TenancyAgreementRadioBtn: 'No',
 };

@@ -45,10 +45,6 @@ When('the citizen uploads an invalid file type', () => {
   I.attachFile(uploadTenancyAgreement.uploadField, uploadTenancyAgreement.invalidFile);
 });
 
-Then('the page displays upload file validation error', () => {
-  I.see(uploadTenancyAgreement.noFileError);
-});
-
-Then('the page displays invalid file type error', () => {
-  I.see(uploadTenancyAgreement.invalidTypeError);
+When('the citizen has uploaded a valid tenancy agreement file', () => {
+  I.attachFile(uploadTenancyAgreement.uploadField, uploadTenancyAgreement.validFile);
 });
