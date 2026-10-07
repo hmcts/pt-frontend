@@ -231,8 +231,7 @@ export interface StartCallbackData {
  * Case data payload returned from PT API get case(s) calls
  * To reflect ApplicationDto in pt-api
  * */
-export interface PTCaseData
-  extends LandlordDetails, PropertyDetails, LettingAgentDetails, InspectionAndHearing, HelpWithFeesDetails {
+export interface PTCaseData extends LandlordDetails, PropertyDetails, LettingAgentDetails, HelpWithFeesDetails {
   caseReference: bigint;
   createdDate: string;
   submittedOn?: string;
@@ -252,6 +251,7 @@ export interface PTCaseData
   marketRentDetails?: MarketRentDetails;
   tenancyAgreementDetails?: TenancyAgreementDetails;
   noticeOfRentIncreaseDetails?: NoticeOfRentIncreaseDetails;
+  hearingInspectionDetails?: HearingInspectionDetails;
 }
 
 export interface TenantDetails {
@@ -383,11 +383,11 @@ export interface MarketRentDetails {
   applicantSuggestedMarketRentReasons?: string;
 }
 
-export interface InspectionAndHearing {
-  agreeToDecisionWithoutInspection?: string | boolean;
+export interface HearingInspectionDetails {
+  agreeToDecisionWithoutInspection?: string;
   noDecisionWithoutInspectionReason?: string;
-  agreeToDecisionWithoutHearing?: string | boolean;
-  noDecisionWithoutHearingReason?: string;
+  hearingRequested?: string;
+  reasonHearingRequested?: string;
 }
 
 export interface HelpWithFeesDetails {

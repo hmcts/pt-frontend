@@ -5,7 +5,7 @@
     "paragraph2": "Only ask for a hearing if you want to attend a tribunal to add to the documents and evidence you have provided. The tribunal will consider all documents and evidence with or without a hearing.",
     "paragraph3": "The tribunal will decide if a hearing is needed."
   },
-  "questionTitle": "Do you agree in the tribunal making a decision without a hearing?",
+  "questionTitle": "Do you agree to the tribunal making a decision without a hearing?",
   "options": {
     "noDecisionWithoutHearingReason": {
       "label": "Tell us why you think a hearing is needed"
