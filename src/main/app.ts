@@ -6,13 +6,11 @@ import express, { Express, static as expressStatic } from 'express';
 import { glob } from 'glob';
 
 import { setupDev } from './development';
-import * as modules from './modules';
+import { Csrf, I18n, Nunjucks } from './modules';
 
-import { AppInsights } from '@modules/appinsights';
 import { AuthProvider } from '@modules/auth-provider';
 import { setupErrorHandlers } from '@modules/error-handler';
 import { Helmet } from '@modules/helmet';
-import { PropertiesVolume } from '@modules/properties-volume';
 import { Session } from '@modules/session';
 import { registerAllJourneys } from '@routes/registerSteps';
 import { isLocalDev } from '@utils/environment';
@@ -31,8 +29,6 @@ export async function createApp(): Promise<Express> {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
 
-  await new PropertiesVolume().enableFor(app.locals.ENV);
-
   // Helmet before the static handler so assets keep their security headers;
   new Helmet(developmentMode).enableFor(app);
 
@@ -50,14 +46,11 @@ export async function createApp(): Promise<Express> {
   );
   new Session().enableFor(app);
 
-  new AppInsights().enable();
   await new AuthProvider().enable();
 
-  for (const moduleName of modules.modules) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const moduleInstance = new (modules as any)[moduleName](developmentMode);
-    await moduleInstance.enableFor(app);
-  }
+  new I18n().enableFor(app);
+  new Nunjucks(developmentMode).enableFor(app);
+  new Csrf().enableFor(app);
 
   app.use((req, res, next) => {
     res.setHeader('Cache-Control', 'no-cache, max-age=0, must-revalidate, no-store');

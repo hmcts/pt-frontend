@@ -38,7 +38,8 @@
     "applicationNumberHeading": "cy Application number",
     "createdHeading": "cy Created",
     "submittedOnHeading": "cy Submitted on",
-    "statusHeading": "cy Status"
+    "statusHeading": "cy Status",
+    "notYetSubmitted": "cy Not yet submitted"
   },
   "errors": {
     "title": "cy There is a problem",

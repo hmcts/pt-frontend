@@ -37,11 +37,10 @@ export class Session {
 
     app.locals.redisClient = redis;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const redisStore = new (RedisStore as any)({
+    const redisStore = new RedisStore({
       client: redis,
-      prefix: config.get('session.prefix') + ':',
-      ttl: config.get('session.redis.ttlInSeconds'),
+      prefix: `${config.get<string>('session.prefix')}:`,
+      ttl: config.get<number>('session.redis.ttlInSeconds'),
     });
 
     const sessionTimeoutMinutes = config.get<number>('session.timeout.sessionTimeoutMinutes');
