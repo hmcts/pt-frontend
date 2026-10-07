@@ -49,6 +49,6 @@ Background: Other Charges page - User navigates to the other charges page
   Scenario: Other Charges page - Description exceeds 500 characters shows validation error
     When I select "Yes" for the question "Are you charged separately for anything else?"
     And I click "Save and continue"
-    And I enter characters more than 500 in the description field
+    And I enter characters more than "500" in the description field
     And I click "Save and continue"
     Then I check that the error message "Description of what you are charged separately for must be 500 characters or less" is displayed on the page  

@@ -35,6 +35,7 @@ config.helpers = {
     waitForTimeout: config.WaitForTimeout,
     waitForAction: 1000,
     waitForNavigation: 'domcontentloaded',
+    getPageTimeout: 60000,
     ignoreHTTPSErrors: true,
     slowMo: config.TestSlowMo,
   },
