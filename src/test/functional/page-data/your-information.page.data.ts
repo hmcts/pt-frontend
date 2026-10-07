@@ -1,0 +1,22 @@
+export const yourInformation = {
+  url: '/your-information',
+  pageHeading: 'Your information',
+  tenancyLink: 'Who is on the tenancy',
+  firstNameField: '#firstName',
+  lastNameField: '#lastName',
+  companyNameField: '#companyName',
+  referenceNumberField: '#referenceNumber',
+  referenceHintText: 'For example, AB123',
+  continueButton: 'Save and continue',
+  saveToTasklistButton: 'Save and add to tasklist',
+  firstNameRequiredError: 'Enter a first name',
+  lastNameRequiredError: 'Enter a last name',
+  firstNameInvalidError:
+    'First name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes',
+  lastNameInvalidError:
+    'Last name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes',
+  firstNameLengthError: 'First name must be 100 characters or less',
+  lastNameLengthError: 'Last name must be 100 characters or less',
+  validFirstName: 'John',
+  validLastName: 'Smith',
+};
