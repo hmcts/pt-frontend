@@ -14,7 +14,6 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
     return [];
   }
   const { rows, validatedCase, change } = ctx;
-  const notAnsweredHtml = `<span class="govuk-hint">${t('notAnswered')}</span>`;
 
   const addRow = (field: string, value: string | undefined, changeHref: string, valueText: string = value ?? '') => {
     if (value) {
@@ -24,14 +23,6 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
         actions: { items: [change(changeHref, `rows.${field}.changeHidden`)] },
       });
     }
-  };
-
-  const addOptionalRow = (field: string, value: string | undefined, changeHref: string) => {
-    rows.push({
-      key: { text: t(`rows.${field}.label`) },
-      value: value ? { text: value } : { html: notAnsweredHtml },
-      actions: { items: [change(changeHref, `rows.${field}.changeHidden`)] },
-    });
   };
 
   const applicantFirstName =
@@ -44,12 +35,12 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
 
   const companyName =
     getFormDataString(req, 'your-information', 'companyName') ?? validatedCase?.tenantDetails?.companyName;
-  addOptionalRow('companyName', companyName, 'your-information');
+  addRow('companyName', companyName, 'your-information');
 
   const referenceNumberForCommunications =
     getFormDataString(req, 'your-information', 'referenceNumberForCommunications') ??
     validatedCase?.tenantDetails?.referenceNumberForCommunications;
-  addOptionalRow('referenceNumberForCommunications', referenceNumberForCommunications, 'your-information');
+  addRow('referenceNumberForCommunications', referenceNumberForCommunications, 'your-information');
 
   return rows;
 }
