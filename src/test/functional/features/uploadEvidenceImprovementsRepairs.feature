@@ -51,7 +51,7 @@ Feature: Upload evidence of improvements or repairs
         When  I click 'Save and continue'
         Then the citizen is taken to the Check your answers page
 
-    @AC7 @JIRA-TEST-KEY:PTSD-943-1
+    @AC7 @JIRA-TEST-KEY:PTSD-943
     Scenario: empty file type
         When the citizen has uploaded unsuppprted file
         And  I click 'Save and continue'
