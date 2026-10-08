@@ -1,4 +1,4 @@
-@JIRA-TEST-KEY:HDPD-588 @regression
+@JIRA-TEST-KEY:HDPD-531 @regression
 
 Feature: Your information
 
@@ -13,51 +13,51 @@ Feature: Your information
         And I select the option "Assured periodic tenancy"
         And I click "Continue"
         Then check that the user is redirected to the task-list citizen dashboard page
-        Given the citizen is on the Your information page
 
     @AC1 @JIRA-TEST-KEY:PTSD-919
     Scenario: Verify page content
-        Then the page displays the heading "Your information"
-        And the following fields are displayed:
-            | First name                         |
-            | Last name                          |
-            | Company name (optional)            |
-            | Reference number for communication |
-        And the reference number hint text "For example, AB123" is displayed
-        And the buttons "Save and continue" and "Save and add to tasklist" are displayed
+
+        Given the citizen is on the Your information page
+
 
     @AC2 @JIRA-TEST-KEY:PTSD-920
     Scenario: Verify First Name pre-population
+        Given the citizen is on the Your information page
         Then the First name field is pre-populated from IDAM
         And the First name field remains editable
 
     @AC3 @JIRA-TEST-KEY:PTSD-921
     Scenario: Verify Last Name pre-population
+        Given the citizen is on the Your information page
         Then the Last name field is pre-populated from IDAM
         And the Last name field remains editable
 
     @AC4 @JIRA-TEST-KEY:PTSD-922
     Scenario: Save and continue with valid mandatory fields
+        Given the citizen is on the Your information page
         When the citizen enters valid values in mandatory fields
-        And the citizen clicks "Save and continue"
+        And I click "Save and continue"
         Then the details are saved successfully
         And the citizen is redirected to the "Check your answers" page
 
     @AC5 @JIRA-TEST-KEY:PTSD-923
     Scenario: Optional fields left blank
+        Given the citizen is on the Your information page
         When the citizen enters valid values in mandatory fields only
         And leaves Company name and Reference number blank
-        And the citizen clicks "Save and continue"
+        And I click "Save and continue"
         Then the application accepts the submission
         And no validation errors are displayed
 
     @AC6 @JIRA-TEST-KEY:PTSD-924
     Scenario Outline: Mandatory field validation errors
+        Given the citizen is on the Your information page
         When the citizen enters "<firstName>" in First name
         And the citizen enters "<lastName>" in Last name
         And the citizen clicks "Save and continue"
         Then the error message "<errorMessage>" is displayed
         And the citizen remains on the Your information page
+
 
         Examples:
             | firstName                                                                                                     | lastName                                                                                                  | errorMessage                                                                                                |

@@ -12,6 +12,7 @@ export const indoorFeatures = {
   saveForLaterButton: 'Save for later',
   nextPageHeading: 'Does the tenancy include any other facilities?',
   errorSummarySelector: '.govuk-error-summary',
+  selectYesOptionOnFloorPlanProperty: 'Yes',
   terranceHouseRadioButton: 'Terraced house',
   selectNoOptionOnFloorPlanProperty: 'No',
 };

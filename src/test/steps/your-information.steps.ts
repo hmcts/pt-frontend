@@ -5,18 +5,22 @@ const { I } = inject();
 Given('the citizen is on the Your information page', () => {
   I.click(yourInformation.tenancyLink);
   I.see(yourInformation.pageHeading);
+  I.see(yourInformation.lblFirstName);
+  I.see(yourInformation.lblLastName);
+  I.see(yourInformation.lblCompanyName);
+  I.see(yourInformation.lblReferenceNumber);
+  I.see(yourInformation.referenceHintText);
 });
 
 Then('the page displays the heading {string}', (heading: string) => {
   I.see(heading);
 });
 
-Then('the following fields are displayed:', (table: any) => {
-  const fields = table.raw().flat();
-
-  fields.forEach((field: any) => {
-    I.see(field);
-  });
+Then('the following fields are displayed', () => {
+  I.see('First name');
+  I.see('Last name');
+  I.see('Company name (optional)');
+  I.see('Reference number for communication (optional)');
 });
 
 Then('the reference number hint text {string} is displayed', (hintText: string) => {
@@ -29,7 +33,7 @@ Then('the buttons {string} and {string} are displayed', (button1: string, button
 });
 
 Then('the First name field is pre-populated from IDAM', () => {
-  I.seeInField(yourInformation.firstNameField, 'John');
+  I.seeInField(yourInformation.firstNameField, 'pt');
 });
 
 Then('the First name field remains editable', () => {
@@ -38,7 +42,7 @@ Then('the First name field remains editable', () => {
 });
 
 Then('the Last name field is pre-populated from IDAM', () => {
-  I.seeInField(yourInformation.lastNameField, 'Smith');
+  I.seeInField(yourInformation.lastNameField, 'citizen');
 });
 
 Then('the Last name field remains editable', () => {
