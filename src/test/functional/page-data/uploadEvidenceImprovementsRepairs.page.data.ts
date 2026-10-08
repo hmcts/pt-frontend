@@ -1,0 +1,15 @@
+export const uploadEvidenceImprovementsRepairs = {
+  url: '/upload-evidence-improvements-repairs',
+  pageHeading: 'Upload evidence of the improvements or repairs (optional)',
+  uploadLabel: 'Upload a file',
+  saveAndContinueButton: 'Save and continue',
+  saveForLaterButton: 'Save for later',
+  nextPageHeading: 'Check your answers',
+  errorSummarySelector: '.govuk-error-summary',
+  fileTooLargeError: 'The selected file must be smaller than 25mb',
+  totalFileSizeError: 'Total upload size must not exceed 300mb',
+  emptyFileError: 'The selected file is empty',
+  virusFileError: 'The selected file contains a virus',
+  passwordProtectedFileError: 'The selected file is password protected',
+  uploadComponentSelector: 'input[type="file"]',
+};

@@ -41,7 +41,7 @@ Feature: Upload floor plan of the property
         And check that the user is redirected to the task-list citizen dashboard page
 
     Scenario Outline: AC6 - Validation errors
-        When the citizen uploads "<fileType>"
+        When the citizen uploads "<fileType>" 
         And the citizen clicks "Save and continue"
         Then the error message "<errorMessage>" is displayed
 
