@@ -1,4 +1,5 @@
 import { applicationDocumentsStepRegistry } from './application-documents/stepRegistry';
+import { deleteApplicationStepRegistry } from './delete-application/stepRegistry';
 import { inspectionAndHearingStepRegistry } from './inspection-and-hearing/stepRegistry';
 import { landlordDetailsStepRegistry } from './landlord-details/stepRegistry';
 import { reviewSubmitAndPayStepRegistry } from './review-submit-and-pay/stepRegistry';
@@ -22,6 +23,7 @@ export const stepRegistry = {
   ...inspectionAndHearingStepRegistry,
   ...supportForHealthConditionsStepRegistry,
   ...reviewSubmitAndPayStepRegistry,
+  ...deleteApplicationStepRegistry,
 } satisfies Record<string, StepDefinition>;
 
 export type ApplicationStepName = keyof typeof stepRegistry;
