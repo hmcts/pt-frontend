@@ -272,7 +272,7 @@ export function buildComponentConfig({
         Object.entries(field.extraExtensions ?? {}).map(([extension, maxFileSize]) => [
           extension,
           {
-            maxFileSizeMB: maxFileSize,
+            maxFileSizeBytes: maxFileSizeBytes(maxFileSize),
             error: t('errors.documentUpload.fileTooLarge', 'This file is too large', { maxFileSize }),
           },
         ])
