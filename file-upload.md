@@ -46,15 +46,15 @@ tenancyAgreementDocument: {
 Add `multiple: true` for a collection field. Leave it off for a single document — the absence is
 what enforces one file.
 
-| Property          | What it addresses                                                                                                        |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `slice`           | The complex field on the case — `propertyDetails` or `noticeOfRentIncreaseDetails`                                       |
-| `ptApiField`      | The name in pt-api's read API (mapped by ApplicationMapper.java), used when loading existing documents                   |
-| `ccdField`        | The name inside the complex type (eg. `propertyDetails` or `noticeOfRentIncreaseDetails`), used when writing through CCD |
-| `documentType`    | The `DocumentType` enum sent with the document (full list found at DocumentType.java in pt-api)                          |
-| `multiple`        | Optional. Collection field rather than a single document                                                                 |
-| `maxFileSizeMB`   | Optional. The maximum file size in MB for the default file types. If not set the global default from the config is used  |
-| `extraExtensions` | Optional. Additional file types to accept, each mapped to its own max size in MB, eg. `{ '.mp4': 100 }`                  |
+| Property          | What it addresses                                                                                                                                       |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `slice`           | The complex field on the case — `propertyDetails` or `noticeOfRentIncreaseDetails`                                                                      |
+| `ptApiField`      | The name in pt-api's read API (mapped by ApplicationMapper.java), used when loading existing documents                                                  |
+| `ccdField`        | The name inside the complex type (eg. `propertyDetails` or `noticeOfRentIncreaseDetails`), used when writing through CCD                                |
+| `documentType`    | The `DocumentType` enum sent with the document (full list found at DocumentType.java in pt-api)                                                         |
+| `multiple`        | Optional. Collection field rather than a single document                                                                                                |
+| `maxFileSizeMB`   | Optional. The maximum file size in MB (see [File sizes](#file-sizes)) for the default file types. If not set the global default from the config is used |
+| `extraExtensions` | Optional. Additional file types to accept, each mapped to its own max size in MB (see [File sizes](#file-sizes)), eg. `{ '.mp4': 100 }`                 |
 
 ## 2. Create the step
 
@@ -157,9 +157,20 @@ One flag decides it, and four layers read it:
 - Empty files refused in the browser and on the server, and password-protected files reported from the document store's
   rejection
 - A per-field total of `documentUpload.maxTotalFileSizeMB` (default 300MB, `DOCUMENT_UPLOAD_MAX_TOTAL_FILE_SIZE_MB`),
-  rechecked under the case lock so files uploaded together cannot pass it between them
+  enforced again by pt-api inside the case event, so files uploaded together cannot pass it between them
 - At most `documentUpload.maxFilesPerUpload` files selected or dropped at once on a collection field (default 3,
   `DOCUMENT_UPLOAD_MAX_FILES_PER_UPLOAD`); a single-document field takes one
 - A GOV.UK error summary with an inline field message, for every failure route
 - The files-added list appearing only once a document is attached
 - A required check on Save and continue when `required: true`
+
+## File sizes
+
+All size limits are in binary megabytes: 1MB = 1,048,576 bytes, so the default 25MB limit is 26,214,400 bytes and
+100MB is 104,857,600 bytes. This matches what Windows and most tools show users, so a file that a user's computer reports as
+25MB or less is never rejected. It applies to `maxFileSizeMB`, `extraExtensions`, `documentUpload.maxFileSizeMB`,
+`documentUpload.maxTotalFileSizeMB` and the associated environment variables (`DOCUMENT_UPLOAD_MAX_FILE_SIZE_MB`,
+`DOCUMENT_UPLOAD_MAX_TOTAL_FILE_SIZE_MB`).
+
+The conversion is done once, by `BYTES_PER_MB` in `src/main/utils/documentUploadValidation.ts`. The browser receives
+limits already in bytes, so don't add a second conversion anywhere else.
