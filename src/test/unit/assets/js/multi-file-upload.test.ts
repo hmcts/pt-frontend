@@ -12,6 +12,7 @@ jest.mock('@ministryofjustice/frontend', () => ({
 }));
 
 const mockedMultiFileUpload = MultiFileUpload as unknown as jest.Mock;
+const MiB = 1024 * 1024;
 
 const UPLOAD_URL = '/1234123412341234/documents/floorPlanDocument/upload';
 const DELETE_URL = '/1234123412341234/documents/floorPlanDocument/delete';
@@ -48,7 +49,7 @@ const render = (serverErrorSummary = false, multiple = false): void => {
                  data-upload-url="${UPLOAD_URL}"
                  data-delete-url="${DELETE_URL}"
                  data-accept=".pdf,.jpg"
-                 data-max-file-size-mb="25"
+                 data-max-file-size-bytes="${25 * MiB}"
                  data-max-filename-length="255"
                  data-max-files="${multiple ? 3 : 1}"
                  data-error-wrong-file-type="This file type is not accepted"
@@ -139,7 +140,7 @@ describe('initMultiFileUpload', () => {
     });
 
     it('reports a file over the size cap', () => {
-      upload(fileOf('floor-plan.pdf', 26 * 1024 * 1024));
+      upload(fileOf('floor-plan.pdf', 26 * MiB));
 
       expect(summaryMessages()).toEqual(['This file is too large']);
       expect(uploaded()).not.toHaveBeenCalled();
@@ -182,27 +183,27 @@ describe('initMultiFileUpload', () => {
       render();
       container().dataset.accept = '.pdf,.mp4';
       container().dataset.extensionLimits = JSON.stringify({
-        '.mp4': { maxFileSizeMB: 100, error: 'The selected file must be smaller than 100MB' },
+        '.mp4': { maxFileSizeBytes: 100 * MiB, error: 'The selected file must be smaller than 100MB' },
       });
       initMultiFileUpload();
     });
 
     it('uploads a file of that type over the default cap', () => {
-      upload(fileOf('clip.mp4', 99_000_000));
+      upload(fileOf('clip.mp4', 99 * MiB));
 
       expect(summary()).toBeNull();
       expect(uploaded()).toHaveBeenCalledTimes(1);
     });
 
     it('reports a file over its own cap with that cap in the message', () => {
-      upload(fileOf('clip.mp4', 104_000_000));
+      upload(fileOf('clip.mp4', 100 * MiB + 1));
 
       expect(summaryMessages()).toEqual(['The selected file must be smaller than 100MB']);
       expect(uploaded()).not.toHaveBeenCalled();
     });
 
     it('holds other types to the default cap', () => {
-      upload(fileOf('floor-plan.pdf', 26_000_000));
+      upload(fileOf('floor-plan.pdf', 25 * MiB + 1));
 
       expect(summaryMessages()).toEqual(['This file is too large']);
       expect(uploaded()).not.toHaveBeenCalled();

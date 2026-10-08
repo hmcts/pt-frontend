@@ -33,6 +33,8 @@ const mockedReadDocuments = readDocuments as jest.MockedFunction<typeof readDocu
 const mockedSaveDocuments = saveDocuments as jest.MockedFunction<typeof saveDocuments>;
 const mockedDeleteById = deleteDocumentById as jest.MockedFunction<typeof deleteDocumentById>;
 
+const MiB = 1024 * 1024;
+
 const CASE_REFERENCE = '1234123412341234';
 const SINGLE_URL = `/${CASE_REFERENCE}/documents/tenancyAgreementDocument`;
 const COLLECTION_URL = `/${CASE_REFERENCE}/documents/propertyRoomsDocuments`;
@@ -213,7 +215,7 @@ describe('documentProxy', () => {
       mockedReadDocuments.mockReset();
       mockedReadDocuments.mockResolvedValueOnce([]);
       mockedReadDocuments.mockResolvedValue([
-        storedDocument(42, 'http://cdam/cases/documents/first', 'first.pdf', 300_000_000),
+        storedDocument(42, 'http://cdam/cases/documents/first', 'first.pdf', 300 * MiB),
       ]);
 
       const response = await request(buildApp())
@@ -277,7 +279,7 @@ describe('documentProxy', () => {
     // repairsEvidenceDocuments opts into .mp3/.mp4 with a 100MB limit for those types only; its
     // documents, and every other field, keep the 25MB global default and the document-only allowlist.
     const MEDIA_URL = `/${CASE_REFERENCE}/documents/repairsEvidenceDocuments`;
-    const overGlobalLimit = () => Buffer.alloc(26_000_000);
+    const overGlobalLimit = () => Buffer.alloc(25 * MiB + 1);
 
     test('accepts an mp4 over the global limit on a field that raises the limit for it', async () => {
       persistedAs(42);
@@ -305,7 +307,7 @@ describe('documentProxy', () => {
     test('rejects an mp4 over its own 100MB limit', async () => {
       const response = await request(buildApp())
         .post(`${MEDIA_URL}/upload`)
-        .attach('documents', Buffer.alloc(100_000_001), 'evidence.mp4');
+        .attach('documents', Buffer.alloc(100 * MiB + 1), 'evidence.mp4');
 
       expect(response.status).toBe(400);
       expect(response.body.error.message).toBe('This file is too large');
