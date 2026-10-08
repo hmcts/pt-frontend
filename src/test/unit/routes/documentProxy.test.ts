@@ -3,14 +3,18 @@ import request from 'supertest';
 
 import { deleteDocumentById, readDocuments, saveDocuments } from '@modules/documents/storage';
 import documentProxy from '@routes/documentProxy';
-import { deleteDocument, uploadDocument } from '@services/cdamService';
+import { CdamUploadRejected, deleteDocument, uploadDocument } from '@services/cdamService';
 
 jest.mock('@modules/logger', () => ({
   Logger: {
     getLogger: jest.fn(() => ({ error: jest.fn(), info: jest.fn(), warn: jest.fn(), debug: jest.fn() })),
   },
 }));
-jest.mock('@services/cdamService');
+jest.mock('@services/cdamService', () => ({
+  ...jest.requireActual('@services/cdamService'),
+  uploadDocument: jest.fn(),
+  deleteDocument: jest.fn(),
+}));
 jest.mock('@modules/documents/storage', () => ({
   ...jest.requireActual('@modules/documents/storage'),
   readDocuments: jest.fn(),
@@ -27,6 +31,8 @@ const mockedReadDocuments = readDocuments as jest.MockedFunction<typeof readDocu
 const mockedSaveDocuments = saveDocuments as jest.MockedFunction<typeof saveDocuments>;
 const mockedDeleteById = deleteDocumentById as jest.MockedFunction<typeof deleteDocumentById>;
 
+const MiB = 1024 * 1024;
+
 const CASE_REFERENCE = '1234123412341234';
 const SINGLE_URL = `/${CASE_REFERENCE}/documents/tenancyAgreementDocument`;
 const COLLECTION_URL = `/${CASE_REFERENCE}/documents/propertyRoomsDocuments`;
@@ -40,9 +46,10 @@ const cdamDocument = {
   size: 5,
 };
 
-const storedDocument = (id: number, url: string, filename = 'floor-plan.pdf') => ({
+const storedDocument = (id: number, url: string, filename = 'floor-plan.pdf', sizeInBytes?: number) => ({
   id,
   documentType: 'propertyFloorPlan',
+  sizeInBytes,
   document: {
     document_url: url,
     document_binary_url: `${url}/binary`,
@@ -188,6 +195,45 @@ describe('documentProxy', () => {
       expect(response.body.file.filename).toBe('43');
     });
 
+    test('refuses a file that takes the field over the total once a concurrent upload has saved, and clears it from CDAM', async () => {
+      mockedReadDocuments.mockReset();
+      mockedReadDocuments.mockResolvedValueOnce([]);
+      mockedReadDocuments.mockResolvedValue([
+        storedDocument(42, 'http://cdam/cases/documents/first', 'first.pdf', 300 * MiB),
+      ]);
+
+      const response = await request(buildApp())
+        .post(`${COLLECTION_URL}/upload`)
+        .attach('documents', Buffer.from('x'), 'room.pdf');
+
+      expect(response.status).toBe(400);
+      expect(response.body.error.message).toBe('Total upload size must not exceed 300MB');
+      expect(mockedSaveDocuments).not.toHaveBeenCalled();
+      expect(mockedDeleteDocument).toHaveBeenCalledWith(cdamDocument.document_url, 'user-token');
+    });
+
+    test('rejects an empty file without calling CDAM', async () => {
+      const response = await request(buildApp())
+        .post(`${SINGLE_URL}/upload`)
+        .attach('documents', Buffer.alloc(0), 'floor-plan.pdf');
+
+      expect(response.status).toBe(400);
+      expect(response.body.error.message).toBe('The selected file is empty');
+      expect(mockedUploadDocument).not.toHaveBeenCalled();
+    });
+
+    test('reports a password-protected file that the document store refuses', async () => {
+      mockedUploadDocument.mockRejectedValue(new CdamUploadRejected('passwordProtected'));
+
+      const response = await request(buildApp())
+        .post(`${SINGLE_URL}/upload`)
+        .attach('documents', Buffer.from('a pdf'), 'locked.pdf');
+
+      expect(response.status).toBe(400);
+      expect(response.body.error.message).toBe('The selected file is password protected');
+      expect(mockedSaveDocuments).not.toHaveBeenCalled();
+    });
+
     test('rejects a disallowed file type without calling CDAM', async () => {
       const response = await request(buildApp())
         .post(`${SINGLE_URL}/upload`)
@@ -217,7 +263,7 @@ describe('documentProxy', () => {
     // repairsEvidenceDocuments opts into .mp3/.mp4 with a 100MB limit for those types only; its
     // documents, and every other field, keep the 25MB global default and the document-only allowlist.
     const MEDIA_URL = `/${CASE_REFERENCE}/documents/repairsEvidenceDocuments`;
-    const overGlobalLimit = () => Buffer.alloc(26_000_000);
+    const overGlobalLimit = () => Buffer.alloc(25 * MiB + 1);
 
     test('accepts an mp4 over the global limit on a field that raises the limit for it', async () => {
       persistedAs(42);
@@ -245,7 +291,7 @@ describe('documentProxy', () => {
     test('rejects an mp4 over its own 100MB limit', async () => {
       const response = await request(buildApp())
         .post(`${MEDIA_URL}/upload`)
-        .attach('documents', Buffer.alloc(100_000_001), 'evidence.mp4');
+        .attach('documents', Buffer.alloc(100 * MiB + 1), 'evidence.mp4');
 
       expect(response.status).toBe(400);
       expect(response.body.error.message).toBe('This file is too large');
