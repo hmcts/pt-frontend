@@ -12,6 +12,7 @@ import type {
 } from '@modules/steps/formBuilder/formFieldConfig.interface';
 import {
   acceptAttributeFor,
+  maxFileSizeBytes,
   maxFileSizeMB,
   maxFilenameLength,
   maxFilesPerUpload,
@@ -255,6 +256,7 @@ export function buildComponentConfig({
       component.multiple = field.multiple === true;
       component.maxFiles = component.multiple ? maxFilesPerUpload() : 1;
       component.maxFileSize = maxFileSizeMB(field.maxFileSize);
+      component.maxFileSizeBytes = maxFileSizeBytes(field.maxFileSize);
       component.maxFilenameLength = maxFilenameLength();
       component.uploadUrl = field.uploadUrl || '';
       component.deleteUrl = field.deleteUrl || '';
