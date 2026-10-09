@@ -58,6 +58,14 @@ Then('I check that the error message {string} is displayed on the page', (messag
   I.waitForText(message);
 });
 
+Then(
+  'I check that the user is redirected to the {string} page with heading {string}',
+  (url: string, heading: string) => {
+    I.waitInUrl(url);
+    I.waitForText(heading);
+  }
+);
+
 When('I select the option {string}', async (option: string) => {
   selectOptionByLabel(option);
 });
