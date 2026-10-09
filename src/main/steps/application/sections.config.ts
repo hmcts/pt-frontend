@@ -1,6 +1,6 @@
-import type { SectionConfig } from '../../modules/steps/stepFlow.interface';
-
 import type { ApplicationStepName } from './stepRegistry';
+
+import type { SectionConfig } from '@modules/steps/stepFlow.interface';
 
 // Visual groups on the task-list page. Section order within a group follows declaration order below.
 export const APPLICATION_SECTION_GROUPS = [
