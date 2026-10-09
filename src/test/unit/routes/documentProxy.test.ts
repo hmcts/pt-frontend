@@ -108,6 +108,13 @@ describe('documentProxy', () => {
     });
 
     test('streams the upload from disk and removes the temporary file afterwards', async () => {
+      const waitForFileRemoval = async (filePath: string, timeoutMs = 2000): Promise<void> => {
+        const deadline = Date.now() + timeoutMs;
+        while (existsSync(filePath) && Date.now() < deadline) {
+          await new Promise(resolve => setTimeout(resolve, 10));
+        }
+      };
+
       persistedAs(42);
 
       const response = await request(buildApp())
@@ -118,6 +125,7 @@ describe('documentProxy', () => {
       const [uploaded] = mockedUploadDocument.mock.calls[0];
       expect(uploaded.buffer).toBeUndefined();
       expect(uploaded.path).toEqual(expect.any(String));
+      await waitForFileRemoval(uploaded.path);
       expect(existsSync(uploaded.path)).toBe(false);
     });
 
