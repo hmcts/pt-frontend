@@ -1,0 +1,10 @@
+{
+  "pageTitle": "Upload your landlord’s notice proposing a new rent",
+  "heading": "Upload your landlord’s notice proposing a new rent",
+  "subHeading": "If you are taking a picture of a letter, put the letter on a flat surface and take the picture from above.",
+  "errors": {
+    "documents": {
+      "required": "Select a file to upload"
+    }
+  }
+}
