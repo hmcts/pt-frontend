@@ -28,7 +28,9 @@
   "documentUpload": {
     "maxFileSizeMB": 25,
     "maxTotalFileSizeMB": 300,
-    "maxFilenameLength": 255
+    "maxFilenameLength": 255,
+    "timeoutMs": 300000,
+    "maxFilesPerUpload": 3
   },
   "idam": {
     "authorizationURL": "https://idam-web-public.aat.platform.hmcts.net/o/authorize",

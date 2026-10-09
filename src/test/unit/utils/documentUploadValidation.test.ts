@@ -40,16 +40,22 @@ describe('documentUploadValidation', () => {
   });
 
   describe('validateUploadedFile', () => {
+    const MiB = 1024 * 1024;
+
     test('accepts a valid file', () => {
       expect(validateUploadedFile(file())).toBeUndefined();
     });
 
-    test('accepts a file at the per-file cap', () => {
-      expect(validateUploadedFile(file({ size: 25_000_000 }))).toBeUndefined();
+    it('accepts a file of exactly 25MB in binary units', () => {
+      expect(validateUploadedFile(file({ size: 25 * MiB }))).toBeUndefined();
     });
 
-    test('counts a megabyte as a million bytes, as the file size shown to the user does', () => {
-      expect(validateUploadedFile(file({ size: 25_000_001 }))).toBe('fileTooLarge');
+    it('rejects a file one byte over 25MB in binary units', () => {
+      expect(validateUploadedFile(file({ size: 25 * MiB + 1 }))).toBe('fileTooLarge');
+    });
+
+    it('accepts a file shown as 24MB by Windows and ls -lh', () => {
+      expect(validateUploadedFile(file({ size: 25_165_824 }))).toBeUndefined();
     });
 
     test('rejects a file over the per-file cap', () => {
@@ -58,6 +64,10 @@ describe('documentUploadValidation', () => {
 
     test('rejects a file that would push the case over the total cap', () => {
       expect(validateUploadedFile(file({ size: 10 * 1024 * 1024 }), 291 * 1024 * 1024)).toBe('totalTooLarge');
+    });
+
+    test('rejects an empty file', () => {
+      expect(validateUploadedFile(file({ size: 0 }))).toBe('fileEmpty');
     });
 
     test('reports the type problem ahead of the size problem', () => {

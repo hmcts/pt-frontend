@@ -1,9 +1,14 @@
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+
 import axios from 'axios';
 import config from 'config';
+import type FormData from 'form-data';
 
 import { requireServiceAuthToken } from '../../../main/auth/service/get-service-auth-token';
 
-import { deleteDocument, uploadDocument } from '@services/cdamService';
+import { CdamUploadRejected, deleteDocument, uploadDocument } from '@services/cdamService';
 
 jest.mock('@modules/logger', () => ({
   Logger: {
@@ -19,12 +24,25 @@ const mockedRequireServiceAuthToken = requireServiceAuthToken as jest.MockedFunc
 const CDAM_URL = config.get<string>('cdam.url');
 const USER_TOKEN = 'user-token';
 
+const FILE_CONTENT = 'a pdf';
+const uploadDir = mkdtempSync(join(tmpdir(), 'cdam-service-test-'));
+const uploadPath = join(uploadDir, 'floor-plan.pdf');
+
 const file = {
-  buffer: Buffer.from('a pdf'),
+  path: uploadPath,
   originalname: 'floor-plan.pdf',
   mimetype: 'application/pdf',
-  size: 5,
+  size: FILE_CONTENT.length,
 } as Express.Multer.File;
+
+const readFormData = (formData: FormData): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const chunks: Buffer[] = [];
+    formData.on('data', chunk => chunks.push(Buffer.from(chunk)));
+    formData.on('end', () => resolve(Buffer.concat(chunks).toString()));
+    formData.on('error', reject);
+    formData.resume();
+  });
 
 const cdamResponse = {
   data: {
@@ -47,11 +65,27 @@ const cdamResponse = {
 describe('cdamService', () => {
   let instance: { post: jest.Mock; delete: jest.Mock; get: jest.Mock };
 
+  beforeAll(() => {
+    writeFileSync(uploadPath, FILE_CONTENT);
+  });
+
+  afterAll(() => {
+    rmSync(uploadDir, { force: true, recursive: true });
+  });
+
   beforeEach(() => {
     jest.clearAllMocks();
     mockedRequireServiceAuthToken.mockReturnValue('s2s-token');
     instance = { post: jest.fn(), delete: jest.fn(), get: jest.fn() };
     mockedAxios.create.mockReturnValue(instance as never);
+    (mockedAxios.isAxiosError as unknown as jest.Mock).mockImplementation(
+      (error: { isAxiosError?: boolean }) => error?.isAxiosError === true
+    );
+  });
+
+  const cdamError = (error: string) => ({
+    isAxiosError: true,
+    response: { status: 500, data: { status: 500, error } },
   });
 
   describe('uploadDocument', () => {
@@ -73,13 +107,27 @@ describe('cdamService', () => {
       const [url, formData] = instance.post.mock.calls[0];
       expect(url).toBe('/cases/documents');
 
-      const body = formData.getBuffer().toString();
+      const body = await readFormData(formData);
       expect(body).toContain('name="files"; filename="floor-plan.pdf"');
+      expect(body).toContain(FILE_CONTENT);
       expect(body).toContain('name="classification"');
       expect(body).toContain('PUBLIC');
       expect(body).toContain('name="caseTypeId"');
       expect(body).toContain('PT');
       expect(body).toContain('name="jurisdictionId"');
+    });
+
+    test('streams the file from disk and opts out of redirect following, which retains the body', async () => {
+      instance.post.mockResolvedValue(cdamResponse);
+
+      await uploadDocument(file, USER_TOKEN);
+
+      expect(mockedAxios.create).toHaveBeenCalledWith(
+        expect.objectContaining({ maxRedirects: 0, maxBodyLength: Infinity, maxContentLength: Infinity })
+      );
+
+      const [, formData] = instance.post.mock.calls[0];
+      expect(formData._streams.some((part: unknown) => Buffer.isBuffer(part))).toBe(false);
     });
 
     test('maps the CDAM response onto the CCD document shape, including the hash token', async () => {
@@ -95,6 +143,25 @@ describe('cdamService', () => {
         content_type: 'application/pdf',
         size: 5,
       });
+    });
+
+    test.each([
+      ['passwordProtected', '422 UNPROCESSABLE_ENTITY: "{"error":"Your upload file is password protected."}"'],
+      ['fileEmpty', '422 UNPROCESSABLE_ENTITY: "{"error":"Your upload file size is less than allowed limit."}"'],
+    ])('reports %s when the document store refuses the file', async (reason, error) => {
+      instance.post.mockRejectedValue(cdamError(error));
+
+      const rejection = await uploadDocument(file, USER_TOKEN).catch((err: unknown) => err);
+
+      expect(rejection).toBeInstanceOf(CdamUploadRejected);
+      expect(rejection).toMatchObject({ reason });
+    });
+
+    test('passes any other CDAM failure through unchanged', async () => {
+      const failure = cdamError('500 INTERNAL_SERVER_ERROR');
+      instance.post.mockRejectedValue(failure);
+
+      await expect(uploadDocument(file, USER_TOKEN)).rejects.toBe(failure);
     });
 
     test('throws when CDAM returns no document', async () => {
