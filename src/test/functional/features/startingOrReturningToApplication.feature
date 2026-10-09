@@ -1,4 +1,4 @@
-@JIRA-EPIC:HDPD-562
+@JIRA-EPIC:HDPD-562 @regression
 Feature: Starting or Returning Application
 
   Background:
