@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { Application, NextFunction, Request, Response } from 'express';
 import multer from 'multer';
 
-import { oidcMiddleware } from '../middleware/oidc';
+import { oidcMiddleware } from '../middleware';
 
 import {
   type DocumentFieldDefinition,
@@ -22,12 +22,7 @@ import {
 } from '@modules/documents/storage';
 import { Logger } from '@modules/logger';
 import { CdamUploadRejected, deleteDocument, uploadDocument } from '@services/cdamService';
-import {
-  maxFileSizeBytes,
-  maxTotalFileSizeBytes,
-  maxTotalFileSizeMB,
-  validateUploadedFile,
-} from '@utils/documentUploadValidation';
+import { maxFileSizeBytes, maxTotalFileSizeMB, validateUploadedFile } from '@utils/documentUploadValidation';
 
 const logger = Logger.getLogger('documentProxy');
 
