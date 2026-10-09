@@ -1,4 +1,24 @@
 {
-  "pageTitle": "Check your answers - Tenant details (placeholder)",
-  "heading": "Check your answers - Tenant details (placeholder)"
+  "pageTitle": "Check your answers - Who is on the tenancy",
+  "heading": "Check your answers",
+  "cardTitle": "Tenant details",
+  "rows": {
+    "applicantFirstName": {
+      "label": "First name",
+      "changeHidden": "first name"
+    },
+    "applicantLastName": {
+      "label": "Last name",
+      "changeHidden": "last name"
+    },
+    "companyName": {
+      "label": "Company name (optional)",
+      "changeHidden": "company name"
+    },
+    "referenceNumberForCommunications": {
+      "label": "Reference number for communication (optional)",
+      "changeHidden": "reference number for communication"
+    }
+  },
+  "reviewAndChangeInfo": "You can review and change your answers before you submit your application."
 }
