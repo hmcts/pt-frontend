@@ -5,8 +5,7 @@ import {
   buildComponentConfig,
   buildConditionalItemContent,
   buildSelectionItems,
-} from '../../../../../main/modules/steps/formBuilder/componentBuilders';
-
+} from '@modules/steps/formBuilder/componentBuilders';
 import type { FormFieldConfig, FormFieldOption } from '@modules/steps/formBuilder/formFieldConfig.interface';
 
 describe('componentBuilders', () => {
@@ -180,6 +179,41 @@ describe('componentBuilders', () => {
         const result = buildComponentConfig(buildArgs(fileField(), { fieldValue: documents }));
 
         expect(result.component.value).toBe(documents);
+      });
+
+      describe('size limits sent to the browser', () => {
+        const MiB = 1024 * 1024;
+
+        it('sends the default per-file limit in binary bytes', () => {
+          const result = buildComponentConfig(buildArgs(fileField()));
+
+          expect(result.component.maxFileSizeBytes).toBe(25 * MiB);
+          expect(result.component.maxFileSize).toBe(25);
+        });
+
+        it('sends a field-specific per-file limit in binary bytes', () => {
+          const result = buildComponentConfig(buildArgs(fileField({ maxFileSize: 10 })));
+
+          expect(result.component.maxFileSizeBytes).toBe(10 * MiB);
+          expect(result.component.maxFileSize).toBe(10);
+        });
+
+        it('sends each extra file type its own limit in binary bytes, under the key the browser reads', () => {
+          const result = buildComponentConfig(
+            buildArgs(fileField({ multiple: true, extraExtensions: { '.mp3': 100, '.mp4': 100 } }))
+          );
+
+          expect(result.component.extensionLimits).toEqual({
+            '.mp3': { maxFileSizeBytes: 100 * MiB, error: 'This file is too large' },
+            '.mp4': { maxFileSizeBytes: 100 * MiB, error: 'This file is too large' },
+          });
+        });
+
+        it('sends no extra file type limits when the field has none', () => {
+          const result = buildComponentConfig(buildArgs(fileField()));
+
+          expect(result.component.extensionLimits).toEqual({});
+        });
       });
     });
 

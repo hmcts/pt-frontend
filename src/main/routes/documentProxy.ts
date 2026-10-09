@@ -22,7 +22,12 @@ import {
 } from '@modules/documents/storage';
 import { Logger } from '@modules/logger';
 import { CdamUploadRejected, deleteDocument, uploadDocument } from '@services/cdamService';
-import { maxFileSizeBytes, validateUploadedFile } from '@utils/documentUploadValidation';
+import {
+  maxFileSizeBytes,
+  maxTotalFileSizeBytes,
+  maxTotalFileSizeMB,
+  validateUploadedFile,
+} from '@utils/documentUploadValidation';
 
 const logger = Logger.getLogger('documentProxy');
 
@@ -94,7 +99,7 @@ const getTranslations =
       noFileSelected: 'Select a file to upload',
       wrongFileType: 'This file type is not accepted',
       fileTooLarge: 'This file is too large',
-      totalTooLarge: 'Total upload size must not exceed 300MB',
+      totalTooLarge: `Total upload size must not exceed ${maxTotalFileSizeMB()}MB`,
       fileEmpty: 'The selected file is empty',
       passwordProtected: 'The selected file is password protected',
       filenameTooLong: 'This file name is too long',

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import './instrumentation';
 import config from 'config';
 
 import { createApp } from './app';
