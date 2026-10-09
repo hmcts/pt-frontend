@@ -3,8 +3,10 @@ import { config as testConfig } from './src/test/config';
 const { setHeadlessWhen } = require('@codeceptjs/configure');
 
 setHeadlessWhen(testConfig.TestHeadlessBrowser);
+const e2eTag = process.env.E2E_TEST_SCOPE?.trim();
 export const config: CodeceptJS.MainConfig = {
   name: 'functional',
+  ...(e2eTag ? { grep: e2eTag } : {}),
   gherkin: testConfig.Gherkin,
   output: './functional-output/functional/reports',
   helpers: testConfig.helpers,

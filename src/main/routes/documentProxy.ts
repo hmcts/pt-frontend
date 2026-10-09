@@ -1,7 +1,10 @@
+import { unlink } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+
 import { Application, NextFunction, Request, Response } from 'express';
 import multer from 'multer';
 
-import { oidcMiddleware } from '../middleware/oidc';
+import { oidcMiddleware } from '../middleware';
 
 import {
   type DocumentFieldDefinition,
@@ -19,12 +22,7 @@ import {
 } from '@modules/documents/storage';
 import { Logger } from '@modules/logger';
 import { CdamUploadRejected, deleteDocument, uploadDocument } from '@services/cdamService';
-import {
-  maxFileSizeBytes,
-  maxTotalFileSizeBytes,
-  maxTotalFileSizeMB,
-  validateUploadedFile,
-} from '@utils/documentUploadValidation';
+import { maxFileSizeBytes, maxTotalFileSizeMB, validateUploadedFile } from '@utils/documentUploadValidation';
 
 const logger = Logger.getLogger('documentProxy');
 
@@ -35,6 +33,9 @@ const uploaderFor = (field: DocumentFieldDefinition): ReturnType<typeof multer> 
   let instance = uploadByLimit.get(limitBytes);
   if (!instance) {
     instance = multer({
+      // Disk storage keeps the whole file out of the heap; memory storage buffers it, and a large enough
+      // buffer kills the process as soon as anything tries to serialise it.
+      dest: tmpdir(),
       limits: {
         fileSize: limitBytes,
         // Limit how large an array index can be in a field name to reduce DoS risk
@@ -46,23 +47,11 @@ const uploaderFor = (field: DocumentFieldDefinition): ReturnType<typeof multer> 
   return instance;
 };
 
-const caseLocks = new Map<string, Promise<unknown>>();
+const UPLOAD_REJECTIONS = ['removeFileFirst', 'totalTooLarge'];
 
-const withCaseLock = async <T>(caseReference: string, fn: () => Promise<T>): Promise<T> => {
-  const previous = caseLocks.get(caseReference) ?? Promise.resolve();
-  const current = previous.then(fn, fn);
-  caseLocks.set(
-    caseReference,
-    current.catch(() => undefined)
-  );
-
-  try {
-    return await current;
-  } finally {
-    if (caseLocks.get(caseReference) === current) {
-      caseLocks.delete(caseReference);
-    }
-  }
+const callbackErrorsOf = (err: unknown): string[] => {
+  const response = (err as { response?: { status?: number; data?: { callbackErrors?: string[] } } })?.response;
+  return response?.status === 422 ? (response.data?.callbackErrors ?? []) : [];
 };
 
 const getUserToken = (req: Request): string => {
@@ -177,21 +166,13 @@ export default function (app: Application): void {
         const entry = cdamToCcdDocument(cdamDoc, field);
 
         try {
-          const documentId = await withCaseLock(param(req, 'caseReference'), async () => {
-            // The check above races: two requests can both read a free field and both proceed.
-            const held = await readDocuments(req, fieldKeyOf(req));
-            if (!field.multiple && held.length > 0) {
-              throw new UploadRejected('removeFileFirst');
-            }
-            if (totalBytes(held) + file.size > maxTotalFileSizeBytes()) {
-              throw new UploadRejected('totalTooLarge');
-            }
-
-            await saveDocuments(req, fieldKeyOf(req), [entry]);
-
-            const saved = await readDocuments(req, fieldKeyOf(req));
-            return saved.find(doc => doc.document.document_url === cdamDoc.document_url)?.id;
+          await saveDocuments(req, fieldKeyOf(req), [entry]).catch(err => {
+            const rejection = callbackErrorsOf(err).find(key => UPLOAD_REJECTIONS.includes(key));
+            throw rejection ? new UploadRejected(rejection) : err;
           });
+
+          const saved = await readDocuments(req, fieldKeyOf(req));
+          const documentId = saved.find(doc => doc.document.document_url === cdamDoc.document_url)?.id;
 
           if (documentId === undefined) {
             throw new Error('Document was not found on the case after saving');
@@ -226,6 +207,13 @@ export default function (app: Application): void {
         }
         logger.error('Document upload failed', err);
         res.status(500).json(uploadError(t('uploadFailed')));
+      } finally {
+        const uploadPath = req.file?.path;
+        if (uploadPath) {
+          await unlink(uploadPath).catch(cleanupError =>
+            logger.error('Failed to remove temporary upload file', cleanupError)
+          );
+        }
       }
     }
   );
@@ -239,15 +227,10 @@ export default function (app: Application): void {
         return;
       }
 
-      await withCaseLock(param(req, 'caseReference'), async () => {
-        const current = await readDocuments(req, fieldKeyOf(req));
-        const target = current.some(doc => doc.id === documentId);
-        if (!target) {
-          return;
-        }
-
+      const current = await readDocuments(req, fieldKeyOf(req));
+      if (current.some(doc => doc.id === documentId)) {
         await deleteDocumentById(req, documentId);
-      });
+      }
 
       res.json({ success: true });
     } catch (err) {
