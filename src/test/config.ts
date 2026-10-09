@@ -11,6 +11,18 @@ process.on('unhandledRejection', reason => {
 
 const frontendUrl = String(appConfig.get('frontend.url')).replace(/\/$/, '');
 
+/** E2E_SPEC keywords (comma or semicolon) must appear in the feature path. Empty = all features. */
+function featureGlobs(raw: string | undefined): string | string[] {
+  const keys = raw
+    ?.split(/[,;]/)
+    .map(key => key.trim())
+    .filter(Boolean);
+  if (!keys?.length) {
+    return './src/test/functional/features/**/*.feature';
+  }
+  return keys.map(key => `./src/test/functional/features/**/*${key}*`);
+}
+
 export const config = {
   TEST_URL: process.env.TEST_URL || frontendUrl,
   IDAM_PT_USER_EMAIL: process.env.IDAM_PT_USER_EMAIL || String(appConfig.get('idam.testUser.email')),
@@ -21,7 +33,7 @@ export const config = {
   LoginRedirectTimeout: 45000,
 
   Gherkin: {
-    features: './src/test/functional/features/**/*.feature',
+    features: featureGlobs(process.env.E2E_SPEC),
     steps: './src/test/steps/**/*.ts',
   },
   helpers: {},
