@@ -1,3 +1,5 @@
+import { existsSync } from 'node:fs';
+
 import express, { type Express } from 'express';
 import request from 'supertest';
 
@@ -30,6 +32,8 @@ const mockedDeleteDocument = deleteDocument as jest.MockedFunction<typeof delete
 const mockedReadDocuments = readDocuments as jest.MockedFunction<typeof readDocuments>;
 const mockedSaveDocuments = saveDocuments as jest.MockedFunction<typeof saveDocuments>;
 const mockedDeleteById = deleteDocumentById as jest.MockedFunction<typeof deleteDocumentById>;
+
+const MiB = 1024 * 1024;
 
 const CASE_REFERENCE = '1234123412341234';
 const SINGLE_URL = `/${CASE_REFERENCE}/documents/tenancyAgreementDocument`;
@@ -77,15 +81,18 @@ describe('documentProxy', () => {
   });
 
   describe('upload', () => {
-    // The route reads the case three times: to check the field is free, again under the lock,
-    // then after saving to pick up the new row id.
+    // The route reads the case twice: to check the field is free, then after saving to pick up the new row id.
     const persistedAs = (id: number, filename = 'floor-plan.pdf') => {
       // clearAllMocks() leaves mockResolvedValueOnce queues in place, so they accumulate across tests
       mockedReadDocuments.mockReset();
       mockedReadDocuments.mockResolvedValueOnce([]);
-      mockedReadDocuments.mockResolvedValueOnce([]);
       mockedReadDocuments.mockResolvedValue([storedDocument(id, cdamDocument.document_url, filename)]);
     };
+
+    const rejectedByPtApi = (callbackErrors: string[]) =>
+      Object.assign(new Error('Request failed with status code 422'), {
+        response: { status: 422, data: { callbackErrors } },
+      });
 
     test('uploads to CDAM then persists the reference against the case', async () => {
       persistedAs(42);
@@ -101,6 +108,28 @@ describe('documentProxy', () => {
         'tenancyAgreementDocument',
         expect.arrayContaining([expect.objectContaining({ documentType: 'tenancyAgreement' })])
       );
+    });
+
+    test('streams the upload from disk and removes the temporary file afterwards', async () => {
+      const waitForFileRemoval = async (filePath: string, timeoutMs = 2000): Promise<void> => {
+        const deadline = Date.now() + timeoutMs;
+        while (existsSync(filePath) && Date.now() < deadline) {
+          await new Promise(resolve => setTimeout(resolve, 10));
+        }
+      };
+
+      persistedAs(42);
+
+      const response = await request(buildApp())
+        .post(`${SINGLE_URL}/upload`)
+        .attach('documents', Buffer.from('a pdf'), 'floor-plan.pdf');
+
+      expect(response.status).toBe(200);
+      const [uploaded] = mockedUploadDocument.mock.calls[0];
+      expect(uploaded.buffer).toBeUndefined();
+      expect(uploaded.path).toEqual(expect.any(String));
+      await waitForFileRemoval(uploaded.path);
+      expect(existsSync(uploaded.path)).toBe(false);
     });
 
     test('returns the persisted row id as the delete key', async () => {
@@ -165,9 +194,9 @@ describe('documentProxy', () => {
       expect(mockedSaveDocuments).not.toHaveBeenCalled();
     });
 
-    test('refuses a file that arrives while another request is saving, and clears it from CDAM', async () => {
-      mockedReadDocuments.mockResolvedValueOnce([]);
-      mockedReadDocuments.mockResolvedValue([storedDocument(42, 'http://cdam/cases/documents/first')]);
+    test('refuses a file pt-api rejects because another upload filled the field first, and clears it from CDAM', async () => {
+      persistedAs(42);
+      mockedSaveDocuments.mockRejectedValue(rejectedByPtApi(['removeFileFirst']));
 
       const response = await request(buildApp())
         .post(`${SINGLE_URL}/upload`)
@@ -175,13 +204,11 @@ describe('documentProxy', () => {
 
       expect(response.status).toBe(400);
       expect(response.body.error.message).toContain('Remove the uploaded file');
-      expect(mockedSaveDocuments).not.toHaveBeenCalled();
       expect(mockedDeleteDocument).toHaveBeenCalledWith(cdamDocument.document_url, 'user-token');
     });
 
     test('allows a further file on a collection field', async () => {
       const first = storedDocument(42, 'http://cdam/cases/documents/first');
-      mockedReadDocuments.mockResolvedValueOnce([first]);
       mockedReadDocuments.mockResolvedValueOnce([first]);
       mockedReadDocuments.mockResolvedValue([first, storedDocument(43, cdamDocument.document_url, 'room.pdf')]);
 
@@ -193,12 +220,9 @@ describe('documentProxy', () => {
       expect(response.body.file.filename).toBe('43');
     });
 
-    test('refuses a file that takes the field over the total once a concurrent upload has saved, and clears it from CDAM', async () => {
-      mockedReadDocuments.mockReset();
-      mockedReadDocuments.mockResolvedValueOnce([]);
-      mockedReadDocuments.mockResolvedValue([
-        storedDocument(42, 'http://cdam/cases/documents/first', 'first.pdf', 300_000_000),
-      ]);
+    test('refuses a file pt-api rejects for taking the field over the total, and clears it from CDAM', async () => {
+      persistedAs(42);
+      mockedSaveDocuments.mockRejectedValue(rejectedByPtApi(['totalTooLarge']));
 
       const response = await request(buildApp())
         .post(`${COLLECTION_URL}/upload`)
@@ -206,7 +230,19 @@ describe('documentProxy', () => {
 
       expect(response.status).toBe(400);
       expect(response.body.error.message).toBe('Total upload size must not exceed 300MB');
-      expect(mockedSaveDocuments).not.toHaveBeenCalled();
+      expect(mockedDeleteDocument).toHaveBeenCalledWith(cdamDocument.document_url, 'user-token');
+    });
+
+    test('treats any other pt-api rejection as a failed upload', async () => {
+      persistedAs(42);
+      mockedSaveDocuments.mockRejectedValue(rejectedByPtApi(['Something else went wrong']));
+
+      const response = await request(buildApp())
+        .post(`${COLLECTION_URL}/upload`)
+        .attach('documents', Buffer.from('x'), 'room.pdf');
+
+      expect(response.status).toBe(500);
+      expect(response.body.error.message).toBe('This file could not be uploaded');
       expect(mockedDeleteDocument).toHaveBeenCalledWith(cdamDocument.document_url, 'user-token');
     });
 
@@ -261,7 +297,7 @@ describe('documentProxy', () => {
     // repairsEvidenceDocuments opts into .mp3/.mp4 with a 100MB limit for those types only; its
     // documents, and every other field, keep the 25MB global default and the document-only allowlist.
     const MEDIA_URL = `/${CASE_REFERENCE}/documents/repairsEvidenceDocuments`;
-    const overGlobalLimit = () => Buffer.alloc(26_000_000);
+    const overGlobalLimit = () => Buffer.alloc(25 * MiB + 1);
 
     test('accepts an mp4 over the global limit on a field that raises the limit for it', async () => {
       persistedAs(42);
@@ -289,7 +325,7 @@ describe('documentProxy', () => {
     test('rejects an mp4 over its own 100MB limit', async () => {
       const response = await request(buildApp())
         .post(`${MEDIA_URL}/upload`)
-        .attach('documents', Buffer.alloc(100_000_001), 'evidence.mp4');
+        .attach('documents', Buffer.alloc(100 * MiB + 1), 'evidence.mp4');
 
       expect(response.status).toBe(400);
       expect(response.body.error.message).toBe('This file is too large');

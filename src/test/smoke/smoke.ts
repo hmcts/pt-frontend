@@ -1,23 +1,35 @@
-import { fail } from 'assert';
-
-import axios, { AxiosResponse } from 'axios';
-import { expect } from 'chai';
+import axios from 'axios';
 
 const testUrl = process.env.TEST_URL || 'http://localhost:4000';
 
 describe('Smoke Test', () => {
-  describe('Home page loads', () => {
-    test.skip('with correct content', async () => {
-      try {
-        const response: AxiosResponse = await axios.get(testUrl, {
-          headers: {
-            'Accept-Encoding': 'gzip',
-          },
-        });
-        expect(response.data).includes('<h1 class="govuk-heading-xl">Default page template2</h1>');
-      } catch {
-        fail('Heading not present and/or correct');
-      }
+  test('GET /health returns 200 with UP', async () => {
+    const response = await axios.get(`${testUrl}/health`);
+
+    expect(response.status).toBe(200);
+    expect(response.data.status).toBe('UP');
+  });
+
+  test('GET /info returns 200', async () => {
+    const response = await axios.get(`${testUrl}/info`);
+
+    expect(response.status).toBe(200);
+  });
+
+  test('public pre-application start page returns 200 and contains the service name', async () => {
+    const response = await axios.get(`${testUrl}/pre-application/starting-or-returning`);
+
+    expect(response.status).toBe(200);
+    expect(response.data).toContain('Apply for an open market rent determination');
+  });
+
+  test('GET /login returns a 302 to IDAM /o/authorize', async () => {
+    const response = await axios.get(`${testUrl}/login`, {
+      maxRedirects: 0,
+      validateStatus: () => true,
     });
+
+    expect(response.status).toBe(302);
+    expect(response.headers.location).toContain('/o/authorize');
   });
 });
