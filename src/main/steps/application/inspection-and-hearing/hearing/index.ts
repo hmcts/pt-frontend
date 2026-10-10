@@ -1,9 +1,10 @@
 import { textAreaIsValidLength } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccdCase.interface';
+import { invertYesNo } from '@utils/yesNo';
 
 const journeyName = 'application';
 const stepName = 'hearing';
@@ -26,9 +27,9 @@ export const step: StepDefinition = createFormStep({
       translationKey: { label: 'questionTitle' },
       errorMessage: 'errors.agreeToDecisionWithoutHearing.required',
       options: [
-        { value: 'yes', translationKey: 'common:yes' },
+        { value: 'Yes', translationKey: 'common:yes' },
         {
-          value: 'no',
+          value: 'No',
           translationKey: 'common:no',
           subFields: {
             noDecisionWithoutHearingReason: {
@@ -40,26 +41,35 @@ export const step: StepDefinition = createFormStep({
               translationKey: {
                 label: 'options.noDecisionWithoutHearingReason.label',
               },
-              validator: (value): boolean | string => {
-                if (value && String(value).length > 500) {
-                  return 'errors.noDecisionWithoutHearingReason.invalid';
-                }
-                return true;
-              },
+              validator: (value): boolean | string =>
+                textAreaIsValidLength(value as string) ? true : 'errors.noDecisionWithoutHearingReason.invalid',
             },
           },
         },
       ],
     },
   ],
+  getInitialFormData: req => {
+    const details = req.session.ccdCase?.hearingInspectionDetails;
+    const agreeToDecisionWithoutHearing =
+      getFormDataString(req, stepName, 'agreeToDecisionWithoutHearing') ?? invertYesNo(details?.hearingRequested);
+    const noDecisionWithoutHearingReason =
+      getFormDataString(req, stepName, 'agreeToDecisionWithoutHearing.noDecisionWithoutHearingReason') ??
+      details?.reasonHearingRequested;
+
+    return {
+      ...(agreeToDecisionWithoutHearing && { agreeToDecisionWithoutHearing }),
+      ...(noDecisionWithoutHearingReason && {
+        'agreeToDecisionWithoutHearing.noDecisionWithoutHearingReason': noDecisionWithoutHearingReason,
+      }),
+    };
+  },
 });
 
-function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (ccdCase?.agreeToDecisionWithoutHearing === 'no') {
-    return Boolean(
-      ccdCase?.noDecisionWithoutHearingReason &&
-      textAreaIsValidLength(ccdCase?.noDecisionWithoutHearingReason as string)
-    );
+export function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  const details = ccdCase?.hearingInspectionDetails;
+  if (details?.hearingRequested === 'Yes') {
+    return Boolean(details.reasonHearingRequested && textAreaIsValidLength(details.reasonHearingRequested));
   }
-  return ccdCase?.agreeToDecisionWithoutHearing === 'yes';
+  return details?.hearingRequested === 'No';
 }

@@ -519,6 +519,98 @@ describe('prepareDataForSave', () => {
     });
   });
 
+  describe('propertyInspection data mapping', () => {
+    it('should map both answers and flip the hearing answer to hearingRequested', () => {
+      const mockReq = {
+        params: { caseReference: CASE_REF },
+        session: {
+          formData: {
+            [CASE_REF]: {
+              'property-inspection': {
+                agreeToDecisionWithoutInspection: 'No',
+                'agreeToDecisionWithoutInspection.noDecisionWithoutInspectionReason': 'Damp in the bedroom',
+              },
+              hearing: {
+                agreeToDecisionWithoutHearing: 'No',
+                'agreeToDecisionWithoutHearing.noDecisionWithoutHearingReason': 'I want to attend',
+              },
+            },
+          },
+        },
+      } as unknown as Request;
+
+      const mappedData = prepareDataForSave('propertyInspection', mockReq, {} as unknown as PTCaseData);
+
+      expect(mappedData).toEqual({
+        hearingInspectionDetails: {
+          agreeToDecisionWithoutInspection: 'No',
+          noDecisionWithoutInspectionReason: 'Damp in the bedroom',
+          hearingRequested: 'Yes',
+          reasonHearingRequested: 'I want to attend',
+        },
+      });
+    });
+
+    it('should clear both reasons when no inspection or hearing is needed', () => {
+      const mockReq = {
+        params: { caseReference: CASE_REF },
+        session: {
+          formData: {
+            [CASE_REF]: {
+              'property-inspection': {
+                agreeToDecisionWithoutInspection: 'Yes',
+                'agreeToDecisionWithoutInspection.noDecisionWithoutInspectionReason': 'stale reason',
+              },
+              hearing: {
+                agreeToDecisionWithoutHearing: 'Yes',
+                'agreeToDecisionWithoutHearing.noDecisionWithoutHearingReason': 'stale reason',
+              },
+            },
+          },
+        },
+      } as unknown as Request;
+
+      const mappedData = prepareDataForSave('propertyInspection', mockReq, {} as unknown as PTCaseData);
+
+      expect(mappedData).toEqual({
+        hearingInspectionDetails: {
+          agreeToDecisionWithoutInspection: 'Yes',
+          noDecisionWithoutInspectionReason: undefined,
+          hearingRequested: 'No',
+          reasonHearingRequested: undefined,
+        },
+      });
+    });
+
+    it('should fall back to saved case data when form data is not present', () => {
+      const mockReq = {
+        params: { caseReference: CASE_REF },
+        session: { formData: { [CASE_REF]: {} } },
+      } as unknown as Request;
+
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        hearingInspectionDetails: {
+          agreeToDecisionWithoutInspection: 'No',
+          noDecisionWithoutInspectionReason: 'Damp in the bedroom',
+          hearingRequested: 'Yes',
+          reasonHearingRequested: 'I want to attend',
+        },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareDataForSave('propertyInspection', mockReq, ccdCaseData);
+
+      expect(mappedData).toEqual({
+        hearingInspectionDetails: {
+          agreeToDecisionWithoutInspection: 'No',
+          noDecisionWithoutInspectionReason: 'Damp in the bedroom',
+          hearingRequested: 'Yes',
+          reasonHearingRequested: 'I want to attend',
+        },
+      });
+    });
+  });
+
   describe('case scoping', () => {
     const OTHER_CASE = '9999999999999999';
 
