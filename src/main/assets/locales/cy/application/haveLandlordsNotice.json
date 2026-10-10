@@ -1,4 +1,19 @@
 {
-  "pageTitle": "cyHave landlord's notice",
-  "heading": "cyHave landlord's notice?"
+  "pageTitle": "cy Do you have a landlord's notice proposing a new rent to upload?",
+  "heading": "cy Do you have a landlord's notice proposing a new rent to upload?",
+  "options": {
+    "noLandlordsNoticeReason": {
+      "label": "cy Why can you not upload a notice proposing a new rent?"
+    }
+  },
+  "errors": {
+    "haveLandlordsNotice": {
+      "required": "cy Select whether you have a notice proposing a new rent to upload"
+    },
+    "noLandlordsNoticeReason": {
+      "required": "cy Enter why you cannot upload a notice proposing a new rent",
+      "invalidMaxLength": "cy Your reasons why must be 500 characters or less",
+      "invalidMinLength": "cy Your reasons why must be 2 characters or more"
+    }
+  }
 }
