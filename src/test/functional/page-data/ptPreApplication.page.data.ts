@@ -3,4 +3,6 @@ export const ptPreApplication = {
   startingOrReturningHeading: 'Are you starting or returning to an application?',
   returningOptionLabel: 'I want to return to a draft application or submitted application',
   continueButton: 'Continue',
+  whoisNamedOnTenancyAgreement: '/pre-application/who-is-named-on-your-tenancy-agreement',
+  whoIsNamedOnYourTenancyPageHeader: 'Who is named on your tenancy agreement',
 };
