@@ -1,0 +1,20 @@
+export const furnitureProvided = {
+  url: '/furniture-provided',
+  pageHeading: 'Is furniture provided in your tenancy?',
+  yesOption: 'Yes',
+  noOption: 'No',
+  furnitureQuestion: 'Describe the furniture provided',
+  furnitureHintText:
+    "Enter a list of furniture items and appliances provided in the tenancy. This may be included in your contract, sometimes called an 'inventory'",
+  furnitureTextArea: '//*[@id="furnitureProvided.furnitureProvidedDetails"]',
+  furnitureDetails: 'Sofa, dining table, chairs, washing machine and refrigerator',
+  invalidFurnitureDetails: 'A',
+  saveAndContinueButton: 'Save and continue',
+  saveForLaterButton: 'Save for later',
+  nextPageHeading: 'Are any services provided in your tenancy?',
+  dashboardHeading: 'Citizen Dashboard',
+  radioButtonError: 'Select whether furniture is provided in your tenancy',
+  textAreaMandatoryError: 'Enter what furniture is provided in your tenancy',
+  textAreaMinLengthError: 'Details about furniture provided must be 2 characters or more',
+  errorSummarySelector: '.govuk-error-summary',
+};
