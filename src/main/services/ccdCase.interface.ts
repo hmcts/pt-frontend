@@ -299,6 +299,8 @@ export interface LandlordDetails {
 }
 
 export interface NoticeOfRentIncreaseDetails {
+  receivedLandlordNoticeProposingNewRent?: string | boolean;
+  noUploadOfNoticeProposingNewRentReason?: string;
   noticeLegallyValid?: string;
   noticeNotLegallyValidReason?: string;
   rentIncreaseCauseHardship?: string;
