@@ -2,6 +2,7 @@ import { flowConfig } from '../../flow.config';
 
 import { createFormStep, getFormData } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { isValidPersonName } from '@utils/personName';
 
 const journeyName = 'application';
 const stepName = 'landlord-individual-or-organisation';
@@ -58,6 +59,15 @@ export const step: StepDefinition = createFormStep({
                 autocomplete: 'given-name',
                 spellcheck: false,
               },
+              validator: (value): boolean | string => {
+                if (value && (String(value).length < 2 || String(value).length > 50)) {
+                  return String(value).length < 2 ? 'errors.landlordName.tooShort' : 'errors.landlordName.tooLong';
+                }
+                if (value && !isValidPersonName(value as string)) {
+                  return 'errors.landlordFirstName.invalid';
+                }
+                return true;
+              },
             },
             landlordLastName: {
               name: 'landlordLastName',
@@ -70,6 +80,15 @@ export const step: StepDefinition = createFormStep({
               attributes: {
                 autocomplete: 'family-name',
                 spellcheck: false,
+              },
+              validator: (value): boolean | string => {
+                if (value && (String(value).length < 2 || String(value).length > 50)) {
+                  return String(value).length < 2 ? 'errors.landlordName.tooShort' : 'errors.landlordName.tooLong';
+                }
+                if (value && !isValidPersonName(value as string)) {
+                  return 'errors.landlordLastName.invalid';
+                }
+                return true;
               },
             },
           },
@@ -88,6 +107,12 @@ export const step: StepDefinition = createFormStep({
               errorMessage: 'errors.landlordOrganisationName.required',
               attributes: {
                 autocomplete: 'organization',
+              },
+              validator: (value): boolean | string => {
+                if (value && (String(value).length < 2 || String(value).length > 50)) {
+                  return String(value).length < 2 ? 'errors.landlordName.tooShort' : 'errors.landlordName.tooLong';
+                }
+                return true;
               },
             },
           },
