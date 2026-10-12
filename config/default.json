@@ -29,6 +29,7 @@
     "maxFileSizeMB": 25,
     "maxTotalFileSizeMB": 300,
     "maxFilenameLength": 255,
+    "timeoutMs": 300000,
     "maxFilesPerUpload": 3
   },
   "idam": {

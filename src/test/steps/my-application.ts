@@ -65,15 +65,16 @@ When('I click back link', () => {
   I.click('Back');
 });
 
-When('I enter characters more than 500 in the description field', () => {
-  I.clearField('Describe what you are charged separately for');
-  I.executeScript(value => {
-    const textarea = document.querySelector('textarea');
+When(
+  'I enter characters more than {string} in the description field for the question {string}',
+  async (maxLength: string, question: string) => {
+    const limit = Number(maxLength);
+    const value = 'c'.repeat(limit + 1);
 
-    if (textarea instanceof HTMLTextAreaElement) {
-      textarea.value = value;
-      textarea.dispatchEvent(new Event('input', { bubbles: true }));
-      textarea.dispatchEvent(new Event('change', { bubbles: true }));
-    }
-  }, 'c'.repeat(501));
-});
+    await I.usePlaywrightTo('enter a description exceeding the limit', async ({ page }) => {
+      const textarea = page.getByRole('textbox', { name: question, exact: true });
+      await textarea.waitFor({ state: 'visible', timeout: 30000 });
+      await textarea.fill(value);
+    });
+  }
+);

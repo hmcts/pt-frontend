@@ -1,4 +1,4 @@
-@idam @login @JIRA-EPIC:HDPD-295
+@idam @login @JIRA-EPIC:HDPD-295 @regression
 Feature: IDAM login to Property Tribunal
   As a PT user
   I want to be authenticated to the PT upon entering my credentials in IDAM

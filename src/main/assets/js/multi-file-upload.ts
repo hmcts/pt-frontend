@@ -1,6 +1,5 @@
 import { MultiFileUpload } from '@ministryofjustice/frontend';
 
-const MB = 1000 * 1000;
 const ERROR_SUMMARY_TITLE_ID = 'upload-error-summary-title';
 
 interface UploadContainer extends HTMLElement {
@@ -18,7 +17,7 @@ const extensionOf = (filename: string): string => {
 };
 
 interface ExtensionLimit {
-  maxFileSizeMB: number;
+  maxFileSizeBytes: number;
   error: string;
 }
 
@@ -218,7 +217,7 @@ export const initMultiFileUpload = (): MultiFileUpload[] => {
     }
 
     const accepted = (container.dataset.accept ?? '').split(',').filter(Boolean);
-    const maxFileSizeMB = Number(container.dataset.maxFileSizeMb ?? 0);
+    const maxFileSizeBytes = Number(container.dataset.maxFileSizeBytes ?? 0);
     const extensionLimits = parseExtensionLimits(container.dataset.extensionLimits);
     const maxFilenameLength = Number(container.dataset.maxFilenameLength ?? 0);
     const maxFiles = Number(container.dataset.maxFiles ?? 0);
@@ -234,8 +233,8 @@ export const initMultiFileUpload = (): MultiFileUpload[] => {
         return container.dataset.errorFileEmpty;
       }
       const extensionLimit = extensionLimits[extensionOf(file.name)];
-      const limitMB = extensionLimit?.maxFileSizeMB ?? maxFileSizeMB;
-      if (limitMB && file.size > limitMB * MB) {
+      const limitBytes = extensionLimit?.maxFileSizeBytes ?? maxFileSizeBytes;
+      if (limitBytes && file.size > limitBytes) {
         return extensionLimit?.error ?? container.dataset.errorFileTooLarge;
       }
       return undefined;

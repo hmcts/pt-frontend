@@ -1,4 +1,4 @@
-@JIRA-EPIC:HDPD-563
+@JIRA-EPIC:HDPD-563 @regression
 Feature: Are you applying for yourself or someone else?
   As a citizen
   I want to identify who I am applying for
