@@ -1,6 +1,6 @@
 import { flowConfig } from '../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormData } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
 const journeyName = 'application';
@@ -13,13 +13,24 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/landlordIndividualOrOrganisation.njk`,
   showCancelButton: false,
-  isAnswered: () => false,
+  isAnswered: req => Boolean(req.session.ccdCase?.landlordIndividualOrOrganisation),
   translationKeys: {
     pageTitle: 'pageTitle',
     heading: 'heading',
     subheading: 'subheading',
   },
+  beforeRedirect: req => {
+    const stepData = getFormData(req, stepName);
 
+    if (stepData?.landlordIndividualOrOrganisation !== 'individual') {
+      delete stepData['landlordIndividualOrOrganisation.landlordFirstName'];
+      delete stepData['landlordIndividualOrOrganisation.landlordLastName'];
+    }
+
+    if (stepData?.landlordIndividualOrOrganisation !== 'organisation') {
+      delete stepData['landlordIndividualOrOrganisation.landlordOrganisationName'];
+    }
+  },
   fields: [
     {
       name: 'landlordIndividualOrOrganisation',
