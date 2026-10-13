@@ -1,4 +1,5 @@
 import { step as checkYourAnswersLandlordDetails } from './check-your-answers-landlord-details';
+import { step as landlordAddress } from './landlord-address';
 import { step as landlordEmailAddress } from './landlord-email-address';
 import { step as landlordHasLettingAgentOrRepresentative } from './landlord-has-letting-agent-or-representative';
 import { step as landlordIndividualOrOrganisation } from './landlord-individual-or-organisation';
@@ -13,6 +14,7 @@ import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
 export const landlordDetailsStepRegistry = {
   'landlord-individual-or-organisation': landlordIndividualOrOrganisation,
+  'landlord-address': landlordAddress,
   'landlord-email-address': landlordEmailAddress,
   'landlord-phone-number': landlordPhoneNumber,
   'landlord-has-letting-agent-or-representative': landlordHasLettingAgentOrRepresentative,
