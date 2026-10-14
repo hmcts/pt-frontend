@@ -2754,13 +2754,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grpc/grpc-js@npm:1.14.5":
-  version: 1.14.5
-  resolution: "@grpc/grpc-js@npm:1.14.5"
+"@grpc/grpc-js@npm:1.14.6":
+  version: 1.14.6
+  resolution: "@grpc/grpc-js@npm:1.14.6"
   dependencies:
     "@grpc/proto-loader": "npm:^0.8.0"
     "@js-sdsl/ordered-map": "npm:^4.4.2"
-  checksum: 10/3be7fe0105c94e83e8a18b895fd534290cf3a26712940e95e0149b869da775a59551dafd60fd6c17213d3032b83fbfa64c6c2c9a0f569f6ef5968607174b7d79
+  checksum: 10/cd1bf7fc031139f383fc7d6b45238608144ab673684602705537242023b2c51eb3382ae0b76c8d5533724848e8e63a196874ee74f05aff8b60dc2fe9aedf84a2
   languageName: node
   linkType: hard
 
@@ -5705,12 +5705,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:26.6.3":
-  version: 26.6.3
-  resolution: "@types/node@npm:26.6.3"
+"@types/node@npm:26.6.5":
+  version: 26.6.5
+  resolution: "@types/node@npm:26.6.5"
   dependencies:
     undici-types: "npm:~8.9.0"
-  checksum: 10/278d5241522520fbadd46b41065d7587bbb214adb3c6f8a2a9a28754d374c578d090f7387866d09c79be1e9bbf5adc7eeea453032a52f77e70b06077f85c5c14
+  checksum: 10/03780cc68280b566af47c0f673318e665258dbdcc953737a83c11593424d55aecb8b2642a573da33f76cb4dd5457379548388b78ab284cb3b762030e5d58b252
   languageName: node
   linkType: hard
 
@@ -11513,15 +11513,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:26.4.2":
-  version: 26.4.2
-  resolution: "i18next@npm:26.4.2"
+"i18next@npm:26.4.4":
+  version: 26.4.4
+  resolution: "i18next@npm:26.4.4"
   peerDependencies:
     typescript: ^5 || ^6 || ^7
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10/7cf060a81682a63d0900c584b03a25557da88afcefebca613ca24c2a1af1322cdf606ba3dffa2d3900b3cf0fa6c3a945d89a0e50517d1b76ac5acb070ac76173
+  checksum: 10/0987781149f5dd814148339e553ea775bb4792fad29e5d9deae2784cb8e4d193875e4c67fcebbec9c6071f9423e098a3e0daafb4693fbb6b15fa2aa5f7853df7
   languageName: node
   linkType: hard
 
@@ -11784,9 +11784,9 @@ __metadata:
   linkType: hard
 
 "ip-address@npm:^10.0.1":
-  version: 10.7.3
-  resolution: "ip-address@npm:10.7.3"
-  checksum: 10/04655aa25ad682bb26ecb82281c9d3ecd99da8ecde9c95146f0a96685de90a359432d905bf6c53b5732fed0bfb1f93763cd3c91c3f266eec96cc41bfea987197
+  version: 10.7.4
+  resolution: "ip-address@npm:10.7.4"
+  checksum: 10/89375f1fa00e5bb4e724498886e06d870c1cc0abbfa9df8cb5ce80f3f179ee49feb0ca96ec54a1512c2303302719975a2ad96e3a8fcc13b4fd836d7f461d3d95
   languageName: node
   linkType: hard
 
@@ -13431,9 +13431,9 @@ __metadata:
   linkType: hard
 
 "libphonenumber-js@npm:^1.13.11":
-  version: 1.13.14
-  resolution: "libphonenumber-js@npm:1.13.14"
-  checksum: 10/9b6997d73272f7c18ec476b52f3c03dea2764eef21267bbff9713588fda411a0eb00bb0de39c5fabfc415b3aca78870e5a74a9f815ab61e398d758afbfa6b3d2
+  version: 1.13.15
+  resolution: "libphonenumber-js@npm:1.13.15"
+  checksum: 10/01c715a9526db7d114477155f69a071e47667ae62fa58b9e59d06fce3f6c9950aac8eb47dc6b9873493c88f2f9efa915bea7820a5b9a101821dd7cf19388c881
   languageName: node
   linkType: hard
 
@@ -15929,7 +15929,7 @@ __metadata:
     "@types/lodash": "npm:4.17.26"
     "@types/luxon": "npm:3.7.6"
     "@types/multer": "npm:^2.2.0"
-    "@types/node": "npm:26.6.3"
+    "@types/node": "npm:26.6.5"
     "@types/nunjucks": "npm:3.2.6"
     "@types/pa11y": "npm:^5.3.7"
     "@types/require-directory": "npm:2.1.7"
@@ -15970,7 +15970,7 @@ __metadata:
     helmet: "npm:8.3.0"
     html-webpack-plugin: "npm:5.6.8"
     husky: "npm:9.1.7"
-    i18next: "npm:26.4.2"
+    i18next: "npm:26.4.4"
     i18next-fs-backend: "npm:2.6.8"
     i18next-http-middleware: "npm:3.9.9"
     ioredis: "npm:5.11.1"
