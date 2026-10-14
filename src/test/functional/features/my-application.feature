@@ -1,4 +1,4 @@
-@JIRA-TEST-KEY:PTSD-1012 @Chan1
+@JIRA-TEST-KEY:PTSD-1012 @regression
 Feature: My application page
   As a PT user
   I want to be authenticated to the PT upon entering my credentials in IDAM
