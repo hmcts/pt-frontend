@@ -1,0 +1,15 @@
+export const contactPhoneNumber = {
+  contactPreferenceslink: 'Contact preferences',
+  pageHeading: 'Text updates',
+  textUpdateNoRadioButton: 'No, I want to receive email updates only',
+  phoneNumberField: '#phoneNumberForCalls',
+  validMobileNumber: '07394121492',
+  validLandlineNumber: '020 7123 4567',
+  invalidPhoneNumber: 'ABC123XYZ',
+  saveAndContinueButton: 'Save and continue',
+  saveForLaterButton: 'Save for later',
+  checkYourAnswersHeading: 'Check your answers',
+  taskListHeading: 'Application for pt citizen',
+  phoneNumberError: 'Phone number must be in the correct format, like 01632 960 001, 07700 900 982 or +44 808 157 0192',
+  errorSummarySelector: '.govuk-error-summary',
+};

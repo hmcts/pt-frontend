@@ -1,0 +1,15 @@
+export const landlordPhoneNumber = {
+  landlordDetailsIncludingAnyRepresentativesLink: 'Landlord details including any representatives',
+  pageHeading: "What is your landlord's phone number? (optional)",
+  landlordEmailAddressField: '#landlordEmailAddress',
+  validEmailAddress: 'test@gmail.com',
+  phoneNumberField: '#landlordPhoneNumber',
+  validPhoneNumber: '07700123456',
+  invalidPhoneNumber: 'ABC123XYZ',
+  saveAndContinueButton: 'Save and continue',
+  saveForLaterButton: 'Save for later',
+  nextPageHeading: 'Does your landlord have a letting agent or representative?',
+  dashboardHeading: 'Application for pt citizen',
+  invalidPhoneNumberError: 'Enter a valid phone number',
+  errorSummarySelector: '.govuk-error-summary',
+};

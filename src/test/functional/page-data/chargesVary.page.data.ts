@@ -1,0 +1,16 @@
+export const chargesVary = {
+  url: '/additional-rental-service-charges-vary',
+  pageHeading: 'Do the charges you pay for these services vary?',
+  hintText: 'For example, if the charge varies at different times, or with the size of the work needed',
+  yesRadio: 'Yes',
+  noRadio: 'No - I am charged the same every time',
+  chargesVariationLabel: 'Tell us how the charges you pay vary',
+  validVariationText: 'The charges vary depending on the size of the repair work required.',
+  saveAndContinueButton: 'Save and continue',
+  saveForLaterButton: 'Save for later',
+  nextPageurl: '/check-your-answers-current-rent-and-other-costs',
+  dashboardHeading: 'Your applications',
+  radioError: 'Select whether the charges you pay for these services vary',
+  detailRequiredError: 'Enter how the charges you pay vary',
+  maxLengthError: 'How the charges you pay vary must be 500 characters or less',
+};
