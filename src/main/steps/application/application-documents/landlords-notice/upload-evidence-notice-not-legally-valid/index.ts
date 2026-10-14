@@ -17,7 +17,6 @@ export const step: StepDefinition = createFormStep({
   customTemplate: `${__dirname}/uploadEvidenceNoticeNotLegallyValid.njk`,
   showCancelButton: false,
   documentField,
-  isAnswered: () => false,
   translationKeys: {
     pageTitle: 'pageTitle',
     heading: 'heading',
