@@ -78,3 +78,8 @@ When(
     });
   }
 );
+
+Given('that user is on task-list citizen dashboard page', () => {
+  I.waitInUrl(myApplication.taskListUrl);
+  I.waitForText(myApplication.taskListHeading);
+});
