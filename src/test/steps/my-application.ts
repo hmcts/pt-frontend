@@ -15,7 +15,7 @@ async function clickMyApplicationsLink(): Promise<void> {
       .getByRole('heading', {
         name: /My applications/i,
       })
-      .waitFor();
+      .waitFor({ state: 'visible', timeout: 30000 });
 
     await page.getByRole('link', { name: /Start a new application/i }).click({ force: true, timeout: 30000 });
   });

@@ -8,7 +8,7 @@ export const areYouChargedSeparately = {
   saveForLaterButton: 'Save for later',
   nextPageHeading: 'Other charges (optional)',
   nextPageHeadingForNoOption: 'Check your answers',
-  validationError: 'Select whether you are charged for anything else',
+  validationError: 'Select whether you are charged separately for anything else',
   errorSummarySelector: '.govuk-error-summary',
-  otherchargeDetailUrl: '/other-household-management-charges-details,',
+  otherchargeDetailUrl: '/other-household-management-charges-details',
 };

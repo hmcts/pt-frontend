@@ -27,7 +27,14 @@ When('the citizen leaves the variation details blank', () => {
 
 When('the citizen enters more than 500 characters', () => {
   const longText = 'A'.repeat(501);
-  I.fillField(chargesVary.chargesVariationLabel, longText);
+  I.executeScript(value => {
+    const textarea = document.querySelector('textarea');
+    if (textarea instanceof HTMLTextAreaElement) {
+      textarea.value = value;
+      textarea.dispatchEvent(new Event('input', { bubbles: true }));
+      textarea.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  }, longText);
 });
 
 When('the citizen clicks charges vary Save and continue', () => {
@@ -44,7 +51,8 @@ Then('the variation details text area is displayed', () => {
 });
 
 Then('the citizen is navigated to the next page', () => {
-  I.waitForText(chargesVary.nextPageurl, 10);
+  I.waitInUrl(chargesVary.nextPageurl, 10);
+  I.waitForText('Check your answers', 10);
 });
 
 Then('the citizen is returned to the application dashboard', () => {

@@ -27,15 +27,25 @@ export const config = {
   helpers: {},
 };
 
+const showBrowser = !config.TestHeadlessBrowser;
+
 config.helpers = {
   Playwright: {
     url: config.TEST_URL,
-    show: !config.TestHeadlessBrowser,
+    show: showBrowser,
     browser: 'chromium',
     waitForTimeout: config.WaitForTimeout,
     waitForAction: 1000,
     waitForNavigation: 'domcontentloaded',
     ignoreHTTPSErrors: true,
     slowMo: config.TestSlowMo,
+    // Playwright sizes the page to a fixed viewport unless that viewport is turned off.
+    // With it off, --start-maximized uses the full screen.
+    ...(showBrowser
+      ? {
+          chromium: { args: ['--start-maximized'] },
+          emulate: { viewport: null },
+        }
+      : {}),
   },
 };

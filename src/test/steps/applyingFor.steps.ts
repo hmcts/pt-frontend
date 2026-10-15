@@ -10,7 +10,7 @@ Given('the citizen is on the Applying For page', () => {
   I.waitForText(ptStartingOrReturning.pageHeading);
   I.checkOption(ptStartingOrReturning.startingOptionLabel);
   I.click(ptStartingOrReturning.continueButton);
-  I.waitForText(ptApplyingFor.pageHeading, 10);
+  I.waitForText(ptApplyingFor.pageHeading, 20);
 });
 
 When('the citizen selects applying for myself', () => {

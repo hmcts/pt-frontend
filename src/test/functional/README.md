@@ -67,6 +67,16 @@ Outputs:
 
 - Playwright failure screenshots → `functional-output/functional/reports/`
 - Cucumber JSON report (for Zephyr) → `functional-output/zephyr/cucumber-report.json`
+- Allure results → `functional-output/allure-results/`
+- Allure HTML report → `functional-output/allure-report/index.html`
+
+Open the HTML report with:
+
+```bash
+yarn allure open functional-output/allure-report
+```
+
+Generating the HTML report needs Java 21+, the same requirement as the Zephyr upload. On Jenkins, archive `functional-output/allure-report/**` or point the Allure plugin at `functional-output/allure-results`. Expand a step in the Allure report to see its full-page screenshot. Passed and failed steps both have one. Zephyr still receives the pass/fail result.
 
 ### Headed browser
 

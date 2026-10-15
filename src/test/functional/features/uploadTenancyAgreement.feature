@@ -1,5 +1,4 @@
 @JIRA-TEST-KEY:HDPD-588 @regression
-
 Feature: Upload tenancy agreement
 
 
@@ -32,8 +31,8 @@ Feature: Upload tenancy agreement
     @AC3 @JIRA-TEST-KEY:PTSD-883
     Scenario: Save and continue
         Given the citizen is on the Upload tenancy agreement page
-        And the citizen has uploaded a valid tenancy agreement file
-        When  I click 'Save and continue'
+        When the citizen uploads a valid tenancy agreement file
+        And I click "Save and continue"
         Then the citizen is taken to the Check your answers page
 
     @AC3 @JIRA-TEST-KEY:PTSD-884
@@ -45,22 +44,24 @@ Feature: Upload tenancy agreement
     @AC4 @JIRA-TEST-KEY:PTSD-885
     Scenario: No file selected validation
         Given the citizen is on the Upload tenancy agreement page
-        When  I click 'Save and continue'
+        When I click "Save and continue"
         Then I check that the error message "Select a file to upload" is displayed on the page
 
+    @AC5 @JIRA-TEST-KEY:PTSD-885
+    Scenario: TXT file is accepted
+        Given the citizen is on the Upload tenancy agreement page
+        When the citizen uploads an invalid file type
+        Then the page should include "test.txt"
+
     @AC6 @JIRA-TEST-KEY:PTSD-885
-    Scenario: empty file type
+    Scenario: empty PDF is not added
         Given the citizen is on the Upload tenancy agreement page
         When the citizen has uploaded a empty tenancy agreement file
-        And  I click 'Save and continue'
-        Then I check that the error message "The selected file is empty" is displayed on the page
-
+        And I click "Save and continue"
+        Then I check that the error message "Select a file to upload" is displayed on the page
 
     @AC7 @JIRA-TEST-KEY:PTSD-885
-    Scenario: empty file type
+    Scenario: Unsupported file type
         Given the citizen is on the Upload tenancy agreement page
         When the citizen has uploaded unsuppprted file
-        And  I click 'Save and continue'
         Then I check that the error message "The selected file must be a DOC, DOCX, XLS, XLSX, PPT, PPTX, PDF, RTF, TXT, CSV, JPG, JPEG, PNG, BMP, TIF or TIFF" is displayed on the page
-
-

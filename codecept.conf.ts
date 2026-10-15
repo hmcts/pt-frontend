@@ -14,6 +14,7 @@ export const config: CodeceptJS.MainConfig = {
     allure: {
       enabled: true,
       require: '@codeceptjs/allure-legacy',
+      outputDir: './functional-output/allure-results',
     },
     pauseOnFail: {
       enabled: !testConfig.TestHeadlessBrowser,
@@ -28,6 +29,10 @@ export const config: CodeceptJS.MainConfig = {
     screenshotOnFail: {
       enabled: true,
       fullPageScreenshots: true,
+    },
+    allureStepScreenshots: {
+      enabled: true,
+      require: './src/test/plugins/allureStepScreenshots.js',
     },
     cucumberJsonReporter: {
       enabled: true,
