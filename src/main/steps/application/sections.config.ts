@@ -59,6 +59,7 @@ const sectionDefs = [
     titleKey: 'taskList.landlordsNotice',
     steps: [
       'have-landlords-notice',
+      'upload-landlords-notice',
       'your-notice-proposing-a-new-rent',
       'upload-evidence-notice-not-legally-valid',
       'hardship',

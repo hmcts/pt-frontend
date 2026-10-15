@@ -53,14 +53,14 @@
     "cookie-parser": "1.4.7",
     "csrf-sync": "4.2.1",
     "escape-html": "1.0.3",
-    "express": "5.2.1",
+    "express": "5.3.0",
     "express-session": "1.19.0",
     "form-data": "4.0.6",
     "git-rev-sync": "^3.0.2",
     "glob": "^13.0.6",
     "govuk-frontend": "6.5.1",
     "helmet": "8.3.0",
-    "i18next": "26.4.2",
+    "i18next": "26.4.4",
     "i18next-fs-backend": "2.6.8",
     "i18next-http-middleware": "3.9.9",
     "ioredis": "5.11.1",
@@ -77,7 +77,7 @@
     "otpauth": "^9.5.0",
     "winston": "3.19.0",
     "xss": "^1.0.15",
-    "zod": "4.5.4",
+    "zod": "4.6.7",
     "zod-i18n-map": "2.27.0"
   },
   "devDependencies": {
@@ -121,7 +121,7 @@
     "eslint-config-prettier": "10.1.8",
     "eslint-import-resolver-typescript": "4.4.5",
     "eslint-plugin-import": "2.32.0",
-    "eslint-plugin-jest": "29.16.6",
+    "eslint-plugin-jest": "29.17.0",
     "globals": "17.13.0",
     "html-webpack-plugin": "5.6.8",
     "husky": "9.1.7",
@@ -150,7 +150,7 @@
     "typescript": "5.9.3",
     "webpack": "5.111.1",
     "webpack-cli": "7.2.3",
-    "webpack-dev-middleware": "8.2.0",
+    "webpack-dev-middleware": "8.3.0",
     "webpack-node-externals": "3.0.0"
   },
   "lint-staged": {

@@ -1,4 +1,5 @@
 import { config as testConfig } from '../config';
+import { commonPage } from '../functional/page-data/common.page.data';
 
 const { I } = inject();
 
@@ -19,6 +20,20 @@ Then('the page should include {string}', (text: string) => {
   I.waitForText(text);
 });
 
+Then('check that the user lands on the {string} page', (pageHeading: string) => {
+  I.waitForText(pageHeading);
+});
+
+Then('I check that user lands on the {string} page', (pageHeading: string) => {
+  I.waitForText(pageHeading);
+});
+
+Then('I should see the button {string}', async (buttonText: string) => {
+  await I.usePlaywrightTo('check button is visible', async ({ page }) => {
+    await page.locator('button').getByText(buttonText, { exact: true }).waitFor({ state: 'visible' });
+  });
+});
+
 export const selectOptionByLabel = (label: string): void => {
   I.checkOption(label);
 };
@@ -29,6 +44,19 @@ When('I click {string}', (buttonText: string) => {
 
 When('I click {string} link', (linkText: string) => {
   I.click(linkText);
+});
+
+When('I click the change link for {string}', async (question: string) => {
+  await I.usePlaywrightTo('click change link for summary answer', async ({ page }) => {
+    const row = page.locator(commonPage.summaryRowSelector).filter({
+      has: page.locator(commonPage.summaryKeySelector).getByText(question, { exact: true }),
+    });
+    await row
+      .locator(commonPage.summaryActionsSelector)
+      .locator(commonPage.summaryActionLinkSelector)
+      .filter({ hasText: commonPage.changeLinkLabel })
+      .click();
+  });
 });
 
 When('I select {string} for the question {string}', (option: string, question: string) => {
@@ -55,6 +83,10 @@ When('I enter the date {string} for the question {string}', async (date: string,
 });
 
 Then('I check that the error message {string} is displayed on the page', (message: string) => {
+  I.waitForText(message);
+});
+
+Then('I check for error message {string}', (message: string) => {
   I.waitForText(message);
 });
 
