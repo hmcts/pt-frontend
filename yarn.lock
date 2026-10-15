@@ -16067,7 +16067,7 @@ __metadata:
     webpack-node-externals: "npm:3.0.0"
     winston: "npm:3.19.0"
     xss: "npm:^1.0.15"
-    zod: "npm:4.5.4"
+    zod: "npm:4.6.7"
     zod-i18n-map: "npm:2.27.0"
   languageName: unknown
   linkType: soft
@@ -19660,10 +19660,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:4.5.4":
-  version: 4.5.4
-  resolution: "zod@npm:4.5.4"
-  checksum: 10/b2fd4aaf358359650a1f27f303a462f0f49b4e5582f517ad8894ed566fdceb9da391b59babffe3c70574c8064174883735657eb28e12db5c7021455a631866c4
+"zod@npm:4.6.7":
+  version: 4.6.7
+  resolution: "zod@npm:4.6.7"
+  checksum: 10/3ca8b8d6bb401538e59504c543db629ea7beaa775e504c3f22269b406fdffbf1431c856d59a597bf66d8487e4d2be12b03a55d76fc2c63d9f046eae1ca173bca
   languageName: node
   linkType: hard
 
