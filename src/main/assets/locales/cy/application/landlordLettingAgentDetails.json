@@ -1,0 +1,30 @@
+{
+  "pageTitle": "cy Your landlord's letting agent's details",
+  "heading": "cy Your landlord's letting agent's details",
+  "labels": {
+    "lettingAgentFirstName": "cy First name",
+    "lettingAgentLastName": "cy Last name",
+    "lettingAgentCompanyName": "cy Company name (optional)",
+    "lettingAgentDXNumber": {
+      "label": "cy DX number for communication (optional)",
+      "hint": "cy For example, AB123"
+    }
+  },
+  "errors": {
+    "lettingAgentFirstName": {
+      "required": "cy Enter the letting agent's first name",
+      "invalidCharacters": "cy First name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes",
+      "invalidMinLength": "cy First name must be 2 characters or more",
+      "invalidMaxLength": "cy First name must be 100 characters or less"
+    },
+    "lettingAgentLastName": {
+      "required": "cy Enter the letting agent's last name",
+      "invalidCharacters": "cy Last name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes",
+      "invalidMinLength": "cy Last name must be 2 characters or more",
+      "invalidMaxLength": "cy Last name must be 100 characters or less"
+    },
+    "lettingAgentCompanyName": {
+      "invalidMaxLength": "cy Company name must be 100 characters or less"
+    }
+  }
+}
