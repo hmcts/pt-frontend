@@ -6,9 +6,8 @@ import { clearRefreshInProgressForTesting, oidcMiddleware } from '../../../main/
 
 import { Logger } from '@modules/logger';
 
-// jose is ESM only, so decoding goes through jwt-decode to keep this test independent of how Jest loads ESM
 jest.mock('jose', () => ({
-  decodeJwt: jest.fn((token: string) => jest.requireActual('jwt-decode').jwtDecode(token)),
+  decodeJwt: jest.fn((token: string) => JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString())),
 }));
 jest.mock('config', () => ({
   get: jest.fn((key: string) => (key === 'oidc.accessTokenEarlyRefreshSeconds' ? 30 : undefined)),
@@ -161,7 +160,7 @@ describe('oidcMiddleware', () => {
 
   it('treats a token it cannot decode as expired and logs a warning', async () => {
     refreshUserTokens.mockResolvedValue({ accessToken: 'new-access-token' });
-    const ctx = makeRequest(makeSession(signedInUser({ accessToken: 'not-a-jwt' })));
+    const ctx = makeRequest(makeSession(signedInUser({ accessToken: 'not.a.jwt' })));
 
     await run(ctx);
 
