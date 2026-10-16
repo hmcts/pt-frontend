@@ -1,6 +1,14 @@
+import type { Request } from 'express';
 import type { Environment } from 'nunjucks';
 
 import { step } from '../../../../main/steps/application/the-rent/the-current-rent-and-other-costs/tribunal-previously-determined-rent';
+
+import { createFormStep } from '@modules/steps';
+
+jest.mock('@modules/steps', () => {
+  const actual = jest.requireActual('@modules/steps');
+  return { ...actual, createFormStep: jest.fn(actual.createFormStep) };
+});
 
 jest.mock('../../../../main/modules/steps/i18n', () => ({
   loadStepNamespace: jest.fn(),
@@ -128,5 +136,67 @@ describe('application tribunal-previously-determined-rent step', () => {
     });
 
     expect(res.redirect).toHaveBeenCalled();
+  });
+
+  const makeReq = (formData: Record<string, unknown> = {}, currentRentsDetails?: Record<string, unknown>): Request =>
+    ({
+      params: { caseReference: CASE_REF },
+      session: { formData: { [CASE_REF]: formData }, ccdCase: { currentRentsDetails } },
+    }) as unknown as Request;
+
+  describe('isAnswered', () => {
+    it('is not answered when nothing has been saved', () => {
+      expect(step.isAnswered?.(makeReq())).toBe(false);
+    });
+
+    it.each(['Yes', 'No'])('is answered when %s has been saved', answer => {
+      expect(step.isAnswered?.(makeReq({}, { tribunalPreviouslyDeterminedTenancyRent: answer }))).toBe(true);
+    });
+  });
+
+  describe('getInitialFormData', () => {
+    const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
+
+    it('prefers the answer and case reference from the form data over the saved case', () => {
+      const req = makeReq(
+        {
+          'tribunal-previously-determined-rent': {
+            tribunalPreviouslyDeterminedTenancyRent: 'Yes',
+            [caseReferenceField]: 'LON/00AD/SMO/2023/0001',
+          },
+        },
+        { tribunalPreviouslyDeterminedTenancyRent: 'Yes', previousTribunalCaseReference: 'LON/00AD/SMO/2023/0002' }
+      );
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({
+        tribunalPreviouslyDeterminedTenancyRent: 'Yes',
+        [caseReferenceField]: 'LON/00AD/SMO/2023/0001',
+      });
+    });
+
+    it('falls back to the saved case', () => {
+      const req = makeReq(
+        {},
+        { tribunalPreviouslyDeterminedTenancyRent: 'Yes', previousTribunalCaseReference: 'LON/00AD/SMO/2023/0002' }
+      );
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({
+        tribunalPreviouslyDeterminedTenancyRent: 'Yes',
+        [caseReferenceField]: 'LON/00AD/SMO/2023/0002',
+      });
+    });
+
+    it('does not return the saved case reference once the answer has been changed to no', () => {
+      const req = makeReq(
+        { 'tribunal-previously-determined-rent': { tribunalPreviouslyDeterminedTenancyRent: 'No' } },
+        { tribunalPreviouslyDeterminedTenancyRent: 'Yes', previousTribunalCaseReference: 'LON/00AD/SMO/2023/0002' }
+      );
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({ tribunalPreviouslyDeterminedTenancyRent: 'No' });
+    });
+
+    it('returns nothing when the question has not been answered', () => {
+      expect(capturedConfig.getInitialFormData(makeReq())).toEqual({});
+    });
   });
 });

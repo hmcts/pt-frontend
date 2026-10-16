@@ -1,6 +1,14 @@
+import type { Request } from 'express';
 import type { Environment } from 'nunjucks';
 
 import { step } from '../../../../main/steps/application/the-rent/the-current-rent-and-other-costs/rent-payment-frequency';
+
+import { createFormStep } from '@modules/steps';
+
+jest.mock('@modules/steps', () => {
+  const actual = jest.requireActual('@modules/steps');
+  return { ...actual, createFormStep: jest.fn(actual.createFormStep) };
+});
 
 jest.mock('../../../../main/modules/steps/i18n', () => ({
   loadStepNamespace: jest.fn(),
@@ -14,15 +22,14 @@ jest.mock('../../../../main/modules/i18n', () => ({
 }));
 
 /**
- * Covers only what this step adds on top of the form builder: that each
- * frequency maps to its own amount field, that a hidden amount is not
- * validated, and that beforeRedirect clears the amounts that do not apply.
- * Required and validator behaviour is the framework's, and the amount rules
- * are covered by rentAmount.test.ts.
+ * Covers only what this step adds on top of the form builder. Required
+ * behaviour is the framework's, and the amount rules are covered by
+ * rentAmount.test.ts, so the validator is only checked for its wiring.
  */
 const CASE_REF = '1234123412341234';
 
 describe('application rent-payment-frequency step', () => {
+  const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
   const nunjucksEnv = { render: jest.fn(() => '') } as unknown as Environment;
 
   const stepName = 'rent-payment-frequency';
@@ -114,5 +121,44 @@ describe('application rent-payment-frequency step', () => {
       [monthlyField]: '',
       [yearlyField]: '',
     });
+  });
+
+  describe('isAnswered', () => {
+    const isAnswered = (currentRentsDetails?: Record<string, unknown>): unknown =>
+      step.isAnswered?.({ session: { ccdCase: { currentRentsDetails } } } as unknown as Request);
+
+    it('is not answered when no frequency has been saved', () => {
+      expect(isAnswered()).toBe(false);
+    });
+
+    it('is answered when a frequency has been saved', () => {
+      expect(isAnswered({ rentPaymentFrequency: 'monthly' })).toBe(true);
+    });
+  });
+
+  describe('amount validator', () => {
+    const validate = (value: unknown): boolean | string =>
+      capturedConfig.fields[0].options[0].subFields.rentCostWeekly.validator(value);
+
+    it('leaves an empty amount to the required check', () => {
+      expect(validate('')).toBe(true);
+    });
+
+    it('accepts an amount with pence', () => {
+      expect(validate('850.50')).toBe(true);
+    });
+
+    it('returns the error key for the field matching the reason the amount is invalid', () => {
+      expect(validate('not-a-number')).toBe('errors.rentCostWeekly.invalid');
+    });
+  });
+
+  it('returns no initial form data when the question has not been answered', () => {
+    const req = {
+      params: { caseReference: CASE_REF },
+      session: { formData: { [CASE_REF]: {} }, ccdCase: {} },
+    } as unknown as Request;
+
+    expect(capturedConfig.getInitialFormData(req)).toEqual({});
   });
 });
