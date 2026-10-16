@@ -11,6 +11,7 @@ import { step as rentPaymentFrequency } from './the-current-rent-and-other-costs
 import { step as tenancyEndDate } from './the-current-rent-and-other-costs/tenancy-end-date';
 import { step as tribunalPreviouslyDeterminedRent } from './the-current-rent-and-other-costs/tribunal-previously-determined-rent';
 import { step as utilitiesPaidFrequency } from './the-current-rent-and-other-costs/utilities-paid-frequency';
+import { step as anythingElseTribunalShouldConsider } from './what-you-think-market-rent-should-be/anything-else-tribunal-should-consider';
 import { step as proposedMarketRent } from './what-you-think-market-rent-should-be/proposed-market-rent';
 import { step as proposedMarketRentReasons } from './what-you-think-market-rent-should-be/proposed-market-rent-reasons';
 import { step as uploadEvidenceProposedMarketRent } from './what-you-think-market-rent-should-be/upload-evidence-proposed-market-rent';
@@ -34,4 +35,5 @@ export const theRentStepRegistry = {
   'proposed-market-rent': proposedMarketRent,
   'proposed-market-rent-reasons': proposedMarketRentReasons,
   'upload-evidence-proposed-market-rent': uploadEvidenceProposedMarketRent,
+  'anything-else-tribunal-should-consider': anythingElseTribunalShouldConsider,
 } satisfies Record<string, StepDefinition>;
