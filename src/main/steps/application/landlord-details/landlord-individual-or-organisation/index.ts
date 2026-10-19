@@ -19,6 +19,19 @@ const validateLanlordNameLength = (value: unknown): boolean | string => {
   return true;
 };
 
+const validatePersonName = (value: unknown, invalidErrorMessage: string): boolean | string => {
+  const lengthError = validateLanlordNameLength(value);
+  if (lengthError !== true) {
+    return lengthError;
+  }
+
+  if (value && !isValidPersonName(value as string)) {
+    return invalidErrorMessage;
+  }
+
+  return true;
+};
+
 export const step: StepDefinition = createFormStep({
   stepName,
   journeyFolder: journeyName,
@@ -71,16 +84,7 @@ export const step: StepDefinition = createFormStep({
                 autocomplete: 'given-name',
                 spellcheck: false,
               },
-              validator: (value): boolean | string => {
-                const error = validateLanlordNameLength(value);
-                if (error !== true) {
-                  return error;
-                }
-                if (value && !isValidPersonName(value as string)) {
-                  return 'errors.landlordFirstName.invalid';
-                }
-                return true;
-              },
+              validator: value => validatePersonName(value, 'errors.landlordFirstName.invalid'),
             },
             landlordLastName: {
               name: 'landlordLastName',
@@ -94,16 +98,7 @@ export const step: StepDefinition = createFormStep({
                 autocomplete: 'family-name',
                 spellcheck: false,
               },
-              validator: (value): boolean | string => {
-                const error = validateLanlordNameLength(value);
-                if (error !== true) {
-                  return error;
-                }
-                if (value && !isValidPersonName(value as string)) {
-                  return 'errors.landlordLastName.invalid';
-                }
-                return true;
-              },
+              validator: value => validatePersonName(value, 'errors.landlordLastName.invalid'),
             },
           },
         },
@@ -122,13 +117,7 @@ export const step: StepDefinition = createFormStep({
               attributes: {
                 autocomplete: 'organization',
               },
-              validator: (value): boolean | string => {
-                const error = validateLanlordNameLength(value);
-                if (error !== true) {
-                  return error;
-                }
-                return true;
-              },
+              validator: validateLanlordNameLength,
             },
           },
         },
