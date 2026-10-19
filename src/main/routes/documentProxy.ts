@@ -21,7 +21,7 @@ import {
   saveDocuments,
 } from '@modules/documents/storage';
 import { Logger } from '@modules/logger';
-import { CdamUploadRejected, deleteDocument, uploadDocument } from '@services/cdamService';
+import { CdamUploadRejected, deleteDocument, uploadDocument } from '@services/cdam/cdamService';
 import { maxFileSizeBytes, maxTotalFileSizeMB, validateUploadedFile } from '@utils/documentUploadValidation';
 
 const logger = Logger.getLogger('documentProxy');

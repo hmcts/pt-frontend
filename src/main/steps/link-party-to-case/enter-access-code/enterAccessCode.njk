@@ -1,0 +1,29 @@
+{% extends "stepsTemplate.njk" %}
+{% from "macros/stepButtons.njk" import stepButtons %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% block pageTitle %}{{ questionTitle }} &ndash; HM Courts &amp; Tribunals Service &ndash; GOV.UK{% endblock %}
+
+{% block mainContent %}
+
+  {% if errorSummary %}
+    {{ govukErrorSummary(errorSummary) }}
+  {% endif %}
+
+  <h1 class="govuk-heading-l">{{ t('pageHeading') }}</h1>
+  <p class="govuk-body">{{ t('pageInfo') }}</p>
+
+  <form method="post" action="{{ url }}" novalidate>
+    {% for field in fields %}
+      {% if field.componentType == 'input' %}
+        {{ govukInput(field.component) }}
+      {% endif %}
+    {% endfor %}
+
+    {{ stepButtons(continue) }}
+    {{ csrfProtection(csrfToken) }}
+  </form>
+
+{% endblock %}
