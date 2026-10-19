@@ -1,3 +1,4 @@
+import { getTextLenghtError } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
 
 import { createFormStep, getFormData } from '@modules/steps';
@@ -6,6 +7,17 @@ import { isValidPersonName } from '@utils/personName';
 
 const journeyName = 'application';
 const stepName = 'landlord-individual-or-organisation';
+
+const validateLanlordNameLength = (value: unknown): boolean | string => {
+  const error = getTextLenghtError(value as string, 2, 50);
+  if (error === 'tooShort') {
+    return 'errors.landlordName.tooShort';
+  }
+  if (error === 'tooLong') {
+    return 'errors.landlordName.tooLong';
+  }
+  return true;
+};
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -60,8 +72,9 @@ export const step: StepDefinition = createFormStep({
                 spellcheck: false,
               },
               validator: (value): boolean | string => {
-                if (value && (String(value).length < 2 || String(value).length > 50)) {
-                  return String(value).length < 2 ? 'errors.landlordName.tooShort' : 'errors.landlordName.tooLong';
+                const error = validateLanlordNameLength(value);
+                if (error !== true) {
+                  return error;
                 }
                 if (value && !isValidPersonName(value as string)) {
                   return 'errors.landlordFirstName.invalid';
@@ -82,8 +95,9 @@ export const step: StepDefinition = createFormStep({
                 spellcheck: false,
               },
               validator: (value): boolean | string => {
-                if (value && (String(value).length < 2 || String(value).length > 50)) {
-                  return String(value).length < 2 ? 'errors.landlordName.tooShort' : 'errors.landlordName.tooLong';
+                const error = validateLanlordNameLength(value);
+                if (error !== true) {
+                  return error;
                 }
                 if (value && !isValidPersonName(value as string)) {
                   return 'errors.landlordLastName.invalid';
@@ -109,8 +123,9 @@ export const step: StepDefinition = createFormStep({
                 autocomplete: 'organization',
               },
               validator: (value): boolean | string => {
-                if (value && (String(value).length < 2 || String(value).length > 50)) {
-                  return String(value).length < 2 ? 'errors.landlordName.tooShort' : 'errors.landlordName.tooLong';
+                const error = validateLanlordNameLength(value);
+                if (error !== true) {
+                  return error;
                 }
                 return true;
               },
