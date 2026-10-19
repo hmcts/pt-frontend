@@ -2,7 +2,7 @@ import type { Environment } from 'nunjucks';
 
 import { step } from '../../../../main/steps/application/delete-application/delete-application-confirmation';
 
-import { getCaseApi } from '@services/ccdApiClient';
+import { getCaseApi } from '@services/ccd/ccdApiClient';
 
 jest.mock('../../../../main/modules/steps/i18n', () => ({
   loadStepNamespace: jest.fn(),
@@ -15,7 +15,7 @@ jest.mock('../../../../main/modules/i18n', () => ({
   getCommonTranslations: jest.fn(() => ({})),
 }));
 
-jest.mock('@services/ccdApiClient', () => ({
+jest.mock('@services/ccd/ccdApiClient', () => ({
   getCaseApi: jest.fn(),
 }));
 

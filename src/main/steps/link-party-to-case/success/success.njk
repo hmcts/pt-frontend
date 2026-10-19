@@ -1,0 +1,20 @@
+{% extends "stepsTemplate.njk" %}
+{% from "macros/stepButtons.njk" import stepButtons %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% block pageTitle %}{{ questionTitle }} &ndash; HM Courts &amp; Tribunals Service &ndash; GOV.UK{% endblock %}
+
+{% block mainContent %}
+  {{ govukPanel({
+    titleText: t('panelHeading'),
+    text: t('panelText')
+  }) }}
+
+  {{ govukButton({
+    text: t('buttonText'),
+    href: '/'
+  }) }}
+{% endblock %}

@@ -4,8 +4,8 @@
 
 {% block content %}
   <h1 class="govuk-heading-l">{{ t('myApplications') }}</h1>
-  <p class="govuk-body"><a href="/start-new-application" class="govuk-link">{{ t('startNewApplicationLinkText') }}</a></p>
-  <p class="govuk-body"><a href="/link-to-case" class="govuk-link">{{ t('linkToCaseLinkText') }}</a></p>
+  <p class="govuk-body"><a href="/start-new-application" class="govuk-link govuk-link--no-visited-state">{{ t('startNewApplicationLinkText') }}</a></p>
+  <p class="govuk-body"><a href="/link-to-case" class="govuk-link govuk-link--no-visited-state">{{ t('linkToCaseLinkText') }}</a></p>
 
   {% if applications.length > 0 %}
     {{ govukTable({
