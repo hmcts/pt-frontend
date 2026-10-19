@@ -58,6 +58,10 @@ withNightlyPipeline(type, product, component) {
 
   afterAlways('fortify-scan') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
+  }
+
+  // Runs after the Fortify Scan stage has finished, including the vulnerability report.
+  onSuccess {
     runRegressionTests(yarnBuilder)
   }
 }
@@ -85,10 +89,7 @@ def runRegressionTests(yarnBuilder) {
       catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
         yarnBuilder.yarn('test:functional')
       }
-      steps.archiveArtifacts(
-        allowEmptyArchive: true,
-        artifacts: 'functional-output/**'
-      )
+      steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**'
     }
   }
 }

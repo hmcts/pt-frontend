@@ -66,7 +66,7 @@ Jenkins does not run these tests on a pull request unless the PR has a label:
 
 Separate several spec keywords with a comma or semicolon, for example `e2e-spec:idam-login,my-application`. A tag and a spec label can be used together. Master still runs the full suite.
 
-The nightly job (`Jenkinsfile_nightly`) runs weekdays around 07:00 and executes `yarn test:functional` with `E2E_TEST_SCOPE=@regression` against AAT. A manual build can change the environment, grep tag, or feature filter.
+The nightly job (`Jenkinsfile_nightly`) runs weekdays around 07:00. After the Fortify scan it runs `yarn test:functional` with `E2E_TEST_SCOPE=@regression` against AAT. A manual build can change the environment, grep tag, or feature filter.
 
 ### Gherkin tags
 
