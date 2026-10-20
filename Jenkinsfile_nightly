@@ -1,11 +1,33 @@
 #!groovy
 
 properties([
-// H allow predefined but random minute see https://en.wikipedia.org/wiki/Cron#Non-standard_characters
-pipelineTriggers([cron('H 07 * * 1-5')])
+  // H allow predefined but random minute see https://en.wikipedia.org/wiki/Cron#Non-standard_characters
+  pipelineTriggers([cron('H 07 * * 1-5')]),
+  parameters([
+    text(
+      name: 'MANUAL_BUILD_REASON',
+      defaultValue: 'Daily nightly schedule run',
+      description: 'Why this build was triggered. For manual runs, enter a short note (e.g. verify a fix). Scheduled runs keep the default.'
+    ),
+    choice(
+      name: 'E2E_TARGET_ENV',
+      choices: ['aat', 'demo', 'perftest', 'ithc'],
+      description: 'CNP env for vault pt-kv1-<name> and the PT URL. Scheduled runs default to aat.'
+    ),
+    string(
+      name: 'E2E_SPEC',
+      defaultValue: '',
+      description: 'Feature path filter: each keyword must appear in a feature path under src/test/functional/features (case-sensitive). Separate keywords with comma or semicolon. Blank = all features.'
+    ),
+    choice(
+      name: 'E2E_GREP_TAG',
+      choices: ['@regression', '@smoke', '@idam'],
+      description: 'Codecept grep (E2E_TEST_SCOPE). First option is the default for scheduled runs.'
+    ),
+  ])
 ])
 
-@Library("Infrastructure@2.12.2")
+@Library("Infrastructure@2.13.0")
 
 def type = "nodejs"
 def product = "pt"
@@ -13,13 +35,61 @@ def component = "frontend"
 
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
+static Map secret(String secretName, String envVariable) {
+  [$class     : 'AzureKeyVaultSecret',
+   secretType : 'Secret',
+   name       : secretName,
+   envVariable: envVariable
+  ]
+}
+
+def ptE2eVaultSecrets = [
+  secret('pt-frontend-idam-secret', 'PT_FRONTEND_IDAM_SECRET'),
+  secret('pt-idam-test-user-password', 'IDAM_PT_USER_PASSWORD'),
+]
+
 withNightlyPipeline(type, product, component) {
   enableSlackNotifications('#pt-tech')
+  handleEnvironmentSetting()
+  loadVaultSecrets(["pt-kv1-${env.ENVIRONMENT}": ptE2eVaultSecrets])
+  setFunctionalTestEnvVars()
   env.FORTIFY_SCAN_RUNNER = 'library'
   enableFortifyScan('pt-kv1-aat')
 
-   afterAlways('fortify-scan') {
+  afterAlways('fortify-scan') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
+  }
+
+  // Runs after the Fortify Scan stage has finished, including the vulnerability report.
+  onSuccess {
+    runRegressionTests(yarnBuilder)
   }
 }
 
+def handleEnvironmentSetting() {
+  env.ENVIRONMENT = (params.E2E_TARGET_ENV?.trim() ?: 'aat').toLowerCase()
+  env.TEST_URL = "https://pt.${env.ENVIRONMENT}.platform.hmcts.net/"
+  env.E2E_TEST_SCOPE = params.E2E_GREP_TAG?.trim() ?: '@regression'
+  env.E2E_SPEC = params.E2E_SPEC?.trim() ?: ''
+  env.RUN_FUNCTIONAL_TESTS = 'true'
+  env.NODE_CONFIG_ENV = 'test'
+}
+
+def setFunctionalTestEnvVars() {
+  env.PT_API_URL = "http://pt-api-${env.ENVIRONMENT}.service.core-compute-${env.ENVIRONMENT}.internal"
+  env.DATA_STORE_URL_BASE = "http://ccd-data-store-api-${env.ENVIRONMENT}.service.core-compute-${env.ENVIRONMENT}.internal"
+  env.CDAM_URL = "http://ccd-case-document-am-api-${env.ENVIRONMENT}.service.core-compute-${env.ENVIRONMENT}.internal"
+  env.CASE_TYPE_ID = 'PT'
+}
+
+def runRegressionTests(yarnBuilder) {
+  stage("Regression [${env.ENVIRONMENT}] ${env.E2E_TEST_SCOPE}") {
+    node {
+      checkout scm
+      catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+        yarnBuilder.yarn('test:functional')
+      }
+      steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**'
+    }
+  }
+}
