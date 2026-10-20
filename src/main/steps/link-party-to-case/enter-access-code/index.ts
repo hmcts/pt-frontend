@@ -2,7 +2,7 @@ import { Request } from 'express';
 
 import { flowConfig } from '../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { clearFormData, createFormStep } from '@modules/steps';
 import { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { getPtApi } from '@services/ptApi/ptApiClient';
 import { isValidAccessCode, normaliseAccessCode } from '@utils/accessCode';
@@ -60,8 +60,9 @@ export const step: StepDefinition = createFormStep({
   beforeRedirect: async (req: Request) => {
     const user = req.session?.user;
     const ptApi = getPtApi(user);
-    const caseReference = String(req.params.caseReference);
+    const caseReference = String(req.body.caseReference);
     const normalisedAccessCode = normaliseAccessCode(req.body.accessCode);
     await ptApi.linkPartyToCase(caseReference, normalisedAccessCode);
+    clearFormData(req);
   },
 });
