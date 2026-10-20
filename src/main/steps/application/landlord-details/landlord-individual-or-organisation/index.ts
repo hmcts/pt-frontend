@@ -62,9 +62,9 @@ export const step: StepDefinition = createFormStep({
       name: 'landlordIndividualOrOrganisation',
       type: 'radio',
       required: true,
-      isPageHeading: false,
-      legendClasses: 'govuk-fieldset__legend--m',
-      translationKey: { label: 'subheading' },
+      isPageHeading: true,
+      legendClasses: 'govuk-fieldset__legend--l',
+      translationKey: { label: 'heading', hint: 'subheading' },
       errorMessage: 'errors.landlordIndividualOrOrganisation.required',
       options: [
         {
