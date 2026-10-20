@@ -19,7 +19,7 @@ Feature: Validate Property address Page
         Given the citizen is on the Property Address page
         Then the property address page displays all expected content
 
-    @AC2 @JIRA-TEST-KEY:PTSD-843
+    @smoke @AC2 @JIRA-TEST-KEY:PTSD-843
     Scenario: Verify Save and Continue with valid mandatory fields
         Given the citizen is on the Property Address page
         When the citizen enters valid mandatory property address details
