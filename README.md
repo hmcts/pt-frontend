@@ -60,6 +60,8 @@ yarn start:dev
 
 The applications's home page will be available at http://localhost:4000
 
+You will need to be running the VPN in order to access the pages as well.
+
 ### Running with Docker (not implemented yet)
 
 Create docker image:
