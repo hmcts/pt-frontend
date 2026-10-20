@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import config from 'config';
-import { jwtDecode } from 'jwt-decode';
+import * as jose from 'jose';
 import NodeCache from 'node-cache';
 
 import { CALLBACK_URL } from '../../urls';
@@ -26,7 +26,7 @@ export const getUserDetails = async (serviceUrl: string, rawCode: string): Promi
   const params = { callbackUrl, code };
 
   const response: AxiosResponse<OidcResponse> = await getIdamToken(params, params.code);
-  const jwt = jwtDecode(response.data.id_token) as IdTokenJwtPayload;
+  const jwt = jose.decodeJwt(response.data.id_token) as IdTokenJwtPayload;
 
   return {
     accessToken: response.data.access_token,
@@ -45,7 +45,7 @@ export const getSystemUser = async (): Promise<UserDetails> => {
 
   const response: AxiosResponse<OidcResponse> = await createIdamToken(params);
 
-  const jwt = jwtDecode(response.data.id_token) as IdTokenJwtPayload;
+  const jwt = jose.decodeJwt(response.data.id_token) as IdTokenJwtPayload;
 
   return {
     accessToken: response.data.access_token,
