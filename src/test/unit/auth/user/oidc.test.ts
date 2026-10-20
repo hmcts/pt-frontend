@@ -15,6 +15,9 @@ const config = require('config');
 jest.mock('axios');
 jest.mock('config');
 jest.mock('node-cache');
+jest.mock('jose', () => ({
+  decodeJwt: (token: string) => JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString()),
+}));
 
 const mockedConfig = config as jest.Mocked<typeof config>;
 const mockedAxios = axios as jest.Mocked<AxiosStatic>;

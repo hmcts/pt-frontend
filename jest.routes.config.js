@@ -7,7 +7,6 @@ module.exports = {
     '^.+\\.ts?$': 'ts-jest',
   },
   moduleNameMapper: {
-    '^@router/(.*)$': '<rootDir>/src/main/router/$1',
     '^@routes/(.*)$': '<rootDir>/src/main/routes/$1',
     '^@modules/(.*)$': '<rootDir>/src/main/modules/$1',
     '^@services/(.*)$': '<rootDir>/src/main/services/$1',
