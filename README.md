@@ -25,19 +25,34 @@ You can take this a step further and integrate auto-detection directly into your
 
 ### Running the application
 
-Install dependencies by executing the following command:
+1. Select the correct Node.js version:
+
+```bash
+nvm use
+```
+
+2. Install dependencies:
 
 ```bash
 yarn install
 ```
 
-Bundle:
+3. Start Redis (required for session management on port `6379`):
 
 ```bash
-yarn webpack
+docker run -d --name pt-redis -p 6379:6379 redis
 ```
 
-Run:
+4. Copy `.env.example` to `.env` and set your secrets there.
+   Speak to a team member for the required secrets.
+
+5. Bundle the application:
+
+```bash
+yarn build
+```
+
+6. Start the application:
 
 ```bash
 yarn start:dev
@@ -45,11 +60,7 @@ yarn start:dev
 
 The applications's home page will be available at http://localhost:4000
 
-#### Local .env
-
-To run the application locally copy `.env.example` to `.env` and set your secrets there..
-
-### Running with Docker
+### Running with Docker (not implemented yet)
 
 Create docker image:
 
@@ -84,26 +95,53 @@ yarn lint:fix
 
 ### Running the tests
 
-This template app uses [Jest](https://jestjs.io//) as the test engine. You can run unit tests by executing
-the following command:
+This app uses [Jest](https://jestjs.io//) as the test engine.
+
+Unit tests:
 
 ```bash
-yarn test
+yarn test:unit
 ```
 
-Here's how to run functional tests (the template contains just one sample test):
+Route tests:
 
 ```bash
 yarn test:routes
 ```
 
-Running accessibility tests:
+Smoke tests:
+
+```bash
+yarn test:smoke
+```
+
+Functional tests:
+
+```bash
+yarn test:functional
+```
+
+Contract (Pact) tests:
+
+```bash
+yarn test:pact
+```
+
+Coverage
+
+```bash
+yarn test:coverage
+```
+
+Accessibility tests (not implemented yet):
 
 ```bash
 yarn test:a11y
 ```
 
-Make sure all the paths in your application are covered by accessibility tests (see [a11y.ts](src/test/a11y/a11y.ts)).
+### Document uploads
+
+For adding a new document upload step, see [file-upload.md](file-upload.md)
 
 ### Security
 
@@ -151,9 +189,7 @@ Make sure you have those values set correctly for your application.
 
 The application exposes a health endpoint (https://localhost:4000/health), created with the use of
 [Nodejs Healthcheck](https://github.com/hmcts/nodejs-healthcheck) library. This endpoint is defined
-in [health.ts](src/main/routes/health.ts) file. Make sure you adjust it correctly in your application.
-In particular, remember to replace the sample check with checks specific to your frontend app,
-e.g. the ones verifying the state of each service it depends on.
+in [health.ts](src/main/routes/health.ts) file.
 
 ## License
 
