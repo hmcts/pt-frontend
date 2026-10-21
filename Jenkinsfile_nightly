@@ -21,7 +21,7 @@ properties([
     ),
     choice(
       name: 'E2E_GREP_TAG',
-      choices: ['@regression', '@idam'],
+      choices: ['@regression', '@smoke', '@idam'],
       description: 'Codecept grep (E2E_TEST_SCOPE). First option is the default for scheduled runs.'
     ),
   ])

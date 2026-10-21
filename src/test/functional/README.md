@@ -61,20 +61,38 @@ Jenkins does not run these tests on a pull request unless the PR has a label:
 | Label                 | Effect                                                             |
 | --------------------- | ------------------------------------------------------------------ |
 | `e2e-tag:@regression` | Run features tagged `@regression` (`E2E_TEST_SCOPE`)               |
+| `e2e-tag:@smoke`      | Run the master happy-path scenarios tagged `@smoke`                |
 | `e2e-tag:@idam`       | Run scenarios whose title or tags match `@idam` (`E2E_TEST_SCOPE`) |
 | `e2e-spec:idam-login` | Run feature files whose path contains `idam-login` (`E2E_SPEC`)    |
 
-Separate several spec keywords with a comma or semicolon, for example `e2e-spec:idam-login,my-application`. A tag and a spec label can be used together. Master still runs the full suite.
+Separate several spec keywords with a comma or semicolon, for example `e2e-spec:idam-login,my-application`. A tag and a spec label can be used together.
 
-The nightly job (`Jenkinsfile_nightly`) runs weekdays around 07:00. After the Fortify scan it runs `yarn test:functional` with `E2E_TEST_SCOPE=@regression` against AAT. A manual build can change the environment, grep tag, or feature filter.
+Master (`Jenkinsfile_CNP`) runs functional tests with `E2E_TEST_SCOPE=@smoke` only. The full pack stays on the nightly job.
+
+The nightly job (`Jenkinsfile_nightly`) runs weekdays around 07:00. After the Fortify scan it runs `yarn test:functional` with `E2E_TEST_SCOPE=@regression` against AAT. A manual build can change the environment, grep tag (`@regression`, `@smoke`, or `@idam`), or feature filter.
 
 ### Gherkin tags
 
-| Tag           | Purpose                                                                                        |
-| ------------- | ---------------------------------------------------------------------------------------------- |
-| `@regression` | Marks a feature as part of the PR/nightly regression pack. Required for `e2e-tag:@regression`. |
-| `@idam`       | Narrower filter for IDAM login scenarios.                                                      |
-| `@JIRA-*`     | Zephyr/Jira mapping (see [Jira tags](#jira-tags)).                                             |
+| Tag           | Purpose                                                                                       |
+| ------------- | --------------------------------------------------------------------------------------------- |
+| `@regression` | Marks a feature as part of the nightly regression pack. Required for `e2e-tag:@regression`.   |
+| `@smoke`      | Happy-path scenario run on every master build. Put it on the scenario, not the whole feature. |
+| `@idam`       | Narrower filter for IDAM login scenarios.                                                     |
+| `@JIRA-*`     | Zephyr/Jira mapping (see [Jira tags](#jira-tags)).                                            |
+
+`@smoke` is a subset of `@regression`. Nightly still runs those scenarios because the feature keeps `@regression`.
+
+Master smoke scenarios:
+
+| Feature                                    | Scenario                                              |
+| ------------------------------------------ | ----------------------------------------------------- |
+| `idam-login.feature`                       | Redirect to IDAM, and successful login back to PT     |
+| `startingOrReturningToApplication.feature` | Start a new application, and return to an application |
+| `HDPD-563-applying-for.feature`            | Citizen is applying for themselves                    |
+| `my-application.feature`                   | Sign in and reach the task list                       |
+| `propertyAddress.feature`                  | Save and continue with valid mandatory address fields |
+
+Validation, error paths, and later form sections stay on nightly `@regression`.
 
 ## Running tests
 
@@ -83,6 +101,12 @@ The nightly job (`Jenkinsfile_nightly`) runs weekdays around 07:00. After the Fo
 ```bash
 export IDAM_PT_USER_PASSWORD='<password-from-keyvault>'
 yarn test:functional
+```
+
+### Master smoke pack
+
+```bash
+E2E_TEST_SCOPE=@smoke yarn test:functional
 ```
 
 Outputs:
@@ -138,7 +162,7 @@ Each scenario uses `@JIRA-EPIC:` on the feature and `@JIRA-TEST-KEY:` on each sc
 ## Adding a new feature
 
 1. Add a `.feature` file under `features/` with `@JIRA-*` tags on the feature and each scenario
-2. Add `@regression` on the feature if it should run on PRs labelled `e2e-tag:@regression`
+2. Add `@regression` on the feature if it should run in the nightly pack or on PRs labelled `e2e-tag:@regression`. Add `@smoke` on a scenario only when that happy path should run on every master build
 3. Add step definitions under `src/test/steps/` (matched by `./src/test/steps/**/*.ts`)
 4. Put shared labels/copy in `page-data/` and helpers in `utils/`
 5. Run with `yarn test:functional`
