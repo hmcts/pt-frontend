@@ -14,6 +14,7 @@ Feature: Validate Enter and validate the letting agent's email address page
         And I click "Continue"
         Then check that the user is redirected to the task-list citizen dashboard page
         Given I am  on the letting agent's email address page
+        And I check the page for accessibility issues
 
     @AC1-1003 @JIRA-TEST-KEY:PTSD-878 @AC2 @JIRA-TEST-KEY:PTSD-879
     Scenario:Citizen enters a valid letting agent email address and continues successfully
@@ -21,6 +22,7 @@ Feature: Validate Enter and validate the letting agent's email address page
         When I enters a valid email address
         And I click "Save and continue"
         Then I check that the text "Your landlord's letting agent's phone number (optional)" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC3 @JIRA-TEST-KEY:PTSD-880
     Scenario: Citizen attempts to continue without entering a letting agent email address
@@ -28,6 +30,7 @@ Feature: Validate Enter and validate the letting agent's email address page
         When I leaves the email field blank
         And I click "Save and continue"
         Then I check that the error message "This field is required" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC4 @JIRA-TEST-KEY:PTSD-880
     Scenario:  Citizen enters an incorrectly formatted letting agent email address
@@ -35,3 +38,4 @@ Feature: Validate Enter and validate the letting agent's email address page
         When I enters an invalid email address
         And I click "Save and continue"
         Then I check that the error message "Enter an email address in the correct format, like name@example.com" is displayed on the page
+        And I check the page for accessibility issues

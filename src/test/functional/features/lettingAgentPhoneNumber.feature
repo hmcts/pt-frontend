@@ -14,6 +14,7 @@ Feature: Validate Letting Agent Phone Number Page
         And I click "Continue"
         Then check that the user is redirected to the task-list citizen dashboard page
         Given I am on the letting agent's phone number page
+        And I check the page for accessibility issues
 
     @AC1 @JIRA-TEST-KEY:PTSD-875 @AC2 @JIRA-TEST-KEY:PTSD-876
     Scenario Outline: Verify citizen can continue with valid phone number or blank value
@@ -21,6 +22,7 @@ Feature: Validate Letting Agent Phone Number Page
         When I enter "<phoneNumber>" in the phone number field
         And I click "Save and continue"
         Then I redirected to "<page>"
+        And I check the page for accessibility issues
 
 
         Examples:
@@ -33,6 +35,7 @@ Feature: Validate Letting Agent Phone Number Page
         When I enter "<phoneNumber>" in the phone number field
         And I click "Save and continue"
         Then I check that the error message "Enter a phone number in the correct format, including the country code for international numbers" is displayed on the page
+        And I check the page for accessibility issues
 
 
         Examples:

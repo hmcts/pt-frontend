@@ -25,6 +25,7 @@ Feature: Council tax details can be added and updated
     And I click "Save and continue"
     And I select "Yes" for the question "Does your rent include council tax?"
     And I click "Save and continue"
+    And I check the page for accessibility issues
     And I select "Monthly" for the question "How often is council tax paid? (optional)"
     And I enter "100" for the question "How much does council tax cost monthly? (optional)"
     And I click "Save and continue"
@@ -34,3 +35,4 @@ Feature: Council tax details can be added and updated
     And I click "Save and continue"
     And I click "Save for later"
     Then check that the user is redirected to the task-list citizen dashboard page
+    And I check the page for accessibility issues

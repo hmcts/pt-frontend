@@ -4,6 +4,7 @@ Feature:  validate You need to use another form for I am applying on behalf of s
   @AC1 @JIRA-TEST-KEY:PTSD-443
   Scenario: Citizen opens the online application form
     Given I select apply for some one else option and landed on the you need to use another form to apply page
+    And I check the page for accessibility issues
     When the citizen selects the online application form link
     Then the citizen is taken to the online application form
 
@@ -17,5 +18,6 @@ Feature:  validate You need to use another form for I am applying on behalf of s
   @AC3 @JIRA-TEST-KEY:PTSD-445
   Scenario: Citizen opens the GOV.UK guidance page
     Given I select apply for some one else option and landed on the you need to use another form to apply page
+    And I check the page for accessibility issues
     When the citizen selects the guidance on GOV.UK link
     Then the citizen is taken to the GOV.UK guidance page
