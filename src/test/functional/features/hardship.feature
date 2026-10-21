@@ -25,10 +25,10 @@ Feature: Would a rent increase on the proposed start date cause you hardship?
 
     @AC1 @JIRA-TEST-KEY:PTSD-846
     Scenario: Verify page content
+
         Then I check that the text "If the tribunal agrees with the landlord's proposed market rent, it can delay the new rent date if it thinks you will experience hardship." is displayed on the page
         And I check that the text "If you want the tribunal to delay the new rent date, you must provide full details of your financial circumstances." is displayed on the page
         And I check that the text "Will a rent increase on the proposed start date cause you hardship?" is displayed on the page
-
 
     @AC2 @JIRA-TEST-KEY:PTSD-847
     Scenario: Verify Save and Continue with Yes selected

@@ -27,6 +27,8 @@ Feature: Verify Upload tenancy agreement page
 
         Then I check that the text "Upload a file" is displayed on the page
 
+
+
     @AC2 @JIRA-TEST-KEY:PTSD-882 @AC3 @JIRA-TEST-KEY:PTSD-883
     Scenario: Save and continue
 
@@ -53,17 +55,17 @@ Feature: Verify Upload tenancy agreement page
         When I upload "empty-file"
         Then I check that the error message "The selected file is empty" is displayed on the page
 
-    # @AC6 @JIRA-TEST-KEY:PTSD-885
-    # Scenario: No file selected validation
+    @AC6 @JIRA-TEST-KEY:PTSD-885
+    Scenario: No file selected validation
 
-    #     When I upload "unsupported-file"
-    #     Then I check that the error message "The selected file must be a DOC, DOCX, XLS, XLSX, PPT, PPTX, PDF, RTF, TXT, CSV, JPG, JPEG, PNG, BMP, TIF or TIFF" is displayed on the page
+        When I upload "unsupported-file"
+        Then I check that the error message "The selected file must be a DOC, DOCX, XLS, XLSX, PPT, PPTX, PDF, RTF, TXT, CSV, JPG, JPEG, PNG, BMP, TIF or TIFF" is displayed on the page
 
-    # @AC7 @JIRA-TEST-KEY:PTSD-885
-    # Scenario: No file selected validation
+    @AC7 @JIRA-TEST-KEY:PTSD-885
+    Scenario: No file selected validation
 
-    #     When I upload "oversized-file"
-    #     Then I check that the error message "The selected file must be smaller than 25MB" is displayed on the page
+        When I upload "oversized-file"
+        Then I check that the error message "The selected file must be smaller than 25MB" is displayed on the page
 
 
     @AC8 @JIRA-TEST-KEY:PTSD-885
