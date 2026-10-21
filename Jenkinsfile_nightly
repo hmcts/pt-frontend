@@ -87,7 +87,14 @@ def runRegressionTests(yarnBuilder) {
     node {
       checkout scm
       catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-        yarnBuilder.yarn('test:functional')
+        // onSuccess runs after withTeamSecrets closes, on a new agent, so the
+        // IDAM test-user password loaded for the earlier stages is not in scope.
+        withAzureKeyvault(
+          azureKeyVaultSecrets: ptE2eVaultSecrets,
+          keyVaultURLOverride: "https://pt-kv1-${env.ENVIRONMENT}.vault.azure.net/"
+        ) {
+          yarnBuilder.yarn('test:functional')
+        }
       }
       steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**'
     }
