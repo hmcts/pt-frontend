@@ -39,6 +39,7 @@ Feature: Validate Repairs and improvements Page
         And I click "Save and continue"
         And I click "Save and continue"
         Then I check that the text "Repairs and improvements" is displayed on the page
+        And I check the page for accessibility issues
 
 
 
@@ -47,6 +48,7 @@ Feature: Validate Repairs and improvements Page
 
         Then I check that the text "Tell us if you or any past tenants have made any improvements, or replaced fixing, fittings or furniture. Only include improvement or repair work you or the other tenants were not responsible for under the terms of the tenancy." is displayed on the page
         Then I check that the text "Have you or any past tenants made any changes or repairs to the property?" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC2 @JIRA-TEST-KEY:PTSD-857
     Scenario: Verify Save and Continue when Yes is selected
@@ -54,6 +56,7 @@ Feature: Validate Repairs and improvements Page
         When I select "Yes" for the question "Have you or any past tenants made any changes or repairs to the property?"
         And I click "Save and continue"
         Then I check that the text "Upload evidence of the improvements or repairs (optional)" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC3 @JIRA-TEST-KEY:PTSD-858
     Scenario: Verify Save and Continue when No is selected
@@ -61,6 +64,7 @@ Feature: Validate Repairs and improvements Page
         When I select "No" for the question "Have you or any past tenants made any changes or repairs to the property?"
         And I click "Save and continue"
         Then I check that the text "Check your answers" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC4 @JIRA-TEST-KEY:PTSD-858
     Scenario: Verify Save and Continue when I'm not sure is selected
@@ -68,6 +72,7 @@ Feature: Validate Repairs and improvements Page
         When I select "I'm not sure" for the question "Have you or any past tenants made any changes or repairs to the property?"
         And I click "Save and continue"
         Then I check that the text "Check your answers" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC5 @JIRA-TEST-KEY:PTSD-859
     Scenario: Verify Save for Later
@@ -75,9 +80,11 @@ Feature: Validate Repairs and improvements Page
         When I select "Yes" for the question "Have you or any past tenants made any changes or repairs to the property?"
         And I click "Save for later"
         Then check that the user is redirected to the task-list citizen dashboard page
+        And I check the page for accessibility issues
 
     @AC6 @JIRA-TEST-KEY:PTSD-860
     Scenario: Verify validation when no option is selected
 
         When I click "Save and continue"
         Then I check that the error message "Select whether you or any past tenants made any changes or repairs to the property" is displayed on the page
+        And I check the page for accessibility issues

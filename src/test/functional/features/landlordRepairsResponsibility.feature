@@ -38,11 +38,13 @@ Feature: Validate  What repairs are the landlord's responsibility Page
         When I select "No" for the question "Are any services provided in your tenancy?"
         And I click "Save and continue"
         Then I check that the text "What repairs are the landlord's responsibility? (optional)" is displayed on the page
+        And I check the page for accessibility issues
 
 
     @AC1 @JIRA-TEST-KEY:PTSD-931
     Scenario: Verify landlord repairs page content
         Then I check that the text "This is sometimes written in your tenancy agreement" is displayed on the page
+        And I check the page for accessibility issues
 
 
     @AC2 @JIRA-TEST-KEY:PTSD-932
@@ -51,6 +53,7 @@ Feature: Validate  What repairs are the landlord's responsibility Page
         When I enter "Whitegood Repairs Included" for the question "What repairs are the landlord's responsibility? (optional)"
         And I click "Save and continue"
         Then I check that the text "What repairs are the tenant's responsibility? (optional)" is displayed on the page
+        And I check the page for accessibility issues
 
 
     @AC3 @JIRA-TEST-KEY:PTSD-933
@@ -58,3 +61,4 @@ Feature: Validate  What repairs are the landlord's responsibility Page
 
         When I click "Save and continue"
         Then I check that the text "What repairs are the tenant's responsibility? (optional)" is displayed on the page
+        And I check the page for accessibility issues

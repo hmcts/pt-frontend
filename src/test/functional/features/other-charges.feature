@@ -36,19 +36,24 @@ Background: Other Charges page - User navigates to the other charges page
     And I click "Save and continue"
     And I select "No" for the question "Does your current tenancy replace an original tenancy?"
     And I click "Save and continue"
+    And I check the page for accessibility issues
 
   @JIRA-TEST-KEY:PTSD-850
   Scenario: Other Charges page - Successfully add other charge description and see remaining characters are displayed
     When I select "Yes" for the question "Are you charged separately for anything else?"
     And I click "Save and continue"
+    And I check the page for accessibility issues
     And I add other charge details in description as "Charged for monthy house maintenance"
     Then I check that the text "You have 464 characters remaining" is displayed on the page
+    And I check the page for accessibility issues
     And I click "Save and continue"
 
   @JIRA-TEST-KEY:PTSD-853
   Scenario: Other Charges page - Description exceeds 500 characters shows validation error
     When I select "Yes" for the question "Are you charged separately for anything else?"
     And I click "Save and continue"
+    And I check the page for accessibility issues
     And I enter characters more than "500" in the description field for the question "Describe what you are charged separately for"
     And I click "Save and continue"
     Then I check that the error message "Description of what you are charged separately for must be 500 characters or less" is displayed on the page  
+    And I check the page for accessibility issues
