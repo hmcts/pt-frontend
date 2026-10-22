@@ -64,7 +64,7 @@
     "i18next-fs-backend": "2.6.9",
     "i18next-http-middleware": "3.9.9",
     "ioredis": "5.11.1",
-    "jose": "6.2.12",
+    "jose": "6.2.13",
     "jsonwebtoken": "^9.0.3",
     "libphonenumber-js": "^1.13.11",
     "lodash": "4.18.1",
