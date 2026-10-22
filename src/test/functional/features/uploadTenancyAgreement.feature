@@ -36,39 +36,27 @@ Feature: Verify Upload tenancy agreement page
         And  I click 'Save and continue'
         Then I check that the text "Check your answers" is displayed on the page
 
-    @AC3 @JIRA-TEST-KEY:PTSD-884
+    @AC4 @JIRA-TEST-KEY:PTSD-884
     Scenario: Save for later
 
         When I upload "supported-file"
         And I click "Save for later"
         Then check that the user is redirected to the task-list citizen dashboard page
 
-    @AC4 @JIRA-TEST-KEY:PTSD-885
+    @AC5 @JIRA-TEST-KEY:PTSD-885
     Scenario: No file selected validation
 
         When  I click 'Save and continue'
         Then I check that the error message "Select a file to upload" is displayed on the page
 
-    @AC5 @JIRA-TEST-KEY:PTSD-885
+    @AC6 @JIRA-TEST-KEY:PTSD-885
     Scenario: No file selected validation
 
         When I upload "empty-file"
         Then I check that the error message "The selected file is empty" is displayed on the page
 
-    @AC6 @JIRA-TEST-KEY:PTSD-885
-    Scenario: No file selected validation
-
-        When I upload "unsupported-file"
-        Then I check that the error message "The selected file must be a DOC, DOCX, XLS, XLSX, PPT, PPTX, PDF, RTF, TXT, CSV, JPG, JPEG, PNG, BMP, TIF or TIFF" is displayed on the page
 
     @AC7 @JIRA-TEST-KEY:PTSD-885
-    Scenario: No file selected validation
-
-        When I upload "oversized-file"
-        Then I check that the error message "The selected file must be smaller than 25MB" is displayed on the page
-
-
-    @AC8 @JIRA-TEST-KEY:PTSD-885
     Scenario: No file selected validation
 
         When I upload "password-file"

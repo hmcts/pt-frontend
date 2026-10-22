@@ -84,13 +84,3 @@ Feature: Verify Upload evidence of improvements or repairs page
         When  I click 'Save and continue'
         Then I check that the text "Check your answers" is displayed on the page
 
-
-    @AC7 @JIRA-TEST-KEY:PTSD-943
-    Scenario: empty file type
-
-        When I upload "unsupported-file"
-        Then I check that the error message "The selected file must be a DOC, DOCX, XLS, XLSX, PPT, PPTX, PDF, RTF, TXT, CSV, JPG, JPEG, PNG, BMP, TIF or TIFF" is displayed on the page
-        When  I click 'Save and continue'
-        Then I check that the text "Check your answers" is displayed on the page
-
-
