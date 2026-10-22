@@ -1,7 +1,7 @@
 import { textAreaIsValidLength } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccdCase.interface';
 
@@ -26,9 +26,9 @@ export const step: StepDefinition = createFormStep({
       translationKey: { label: 'questionTitle' },
       errorMessage: 'errors.agreeToDecisionWithoutInspection.required',
       options: [
-        { value: 'yes', translationKey: 'common:yes' },
+        { value: 'Yes', translationKey: 'common:yes' },
         {
-          value: 'no',
+          value: 'No',
           translationKey: 'common:no',
           subFields: {
             noDecisionWithoutInspectionReason: {
@@ -41,26 +41,37 @@ export const step: StepDefinition = createFormStep({
                 label: 'options.noDecisionWithoutInspectionReason.label',
                 hint: 'options.noDecisionWithoutInspectionReason.hint',
               },
-              validator: (value): boolean | string => {
-                if (value && String(value).length > 500) {
-                  return 'errors.noDecisionWithoutInspectionReason.invalid';
-                }
-                return true;
-              },
+              validator: (value): boolean | string =>
+                textAreaIsValidLength(value as string) ? true : 'errors.noDecisionWithoutInspectionReason.invalid',
             },
           },
         },
       ],
     },
   ],
+  getInitialFormData: req => {
+    const details = req.session.ccdCase?.hearingInspectionDetails;
+    const agreeToDecisionWithoutInspection =
+      getFormDataString(req, stepName, 'agreeToDecisionWithoutInspection') ?? details?.agreeToDecisionWithoutInspection;
+    const noDecisionWithoutInspectionReason =
+      getFormDataString(req, stepName, 'agreeToDecisionWithoutInspection.noDecisionWithoutInspectionReason') ??
+      details?.noDecisionWithoutInspectionReason;
+
+    return {
+      ...(agreeToDecisionWithoutInspection && { agreeToDecisionWithoutInspection }),
+      ...(noDecisionWithoutInspectionReason && {
+        'agreeToDecisionWithoutInspection.noDecisionWithoutInspectionReason': noDecisionWithoutInspectionReason,
+      }),
+    };
+  },
 });
 
-function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (ccdCase?.agreeToDecisionWithoutInspection === 'no') {
+export function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  const details = ccdCase?.hearingInspectionDetails;
+  if (details?.agreeToDecisionWithoutInspection === 'No') {
     return Boolean(
-      (ccdCase?.noDecisionWithoutInspectionReason as string) &&
-      textAreaIsValidLength(ccdCase?.noDecisionWithoutInspectionReason as string)
+      details.noDecisionWithoutInspectionReason && textAreaIsValidLength(details.noDecisionWithoutInspectionReason)
     );
   }
-  return ccdCase?.agreeToDecisionWithoutInspection === 'yes';
+  return details?.agreeToDecisionWithoutInspection === 'Yes';
 }

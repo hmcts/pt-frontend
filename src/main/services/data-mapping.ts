@@ -3,6 +3,7 @@ import { Request } from 'express';
 import { getFormData, getFormDataString } from '@modules/steps/formBuilder/helpers';
 import { PTCaseData } from '@services/ccdCase.interface';
 import { toCaseReference16 } from '@utils/caseReference';
+import { invertYesNo } from '@utils/yesNo';
 
 type DateParts = { day?: string; month?: string; year?: string };
 
@@ -316,9 +317,34 @@ export function prepareDataForSave(
     // case 'propertyDetails': {
     //   return {};
     // }
-    // case 'propertyInspection': {
-    //   return {};
-    // }
+    case 'propertyInspection': {
+      const details = saved?.hearingInspectionDetails;
+      const agreeToDecisionWithoutInspection =
+        getFormDataString(req, 'property-inspection', 'agreeToDecisionWithoutInspection') ??
+        details?.agreeToDecisionWithoutInspection;
+      const hearingRequested =
+        invertYesNo(getFormDataString(req, 'hearing', 'agreeToDecisionWithoutHearing')) ?? details?.hearingRequested;
+
+      return {
+        hearingInspectionDetails: {
+          agreeToDecisionWithoutInspection,
+          noDecisionWithoutInspectionReason:
+            agreeToDecisionWithoutInspection === 'No'
+              ? (getFormDataString(
+                  req,
+                  'property-inspection',
+                  'agreeToDecisionWithoutInspection.noDecisionWithoutInspectionReason'
+                ) ?? details?.noDecisionWithoutInspectionReason)
+              : undefined,
+          hearingRequested,
+          reasonHearingRequested:
+            hearingRequested === 'Yes'
+              ? (getFormDataString(req, 'hearing', 'agreeToDecisionWithoutHearing.noDecisionWithoutHearingReason') ??
+                details?.reasonHearingRequested)
+              : undefined,
+        },
+      };
+    }
     // case 'extraSupport': {
     //   return {};
     // }

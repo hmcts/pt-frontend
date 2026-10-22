@@ -1,4 +1,32 @@
 {
-  "pageTitle": "Check your answers (placeholder)",
-  "heading": "Check your answers (placeholder)"
+  "pageTitle": "Check your answers - Inspection and hearing",
+  "heading": "Check your answers",
+  "cardTitle": "Inspection and hearing",
+  "rows": {
+    "agreeToDecisionWithoutInspection": {
+      "label": "Do you agree to the tribunal making a decision without an inspection?",
+      "changeHidden": "whether you agree to the tribunal making a decision without an inspection",
+      "options": {
+        "Yes": "Yes",
+        "No": "No"
+      }
+    },
+    "noDecisionWithoutInspectionReason": {
+      "label": "Why you think an inspection is needed",
+      "changeHidden": "why you think an inspection is needed"
+    },
+    "agreeToDecisionWithoutHearing": {
+      "label": "Do you agree to the tribunal making a decision without a hearing?",
+      "changeHidden": "whether you agree to the tribunal making a decision without a hearing",
+      "options": {
+        "Yes": "Yes",
+        "No": "No"
+      }
+    },
+    "noDecisionWithoutHearingReason": {
+      "label": "Why you think a hearing is needed",
+      "changeHidden": "why you think a hearing is needed"
+    }
+  },
+  "reviewAndChangeInfo": "You can review and change your answers before you submit your application."
 }
