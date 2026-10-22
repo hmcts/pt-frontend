@@ -1,0 +1,9 @@
+{% macro contactDetails() %}
+  <h2 class="govuk-heading-m">{{ t('errorPages.contact.emailHeading') }}</h2>
+  <p class="govuk-body">{{ t('errorPages.contact.emailParagraph') | safe }}</p>
+
+  <h2 class="govuk-heading-m">{{ t('errorPages.contact.phoneHeading') }}</h2>
+  <p class="govuk-body">{{ t('errorPages.contact.phoneNumber') }}</p>
+  <p class="govuk-body">{{ t('errorPages.contact.hours') }}</p>
+  <p class="govuk-body">{{ t('errorPages.contact.callCharges') | safe }}</p>
+{% endmacro %}
