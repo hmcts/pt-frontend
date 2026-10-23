@@ -1,10 +1,10 @@
-@JIRA-TEST-KEY:PTSD-1012 @Chan1
+@JIRA-TEST-KEY:PTSD-1012 @regression
 Feature: My application page
   As a PT user
   I want to be authenticated to the PT upon entering my credentials in IDAM
   So that I can start my application.
  
-  @JIRA-TEST-KEY:PTSD-1012 
+  @smoke @JIRA-TEST-KEY:PTSD-1012
   Scenario: Check that after signing in user lands on the 'my applications' page and user can navigate to the tenancy type page
     Given the user navigates to PT url
     And the user has successfully logged on to market-rent-determination application

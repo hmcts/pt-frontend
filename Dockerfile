@@ -1,5 +1,5 @@
 # ---- Base image ----
-FROM hmctsprod.azurecr.io/base/node:20-alpine AS base
+FROM hmctsprod.azurecr.io/base/node:24-alpine AS base
 
 USER root
 RUN corepack enable
@@ -66,5 +66,4 @@ RUN chmod +x /app/dist/main/server.js
 # Set environment variables
 ENV NODE_ENV=production
 
-# TODO: expose the right port for your application
 EXPOSE 4000

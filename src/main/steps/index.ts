@@ -2,6 +2,8 @@ import type { Request, RequestHandler } from 'express';
 
 import { flowConfig as applicationFlowConfig } from './application/flow.config';
 import { stepRegistry as applicationStepRegistry } from './application/stepRegistry';
+import { flowConfig as linkPartyToCaseFlowConfig } from './link-party-to-case/flow.config';
+import { stepRegistry as linkPartyToCaseStepRegistry } from './link-party-to-case/stepRegistry';
 import { flowConfig as newApplicationFlowConfig } from './new-application/flow.config';
 import { stepRegistry as newApplicationStepRegistry } from './new-application/stepRegistry';
 import { flowConfig as preApplicationFlowConfig } from './pre-application/flow.config';
@@ -44,6 +46,14 @@ export const journeyRegistry: Record<string, JourneyConfig> = {
     default: {
       flowConfig: newApplicationFlowConfig,
       stepRegistry: newApplicationStepRegistry,
+    },
+  },
+  linkPartyToCase: {
+    name: 'linkPartyToCase',
+    slug: 'linkPartyToCase',
+    default: {
+      flowConfig: linkPartyToCaseFlowConfig,
+      stepRegistry: linkPartyToCaseStepRegistry,
     },
   },
   application: {

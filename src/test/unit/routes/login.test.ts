@@ -8,6 +8,9 @@ import loginRoute from '@routes/login';
 
 jest.mock('os');
 jest.mock('config');
+jest.mock('jose', () => ({
+  decodeJwt: jest.fn(),
+}));
 jest.mock('@modules/logger', () => {
   const logger = { error: jest.fn(), info: jest.fn() };
   return { Logger: { getLogger: jest.fn(() => logger) } };

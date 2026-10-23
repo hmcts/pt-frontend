@@ -5,5 +5,3 @@ export { I18n } from './i18n';
 export { Logger } from './logger';
 export * from './properties-volume';
 export { Session } from './session';
-
-export const modules = ['I18n', 'Nunjucks', 'Csrf'];

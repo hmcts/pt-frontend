@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { isAxiosError } from 'axios';
 import config from 'config';
 import { TOTP } from 'otpauth';
 
@@ -27,7 +27,11 @@ export const getTokenFromApi = async (): Promise<boolean> => {
     token = response.data;
     return true;
   } catch (err) {
-    logger.error('Failed to refresh service auth token', err.response?.status ?? err.code, err.response?.data);
+    if (isAxiosError(err)) {
+      logger.error('Failed to refresh service auth token', err.response?.status ?? err.code, err.response?.data);
+    } else {
+      logger.error('Failed to refresh service auth token', err);
+    }
     return false;
   }
 };

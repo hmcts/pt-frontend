@@ -1,8 +1,10 @@
 import { UUID } from 'node:crypto';
 
+// pt-api event constants
 export const CITIZEN_CREATE_CASE = 'citizen-create-application';
 export const CITIZEN_UPDATE_CASE = 'citizen-update-application';
 export const CITIZEN_SUBMIT_CASE = 'citizen-submit-application';
+export const CITIZEN_DELETE_CASE = 'citizen-delete-application';
 export const CITIZEN_UPLOAD_DOCUMENT = 'citizen-upload-document';
 export const CITIZEN_DELETE_DOCUMENT = 'citizen-delete-document';
 
@@ -303,6 +305,7 @@ export interface NoticeOfRentIncreaseDetails {
   noticeNotLegallyValidReason?: string;
   rentIncreaseCauseHardship?: string;
   rentIncreaseHardshipDetails?: string;
+  landlordNoticeProposingNewRentDocument?: PtCaseDocument;
 }
 
 export interface PropertyDetails {

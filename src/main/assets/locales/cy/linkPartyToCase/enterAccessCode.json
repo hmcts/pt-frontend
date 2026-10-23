@@ -1,0 +1,22 @@
+{
+  "pageHeading": "cy Access your case",
+  "pageInfo": "cy Access and manage your case using your claim number and access code. These will be in the letter or email sent by the court.",
+  "caseReference": {
+    "label": "cy Enter your case reference",
+    "hint": "cy This is a 16-digit number"
+  },
+  "accessCode": {
+    "label": "cy Enter your access code",
+    "hint": "cy This has 12 characters"
+  },
+  "errors": {
+    "caseReference": {
+      "required": "cy Enter your case reference",
+      "invalid": "cy Your case rereference is a 16-digit number"
+    },
+    "accessCode": {
+      "required": "cy Enter your access code",
+      "invalid": "cy Your access code has 12 characters"
+    }
+  }
+}

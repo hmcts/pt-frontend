@@ -1,5 +1,5 @@
 module.exports = {
-  roots: ['<rootDir>/src/test/unit'],
+  roots: ['<rootDir>/src/main', '<rootDir>/src/test/unit'],
   testRegex: '(/src/test/.*|\\.(test|spec))\\.(ts|js)$',
   moduleFileExtensions: ['ts', 'js', 'json'],
   testEnvironment: 'node',
@@ -8,7 +8,6 @@ module.exports = {
   },
   moduleNameMapper: {
     '^glob$': '<rootDir>/src/test/unit/modules/nunjucks/__mocks__/glob.ts',
-    '^@router/(.*)$': '<rootDir>/src/main/router/$1',
     '^@routes/(.*)$': '<rootDir>/src/main/routes/$1',
     '^@modules/(.*)$': '<rootDir>/src/main/modules/$1',
     '^@services/(.*)$': '<rootDir>/src/main/services/$1',
@@ -17,4 +16,24 @@ module.exports = {
   },
   testPathIgnorePatterns: ['/__mocks__/'],
   coverageProvider: 'v8',
+  collectCoverageFrom: [
+    'src/main/**/*.{ts,js}',
+    '!src/main/**/*.d.ts',
+    '!src/main/public/**',
+    '!src/main/views/govuk/**',
+    '!src/main/app.ts',
+    '!src/main/development.ts',
+    '!src/main/server.ts',
+    '!src/main/modules/steps/formBuilder/formFieldConfig.interface.ts',
+    '!src/main/modules/steps/stepFormData.interface.ts',
+    '!src/main/services/documentUpload.interface.ts',
+  ],
+  coverageThreshold: {
+    global: {
+      statements: 90,
+      branches: 90,
+      functions: 90,
+      lines: 90,
+    },
+  },
 };

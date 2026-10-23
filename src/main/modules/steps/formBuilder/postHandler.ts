@@ -32,7 +32,7 @@ import type {
 } from '@modules/steps/formBuilder/formFieldConfig.interface';
 import { validateConfigInDevelopment } from '@modules/steps/formBuilder/schema';
 import type { JourneyFlowConfig } from '@modules/steps/stepFlow.interface';
-import { getCaseApi } from '@services/ccdApiClient';
+import { getCaseApi } from '@services/ccd/ccdApiClient';
 import { prepareDataForSave } from '@services/data-mapping';
 import { toCaseReference16 } from '@utils/caseReference';
 import { isDiagnosticsEnabled } from '@utils/environment';
