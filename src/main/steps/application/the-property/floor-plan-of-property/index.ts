@@ -17,30 +17,30 @@ export const step: StepDefinition = createFormStep({
   isAnswered: req => isAnswered(req.session.ccdCase),
   fields: [
     {
-      name: 'hasFloorPlanOfProperty',
+      name: 'propertyFloorPlanAvailable',
       type: 'radio',
       required: true,
       isPageHeading: true,
       translationKey: { label: 'questionTitle' },
-      errorMessage: 'errors.hasFloorPlanOfProperty.required',
+      errorMessage: 'errors.propertyFloorPlanAvailable.required',
       options: [
-        { value: 'yes', translationKey: 'common:yes' },
+        { value: 'Yes', translationKey: 'common:yes' },
         {
-          value: 'no',
+          value: 'No',
           translationKey: 'common:no',
           subFields: {
-            propertyLayoutDescription: {
-              name: 'propertyLayoutDescription',
+            floorPlanManualDetails: {
+              name: 'floorPlanManualDetails',
               type: 'textarea',
               maxLength: 500,
               required: false,
               translationKey: {
-                label: 'options.propertyLayoutDescription.label',
-                hint: 'options.propertyLayoutDescription.hint',
+                label: 'options.floorPlanManualDetails.label',
+                hint: 'options.floorPlanManualDetails.hint',
               },
               validator: (value): boolean | string => {
                 if (value && String(value).length > 500) {
-                  return 'errors.propertyLayoutDescription.invalid';
+                  return 'errors.floorPlanManualDetails.invalid';
                 }
                 return true;
               },
@@ -53,8 +53,10 @@ export const step: StepDefinition = createFormStep({
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  const propertyDetails = ccdCase?.propertyDetails;
+
   return (
-    ccdCase?.hasFloorPlanOfProperty === 'yes' ||
-    (ccdCase?.hasFloorPlanOfProperty === 'no' && Boolean(ccdCase?.propertyLayoutDescription))
+    propertyDetails?.propertyFloorPlanAvailable === 'Yes' ||
+    (propertyDetails?.propertyFloorPlanAvailable === 'No' && Boolean(propertyDetails?.floorPlanManualDetails))
   );
 }
