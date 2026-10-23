@@ -108,5 +108,6 @@ export const step: StepDefinition = createFormStep({
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  return Boolean(ccdCase?.addressLine1 && ccdCase?.townOrCity && ccdCase?.postcode);
+  const propertyDetails = ccdCase?.propertyDetails;
+  return Boolean(propertyDetails?.addressLine1 && propertyDetails?.townOrCity && propertyDetails?.postcode);
 }

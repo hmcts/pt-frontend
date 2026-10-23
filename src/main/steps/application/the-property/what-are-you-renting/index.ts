@@ -1,5 +1,6 @@
 import { textAreaIsValidLength } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
+import { getValidatedCase } from '../../section-cya/cyaRow';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
@@ -15,7 +16,7 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/whatAreYouRenting.njk`,
   showCancelButton: false,
-  isAnswered: req => isAnswered(req.session.ccdCase),
+  isAnswered: req => isAnswered(getValidatedCase(req)),
   fields: [
     {
       name: 'propertyType',
@@ -102,11 +103,14 @@ export const step: StepDefinition = createFormStep({
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (!ccdCase) {
+  const propertyDetails = ccdCase?.propertyDetails;
+
+  if (!propertyDetails) {
     return false;
   }
 
-  const { propertyType, propertyTypeRoomDescription, propertyTypeFlatFloor, propertyTypeOtherDescription } = ccdCase;
+  const { propertyType, propertyTypeRoomDescription, propertyTypeFlatFloor, propertyTypeOtherDescription } =
+    propertyDetails;
 
   switch (propertyType) {
     case 'terraced':
