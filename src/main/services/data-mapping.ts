@@ -331,6 +331,124 @@ export function prepareDataForSave(
       };
     }
 
+    case 'propertyDetails': {
+      const propertyDetails = saved?.propertyDetails;
+
+      const propertyType =
+        getFormDataString(req, 'what-are-you-renting', 'propertyType') ?? propertyDetails?.propertyType;
+
+      const propertyFloorPlanAvailable =
+        getFormDataString(req, 'floor-plan-of-property', 'propertyFloorPlanAvailable') ??
+        propertyDetails?.propertyFloorPlanAvailable;
+
+      const otherFacilities =
+        getFormDataString(req, 'does-the-tenancy-include-other-facilities', 'propertyIncludesOtherFacilities') ??
+        propertyDetails?.otherFacilitiesAvailable;
+
+      const sharedWithLandlord =
+        getFormDataString(req, 'do-you-share-the-property-with-landlord', 'propertySharedWithLandlord') ??
+        propertyDetails?.sharePropertyWithLandlord;
+
+      const furnitureProvided =
+        getFormDataString(req, 'furniture-provided-tenancy', 'furnitureProvided') ??
+        propertyDetails?.furnitureProvidedInTenancy;
+
+      const servicesProvided =
+        getFormDataString(req, 'services-provided-tenancy', 'servicesProvided') ??
+        propertyDetails?.additionalServicesProvidedInTenancy;
+
+      const repairsAndImprovements =
+        getFormDataString(req, 'repairs-and-improvments', 'hasRepairsAndImprovements') ??
+        propertyDetails?.anyTenantsMadePropertyRepairs;
+
+      return {
+        propertyDetails: {
+          addressLine1: getFormDataString(req, '', 'addressLine1') ?? propertyDetails?.addressLine1,
+          addressLine2: getFormDataString(req, '', 'addressLine2') ?? propertyDetails?.addressLine2,
+          postTown: getFormDataString(req, '', 'townOrCity') ?? propertyDetails?.postTown,
+          county: getFormDataString(req, '', 'county') ?? propertyDetails?.county,
+          postcode: getFormDataString(req, '', 'postcode') ?? propertyDetails?.postcode,
+
+          propertyType,
+          rentingRoomDetails:
+            propertyType === 'roomOrRooms'
+              ? (getFormDataString(req, 'what-are-you-renting', 'propertyType.roomOrRoomsDescription') ??
+                propertyDetails?.rentingRoomDetails)
+              : undefined,
+          rentingFlatDetails:
+            propertyType === 'flat'
+              ? (getFormDataString(req, 'what-are-you-renting', 'propertyType.flatFloor') ??
+                propertyDetails?.rentingFlatDetails)
+              : undefined,
+          otherMethodRentingDetails:
+            propertyType === 'other'
+              ? (getFormDataString(req, 'what-are-you-renting', 'propertyType.otherDescription') ??
+                propertyDetails?.otherMethodRentingDetails)
+              : undefined,
+
+          propertyFloorPlanAvailable,
+          floorPlanManualDetails:
+            propertyFloorPlanAvailable === false || String(propertyFloorPlanAvailable).toLocaleLowerCase() === 'no'
+              ? (getFormDataString(
+                  req,
+                  'floor-plan-of-property',
+                  'propertyFloorPlanAvailable.propertyLayoutDescription'
+                ) ?? propertyDetails?.floorPlanManualDetails)
+              : undefined,
+
+          indoorFeatures:
+            getFormDataString(req, 'indoor-features', 'indoorFeatures') ?? propertyDetails?.indoorFeatures,
+
+          otherFacilitiesAvailable: otherFacilities,
+          otherFacilitiesDetails:
+            otherFacilities === true || String(otherFacilities).toLowerCase() === 'yes'
+              ? (getFormDataString(
+                  req,
+                  'does-the-tenancy-include-other-facilities',
+                  'propertyIncludesOtherFacilities.propertyFacilitiesDescription'
+                ) ?? propertyDetails?.otherFacilitiesDetails)
+              : undefined,
+
+          sharePropertyWithLandlord: sharedWithLandlord,
+          sharePropertyWithLandlordDetails:
+            sharedWithLandlord === true || String(sharedWithLandlord).toLowerCase() === 'yes'
+              ? (getFormDataString(
+                  req,
+                  'do-you-share-the-property-with-landlord',
+                  'propertySharedWithLandlord.propertySharedWithLandlordDetails'
+                ) ?? propertyDetails?.sharePropertyWithLandlordDetails)
+              : undefined,
+
+          furnitureProvidedInTenancy: furnitureProvided,
+          furnitureProvidedInTenancyDetails:
+            furnitureProvided === true || String(furnitureProvided).toLowerCase() === 'yes'
+              ? (getFormDataString(req, 'furniture-provided-tenancy', 'furnitureProvided.furnitureProvidedDetails') ??
+                propertyDetails?.furnitureProvidedInTenancyDetails)
+              : undefined,
+
+          servicesProvidedInTenancy: servicesProvided,
+          servicesProvidedInTenancyDetails:
+            servicesProvided === true || String(servicesProvided).toLowerCase() === 'yes'
+              ? (getFormDataString(req, 'services-provided-tenancy', 'servicesProvided.servicesProvidedDetails') ??
+                propertyDetails?.additionalServicesProvidedInTenancyDetails)
+              : undefined,
+
+          landlordRepairsDetails:
+            getFormDataString(req, 'what-reairs-landlord-responsibility', 'landlordRepairsDetails') ??
+            propertyDetails?.landlordRepairsDetails,
+
+          tenantRepairDetails:
+            getFormDataString(req, 'what-reairs-landlord-responsibility', 'tenantRepairDetails') ??
+            propertyDetails?.tenantRepairsDetails,
+
+          anyTenantsMadePropertyRepairs: repairsAndImprovements,
+        },
+      };
+    }
+
+    // case 'propertyInspection': {
+    //   return {};
+    // }
     // case 'propertyDetails': {
     //   return {};
     // }

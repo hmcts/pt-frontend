@@ -18,7 +18,7 @@ export const step: StepDefinition = createFormStep({
   isAnswered: req => isAnswered(req.session.ccdCase),
   fields: [
     {
-      name: 'propertySharedWithLandlord',
+      name: 'sharePropertyWithLandlord',
       type: 'radio',
       required: true,
       isPageHeading: true,
@@ -27,11 +27,11 @@ export const step: StepDefinition = createFormStep({
       errorMessage: 'errors.propertySharedWithLandlord.required',
       options: [
         {
-          value: 'yes',
+          value: 'Yes',
           translationKey: 'common:yes',
           subFields: {
-            propertySharedWithLandlordDetails: {
-              name: 'propertySharedWithLandlordDetails',
+            sharePropertyWithLandlordDetails: {
+              name: 'sharePropertyWithLandlordDetails',
               type: 'textarea',
               maxLength: 500,
               required: true,
@@ -46,17 +46,20 @@ export const step: StepDefinition = createFormStep({
             },
           },
         },
-        { value: 'no', translationKey: 'common:no' },
+        { value: 'No', translationKey: 'common:no' },
       ],
     },
   ],
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (ccdCase?.propertySharedWithLandlord === 'yes') {
+  const propertyDetails = ccdCase?.propertyDetails;
+
+  if (propertyDetails?.sharePropertyWithLandlord === 'Yes') {
     return Boolean(
-      ccdCase?.propertySharedWithLandlordDetails && textAreaIsValidLength(ccdCase.propertySharedWithLandlordDetails)
+      propertyDetails?.sharePropertyWithLandlordDetails &&
+      textAreaIsValidLength(propertyDetails.sharePropertyWithLandlordDetails)
     );
   }
-  return ccdCase?.propertySharedWithLandlord === 'no';
+  return propertyDetails?.sharePropertyWithLandlord === 'No';
 }
