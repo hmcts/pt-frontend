@@ -5,15 +5,15 @@ import request from 'supertest';
 
 import { deleteDocumentById, readDocuments, saveDocuments } from '@modules/documents/storage';
 import documentProxy from '@routes/documentProxy';
-import { CdamUploadRejected, deleteDocument, uploadDocument } from '@services/cdamService';
+import { CdamUploadRejected, deleteDocument, uploadDocument } from '@services/cdam/cdamService';
 
 jest.mock('@modules/logger', () => ({
   Logger: {
     getLogger: jest.fn(() => ({ error: jest.fn(), info: jest.fn(), warn: jest.fn(), debug: jest.fn() })),
   },
 }));
-jest.mock('@services/cdamService', () => ({
-  ...jest.requireActual('@services/cdamService'),
+jest.mock('@services/cdam/cdamService', () => ({
+  ...jest.requireActual('@services/cdam/cdamService'),
   uploadDocument: jest.fn(),
   deleteDocument: jest.fn(),
 }));

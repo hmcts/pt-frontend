@@ -2,7 +2,7 @@ import express, { type Express } from 'express';
 import request from 'supertest';
 
 import documentProxy from '@routes/documentProxy';
-import { uploadDocument } from '@services/cdamService';
+import { uploadDocument } from '@services/cdam/cdamService';
 
 jest.mock('config', () => {
   const limits: Record<string, number> = {
@@ -17,7 +17,7 @@ jest.mock('@modules/logger', () => ({
     getLogger: jest.fn(() => ({ error: jest.fn(), info: jest.fn(), warn: jest.fn(), debug: jest.fn() })),
   },
 }));
-jest.mock('@services/cdamService');
+jest.mock('@services/cdam/cdamService');
 jest.mock('@modules/documents/storage', () => ({
   readDocuments: jest.fn().mockResolvedValue([]),
   saveDocuments: jest.fn(),

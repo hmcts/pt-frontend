@@ -4,7 +4,7 @@ import type { TFunction } from 'i18next';
 
 import type { ApplicationSectionId } from '../sections.config';
 
-import { PTCaseData } from '@services/ccdCase.interface';
+import { PTCaseData } from '@services/ccd/ccdCase.interface';
 import { toCaseReference16 } from '@utils/caseReference';
 
 // Shared helpers for the application creation section-CYA row builders.
