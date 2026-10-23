@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import { CcdApiClient } from '@services/ccdApiClient';
-import { CITIZEN_UPDATE_CASE } from '@services/ccdCase.interface';
+import { CcdApiClient } from '@services/ccd/ccdApiClient';
+import { CITIZEN_UPDATE_CASE } from '@services/ccd/ccdCase.interface';
 
 jest.mock('@modules/logger', () => ({
   Logger: {
