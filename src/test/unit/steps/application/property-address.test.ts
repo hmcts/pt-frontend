@@ -12,7 +12,12 @@ jest.mock('@modules/steps', () => ({
 describe('application property-address step', () => {
   const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
 
-  const makeReq = (ccdCase?: Record<string, unknown>): Request => ({ session: { ccdCase } }) as unknown as Request;
+  const makeReq = (propertyDetails?: Record<string, unknown>): Request =>
+    ({
+      session: {
+        ccdCase: propertyDetails ? { propertyDetails } : undefined,
+      },
+    }) as unknown as Request;
 
   const requiredParts = { addressLine1: '1 High Street', postTown: 'Leeds', postcode: 'LS1 1AA' };
 

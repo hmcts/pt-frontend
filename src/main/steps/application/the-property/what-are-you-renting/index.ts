@@ -1,5 +1,6 @@
 import { textAreaIsValidLength } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
+import { getValidatedCase } from '../../section-cya/cyaRow';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
@@ -15,7 +16,7 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/whatAreYouRenting.njk`,
   showCancelButton: false,
-  isAnswered: req => isAnswered(req.session.ccdCase),
+  isAnswered: req => isAnswered(getValidatedCase(req)),
   fields: [
     {
       name: 'propertyType',
@@ -26,22 +27,22 @@ export const step: StepDefinition = createFormStep({
       translationKey: { label: 'questionTitle' },
       options: [
         {
-          value: 'roomOrRooms',
-          translationKey: 'options.roomOrRooms.label',
+          value: 'room',
+          translationKey: 'options.room.label',
           subFields: {
-            roomOrRoomsDescription: {
-              name: 'propertyTypeRoomDescription',
+            roomDescription: {
+              name: 'rentingRoomDetails',
               type: 'textarea',
               maxLength: 500,
               required: false,
               errorMessage: 'errors.textUpdatesPhoneNumber.required',
               translationKey: {
-                label: 'options.roomOrRooms.roomOrRoomsDescriptionLabel',
-                hint: 'options.roomOrRooms.roomOrRoomsDescriptionHint',
+                label: 'options.room.roomDescriptionLabel',
+                hint: 'options.room.roomDescriptionHint',
               },
               validator: (value): boolean | string => {
                 if (value && String(value).length > 500) {
-                  return 'errors.roomOrRoomsDescription.invalid';
+                  return 'errors.roomDescription.invalid';
                 }
                 return true;
               },
@@ -53,7 +54,7 @@ export const step: StepDefinition = createFormStep({
           translationKey: 'options.flat.label',
           subFields: {
             flatFloor: {
-              name: 'propertyTypeFlatFloor',
+              name: 'rentingFlatDetails',
               type: 'text',
               maxLength: 500,
               required: false,
@@ -70,15 +71,23 @@ export const step: StepDefinition = createFormStep({
             },
           },
         },
-        { value: 'terraced', translationKey: 'options.terraced.label' },
-        { value: 'semiDetached', translationKey: 'options.semiDetached.label', hint: 'options.semiDetached.hint' },
-        { value: 'detached', translationKey: 'options.detached.label', hint: 'options.detached.hint' },
+        { value: 'terracedHouse', translationKey: 'options.terracedHouse.label' },
+        {
+          value: 'semiDetachedHouse',
+          translationKey: 'options.semiDetachedHouse.label',
+          hint: 'options.semiDetachedHouse.hint',
+        },
+        {
+          value: 'fullyDetachedHouse',
+          translationKey: 'options.fullyDetachedHouse.label',
+          hint: 'options.fullyDetachedHouse.hint',
+        },
         {
           value: 'other',
           translationKey: 'options.other.label',
           subFields: {
             otherDescription: {
-              name: 'propertyTypeOtherDescription',
+              name: 'otherMethodRentingDetails',
               type: 'textarea',
               maxLength: 500,
               required: true,
@@ -102,23 +111,25 @@ export const step: StepDefinition = createFormStep({
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (!ccdCase) {
+  const propertyDetails = ccdCase?.propertyDetails;
+
+  if (!propertyDetails) {
     return false;
   }
 
-  const { propertyType, propertyTypeRoomDescription, propertyTypeFlatFloor, propertyTypeOtherDescription } = ccdCase;
+  const { propertyType, rentingRoomDetails, rentingFlatDetails, otherMethodRentingDetails } = propertyDetails;
 
   switch (propertyType) {
-    case 'terraced':
-    case 'semiDetached':
-    case 'detached':
+    case 'terracedHouse':
+    case 'semiDetachedHouse':
+    case 'fullyDetachedHouse':
       return true;
-    case 'roomOrRooms':
-      return textAreaIsValidLength(propertyTypeRoomDescription);
+    case 'room':
+      return textAreaIsValidLength(rentingRoomDetails);
     case 'flat':
-      return textAreaIsValidLength(propertyTypeFlatFloor);
+      return textAreaIsValidLength(rentingFlatDetails);
     case 'other':
-      return Boolean(propertyTypeOtherDescription);
+      return Boolean(otherMethodRentingDetails);
     default:
       return false;
   }
