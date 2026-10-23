@@ -18,48 +18,51 @@ export const step: StepDefinition = createFormStep({
   isAnswered: req => isAnswered(req.session.ccdCase),
   fields: [
     {
-      name: 'furnitureProvided',
+      name: 'furnitureProvidedInTenancy',
       type: 'radio',
       required: true,
       isPageHeading: true,
       legendClasses: 'govuk-fieldset__legend--l',
       translationKey: { label: 'questionTitle' },
-      errorMessage: 'errors.furnitureProvided.required',
+      errorMessage: 'errors.furnitureProvidedInTenancy.required',
       options: [
         {
-          value: 'yes',
+          value: 'Yes',
           translationKey: 'common:yes',
           subFields: {
-            furnitureProvidedDetails: {
-              name: 'furnitureProvidedDetails',
+            furnitureProvidedInTenancyDetails: {
+              name: 'furnitureProvidedInTenancyDetails',
               type: 'textarea',
               maxLength: 500,
               required: true,
-              errorMessage: 'errors.furnitureProvidedDetails.required',
+              errorMessage: 'errors.furnitureProvidedInTenancyDetails.required',
               translationKey: {
-                label: 'options.furnitureProvidedDetails.label',
-                hint: 'options.furnitureProvidedDetails.hint',
+                label: 'options.furnitureProvidedInTenancyDetails.label',
+                hint: 'options.furnitureProvidedInTenancyDetails.hint',
               },
               validator: (value): boolean | string => {
                 if (value && (String(value).length < 2 || String(value).length > 500)) {
-                  return 'errors.furnitureProvidedDetails.invalid';
+                  return 'errors.furnitureProvidedInTenancyDetails.invalid';
                 }
                 return true;
               },
             },
           },
         },
-        { value: 'no', translationKey: 'common:no' },
+        { value: 'No', translationKey: 'common:no' },
       ],
     },
   ],
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (ccdCase?.furnitureProvided === 'yes') {
+  const propertyDetails = ccdCase?.propertyDetails;
+
+  if (propertyDetails?.furnitureProvidedInTenancy === 'Yes') {
     return Boolean(
-      ccdCase?.furnitureProvidedDetails && textAreaIsValidLength(ccdCase?.furnitureProvidedDetails as string)
+      propertyDetails?.furnitureProvidedInTenancyDetails &&
+      textAreaIsValidLength(propertyDetails?.furnitureProvidedInTenancyDetails as string)
     );
   }
-  return ccdCase?.furnitureProvided === 'no';
+  return propertyDetails?.furnitureProvidedInTenancy === 'No';
 }

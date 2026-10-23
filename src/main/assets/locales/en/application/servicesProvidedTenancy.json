@@ -2,7 +2,7 @@
   "questionTitle": "Are any services provided in your tenancy?",
   "questionHint": "For example, cleaning or gardening",
   "options": {
-    "servicesProvidedDetails": {
+    "additionalServicesProvidedInTenancyDetails": {
       "label": "Describe the services provided"
     }
   },
@@ -10,7 +10,7 @@
     "servicesProvided": {
       "required": "Select whether services are provided in your tenancy"
     },
-    "servicesProvidedDetails": {
+    "additionalServicesProvidedInTenancyDetails": {
       "required": "Enter the services provided in your tenancy",
       "invalid": "Details about the services provided must be 2 characters or more"
     }

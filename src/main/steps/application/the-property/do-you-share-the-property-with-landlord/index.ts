@@ -18,45 +18,48 @@ export const step: StepDefinition = createFormStep({
   isAnswered: req => isAnswered(req.session.ccdCase),
   fields: [
     {
-      name: 'propertySharedWithLandlord',
+      name: 'sharePropertyWithLandlord',
       type: 'radio',
       required: true,
       isPageHeading: true,
       legendClasses: 'govuk-fieldset__legend--l',
       translationKey: { label: 'questionTitle', hint: 'questionHint' },
-      errorMessage: 'errors.propertySharedWithLandlord.required',
+      errorMessage: 'errors.sharePropertyWithLandlord.required',
       options: [
         {
-          value: 'yes',
+          value: 'Yes',
           translationKey: 'common:yes',
           subFields: {
-            propertySharedWithLandlordDetails: {
-              name: 'propertySharedWithLandlordDetails',
+            sharePropertyWithLandlordDetails: {
+              name: 'sharePropertyWithLandlordDetails',
               type: 'textarea',
               maxLength: 500,
               required: true,
-              errorMessage: 'errors.propertySharedWithLandlordDetails.required',
-              translationKey: { label: 'options.propertySharedWithLandlordDetails.label' },
+              errorMessage: 'errors.sharePropertyWithLandlordDetails.required',
+              translationKey: { label: 'options.sharePropertyWithLandlordDetails.label' },
               validator: (value): boolean | string => {
                 if (value && String(value).length > 500) {
-                  return 'errors.propertySharedWithLandlordDetails.invalid';
+                  return 'errors.sharePropertyWithLandlordDetails.invalid';
                 }
                 return true;
               },
             },
           },
         },
-        { value: 'no', translationKey: 'common:no' },
+        { value: 'No', translationKey: 'common:no' },
       ],
     },
   ],
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (ccdCase?.propertySharedWithLandlord === 'yes') {
+  const propertyDetails = ccdCase?.propertyDetails;
+
+  if (propertyDetails?.sharePropertyWithLandlord === 'Yes') {
     return Boolean(
-      ccdCase?.propertySharedWithLandlordDetails && textAreaIsValidLength(ccdCase.propertySharedWithLandlordDetails)
+      propertyDetails?.sharePropertyWithLandlordDetails &&
+      textAreaIsValidLength(propertyDetails.sharePropertyWithLandlordDetails)
     );
   }
-  return ccdCase?.propertySharedWithLandlord === 'no';
+  return propertyDetails?.sharePropertyWithLandlord === 'No';
 }

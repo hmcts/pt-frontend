@@ -14,7 +14,21 @@ const MAX_LENGTH = 500;
 describe('application what-are-you-renting step', () => {
   const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
 
-  const makeReq = (ccdCase?: Record<string, unknown>): Request => ({ session: { ccdCase } }) as unknown as Request;
+  const CASE_REF = '1234123412341234';
+  const makeReq = (propertyDetails?: Record<string, unknown>): Request => {
+    const req = {
+      params: { caseReference: CASE_REF },
+      session: {
+        ccdCase: propertyDetails
+          ? {
+              caseReference: CASE_REF,
+              propertyDetails,
+            }
+          : undefined,
+      },
+    };
+    return req as unknown as Request;
+  };
 
   describe('isAnswered', () => {
     it('is not answered when there is no case', () => {
@@ -25,37 +39,38 @@ describe('application what-are-you-renting step', () => {
       expect(capturedConfig.isAnswered(makeReq({}))).toBe(false);
     });
 
-    it.each(['terraced', 'semiDetached', 'detached'])('is answered for a %s house', propertyType => {
-      expect(capturedConfig.isAnswered(makeReq({ propertyType }))).toBe(true);
-    });
+    it.each(['terracedHouse', 'semiDetachedHouse', 'fullyDetachedHouse'])(
+      'is answered for a %s house',
+      propertyType => {
+        expect(capturedConfig.isAnswered(makeReq({ propertyType }))).toBe(true);
+      }
+    );
 
     it('is answered for rooms with or without the optional description', () => {
-      expect(capturedConfig.isAnswered(makeReq({ propertyType: 'roomOrRooms' }))).toBe(true);
-      expect(
-        capturedConfig.isAnswered(makeReq({ propertyType: 'roomOrRooms', propertyTypeRoomDescription: 'Two rooms' }))
-      ).toBe(true);
+      expect(capturedConfig.isAnswered(makeReq({ propertyType: 'room' }))).toBe(true);
+      expect(capturedConfig.isAnswered(makeReq({ propertyType: 'room', rentingRoomDetails: 'Two rooms' }))).toBe(true);
     });
 
     it('is not answered for rooms when the saved description is longer than the limit', () => {
-      const req = makeReq({ propertyType: 'roomOrRooms', propertyTypeRoomDescription: 'a'.repeat(MAX_LENGTH + 1) });
+      const req = makeReq({ propertyType: 'room', rentingRoomDetails: 'a'.repeat(MAX_LENGTH + 1) });
 
       expect(capturedConfig.isAnswered(req)).toBe(false);
     });
 
     it('is answered for a flat with or without the optional floor', () => {
       expect(capturedConfig.isAnswered(makeReq({ propertyType: 'flat' }))).toBe(true);
-      expect(capturedConfig.isAnswered(makeReq({ propertyType: 'flat', propertyTypeFlatFloor: '3' }))).toBe(true);
+      expect(capturedConfig.isAnswered(makeReq({ propertyType: 'flat', rentingFlatDetails: '3' }))).toBe(true);
     });
 
     it('is not answered for a flat when the saved floor is longer than the limit', () => {
-      const req = makeReq({ propertyType: 'flat', propertyTypeFlatFloor: 'a'.repeat(MAX_LENGTH + 1) });
+      const req = makeReq({ propertyType: 'flat', rentingFlatDetails: 'a'.repeat(MAX_LENGTH + 1) });
 
       expect(capturedConfig.isAnswered(req)).toBe(false);
     });
 
     it('is answered for another type only when the citizen described it', () => {
       expect(
-        capturedConfig.isAnswered(makeReq({ propertyType: 'other', propertyTypeOtherDescription: 'A houseboat' }))
+        capturedConfig.isAnswered(makeReq({ propertyType: 'other', otherMethodRentingDetails: 'A houseboat' }))
       ).toBe(true);
       expect(capturedConfig.isAnswered(makeReq({ propertyType: 'other' }))).toBe(false);
     });
@@ -66,7 +81,7 @@ describe('application what-are-you-renting step', () => {
       capturedConfig.fields[0].options.find((option: { value: string }) => option.value === optionValue).subFields[key];
 
     it.each([
-      ['roomOrRooms', 'roomOrRoomsDescription', 'errors.roomOrRoomsDescription.invalid'],
+      ['room', 'roomDescription', 'errors.roomDescription.invalid'],
       ['flat', 'flatFloor', 'errors.flatFloor.invalid'],
       ['other', 'otherDescription', 'errors.otherDescription.invalid'],
     ])('limits the %s detail to the maximum length', (optionValue, key, errorKey) => {
