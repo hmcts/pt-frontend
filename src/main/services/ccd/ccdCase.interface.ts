@@ -27,6 +27,11 @@ export enum LanguageUsed {
   ENGLISH_AND_WELSH = 'ENGLISH_AND_WELSH',
 }
 
+export enum CaseRole {
+  CREATOR = '[CREATOR]',
+  DEFENDANT = '[DEFENDANT]',
+}
+
 /** CCD SDK Document type -- flat reference with URLs. */
 export interface CcdDocumentReference {
   document_url: string;
