@@ -1,6 +1,7 @@
 import { flowConfig } from '../../flow.config';
+import { getValidatedCase } from '../../section-cya/cyaRow';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccdCase.interface';
 import { isValidPostcode } from '@utils/postcode';
@@ -15,7 +16,24 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/propertyAddress.njk`,
   showCancelButton: false,
-  isAnswered: req => isAnswered(req.session.ccdCase),
+  getInitialFormData: req => {
+    const propertyDetails = getValidatedCase(req)?.propertyDetails;
+
+    const addressLine1 = getFormDataString(req, stepName, 'addressLine1') ?? propertyDetails?.addressLine1;
+    const addressLine2 = getFormDataString(req, stepName, 'addressLine2') ?? propertyDetails?.addressLine2;
+    const townOrCity = getFormDataString(req, stepName, 'townOrCity') ?? propertyDetails?.townOrCity;
+    const county = getFormDataString(req, stepName, 'county') ?? propertyDetails?.county;
+    const postcode = getFormDataString(req, stepName, 'postcode') ?? propertyDetails?.postcode;
+
+    return {
+      ...(addressLine1 !== undefined && { addressLine1 }),
+      ...(addressLine2 !== undefined && { addressLine2 }),
+      ...(townOrCity !== undefined && { townOrCity }),
+      ...(county !== undefined && { county }),
+      ...(postcode !== undefined && { postcode }),
+    };
+  },
+  isAnswered: req => isAnswered(getValidatedCase(req)),
   translationKeys: {
     pageTitle: 'pageTitle',
     heading: 'heading',
@@ -108,5 +126,6 @@ export const step: StepDefinition = createFormStep({
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  return Boolean(ccdCase?.addressLine1 && ccdCase?.townOrCity && ccdCase?.postcode);
+  const propertyDetails = ccdCase?.propertyDetails;
+  return Boolean(propertyDetails?.addressLine1 && propertyDetails?.townOrCity && propertyDetails?.postcode);
 }
