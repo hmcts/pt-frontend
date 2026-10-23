@@ -14,7 +14,12 @@ const MAX_LENGTH = 500;
 describe('application services-provided-tenancy step', () => {
   const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
 
-  const makeReq = (ccdCase?: Record<string, unknown>): Request => ({ session: { ccdCase } }) as unknown as Request;
+  const makeReq = (propertyDetails?: Record<string, unknown>): Request =>
+    ({
+      session: {
+        ccdCase: propertyDetails ? { propertyDetails } : undefined,
+      },
+    }) as unknown as Request;
 
   describe('isAnswered', () => {
     it('is not answered when nothing has been saved', () => {
@@ -23,21 +28,21 @@ describe('application services-provided-tenancy step', () => {
     });
 
     it('is answered when no services are provided', () => {
-      expect(capturedConfig.isAnswered(makeReq({ servicesProvided: 'no' }))).toBe(true);
+      expect(capturedConfig.isAnswered(makeReq({ servicesProvided: 'No' }))).toBe(true);
     });
 
     it('is answered when services are provided and the citizen said which', () => {
-      const req = makeReq({ servicesProvided: 'yes', servicesProvidedDetails: 'Cleaning of shared areas' });
+      const req = makeReq({ servicesProvided: 'Yes', servicesProvidedDetails: 'Cleaning of shared areas' });
 
       expect(capturedConfig.isAnswered(req)).toBe(true);
     });
 
     it('is not answered when services are provided but the citizen has not said which', () => {
-      expect(capturedConfig.isAnswered(makeReq({ servicesProvided: 'yes' }))).toBe(false);
+      expect(capturedConfig.isAnswered(makeReq({ servicesProvided: 'Yes' }))).toBe(false);
     });
 
     it('is not answered when the saved details are longer than the limit', () => {
-      const req = makeReq({ servicesProvided: 'yes', servicesProvidedDetails: 'a'.repeat(MAX_LENGTH + 1) });
+      const req = makeReq({ servicesProvided: 'Yes', servicesProvidedDetails: 'a'.repeat(MAX_LENGTH + 1) });
 
       expect(capturedConfig.isAnswered(req)).toBe(false);
     });

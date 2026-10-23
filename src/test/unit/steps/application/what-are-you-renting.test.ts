@@ -14,7 +14,21 @@ const MAX_LENGTH = 500;
 describe('application what-are-you-renting step', () => {
   const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
 
-  const makeReq = (ccdCase?: Record<string, unknown>): Request => ({ session: { ccdCase } }) as unknown as Request;
+  const CASE_REF = '1234123412341234';
+  const makeReq = (propertyDetails?: Record<string, unknown>): Request => {
+    const req = {
+      params: { caseReference: CASE_REF },
+      session: {
+        ccdCase: propertyDetails
+          ? {
+              caseReference: CASE_REF,
+              propertyDetails,
+            }
+          : undefined,
+      },
+    };
+    return req as unknown as Request;
+  };
 
   describe('isAnswered', () => {
     it('is not answered when there is no case', () => {

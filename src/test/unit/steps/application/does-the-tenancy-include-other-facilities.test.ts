@@ -14,7 +14,12 @@ const MAX_LENGTH = 500;
 describe('application does-the-tenancy-include-other-facilities step', () => {
   const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
 
-  const makeReq = (ccdCase?: Record<string, unknown>): Request => ({ session: { ccdCase } }) as unknown as Request;
+  const makeReq = (propertyDetails?: Record<string, unknown>): Request =>
+    ({
+      session: {
+        ccdCase: propertyDetails ? { propertyDetails } : undefined,
+      },
+    }) as unknown as Request;
 
   describe('isAnswered', () => {
     it('is not answered when nothing has been saved', () => {
@@ -23,12 +28,12 @@ describe('application does-the-tenancy-include-other-facilities step', () => {
     });
 
     it('is answered when the tenancy includes no other facilities', () => {
-      expect(capturedConfig.isAnswered(makeReq({ propertyIncludesOtherFacilities: 'no' }))).toBe(true);
+      expect(capturedConfig.isAnswered(makeReq({ propertyIncludesOtherFacilities: 'No' }))).toBe(true);
     });
 
     it('is answered when the tenancy includes other facilities and the citizen described them', () => {
       const req = makeReq({
-        propertyIncludesOtherFacilities: 'yes',
+        propertyIncludesOtherFacilities: 'Yes',
         propertyFacilitiesDescription: 'A garage and a garden',
       });
 
@@ -36,12 +41,12 @@ describe('application does-the-tenancy-include-other-facilities step', () => {
     });
 
     it('is not answered when the tenancy includes other facilities but they are not described', () => {
-      expect(capturedConfig.isAnswered(makeReq({ propertyIncludesOtherFacilities: 'yes' }))).toBe(false);
+      expect(capturedConfig.isAnswered(makeReq({ propertyIncludesOtherFacilities: 'Yes' }))).toBe(false);
     });
 
     it('is not answered when the saved description is longer than the limit', () => {
       const req = makeReq({
-        propertyIncludesOtherFacilities: 'yes',
+        propertyIncludesOtherFacilities: 'Yes',
         propertyFacilitiesDescription: 'a'.repeat(MAX_LENGTH + 1),
       });
 
