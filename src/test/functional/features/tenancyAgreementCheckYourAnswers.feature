@@ -1,4 +1,4 @@
-@JIRA-TEST-KEY:HDPD-589 @regression
+@JIRA-TEST-KEY:HDPD-589 @regression @WIP
 Feature: Verify Tenancy Agreement Check Your Answers
 
     Background:

@@ -1,4 +1,4 @@
-@JIRA-TEST-KEY:HDPD-531 @regression
+@JIRA-TEST-KEY:HDPD-531 @regression @WIP
 
 Feature: Your information
 

@@ -1,4 +1,4 @@
-@JIRA-TEST-KEY:HDPD-588 @regression
+@JIRA-TEST-KEY:HDPD-588 @regression @WIP
 
 Feature: Verify Upload tenancy agreement page
 

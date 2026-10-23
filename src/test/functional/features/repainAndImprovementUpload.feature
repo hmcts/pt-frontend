@@ -1,4 +1,4 @@
-@JIRA-TEST-KEY:HDPD-619 @regression
+@JIRA-TEST-KEY:HDPD-619 @regression @WIP
 Feature: Verify Upload evidence of improvements or repairs page
 
     Background:

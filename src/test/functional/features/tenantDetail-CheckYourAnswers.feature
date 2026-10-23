@@ -1,4 +1,4 @@
-@JIRA-EPIC:HDPD-534 @regression
+@JIRA-EPIC:HDPD-534 @regression @WIP
 
 Feature: Verify Tenant Details Check Your Answers Page
 

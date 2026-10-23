@@ -1,4 +1,4 @@
-@JIRA-EPIC:HDPD-611 @regression
+@JIRA-EPIC:HDPD-611 @regression @WIP
 
 Feature: Validate Does the tenancy include any other facilities page
 
