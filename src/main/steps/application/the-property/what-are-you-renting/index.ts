@@ -1,7 +1,8 @@
 import { textAreaIsValidLength } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
+import { getValidatedCase } from '../../section-cya/cyaRow';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccd/ccdCase.interface';
 
@@ -15,7 +16,30 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/whatAreYouRenting.njk`,
   showCancelButton: false,
-  isAnswered: req => isAnswered(req.session.ccdCase),
+  getInitialFormData: req => {
+    const propertyDetails = getValidatedCase(req)?.propertyDetails;
+
+    const propertyType = getFormDataString(req, stepName, 'propertyType') ?? propertyDetails?.propertyType;
+
+    const roomOrRoomsDescription =
+      getFormDataString(req, stepName, 'propertyType.roomOrRoomsDescription') ??
+      propertyDetails?.propertyTypeRoomDescription;
+
+    const flatFloor =
+      getFormDataString(req, stepName, 'propertyType.flatFloor') ?? propertyDetails?.propertyTypeFlatFloor;
+
+    const otherDescription =
+      getFormDataString(req, stepName, 'propertyType.otherDescription') ??
+      propertyDetails?.propertyTypeOtherDescription;
+
+    return {
+      ...(propertyType !== undefined && { propertyType }),
+      ...(roomOrRoomsDescription !== undefined && { 'propertyType.roomOrRoomsDescription': roomOrRoomsDescription }),
+      ...(flatFloor !== undefined && { 'propertyType.flatFloor': flatFloor }),
+      ...(otherDescription !== undefined && { 'propertyType.otherDescription': otherDescription }),
+    };
+  },
+  isAnswered: req => isAnswered(getValidatedCase(req)),
   fields: [
     {
       name: 'propertyType',
@@ -102,11 +126,14 @@ export const step: StepDefinition = createFormStep({
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (!ccdCase) {
+  const propertyDetails = ccdCase?.propertyDetails;
+
+  if (!propertyDetails) {
     return false;
   }
 
-  const { propertyType, propertyTypeRoomDescription, propertyTypeFlatFloor, propertyTypeOtherDescription } = ccdCase;
+  const { propertyType, propertyTypeRoomDescription, propertyTypeFlatFloor, propertyTypeOtherDescription } =
+    propertyDetails;
 
   switch (propertyType) {
     case 'terraced':

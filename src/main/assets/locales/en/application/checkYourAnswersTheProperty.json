@@ -1,5 +1,134 @@
 {
-  "pageTitle": "Check your answers - The property",
-  "heading": "Check your answers",
-  "pageCaption": "The property"
+  "pageTitle": "Check your answers - The property [TODO] check locals against spec",
+  "heading": "Check your answers [TODO] check locals against spec",
+  "cardTitle": "The property [TODO] check locals against spec",
+  "rows": {
+    "documentUploaded": "",
+    "PropertyAddress": {
+      "label": "",
+      "changeHidden": ""
+    },
+    "propertyType": {
+      "label": "",
+      "changeHidden": "",
+      "options": {
+        "roomOrRooms": "",
+        "flat": "",
+        "terraced": "",
+        "semiDetached": "",
+        "detached": "",
+        "other": ""
+      }
+    },
+    "propertyTypeRoomDescription": {
+      "label": "",
+      "changeHidden": ""
+    },
+    "propertyTypeFlatFloor": {
+      "label": "",
+      "changeHidden": ""
+    },
+    "propertyTypeOtherDescription": {
+      "label": "",
+      "changeHidden": ""
+    },
+    "hasFloorPlanOfProperty": {
+      "label": "",
+      "changeHidden": "",
+      "options": {
+        "yes": "Yes",
+        "no": "No"
+      }
+    },
+    "propertyLayoutDescription": {
+      "label": "",
+      "changeHidden": ""
+    },
+    "floorPlanDocument": {
+      "label": "",
+      "changeHidden": ""
+    },
+    "indoorFeatures": {
+      "label": "",
+      "changeHidden": ""
+    },
+    "propertyIncludesOtherFacilities": {
+      "label": "",
+      "changeHidden": "",
+      "options": {
+        "yes": "Yes",
+        "no": "No"
+      }
+    },
+    "propertyFacilitiesDescription": {
+      "label": "",
+      "changeHidden": ""
+    },
+    "propertySharedWithLandlord": {
+      "label": "",
+      "changeHidden": "",
+      "options": {
+        "yes": "Yes",
+        "no": "No"
+      }
+    },
+    "propertySharedWithLandlordDetails": {
+      "label": "",
+      "changeHidden": ""
+    },
+    "outsidePropertyDocuments": {
+      "label": "",
+      "changeHidden": ""
+    },
+    "propertyRoomsDocuments": {
+      "label": "",
+      "changeHidden": ""
+    },
+    "furnitureProvided": {
+      "label": "",
+      "changeHidden": "",
+      "options": {
+        "yes": "Yes",
+        "no": "No"
+      }
+    },
+    "furnitureProvidedDetails": {
+      "label": "",
+      "changeHidden": ""
+    },
+    "servicesProvided": {
+      "label": "",
+      "changeHidden": "",
+      "options": {
+        "yes": "Yes",
+        "no": "No"
+      }
+    },
+    "servicesProvidedDetails": {
+      "label": "",
+      "changeHidden": ""
+    },
+    "landlordRepairDetails": {
+      "label": "",
+      "changeHidden": ""
+    },
+    "tenantRepairDetails": {
+      "label": "",
+      "changeHidden": ""
+    },
+    "hasRepairsAndImprovements": {
+      "label": "",
+      "changeHidden": "",
+      "options": {
+        "yes": "Yes",
+        "no": "No",
+        "notSure": "I'm not sure"
+      }
+    },
+    "repairsEvidenceDocuments": {
+      "label": "",
+      "changeHidden": ""
+    }
+  },
+  "reviewAndChangeInfo": ""
 }
