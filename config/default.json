@@ -2,7 +2,7 @@
   "port": 4000,
   "useCSRFProtection": true,
   "appInsights": {
-    "instrumentationKey": false
+    "connectionString": false
   },
   "security": {
     "referrerPolicy": "same-origin",
@@ -12,6 +12,9 @@
       "preload": true
     }
   },
+  "http": {
+    "timeoutMs": 30000
+  },
   "api": {
     "url": "http://pt-api-aat.service.core-compute-aat.internal"
   },
@@ -19,10 +22,22 @@
     "url": "http://ccd-data-store-api-aat.service.core-compute-aat.internal",
     "caseTypeId": "PT"
   },
+  "cdam": {
+    "url": "http://ccd-case-document-am-api-aat.service.core-compute-aat.internal"
+  },
+  "documentUpload": {
+    "maxFileSizeMB": 25,
+    "maxTotalFileSizeMB": 300,
+    "maxFilenameLength": 255,
+    "timeoutMs": 300000,
+    "maxFilesPerUpload": 3
+  },
   "idam": {
-    "authorizationURL": "https://idam-web-public.aat.platform.hmcts.net/login",
-    "tokenURL": "https://idam-api.aat.platform.hmcts.net/o/token",
+    "authorizationURL": "https://hmcts-access.aat.platform.hmcts.net/o/authorize",
+    "tokenURL": "https://hmcts-access.aat.platform.hmcts.net/o/token",
+    "endSessionURL": "https://hmcts-access.aat.platform.hmcts.net/o/endSession",
     "clientID": "pt-frontend",
+    "authorizationScope": "openid profile roles",
     "clientSecret": "NEED TO INSERT SECRET",
     "systemUsername": "dummy_user",
     "systemPassword": "NEED TO INSERT SECRET",
@@ -38,7 +53,7 @@
   },
   "session": {
     "redis-connection-string": "redis://localhost:6379",
-    "pt-session-secret": "pt-supersecret",
+    "pt-session-secret": "NEED TO INSERT SECRET",
     "prefix": "pt-session",
     "cookieName": "pt_session",
     "redis": {

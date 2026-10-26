@@ -1,5 +1,24 @@
 {
   "pageTitle": "Check your answers - Contact preferences",
   "heading": "Check your answers",
-  "pageCaption": "Contact preferences"
+  "cardTitle": "Contact preferences",
+  "rows": {
+    "textUpdates": {
+      "label": "Do you want to receive text updates?",
+      "changeHidden": "receive free text updates",
+      "options": {
+        "Yes": "Yes",
+        "No": "No"
+      }
+    },
+    "textUpdatesPhoneNumber": {
+      "label": "Enter a mobile phone number",
+      "changeHidden": "mobile phone number"
+    },
+    "phoneNumberForCalls": {
+      "label": "Enter a phone number for phone calls (optional)",
+      "changeHidden": "phone number for phone calls"
+    }
+  },
+  "reviewAndChangeInfo": "You can review and change your answers before you submit your application."
 }

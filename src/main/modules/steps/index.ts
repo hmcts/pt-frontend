@@ -15,8 +15,14 @@ export type { FormBuilderConfig } from '@modules/steps/formBuilder/formFieldConf
 
 // Export form builder helpers (for use in custom step implementations)
 export {
+  DRAFT_SCOPE,
+  getFormDataScope,
+  getScopedFormData,
   getFormData,
   setFormData,
+  clearFormData,
+  getAllFormData,
+  getFormDataString,
   validateForm,
   normalizeCheckboxFields,
   processFieldData,

@@ -1,4 +1,24 @@
 {
-  "pageTitle": "cyTell us if you think an inspection, a hearing, or both are needed",
-  "heading": "cyTell us if you think an inspection, a hearing, or both are needed"
+  "pageHeading": "cyProperty inspection",
+  "guidance": {
+    "paragraph1": "cyThe tribunal will usually make its decision based on the documents and evidence provided by you and the landlord.",
+    "paragraph2": "cyOnly ask for an inspection if you think there are reasons that your evidence cannot show.",
+    "paragraph3": "cyThe tribunal will decide if an inspection is needed."
+  },
+  "questionTitle": "cyDo you agree to the tribunal making a decision without an inspection?",
+  "options": {
+    "noDecisionWithoutInspectionReason": {
+      "label": "cyTell us why you think an inspection is needed",
+      "hint": "cyFor example, if the condition or quality of the property is not shown properly in pictures - describe this in detail"
+    }
+  },
+  "errors": {
+    "agreeToDecisionWithoutInspection": {
+      "required": "cySelect yes if you agree to the tribunal making a decision without an inspection"
+    },
+    "noDecisionWithoutInspectionReason": {
+      "required": "cyEnter why you think an inspection is needed",
+      "invalid": "cyWhy you think an inspection is needed must be 500 characters or fewer"
+    }
+  }
 }

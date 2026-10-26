@@ -1,4 +1,9 @@
-import { looksLikeHtml, stripHtmlTags, textAreaIsValidLength } from '../../../../main/steps/utils/fieldValidators';
+import {
+  getTextLenghtError,
+  looksLikeHtml,
+  stripHtmlTags,
+  textAreaIsValidLength,
+} from '../../../../main/steps/utils/fieldValidators';
 
 describe('looksLikeHtml', () => {
   it('returns false for comparison text with many spaces after <', () => {
@@ -54,5 +59,42 @@ describe('textAreaIsValidLength', () => {
 
   it('returns true when value entered is a valid length', () => {
     expect(textAreaIsValidLength('Here is my test string')).toBe(true);
+  });
+
+  it('counts a submitted line break as one character, matching the character count on the page', () => {
+    expect(textAreaIsValidLength('a'.repeat(4996) + '\r\n\r\n', 5000)).toBe(true);
+  });
+
+  it('counts a lone carriage return as one character', () => {
+    expect(textAreaIsValidLength('a'.repeat(4998) + '\r', 5000)).toBe(true);
+  });
+
+  it('still rejects a value over the max once line breaks are normalised', () => {
+    expect(textAreaIsValidLength('a'.repeat(4999) + '\r\n\r\n', 5000)).toBe(false);
+  });
+
+  describe('getTextLenghtError', () => {
+    it('returns undefined when value is empty', () => {
+      expect(getTextLenghtError(undefined, 2, 50)).toBeUndefined();
+      expect(getTextLenghtError('', 2, 50)).toBeUndefined();
+    });
+
+    it('returns "tooShort" when value is shorter than min', () => {
+      expect(getTextLenghtError('a', 2, 50)).toBe('tooShort');
+    });
+
+    it('returns "tooLong" when value is longer than max', () => {
+      expect(getTextLenghtError('a'.repeat(51), 2, 50)).toBe('tooLong');
+    });
+
+    it('returns undefined when value is within min and max', () => {
+      expect(getTextLenghtError('a'.repeat(25), 2, 50)).toBeUndefined();
+    });
+
+    it('counts line breaks as one character each', () => {
+      expect(getTextLenghtError('a'.repeat(49) + '\r\n', 2, 50)).toBeUndefined();
+      expect(getTextLenghtError('a'.repeat(48) + '\r\n\r\n', 2, 50)).toBeUndefined();
+      expect(getTextLenghtError('a'.repeat(48) + '\r\n\r\n\r\n', 2, 50)).toBe('tooLong');
+    });
   });
 });

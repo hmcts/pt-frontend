@@ -4,7 +4,7 @@
     "roomOrRooms": {
       "label": "Room or rooms",
       "roomOrRoomsDescriptionLabel": "Describe what type of property your room or rooms are in (optional)",
-      "roomOrRoomsDescriptionHint": "For example, ‘One room in a house on the ground floor’"
+      "roomOrRoomsDescriptionHint": "For example, 'One room in a house on the ground floor'"
     },
     "flat": {
       "label": "Flat",

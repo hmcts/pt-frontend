@@ -1,8 +1,8 @@
 import type { Request } from 'express';
 
-import type { RespondToClaimStepName } from './stepRegistry';
+import type { PreApplicationStepName } from './stepRegistry';
 
-import { getFormData } from '@modules/steps';
+import { getFormData, getFormDataString } from '@modules/steps';
 import type { JourneyFlowConfig, StepConfig } from '@modules/steps/stepFlow.interface';
 import { isPartOfInitialRollout, isValidEnglishPostcode } from '@utils/postcode';
 
@@ -49,15 +49,15 @@ export const flowConfig: JourneyFlowConfig = {
     'you-need-to-use-another-form-postcode': {
       requiresAuth: false,
       showCondition: (req: Request) => {
-        const postCode = req.session.formData?.['address-of-property']?.addressPostcode;
-        return postCode && isValidEnglishPostcode(postCode) && !isPartOfInitialRollout(postCode);
+        const postCode = getFormDataString(req, 'address-of-property', 'addressPostcode');
+        return Boolean(postCode && isValidEnglishPostcode(postCode) && !isPartOfInitialRollout(postCode));
       },
     },
     'you-need-to-use-another-form-non-english-address': {
       requiresAuth: false,
       showCondition: (req: Request) => {
-        const postCode = req.session.formData?.['address-of-property']?.addressPostcode;
-        return postCode && !isValidEnglishPostcode(postCode);
+        const postCode = getFormDataString(req, 'address-of-property', 'addressPostcode');
+        return Boolean(postCode && !isValidEnglishPostcode(postCode));
       },
     },
     'landlord-is-a-housing-association': {
@@ -84,5 +84,5 @@ export const flowConfig: JourneyFlowConfig = {
       showCondition: (req: Request) =>
         getFormData(req, 'who-is-named-on-your-tenancy-agreement').tenantOrJointTenant !== 'tenant',
     },
-  } satisfies Partial<Record<RespondToClaimStepName, StepConfig>>,
+  } satisfies Partial<Record<PreApplicationStepName, StepConfig>>,
 };

@@ -6,6 +6,10 @@
   "introParagraph3": "Your landlord and any representatives will also see your answers and any documents you upload.",
   "sidebar": {
     "heading": "Related content",
+    "deleteApplicationLink": {
+      "text": "Delete this application",
+      "href": "/{{caseReference}}/delete-application-confirmation"
+    },
     "guidanceLink": {
       "text": "Guidance about the application process",
       "href": "#"

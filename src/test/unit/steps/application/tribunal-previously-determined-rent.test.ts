@@ -1,0 +1,202 @@
+import type { Request } from 'express';
+import type { Environment } from 'nunjucks';
+
+import { step } from '../../../../main/steps/application/the-rent/the-current-rent-and-other-costs/tribunal-previously-determined-rent';
+
+import { createFormStep } from '@modules/steps';
+
+jest.mock('@modules/steps', () => {
+  const actual = jest.requireActual('@modules/steps');
+  return { ...actual, createFormStep: jest.fn(actual.createFormStep) };
+});
+
+jest.mock('../../../../main/modules/steps/i18n', () => ({
+  loadStepNamespace: jest.fn(),
+  getStepTranslations: jest.fn(() => ({})),
+  getTranslationFunction: jest.fn(() => (key: string) => key),
+}));
+
+jest.mock('../../../../main/modules/i18n', () => ({
+  getRequestLanguage: jest.fn(() => 'en'),
+  getCommonTranslations: jest.fn(() => ({})),
+}));
+
+const CASE_REF = '1234123412341234';
+
+describe('application tribunal-previously-determined-rent step', () => {
+  const nunjucksEnv = { render: jest.fn(() => '') } as unknown as Environment;
+  const caseReferenceField = 'tribunalPreviouslyDeterminedTenancyRent.previousTribunalCaseReference';
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const post = async (body: Record<string, unknown>): Promise<{ req: any; res: any; next: jest.Mock }> => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const res = { redirect: jest.fn(), render: jest.fn(), send: jest.fn(), locals: {} } as any;
+    res.status = jest.fn(() => res);
+
+    const req = {
+      body,
+      originalUrl: '/1234123412341234/tribunal-previously-determined-rent',
+      query: { lang: 'en' },
+      params: { caseReference: CASE_REF },
+      session: { formData: { [CASE_REF]: {} } },
+      app: { locals: { nunjucksEnv } },
+      i18n: { getResourceBundle: jest.fn(() => ({})) },
+      res,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any;
+
+    const next = jest.fn();
+
+    if (!step.postController) {
+      throw new Error('expected postController');
+    }
+    await step.postController.post(req, res, next);
+    return { req, res, next };
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('saves the answer and continues when NO is selected', async () => {
+    const { req, res } = await post({ action: 'continue', tribunalPreviouslyDeterminedTenancyRent: 'No' });
+
+    expect(req.session.formData[CASE_REF]['tribunal-previously-determined-rent']).toStrictEqual({
+      tribunalPreviouslyDeterminedTenancyRent: 'No',
+    });
+    expect(res.redirect).toHaveBeenCalled();
+  });
+
+  it('continues when YES is selected without a case reference', async () => {
+    const { res } = await post({
+      action: 'continue',
+      tribunalPreviouslyDeterminedTenancyRent: 'Yes',
+      [caseReferenceField]: '',
+    });
+
+    expect(res.redirect).toHaveBeenCalled();
+  });
+
+  it('saves the case reference when YES is selected with one', async () => {
+    const { req } = await post({
+      action: 'continue',
+      tribunalPreviouslyDeterminedTenancyRent: 'Yes',
+      [caseReferenceField]: 'LON/00AD/SMO/2023/0001',
+    });
+
+    expect(req.session.formData[CASE_REF]['tribunal-previously-determined-rent']).toStrictEqual({
+      tribunalPreviouslyDeterminedTenancyRent: 'Yes',
+      [caseReferenceField]: 'LON/00AD/SMO/2023/0001',
+    });
+  });
+
+  it('stores the case reference uppercased', async () => {
+    const { req } = await post({
+      action: 'continue',
+      tribunalPreviouslyDeterminedTenancyRent: 'Yes',
+      [caseReferenceField]: '  lon/00ad/smo/2023/0001  ',
+    });
+
+    expect(req.session.formData[CASE_REF]['tribunal-previously-determined-rent'][caseReferenceField]).toBe(
+      'LON/00AD/SMO/2023/0001'
+    );
+  });
+
+  it('clears any previously entered case reference when NO is selected', async () => {
+    const { req } = await post({
+      action: 'continue',
+      tribunalPreviouslyDeterminedTenancyRent: 'No',
+      [caseReferenceField]: 'LON/00AD/SMO/2023/0001',
+    });
+
+    expect(req.session.formData[CASE_REF]['tribunal-previously-determined-rent'][caseReferenceField]).toBeUndefined();
+  });
+
+  it('errors when no option is selected', async () => {
+    const { res } = await post({ action: 'continue' });
+
+    expect(res.redirect).not.toHaveBeenCalled();
+  });
+
+  it('errors when the case reference is not in the tribunal format', async () => {
+    const { res } = await post({
+      action: 'continue',
+      tribunalPreviouslyDeterminedTenancyRent: 'Yes',
+      [caseReferenceField]: 'LON/0000/SMO/2023/0001',
+    });
+
+    expect(res.redirect).not.toHaveBeenCalled();
+  });
+
+  it('does not validate the case reference when NO is selected', async () => {
+    const { res } = await post({
+      action: 'continue',
+      tribunalPreviouslyDeterminedTenancyRent: 'No',
+      [caseReferenceField]: 'not-a-valid-reference',
+    });
+
+    expect(res.redirect).toHaveBeenCalled();
+  });
+
+  const makeReq = (formData: Record<string, unknown> = {}, currentRentsDetails?: Record<string, unknown>): Request =>
+    ({
+      params: { caseReference: CASE_REF },
+      session: { formData: { [CASE_REF]: formData }, ccdCase: { currentRentsDetails } },
+    }) as unknown as Request;
+
+  describe('isAnswered', () => {
+    it('is not answered when nothing has been saved', () => {
+      expect(step.isAnswered?.(makeReq())).toBe(false);
+    });
+
+    it.each(['Yes', 'No'])('is answered when %s has been saved', answer => {
+      expect(step.isAnswered?.(makeReq({}, { tribunalPreviouslyDeterminedTenancyRent: answer }))).toBe(true);
+    });
+  });
+
+  describe('getInitialFormData', () => {
+    const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
+
+    it('prefers the answer and case reference from the form data over the saved case', () => {
+      const req = makeReq(
+        {
+          'tribunal-previously-determined-rent': {
+            tribunalPreviouslyDeterminedTenancyRent: 'Yes',
+            [caseReferenceField]: 'LON/00AD/SMO/2023/0001',
+          },
+        },
+        { tribunalPreviouslyDeterminedTenancyRent: 'Yes', previousTribunalCaseReference: 'LON/00AD/SMO/2023/0002' }
+      );
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({
+        tribunalPreviouslyDeterminedTenancyRent: 'Yes',
+        [caseReferenceField]: 'LON/00AD/SMO/2023/0001',
+      });
+    });
+
+    it('falls back to the saved case', () => {
+      const req = makeReq(
+        {},
+        { tribunalPreviouslyDeterminedTenancyRent: 'Yes', previousTribunalCaseReference: 'LON/00AD/SMO/2023/0002' }
+      );
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({
+        tribunalPreviouslyDeterminedTenancyRent: 'Yes',
+        [caseReferenceField]: 'LON/00AD/SMO/2023/0002',
+      });
+    });
+
+    it('does not return the saved case reference once the answer has been changed to no', () => {
+      const req = makeReq(
+        { 'tribunal-previously-determined-rent': { tribunalPreviouslyDeterminedTenancyRent: 'No' } },
+        { tribunalPreviouslyDeterminedTenancyRent: 'Yes', previousTribunalCaseReference: 'LON/00AD/SMO/2023/0002' }
+      );
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({ tribunalPreviouslyDeterminedTenancyRent: 'No' });
+    });
+
+    it('returns nothing when the question has not been answered', () => {
+      expect(capturedConfig.getInitialFormData(makeReq())).toEqual({});
+    });
+  });
+});

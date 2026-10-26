@@ -1,0 +1,60 @@
+{
+  "questionTitle": "cyHow often are utilities paid? (optional)",
+  "options": {
+    "weekly": {
+      "label": "cyWeekly"
+    },
+    "fortnightly": {
+      "label": "cyFortnightly (every 2 weeks)"
+    },
+    "monthly": {
+      "label": "cyMonthly"
+    },
+    "yearly": {
+      "label": "cyYearly"
+    },
+    "other": {
+      "label": "cyOther"
+    }
+  },
+  "utilitiesPaidCostWeekly": {
+    "label": "cyHow much do all utilities cost in your property weekly? (optional)"
+  },
+  "utilitiesPaidCostFortnightly": {
+    "label": "cyHow much do all utilities cost in your property fortnightly? (optional)"
+  },
+  "utilitiesPaidCostMonthly": {
+    "label": "cyHow much do all utilities cost in your property monthly? (optional)"
+  },
+  "utilitiesPaidCostYearly": {
+    "label": "cyHow much do all utilities cost in your property yearly? (optional)"
+  },
+  "utilitiesPaidFrequencyAndCostDetails": {
+    "label": "cyHow often are utilities paid and how much do they cost?"
+  },
+  "errors": {
+    "utilitiesPaidCostWeekly": {
+      "invalid": "cyUtilities amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "decimalPlaces": "cyUtilities amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "tooLarge": "cyUtilities amount must be 16 digits or less"
+    },
+    "utilitiesPaidCostFortnightly": {
+      "invalid": "cyUtilities amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "decimalPlaces": "cyUtilities amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "tooLarge": "cyUtilities amount must be 16 digits or less"
+    },
+    "utilitiesPaidCostMonthly": {
+      "invalid": "cyUtilities amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "decimalPlaces": "cyUtilities amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "tooLarge": "cyUtilities amount must be 16 digits or less"
+    },
+    "utilitiesPaidCostYearly": {
+      "invalid": "cyUtilities amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "decimalPlaces": "cyUtilities amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "tooLarge": "cyUtilities amount must be 16 digits or less"
+    },
+    "utilitiesPaidFrequencyAndCostDetails": {
+      "maxLength": "cyDetails of how often utilities are paid and how much they cost must be 500 characters or less"
+    }
+  }
+}

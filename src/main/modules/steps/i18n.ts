@@ -4,7 +4,6 @@ import path from 'path';
 import type { Request } from 'express';
 import type { TFunction } from 'i18next';
 
-import { getUserType } from '../../steps/utils/userRole';
 import {
   type AllowedLang,
   findLocalesDir,
@@ -13,38 +12,13 @@ import {
 } from '../i18n';
 
 import { Logger } from '@modules/logger';
+import { isDiagnosticsEnabled } from '@utils/environment';
 
 const logger = Logger.getLogger('i18n');
 
 export type TranslationContent = Record<string, unknown>;
 
 export type SupportedLang = AllowedLang;
-
-const isDevelopment = process.env.NODE_ENV !== 'production';
-
-function isObject(value: unknown): value is Record<string, unknown> {
-  return !!value && typeof value === 'object' && !Array.isArray(value);
-}
-
-function mergeTranslations(
-  baseTranslations: Record<string, unknown>,
-  overrideTranslations: Record<string, unknown>
-): Record<string, unknown> {
-  const merged = { ...baseTranslations };
-
-  for (const [key, value] of Object.entries(overrideTranslations)) {
-    const existingValue = merged[key];
-
-    if (isObject(existingValue) && isObject(value)) {
-      merged[key] = mergeTranslations(existingValue, value);
-      continue;
-    }
-
-    merged[key] = value;
-  }
-
-  return merged;
-}
 
 function camelizeStepName(stepName: string): string {
   return stepName
@@ -62,17 +36,6 @@ function camelizeStepName(stepName: string): string {
  */
 export function getStepTranslationPath(stepName: string, folder: string): string {
   return `${folder}/${camelizeStepName(stepName)}`;
-}
-
-function getStepTranslationPaths(req: Request, stepName: string, folder: string): string[] {
-  const defaultPath = getStepTranslationPath(stepName, folder);
-  const userType = getUserType(req);
-
-  if (userType === 'citizen') {
-    return [defaultPath];
-  }
-
-  return [defaultPath, getStepTranslationPath(stepName, `${folder}/${userType}`)];
 }
 
 /**
@@ -103,38 +66,25 @@ export async function loadStepNamespace(req: Request): Promise<void> {
 
   const localesDir = await findLocalesDir();
   if (!localesDir) {
-    if (isDevelopment) {
+    if (isDiagnosticsEnabled()) {
       logger.warn(`Locales directory not found. Translation file for ${step.name} will not be loaded.`);
     }
     return;
   }
 
   try {
-    let translations: Record<string, unknown> = {};
+    const resolvedLocalesDir = path.resolve(localesDir);
+    const resolvedPath = path.resolve(localesDir, lang, `${stepNamespace}.json`);
 
-    for (const translationPath of getStepTranslationPaths(req, step.name, step.journey)) {
-      const filePath = path.join(localesDir, lang, `${translationPath}.json`);
-      const resolvedPath = path.resolve(filePath);
-      const resolvedLocalesDir = path.resolve(localesDir);
-
-      if (!resolvedPath.startsWith(resolvedLocalesDir)) {
-        if (isDevelopment) {
-          logger.warn(`Invalid translation path detected: ${translationPath}`);
-        }
-        return;
+    if (!resolvedPath.startsWith(resolvedLocalesDir)) {
+      if (isDiagnosticsEnabled()) {
+        logger.warn(`Invalid translation path detected: ${stepNamespace}`);
       }
-
-      try {
-        await fs.access(resolvedPath);
-        const fileContent = await fs.readFile(resolvedPath, 'utf8');
-        translations = mergeTranslations(translations, JSON.parse(fileContent) as Record<string, unknown>);
-      } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : String(error);
-        if (!errorMessage.includes('ENOENT')) {
-          throw error;
-        }
-      }
+      return;
     }
+
+    await fs.access(resolvedPath);
+    const translations = JSON.parse(await fs.readFile(resolvedPath, 'utf8')) as Record<string, unknown>;
 
     if (Object.keys(translations).length === 0) {
       return;
@@ -146,7 +96,7 @@ export async function loadStepNamespace(req: Request): Promise<void> {
       req.i18n!.loadNamespaces(stepNamespace, (err: Error) => (err ? reject(err) : resolve()));
     });
   } catch (error) {
-    if (isDevelopment) {
+    if (isDiagnosticsEnabled()) {
       const errorMessage = error instanceof Error ? error.message : String(error);
       if (!errorMessage.includes('ENOENT')) {
         logger.error(`Failed to load translation file for ${step.name}:`, error);
@@ -190,7 +140,7 @@ export function getTranslationFunction(req: Request, namespaces: string[] = ['co
 
 /** Validates and warns about missing translation keys in development. */
 export function validateTranslationKey(t: TFunction, key: string, context?: string): void {
-  if (isDevelopment) {
+  if (isDiagnosticsEnabled()) {
     const translation = t(key);
     if (translation === key) {
       logger.warn(`Missing translation key: "${key}"${context ? ` in ${context}` : ''}`);

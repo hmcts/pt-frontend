@@ -5,8 +5,7 @@ import {
   buildComponentConfig,
   buildConditionalItemContent,
   buildSelectionItems,
-} from '../../../../../main/modules/steps/formBuilder/componentBuilders';
-
+} from '@modules/steps/formBuilder/componentBuilders';
 import type { FormFieldConfig, FormFieldOption } from '@modules/steps/formBuilder/formFieldConfig.interface';
 
 describe('componentBuilders', () => {
@@ -108,6 +107,116 @@ describe('componentBuilders', () => {
   });
 
   describe('buildComponentConfig', () => {
+    describe('file field', () => {
+      const fileField = (overrides: Partial<FormFieldConfig> = {}): FormFieldConfig =>
+        ({ name: 'documents', type: 'file', ...overrides }) as FormFieldConfig;
+
+      it('builds a file upload component carrying the upload and delete URLs', () => {
+        const result = buildComponentConfig(
+          buildArgs(
+            fileField({
+              uploadUrl: '/1234/documents/floorPlanDocument/upload',
+              deleteUrl: '/1234/documents/floorPlanDocument/delete',
+            })
+          )
+        );
+
+        expect(result.componentType).toBe('fileUpload');
+        expect(result.component.uploadUrl).toBe('/1234/documents/floorPlanDocument/upload');
+        expect(result.component.deleteUrl).toBe('/1234/documents/floorPlanDocument/delete');
+      });
+
+      it('passes the error messages the upload component renders', () => {
+        const result = buildComponentConfig(buildArgs(fileField()));
+
+        expect(result.component.errorWrongFileType).toBe('This file type is not accepted');
+        expect(result.component.errorFileTooLarge).toBe('This file is too large');
+        expect(result.component.errorFilenameTooLong).toBe('This file name is too long');
+        expect(result.component.errorFileEmpty).toBe('The selected file is empty');
+        expect(result.component.errorUploadFailed).toBe('This file could not be uploaded');
+        expect(result.component.errorDelete).toBe('This file could not be removed');
+        expect(result.component.errorSummaryTitle).toBe('There is a problem');
+        expect(result.component.errorPrefix).toBe('Error:');
+      });
+
+      it('defaults a single-document field to rejecting multiple files', () => {
+        const result = buildComponentConfig(buildArgs(fileField()));
+
+        expect(result.component.multiple).toBe(false);
+      });
+
+      it('marks a collection field as accepting multiple files', () => {
+        const result = buildComponentConfig(buildArgs(fileField({ multiple: true })));
+
+        expect(result.component.multiple).toBe(true);
+      });
+
+      it('limits a single-document field to one file at a time', () => {
+        const result = buildComponentConfig(buildArgs(fileField()));
+
+        expect(result.component.maxFiles).toBe(1);
+        expect(result.component.errorOnlyOneFile).toBe('You can only upload one file');
+      });
+
+      it('limits a collection field to the configured number of files at a time', () => {
+        const result = buildComponentConfig(buildArgs(fileField({ multiple: true })));
+
+        expect(result.component.maxFiles).toBe(3);
+        expect(result.component.errorTooManyFiles).toBe(
+          'You can only select up to {{ maxFiles }} files at the same time'
+        );
+      });
+
+      it('falls back to an empty list when the case holds no documents', () => {
+        const result = buildComponentConfig(buildArgs(fileField()));
+
+        expect(result.component.value).toEqual([]);
+      });
+
+      it('uses the documents already saved against the case', () => {
+        const documents = [{ index: 0, id: 7, document_filename: 'floor-plan.pdf' }];
+
+        const result = buildComponentConfig(buildArgs(fileField(), { fieldValue: documents }));
+
+        expect(result.component.value).toBe(documents);
+      });
+
+      describe('size limits sent to the browser', () => {
+        const MiB = 1024 * 1024;
+
+        it('sends the default per-file limit in binary bytes', () => {
+          const result = buildComponentConfig(buildArgs(fileField()));
+
+          expect(result.component.maxFileSizeBytes).toBe(25 * MiB);
+          expect(result.component.maxFileSize).toBe(25);
+        });
+
+        it('sends a field-specific per-file limit in binary bytes', () => {
+          const result = buildComponentConfig(buildArgs(fileField({ maxFileSize: 10 })));
+
+          expect(result.component.maxFileSizeBytes).toBe(10 * MiB);
+          expect(result.component.maxFileSize).toBe(10);
+        });
+
+        it('sends each extra file type its own limit in binary bytes, under the key the browser reads', () => {
+          const result = buildComponentConfig(
+            buildArgs(fileField({ multiple: true, extraExtensions: { '.mp3': 100, '.mp4': 100 } }))
+          );
+
+          expect(result.component.extensionLimits).toEqual({
+            '.mp3': { maxFileSizeBytes: 100 * MiB, error: 'This file is too large' },
+            '.mp4': { maxFileSizeBytes: 100 * MiB, error: 'This file is too large' },
+          });
+        });
+
+        it('sends no extra file type limits when the field has none', () => {
+          const result = buildComponentConfig(buildArgs(fileField()));
+
+          expect(result.component.extensionLimits).toEqual({});
+        });
+      });
+    });
+
     describe('text field', () => {
       it('should build basic text input component', () => {
         const field: FormFieldConfig = {
@@ -241,6 +350,30 @@ describe('componentBuilders', () => {
 
         expect(result.component.rows).toBe(10);
         expect(result.component.maxlength).toBe(500);
+      });
+
+      it('should pass isPageHeading and labelClasses onto the textarea label', () => {
+        const field: FormFieldConfig = {
+          name: 'description',
+          type: 'textarea',
+          labelClasses: 'govuk-label--l',
+          isPageHeading: true,
+        };
+
+        const result = buildComponentConfig(
+          buildArgs(field, {
+            label: 'Description',
+            hint: 'Provide details',
+            fieldValue: '',
+          })
+        );
+
+        expect(result.componentType).toBe('textarea');
+        expect(result.component.label).toEqual({
+          text: 'Description',
+          isPageHeading: true,
+          classes: 'govuk-label--l',
+        });
       });
     });
 

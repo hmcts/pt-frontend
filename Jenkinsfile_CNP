@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure@2.4.8")
+@Library("Infrastructure@2.13.4")
 
 import uk.gov.hmcts.contino.AppPipelineDsl
 import uk.gov.hmcts.contino.GithubAPI
@@ -25,7 +25,6 @@ def secrets = [
   'pt-kv1-${env}': [
     secret('pt-frontend-idam-secret', 'PT_FRONTEND_IDAM_SECRET'),
     secret('pt-idam-test-user-password', 'IDAM_PT_USER_PASSWORD'),
-    secret('pt-api-idam-secret', 'PT_API_IDAM_SECRET'),
   ]
 ]
 
@@ -35,19 +34,30 @@ withPipeline(type, product, component) {
   env.NODE_CONFIG_ENV = 'test'
   env.PT_API_URL = "http://pt-api-aat.service.core-compute-aat.internal"
   env.DATA_STORE_URL_BASE = "http://ccd-data-store-api-aat.service.core-compute-aat.internal"
-  env.CDAM_URL = "http://ccd-case-document-am-api-aat.service.core-compute-aat.internal"
-  env.XUI_BASE_URI = "https://manage-case.aat.platform.hmcts.net"
   env.CASE_TYPE_ID = "PT"
+  env.CDAM_URL = "http://ccd-case-document-am-api-aat.service.core-compute-aat.internal"
   onPR() {
+    // Functional tests are the PR e2e run. Skip them unless a label opts in.
+    // e2e-tag:@idam sets Codecept --grep; e2e-spec:idam-login filters feature paths.
+    env.RUN_FUNCTIONAL_TESTS = 'false'
+    def e2eTag = prLabelSuffix(githubApi, 'e2e-tag:')
+    if (e2eTag?.trim()) {
+      env.E2E_TEST_SCOPE = e2eTag.trim()
+      env.RUN_FUNCTIONAL_TESTS = 'true'
+    }
+    def e2eSpec = prLabelSuffix(githubApi, 'e2e-spec:')
+    if (e2eSpec?.trim()) {
+      env.E2E_SPEC = e2eSpec.trim()
+      env.RUN_FUNCTIONAL_TESTS = 'true'
+    }
+
     def apiLabels = githubApi.getLabelsbyPattern(env.BRANCH_NAME, "pt-api-pr:")
     if (apiLabels && apiLabels.size() > 0) {
       def labelName = apiLabels[0]
       env.PT_API_CHANGE_ID = labelName.replace("pt-api-pr:", "")
-      env.DATA_STORE_URL_BASE = "https://ccd-data-store-api-pct-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
+      env.DATA_STORE_URL_BASE = "https://ccd-data-store-api-pt-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
       env.PT_API_URL = "https://pt-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
       env.CDAM_URL = "http://pt-api-pr-${env.PT_API_CHANGE_ID}-cdam"
-      env.XUI_BASE_URI = "https://xui-pt-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
-      env.CASE_API_URL = "https://pt-api-pr-${env.PT_API_CHANGE_ID}.preview.platform.hmcts.net"
     }
     enablePactAs([
       AppPipelineDsl.PactRoles.CONSUMER,
@@ -57,9 +67,18 @@ withPipeline(type, product, component) {
 
   onMaster() {
     env.TEST_URL = "https://pt.aat.platform.hmcts.net/"
+    env.RUN_FUNCTIONAL_TESTS = 'true'
+    // Master only runs the @smoke happy path. The full @regression pack stays on the nightly job.
+    env.E2E_TEST_SCOPE = '@smoke'
     enablePactAs([
       AppPipelineDsl.PactRoles.CONSUMER,
       AppPipelineDsl.PactRoles.CONSUMER_DEPLOY_CHECK
     ])
   }
+}
+
+/** First PR label matching prefix → value after prefix (e.g. e2e-tag:@idam → @idam) */
+def prLabelSuffix(githubApi, String prefix) {
+  def labels = githubApi.getLabelsbyPattern(env.BRANCH_NAME, prefix)
+  return (labels && labels.size() > 0) ? labels[0].replaceFirst('^' + prefix, '') : null
 }

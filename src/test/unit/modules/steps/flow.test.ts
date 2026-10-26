@@ -30,6 +30,7 @@ import {
 } from '../../../../main/modules/steps/stepFlow.interface';
 
 import { Logger } from '@modules/logger';
+import { DRAFT_SCOPE } from '@modules/steps';
 
 const mockLogger = Logger.getLogger('test') as unknown as {
   debug: jest.Mock;
@@ -658,7 +659,11 @@ describe('steps/stepDependencyCheck', () => {
       const formData = { foo: 'bar' };
       const currentStepData = { baz: 'qux' };
 
-      await nav.getNextStepUrl(buildReq({ session: { formData } }), 'one', currentStepData);
+      await nav.getNextStepUrl(
+        buildReq({ session: { formData: { [DRAFT_SCOPE]: formData } } }),
+        'one',
+        currentStepData
+      );
 
       expect(condition).toHaveBeenCalledWith(expect.anything(), formData, currentStepData);
     });
@@ -748,7 +753,7 @@ describe('steps/stepDependencyCheck', () => {
     ) {
       const req = buildReq({
         path: overrides.path ?? '/case/details',
-        session: { formData: overrides.formData ?? {} },
+        session: { formData: { [DRAFT_SCOPE]: overrides.formData ?? {} } },
       });
       const redirect = jest.fn();
       const res = {

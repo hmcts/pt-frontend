@@ -4,7 +4,7 @@ import type { Environment } from 'nunjucks';
 import { step } from '../../../../main/steps/pre-application/applying-for-yourself-or-someone-else';
 import { flowConfig } from '../../../../main/steps/pre-application/flow.config';
 
-import { validateForm } from '@modules/steps';
+import { DRAFT_SCOPE, validateForm } from '@modules/steps';
 import { getNextStep, getPreviousStep } from '@modules/steps/flow';
 
 jest.mock('../../../../main/modules/steps/i18n', () => ({
@@ -36,8 +36,10 @@ describe('pre-application applying-for-yourself-or-someone-else step', () => {
     query: { lang: 'en' },
     session: {
       formData: {
-        'starting-or-returning': {
-          startingOrReturning: 'starting',
+        [DRAFT_SCOPE]: {
+          'starting-or-returning': {
+            startingOrReturning: 'starting',
+          },
         },
       },
     },
@@ -64,7 +66,7 @@ describe('pre-application applying-for-yourself-or-someone-else step', () => {
 
     await step.postController.post(req, res, next);
 
-    expect(req.session.formData).toStrictEqual({
+    expect(req.session.formData[DRAFT_SCOPE]).toStrictEqual({
       'starting-or-returning': { startingOrReturning: 'starting' },
       'applying-for-yourself-or-someone-else': { applyingForYourselfOrSomeoneElse: 'myself' },
     });
@@ -76,11 +78,13 @@ describe('forward navigation from applying-for-yourself-or-someone-else', () => 
     const req = {
       session: {
         formData: {
-          'starting-or-returning': {
-            startingOrReturning: 'starting',
-          },
-          'applying-for-yourself-or-someone-else': {
-            applyingForYourselfOrSomeoneElse: 'myself',
+          [DRAFT_SCOPE]: {
+            'starting-or-returning': {
+              startingOrReturning: 'starting',
+            },
+            'applying-for-yourself-or-someone-else': {
+              applyingForYourselfOrSomeoneElse: 'myself',
+            },
           },
         },
       },
@@ -94,11 +98,13 @@ describe('forward navigation from applying-for-yourself-or-someone-else', () => 
     const req = {
       session: {
         formData: {
-          'starting-or-returning': {
-            startingOrReturning: 'starting',
-          },
-          'applying-for-yourself-or-someone-else': {
-            applyingForYourselfOrSomeoneElse: 'someoneElse',
+          [DRAFT_SCOPE]: {
+            'starting-or-returning': {
+              startingOrReturning: 'starting',
+            },
+            'applying-for-yourself-or-someone-else': {
+              applyingForYourselfOrSomeoneElse: 'someoneElse',
+            },
           },
         },
       },

@@ -28,4 +28,4 @@ export const stepRegistry = {
   'you-need-to-use-another-form-joint-tenant': youNeedToUseAnotherFormPostcodeJointTenant,
 } satisfies Record<string, StepDefinition>;
 
-export type RespondToClaimStepName = keyof typeof stepRegistry;
+export type PreApplicationStepName = keyof typeof stepRegistry;

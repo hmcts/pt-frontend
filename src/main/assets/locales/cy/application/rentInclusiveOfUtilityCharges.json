@@ -1,0 +1,9 @@
+{
+  "questionTitle": "cyDoes the rent include any charges for utilities?",
+  "questionHint": "cyFor example, electricity, gas, water, internet",
+  "errors": {
+    "rentInclusiveOfUtilityCharges": {
+      "required": "cySelect whether the rent includes any charges for utilities"
+    }
+  }
+}

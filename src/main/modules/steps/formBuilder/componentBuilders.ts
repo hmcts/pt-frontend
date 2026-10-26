@@ -10,6 +10,13 @@ import type {
   FormFieldConfig,
   FormFieldOption,
 } from '@modules/steps/formBuilder/formFieldConfig.interface';
+import {
+  acceptAttributeFor,
+  maxFileSizeBytes,
+  maxFileSizeMB,
+  maxFilenameLength,
+  maxFilesPerUpload,
+} from '@utils/documentUploadValidation';
 
 function createFieldsetLegend(
   label: string,
@@ -138,6 +145,11 @@ export function buildComponentConfig({
       component.rows = textareaAttributes.rows || 5;
       component.maxlength = field.maxLength || null;
       component.attributes = textareaAttributes;
+      component.label = {
+        text: label,
+        isPageHeading: field.isPageHeading,
+        classes: field.labelClasses,
+      };
       componentType = 'textarea';
       break;
     }
@@ -236,6 +248,54 @@ export function buildComponentConfig({
         },
       ];
       componentType = 'dateInput';
+      break;
+    }
+    case 'file': {
+      component.value = fieldValue || [];
+      component.accept = field.accept || acceptAttributeFor();
+      component.multiple = field.multiple === true;
+      component.maxFiles = component.multiple ? maxFilesPerUpload() : 1;
+      component.maxFileSize = maxFileSizeMB(field.maxFileSize);
+      component.maxFileSizeBytes = maxFileSizeBytes(field.maxFileSize);
+      component.maxFilenameLength = maxFilenameLength();
+      component.uploadUrl = field.uploadUrl || '';
+      component.deleteUrl = field.deleteUrl || '';
+      component.classes = field.classes || 'govuk-file-upload';
+      component.uploadButtonText = t('documentUpload.uploadButton', 'Upload file');
+      component.filesAddedHeading = t('documentUpload.filesAddedHeading', 'Files added');
+      component.deleteButtonText = t('documentUpload.deleteButton', 'Delete');
+      component.errorWrongFileType = t('errors.documentUpload.wrongFileType', 'This file type is not accepted');
+      component.errorFileTooLarge = t('errors.documentUpload.fileTooLarge', 'This file is too large', {
+        maxFileSize: maxFileSizeMB(field.maxFileSize),
+      });
+      component.extensionLimits = Object.fromEntries(
+        Object.entries(field.extraExtensions ?? {}).map(([extension, maxFileSize]) => [
+          extension,
+          {
+            maxFileSizeBytes: maxFileSizeBytes(maxFileSize),
+            error: t('errors.documentUpload.fileTooLarge', 'This file is too large', { maxFileSize }),
+          },
+        ])
+      );
+      component.errorFileEmpty = t('errors.documentUpload.fileEmpty', 'The selected file is empty');
+      component.errorFilenameTooLong = t('errors.documentUpload.filenameTooLong', 'This file name is too long');
+      component.errorUploadFailed = t('errors.documentUpload.uploadFailed', 'This file could not be uploaded');
+      component.errorDelete = t('errors.documentUpload.deleteFailed', 'This file could not be removed');
+      component.errorSummaryTitle = t('errors.title', 'There is a problem');
+      component.errorPrefix = t('errors.prefix', 'Error:');
+      component.chooseFileText = t('documentUpload.chooseFile', 'Choose file');
+      component.dropFileText = t('documentUpload.dropFile', 'or drop file');
+      component.errorOnlyOneFile = t('errors.documentUpload.onlyOneFile', 'You can only upload one file');
+      component.errorTooManyFiles = t(
+        'errors.documentUpload.tooManyFiles',
+        'You can only select up to {{ maxFiles }} files at the same time',
+        { maxFiles: component.maxFiles }
+      );
+      component.errorRemoveFileFirst = t(
+        'errors.documentUpload.removeFileFirst',
+        'Remove the uploaded file before adding another'
+      );
+      componentType = 'fileUpload';
       break;
     }
     default:

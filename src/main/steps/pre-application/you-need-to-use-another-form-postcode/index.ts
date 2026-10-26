@@ -1,6 +1,6 @@
 import { flowConfig } from '../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
 const journeyName = 'preApplication';
@@ -15,7 +15,7 @@ export const step: StepDefinition = createFormStep({
   showCancelButton: false,
   fields: [],
   extendGetContent: req => {
-    const postcode = req.session.formData?.['address-of-property']?.addressPostcode;
+    const postcode = getFormDataString(req, 'address-of-property', 'addressPostcode');
     return {
       postcode,
     };

@@ -1,0 +1,13 @@
+{
+  "questionTitle": "Are you sure you want to delete this application?",
+  "options": {
+    "no": {
+      "label": "No, I do not want to delete this application"
+    }
+  },
+  "errors": {
+    "applicationDeleteConfirmation": {
+      "required": "Select whether you want to delete this application"
+    }
+  }
+}

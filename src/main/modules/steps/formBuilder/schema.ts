@@ -6,6 +6,7 @@ import type {
   FormFieldConfig,
   FormFieldOption,
 } from '@modules/steps/formBuilder/formFieldConfig.interface';
+import { isDiagnosticsEnabled } from '@utils/environment';
 
 const logger = Logger.getLogger('form-builder-schema');
 
@@ -88,6 +89,7 @@ export const FormFieldConfigSchema: z.ZodType<FormFieldConfig> = z.lazy(() =>
     // File upload configuration
     accept: z.string().optional(),
     maxFileSize: z.number().optional(),
+    extraExtensions: z.record(z.string(), z.number()).optional(),
     uploadUrl: z.string().optional(),
     deleteUrl: z.string().optional(),
     // For date fields: if true, disallows future and current dates
@@ -196,7 +198,7 @@ export function validateFormBuilderConfig(config: unknown): {
  * @returns The config if valid, logs errors in development mode
  */
 export function validateConfigInDevelopment(config: FormBuilderConfig): FormBuilderConfig {
-  if (process.env.NODE_ENV !== 'production') {
+  if (isDiagnosticsEnabled()) {
     const result = validateFormBuilderConfig(config);
     if (!result.success && result.errors) {
       logger.warn('FormBuilderConfig validation failed for step:', config.stepName);

@@ -1,0 +1,138 @@
+import axios, { AxiosInstance, AxiosResponse, isAxiosError } from 'axios';
+import config from 'config';
+
+import { requireServiceAuthToken } from '../../auth/service/get-service-auth-token';
+import { UserDetails } from '../../auth/user/oidc';
+
+import { Logger } from '@modules/logger';
+import {
+  CITIZEN_CREATE_CASE,
+  CITIZEN_DELETE_CASE,
+  CITIZEN_UPDATE_CASE,
+  CcdCase,
+  CcdCaseData,
+} from '@services/ccd/ccdCase.interface';
+
+const logger = Logger.getLogger('ccd-api-client');
+
+export class CcdApiClient {
+  readonly maxRetries: number = 3;
+  readonly CASE_TYPE = config.get('ccd.caseTypeId');
+
+  constructor(private readonly client: AxiosInstance) {}
+
+  async createCase(data: Partial<CcdCaseData>): Promise<CcdCase> {
+    try {
+      const tokenResponse: AxiosResponse<CcdTokenResponse> = await this.client.get(
+        `/case-types/${this.CASE_TYPE}/event-triggers/${CITIZEN_CREATE_CASE}`
+      );
+      const token = tokenResponse.data.token;
+      const event = { id: CITIZEN_CREATE_CASE };
+
+      const response = await this.client.post<CcdCase>(`/case-types/${this.CASE_TYPE}/cases`, {
+        data,
+        event,
+        event_token: token,
+      });
+
+      return response.data;
+    } catch (err) {
+      logger.error('Failed to create case', err);
+      throw err;
+    }
+  }
+
+  async updateCase(caseReference: string, data: Partial<CcdCaseData>): Promise<CcdCase> {
+    const { token } = await this.getEventTrigger(caseReference, CITIZEN_UPDATE_CASE);
+    return this.triggerEvent(caseReference, data, CITIZEN_UPDATE_CASE, token);
+  }
+
+  async deleteCase(caseReference: string): Promise<CcdCase> {
+    const { token } = await this.getEventTrigger(caseReference, CITIZEN_DELETE_CASE);
+    return this.triggerEvent(caseReference, {}, CITIZEN_DELETE_CASE, token);
+  }
+
+  async getEventTrigger(caseId: string, eventName: string): Promise<CcdEventTriggerResponse> {
+    try {
+      const response = await this.client.get<CcdEventTriggerResponse>(`/cases/${caseId}/event-triggers/${eventName}`);
+      return response.data;
+    } catch (err) {
+      logger.error('Failed to get event trigger', err, { caseId, eventName });
+      throw err;
+    }
+  }
+
+  async triggerEvent(
+    caseId: string,
+    data: Record<string, unknown>,
+    eventName: string,
+    eventToken: string,
+    retries = 0
+  ): Promise<CcdCase> {
+    try {
+      const event = { id: eventName };
+      const response: AxiosResponse<CcdCase> = await this.client.post(`/cases/${caseId}/events`, {
+        event,
+        data,
+        event_token: eventToken,
+      });
+
+      return response.data;
+    } catch (err) {
+      const status = isAxiosError(err) ? err.response?.status : undefined;
+      if (retries < this.maxRetries && (status === 502 || status === 504)) {
+        ++retries;
+        logger.info(`retrying send event due to ${status}. this is retry no (${retries})`);
+        return this.triggerEvent(caseId, data, eventName, eventToken, retries);
+      }
+      if (status === 409) {
+        logger.error('Case could not be updated due to a version conflict.');
+        throw err;
+      }
+      logger.error('Failed to trigger event', err, { caseId, eventName });
+      throw err;
+    }
+  }
+
+  async getCaseUsers(caseReference: string, user: UserDetails): Promise<CaseUsers[]> {
+    const { data } = await this.client.get('/case-users', {
+      params: { case_ids: caseReference, user_ids: user.id },
+    });
+
+    return data.case_users;
+  }
+}
+
+export const getCaseApi = (userDetails: UserDetails): CcdApiClient => {
+  return new CcdApiClient(
+    axios.create({
+      baseURL: config.get('ccd.url'),
+      timeout: config.get<number>('http.timeoutMs'),
+      headers: {
+        Authorization: 'Bearer ' + userDetails.accessToken,
+        ServiceAuthorization: `Bearer ${requireServiceAuthToken()}`,
+        experimental: 'true',
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+      },
+    })
+  );
+};
+
+interface CcdTokenResponse {
+  token: string;
+}
+
+interface CcdEventTriggerResponse extends CcdTokenResponse {
+  case_details?: {
+    id: string;
+    state: string;
+    data: CcdCaseData;
+  };
+}
+
+interface CaseUsers {
+  case_id: string;
+  user_id: string;
+  case_role: string;
+}
