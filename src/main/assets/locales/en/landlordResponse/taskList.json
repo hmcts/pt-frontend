@@ -1,0 +1,23 @@
+{
+  "pageTitle": "Application hub",
+  "heading": "Case overview",
+  "sidebar": {
+    "heading": "Related content",
+    "guidanceLink": {
+      "text": "Guidance about the application process",
+      "href": "#"
+    },
+    "label": "Related content"
+  },
+  "taskList": {
+    "status": {
+      "AVAILABLE": "Available",
+      "IN_PROGRESS": "In progress",
+      "DONE": "Done",
+      "NOT_AVAILABLE_YET": "Not available yet"
+    },
+    "groups": {
+      "tenantsApplication": "Tenant's application"
+    }
+  }
+}

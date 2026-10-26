@@ -1,0 +1,23 @@
+{
+  "pageTitle": "cyApplication hub",
+  "heading": "cyCase overview",
+  "sidebar": {
+    "heading": "cyRelated content",
+    "guidanceLink": {
+      "text": "cyGuidance about the application process",
+      "href": "#"
+    },
+    "label": "cyRelated content"
+  },
+  "taskList": {
+    "status": {
+      "AVAILABLE": "cyAvailable",
+      "IN_PROGRESS": "cyIn progress",
+      "DONE": "cyDone",
+      "NOT_AVAILABLE_YET": "cyNot available yet"
+    },
+    "groups": {
+      "tenantsApplication": "cyTenant's application"
+    }
+  }
+}

@@ -2,6 +2,8 @@ import type { Request, RequestHandler } from 'express';
 
 import { flowConfig as applicationFlowConfig } from './application/flow.config';
 import { stepRegistry as applicationStepRegistry } from './application/stepRegistry';
+import { flowConfig as landlordResponseFlowConfig } from './landlord-response/flow.config';
+import { stepRegistry as landlordResponseStepRegistry } from './landlord-response/stepRegistry';
 import { flowConfig as newApplicationFlowConfig } from './new-application/flow.config';
 import { stepRegistry as newApplicationStepRegistry } from './new-application/stepRegistry';
 import { flowConfig as preApplicationFlowConfig } from './pre-application/flow.config';
@@ -52,6 +54,14 @@ export const journeyRegistry: Record<string, JourneyConfig> = {
     default: {
       flowConfig: applicationFlowConfig,
       stepRegistry: applicationStepRegistry,
+    },
+  },
+  landlordResponse: {
+    name: 'landlordResponse',
+    slug: 'landlordResponse',
+    default: {
+      flowConfig: landlordResponseFlowConfig,
+      stepRegistry: landlordResponseStepRegistry,
     },
   },
 };
