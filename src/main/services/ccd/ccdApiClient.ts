@@ -93,6 +93,14 @@ export class CcdApiClient {
       throw err;
     }
   }
+
+  async getCaseUsers(caseReference: string, user: UserDetails): Promise<CaseUsers[]> {
+    const { data } = await this.client.get('/case-users', {
+      params: { case_ids: caseReference, user_ids: user.id },
+    });
+
+    return data.case_users;
+  }
 }
 
 export const getCaseApi = (userDetails: UserDetails): CcdApiClient => {
@@ -121,4 +129,10 @@ interface CcdEventTriggerResponse extends CcdTokenResponse {
     state: string;
     data: CcdCaseData;
   };
+}
+
+interface CaseUsers {
+  case_id: string;
+  user_id: string;
+  case_role: string;
 }

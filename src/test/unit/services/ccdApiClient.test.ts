@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { UserDetails } from '../../../main/auth/user/oidc';
+
 import { CcdApiClient } from '@services/ccd/ccdApiClient';
 import { CITIZEN_UPDATE_CASE } from '@services/ccd/ccdCase.interface';
 
@@ -213,5 +215,47 @@ describe('triggerEvent', () => {
         3
       )
     ).rejects.toThrow('Could not update case due to version conflict');
+  });
+});
+
+describe('getCaseUsers', () => {
+  test('Should fetch case users', async () => {
+    const mockedAxios = axios as jest.Mocked<typeof axios>;
+    mockedAxios.get.mockResolvedValue({
+      data: {
+        case_users: [
+          {
+            case_id: TEST_CASE_ID,
+            user_id: 'user-id-1',
+            case_role: '[DEFENDANT]',
+          },
+        ],
+      },
+    });
+    const user = { id: 'user-id-1' } as UserDetails;
+
+    const caseApiInstance: CcdApiClient = new CcdApiClient(mockedAxios);
+    const result = await caseApiInstance.getCaseUsers(TEST_CASE_ID, user);
+
+    expect(result).toEqual([
+      {
+        case_id: TEST_CASE_ID,
+        user_id: 'user-id-1',
+        case_role: '[DEFENDANT]',
+      },
+    ]);
+    expect(mockedAxios.get).toHaveBeenCalledWith('/case-users', {
+      params: { case_ids: TEST_CASE_ID, user_ids: 'user-id-1' },
+    });
+  });
+
+  test('Should throw error when could not fetch case users', async () => {
+    const mockedAxios = axios as jest.Mocked<typeof axios>;
+    mockedAxios.get.mockRejectedValue(new Error('Could not fetch case users'));
+    const user = { id: 'user-id-1' } as UserDetails;
+
+    const caseApiInstance: CcdApiClient = new CcdApiClient(mockedAxios);
+
+    await expect(caseApiInstance.getCaseUsers(TEST_CASE_ID, user)).rejects.toThrow('Could not fetch case users');
   });
 });
