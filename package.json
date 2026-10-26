@@ -136,7 +136,7 @@
     "playwright": "^1.60.0",
     "postcss": "^8.5.30",
     "prettier": "3.8.4",
-    "sass": "1.105.2",
+    "sass": "1.106.1",
     "sass-loader": "13.3.3",
     "style-loader": "3.3.4",
     "stylelint": "17.16.0",
