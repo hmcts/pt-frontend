@@ -31,20 +31,20 @@ You can take this a step further and integrate auto-detection directly into your
 nvm use
 ```
 
-2. Install dependencies
+2. Install dependencies:
 
 ```bash
 yarn install
 ```
 
-3. Start Redis (required for session management on port `6379`)
+3. Start Redis (required for session management on port `6379`):
 
 ```bash
 docker run -d --name pt-redis -p 6379:6379 redis
 ```
 
 4. Copy `.env.example` to `.env` and set your secrets there.
-   Speak to a member of the team to get the secrets.
+   Speak to a team member for the required secrets.
 
 5. Bundle the application:
 
@@ -60,7 +60,9 @@ yarn start:dev
 
 The applications's home page will be available at http://localhost:4000
 
-### Running with Docker (not currently yet)
+You will need to be running the VPN in order to access the pages as well.
+
+### Running with Docker (not implemented yet)
 
 Create docker image:
 
@@ -95,12 +97,12 @@ yarn lint:fix
 
 ### Running the tests
 
-This template app uses [Jest](https://jestjs.io//) as the test engine.
+This app uses [Jest](https://jestjs.io//) as the test engine.
 
 Unit tests:
 
 ```bash
-yarn test
+yarn test:unit
 ```
 
 Route tests:
@@ -121,23 +123,27 @@ Functional tests:
 yarn test:functional
 ```
 
-Pact (contract) tests:
+Contract (Pact) tests:
 
 ```bash
 yarn test:pact
 ```
 
-Tests coverage:
+Coverage
 
 ```bash
 yarn test:coverage
 ```
 
-Accessibility tests (not currently implemented):
+Accessibility tests (not implemented yet):
 
 ```bash
 yarn test:a11y
 ```
+
+### Document uploads
+
+For adding a new document upload step, see [file-upload.md](file-upload.md)
 
 ### Security
 

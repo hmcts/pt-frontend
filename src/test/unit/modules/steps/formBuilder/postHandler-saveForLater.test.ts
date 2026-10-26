@@ -4,11 +4,12 @@ import * as flowModule from '../../../../../main/modules/steps/flow';
 import { FormFieldConfig } from '../../../../../main/modules/steps/formBuilder/formFieldConfig.interface';
 import { createPostHandler } from '../../../../../main/modules/steps/formBuilder/postHandler';
 import { JourneyFlowConfig } from '../../../../../main/modules/steps/stepFlow.interface';
-import { CcdCaseModel } from '../../../../../main/services/ccdCaseData.model';
+
+import { CcdCaseModel } from '@services/ccd/ccdCaseData.model';
 
 jest.mock('@modules/i18n');
 jest.mock('../../../../../main/modules/steps/flow');
-jest.mock('@services/ccdApiClient', () => {
+jest.mock('@services/ccd/ccdApiClient', () => {
   const updateCaseMock = jest.fn();
 
   return {
@@ -20,7 +21,7 @@ jest.mock('@services/ccdApiClient', () => {
 });
 
 const { getCaseApi: getCaseApiMock, __getEventTriggerMock: updateCaseMock } =
-  jest.requireMock('@services/ccdApiClient');
+  jest.requireMock('@services/ccd/ccdApiClient');
 
 const flowConfig: JourneyFlowConfig = {
   stepOrder: [],

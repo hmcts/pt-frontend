@@ -3128,58 +3128,58 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pact-foundation/pact-cli-darwin-arm64@npm:18.1.2":
-  version: 18.1.2
-  resolution: "@pact-foundation/pact-cli-darwin-arm64@npm:18.1.2"
+"@pact-foundation/pact-cli-darwin-arm64@npm:18.10.9":
+  version: 18.10.9
+  resolution: "@pact-foundation/pact-cli-darwin-arm64@npm:18.10.9"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@pact-foundation/pact-cli-darwin-x64@npm:18.1.2":
-  version: 18.1.2
-  resolution: "@pact-foundation/pact-cli-darwin-x64@npm:18.1.2"
+"@pact-foundation/pact-cli-darwin-x64@npm:18.10.9":
+  version: 18.10.9
+  resolution: "@pact-foundation/pact-cli-darwin-x64@npm:18.10.9"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@pact-foundation/pact-cli-linux-arm64@npm:18.1.2":
-  version: 18.1.2
-  resolution: "@pact-foundation/pact-cli-linux-arm64@npm:18.1.2"
+"@pact-foundation/pact-cli-linux-arm64@npm:18.10.9":
+  version: 18.10.9
+  resolution: "@pact-foundation/pact-cli-linux-arm64@npm:18.10.9"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"@pact-foundation/pact-cli-linux-x64@npm:18.1.2":
-  version: 18.1.2
-  resolution: "@pact-foundation/pact-cli-linux-x64@npm:18.1.2"
+"@pact-foundation/pact-cli-linux-x64@npm:18.10.9":
+  version: 18.10.9
+  resolution: "@pact-foundation/pact-cli-linux-x64@npm:18.10.9"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"@pact-foundation/pact-cli-windows-arm64@npm:18.1.2":
-  version: 18.1.2
-  resolution: "@pact-foundation/pact-cli-windows-arm64@npm:18.1.2"
+"@pact-foundation/pact-cli-windows-arm64@npm:18.10.9":
+  version: 18.10.9
+  resolution: "@pact-foundation/pact-cli-windows-arm64@npm:18.10.9"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@pact-foundation/pact-cli-windows-x64@npm:18.1.2":
-  version: 18.1.2
-  resolution: "@pact-foundation/pact-cli-windows-x64@npm:18.1.2"
+"@pact-foundation/pact-cli-windows-x64@npm:18.10.9":
+  version: 18.10.9
+  resolution: "@pact-foundation/pact-cli-windows-x64@npm:18.10.9"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"@pact-foundation/pact-cli@npm:18.1.2":
-  version: 18.1.2
-  resolution: "@pact-foundation/pact-cli@npm:18.1.2"
+"@pact-foundation/pact-cli@npm:18.10.9":
+  version: 18.10.9
+  resolution: "@pact-foundation/pact-cli@npm:18.10.9"
   dependencies:
-    "@pact-foundation/pact-cli-darwin-arm64": "npm:18.1.2"
-    "@pact-foundation/pact-cli-darwin-x64": "npm:18.1.2"
-    "@pact-foundation/pact-cli-linux-arm64": "npm:18.1.2"
-    "@pact-foundation/pact-cli-linux-x64": "npm:18.1.2"
-    "@pact-foundation/pact-cli-windows-arm64": "npm:18.1.2"
-    "@pact-foundation/pact-cli-windows-x64": "npm:18.1.2"
+    "@pact-foundation/pact-cli-darwin-arm64": "npm:18.10.9"
+    "@pact-foundation/pact-cli-darwin-x64": "npm:18.10.9"
+    "@pact-foundation/pact-cli-linux-arm64": "npm:18.10.9"
+    "@pact-foundation/pact-cli-linux-x64": "npm:18.10.9"
+    "@pact-foundation/pact-cli-windows-arm64": "npm:18.10.9"
+    "@pact-foundation/pact-cli-windows-x64": "npm:18.10.9"
   dependenciesMeta:
     "@pact-foundation/pact-cli-darwin-arm64":
       optional: true
@@ -3201,7 +3201,7 @@ __metadata:
     pact-stub-server: bin/pact-stub-server.js
     pact-verifier: bin/pact-verifier.js
     pactflow: bin/pactflow.js
-  checksum: 10/b4ee30ab58a5f6aae709ee001d2dac0f9973be438f721a544b323b19f7aab405eeb3c9bda08ad39346c845d06234c369afa839e1e0c8d98105ba330330c89cae
+  checksum: 10/f8bbbda28fa13fc5f27be6e45346ad9bbefe79fe961278d1ba0d352f54bf89dc9f78f01769bbdef8bcad94556785575efecf59eafe88e737ccb5c6e499e9fe39
   conditions: (os=darwin | os=linux | os=win32) & (cpu=x64 | cpu=arm64)
   languageName: node
   linkType: hard
@@ -4062,10 +4062,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:4.17.26":
-  version: 4.17.26
-  resolution: "@types/lodash@npm:4.17.26"
-  checksum: 10/49620ccc6e8c03e0f7589be3d21ead40409fb6a2c4808170e57f35cd4523d146ebf6ecbd97a266d767a71e98417fce215740690f4f131be060d1a534cac09b84
+"@types/lodash@npm:4.17.27":
+  version: 4.17.27
+  resolution: "@types/lodash@npm:4.17.27"
+  checksum: 10/ae02ef86268664e5a024fd1a7d907b676fe7cd9b58b52bdddc7c42c7ffb3d05e869f6bd13e3e6cbb4001cac1d072f5e2a6e5deed2ef7dc62d7853fc735a077be
   languageName: node
   linkType: hard
 
@@ -4124,16 +4124,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:26.6.3":
-  version: 26.6.3
-  resolution: "@types/node@npm:26.6.3"
-  dependencies:
-    undici-types: "npm:~8.9.0"
-  checksum: 10/278d5241522520fbadd46b41065d7587bbb214adb3c6f8a2a9a28754d374c578d090f7387866d09c79be1e9bbf5adc7eeea453032a52f77e70b06077f85c5c14
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:>=13.7.0":
+"@types/node@npm:26.6.5, @types/node@npm:>=13.7.0":
   version: 26.6.5
   resolution: "@types/node@npm:26.6.5"
   dependencies:
@@ -8041,9 +8032,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:10.12.0":
-  version: 10.12.0
-  resolution: "eslint@npm:10.12.0"
+"eslint@npm:10.13.0":
+  version: 10.13.0
+  resolution: "eslint@npm:10.13.0"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.8.0"
     "@eslint-community/regexpp": "npm:^4.12.2"
@@ -8082,7 +8073,7 @@ __metadata:
       optional: true
   bin:
     eslint: bin/eslint.js
-  checksum: 10/1cff87e4db79d4c9b6bd0af4c2aa483d88936a16f70e73af192a2aeee5ec597ad1de5d42ba1242336c27b25be6f0e503e4ea41ca036ab134eb5f4b4c24af15b9
+  checksum: 10/04b7140a6fb4614d3cd5feb35041cd3b2b92f80d7fd015d8d320c76e015577863dc530c1bcf228eb3b58b06151e45b6452dd349a6863d21eeefa02ceaee1377f
   languageName: node
   linkType: hard
 
@@ -8635,17 +8626,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.16.0":
-  version: 1.16.0
-  resolution: "follow-redirects@npm:1.16.0"
-  peerDependenciesMeta:
-    debug:
-      optional: true
-  checksum: 10/3fbe3d80b3b544c22705d837aa5d4a0d07a740d913534a2620b0a004c610af4148e3b58723536dd099aaa1c9d3a155964bde9665d6e5cb331460809a1fc572fd
-  languageName: node
-  linkType: hard
-
-"follow-redirects@npm:^1.15.11":
+"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.15.11, follow-redirects@npm:^1.16.0":
   version: 1.16.1
   resolution: "follow-redirects@npm:1.16.1"
   peerDependenciesMeta:
@@ -8758,31 +8739,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fsevents@npm:2.3.2":
-  version: 2.3.2
-  resolution: "fsevents@npm:2.3.2"
-  dependencies:
-    node-gyp: "npm:latest"
-  checksum: 10/6b5b6f5692372446ff81cf9501c76e3e0459a4852b3b5f1fc72c103198c125a6b8c72f5f166bdd76ffb2fca261e7f6ee5565daf80dca6e571e55bcc589cc1256
-  conditions: os=darwin
-  languageName: node
-  linkType: hard
-
 "fsevents@npm:^2.3.2, fsevents@npm:~2.3.2, fsevents@npm:~2.3.3":
   version: 2.3.3
   resolution: "fsevents@npm:2.3.3"
   dependencies:
     node-gyp: "npm:latest"
   checksum: 10/4c1ade961ded57cdbfbb5cac5106ec17bc8bccd62e16343c569a0ceeca83b9dfef87550b4dc5cbb89642da412b20c5071f304c8c464b80415446e8e155a038c0
-  conditions: os=darwin
-  languageName: node
-  linkType: hard
-
-"fsevents@patch:fsevents@npm%3A2.3.2#optional!builtin<compat/fsevents>":
-  version: 2.3.2
-  resolution: "fsevents@patch:fsevents@npm%3A2.3.2#optional!builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"
-  dependencies:
-    node-gyp: "npm:latest"
   conditions: os=darwin
   languageName: node
   linkType: hard
@@ -9083,10 +9045,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"govuk-frontend@npm:6.5.1":
-  version: 6.5.1
-  resolution: "govuk-frontend@npm:6.5.1"
-  checksum: 10/e428a9886b020c3816939df77d2c0c575bb853f64d061e43f040f93f572f63ef300c87fb3bcfa76020ea0f01070f160f0b57d1664b402a3c964c40420f8f8510
+"govuk-frontend@npm:6.6.0":
+  version: 6.6.0
+  resolution: "govuk-frontend@npm:6.6.0"
+  checksum: 10/ba1c5634a83954765613b065d98b01b23c0a5026a7b65306632f715253448a3c957794a1550604cc566118a3630a0fdcebc349deb269ede076b351b1cb736ce8
   languageName: node
   linkType: hard
 
@@ -10998,10 +10960,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jose@npm:6.2.12":
-  version: 6.2.12
-  resolution: "jose@npm:6.2.12"
-  checksum: 10/42ef7b598d22fe4ed0a4d0407f9dd9ae9f56dabd31cbad6cb4f67e296953a46b5d63603f8a599a3ee4c5659bf29bb14e846237f0381ea679116520b53e71e4ea
+"jose@npm:6.2.13":
+  version: 6.2.13
+  resolution: "jose@npm:6.2.13"
+  checksum: 10/34e05c0215974798e92d0f82396962b0c9c2b4bca006dab5dece038e93b02ccee4ef6b4d456cfa8d0d4496a1c864d5e5a3b72e7e43bbacc50a25f9e997da2d57
   languageName: node
   linkType: hard
 
@@ -11332,9 +11294,9 @@ __metadata:
   linkType: hard
 
 "libphonenumber-js@npm:^1.13.11":
-  version: 1.13.14
-  resolution: "libphonenumber-js@npm:1.13.14"
-  checksum: 10/9b6997d73272f7c18ec476b52f3c03dea2764eef21267bbff9713588fda411a0eb00bb0de39c5fabfc415b3aca78870e5a74a9f815ab61e398d758afbfa6b3d2
+  version: 1.13.15
+  resolution: "libphonenumber-js@npm:1.13.15"
+  checksum: 10/01c715a9526db7d114477155f69a071e47667ae62fa58b9e59d06fce3f6c9950aac8eb47dc6b9873493c88f2f9efa915bea7820a5b9a101821dd7cf19388c881
   languageName: node
   linkType: hard
 
@@ -13209,27 +13171,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.62.1":
-  version: 1.62.1
-  resolution: "playwright-core@npm:1.62.1"
+"playwright-core@npm:1.64.1":
+  version: 1.64.1
+  resolution: "playwright-core@npm:1.64.1"
   bin:
     playwright-core: cli.js
-  checksum: 10/2dab88793a6a5cbfa27641664548ded72a4f869d7eab8d3541e070081b5e09595253aa3dbd42eb4e6eca1b03d96a727c60704359b5b309e71ca58b12549a4c06
+  checksum: 10/4a173590bc784d8d5bfe2cace53ccc31316dac11475660b59cea24a2e833875d87183d41a957a20355301ac2b339a17940faaf0b42217156fa9c0c3cfdd4633c
   languageName: node
   linkType: hard
 
 "playwright@npm:^1.60.0":
-  version: 1.62.1
-  resolution: "playwright@npm:1.62.1"
+  version: 1.64.1
+  resolution: "playwright@npm:1.64.1"
   dependencies:
-    fsevents: "npm:2.3.2"
-    playwright-core: "npm:1.62.1"
-  dependenciesMeta:
-    fsevents:
-      optional: true
+    playwright-core: "npm:1.64.1"
   bin:
     playwright: cli.js
-  checksum: 10/f99546873ab2545160ad5a0145fef8e2c1d805efd1ba77356f5b0ee3d8688192b3a2af08cd948bece36ca386fdfad889ef7e53b7aaad309940744c0bbccc0a19
+  checksum: 10/1096fa91e433f84c8677433a26052aa4f269bf0811aa793fe667d7053feb1c2852e9f10f9f0cced77fa2678f8580ed47192f29adbc9c027efa5ba87b38e23e50
   languageName: node
   linkType: hard
 
@@ -13617,7 +13575,7 @@ __metadata:
     "@opentelemetry/api": "npm:1.9.1"
     "@opentelemetry/otlp-transformer": "npm:0.223.0"
     "@pact-foundation/pact": "npm:^17.0.1"
-    "@pact-foundation/pact-cli": "npm:18.1.2"
+    "@pact-foundation/pact-cli": "npm:18.10.9"
     "@types/body-parser": "npm:1.19.6"
     "@types/chai": "npm:^5.2.1"
     "@types/config": "npm:3.3.5"
@@ -13629,10 +13587,10 @@ __metadata:
     "@types/glob": "npm:8.1.0"
     "@types/jest": "npm:^30.0.0"
     "@types/jsonwebtoken": "npm:^9"
-    "@types/lodash": "npm:4.17.26"
+    "@types/lodash": "npm:4.17.27"
     "@types/luxon": "npm:3.7.6"
     "@types/multer": "npm:^2.2.0"
-    "@types/node": "npm:26.6.3"
+    "@types/node": "npm:26.6.5"
     "@types/nunjucks": "npm:3.2.6"
     "@types/pa11y": "npm:^5.3.7"
     "@types/supertest": "npm:^6.0.3"
@@ -13652,7 +13610,7 @@ __metadata:
     csrf-sync: "npm:4.2.1"
     css-loader: "npm:6.11.0"
     escape-html: "npm:1.0.3"
-    eslint: "npm:10.12.0"
+    eslint: "npm:10.13.0"
     eslint-config-prettier: "npm:10.1.8"
     eslint-import-resolver-typescript: "npm:4.4.5"
     eslint-plugin-import: "npm:2.32.0"
@@ -13663,7 +13621,7 @@ __metadata:
     git-rev-sync: "npm:^3.0.2"
     glob: "npm:^13.0.6"
     globals: "npm:17.13.0"
-    govuk-frontend: "npm:6.5.1"
+    govuk-frontend: "npm:6.6.0"
     helmet: "npm:8.3.0"
     html-webpack-plugin: "npm:5.6.8"
     husky: "npm:9.1.7"
@@ -13675,7 +13633,7 @@ __metadata:
     jest-environment-jsdom: "npm:30.5.2"
     jest-html-reporter: "npm:3.10.2"
     jest-junit: "npm:16.0.0"
-    jose: "npm:6.2.12"
+    jose: "npm:6.2.13"
     jsonwebtoken: "npm:^9.0.3"
     libphonenumber-js: "npm:^1.13.11"
     lint-staged: "npm:17.6.0"
@@ -13693,7 +13651,7 @@ __metadata:
     playwright: "npm:^1.60.0"
     postcss: "npm:^8.5.30"
     prettier: "npm:3.8.4"
-    sass: "npm:1.105.1"
+    sass: "npm:1.105.2"
     sass-loader: "npm:13.3.3"
     style-loader: "npm:3.3.4"
     stylelint: "npm:17.16.0"
@@ -14465,9 +14423,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:1.105.1":
-  version: 1.105.1
-  resolution: "sass@npm:1.105.1"
+"sass@npm:1.105.2":
+  version: 1.105.2
+  resolution: "sass@npm:1.105.2"
   dependencies:
     "@parcel/watcher": "npm:^2.4.1"
     chokidar: "npm:^5.0.0"
@@ -14478,7 +14436,7 @@ __metadata:
       optional: true
   bin:
     sass: sass.js
-  checksum: 10/772b8943117cb9badaa1a3d3dda888acc456de859820ab7ac401d03e095f8d88de1e6a39dc969baa850efbbc6ed1a5e4eeb288d0ae4d0d7d99b6efffcf9ec050
+  checksum: 10/56171caf55cefcfa1fe7b17c993ac2255054e0f13e40cac222bae43d927519c8d6b32773ebf80ead1f1823ffaf5cb878561d9700962d912e0a477a042e71a4ab
   languageName: node
   linkType: hard
 
@@ -16868,14 +16826,14 @@ __metadata:
   linkType: hard
 
 "xss@npm:^1.0.15":
-  version: 1.0.15
-  resolution: "xss@npm:1.0.15"
+  version: 1.0.16
+  resolution: "xss@npm:1.0.16"
   dependencies:
     commander: "npm:^2.20.3"
     cssfilter: "npm:0.0.10"
   bin:
     xss: bin/xss
-  checksum: 10/074ad54babac9dd5107466dbf30d3b871dbedae1f8e7b8f4e3b76d60da8b92bd0f66f18ccd26b8524545444ef784b78c526cee089a907aa904f83c8b8d7958f6
+  checksum: 10/3c9fb57c831dc863db9513c43cbc4d0c13546cf9fcaf2fb653a1c66b17d3e71f4bea3a09d4f8f0dd9155b2415aea86437836f8c4304d4d3d003eb72227654cfd
   languageName: node
   linkType: hard
 

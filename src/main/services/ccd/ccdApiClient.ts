@@ -1,8 +1,8 @@
 import axios, { AxiosInstance, AxiosResponse, isAxiosError } from 'axios';
 import config from 'config';
 
-import { requireServiceAuthToken } from '../auth/service/get-service-auth-token';
-import { UserDetails } from '../auth/user/oidc';
+import { requireServiceAuthToken } from '../../auth/service/get-service-auth-token';
+import { UserDetails } from '../../auth/user/oidc';
 
 import { Logger } from '@modules/logger';
 import {
@@ -11,7 +11,7 @@ import {
   CITIZEN_UPDATE_CASE,
   CcdCase,
   CcdCaseData,
-} from '@services/ccdCase.interface';
+} from '@services/ccd/ccdCase.interface';
 
 const logger = Logger.getLogger('ccd-api-client');
 

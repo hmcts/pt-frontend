@@ -8,7 +8,7 @@ import type FormData from 'form-data';
 
 import { requireServiceAuthToken } from '../../../main/auth/service/get-service-auth-token';
 
-import { CdamUploadRejected, deleteDocument, uploadDocument } from '@services/cdamService';
+import { CdamUploadRejected, deleteDocument, uploadDocument } from '@services/cdam/cdamService';
 
 jest.mock('@modules/logger', () => ({
   Logger: {
