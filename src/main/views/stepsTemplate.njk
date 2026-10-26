@@ -1,4 +1,5 @@
 {% extends "govuk/template.njk" %}
+{% set htmlLang = lang %}
 {% from "govuk/components/header/macro.njk" import govukHeader %}
 {% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
@@ -15,11 +16,7 @@
 {% block head %}
   {{ super() }}
   {% include "webpack/css.njk" %}
-  {% if isLegalRepresentative %}
-    <link rel="stylesheet" href="/assets/ui-component-lib/ui-component-lib.css">
-  {% endif %}
 {% endblock %}
-
 
 {% block bodyStart %}
 {% endblock %}
@@ -47,7 +44,6 @@
     {#  {% include "components/timeout-modal.njk" %}#}
   {% endblock %}
 {% endblock %}
-
 
 {% block content %}
   <div class="govuk-grid-row">

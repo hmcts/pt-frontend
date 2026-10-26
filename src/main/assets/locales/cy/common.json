@@ -5,25 +5,59 @@
   "contactUsForHelpText": "cyContact us for help",
   "yes": "cy Yes",
   "no": "cy No",
+  "change": "cy Change",
   "back": "cy Back",
   "logout": "cy Logout",
   "buttons": {
     "saveAndContinue": "cy Save and continue",
     "continue": "cy Continue",
     "saveForLater": "cy Save for later",
-    "cancel": "cy Cancel"
+    "cancel": "cy Cancel",
+    "completeThisSection": "cy Complete this section"
+  },
+  "date": {
+    "day": "cyDay",
+    "month": "cyMonth",
+    "year": "cyYear"
+  },
+  "characterCount": {
+    "charactersUnderLimitText": {
+      "one": "cyYou have %{count} character remaining",
+      "other": "cyYou have %{count} characters remaining"
+    },
+    "charactersAtLimitText": "cyYou have 0 characters remaining",
+    "charactersOverLimitText": {
+      "one": "cyYou have %{count} character too many",
+      "other": "cyYou have %{count} characters too many"
+    }
   },
   "youNeedToUseAnotherForm": "cy You need to use another form to apply",
   "myApplications": "cy My applications",
   "startNewApplicationLinkText": "cy Start a new application",
+  "linkToCaseLinkText": "cy Respond to an existing case with your access code",
   "myApplicationsTable": {
     "applicationNumberHeading": "cy Application number",
     "createdHeading": "cy Created",
     "submittedOnHeading": "cy Submitted on",
-    "statusHeading": "cy Status"
+    "statusHeading": "cy Status",
+    "notYetSubmitted": "cy Not yet submitted"
   },
   "errors": {
-    "title": "cy There is a problem"
+    "title": "cy There is a problem",
+    "prefix": "cy Error:",
+    "documentUpload": {
+      "wrongFileType": "cy The selected file must be a DOC, DOCX, XLS, XLSX, PPT, PPTX, PDF, RTF, TXT, CSV, JPG, JPEG, PNG, BMP, TIF or TIFF",
+      "fileTooLarge": "cy The selected file must be smaller than {{ maxFileSize }}MB",
+      "totalTooLarge": "cy These files are too large in total",
+      "fileEmpty": "cy The selected file is empty",
+      "passwordProtected": "cy The selected file is password protected",
+      "filenameTooLong": "cy The selected file name must be 255 characters or fewer",
+      "uploadFailed": "cy The selected file could not be uploaded — try again",
+      "deleteFailed": "cy The selected file could not be removed — try again",
+      "onlyOneFile": "cy You can only upload one file",
+      "tooManyFiles": "cy You can only select up to {{ maxFiles }} files at the same time",
+      "removeFileFirst": "cy Remove the uploaded file before adding another"
+    }
   },
   "errorPages": {
     "pageNotFound": {
@@ -32,8 +66,8 @@
       "paragraph2": "cyIf you pasted the web address, check you copied the entire address.",
       "paragraph3": "cyIf the web address is correct or you selected a link or button, contact us by email or telephone.",
       "heading": "cyEmail",
-      "paragraph4": "cyUse the <a class=\"govuk-link\" href=\"https://www.find-court-tribunal.service.gov.uk/\" target=\"_blank\" rel=\"noopener noreferrer\">find a court or tribunal service (opens in new tab)</a> to get your local court’s email address.",
-      "paragraph5": "cyIf you do not know the name of your local court, select the ‘Money’ category and then the ‘Housing’ category to find it.",
+      "paragraph4": "cyUse the <a class=\"govuk-link\" href=\"https://www.find-court-tribunal.service.gov.uk/\" target=\"_blank\" rel=\"noopener noreferrer\">find a court or tribunal service (opens in new tab)</a> to get your local court's email address.",
+      "paragraph5": "cyIf you do not know the name of your local court, select the 'Money' category and then the 'Housing' category to find it.",
       "heading2": "cyTelephone",
       "paragraph6": "cy0300 123 7050",
       "paragraph7": "cyMonday to Friday, 8.30am to 5pm.",
@@ -46,8 +80,8 @@
       "paragraphFallback": "cyTry again later.",
       "paragraph2": "cyFor help with your case, contact us by email or telephone.",
       "heading": "cyEmail",
-      "paragraph3": "cyUse the <a class=\"govuk-link\" href=\"https://www.find-court-tribunal.service.gov.uk/\" target=\"_blank\" rel=\"noopener noreferrer\">find a court or tribunal service (opens in new tab)</a> to get your local court’s email address.",
-      "paragraph4": "cyIf you do not know the name of your local court, select the ‘Money’ category and then the ‘Housing’ category to find it.",
+      "paragraph3": "cyUse the <a class=\"govuk-link\" href=\"https://www.find-court-tribunal.service.gov.uk/\" target=\"_blank\" rel=\"noopener noreferrer\">find a court or tribunal service (opens in new tab)</a> to get your local court's email address.",
+      "paragraph4": "cyIf you do not know the name of your local court, select the 'Money' category and then the 'Housing' category to find it.",
       "heading2": "cyTelephone",
       "paragraph5": "cy0300 123 7050",
       "paragraph6": "cyMonday to Friday, 8.30am to 5pm.",
@@ -59,8 +93,8 @@
       "paragraph2": "cyWe saved your answers. They will be available for 30 days.",
       "paragraph3": "cyFor help with your case, contact us by email or telephone.",
       "heading": "cyEmail",
-      "paragraph4": "cyUse the <a class=\"govuk-link\" href=\"https://www.find-court-tribunal.service.gov.uk/\" target=\"_blank\" rel=\"noopener noreferrer\">find a court or tribunal service (opens in new tab)</a> to get your local court’s email address.",
-      "paragraph5": "cyIf you do not know the name of your local court, select the ‘Money’ category and then the ‘Housing’ category to find it.",
+      "paragraph4": "cyUse the <a class=\"govuk-link\" href=\"https://www.find-court-tribunal.service.gov.uk/\" target=\"_blank\" rel=\"noopener noreferrer\">find a court or tribunal service (opens in new tab)</a> to get your local court's email address.",
+      "paragraph5": "cyIf you do not know the name of your local court, select the 'Money' category and then the 'Housing' category to find it.",
       "heading2": "cyTelephone",
       "paragraph6": "cy0300 123 7050",
       "paragraph7": "cyMonday to Friday, 8.30am to 5pm.",
@@ -70,8 +104,8 @@
       "title": "cyYou do not have access to this page",
       "paragraph": "cyContact us if you think you should have access, or if you need help with your case.",
       "heading": "cyEmail",
-      "paragraph2": "cyUse the <a class=\"govuk-link\" href=\"https://www.find-court-tribunal.service.gov.uk/\" target=\"_blank\" rel=\"noopener noreferrer\">find a court or tribunal service (opens in new tab)</a> to get your local court’s email address.",
-      "paragraph3": "cyIf you do not know the name of your local court, select the ‘Money’ category and then the ‘Housing’ category to find it.",
+      "paragraph2": "cyUse the <a class=\"govuk-link\" href=\"https://www.find-court-tribunal.service.gov.uk/\" target=\"_blank\" rel=\"noopener noreferrer\">find a court or tribunal service (opens in new tab)</a> to get your local court's email address.",
+      "paragraph3": "cyIf you do not know the name of your local court, select the 'Money' category and then the 'Housing' category to find it.",
       "heading2": "cyTelephone",
       "paragraph4": "cy0300 123 7050",
       "paragraph5": "cyMonday to Friday, 8.30am to 5pm.",
@@ -83,7 +117,7 @@
     "contactPreferences": "cy Contact preferences",
     "whoIsOnTheTenancy": "cy Who is on the tenancy",
     "landlordDetails": "cy Landlord details including any representatives",
-    "landlordsNotice": "cy Landlord’s notice proposing a new rent",
+    "landlordsNotice": "cy Landlord's notice proposing a new rent",
     "yourTenancyAgreement": "cy Your tenancy agreement",
     "theCurrentRentAndOtherCosts": "cy The current rent and other costs",
     "whatYouThinkMarketRentShouldBe": "cy What you think the market rent should be",
@@ -92,5 +126,13 @@
     "extraSupport": "cy Tell us if you need extra support during your case",
     "tellUsIfYouNeedHelp": "cy Tell us if you are eligible for help with fees",
     "checkYourAnswersAndSubmit": "cy Check your answers and submit your application"
+  },
+  "documentUpload": {
+    "uploadButton": "cy Upload file",
+    "filesAddedHeading": "cy Files added",
+    "deleteButton": "cy Remove",
+    "chooseFile": "cy Choose file",
+    "dropFile": "cy or drop file",
+    "label": "cy Upload a file"
   }
 }

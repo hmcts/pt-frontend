@@ -9,16 +9,15 @@
     "target": "ES2020",
     "strict": true,
     "noImplicitAny": true,
-    "noImplicitThis": false,
+    "noImplicitThis": true,
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "experimentalDecorators": true,
-    "useUnknownInCatchVariables": false,
+    "useUnknownInCatchVariables": true,
     "skipLibCheck": true,
     "lib": ["es2020", "dom", "dom.iterable"],
     "baseUrl": "src/main",
     "paths": {
-      "@router/*": ["router/*"],
       "@routes/*": ["routes/*"],
       "@modules/*": ["modules/*"],
       "@utils/*": ["utils/*"],
@@ -26,7 +25,7 @@
       "@steps": ["steps/index.ts"]
     },
     "typeRoots": ["./node_modules/@types", "./src/main/types"],
-    "types": ["jest", "node", "express"]
+    "types": ["jest", "node", "express", "multer"]
   },
   "include": ["src/main/**/*", "src/main/assets/locales/**/*", "src/test/unit/**/*"],
   "exclude": ["**/codecept.conf.ts", "**/__mocks__/*", "**/*.test.ts", "**/*.spec.ts"],

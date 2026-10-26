@@ -1,0 +1,28 @@
+{
+  "pageTitle": "Your notice proposing a new rent",
+  "heading": "Your notice proposing a new rent",
+  "questionTitle": "Do you think the notice is legally valid?",
+  "validSection13": "Your landlord must give you a valid section 13 notice before increasing your rent.",
+  "bulletHeading": "A valid section 13 notice must:",
+  "bullet1": "give the correct notice period (at least 2 months)",
+  "bullet2": "not increase the rent within 52 weeks of the last increase",
+  "bullet3": "start the increase on the correct date",
+  "bullet4": "include your correct details, such as your name and address",
+  "bullet5": "be signed by the landlord",
+  "stillChallengeIncrease": "You can still challenge the rent increase even if the notice is valid.",
+  "mustStillSubmitApplication": "If you think the notice is not valid, you must still submit this market rent determination application.",
+  "options": {
+    "noticeNotLegallyValidReason": {
+      "label": "Explain why the notice is not legally valid (optional)",
+      "hint": "You can upload supporting evidence next"
+    }
+  },
+  "errors": {
+    "noticeLegallyValid": {
+      "required": "Select whether you think the notice is legally valid"
+    },
+    "noticeNotLegallyValidReason": {
+      "invalid": "Explanation must be 500 characters or less"
+    }
+  }
+}

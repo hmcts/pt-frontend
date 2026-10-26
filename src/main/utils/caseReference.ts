@@ -1,3 +1,5 @@
+const CASE_REFERENCE_PATTERN = /^\d{16}$/;
+
 /**
  * valid case reference must be exactly 16 digits.
  * @param caseReference - The case reference to validate (string or number)
@@ -5,8 +7,13 @@
  */
 export function sanitiseCaseReference(caseReference: string | number): string | null {
   const caseRefStr = String(caseReference);
-  return /^\d{16}$/.test(caseRefStr) ? caseRefStr : null;
+  return CASE_REFERENCE_PATTERN.test(caseRefStr) ? caseRefStr : null;
 }
+
+export const normaliseCaseReference = (input: string): string => input.replace(/[\s-]/g, '');
+
+export const isValidCaseReference = (input: string): boolean =>
+  CASE_REFERENCE_PATTERN.test(normaliseCaseReference(input));
 
 /**
  * Converts unknown input to a valid 16-digit case reference string.
@@ -28,7 +35,7 @@ export function toCaseReference16(value: unknown): string | null {
   }
 
   const strValue = String(value).trim();
-  return /^\d{16}$/.test(strValue) ? strValue : null;
+  return CASE_REFERENCE_PATTERN.test(strValue) ? strValue : null;
 }
 
 export function formatCaseReferenceForDisplay(caseReference: string): string {

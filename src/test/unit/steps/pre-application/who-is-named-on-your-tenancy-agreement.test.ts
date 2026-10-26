@@ -4,7 +4,7 @@ import type { Environment } from 'nunjucks';
 import { flowConfig } from '../../../../main/steps/pre-application/flow.config';
 import { step } from '../../../../main/steps/pre-application/who-is-named-on-your-tenancy-agreement';
 
-import { validateForm } from '@modules/steps';
+import { DRAFT_SCOPE, validateForm } from '@modules/steps';
 import { getPreviousStep } from '@modules/steps/flow';
 
 jest.mock('../../../../main/modules/steps/i18n', () => ({
@@ -36,20 +36,22 @@ describe('pre-application who-is-named-on-your-tenancy-agreement step', () => {
     query: { lang: 'en' },
     session: {
       formData: {
-        'starting-or-returning': {
-          startingOrReturning: 'starting',
-        },
-        'applying-for-yourself-or-someone-else': {
-          applyingForYourselfOrSomeoneElse: 'someoneElse',
-        },
-        'address-of-property': {
-          addressPostcode: 'W1 1BW',
-        },
-        'landlord-is-a-housing-association': {
-          landlordIsAHousingAssociation: 'no',
-        },
-        'application-type': {
-          applicationType: 'openMarketRentDetermination',
+        [DRAFT_SCOPE]: {
+          'starting-or-returning': {
+            startingOrReturning: 'starting',
+          },
+          'applying-for-yourself-or-someone-else': {
+            applyingForYourselfOrSomeoneElse: 'someoneElse',
+          },
+          'address-of-property': {
+            addressPostcode: 'W1 1BW',
+          },
+          'landlord-is-a-housing-association': {
+            landlordIsAHousingAssociation: 'no',
+          },
+          'application-type': {
+            applicationType: 'openMarketRentDetermination',
+          },
         },
       },
     },
@@ -86,20 +88,22 @@ describe('back navigation from who-is-named-on-your-tenancy-agreement', () => {
     const req = {
       session: {
         formData: {
-          'starting-or-returning': {
-            startingOrReturning: 'starting',
-          },
-          'applying-for-yourself-or-someone-else': {
-            applyingForYourselfOrSomeoneElse: 'someoneElse',
-          },
-          'address-of-property': {
-            addressPostcode: 'B5 4BU',
-          },
-          'landlord-is-a-housing-association': {
-            landlordIsAHousingAssociation: 'no',
-          },
-          'application-type': {
-            applicationType: 'openMarketRentDetermination',
+          [DRAFT_SCOPE]: {
+            'starting-or-returning': {
+              startingOrReturning: 'starting',
+            },
+            'applying-for-yourself-or-someone-else': {
+              applyingForYourselfOrSomeoneElse: 'someoneElse',
+            },
+            'address-of-property': {
+              addressPostcode: 'B5 4BU',
+            },
+            'landlord-is-a-housing-association': {
+              landlordIsAHousingAssociation: 'no',
+            },
+            'application-type': {
+              applicationType: 'openMarketRentDetermination',
+            },
           },
         },
       },

@@ -8,4 +8,4 @@ export const stepRegistry = {
   'tenancy-type': tenancyType,
 } satisfies Record<string, StepDefinition>;
 
-export type RespondToClaimStepName = keyof typeof stepRegistry;
+export type NewApplicationStepName = keyof typeof stepRegistry;

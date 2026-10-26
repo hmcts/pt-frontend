@@ -4,7 +4,7 @@
   "questionTitle": "Have you or any past tenants made any changes or repairs to the property?",
   "options": {
     "notSure": {
-      "label": "I’m not sure"
+      "label": "I'm not sure"
     }
   },
   "errors": {

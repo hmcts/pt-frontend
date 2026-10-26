@@ -1,33 +1,42 @@
 import axios, { AxiosInstance } from 'axios';
 import config from 'config';
 
-import { getServiceAuthToken } from '../../auth/service/get-service-auth-token';
+import { requireServiceAuthToken } from '../../auth/service/get-service-auth-token';
 import { UserDetails } from '../../auth/user/oidc';
-import { ApplicationData } from '../ccdCase.interface';
+import { PTCaseData } from '../ccd/ccdCase.interface';
 
 import { Logger } from '@modules/logger';
 
-const logger = Logger.getLogger('service-auth-token');
+const logger = Logger.getLogger('pt-api-client');
 
 export class PtApiClient {
   constructor(private readonly client: AxiosInstance) {}
 
-  async getAllCasesByUser(): Promise<ApplicationData[]> {
+  async getAllCasesByUser(): Promise<PTCaseData[]> {
     try {
-      const response = await this.client.get<ApplicationData[]>('/applications');
+      const response = await this.client.get<PTCaseData[]>('/applications');
       return response.data;
     } catch (err) {
-      logger.error(err);
+      logger.error('Failed to list applications for user', err);
       throw err;
     }
   }
 
-  async getCaseByCaseReference(caseReference: string): Promise<ApplicationData> {
+  async getCaseByCaseReference(caseReference: string): Promise<PTCaseData> {
     try {
-      const response = await this.client.get<ApplicationData>(`/applications/${caseReference}`);
+      const response = await this.client.get<PTCaseData>(`/applications/${caseReference}`);
       return response.data;
     } catch (err) {
-      logger.error(err);
+      logger.error('Failed to get application by case reference', err, { caseReference });
+      throw err;
+    }
+  }
+
+  async linkPartyToCase(caseReference: string, accessCode: string): Promise<void> {
+    try {
+      await this.client.post<void>(`/cases/${caseReference}/validate-access-code`, { accessCode });
+    } catch (err) {
+      logger.error(`Could not link respondent to case ${caseReference}`, err);
       throw err;
     }
   }
@@ -37,9 +46,10 @@ export const getPtApi = (userDetails: UserDetails): PtApiClient => {
   return new PtApiClient(
     axios.create({
       baseURL: config.get('api.url'),
+      timeout: config.get<number>('http.timeoutMs'),
       headers: {
         Authorization: 'Bearer ' + userDetails.accessToken,
-        ServiceAuthorization: getServiceAuthToken(),
+        ServiceAuthorization: `Bearer ${requireServiceAuthToken()}`,
         Accept: '*/*',
         'Content-Type': 'application/json',
       },

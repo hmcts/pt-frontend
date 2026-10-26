@@ -1,4 +1,4 @@
-import type { RespondToClaimStepName } from './stepRegistry';
+import type { NewApplicationStepName } from './stepRegistry';
 
 import type { JourneyFlowConfig, StepConfig } from '@modules/steps/stepFlow.interface';
 
@@ -21,5 +21,5 @@ export const flowConfig: JourneyFlowConfig = {
     'tenancy-type': {
       requiresAuth: true,
     },
-  } satisfies Partial<Record<RespondToClaimStepName, StepConfig>>,
+  } satisfies Partial<Record<NewApplicationStepName, StepConfig>>,
 };

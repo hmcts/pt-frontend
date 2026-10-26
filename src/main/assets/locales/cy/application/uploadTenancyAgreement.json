@@ -1,0 +1,9 @@
+{
+  "pageTitle": "cyUpload tenancy agreement",
+  "heading": "cyUpload tenancy agreement",
+  "errors": {
+    "documents": {
+      "required": "cySelect a file to upload"
+    }
+  }
+}

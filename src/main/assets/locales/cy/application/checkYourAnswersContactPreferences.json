@@ -1,5 +1,24 @@
 {
   "pageTitle": "cy Check your answers - Contact preferences",
   "heading": "cy Check your answers",
-  "pageCaption": "cy Contact preferences"
+  "cardTitle": "cy Contact preferences",
+  "rows": {
+    "textUpdates": {
+      "label": "cy Do you want to receive text updates?",
+      "changeHidden": "cy receive free text updates",
+      "options": {
+        "Yes": "cy Yes",
+        "No": "cy No"
+      }
+    },
+    "textUpdatesPhoneNumber": {
+      "label": "cy Enter a mobile phone number",
+      "changeHidden": "cy mobile phone number"
+    },
+    "phoneNumberForCalls": {
+      "label": "cy Enter a phone number for phone calls (optional)",
+      "changeHidden": "cy phone number for phone calls"
+    }
+  },
+  "reviewAndChangeInfo": "cy You can review and change your answers before you submit your application."
 }

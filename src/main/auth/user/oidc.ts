@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import config from 'config';
-import { jwtDecode } from 'jwt-decode';
+import * as jose from 'jose';
 import NodeCache from 'node-cache';
 
 import { CALLBACK_URL } from '../../urls';
@@ -15,8 +15,9 @@ export const getRedirectUrl = (serviceUrl: string): string => {
   const id: string = config.get('idam.clientID');
   const loginUrl: string = config.get('idam.authorizationURL');
   const callbackUrl = encodeURI(serviceUrl + CALLBACK_URL);
+  const loginScope: string = encodeURIComponent(config.get('idam.authorizationScope'));
 
-  return `${loginUrl}?client_id=${id}&response_type=code&redirect_uri=${callbackUrl}`;
+  return `${loginUrl}?client_id=${id}&response_type=code&redirect_uri=${callbackUrl}&scope=${loginScope}`;
 };
 
 export const getUserDetails = async (serviceUrl: string, rawCode: string): Promise<UserDetails> => {
@@ -25,7 +26,7 @@ export const getUserDetails = async (serviceUrl: string, rawCode: string): Promi
   const params = { callbackUrl, code };
 
   const response: AxiosResponse<OidcResponse> = await getIdamToken(params, params.code);
-  const jwt = jwtDecode(response.data.id_token) as IdTokenJwtPayload;
+  const jwt = jose.decodeJwt(response.data.id_token) as IdTokenJwtPayload;
 
   return {
     accessToken: response.data.access_token,
@@ -44,7 +45,7 @@ export const getSystemUser = async (): Promise<UserDetails> => {
 
   const response: AxiosResponse<OidcResponse> = await createIdamToken(params);
 
-  const jwt = jwtDecode(response.data.id_token) as IdTokenJwtPayload;
+  const jwt = jose.decodeJwt(response.data.id_token) as IdTokenJwtPayload;
 
   return {
     accessToken: response.data.access_token,
@@ -70,7 +71,7 @@ const createIdamToken = (params: Record<string, string>): Promise<AxiosResponse<
   } else {
     throw new Error('Missing data for createIdamToken.');
   }
-  return axios.post(tokenUrl, data, { headers });
+  return axios.post(tokenUrl, data, { headers, timeout: config.get<number>('http.timeoutMs') });
 };
 
 export const getIdamToken = async (
@@ -92,6 +93,11 @@ export const getIdamToken = async (
     response = await createIdamToken(params);
   }
   return response;
+};
+
+export const getEndIdamSessionUrl = (redirectUrl: string): string => {
+  const endSessionUrl: string = config.get('idam.endSessionURL');
+  return `${endSessionUrl}?post_logout_redirect_uri=${encodeURIComponent(redirectUrl)}`;
 };
 
 export interface UserDetails {

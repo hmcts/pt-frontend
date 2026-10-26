@@ -2,10 +2,36 @@
   "api": {
     "url": "PT_API_URL"
   },
+  "ccd": {
+    "url": "CCD_URL",
+    "caseTypeId": "CASE_TYPE_ID"
+  },
+  "cdam": {
+    "url": "CDAM_URL"
+  },
+  "documentUpload": {
+    "maxFileSizeMB": "DOCUMENT_UPLOAD_MAX_FILE_SIZE_MB",
+    "maxTotalFileSizeMB": "DOCUMENT_UPLOAD_MAX_TOTAL_FILE_SIZE_MB",
+    "maxFilenameLength": "DOCUMENT_UPLOAD_MAX_FILENAME_LENGTH",
+    "timeoutMs": {
+      "__name": "DOCUMENT_UPLOAD_TIMEOUT_MS",
+      "__format": "json"
+    },
+    "maxFilesPerUpload": "DOCUMENT_UPLOAD_MAX_FILES_PER_UPLOAD"
+  },
+  "http": {
+    "timeoutMs": {
+      "__name": "HTTP_TIMEOUT_MS",
+      "__format": "json"
+    }
+  },
   "frontend": {
     "url": "TEST_URL"
   },
   "idam": {
+    "authorizationURL": "IDAM_WEB_URL",
+    "tokenURL": "IDAM_API_URL",
+    "endSessionURL": "IDAM_END_SESSION_URL",
     "clientSecret": "PT_FRONTEND_IDAM_SECRET",
     "testUser": {
       "email": "IDAM_PT_USER_EMAIL",
@@ -13,6 +39,7 @@
     }
   },
   "authProvider": {
+    "url": "S2S_URL",
     "secret": "S2S_AUTH_PROVIDER_SECRET"
   },
   "session": {

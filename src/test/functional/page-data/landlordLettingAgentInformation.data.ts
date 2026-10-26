@@ -1,0 +1,18 @@
+export const landlordLettingAgentInformation = {
+  LandLordLettingAgentEmailAddresspageHeading: "Your landlord's letting agent's email address",
+  landLordPhoneNumberHeading: "What is your landlord's phone number? (optional)",
+  emailField: 'email',
+  validEmail: 'agent@test.com',
+  invalidEmail: 'agent@test',
+  lettingAgentRadioBtn: 'My landlord has a letting agent only',
+  saveAndContinueButton: 'Save and continue',
+  saveForLaterButton: 'Save for later',
+  LandLoradLettingAgentphoneNumberPageHeading: "Your landlord's letting agent's phone number (optional)",
+  lettingAgentphoneNumberField: '//*[@id="lettingAgentPhoneNumber"]',
+  landlordDetailsIncludingAnyRepresentativesLink: 'Landlord details including any representatives',
+  landlordEmailAddressField: '#landlordEmailAddress',
+  validEmailAddress: 'test@gmail.com',
+  validPhoneNumber: '07700123456',
+  invalidPhoneNumber: 'ABC123XYZ',
+  lettingAgentOrdRepresentativePageHeading: 'Does your landlord have a letting agent or representative?',
+};

@@ -1,10 +1,11 @@
 import config from 'config';
-import RedisStore from 'connect-redis';
+import { RedisStore } from 'connect-redis';
 import type { Express } from 'express';
 import session from 'express-session';
 import { Redis } from 'ioredis';
 
 import { Logger } from '@modules/logger';
+import { isSecureTransport } from '@utils/environment';
 
 export class Session {
   logger = Logger.getLogger('session');
@@ -18,9 +19,16 @@ export class Session {
       this.logger.info('Successfully connected to Redis');
     });
 
-    redis.on('error', (err: typeof Error) => {
-      this.logger.error(`REDIS CONNECTION ERROR: ${redisConnectionString}`);
-      this.logger.error('REDIS ERROR:', err);
+    const redisHost = ((): string => {
+      try {
+        return new URL(redisConnectionString).host || 'unknown';
+      } catch {
+        return 'unparseable';
+      }
+    })();
+
+    redis.on('error', (err: Error) => {
+      this.logger.error(`Redis connection error (${redisHost})`, err);
     });
 
     redis.on('ready', () => {
@@ -29,11 +37,10 @@ export class Session {
 
     app.locals.redisClient = redis;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const redisStore = new (RedisStore as any)({
+    const redisStore = new RedisStore({
       client: redis,
-      prefix: config.get('session.prefix') + ':',
-      ttl: config.get('session.redis.ttlInSeconds'),
+      prefix: `${config.get<string>('session.prefix')}:`,
+      ttl: config.get<number>('session.redis.ttlInSeconds'),
     });
 
     const sessionTimeoutMinutes = config.get<number>('session.timeout.sessionTimeoutMinutes');
@@ -47,7 +54,7 @@ export class Session {
       rolling: true,
       cookie: {
         sameSite: 'lax',
-        secure: !app.locals.developmentMode,
+        secure: isSecureTransport(),
         maxAge: sessionTimeoutMinutes * 60 * 1000,
       },
       name: config.get<string>('session.cookieName'),
@@ -58,10 +65,9 @@ export class Session {
     app.use(session(sessionMiddleware));
 
     // Make timeout config available to templates
-    app.locals.nunjucksEnv?.addGlobal('sessionTimeout', {
-      sessionWarningMinutes,
-      sessionTimeoutMinutes,
-      checkIntervalSeconds,
+    app.use((_req, res, next) => {
+      res.locals.sessionTimeout = { sessionWarningMinutes, sessionTimeoutMinutes, checkIntervalSeconds };
+      next();
     });
 
     this.logger.info('Session middleware configured with Redis store');

@@ -1,9 +1,29 @@
 {% extends "stepsTemplate.njk" %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 
 {% block pageTitle %}{{ pageTitle }} &ndash; HM Courts &amp; Tribunals Service &ndash; GOV.UK{% endblock %}
 
 {% block mainContent %}
-  {% if heading %}
-    <h1 class="govuk-heading-l">{{ heading }}</h1>
-  {% endif %}
+  <h1 class="govuk-heading-l">{{ heading }}</h1>
+  <p class="govuk-body">{{ t('subHeading') | safe }}</p>
+  {{ govukSummaryList({
+    rows: [
+      {
+        key: {
+          text: t('applicationTypeQuestion')
+        },
+        value: {
+          text: t(applicationType)
+        }
+      },
+      {
+        key: {
+          text: t('tenancyTypeQuestion')
+        },
+          value: {
+          text: t(tenancyType)
+        }
+      }
+    ]
+  }) }}
 {% endblock %}
