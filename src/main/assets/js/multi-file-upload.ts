@@ -174,10 +174,16 @@ const showError = (container: UploadContainer, message: string): void => {
 
   const item = document.createElement('li');
   item.appendChild(link);
-  summary.querySelector('.govuk-error-summary__list')?.replaceChildren(item);
+
+  const list = summary.querySelector('.govuk-error-summary__list');
+  list?.appendChild(item);
   summary.hidden = false;
 
-  setInlineError(container, message);
+  const messages = Array.from(list?.querySelectorAll('li a') ?? [])
+    .map(errorLink => errorLink.textContent ?? '')
+    .filter(Boolean);
+
+  setInlineError(container, messages.join('; '));
   syncFeedbackVisibility(container);
 };
 
@@ -249,7 +255,6 @@ export const initMultiFileUpload = (): MultiFileUpload[] => {
       dropzoneHintText: container.dataset.dropFileText ?? 'or drop file',
       hooks: {
         exitHook: () => {
-          clearError(container);
           removeFailedRows(container);
         },
         errorHook: (_instance: unknown, _file: File, xhr: XMLHttpRequest) => {
