@@ -1,5 +1,7 @@
 import type { Request, RequestHandler } from 'express';
 
+import { requireCaseRole } from '../middleware/requireCaseRole';
+
 import { flowConfig as applicationFlowConfig } from './application/flow.config';
 import { stepRegistry as applicationStepRegistry } from './application/stepRegistry';
 import { flowConfig as linkPartyToCaseFlowConfig } from './link-party-to-case/flow.config';
@@ -13,6 +15,7 @@ import { Logger } from '@modules/logger';
 import { getStepOrder } from '@modules/steps/flow';
 import type { JourneyFlowConfig } from '@modules/steps/stepFlow.interface';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { CaseRole } from '@services/ccd/ccdCase.interface';
 import { validateSectionConfig } from '@services/sectionStatus';
 
 const logger = Logger.getLogger('steps');
@@ -59,6 +62,7 @@ export const journeyRegistry: Record<string, JourneyConfig> = {
   application: {
     name: 'application',
     slug: 'application',
+    routeMiddleware: [requireCaseRole(CaseRole.CREATOR)],
     default: {
       flowConfig: applicationFlowConfig,
       stepRegistry: applicationStepRegistry,
