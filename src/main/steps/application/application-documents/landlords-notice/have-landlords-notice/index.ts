@@ -1,7 +1,7 @@
 import { textAreaIsValidLength } from '../../../../utils/fieldValidators';
 import { flowConfig } from '../../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccd/ccdCase.interface';
 
@@ -60,6 +60,22 @@ export const step: StepDefinition = createFormStep({
       ],
     },
   ],
+  getInitialFormData: req => {
+    const caseData: PTCaseData | undefined = req.session.ccdCase;
+    const haveLandlordsNotice: string | boolean | undefined =
+      getFormDataString(req, 'have-landlords-notice', 'haveLandlordsNotice') ??
+      caseData?.noticeOfRentIncreaseDetails?.receivedLandlordNoticeProposingNewRent;
+    const noLandlordsNoticeReason: string | undefined =
+      getFormDataString(req, 'have-landlords-notice', 'haveLandlordsNotice.noLandlordsNoticeReason') ??
+      caseData?.noticeOfRentIncreaseDetails?.noUploadOfNoticeProposingNewRentReason;
+
+    return {
+      ...(haveLandlordsNotice && { haveLandlordsNotice }),
+      ...(noLandlordsNoticeReason && {
+        'haveLandlordsNotice.noLandlordsNoticeReason': noLandlordsNoticeReason,
+      }),
+    };
+  },
 });
 
 export function isAnswered(ccdCase: PTCaseData | undefined): boolean {
