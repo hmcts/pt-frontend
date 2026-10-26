@@ -41,7 +41,8 @@ const sectionDefs = [
     groupId: 'landlordDetails',
     titleKey: 'taskList.landlordDetails',
     steps: [
-      'landlord-name',
+      'landlord-individual-or-organisation',
+      'landlord-address',
       'landlord-email-address',
       'landlord-phone-number',
       'landlord-has-letting-agent-or-representative',
