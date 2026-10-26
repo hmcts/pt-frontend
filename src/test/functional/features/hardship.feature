@@ -14,8 +14,10 @@ Feature: Would a rent increase on the proposed start date cause you hardship?
         And I click "Continue"
         Then check that the user is redirected to the task-list citizen dashboard page
         When I click "Landlord's notice proposing a new rent" link
-        Then I check that the text "Have landlord's notice?" is displayed on the page
-        And I click "Save and continue"
+        Then I check that the text "Do you have a landlord's notice proposing a new rent to upload?" is displayed on the page
+        When I select "Yes" for the question "Do you have a landlord's notice proposing a new rent to upload?"
+        And  I click 'Save and continue'
+        Then I check that the text "Upload your landlord’s notice proposing a new rent" is displayed on the page
         When I upload "supported-file"
         And  I click 'Save and continue'
         Then I check that the text "Your notice proposing a new rent" is displayed on the page
