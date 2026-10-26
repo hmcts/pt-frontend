@@ -67,6 +67,7 @@ export const DOCUMENT_FIELDS = {
     ccdField: 'rentIncreaseHardshipDocuments',
     documentType: 'hardshipEvidence',
     multiple: true,
+    extraExtensions: { '.mp3': 100, '.mp4': 100 },
   },
   tenancyAgreementDocument: {
     slice: 'tenancyAgreementDetails',
