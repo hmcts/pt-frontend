@@ -244,7 +244,7 @@ describe('initMultiFileUpload', () => {
     it('removes the aria-describedby it added once the error clears', () => {
       upload(fileOf('virus.exe'));
 
-      upload(fileOf('floor-plan.pdf'));
+      hooksOf().exitHook(null, fileOf('floor-plan.pdf'), jsonXhr({}, 200), 'OK');
 
       expect(fileInput().hasAttribute('aria-describedby')).toBe(false);
       expect(formGroup().classList).not.toContain('govuk-form-group--error');
@@ -393,9 +393,8 @@ describe('initMultiFileUpload', () => {
   describe('a successful upload', () => {
     it('clears the error and removes any failed rows', () => {
       upload(fileOf('virus.exe'));
-      upload(fileOf('floor-plan.pdf'));
-
       failedRow();
+
       hooksOf().exitHook(null, fileOf('floor-plan.pdf'), jsonXhr({}, 200), 'OK');
 
       expect(summary()?.hidden).toBe(true);
