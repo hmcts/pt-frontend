@@ -9458,10 +9458,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next-http-middleware@npm:3.9.9":
-  version: 3.9.9
-  resolution: "i18next-http-middleware@npm:3.9.9"
-  checksum: 10/cf7328df38d9e1825bbaf34275ca670473806f7229dc270a54aa87296ef0e66b909b8b299358439a15ebb8ba98be5009810b8fddd3f43b8df98caca6a75094f4
+"i18next-http-middleware@npm:3.9.10":
+  version: 3.9.10
+  resolution: "i18next-http-middleware@npm:3.9.10"
+  checksum: 10/b7b250333210d43f5e1a33723c03e65f8eccfbd7ec9fe39c94cba38659c81f68a137ded6a32af7031fecd351e3c269325f367d5af3ea95a281d41b0b27d92985
   languageName: node
   linkType: hard
 
@@ -13634,7 +13634,7 @@ __metadata:
     husky: "npm:9.1.7"
     i18next: "npm:26.4.5"
     i18next-fs-backend: "npm:2.6.9"
-    i18next-http-middleware: "npm:3.9.9"
+    i18next-http-middleware: "npm:3.9.10"
     ioredis: "npm:5.11.1"
     jest: "npm:30.5.2"
     jest-environment-jsdom: "npm:30.5.2"
@@ -16843,14 +16843,14 @@ __metadata:
   linkType: hard
 
 "xss@npm:^1.0.15":
-  version: 1.0.16
-  resolution: "xss@npm:1.0.16"
+  version: 1.0.17
+  resolution: "xss@npm:1.0.17"
   dependencies:
     commander: "npm:^2.20.3"
     cssfilter: "npm:0.0.10"
   bin:
     xss: bin/xss
-  checksum: 10/3c9fb57c831dc863db9513c43cbc4d0c13546cf9fcaf2fb653a1c66b17d3e71f4bea3a09d4f8f0dd9155b2415aea86437836f8c4304d4d3d003eb72227654cfd
+  checksum: 10/b3c0f0964e92bb18cfc6697d556cfa12993ff2b8fdc5f36e4a2d4ef7e8ea6052d12655d776ee3c3a68a731c9184c536c0270e69786d7f0513a88d809861c226f
   languageName: node
   linkType: hard
 
