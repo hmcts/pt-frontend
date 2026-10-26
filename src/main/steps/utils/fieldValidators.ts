@@ -25,6 +25,29 @@ export function stripHtmlTags(text: string): string {
   return htmlStripFilter.process(text);
 }
 
+// Normalises line endings and returns the length of the string.
+function normalisedLength(value: string): number {
+  return String(value).replace(/\r\n?/g, '\n').length;
+}
+
+export function getTextLenghtError(
+  value: string | undefined,
+  min: number,
+  max: number
+): 'tooShort' | 'tooLong' | undefined {
+  if (!value) {
+    return undefined;
+  }
+  const length = normalisedLength(value);
+  if (length < min) {
+    return 'tooShort';
+  }
+  if (length > max) {
+    return 'tooLong';
+  }
+  return undefined;
+}
+
 /**
  * Validates whether a text area box has valid length
  * If the optional text box was left blank - isAnswered = true
@@ -39,5 +62,5 @@ export function stripHtmlTags(text: string): string {
  * @param max - maximum valid length
  */
 export function textAreaIsValidLength(value: string | undefined, max = 500): boolean {
-  return !value || String(value).replace(/\r\n?/g, '\n').length <= max;
+  return !value || normalisedLength(value) <= max;
 }
