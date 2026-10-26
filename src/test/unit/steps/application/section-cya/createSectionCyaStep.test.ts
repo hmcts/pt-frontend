@@ -6,7 +6,7 @@ import { createSectionCyaStep } from '../../../../../main/steps/application/sect
 
 import type { GetController } from '@modules/steps';
 import type { JourneyFlowConfig } from '@modules/steps/stepFlow.interface';
-import { getCaseApi } from '@services/ccdApiClient';
+import { getCaseApi } from '@services/ccd/ccdApiClient';
 import { prepareDataForSave } from '@services/data-mapping';
 import { getFlowConfigForJourney } from '@steps';
 
@@ -17,7 +17,7 @@ jest.mock('@modules/steps/i18n', () => ({
   getTranslationFunction: jest.fn(() => mockT),
 }));
 
-jest.mock('@services/ccdApiClient', () => ({ getCaseApi: jest.fn() }));
+jest.mock('@services/ccd/ccdApiClient', () => ({ getCaseApi: jest.fn() }));
 jest.mock('@services/data-mapping', () => ({ prepareDataForSave: jest.fn() }));
 jest.mock('@steps', () => ({ getFlowConfigForJourney: jest.fn() }));
 

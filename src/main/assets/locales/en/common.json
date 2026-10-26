@@ -34,6 +34,7 @@
   "youNeedToUseAnotherForm": "You need to use another form to apply",
   "myApplications": "My applications",
   "startNewApplicationLinkText": "Start a new application",
+  "linkToCaseLinkText": "Respond to an existing case with your access code",
   "myApplicationsTable": {
     "applicationNumberHeading": "Application number",
     "createdHeading": "Created",

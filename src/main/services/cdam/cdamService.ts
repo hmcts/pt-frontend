@@ -4,10 +4,10 @@ import axios, { AxiosInstance } from 'axios';
 import config from 'config';
 import FormData from 'form-data';
 
-import { requireServiceAuthToken } from '../auth/service/get-service-auth-token';
+import { requireServiceAuthToken } from '../../auth/service/get-service-auth-token';
 
 import { Logger } from '@modules/logger';
-import type { CdamDocument, CdamRawDocument, CdamUploadResponse } from '@services/documentUpload.interface';
+import type { CdamDocument, CdamRawDocument, CdamUploadResponse } from '@services/cdam/documentUpload.interface';
 
 const logger = Logger.getLogger('cdamService');
 

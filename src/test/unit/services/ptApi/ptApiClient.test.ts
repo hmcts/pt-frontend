@@ -87,3 +87,28 @@ describe('getCaseByCaseReference', () => {
     );
   });
 });
+
+describe('linkPartyToCase', () => {
+  test('Should successfully link party to the case', async () => {
+    const mockedAxios = axios as jest.Mocked<typeof axios>;
+    mockedAxios.post.mockResolvedValue({});
+
+    const ptApiInstance: PtApiClient = new PtApiClient(mockedAxios);
+    await ptApiInstance.linkPartyToCase(TEST_CASE_ID, 'test-access-code');
+
+    expect(mockedAxios.post).toHaveBeenCalledWith(`/cases/${TEST_CASE_ID}/validate-access-code`, {
+      accessCode: 'test-access-code',
+    });
+  });
+
+  test('Should throw error when the party could not be linked to the case', async () => {
+    const mockedAxios = axios as jest.Mocked<typeof axios>;
+    mockedAxios.post.mockRejectedValue(new Error('Party could not be linked to the case'));
+
+    const ptApiInstance: PtApiClient = new PtApiClient(mockedAxios);
+
+    await expect(ptApiInstance.linkPartyToCase(TEST_CASE_ID, 'test-access-code')).rejects.toThrow(
+      'Party could not be linked to the case'
+    );
+  });
+});
