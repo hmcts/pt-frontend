@@ -47,7 +47,7 @@
     "@opentelemetry/otlp-transformer": "0.223.0",
     "applicationinsights": "^3.15.0",
     "axios": "1.20.0",
-    "body-parser": "2.3.0",
+    "body-parser": "2.4.0",
     "config": "4.4.1",
     "connect-redis": "8.1.0",
     "cookie-parser": "1.4.7",
