@@ -1,4 +1,4 @@
-@JIRA-EPIC:HDPD-582 @regression @WIP
+@JIRA-EPIC:HDPD-582 @regression
 
 Feature: Validate Your notice proposing a new rent Page
     Background:

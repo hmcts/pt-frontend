@@ -1,4 +1,4 @@
-@JIRA-EPIC:HDPD-615 @regression @WIP
+@JIRA-EPIC:HDPD-615 @regression
 
 Feature: Is furniture provided in your tenancy
 

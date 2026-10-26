@@ -1,4 +1,4 @@
-@JIRA-EPIC:HDPD-616 @regression @WIP
+@JIRA-EPIC:HDPD-616 @regression
 
 Feature: Validate Are any services provided in your tenancy page
 

@@ -1,4 +1,4 @@
-@JIRA-EPIC:HDPD-618 @regression @WIP
+@JIRA-EPIC:HDPD-618 @regression
 
 Feature: Validate Repairs and improvements Page
 
