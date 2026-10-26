@@ -4,12 +4,12 @@ Feature: IDAM login to Property Tribunal
   I want to be authenticated to the PT upon entering my credentials in IDAM
   So that I can progress any claims that I may be involved in
 
-  @ac1 @JIRA-TEST-KEY:PTSD-531
+  @smoke @ac1 @JIRA-TEST-KEY:PTSD-531
   Scenario: AC1 - User is redirected to IDAM when accessing PT
     Given the user navigates to PT url
     And they are redirected to the IDAM authentication page
 
-  @ac2 @JIRA-TEST-KEY:PTSD-672
+  @smoke @ac2 @JIRA-TEST-KEY:PTSD-672
   Scenario: AC2 - Successful login redirects back to PT
     Given the user has reached the IDAM authentication page
     When the user enters their credentials successfully

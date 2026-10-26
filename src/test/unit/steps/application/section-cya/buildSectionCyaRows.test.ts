@@ -2,7 +2,7 @@ import type { Request } from 'express';
 
 import { buildSectionCyaRows } from '../../../../../main/steps/application/your-application/contact-preferences/check-your-answers-contact-preferences/buildSectionCyaRows';
 
-import type { PTCaseData } from '@services/ccdCase.interface';
+import type { PTCaseData } from '@services/ccd/ccdCase.interface';
 
 const CASE_REF = '1234123412341234';
 const OTHER_CASE = '9999999999999999';

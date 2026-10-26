@@ -1,0 +1,17 @@
+export const contactPreferences = {
+  textUpdatesUrl: 'text-updates',
+  textUpdatesHeading: 'Text updates',
+  contactByPhoneUrl: 'contact-by-phone',
+  contactByPhoneHeading: 'Contact by phone call',
+  checkAnswersUrl: 'check-your-answers-contact-preferences',
+  checkAnswersHeading: 'Check your answers',
+  sectionHeading: 'Contact preferences',
+  textUpdatesQuestion: 'Do you want to receive text updates?',
+  textUpdatesYesOption: 'Yes',
+  mobilePhoneQuestion: 'Enter a mobile phone number',
+  phoneCallsQuestion: 'Enter a phone number for phone calls (optional)',
+  summaryRowSelector: '.govuk-summary-list__row',
+  sectionCaptionSelector: '.govuk-caption-l',
+  completeSectionButton: 'Complete this section',
+  saveForLaterButton: 'Save for later',
+};

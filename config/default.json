@@ -33,9 +33,9 @@
     "maxFilesPerUpload": 3
   },
   "idam": {
-    "authorizationURL": "https://idam-web-public.aat.platform.hmcts.net/o/authorize",
-    "tokenURL": "https://idam-api.aat.platform.hmcts.net/o/token",
-    "endSessionURL": "https://idam-web-public.aat.platform.hmcts.net/o/endSession",
+    "authorizationURL": "https://hmcts-access.aat.platform.hmcts.net/o/authorize",
+    "tokenURL": "https://hmcts-access.aat.platform.hmcts.net/o/token",
+    "endSessionURL": "https://hmcts-access.aat.platform.hmcts.net/o/endSession",
     "clientID": "pt-frontend",
     "authorizationScope": "openid profile roles",
     "clientSecret": "NEED TO INSERT SECRET",

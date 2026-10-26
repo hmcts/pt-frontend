@@ -27,6 +27,11 @@ export enum LanguageUsed {
   ENGLISH_AND_WELSH = 'ENGLISH_AND_WELSH',
 }
 
+export enum CaseRole {
+  CREATOR = '[CREATOR]',
+  DEFENDANT = '[DEFENDANT]',
+}
+
 /** CCD SDK Document type -- flat reference with URLs. */
 export interface CcdDocumentReference {
   document_url: string;
@@ -291,6 +296,7 @@ export interface LettingAgentDetails {
 }
 
 export interface LandlordDetails {
+  landlordIndividualOrOrganisation?: string;
   landlordPhoneNumber?: string;
   landlordHasLettingAgentOrRepresentative?: string;
   landlordEmailAddress?: string;
@@ -303,6 +309,7 @@ export interface NoticeOfRentIncreaseDetails {
   noticeNotLegallyValidReason?: string;
   rentIncreaseCauseHardship?: string;
   rentIncreaseHardshipDetails?: string;
+  landlordNoticeProposingNewRentDocument?: PtCaseDocument;
 }
 
 export interface PropertyDetails {
