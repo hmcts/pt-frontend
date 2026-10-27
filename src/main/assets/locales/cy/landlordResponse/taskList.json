@@ -17,7 +17,8 @@
       "NOT_AVAILABLE_YET": "cyNot available yet"
     },
     "groups": {
-      "tenantsApplication": "cyTenant's application"
+      "tenantsApplication": "cyTenant's application",
+      "yourResponse": "cyYour response"
     }
   }
 }

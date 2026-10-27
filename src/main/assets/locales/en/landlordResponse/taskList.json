@@ -17,7 +17,8 @@
       "NOT_AVAILABLE_YET": "Not available yet"
     },
     "groups": {
-      "tenantsApplication": "Tenant's application"
+      "tenantsApplication": "Tenant's application",
+      "yourResponse": "Your response"
     }
   }
 }

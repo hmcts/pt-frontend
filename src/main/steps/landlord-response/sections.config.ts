@@ -5,6 +5,7 @@ import type { LandlordResponseStepName } from './stepRegistry';
 // Visual groups on the task-list page. Section order within a group follows declaration order below.
 export const LANDLORD_RESPONSE_SECTION_GROUPS = [
   { id: 'tenantsApplication', titleKey: 'taskList.groups.tenantsApplication' },
+  { id: 'yourResponse', titleKey: 'taskList.groups.yourResponse' },
 ] as const;
 
 export type LandlordResponseGroupId = (typeof LANDLORD_RESPONSE_SECTION_GROUPS)[number]['id'];
@@ -15,6 +16,12 @@ const sectionDefs = [
     groupId: 'tenantsApplication',
     titleKey: 'taskList.tenantsApplication',
     steps: ['view-tenants-application'],
+  },
+  {
+    id: 'yourResponse',
+    groupId: 'yourResponse',
+    titleKey: 'taskList.yourResponse',
+    steps: ['respond-to-tenants-application'],
   },
 ] as const satisfies readonly {
   id: string;

@@ -125,7 +125,8 @@
     "extraSupport": "Tell us if you need extra support during your case",
     "tellUsIfYouNeedHelp": "Tell us if you are eligible for help with fees",
     "checkYourAnswersAndSubmit": "Check your answers and submit your application",
-    "tenantsApplication": "Tenant's application"
+    "tenantsApplication": "Tenant's application",
+    "yourResponse": "Respond to tenant's application"
   },
   "documentUpload": {
     "uploadButton": "Upload file",
