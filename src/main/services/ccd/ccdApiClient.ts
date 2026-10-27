@@ -1,8 +1,8 @@
 import axios, { AxiosInstance, AxiosResponse, isAxiosError } from 'axios';
 import config from 'config';
 
-import { requireServiceAuthToken } from '../auth/service/get-service-auth-token';
-import { UserDetails } from '../auth/user/oidc';
+import { requireServiceAuthToken } from '../../auth/service/get-service-auth-token';
+import { UserDetails } from '../../auth/user/oidc';
 
 import { Logger } from '@modules/logger';
 import {
@@ -11,7 +11,7 @@ import {
   CITIZEN_UPDATE_CASE,
   CcdCase,
   CcdCaseData,
-} from '@services/ccdCase.interface';
+} from '@services/ccd/ccdCase.interface';
 
 const logger = Logger.getLogger('ccd-api-client');
 
@@ -93,6 +93,14 @@ export class CcdApiClient {
       throw err;
     }
   }
+
+  async getCaseUsers(caseReference: string, user: UserDetails): Promise<CaseUsers[]> {
+    const { data } = await this.client.get('/case-users', {
+      params: { case_ids: caseReference, user_ids: user.id },
+    });
+
+    return data.case_users;
+  }
 }
 
 export const getCaseApi = (userDetails: UserDetails): CcdApiClient => {
@@ -121,4 +129,10 @@ interface CcdEventTriggerResponse extends CcdTokenResponse {
     state: string;
     data: CcdCaseData;
   };
+}
+
+interface CaseUsers {
+  case_id: string;
+  user_id: string;
+  case_role: string;
 }

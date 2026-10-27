@@ -1,5 +1,5 @@
-import { CcdCase } from '../../../main/services/ccdCase.interface';
-import { CcdCaseModel } from '../../../main/services/ccdCaseData.model';
+import { CcdCase } from '@services/ccd/ccdCase.interface';
+import { CcdCaseModel } from '@services/ccd/ccdCaseData.model';
 
 describe('CcdCaseModel', () => {
   describe('fallback getters', () => {

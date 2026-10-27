@@ -27,7 +27,7 @@ properties([
   ])
 ])
 
-@Library("Infrastructure@2.13.0")
+@Library("Infrastructure@2.13.4")
 
 def type = "nodejs"
 def product = "pt"
@@ -62,7 +62,7 @@ withNightlyPipeline(type, product, component) {
 
   // Runs after the Fortify Scan stage has finished, including the vulnerability report.
   onSuccess {
-    runRegressionTests(yarnBuilder)
+    runRegressionTests(yarnBuilder, ptE2eVaultSecrets)
   }
 }
 
@@ -82,12 +82,20 @@ def setFunctionalTestEnvVars() {
   env.CASE_TYPE_ID = 'PT'
 }
 
-def runRegressionTests(yarnBuilder) {
+def runRegressionTests(yarnBuilder, vaultSecrets) {
   stage("Regression [${env.ENVIRONMENT}] ${env.E2E_TEST_SCOPE}") {
     node {
       checkout scm
       catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-        yarnBuilder.yarn('test:functional')
+        // onSuccess runs after withTeamSecrets closes, on a new agent, so the
+        // IDAM test-user password loaded for the earlier stages is not in scope.
+        // Pass vaultSecrets in: a Jenkinsfile method cannot see a script-level `def`.
+        withAzureKeyvault(
+          azureKeyVaultSecrets: vaultSecrets,
+          keyVaultURLOverride: "https://pt-kv1-${env.ENVIRONMENT}.vault.azure.net/"
+        ) {
+          yarnBuilder.yarn('test:functional')
+        }
       }
       steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**'
     }

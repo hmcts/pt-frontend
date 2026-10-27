@@ -1,4 +1,4 @@
-import { PTCaseData } from '@services/ccdCase.interface';
+import { PTCaseData } from '@services/ccd/ccdCase.interface';
 import { type Session, type SessionData } from 'express-session';
 import { type Environment } from 'nunjucks';
 import { type TFunction } from 'i18next';

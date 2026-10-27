@@ -6,7 +6,7 @@ import { SummaryListRow, createRowContext, escapeWithLineBreaks, isYes } from '.
 import { ApplicationSectionId } from '../../../sections.config';
 
 import { getFormData } from '@modules/steps';
-import type { DateValue, RentDetails } from '@services/ccdCase.interface';
+import type { DateValue, RentDetails } from '@services/ccd/ccdCase.interface';
 import { toDateParts } from '@utils/date';
 import { displayRentAmount } from '@utils/rentAmount';
 

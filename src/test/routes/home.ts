@@ -99,4 +99,75 @@ describe('Routes', () => {
         });
     });
   });
+
+  describe('html lang attribute', () => {
+    test('should render English by default', async () => {
+      await request(app)
+        .get('/pre-application/starting-or-returning')
+        .expect(res => {
+          expect(res.status).to.equal(200);
+          expect(res.text).to.include('<html lang="en" class="govuk-template">');
+        });
+    });
+
+    test('should render Welsh when lang=cy', async () => {
+      await request(app)
+        .get('/pre-application/starting-or-returning?lang=cy')
+        .expect(res => {
+          expect(res.status).to.equal(200);
+          expect(res.text).to.include('<html lang="cy" class="govuk-template">');
+        });
+    });
+
+    test('should render Welsh when lang=cy and continues on next page', async () => {
+      const agent = request.agent(app);
+
+      await agent.get('/pre-application/starting-or-returning?lang=cy').expect(res => {
+        expect(res.status).to.equal(200);
+        expect(res.text).to.include('<html lang="cy" class="govuk-template">');
+      });
+
+      await agent.get('/pre-application/applying-for-yourself-or-someone-else').expect(res => {
+        expect(res.status).to.equal(200);
+        expect(res.text).to.include('<html lang="cy" class="govuk-template">');
+      });
+    });
+    test('should set the lang attribute to en by default on a template.njk page', async () => {
+      await request(app)
+        .get('/page-that-doesnt-exist')
+        .expect(res => {
+          expect(res.status).to.equal(404);
+          expect(res.text).to.include('<html lang="en" class="govuk-template">');
+        });
+    });
+
+    test('should set the lang attribute to cy when lang=cy on a template.njk page', async () => {
+      await request(app)
+        .get('/page-that-doesnt-exist?lang=cy')
+        .expect(res => {
+          expect(res.status).to.equal(404);
+          expect(res.text).to.include('<html lang="cy" class="govuk-template">');
+        });
+    });
+  });
+
+  describe('404 page', () => {
+    test('should render the page-not-found error page in English by default', async () => {
+      await request(app)
+        .get('/page-that-doesnt-exist')
+        .expect(res => {
+          expect(res.status).to.equal(404);
+          expect(res.text).to.include('Page not found');
+        });
+    });
+
+    test('should render the page-not-found error page in Welsh when lang=cy', async () => {
+      await request(app)
+        .get('/page-that-doesnt-exist?lang=cy')
+        .expect(res => {
+          expect(res.status).to.equal(404);
+          expect(res.text).to.include('cyPage not found');
+        });
+    });
+  });
 });

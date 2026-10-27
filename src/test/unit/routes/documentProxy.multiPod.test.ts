@@ -29,8 +29,8 @@ jest.mock('../../../main/middleware/oidc', () => ({
   oidcMiddleware: (_req: unknown, _res: unknown, next: () => void) => next(),
 }));
 
-jest.mock('@services/cdamService', () => ({
-  ...jest.requireActual('@services/cdamService'),
+jest.mock('@services/cdam/cdamService', () => ({
+  ...jest.requireActual('@services/cdam/cdamService'),
   uploadDocument: async () => {
     const n = mockState.nextUpload++;
     return {

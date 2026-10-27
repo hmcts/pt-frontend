@@ -6,7 +6,7 @@ import { createSectionCyaStep } from '../../../../../main/steps/application/sect
 
 import type { GetController } from '@modules/steps';
 import type { JourneyFlowConfig } from '@modules/steps/stepFlow.interface';
-import { getCaseApi } from '@services/ccdApiClient';
+import { getCaseApi } from '@services/ccd/ccdApiClient';
 import { prepareDataForSave } from '@services/data-mapping';
 import { getFlowConfigForJourney } from '@steps';
 
@@ -17,7 +17,7 @@ jest.mock('@modules/steps/i18n', () => ({
   getTranslationFunction: jest.fn(() => mockT),
 }));
 
-jest.mock('@services/ccdApiClient', () => ({ getCaseApi: jest.fn() }));
+jest.mock('@services/ccd/ccdApiClient', () => ({ getCaseApi: jest.fn() }));
 jest.mock('@services/data-mapping', () => ({ prepareDataForSave: jest.fn() }));
 jest.mock('@steps', () => ({ getFlowConfigForJourney: jest.fn() }));
 
@@ -195,12 +195,13 @@ describe('createSectionCyaStep', () => {
         expect(res.redirect).toHaveBeenCalledWith(303, `/${CASE_REF}/your-information`);
       });
 
-      it('renders not found when there is no next step', async () => {
+      it('passes a 404 error to the error handler when there is no next step', async () => {
         withoutHub({ sections: undefined, stepOrder: [STEP_NAME] });
-        const { res } = await post(makeReq());
+        const { res, next } = await post(makeReq());
 
-        expect(res.status).toHaveBeenCalledWith(404);
-        expect(res.render).toHaveBeenCalledWith('not-found');
+        expect(next).toHaveBeenCalledWith(expect.any(HTTPError));
+        expect(next.mock.calls[0][0].status).toBe(404);
+        expect(res.render).not.toHaveBeenCalled();
       });
     });
   });
