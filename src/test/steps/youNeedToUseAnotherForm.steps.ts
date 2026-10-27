@@ -35,7 +35,6 @@ When('the citizen selects the online application form link', () => {
 Then('the citizen is taken to the online application form', () => {
   I.waitInUrl(youNeedToUseAnotherForm.onlineApplicationUrl);
   I.waitForText(youNeedToUseAnotherForm.onlineApplicationFormHeading);
-  I.closeCurrentTab();
 });
 
 Then('user is taken to "You need to use another form to apply" page', () => {
@@ -61,7 +60,6 @@ Then('the citizen is taken to the paper application form', () => {
   }
   I.waitForNumberOfTabs(2, 10);
   I.switchToNextTab();
-  I.closeCurrentTab();
 });
 
 When('the citizen selects the guidance on GOV.UK link', () => {
@@ -72,5 +70,8 @@ When('the citizen selects the guidance on GOV.UK link', () => {
 
 Then('the citizen is taken to the GOV.UK guidance page', () => {
   I.waitInUrl(youNeedToUseAnotherForm.guidanceUrl);
+});
+
+Then('the citizen closes the external page', () => {
   I.closeCurrentTab();
 });

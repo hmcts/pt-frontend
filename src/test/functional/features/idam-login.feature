@@ -8,15 +8,18 @@ Feature: IDAM login to Property Tribunal
   Scenario: AC1 - User is redirected to IDAM when accessing PT
     Given the user navigates to PT url
     And they are redirected to the IDAM authentication page
+    And I check the page for accessibility issues
 
   @smoke @ac2 @JIRA-TEST-KEY:PTSD-672
   Scenario: AC2 - Successful login redirects back to PT
     Given the user has reached the IDAM authentication page
     When the user enters their credentials successfully
     Then the user will be redirected back to the PT UI
+    And I check the page for accessibility issues
 
   @ac3 @JIRA-TEST-KEY:PTSD-456
   Scenario: AC3 - Unsuccessful login shows an error
     Given the user has reached the IDAM authentication page
     When the user enters their credentials incorrectly
     Then IDAM will show an error page
+    And I check the page for accessibility issues

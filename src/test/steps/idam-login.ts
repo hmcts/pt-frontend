@@ -1,6 +1,7 @@
 import { config as testConfig } from '../config';
 import { idamLogin } from '../functional/page-data/idamLogin.page.data';
 import { ptPreApplication } from '../functional/page-data/ptPreApplication.page.data';
+import { checkPageAccessibility } from '../functional/utils/accessibilityCheck';
 import { resolveIdamEmail, resolveIdamPassword } from '../functional/utils/idamPassword';
 import { clickButtonOrLink, fillFieldByLabel } from '../functional/utils/playwrightActions';
 
@@ -96,9 +97,16 @@ async function resolveSignInTarget(page: import('playwright').Page): Promise<'fo
     return 'pt';
   }
 
+  await checkPageAccessibility(page);
+  const scannedUrl = page.url();
+
   await continueToEmailStep(page);
   if (isPtHost(page.url())) {
     return 'pt';
+  }
+
+  if (page.url() !== scannedUrl) {
+    await checkPageAccessibility(page);
   }
 
   const timeout = 30000;

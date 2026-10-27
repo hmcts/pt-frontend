@@ -36,17 +36,20 @@ Feature: Validate Are any services provided in your tenancy page
         And I select "No" for the question "Is furniture provided in your tenancy?"
         And I click "Save and continue"
         Then I check that the text "Are any services provided in your tenancy?" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC1 @JIRA-TEST-KEY:PTSD-786
     Scenario: Verify services provided page content
 
         Then I check that the text "For example, cleaning or gardening" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC2 @JIRA-TEST-KEY:PTSD-787
     Scenario: Verify services details textarea is displayed when Yes is selected
 
         When I select "Yes" for the question "Are any services provided in your tenancy?"
         Then I check that the text "Describe the services provided" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC3 @JIRA-TEST-KEY:PTSD-787
     Scenario: Verify Save and Continue with Yes selected
@@ -55,6 +58,7 @@ Feature: Validate Are any services provided in your tenancy page
         And I enter "service is provided" for the question "Describe the services provided"
         And I click "Save and continue"
         Then I check that the text "What repairs are the landlord's responsibility? (optional)" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC4 @JIRA-TEST-KEY:PTSD-788
     Scenario: Verify Save and Continue with No selected
@@ -62,6 +66,7 @@ Feature: Validate Are any services provided in your tenancy page
         When I select "No" for the question "Are any services provided in your tenancy?"
         And I click "Save and continue"
         Then I check that the text "What repairs are the landlord's responsibility? (optional)" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC5 @JIRA-TEST-KEY:PTSD-789
     Scenario: Verify Save for Later from Services Provided page
@@ -70,12 +75,14 @@ Feature: Validate Are any services provided in your tenancy page
         And I enter "service is provided" for the question "Describe the services provided"
         And I click "Save for later"
         Then check that the user is redirected to the task-list citizen dashboard page
+        And I check the page for accessibility issues
 
     @AC6 @JIRA-TEST-KEY:PTSD-790
     Scenario: Verify validation when no services option is selected
 
         When I click "Save and continue"
         Then I check that the error message "Select whether services are provided in your tenancy" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC7 @JIRA-TEST-KEY:PTSD-790
     Scenario: Verify validation when services details are blank
@@ -83,6 +90,7 @@ Feature: Validate Are any services provided in your tenancy page
         When I select "Yes" for the question "Are any services provided in your tenancy?"
         And I click "Save and continue"
         Then I check that the error message "Enter the services provided in your tenancy" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC7 @JIRA-TEST-KEY:PTSD-790
     Scenario: Verify validation when services details are below minimum length
@@ -91,3 +99,4 @@ Feature: Validate Are any services provided in your tenancy page
         And I enter "A" for the question "Describe the services provided"
         And I click "Save and continue"
         Then I check that the error message "Details about the services provided must be 2 characters or more" is displayed on the page
+        And I check the page for accessibility issues

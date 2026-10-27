@@ -40,17 +40,20 @@ Feature: Validate Do the charges you pay for these services vary? Page
         And I click "Save and continue"
         And I click "Save and continue"
         Then I check that the text "Do the charges you pay for these services vary?" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC1 @JIRA-TEST-KEY:PTSD-831
     Scenario: Verify page load content
 
         Then I check that the text "For example, if the charge varies at different times, or with the size of the work needed" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC2 @JIRA-TEST-KEY:PTSD-832
     Scenario: Verify conditional reveal when Yes is selected
 
         When I select "Yes" for the question "Do the charges you pay for these services vary?"
         Then I check that the text "Tell us how the charges you pay vary" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC3 @JIRA-TEST-KEY:PTSD-834
     Scenario: Verify save and continue with Yes and details
@@ -59,6 +62,7 @@ Feature: Validate Do the charges you pay for these services vary? Page
         And I enter "Charge vary as per requirment" for the question "Tell us how the charges you pay vary"
         And I click "Save and continue"
         Then I check that the text "Check your answers" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC4 @JIRA-TEST-KEY:PTSD-835
     Scenario: Verify save and continue with No selected
@@ -66,6 +70,7 @@ Feature: Validate Do the charges you pay for these services vary? Page
         When I select "No" for the question "Do the charges you pay for these services vary?"
         And I click "Save and continue"
         Then I check that the text "Check your answers" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC5 @JIRA-TEST-KEY:PTSD-836
     Scenario: Verify Save for Later
@@ -74,12 +79,14 @@ Feature: Validate Do the charges you pay for these services vary? Page
         And I enter "Charge vary as per requirment" for the question "Tell us how the charges you pay vary"
         And I click "Save for later"
         Then check that the user is redirected to the task-list citizen dashboard page
+        And I check the page for accessibility issues
 
     @AC6 @JIRA-TEST-KEY:PTSD-837
     Scenario: Verify validation when no radio option selected
 
         When I click "Save and continue"
         Then I check that the error message "Select whether the charges you pay for these services vary" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC7 @JIRA-TEST-KEY:PTSD-837
     Scenario: Verify validation when Yes selected and details blank
@@ -87,6 +94,7 @@ Feature: Validate Do the charges you pay for these services vary? Page
         When I select "Yes" for the question "Do the charges you pay for these services vary?"
         And I click "Save and continue"
         Then I check that the error message "Enter how the charges you pay vary" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC8 @JIRA-TEST-KEY:PTSD-837
     Scenario: Verify validation when more than 500 characters entered
@@ -95,3 +103,4 @@ Feature: Validate Do the charges you pay for these services vary? Page
         And I enter characters more than "500" in the description field for the question "Tell us how the charges you pay vary"
         And I click "Save and continue"
         Then I check that the error message "How the charges you pay vary must be 500 characters or less" is displayed on the page
+        And I check the page for accessibility issues

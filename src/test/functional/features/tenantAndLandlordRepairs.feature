@@ -16,6 +16,7 @@ Feature: Property Details - Tenant-Landlord Repairs
         And I click "Continue"
         When I click "Property details" link
         Then check that the user is redirected to the property-details page
+        And I check the page for accessibility issues
 
     @JIRA-TEST-KEY:PTSD-813
     Scenario: Property Details - Tenant-Landlord Repairs - Enter and validate landlord and tenant repair responsibilities
@@ -46,6 +47,7 @@ Feature: Property Details - Tenant-Landlord Repairs
         When I enter characters more than "600" in the description field for the question "What repairs are the landlord's responsibility? (optional)"
         And I click "Save and continue"
         Then I check that the error message "Enter a valid description of the repairs the landlord is responsible for" is displayed on the page
+        And I check the page for accessibility issues
         And I click back link
         And I click "Save and continue"
         And I click "Save and continue"
@@ -55,7 +57,9 @@ Feature: Property Details - Tenant-Landlord Repairs
         When I enter characters more than "600" in the description field for the question "What repairs are the tenant's responsibility? (optional)"
         And I click "Save and continue"
         Then I check that the error message "Enter a valid description of the repairs the tenant is responsible for" is displayed on the page
+        And I check the page for accessibility issues
         And I click back link
         And I click "Save and continue"
         And I click "Save and continue"
         Then I check that the user is redirected to the "repairs-and-improvements" page with heading "Repairs and improvements"
+        And I check the page for accessibility issues

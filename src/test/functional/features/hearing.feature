@@ -17,6 +17,7 @@ Feature: Validate  Review and manage hearing information Page
         And I select "Yes" for the question "Do you agree to the tribunal making a decision without an inspection?"
         And I click "Save and continue"
         Then I check that the text "Hearing" is displayed on the page
+        And I check the page for accessibility issues
 
 
 
@@ -26,12 +27,14 @@ Feature: Validate  Review and manage hearing information Page
         Then I check that the text "The tribunal will usually make its decision based on the documents and evidence provided by you and the landlord." is displayed on the page
         And I check that the text "Only ask for a hearing if you want to attend a tribunal to add to the documents and evidence you have provided. The tribunal will consider all documents and evidence with or without a hearing." is displayed on the page
         And I check that the text "The tribunal will decide if a hearing is needed." is displayed on the page
+        And I check the page for accessibility issues
 
     @AC2 @JIRA-TEST-KEY:PTSD-872
     Scenario: Verify reason field is displayed when No is selected
 
         When I select "No" for the question "Do you agree in the tribunal making a decision without a hearing?"
         Then I check that the text "Tell us why you think a hearing is needed" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC3 @JIRA-TEST-KEY:PTSD-873
     Scenario: Verify citizen can continue when Yes is selected
@@ -39,6 +42,7 @@ Feature: Validate  Review and manage hearing information Page
         When I select "Yes" for the question "Do you agree in the tribunal making a decision without a hearing?"
         And  I click "Save and continue"
         Then I check that the text "Check your answers" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC4 @JIRA-TEST-KEY:PTSD-873
     Scenario: Verify citizen can continue when No is selected with a reason
@@ -47,6 +51,7 @@ Feature: Validate  Review and manage hearing information Page
         And I enter "Hearing detail is provided" for the question "Tell us why you think a hearing is needed"
         And I click "Save and continue"
         Then I check that the text "Check your answers" is displayed on the page
+        And I check the page for accessibility issues
 
 
     @AC5 @JIRA-TEST-KEY:PTSD-874
@@ -54,6 +59,7 @@ Feature: Validate  Review and manage hearing information Page
 
         When I click "Save and continue"
         Then I check that the error message "Select yes if you agree to the tribunal making a decision without a hearing" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC6 @JIRA-TEST-KEY:PTSD-874
     Scenario: Verify validation when No is selected without a reason
@@ -61,3 +67,4 @@ Feature: Validate  Review and manage hearing information Page
         When I select "No" for the question "Do you agree in the tribunal making a decision without a hearing?"
         And I click "Save and continue"
         Then I check that the error message "Enter why you think a hearing is needed" is displayed on the page
+        And I check the page for accessibility issues

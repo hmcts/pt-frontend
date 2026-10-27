@@ -37,11 +37,13 @@ Feature: Validate Are you charged separately for anything else? Page
         And I select "No" for the question "Does your current tenancy replace an original tenancy?"
         And I click "Save and continue"
         Then I check that the text "Are you charged separately for anything else?" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC1 @JIRA-TEST-KEY:PTSD-838
     Scenario: Page content
 
         Then I check that the text "Such as maintenance, repairs, management costs, or something else" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC2 @JIRA-TEST-KEY:PTSD-839
     Scenario: Save and continue with Yes selected
@@ -49,6 +51,7 @@ Feature: Validate Are you charged separately for anything else? Page
         When I select "Yes" for the question "Are you charged separately for anything else?"
         And I click "Save and continue"
         Then I check that the text "Other charges (optional)" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC3 @JIRA-TEST-KEY:PTSD-840
     Scenario: Save and continue with No selected
@@ -56,9 +59,11 @@ Feature: Validate Are you charged separately for anything else? Page
         When I select "No" for the question "Are you charged separately for anything else?"
         And I click "Save and continue"
         Then I check that the text "Check your answers" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC4 @JIRA-TEST-KEY:PTSD-841
     Scenario: Validation error
 
         When I click "Save and continue"
         Then I check that the error message "Select whether you are charged separately for anything else" is displayed on the page
+        And I check the page for accessibility issues

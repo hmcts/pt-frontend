@@ -5,21 +5,25 @@ Feature: Are you applying for yourself or someone else?
   So that I can proceed through the correct journey
 
   Background:
-   Given the citizen is on the Applying For page
+    Given the citizen is on the Applying For page
+    And I check the page for accessibility issues
 
   @smoke @AC1 @JIRA-TEST-KEY:PTSD-727
   Scenario: Citizen is applying for themselves
     When the citizen selects applying for myself
     And the citizen clicks Continue
     Then the citizen is taken to the postcode triage page
+    And I check the page for accessibility issues
 
   @AC2 @JIRA-TEST-KEY:PTSD-511
   Scenario: Citizen is applying on behalf of someone else
     When the citizen selects applying on behalf of someone else
     And the citizen clicks Continue
     Then the citizen is taken to the another form guidance page
+    And I check the page for accessibility issues
 
   @AC3 @JIRA-TEST-KEY:PTSD-685
   Scenario: Citizen continues without selecting an option
     When the citizen clicks Continue
     Then the citizen sees the standard UCD validation message
+    And I check the page for accessibility issues

@@ -33,11 +33,13 @@ Feature: Is furniture provided in your tenancy
         And I click "Save and continue"
         And I click "Save and continue"
         Then I check that the text "Is furniture provided in your tenancy?" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC1 @JIRA-TEST-KEY:PTSD-806
     Scenario: Verify furniture provided page content
 
         Then I check that the text "Is furniture provided in your tenancy?" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC2 @JIRA-TEST-KEY:PTSD-807
     Scenario: Verify furniture details textarea is displayed when Yes is selected
@@ -45,6 +47,7 @@ Feature: Is furniture provided in your tenancy
         When I select "Yes" for the question "Is furniture provided in your tenancy?"
         Then I check that the text "Describe the furniture provided" is displayed on the page
         And I check that the text "Enter a list of furniture items and appliances provided in the tenancy. This may be included in your contract, sometimes called an 'inventory'." is displayed on the page
+        And I check the page for accessibility issues
 
     @AC3 @JIRA-TEST-KEY:PTSD-808
     Scenario: Verify Save and Continue with Yes selected
@@ -53,6 +56,7 @@ Feature: Is furniture provided in your tenancy
         And I enter "furniture detail included" for the question "Describe the furniture provided"
         And I click "Save and continue"
         Then I check that the text "Are any services provided in your tenancy" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC4 @JIRA-TEST-KEY:PTSD-809
     Scenario: Verify Save and Continue with No selected
@@ -60,6 +64,7 @@ Feature: Is furniture provided in your tenancy
         When I select "No" for the question "Is furniture provided in your tenancy?"
         And I click "Save and continue"
         Then I check that the text "Are any services provided in your tenancy" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC5 @JIRA-TEST-KEY:PTSD-810
     Scenario: Verify Save for Later from Furniture Provided page
@@ -68,12 +73,14 @@ Feature: Is furniture provided in your tenancy
         And I enter "furniture detail included" for the question "Describe the furniture provided"
         And I click "Save for later"
         Then check that the user is redirected to the task-list citizen dashboard page
+        And I check the page for accessibility issues
 
     @AC6 @JIRA-TEST-KEY:PTSD-810
     Scenario: Verify validation when no furniture option is selected
 
         When I click "Save and continue"
         Then I check that the error message "Select whether furniture is provided in your tenancy" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC7 @JIRA-TEST-KEY:PTSD-810
     Scenario: Verify validation when Yes selected and furniture details are blank
@@ -81,6 +88,7 @@ Feature: Is furniture provided in your tenancy
         When I select "Yes" for the question "Is furniture provided in your tenancy?"
         And I click "Save and continue"
         Then I check that the error message "Enter what furniture is provided in your tenancy" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC8 @JIRA-TEST-KEY:PTSD-810
     Scenario: Verify validation when furniture details are below minimum length
@@ -89,3 +97,4 @@ Feature: Is furniture provided in your tenancy
         And I enter "A" for the question "Describe the furniture provided"
         And I click "Save and continue"
         Then I check that the error message "Details about furniture provided must be 2 characters or more" is displayed on the page
+        And I check the page for accessibility issues
