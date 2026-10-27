@@ -1,3 +1,4 @@
+import { getTextLenghtError } from '../../../../utils/fieldValidators';
 import { flowConfig } from '../../../flow.config';
 
 import { createFormStep, getFormData } from '@modules/steps';
@@ -46,6 +47,10 @@ export const step: StepDefinition = createFormStep({
               maxLength: 500,
               translationKey: { label: `${detailsFieldName}.label` },
               errorMessage: `errors.${detailsFieldName}.required`,
+              validator: (value: unknown): boolean | string =>
+                getTextLenghtError(value as string, 2, 500) === 'tooShort'
+                  ? `errors.${detailsFieldName}.tooShort`
+                  : true,
             },
           },
         },

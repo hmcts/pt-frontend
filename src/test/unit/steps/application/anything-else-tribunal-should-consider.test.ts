@@ -54,6 +54,24 @@ describe('application anything-else-tribunal-should-consider step', () => {
     });
   });
 
+  // The required and 500 character checks are handled by the form builder, so this covers the minimum.
+  describe('details validator', () => {
+    const validate = (value: unknown): boolean | string =>
+      capturedConfig.fields[0].options[0].subFields[DETAILS].validator(value);
+
+    it('rejects a single character with the minimum length message', () => {
+      expect(validate('a')).toBe(`errors.${DETAILS}.tooShort`);
+    });
+
+    it('accepts two characters', () => {
+      expect(validate('ab')).toBe(true);
+    });
+
+    it('leaves an over-long answer to the 500 character check', () => {
+      expect(validate('a'.repeat(501))).toBe(true);
+    });
+  });
+
   describe('beforeRedirect', () => {
     it('clears the details when the answer is no', () => {
       const stepData = { [FIELD]: 'No', [DETAILS_KEY]: 'Left over' };

@@ -6,7 +6,8 @@
   },
   "errors": {
     "additionalInfoToConsiderWhenDeterminingRentDetails": {
-      "required": "cyEnter what you want the tribunal to consider"
+      "required": "cyEnter what you want the tribunal to consider",
+      "tooShort": "cyWhat you want the tribunal to consider must be 2 characters or more"
     },
     "additionalInfoToConsiderWhenDeterminingRentDetailsMaxLength": "cyWhat you want the tribunal to consider must be 500 characters or less"
   }
