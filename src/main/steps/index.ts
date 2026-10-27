@@ -1,9 +1,13 @@
 import type { Request, RequestHandler } from 'express';
 
+import { requireCaseRole } from '../middleware/requireCaseRole';
+
 import { flowConfig as applicationFlowConfig } from './application/flow.config';
 import { stepRegistry as applicationStepRegistry } from './application/stepRegistry';
 import { flowConfig as landlordResponseFlowConfig } from './landlord-response/flow.config';
 import { stepRegistry as landlordResponseStepRegistry } from './landlord-response/stepRegistry';
+import { flowConfig as linkPartyToCaseFlowConfig } from './link-party-to-case/flow.config';
+import { stepRegistry as linkPartyToCaseStepRegistry } from './link-party-to-case/stepRegistry';
 import { flowConfig as newApplicationFlowConfig } from './new-application/flow.config';
 import { stepRegistry as newApplicationStepRegistry } from './new-application/stepRegistry';
 import { flowConfig as preApplicationFlowConfig } from './pre-application/flow.config';
@@ -13,6 +17,7 @@ import { Logger } from '@modules/logger';
 import { getStepOrder } from '@modules/steps/flow';
 import type { JourneyFlowConfig } from '@modules/steps/stepFlow.interface';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { CaseRole } from '@services/ccd/ccdCase.interface';
 import { validateSectionConfig } from '@services/sectionStatus';
 
 const logger = Logger.getLogger('steps');
@@ -48,9 +53,18 @@ export const journeyRegistry: Record<string, JourneyConfig> = {
       stepRegistry: newApplicationStepRegistry,
     },
   },
+  linkPartyToCase: {
+    name: 'linkPartyToCase',
+    slug: 'linkPartyToCase',
+    default: {
+      flowConfig: linkPartyToCaseFlowConfig,
+      stepRegistry: linkPartyToCaseStepRegistry,
+    },
+  },
   application: {
     name: 'application',
     slug: 'application',
+    routeMiddleware: [requireCaseRole(CaseRole.CREATOR)],
     default: {
       flowConfig: applicationFlowConfig,
       stepRegistry: applicationStepRegistry,

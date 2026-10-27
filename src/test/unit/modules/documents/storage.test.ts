@@ -1,7 +1,7 @@
 import type { Request } from 'express';
 
 import { deleteDocumentById, readAllDocuments, readDocuments, saveDocuments } from '@modules/documents/storage';
-import { getCaseApi } from '@services/ccdApiClient';
+import { getCaseApi } from '@services/ccd/ccdApiClient';
 import { getPtApi } from '@services/ptApi/ptApiClient';
 
 jest.mock('@modules/logger', () => ({
@@ -9,7 +9,7 @@ jest.mock('@modules/logger', () => ({
     getLogger: jest.fn(() => ({ error: jest.fn(), info: jest.fn(), warn: jest.fn(), debug: jest.fn() })),
   },
 }));
-jest.mock('@services/ccdApiClient');
+jest.mock('@services/ccd/ccdApiClient');
 jest.mock('@services/ptApi/ptApiClient');
 
 const mockedGetCaseApi = getCaseApi as jest.MockedFunction<typeof getCaseApi>;

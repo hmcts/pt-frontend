@@ -3,7 +3,7 @@ import config from 'config';
 
 import { requireServiceAuthToken } from '../../auth/service/get-service-auth-token';
 import { UserDetails } from '../../auth/user/oidc';
-import { PTCaseData } from '../ccdCase.interface';
+import { PTCaseData } from '../ccd/ccdCase.interface';
 
 import { Logger } from '@modules/logger';
 
@@ -28,6 +28,15 @@ export class PtApiClient {
       return response.data;
     } catch (err) {
       logger.error('Failed to get application by case reference', err, { caseReference });
+      throw err;
+    }
+  }
+
+  async linkPartyToCase(caseReference: string, accessCode: string): Promise<void> {
+    try {
+      await this.client.post<void>(`/cases/${caseReference}/validate-access-code`, { accessCode });
+    } catch (err) {
+      logger.error(`Could not link respondent to case ${caseReference}`, err);
       throw err;
     }
   }

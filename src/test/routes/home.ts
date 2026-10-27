@@ -150,4 +150,24 @@ describe('Routes', () => {
         });
     });
   });
+
+  describe('404 page', () => {
+    test('should render the page-not-found error page in English by default', async () => {
+      await request(app)
+        .get('/page-that-doesnt-exist')
+        .expect(res => {
+          expect(res.status).to.equal(404);
+          expect(res.text).to.include('Page not found');
+        });
+    });
+
+    test('should render the page-not-found error page in Welsh when lang=cy', async () => {
+      await request(app)
+        .get('/page-that-doesnt-exist?lang=cy')
+        .expect(res => {
+          expect(res.status).to.equal(404);
+          expect(res.text).to.include('cyPage not found');
+        });
+    });
+  });
 });

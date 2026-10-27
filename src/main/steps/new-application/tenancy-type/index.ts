@@ -4,8 +4,8 @@ import { flowConfig } from '../flow.config';
 
 import { clearFormData, createFormStep, getFormData } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { getCaseApi } from '@services/ccdApiClient';
-import { CcdCaseData } from '@services/ccdCase.interface';
+import { getCaseApi } from '@services/ccd/ccdApiClient';
+import { CcdCaseData } from '@services/ccd/ccdCase.interface';
 
 const journeyName = 'newApplication';
 const stepName = 'tenancy-type';

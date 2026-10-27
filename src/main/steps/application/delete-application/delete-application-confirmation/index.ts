@@ -4,7 +4,7 @@ import { flowConfig } from '../../flow.config';
 
 import { clearFormData, createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { getCaseApi } from '@services/ccdApiClient';
+import { getCaseApi } from '@services/ccd/ccdApiClient';
 
 const journeyName = 'deleteApplication';
 const stepName = 'delete-application-confirmation';
