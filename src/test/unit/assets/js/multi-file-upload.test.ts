@@ -8,10 +8,12 @@ import { initMultiFileUpload } from '../../../../main/assets/js/multi-file-uploa
 jest.mock('@ministryofjustice/frontend', () => ({
   MultiFileUpload: jest.fn().mockImplementation(function (this: Record<string, unknown>) {
     this.uploadFile = jest.fn();
+    this.getDeleteButton = jest.fn();
   }),
 }));
 
 const mockedMultiFileUpload = MultiFileUpload as unknown as jest.Mock;
+const MiB = 1024 * 1024;
 
 const UPLOAD_URL = '/1234123412341234/documents/floorPlanDocument/upload';
 const DELETE_URL = '/1234123412341234/documents/floorPlanDocument/delete';
@@ -48,18 +50,23 @@ const render = (serverErrorSummary = false, multiple = false): void => {
                  data-upload-url="${UPLOAD_URL}"
                  data-delete-url="${DELETE_URL}"
                  data-accept=".pdf,.jpg"
-                 data-max-file-size-mb="25"
+                 data-max-file-size-bytes="${25 * MiB}"
                  data-max-filename-length="255"
+                 data-max-files="${multiple ? 3 : 1}"
                  data-error-wrong-file-type="This file type is not accepted"
                  data-error-file-too-large="This file is too large"
+                 data-error-file-empty="The selected file is empty"
                  data-error-filename-too-long="This file name is too long"
                  data-error-delete="This file could not be removed"
                  data-error-only-one-file="You can only upload one file"
+                 data-error-too-many-files="You can only select up to 3 files at the same time"
                  data-error-remove-file-first="Remove the uploaded file before adding another"
                  data-error-summary-title="There is a problem"
                  data-error-prefix="Error:"
                  data-choose-file-text="Choose file"
                  data-drop-file-text="or drop file"
+                 data-no-file-chosen-text="No file chosen"
+                 data-delete-button-text="Remove"
                  data-multiple="${multiple}">
               <div class="govuk-form-group">
                 <label class="govuk-label" for="documents">Upload a floor plan</label>
@@ -136,7 +143,7 @@ describe('initMultiFileUpload', () => {
     });
 
     it('reports a file over the size cap', () => {
-      upload(fileOf('floor-plan.pdf', 26 * 1024 * 1024));
+      upload(fileOf('floor-plan.pdf', 26 * MiB));
 
       expect(summaryMessages()).toEqual(['This file is too large']);
       expect(uploaded()).not.toHaveBeenCalled();
@@ -146,6 +153,13 @@ describe('initMultiFileUpload', () => {
       upload(fileOf(`${'a'.repeat(256)}.exe`));
 
       expect(summaryMessages()).toEqual(['This file name is too long']);
+    });
+
+    it('reports an empty file', () => {
+      upload(fileOf('floor-plan.pdf', 0));
+
+      expect(summaryMessages()).toEqual(['The selected file is empty']);
+      expect(uploaded()).not.toHaveBeenCalled();
     });
 
     it('uploads an acceptable file without an error', () => {
@@ -172,27 +186,27 @@ describe('initMultiFileUpload', () => {
       render();
       container().dataset.accept = '.pdf,.mp4';
       container().dataset.extensionLimits = JSON.stringify({
-        '.mp4': { maxFileSizeMB: 100, error: 'The selected file must be smaller than 100MB' },
+        '.mp4': { maxFileSizeBytes: 100 * MiB, error: 'The selected file must be smaller than 100MB' },
       });
       initMultiFileUpload();
     });
 
     it('uploads a file of that type over the default cap', () => {
-      upload(fileOf('clip.mp4', 99_000_000));
+      upload(fileOf('clip.mp4', 99 * MiB));
 
       expect(summary()).toBeNull();
       expect(uploaded()).toHaveBeenCalledTimes(1);
     });
 
     it('reports a file over its own cap with that cap in the message', () => {
-      upload(fileOf('clip.mp4', 104_000_000));
+      upload(fileOf('clip.mp4', 100 * MiB + 1));
 
       expect(summaryMessages()).toEqual(['The selected file must be smaller than 100MB']);
       expect(uploaded()).not.toHaveBeenCalled();
     });
 
     it('holds other types to the default cap', () => {
-      upload(fileOf('floor-plan.pdf', 26_000_000));
+      upload(fileOf('floor-plan.pdf', 25 * MiB + 1));
 
       expect(summaryMessages()).toEqual(['This file is too large']);
       expect(uploaded()).not.toHaveBeenCalled();
@@ -257,6 +271,33 @@ describe('initMultiFileUpload', () => {
       expect(uploaded()).not.toHaveBeenCalled();
     });
 
+    it.each([
+      ['missing', undefined],
+      ['not a number', 'abc'],
+      ['higher than one', '5'],
+    ])('refuses several files at once whatever the file limit attribute is (%s)', (_case, value) => {
+      jest.clearAllMocks();
+      render();
+      if (value === undefined) {
+        container().removeAttribute('data-max-files');
+      } else {
+        container().dataset.maxFiles = value;
+      }
+      initMultiFileUpload();
+
+      upload(fileOf('one.pdf'), fileOf('two.pdf'));
+
+      expect(summaryMessages()).toEqual(['You can only upload one file']);
+      expect(uploaded()).not.toHaveBeenCalled();
+    });
+
+    it('accepts a single file', () => {
+      upload(fileOf('floor-plan.pdf'));
+
+      expect(summary()).toBeNull();
+      expect(uploaded()).toHaveBeenCalledTimes(1);
+    });
+
     it('refuses a second file once one is uploaded, and says to remove it first', () => {
       uploadedRow();
 
@@ -294,6 +335,19 @@ describe('initMultiFileUpload', () => {
 
       expect(summary()).toBeNull();
       expect(uploaded()).toHaveBeenCalledTimes(3);
+    });
+
+    it('accepts as many files at once as the field allows', () => {
+      upload(fileOf('one.pdf'), fileOf('two.pdf'), fileOf('three.pdf'));
+
+      expect(uploaded()).toHaveBeenCalledTimes(3);
+    });
+
+    it('refuses more files at once than the field allows and uploads none of them', () => {
+      upload(fileOf('one.pdf'), fileOf('two.pdf'), fileOf('three.pdf'), fileOf('four.pdf'));
+
+      expect(summaryMessages()).toEqual(['You can only select up to 3 files at the same time']);
+      expect(uploaded()).not.toHaveBeenCalled();
     });
 
     it('keeps accepting files after one is uploaded', () => {
@@ -436,6 +490,84 @@ describe('initMultiFileUpload', () => {
 
       expect(config.dropzoneButtonText).toBe('Choose file');
       expect(config.dropzoneHintText).toBe('or drop file');
+    });
+  });
+
+  describe('the no file chosen status', () => {
+    const status = (): HTMLElement => document.querySelector('.pt-file-upload-status') as HTMLElement;
+
+    it('shows the text from the page above the button when nothing is uploaded', () => {
+      expect(status().textContent).toBe('No file chosen');
+      expect(status().classList).not.toContain('moj-hidden');
+      expect(document.querySelector('.moj-multi-file-upload__dropzone')?.firstElementChild).toBe(status());
+    });
+
+    it('starts hidden when the page already lists a document', () => {
+      jest.clearAllMocks();
+      render();
+      uploadedRow();
+      initMultiFileUpload();
+
+      expect(status().classList).toContain('moj-hidden');
+    });
+
+    it('hides once a document is uploaded', () => {
+      uploadedRow();
+      hooksOf().exitHook(null, fileOf('floor-plan.pdf'), jsonXhr({}, 200), 'OK');
+
+      expect(status().classList).toContain('moj-hidden');
+    });
+
+    it('shows again once the last document is removed', () => {
+      const row = uploadedRow();
+      hooksOf().exitHook(null, fileOf('floor-plan.pdf'), jsonXhr({}, 200), 'OK');
+
+      row.remove();
+      hooksOf().deleteHook(null, undefined, jsonXhr(null, 200), 'OK');
+
+      expect(status().classList).not.toContain('moj-hidden');
+    });
+
+    it('falls back to English when the page gives no text', () => {
+      jest.clearAllMocks();
+      render();
+      container().removeAttribute('data-no-file-chosen-text');
+      initMultiFileUpload();
+
+      expect(status().textContent).toBe('No file chosen');
+    });
+  });
+
+  describe('the button on a newly uploaded row', () => {
+    const deleteButtonFor = (file: { filename: string; originalname: string }): HTMLButtonElement =>
+      (
+        mockedMultiFileUpload.mock.instances[0] as unknown as {
+          getDeleteButton: (f: typeof file) => HTMLButtonElement;
+        }
+      ).getDeleteButton(file);
+
+    it('uses the page text rather than the component default, matching rows drawn on page load', () => {
+      const button = deleteButtonFor({ filename: '7', originalname: 'floor-plan.pdf' });
+
+      expect(button.firstChild?.textContent).toBe('Remove');
+      expect(button.value).toBe('7');
+      expect(button.classList).toContain('moj-multi-file-upload__delete');
+      expect(button.querySelector('.govuk-visually-hidden')?.textContent).toBe(' floor-plan.pdf');
+    });
+
+    it('treats the file name as text, not markup', () => {
+      const button = deleteButtonFor({ filename: '7', originalname: '<img src=x>.pdf' });
+
+      expect(button.querySelector('img')).toBeNull();
+    });
+
+    it('falls back to Remove when the page gives no text', () => {
+      jest.clearAllMocks();
+      render();
+      container().removeAttribute('data-delete-button-text');
+      initMultiFileUpload();
+
+      expect(deleteButtonFor({ filename: '7', originalname: 'a.pdf' }).firstChild?.textContent).toBe('Remove');
     });
   });
 

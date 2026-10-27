@@ -3,7 +3,7 @@ import { flowConfig } from '../../../flow.config';
 
 import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { PTCaseData } from '@services/ccdCase.interface';
+import { PTCaseData } from '@services/ccd/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'proposed-market-rent-reasons';
@@ -47,9 +47,11 @@ export const step: StepDefinition = createFormStep({
   },
 });
 
+// pt-api returns null for a question that has not been visited, and an empty string once it has been saved blank.
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (ccdCase?.marketRentDetails?.applicantSuggestedMarketRentReasons === undefined) {
+  const reasons: unknown = ccdCase?.marketRentDetails?.applicantSuggestedMarketRentReasons;
+  if (typeof reasons !== 'string') {
     return false;
   }
-  return textAreaIsValidLength(ccdCase?.marketRentDetails?.applicantSuggestedMarketRentReasons, maxLength);
+  return textAreaIsValidLength(reasons, maxLength);
 }

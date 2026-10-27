@@ -1,7 +1,7 @@
 import { Request } from 'express';
 
 import { getFormData, getFormDataString } from '@modules/steps/formBuilder/helpers';
-import { PTCaseData } from '@services/ccdCase.interface';
+import { PTCaseData } from '@services/ccd/ccdCase.interface';
 import { toCaseReference16 } from '@utils/caseReference';
 
 type DateParts = { day?: string; month?: string; year?: string };

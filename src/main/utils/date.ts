@@ -1,5 +1,11 @@
-export function formatDate(isoString: string): string {
+export function formatDate(isoString: string | undefined): string | undefined {
+  if (!isoString) {
+    return undefined;
+  }
   const date = new Date(isoString);
+  if (Number.isNaN(date.getTime())) {
+    return undefined;
+  }
 
   return new Intl.DateTimeFormat('en-GB', {
     day: '2-digit',

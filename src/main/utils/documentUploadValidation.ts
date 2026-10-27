@@ -27,6 +27,11 @@ export const acceptedExtensions = (extraExtensions: readonly string[] = []): rea
 export const acceptAttributeFor = (extraExtensions: readonly string[] = []): string =>
   acceptedExtensions(extraExtensions).join(',');
 
+export const fileTypesFor = (extraExtensions: readonly string[] = [], or = 'or'): string => {
+  const types = acceptedExtensions(extraExtensions).map(extension => extension.slice(1).toUpperCase());
+  return `${types.slice(0, -1).join(', ')} ${or} ${types[types.length - 1]}`;
+};
+
 const ALLOWED_MIME_TYPES = new Set([
   'application/msword',
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -56,8 +61,9 @@ export const maxFileSizeMB = (fieldMaxMB?: number): number =>
   fieldMaxMB ?? asNumber('documentUpload.maxFileSizeMB', 25);
 export const maxTotalFileSizeMB = (): number => asNumber('documentUpload.maxTotalFileSizeMB', 300);
 export const maxFilenameLength = (): number => asNumber('documentUpload.maxFilenameLength', 255);
+export const maxFilesPerUpload = (): number => asNumber('documentUpload.maxFilesPerUpload', 3);
 
-const BYTES_PER_MB = 1000 * 1000;
+const BYTES_PER_MB = 1024 * 1024;
 
 export const maxFileSizeBytes = (fieldMaxMB?: number): number => maxFileSizeMB(fieldMaxMB) * BYTES_PER_MB;
 export const maxTotalFileSizeBytes = (): number => maxTotalFileSizeMB() * BYTES_PER_MB;
@@ -72,6 +78,7 @@ export type UploadValidationError =
   | 'filenameTooLong'
   | 'fileTooLarge'
   | 'totalTooLarge'
+  | 'fileEmpty'
   | 'noFileSelected';
 
 export const validateFileType = (
@@ -105,6 +112,9 @@ export const validateUploadedFile = (
   const typeError = validateFileType(file.originalname, file.mimetype, limits.extraExtensions);
   if (typeError) {
     return typeError;
+  }
+  if (file.size === 0) {
+    return 'fileEmpty';
   }
   if (file.size > (limits.maxBytes ?? maxFileSizeBytes())) {
     return 'fileTooLarge';

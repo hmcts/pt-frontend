@@ -2,7 +2,7 @@ import { flowConfig } from '../../../flow.config';
 
 import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { PTCaseData } from '@services/ccdCase.interface';
+import { PTCaseData } from '@services/ccd/ccdCase.interface';
 import { isValidPhoneNumber } from '@utils/phoneNumber';
 
 const journeyName = 'application';

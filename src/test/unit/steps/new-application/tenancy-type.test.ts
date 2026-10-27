@@ -4,7 +4,7 @@ import { step } from '../../../../main/steps/new-application/tenancy-type';
 
 import { DRAFT_SCOPE, validateForm } from '@modules/steps';
 
-jest.mock('@services/ccdApiClient', () => {
+jest.mock('@services/ccd/ccdApiClient', () => {
   const createCaseMock = jest.fn(() => ({
     id: '1234123412341234',
     state: 'AWAITING_SUBMISSION_TO_HMCTS',
@@ -20,7 +20,7 @@ jest.mock('@services/ccdApiClient', () => {
   };
 });
 
-const { getCaseApi: getCaseApiMock, __createCaseMock: createCaseMock } = jest.requireMock('@services/ccdApiClient');
+const { getCaseApi: getCaseApiMock, __createCaseMock: createCaseMock } = jest.requireMock('@services/ccd/ccdApiClient');
 
 jest.mock('../../../../main/modules/steps/i18n', () => ({
   loadStepNamespace: jest.fn(),

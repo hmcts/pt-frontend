@@ -3,7 +3,6 @@
   "compilerOptions": {
     "baseUrl": "../main",
     "paths": {
-      "@router/*": ["router/*"],
       "@routes/*": ["routes/*"],
       "@modules/*": ["modules/*"],
       "@services/*": ["services/*"],

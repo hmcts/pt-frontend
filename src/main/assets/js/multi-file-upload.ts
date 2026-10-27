@@ -1,6 +1,5 @@
 import { MultiFileUpload } from '@ministryofjustice/frontend';
 
-const MB = 1000 * 1000;
 const ERROR_SUMMARY_TITLE_ID = 'upload-error-summary-title';
 
 interface UploadContainer extends HTMLElement {
@@ -18,7 +17,7 @@ const extensionOf = (filename: string): string => {
 };
 
 interface ExtensionLimit {
-  maxFileSizeMB: number;
+  maxFileSizeBytes: number;
   error: string;
 }
 
@@ -147,10 +146,16 @@ const clearInlineError = (container: HTMLElement): void => {
 
 // onFileChange and onDrop reveal the list before the file is checked, so a rejected file leaves
 // the heading on its own.
+const syncStatusVisibility = (container: HTMLElement): void => {
+  const rows = container.querySelectorAll('.moj-multi-file-upload__row').length;
+  container.querySelector('.pt-file-upload-status')?.classList.toggle('moj-hidden', rows > 0);
+};
+
 const syncFeedbackVisibility = (container: HTMLElement): void => {
   const feedback = container.querySelector('.moj-multi-file__uploaded-files');
   const rows = container.querySelectorAll('.moj-multi-file-upload__row').length;
   feedback?.classList.toggle('moj-hidden', rows === 0);
+  syncStatusVisibility(container);
 };
 
 const removeFailedRows = (container: HTMLElement): void => {
@@ -218,9 +223,10 @@ export const initMultiFileUpload = (): MultiFileUpload[] => {
     }
 
     const accepted = (container.dataset.accept ?? '').split(',').filter(Boolean);
-    const maxFileSizeMB = Number(container.dataset.maxFileSizeMb ?? 0);
+    const maxFileSizeBytes = Number(container.dataset.maxFileSizeBytes ?? 0);
     const extensionLimits = parseExtensionLimits(container.dataset.extensionLimits);
     const maxFilenameLength = Number(container.dataset.maxFilenameLength ?? 0);
+    const maxFiles = Number(container.dataset.maxFiles ?? 0);
 
     const preflight = (file: File): string | undefined => {
       if (maxFilenameLength && file.name.length > maxFilenameLength) {
@@ -229,9 +235,12 @@ export const initMultiFileUpload = (): MultiFileUpload[] => {
       if (accepted.length && !accepted.includes(extensionOf(file.name))) {
         return container.dataset.errorWrongFileType;
       }
+      if (file.size === 0) {
+        return container.dataset.errorFileEmpty;
+      }
       const extensionLimit = extensionLimits[extensionOf(file.name)];
-      const limitMB = extensionLimit?.maxFileSizeMB ?? maxFileSizeMB;
-      if (limitMB && file.size > limitMB * MB) {
+      const limitBytes = extensionLimit?.maxFileSizeBytes ?? maxFileSizeBytes;
+      if (limitBytes && file.size > limitBytes) {
         return extensionLimit?.error ?? container.dataset.errorFileTooLarge;
       }
       return undefined;
@@ -283,6 +292,9 @@ export const initMultiFileUpload = (): MultiFileUpload[] => {
           showError(container, container.dataset.errorOnlyOneFile ?? '');
           return;
         }
+      } else if (maxFiles && batch.length > maxFiles) {
+        showError(container, container.dataset.errorTooManyFiles ?? '');
+        return;
       }
 
       for (const file of batch) {
@@ -295,12 +307,41 @@ export const initMultiFileUpload = (): MultiFileUpload[] => {
       }
     };
 
+    // getDeleteButton() hardcodes 'Delete', while the rows rendered on page load use the page's own text.
+    const deleteButtonText = container.dataset.deleteButtonText ?? 'Remove';
+    instance.getDeleteButton = (file: { filename: string; originalname: string }): HTMLButtonElement => {
+      const hidden = document.createElement('span');
+      hidden.className = 'govuk-visually-hidden';
+      hidden.textContent = ` ${file.originalname}`;
+
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.name = 'delete';
+      button.value = file.filename;
+      button.classList.add(
+        'moj-multi-file-upload__delete',
+        'govuk-button',
+        'govuk-button--secondary',
+        'govuk-!-margin-bottom-0'
+      );
+      button.replaceChildren(document.createTextNode(deleteButtonText), hidden);
+      return button;
+    };
+
     // setupLabel() appends the hint before the button, and its right margin assumes that order.
     const dropzone = container.querySelector('.moj-multi-file-upload__dropzone');
     const hint = dropzone?.querySelector('p');
     if (dropzone && hint) {
       dropzone.append(hint);
       hint.classList.add('govuk-!-margin-right-0', 'govuk-!-margin-left-2');
+    }
+
+    if (dropzone) {
+      const status = document.createElement('span');
+      status.className = 'pt-file-upload-status';
+      status.textContent = container.dataset.noFileChosenText ?? 'No file chosen';
+      dropzone.prepend(status);
+      syncStatusVisibility(container);
     }
 
     instances.push(instance);

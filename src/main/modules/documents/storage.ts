@@ -3,9 +3,9 @@ import type { Request } from 'express';
 import { DOCUMENT_FIELDS, type DocumentFieldDefinition, documentFieldFor } from './documentFields';
 
 import { Logger } from '@modules/logger';
-import { getCaseApi } from '@services/ccdApiClient';
-import { CITIZEN_DELETE_DOCUMENT, CITIZEN_UPLOAD_DOCUMENT } from '@services/ccdCase.interface';
-import type { CdamDocument } from '@services/documentUpload.interface';
+import { getCaseApi } from '@services/ccd/ccdApiClient';
+import { CITIZEN_DELETE_DOCUMENT, CITIZEN_UPLOAD_DOCUMENT } from '@services/ccd/ccdCase.interface';
+import type { CdamDocument } from '@services/cdam/documentUpload.interface';
 import { getPtApi } from '@services/ptApi/ptApiClient';
 
 const logger = Logger.getLogger('documentStorage');
