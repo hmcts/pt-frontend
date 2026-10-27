@@ -12,6 +12,7 @@ import type {
 } from '@modules/steps/formBuilder/formFieldConfig.interface';
 import {
   acceptAttributeFor,
+  fileTypesFor,
   maxFileSizeBytes,
   maxFileSizeMB,
   maxFilenameLength,
@@ -263,8 +264,10 @@ export function buildComponentConfig({
       component.classes = field.classes || 'govuk-file-upload';
       component.uploadButtonText = t('documentUpload.uploadButton', 'Upload file');
       component.filesAddedHeading = t('documentUpload.filesAddedHeading', 'Files added');
-      component.deleteButtonText = t('documentUpload.deleteButton', 'Delete');
-      component.errorWrongFileType = t('errors.documentUpload.wrongFileType', 'This file type is not accepted');
+      component.deleteButtonText = t('documentUpload.deleteButton', 'Remove');
+      component.errorWrongFileType = t('errors.documentUpload.wrongFileType', 'This file type is not accepted', {
+        fileTypes: fileTypesFor(Object.keys(field.extraExtensions ?? {}), t('errors.documentUpload.or', 'or')),
+      });
       component.errorFileTooLarge = t('errors.documentUpload.fileTooLarge', 'This file is too large', {
         maxFileSize: maxFileSizeMB(field.maxFileSize),
       });
@@ -285,6 +288,7 @@ export function buildComponentConfig({
       component.errorPrefix = t('errors.prefix', 'Error:');
       component.chooseFileText = t('documentUpload.chooseFile', 'Choose file');
       component.dropFileText = t('documentUpload.dropFile', 'or drop file');
+      component.noFileChosenText = t('documentUpload.noFileChosen', 'No file chosen');
       component.errorOnlyOneFile = t('errors.documentUpload.onlyOneFile', 'You can only upload one file');
       component.errorTooManyFiles = t(
         'errors.documentUpload.tooManyFiles',
