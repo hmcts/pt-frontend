@@ -13,12 +13,7 @@ async function usePlaywrightPage(action: (page: import('playwright').Page) => Pr
 }
 
 async function acceptCookiesIfPresent(): Promise<void> {
-  await usePlaywrightPage(async page => {
-    const acceptCookies = page.getByRole('button', { name: idamLogin.acceptAdditionalCookiesButton });
-    if ((await acceptCookies.count()) > 0) {
-      await acceptCookies.click();
-    }
-  });
+  await usePlaywrightPage(dismissCookieBanner);
 }
 
 export async function verifyRedirectedToPtUI(): Promise<void> {
@@ -48,7 +43,7 @@ async function openIdamLoginFromPt(): Promise<void> {
 }
 
 function buildIdamLoginUrl(): string {
-  const idamLoginUrl = new URL('/o/authorize', 'https://idam-web-public.aat.platform.hmcts.net');
+  const idamLoginUrl = new URL('/o/authorize', idamLogin.idamOrigin);
   idamLoginUrl.searchParams.set('client_id', 'pt-frontend');
   idamLoginUrl.searchParams.set('response_type', 'code');
   idamLoginUrl.searchParams.set('redirect_uri', new URL('/oauth2/callback', testConfig.TEST_URL).toString());
@@ -58,16 +53,28 @@ function buildIdamLoginUrl(): string {
 
 async function dismissCookieBanner(page: import('playwright').Page): Promise<void> {
   const acceptCookies = page.getByRole('button', { name: idamLogin.acceptAdditionalCookiesButton });
-  if ((await acceptCookies.count()) === 0) {
+  if ((await acceptCookies.count()) > 0 && (await acceptCookies.first().isVisible())) {
+    await acceptCookies.first().click();
+  }
+
+  const hideMessage = page.getByRole('button', { name: idamLogin.hideCookieMessageButton });
+  if ((await hideMessage.count()) > 0 && (await hideMessage.first().isVisible())) {
+    await hideMessage.first().click();
+  }
+}
+
+async function continueToEmailStep(page: import('playwright').Page): Promise<void> {
+  const emailField = page.getByRole('textbox', { name: idamLogin.emailAddressLabel, exact: true });
+  if (isPtHost(page.url()) || (await emailField.isVisible().catch(() => false))) {
     return;
   }
 
-  const button = acceptCookies.first();
-  if (!(await button.isVisible())) {
+  const signIn = page.getByRole('button', { name: idamLogin.signInButton, exact: true });
+  if ((await signIn.count()) === 0 || !(await signIn.first().isVisible())) {
     return;
   }
 
-  await button.click();
+  await signIn.first().click();
 }
 
 // An existing IDAM session shows the sign-in form and then redirects back to PT.
@@ -85,6 +92,11 @@ async function resolveSignInTarget(page: import('playwright').Page): Promise<'fo
   }
 
   await dismissCookieBanner(page);
+  if (isPtHost(page.url())) {
+    return 'pt';
+  }
+
+  await continueToEmailStep(page);
   if (isPtHost(page.url())) {
     return 'pt';
   }
@@ -162,6 +174,10 @@ async function fillSignInForm(
     if (isPtHost(page.url())) {
       return 'pt';
     }
+    await clickButtonOrLink(page, idamLogin.continueButton);
+    if (isPtHost(page.url())) {
+      return 'pt';
+    }
     await fillFieldByLabel(page, idamLogin.passwordLabel, password);
   } catch (error) {
     if (isPtHost(page.url())) {
@@ -199,12 +215,12 @@ export async function submitSignInCredentials(
     if (options?.waitForPtRedirect) {
       // Start waiting before the click so a fast OAuth redirect is not missed.
       const redirected = waitForPtRedirect(page);
-      await clickButtonOrLink(page, idamLogin.signInButton, { waitForLoad: false });
+      await clickButtonOrLink(page, idamLogin.continueButton, { waitForLoad: false });
       await redirected;
       return;
     }
 
-    await clickButtonOrLink(page, idamLogin.signInButton);
+    await clickButtonOrLink(page, idamLogin.continueButton);
   });
 }
 
@@ -222,7 +238,7 @@ Given('a user wants to log in to PT', () => {
 });
 
 Given('the user navigates to PT url', () => {
-  // PT AAT currently sends unauthenticated users straight to IDAM.
+  // Unauthenticated users are sent to the HMCTS Access sign-in or create account page.
   I.amOnPage(testConfig.TEST_URL);
   I.waitInUrl(idamLogin.idamHost);
 });

@@ -1,6 +1,14 @@
+import type { Request } from 'express';
 import type { Environment } from 'nunjucks';
 
 import { step } from '../../../../main/steps/application/the-rent/the-current-rent-and-other-costs/council-tax-frequency';
+
+import { createFormStep } from '@modules/steps';
+
+jest.mock('@modules/steps', () => {
+  const actual = jest.requireActual('@modules/steps');
+  return { ...actual, createFormStep: jest.fn(actual.createFormStep) };
+});
 
 jest.mock('../../../../main/modules/steps/i18n', () => ({
   loadStepNamespace: jest.fn(),
@@ -14,13 +22,16 @@ jest.mock('../../../../main/modules/i18n', () => ({
 }));
 
 /**
- * Covers only what this step adds on top of the form builder: beforeRedirect
- * clearing the amounts and details that do not apply. Amount format rules are
- * covered by rentAmount.test.ts.
+ * Covers only what this step adds on top of the form builder. Amount format
+ * rules are covered by rentAmount.test.ts, so the validators are only checked
+ * for their wiring.
  */
 const CASE_REF = '1234123412341234';
 
 describe('application council-tax-frequency step', () => {
+  const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
+  const optionFor = (value: string) =>
+    capturedConfig.fields[0].options.find((option: { value: string }) => option.value === value);
   const nunjucksEnv = { render: jest.fn(() => '') } as unknown as Environment;
 
   const stepName = 'council-tax-frequency';
@@ -127,5 +138,81 @@ describe('application council-tax-frequency step', () => {
     expect(res.redirect).toHaveBeenCalled();
     expect(req.session.formData[CASE_REF][stepName][weeklyField]).toBe('');
     expect(req.session.formData[CASE_REF][stepName][detailsField]).toBe('');
+  });
+
+  describe('isAnswered', () => {
+    const isAnswered = (currentRentsDetails?: Record<string, unknown>): unknown =>
+      step.isAnswered?.({ session: { ccdCase: { currentRentsDetails } } } as unknown as Request);
+
+    it('is not answered when no frequency has been saved', () => {
+      expect(isAnswered()).toBe(false);
+    });
+
+    it('is answered when a frequency has been saved', () => {
+      expect(isAnswered({ councilTaxFrequency: 'other' })).toBe(true);
+    });
+  });
+
+  describe('amount validator', () => {
+    const validate = (value: unknown): boolean | string =>
+      optionFor('weekly').subFields.councilTaxCostWeekly.validator(value);
+
+    it('leaves an empty amount alone because the amount is optional', () => {
+      expect(validate('')).toBe(true);
+    });
+
+    it('accepts an amount with pence', () => {
+      expect(validate('12.50')).toBe(true);
+    });
+
+    it('returns the error key for the field matching the reason the amount is invalid', () => {
+      expect(validate('not-a-number')).toBe('errors.councilTaxCostWeekly.invalid');
+    });
+  });
+
+  describe('details validator', () => {
+    const validate = (value: unknown): boolean | string =>
+      optionFor('other').subFields.councilTaxFrequencyAndCostDetails.validator(value);
+
+    it('accepts details within the length limit', () => {
+      expect(validate('Paid quarterly')).toBe(true);
+    });
+
+    it('returns the max length error key when the details are too long', () => {
+      expect(validate('a'.repeat(501))).toBe('errors.councilTaxFrequencyAndCostDetails.maxLength');
+    });
+  });
+
+  describe('getInitialFormData', () => {
+    const makeReq = (currentRentsDetails?: Record<string, unknown>, formData: Record<string, unknown> = {}): Request =>
+      ({
+        params: { caseReference: CASE_REF },
+        session: { formData: { [CASE_REF]: formData }, ccdCase: { currentRentsDetails } },
+      }) as unknown as Request;
+
+    it('returns the saved details when other was chosen', () => {
+      const req = makeReq({ councilTaxFrequency: 'other', councilTaxFrequencyAndCostDetails: 'Paid quarterly' });
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({
+        councilTaxFrequency: 'other',
+        [detailsField]: 'Paid quarterly',
+      });
+    });
+
+    it('prefers details entered this session over the saved details', () => {
+      const req = makeReq(
+        { councilTaxFrequency: 'other', councilTaxFrequencyAndCostDetails: 'Paid quarterly' },
+        { [stepName]: { councilTaxFrequency: 'other', [detailsField]: 'Paid twice a year' } }
+      );
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({
+        councilTaxFrequency: 'other',
+        [detailsField]: 'Paid twice a year',
+      });
+    });
+
+    it('returns nothing when the question has not been answered', () => {
+      expect(capturedConfig.getInitialFormData(makeReq())).toEqual({});
+    });
   });
 });

@@ -1,0 +1,44 @@
+{
+  "pageTitle": "cyIs your landlord an individual or an organisation?",
+  "heading": "cyIs your landlord an individual or an organisation?",
+  "subheading": "cyThe landlord’s details are written on your landlord’s notice or tenancy agreement",
+  "options": {
+    "individual": {
+      "label": "cyIndividual or private landlord",
+      "hint": "cyIncluding if they’re a joint landlord"
+    },
+    "organisation": {
+      "label": "cyOrganisation",
+      "hint": "cySuch as a property company, local authority or trust"
+    }
+  },
+  "landlordFirstName": {
+    "label": "cyWhat is the landlord’s first name?"
+  },
+  "landlordLastName": {
+    "label": "cyWhat is the landlord’s last name?"
+  },
+  "landlordOrganisationName": {
+    "label": "cyWhat is the organisation’s name?"
+  },
+  "errors": {
+    "landlordIndividualOrOrganisation": {
+      "required": "cySelect whether your landlord is an individual or an organisation"
+    },
+    "landlordName": {
+      "tooShort": "cyLandlord’s full name or company name must be 2 characters or more",
+      "tooLong": "cyLandlord’s full name or company name must be 50 characters or less"
+    },
+    "landlordFirstName": {
+      "required": "cyEnter the landlord’s first name",
+      "invalid": "cyLandlord’s first name must only include letters, hyphens, apostrophes and spaces"
+    },
+    "landlordLastName": {
+      "required": "cyEnter the landlord’s last name",
+      "invalid": "cyLandlord’s last name must only include letters, hyphens, apostrophes and spaces"
+    },
+    "landlordOrganisationName": {
+      "required": "cyEnter the organisation’s name"
+    }
+  }
+}

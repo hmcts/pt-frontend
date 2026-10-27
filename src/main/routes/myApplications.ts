@@ -1,7 +1,7 @@
 import { Application, Request, Response } from 'express';
 
 import { getTranslationFunction } from '@modules/i18n';
-import { PTCaseData } from '@services/ccdCase.interface';
+import { PTCaseData } from '@services/ccd/ccdCase.interface';
 import { getPtApi } from '@services/ptApi/ptApiClient';
 import { formatDate } from '@utils/date';
 

@@ -15,6 +15,23 @@ const CASE_REF = '1234123412341234';
 describe('application proposed-market-rent step', () => {
   const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
 
+  describe('isAnswered', () => {
+    const isAnswered = (marketRentDetails?: Record<string, unknown>): boolean =>
+      capturedConfig.isAnswered({ session: { ccdCase: { marketRentDetails } } } as unknown as Request);
+
+    it('is not answered when no amount has been saved', () => {
+      expect(isAnswered()).toBe(false);
+    });
+
+    it('is answered when an amount has been saved', () => {
+      expect(isAnswered({ applicantSuggestedMarketRent: 900 })).toBe(true);
+    });
+
+    it('is answered when the saved amount is zero', () => {
+      expect(isAnswered({ applicantSuggestedMarketRent: 0 })).toBe(true);
+    });
+  });
+
   describe('extendGetContent', () => {
     // The heading asks for the rent in the frequency given in the current rent section.
     const makeReq = (formData: Record<string, unknown> = {}, currentRentsDetails?: Record<string, unknown>): Request =>

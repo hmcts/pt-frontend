@@ -1,6 +1,6 @@
 import { Request } from 'express';
 
-import { PTCaseData } from '@services/ccdCase.interface';
+import { PTCaseData } from '@services/ccd/ccdCase.interface';
 import { prepareDataForSave } from '@services/data-mapping';
 
 const CASE_REF = '1234123412341234';
