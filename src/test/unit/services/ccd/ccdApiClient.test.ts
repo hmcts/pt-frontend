@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { UserDetails } from '../../../main/auth/user/oidc';
+import { UserDetails } from '../../../../main/auth/user/oidc';
 
 import { CcdApiClient } from '@services/ccd/ccdApiClient';
 import { CITIZEN_UPDATE_CASE } from '@services/ccd/ccdCase.interface';

@@ -5389,6 +5389,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"autobind-decorator@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "autobind-decorator@npm:2.4.0"
+  checksum: 10/9e24cb18f2ca5ff0753cbf29f5616a344779bd212a79995bf9e5ab0e008c9c83772b380e88d68525e6ec08ceedb807c16d60b57f249d4e77fd4888e94a3aee21
+  languageName: node
+  linkType: hard
+
 "available-typed-arrays@npm:^1.0.7":
   version: 1.0.7
   resolution: "available-typed-arrays@npm:1.0.7"
@@ -13602,6 +13609,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:8.69.0"
     "@typescript-eslint/parser": "npm:8.69.0"
     applicationinsights: "npm:^3.15.0"
+    autobind-decorator: "npm:^2.4.0"
     axios: "npm:1.20.0"
     body-parser: "npm:^2.4.0"
     chai: "npm:4.5.0"
