@@ -126,7 +126,8 @@
     "tellUsIfYouNeedHelp": "Tell us if you are eligible for help with fees",
     "checkYourAnswersAndSubmit": "Check your answers and submit your application",
     "tenantsApplication": "Tenant's application",
-    "yourResponse": "Respond to tenant's application"
+    "yourResponse": "Respond to tenant's application",
+    "tribunalsDetermination": "View the tribunal’s open market rent decision"
   },
   "documentUpload": {
     "uploadButton": "Upload file",

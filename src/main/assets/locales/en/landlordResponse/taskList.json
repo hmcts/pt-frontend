@@ -18,7 +18,8 @@
     },
     "groups": {
       "tenantsApplication": "Tenant's application",
-      "yourResponse": "Your response"
+      "yourResponse": "Your response",
+      "tribunalsDetermination": "Tribunal's determination"
     }
   }
 }

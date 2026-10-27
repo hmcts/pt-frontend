@@ -6,6 +6,7 @@ import type { LandlordResponseStepName } from './stepRegistry';
 export const LANDLORD_RESPONSE_SECTION_GROUPS = [
   { id: 'tenantsApplication', titleKey: 'taskList.groups.tenantsApplication' },
   { id: 'yourResponse', titleKey: 'taskList.groups.yourResponse' },
+  { id: 'tribunalsDetermination', titleKey: 'taskList.groups.tribunalsDetermination' },
 ] as const;
 
 export type LandlordResponseGroupId = (typeof LANDLORD_RESPONSE_SECTION_GROUPS)[number]['id'];
@@ -22,6 +23,12 @@ const sectionDefs = [
     groupId: 'yourResponse',
     titleKey: 'taskList.yourResponse',
     steps: ['respond-to-tenants-application'],
+  },
+  {
+    id: 'tribunalsDetermination',
+    groupId: 'tribunalsDetermination',
+    titleKey: 'taskList.tribunalsDetermination',
+    steps: ['view-tribunals-determination'],
   },
 ] as const satisfies readonly {
   id: string;
