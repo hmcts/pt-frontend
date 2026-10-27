@@ -7,6 +7,8 @@ Feature: You need to use another form
     And I check the page for accessibility issues
     When the citizen selects the online application form link
     Then the citizen is taken to the online application form
+    And I check the page for accessibility issues
+    And the citizen closes the external page
 
   @AC2 @JIRA-TEST-KEY:PTSD-444
   Scenario: Citizen opens the paper application form
@@ -14,6 +16,8 @@ Feature: You need to use another form
     And I check the page for accessibility issues
     When the citizen selects the downloading the paper form link
     Then the citizen is taken to the paper application form
+    And I check the page for accessibility issues
+    And the citizen closes the external page
 
   @AC3 @JIRA-TEST-KEY:PTSD-445
   Scenario: Citizen opens the GOV.UK guidance page
@@ -21,3 +25,5 @@ Feature: You need to use another form
     And I check the page for accessibility issues
     When the citizen selects the guidance on GOV.UK link
     Then the citizen is taken to the GOV.UK guidance page
+    And I check the page for accessibility issues
+    And the citizen closes the external page
