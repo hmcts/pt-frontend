@@ -8,6 +8,7 @@ const SECRETS: Record<string, string> = {
   'pt-frontend-idam-secret': 'test-idam-secret',
   'pt-frontend-s2s-secret': 'test-s2s-secret',
   'redis-connection-string': 'redis://keyvault-redis:6379',
+  'pcq-token-key': 'test-pcq-key',
 };
 
 const SECRET_TARGETS: Record<string, string> = {
@@ -17,6 +18,7 @@ const SECRET_TARGETS: Record<string, string> = {
   'idam-system-user-password': 'idam.systemPassword',
   'pt-frontend-idam-secret': 'idam.clientSecret',
   'pt-frontend-s2s-secret': 'authProvider.secret',
+  'pcq-token-key': 'equalityAndDiversity.tokenKey',
 };
 
 const load = (secrets: Record<string, string>) => {
