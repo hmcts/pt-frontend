@@ -156,8 +156,8 @@ describe('prepareDataForSave', () => {
         session: { formData: { [CASE_REF]: formData } },
       }) as unknown as Request;
 
-    const currentRentDetailsFrom = (mapped: Record<string, unknown>): Record<string, unknown> =>
-      (mapped as { currentRentDetails: Record<string, unknown> }).currentRentDetails;
+    const rentDetailsFrom = (mapped: Record<string, unknown>): Record<string, unknown> =>
+      (mapped as { rentDetails: Record<string, unknown> }).rentDetails;
 
     it('should map the section from form data', () => {
       const mockReq = reqWith({
@@ -197,7 +197,7 @@ describe('prepareDataForSave', () => {
 
       const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
 
-      expect(currentRentDetailsFrom(mappedData)).toMatchObject({
+      expect(rentDetailsFrom(mappedData)).toMatchObject({
         tribunalPreviouslyDeterminedTenancyRent: 'Yes',
         previousTribunalCaseReference: 'LON/00AD/SMO/2023/0001',
         rentPaymentFrequency: 'monthly',
@@ -222,7 +222,7 @@ describe('prepareDataForSave', () => {
     it('should fall back to the saved case and strip the time from its dates', () => {
       const ccdCaseData = {
         caseReference: BigInt(CASE_REF),
-        currentRentsDetails: {
+        rentDetails: {
           tribunalPreviouslyDeterminedTenancyRent: 'Yes',
           previousTribunalCaseReference: 'LON/00AD/SMO/2023/0002',
           rentPaymentFrequency: 'yearly',
@@ -246,7 +246,7 @@ describe('prepareDataForSave', () => {
 
       const mappedData = prepareDataForSave(sectionId, reqWith({}), ccdCaseData);
 
-      expect(currentRentDetailsFrom(mappedData)).toMatchObject({
+      expect(rentDetailsFrom(mappedData)).toMatchObject({
         previousTribunalCaseReference: 'LON/00AD/SMO/2023/0002',
         rentPaymentFrequency: 'yearly',
         rentCostYearly: 20000,
@@ -272,7 +272,7 @@ describe('prepareDataForSave', () => {
 
       const ccdCaseData = {
         caseReference: BigInt(CASE_REF),
-        currentRentsDetails: {
+        rentDetails: {
           rentPaymentFrequency: 'yearly',
           rentCostWeekly: 999,
         },
@@ -280,7 +280,7 @@ describe('prepareDataForSave', () => {
 
       const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
 
-      expect(currentRentDetailsFrom(mappedData)).toMatchObject({
+      expect(rentDetailsFrom(mappedData)).toMatchObject({
         rentPaymentFrequency: 'weekly',
         rentCostWeekly: 150,
       });
@@ -297,7 +297,7 @@ describe('prepareDataForSave', () => {
 
       const ccdCaseData = {
         caseReference: BigInt(CASE_REF),
-        currentRentsDetails: {
+        rentDetails: {
           previousTribunalCaseReference: 'LON/00AD/SMO/2023/0001',
           councilTaxFrequency: 'weekly',
           councilTaxCostWeekly: 12,
@@ -313,20 +313,20 @@ describe('prepareDataForSave', () => {
       } as unknown as PTCaseData;
 
       const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
-      const currentRentDetails = currentRentDetailsFrom(mappedData);
+      const rentDetails = rentDetailsFrom(mappedData);
 
-      expect(currentRentDetails.tribunalPreviouslyDeterminedTenancyRent).toBe('No');
-      expect(currentRentDetails.previousTribunalCaseReference).toBeUndefined();
-      expect(currentRentDetails.councilTaxFrequency).toBeUndefined();
-      expect(currentRentDetails.councilTaxCostWeekly).toBeUndefined();
-      expect(currentRentDetails.councilTaxFrequencyAndCostDetails).toBeUndefined();
-      expect(currentRentDetails.utilitiesPaidFrequency).toBeUndefined();
-      expect(currentRentDetails.utilitiesPaidCostMonthly).toBeUndefined();
-      expect(currentRentDetails.utilitiesPaidFrequencyAndCostDetails).toBeUndefined();
-      expect(currentRentDetails.originalTenancyStartDate).toBeUndefined();
-      expect(currentRentDetails.otherHouseholdManagementChargesDetails).toBeUndefined();
-      expect(currentRentDetails.additionalRentalServiceChargesVary).toBeUndefined();
-      expect(currentRentDetails.varyingAdditionalRentalServiceChargesDetails).toBeUndefined();
+      expect(rentDetails.tribunalPreviouslyDeterminedTenancyRent).toBe('No');
+      expect(rentDetails.previousTribunalCaseReference).toBeUndefined();
+      expect(rentDetails.councilTaxFrequency).toBeUndefined();
+      expect(rentDetails.councilTaxCostWeekly).toBeUndefined();
+      expect(rentDetails.councilTaxFrequencyAndCostDetails).toBeUndefined();
+      expect(rentDetails.utilitiesPaidFrequency).toBeUndefined();
+      expect(rentDetails.utilitiesPaidCostMonthly).toBeUndefined();
+      expect(rentDetails.utilitiesPaidFrequencyAndCostDetails).toBeUndefined();
+      expect(rentDetails.originalTenancyStartDate).toBeUndefined();
+      expect(rentDetails.otherHouseholdManagementChargesDetails).toBeUndefined();
+      expect(rentDetails.additionalRentalServiceChargesVary).toBeUndefined();
+      expect(rentDetails.varyingAdditionalRentalServiceChargesDetails).toBeUndefined();
     });
 
     it('should omit the varying charges details when the charges do not vary', () => {
@@ -339,10 +339,10 @@ describe('prepareDataForSave', () => {
       });
 
       const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
-      const currentRentDetails = currentRentDetailsFrom(mappedData);
+      const rentDetails = rentDetailsFrom(mappedData);
 
-      expect(currentRentDetails.additionalRentalServiceChargesVary).toBe('No');
-      expect(currentRentDetails.varyingAdditionalRentalServiceChargesDetails).toBeUndefined();
+      expect(rentDetails.additionalRentalServiceChargesVary).toBe('No');
+      expect(rentDetails.varyingAdditionalRentalServiceChargesDetails).toBeUndefined();
     });
 
     it('should leave amounts undefined when they are empty or not numeric', () => {
@@ -355,10 +355,10 @@ describe('prepareDataForSave', () => {
       });
 
       const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
-      const currentRentDetails = currentRentDetailsFrom(mappedData);
+      const rentDetails = rentDetailsFrom(mappedData);
 
-      expect(currentRentDetails.rentCostWeekly).toBeUndefined();
-      expect(currentRentDetails.rentCostMonthly).toBeUndefined();
+      expect(rentDetails.rentCostWeekly).toBeUndefined();
+      expect(rentDetails.rentCostMonthly).toBeUndefined();
     });
 
     it('should leave dates undefined when any part is missing', () => {
@@ -368,7 +368,7 @@ describe('prepareDataForSave', () => {
 
       const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
 
-      expect(currentRentDetailsFrom(mappedData).currentTenancyStartDate).toBeUndefined();
+      expect(rentDetailsFrom(mappedData).currentTenancyStartDate).toBeUndefined();
     });
   });
 
@@ -381,8 +381,8 @@ describe('prepareDataForSave', () => {
         session: { formData: { [CASE_REF]: formData } },
       }) as unknown as Request;
 
-    const marketRentDetailsFrom = (mapped: Record<string, unknown>): Record<string, unknown> =>
-      (mapped as { marketRentDetails: Record<string, unknown> }).marketRentDetails;
+    const rentDetailsFrom = (mapped: Record<string, unknown>): Record<string, unknown> =>
+      (mapped as { rentDetails: Record<string, unknown> }).rentDetails;
 
     it('should map the market rent from form data as a number', () => {
       const mockReq = reqWith({
@@ -391,18 +391,18 @@ describe('prepareDataForSave', () => {
 
       const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
 
-      expect(marketRentDetailsFrom(mappedData)).toEqual({ applicantSuggestedMarketRent: 1200.5 });
+      expect(rentDetailsFrom(mappedData)).toEqual({ applicantSuggestedMarketRent: 1200.5 });
     });
 
     it('should fall back to the saved case', () => {
       const ccdCaseData = {
         caseReference: BigInt(CASE_REF),
-        marketRentDetails: { applicantSuggestedMarketRent: 900 },
+        rentDetails: { applicantSuggestedMarketRent: 900 },
       } as unknown as PTCaseData;
 
       const mappedData = prepareDataForSave(sectionId, reqWith({}), ccdCaseData);
 
-      expect(marketRentDetailsFrom(mappedData)).toEqual({ applicantSuggestedMarketRent: 900 });
+      expect(rentDetailsFrom(mappedData)).toEqual({ applicantSuggestedMarketRent: 900 });
     });
 
     it('should prefer form data over the saved case', () => {
@@ -412,12 +412,12 @@ describe('prepareDataForSave', () => {
 
       const ccdCaseData = {
         caseReference: BigInt(CASE_REF),
-        marketRentDetails: { applicantSuggestedMarketRent: 900 },
+        rentDetails: { applicantSuggestedMarketRent: 900 },
       } as unknown as PTCaseData;
 
       const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
 
-      expect(marketRentDetailsFrom(mappedData)).toEqual({ applicantSuggestedMarketRent: 1500 });
+      expect(rentDetailsFrom(mappedData)).toEqual({ applicantSuggestedMarketRent: 1500 });
     });
 
     it('should leave the market rent undefined when it is empty or not numeric', () => {
@@ -432,8 +432,8 @@ describe('prepareDataForSave', () => {
         {} as unknown as PTCaseData
       );
 
-      expect(marketRentDetailsFrom(empty).applicantSuggestedMarketRent).toBeUndefined();
-      expect(marketRentDetailsFrom(notANumber).applicantSuggestedMarketRent).toBeUndefined();
+      expect(rentDetailsFrom(empty).applicantSuggestedMarketRent).toBeUndefined();
+      expect(rentDetailsFrom(notANumber).applicantSuggestedMarketRent).toBeUndefined();
     });
   });
 

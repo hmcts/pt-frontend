@@ -141,8 +141,8 @@ describe('application council-tax-frequency step', () => {
   });
 
   describe('isAnswered', () => {
-    const isAnswered = (currentRentsDetails?: Record<string, unknown>): unknown =>
-      step.isAnswered?.({ session: { ccdCase: { currentRentsDetails } } } as unknown as Request);
+    const isAnswered = (rentDetails?: Record<string, unknown>): unknown =>
+      step.isAnswered?.({ session: { ccdCase: { rentDetails } } } as unknown as Request);
 
     it('is not answered when no frequency has been saved', () => {
       expect(isAnswered()).toBe(false);
@@ -184,10 +184,10 @@ describe('application council-tax-frequency step', () => {
   });
 
   describe('getInitialFormData', () => {
-    const makeReq = (currentRentsDetails?: Record<string, unknown>, formData: Record<string, unknown> = {}): Request =>
+    const makeReq = (rentDetails?: Record<string, unknown>, formData: Record<string, unknown> = {}): Request =>
       ({
         params: { caseReference: CASE_REF },
-        session: { formData: { [CASE_REF]: formData }, ccdCase: { currentRentsDetails } },
+        session: { formData: { [CASE_REF]: formData }, ccdCase: { rentDetails } },
       }) as unknown as Request;
 
     it('returns the saved details when other was chosen', () => {

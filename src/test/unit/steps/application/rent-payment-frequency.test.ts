@@ -124,8 +124,8 @@ describe('application rent-payment-frequency step', () => {
   });
 
   describe('isAnswered', () => {
-    const isAnswered = (currentRentsDetails?: Record<string, unknown>): unknown =>
-      step.isAnswered?.({ session: { ccdCase: { currentRentsDetails } } } as unknown as Request);
+    const isAnswered = (rentDetails?: Record<string, unknown>): unknown =>
+      step.isAnswered?.({ session: { ccdCase: { rentDetails } } } as unknown as Request);
 
     it('is not answered when no frequency has been saved', () => {
       expect(isAnswered()).toBe(false);

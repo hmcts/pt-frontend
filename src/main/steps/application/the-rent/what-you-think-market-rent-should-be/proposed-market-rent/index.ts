@@ -16,8 +16,7 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/proposedMarketRent.njk`,
   showCancelButton: false,
-  isAnswered: req =>
-    formatRentAmount(req.session.ccdCase?.marketRentDetails?.applicantSuggestedMarketRent) !== undefined,
+  isAnswered: req => formatRentAmount(req.session.ccdCase?.rentDetails?.applicantSuggestedMarketRent) !== undefined,
   translationKeys: {
     pageTitle: 'pageTitle',
   },
@@ -28,7 +27,7 @@ export const step: StepDefinition = createFormStep({
     const t = getTranslationFunction(req);
     const paymentFrequency =
       getFormDataString(req, 'rent-payment-frequency', 'rentPaymentFrequency') ??
-      req.session.ccdCase?.currentRentsDetails?.rentPaymentFrequency;
+      req.session.ccdCase?.rentDetails?.rentPaymentFrequency;
 
     return {
       frequency: paymentFrequency ? t(`frequency.${paymentFrequency}`) : '',
@@ -58,8 +57,7 @@ export const step: StepDefinition = createFormStep({
   ],
   getInitialFormData: req => {
     const value = formatRentAmount(
-      getFormDataString(req, stepName, fieldName) ??
-        req.session.ccdCase?.marketRentDetails?.applicantSuggestedMarketRent
+      getFormDataString(req, stepName, fieldName) ?? req.session.ccdCase?.rentDetails?.applicantSuggestedMarketRent
     );
 
     return {

@@ -35,7 +35,7 @@ const utilitiesAmountFields: AmountFields = {
   yearly: 'utilitiesPaidCostYearly',
 };
 
-// RentDetails mirrors CurrentRentsDetailsDto, which drops "Paid" from the utilities cost fields.
+// RentDetails mirrors RentDetailsDto, which drops "Paid" from the utilities cost fields.
 const caseFieldNames: Record<string, string> = {
   utilitiesPaidCostWeekly: 'utilitiesCostWeekly',
   utilitiesPaidCostFortnightly: 'utilitiesCostFortnightly',
@@ -65,7 +65,7 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
   const stepData = (step: string): Record<string, unknown> => getFormData(req, step);
   const lang = req.i18n?.language ?? 'en';
 
-  const rentDetails = validatedCase?.currentRentsDetails;
+  const rentDetails = validatedCase?.rentDetails;
 
   const read = (step: string, field: string): string | undefined =>
     (stepData(step)[field] as string | undefined) ??

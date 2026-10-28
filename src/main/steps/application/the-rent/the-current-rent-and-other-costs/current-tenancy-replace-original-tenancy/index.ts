@@ -61,7 +61,7 @@ export const step: StepDefinition = createFormStep({
   ],
   getInitialFormData: req => {
     const stepData = getFormData(req, stepName);
-    const rentDetails = req.session.ccdCase?.currentRentsDetails;
+    const rentDetails = req.session.ccdCase?.rentDetails;
     const answer = stepData?.[fieldName] ?? rentDetails?.currentTenancyReplaceOriginalTenancy;
     const startDate = answer === 'Yes' ? toDateParts(rentDetails?.originalTenancyStartDate) : undefined;
 
@@ -80,9 +80,9 @@ export const step: StepDefinition = createFormStep({
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  const answer = ccdCase?.currentRentsDetails?.currentTenancyReplaceOriginalTenancy as string | undefined;
+  const answer = ccdCase?.rentDetails?.currentTenancyReplaceOriginalTenancy as string | undefined;
   if (answer === 'Yes') {
-    const startDate = ccdCase?.currentRentsDetails?.originalTenancyStartDate;
+    const startDate = ccdCase?.rentDetails?.originalTenancyStartDate;
     return Boolean(startDate);
   }
   return answer === 'No' || answer === 'NotSure';

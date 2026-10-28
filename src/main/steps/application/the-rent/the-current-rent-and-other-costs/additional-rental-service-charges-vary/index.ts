@@ -64,7 +64,7 @@ export const step: StepDefinition = createFormStep({
   ],
   getInitialFormData: req => {
     const stepData = getFormData(req, stepName);
-    const rentDetails = req.session.ccdCase?.currentRentsDetails;
+    const rentDetails = req.session.ccdCase?.rentDetails;
     const answer = stepData?.[fieldName] ?? rentDetails?.additionalRentalServiceChargesVary;
     const details =
       answer === 'Yes'
@@ -78,9 +78,9 @@ export const step: StepDefinition = createFormStep({
   },
 });
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  const answer = ccdCase?.currentRentsDetails?.additionalRentalServiceChargesVary as string | undefined;
+  const answer = ccdCase?.rentDetails?.additionalRentalServiceChargesVary as string | undefined;
   if (answer === 'Yes') {
-    return Boolean(ccdCase?.currentRentsDetails?.varyingAdditionalRentalServiceChargesDetails);
+    return Boolean(ccdCase?.rentDetails?.varyingAdditionalRentalServiceChargesDetails);
   }
   return answer === 'No';
 }

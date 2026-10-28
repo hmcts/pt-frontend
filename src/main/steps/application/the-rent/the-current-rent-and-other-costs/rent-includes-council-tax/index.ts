@@ -15,7 +15,7 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/rentIncludesCouncilTax.njk`,
   showCancelButton: false,
-  isAnswered: req => Boolean(req.session.ccdCase?.currentRentsDetails?.rentIncludesCouncilTax),
+  isAnswered: req => Boolean(req.session.ccdCase?.rentDetails?.rentIncludesCouncilTax),
   beforeRedirect: req => {
     if (getFormDataString(req, stepName, fieldName) === 'Yes') {
       return;
@@ -38,7 +38,7 @@ export const step: StepDefinition = createFormStep({
     },
   ],
   getInitialFormData: req => {
-    const value = getFormDataString(req, stepName, fieldName) ?? req.session.ccdCase?.currentRentsDetails?.[fieldName];
+    const value = getFormDataString(req, stepName, fieldName) ?? req.session.ccdCase?.rentDetails?.[fieldName];
 
     return {
       ...(value && { [fieldName]: value }),

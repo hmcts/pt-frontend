@@ -16,8 +16,8 @@ describe('application proposed-market-rent step', () => {
   const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
 
   describe('isAnswered', () => {
-    const isAnswered = (marketRentDetails?: Record<string, unknown>): boolean =>
-      capturedConfig.isAnswered({ session: { ccdCase: { marketRentDetails } } } as unknown as Request);
+    const isAnswered = (rentDetails?: Record<string, unknown>): boolean =>
+      capturedConfig.isAnswered({ session: { ccdCase: { rentDetails } } } as unknown as Request);
 
     it('is not answered when no amount has been saved', () => {
       expect(isAnswered()).toBe(false);
@@ -34,10 +34,10 @@ describe('application proposed-market-rent step', () => {
 
   describe('extendGetContent', () => {
     // The heading asks for the rent in the frequency given in the current rent section.
-    const makeReq = (formData: Record<string, unknown> = {}, currentRentsDetails?: Record<string, unknown>): Request =>
+    const makeReq = (formData: Record<string, unknown> = {}, rentDetails?: Record<string, unknown>): Request =>
       ({
         params: { caseReference: CASE_REF },
-        session: { formData: { [CASE_REF]: formData }, ccdCase: { currentRentsDetails } },
+        session: { formData: { [CASE_REF]: formData }, ccdCase: { rentDetails } },
       }) as unknown as Request;
 
     beforeEach(() => {
@@ -91,10 +91,10 @@ describe('application proposed-market-rent step', () => {
   });
 
   describe('getInitialFormData', () => {
-    const makeReq = (formData: Record<string, unknown> = {}, marketRentDetails?: Record<string, unknown>): Request =>
+    const makeReq = (formData: Record<string, unknown> = {}, rentDetails?: Record<string, unknown>): Request =>
       ({
         params: { caseReference: CASE_REF },
-        session: { formData: { [CASE_REF]: formData }, ccdCase: { marketRentDetails } },
+        session: { formData: { [CASE_REF]: formData }, ccdCase: { rentDetails } },
       }) as unknown as Request;
 
     it('returns the answer from the form data', () => {

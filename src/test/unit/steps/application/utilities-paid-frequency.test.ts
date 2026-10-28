@@ -20,10 +20,10 @@ describe('application utilities-paid-frequency step', () => {
   const yearlyField = 'utilitiesPaidFrequency.utilitiesPaidCostYearly';
   const detailsField = 'utilitiesPaidFrequency.utilitiesPaidFrequencyAndCostDetails';
 
-  const makeReq = (formData: Record<string, unknown> = {}, currentRentsDetails?: Record<string, unknown>): Request =>
+  const makeReq = (formData: Record<string, unknown> = {}, rentDetails?: Record<string, unknown>): Request =>
     ({
       params: { caseReference: CASE_REF },
-      session: { formData: { [CASE_REF]: formData }, ccdCase: { currentRentsDetails } },
+      session: { formData: { [CASE_REF]: formData }, ccdCase: { rentDetails } },
     }) as unknown as Request;
 
   const optionFor = (value: string) =>

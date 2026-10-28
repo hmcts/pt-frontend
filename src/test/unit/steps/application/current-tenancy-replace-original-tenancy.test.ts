@@ -40,33 +40,36 @@ describe('application current-tenancy-replace-original-tenancy step', () => {
   const startDate = '2020-06-01T00:00:00';
 
   it('is not answered when nothing has been selected', () => {
-    expect(isAnswered({ currentRentsDetails: {} })).toBe(false);
+    expect(isAnswered({ rentDetails: {} })).toBe(false);
   });
 
   it('is answered when no is selected', () => {
-    expect(isAnswered({ currentRentsDetails: { currentTenancyReplaceOriginalTenancy: 'No' } })).toBe(true);
+    expect(isAnswered({ rentDetails: { currentTenancyReplaceOriginalTenancy: 'No' } })).toBe(true);
   });
 
   it('is answered when not sure is selected', () => {
-    expect(isAnswered({ currentRentsDetails: { currentTenancyReplaceOriginalTenancy: 'NotSure' } })).toBe(true);
+    expect(isAnswered({ rentDetails: { currentTenancyReplaceOriginalTenancy: 'NotSure' } })).toBe(true);
   });
 
   it('is answered when yes is selected with a start date', () => {
     expect(
       isAnswered({
-        currentRentsDetails: { currentTenancyReplaceOriginalTenancy: 'Yes', originalTenancyStartDate: startDate },
+        rentDetails: {
+          currentTenancyReplaceOriginalTenancy: 'Yes',
+          originalTenancyStartDate: startDate,
+        },
       })
     ).toBe(true);
   });
 
   it('is not answered when yes is selected without a start date', () => {
-    expect(isAnswered({ currentRentsDetails: { currentTenancyReplaceOriginalTenancy: 'Yes' } })).toBe(false);
+    expect(isAnswered({ rentDetails: { currentTenancyReplaceOriginalTenancy: 'Yes' } })).toBe(false);
   });
 
-  const makeReq = (formData: Record<string, unknown> = {}, currentRentsDetails?: Record<string, unknown>): Request =>
+  const makeReq = (formData: Record<string, unknown> = {}, rentDetails?: Record<string, unknown>): Request =>
     ({
       params: { caseReference: CASE_REF },
-      session: { formData: { [CASE_REF]: formData }, ccdCase: { currentRentsDetails } },
+      session: { formData: { [CASE_REF]: formData }, ccdCase: { rentDetails } },
     }) as unknown as Request;
 
   describe('beforeRedirect', () => {

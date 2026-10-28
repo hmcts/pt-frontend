@@ -94,7 +94,7 @@ export function prepareDataForSave(
     }
 
     case 'theCurrentRentAndOtherCosts': {
-      const rentDetails = saved?.currentRentsDetails;
+      const rentDetails = saved?.rentDetails;
 
       const startDate = dateParts(req, 'current-tenancy-start-date', 'currentTenancyStartDate');
       const endDate = dateParts(req, 'tenancy-end-date', 'currentTenancyEndDate');
@@ -119,7 +119,7 @@ export function prepareDataForSave(
         rentDetails?.additionalRentalServiceChargesVary;
 
       return {
-        currentRentDetails: {
+        rentDetails: {
           tribunalPreviouslyDeterminedTenancyRent: tribunalDetermined,
           previousTribunalCaseReference:
             tribunalDetermined === 'Yes'
@@ -298,17 +298,17 @@ export function prepareDataForSave(
     }
 
     case 'whatYouThinkMarketRentShouldBe': {
-      const marketRentDetails = saved?.marketRentDetails;
+      const rentDetails = saved?.rentDetails;
 
       return {
-        marketRentDetails: {
+        rentDetails: {
           applicantSuggestedMarketRent: toNumber(
             getFormDataString(req, 'proposed-market-rent', 'applicantSuggestedMarketRent') ??
-              marketRentDetails?.applicantSuggestedMarketRent
+              rentDetails?.applicantSuggestedMarketRent
           ),
           applicantSuggestedMarketRentReasons:
             getFormDataString(req, 'proposed-market-rent-reasons', 'applicantSuggestedMarketRentReasons') ??
-            marketRentDetails?.applicantSuggestedMarketRentReasons,
+            rentDetails?.applicantSuggestedMarketRentReasons,
         },
       };
     }
