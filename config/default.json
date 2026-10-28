@@ -25,6 +25,13 @@
   "cdam": {
     "url": "http://ccd-case-document-am-api-aat.service.core-compute-aat.internal"
   },
+  "equalityAndDiversity": {
+    "name": "Equality and Diversity Service",
+    "url": "http://localhost:5000",
+    "path": "/service-endpoint",
+    "port": 5000,
+    "tokenKey": "SERVICE_TOKEN_KEY"
+  },
   "documentUpload": {
     "maxFileSizeMB": 25,
     "maxTotalFileSizeMB": 300,
