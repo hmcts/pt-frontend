@@ -118,7 +118,7 @@ export function createSectionCyaStep({
         }
         const redirectPath = await stepNavigation.getNextStepUrl(req, stepName);
         if (!redirectPath) {
-          return res.status(404).render('not-found');
+          return next(new HTTPError('Page not found', 404));
         }
         res.redirect(303, redirectPath);
       },
