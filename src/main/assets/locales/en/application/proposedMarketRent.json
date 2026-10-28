@@ -1,12 +1,28 @@
 {
-  "pageTitle": "What do you think is the market rent you should pay?",
-  "questionTitle": "What do you think is the {{frequency}} market rent you should pay?",
-  "questionHint": "You can tell us your reasons next",
-  "frequency": {
-    "weekly": "weekly",
-    "fortnightly": "fortnightly",
-    "monthly": "monthly",
-    "yearly": "yearly"
+  "pageTitle": "How much do you think the market rent should be?",
+  "questionTitle": "How much do you think the market rent should be?",
+  "questionHint": "Use the same payment period as your current rent",
+  "secondQuestionTitle": "How often would this rent be paid?",
+  "secondQuestionHint": "For example, if you currently pay monthly, enter how much you think you should pay monthly",
+  "options": {
+    "weekly": {
+      "label": "Weekly"
+    },
+    "fortnightly": {
+      "label": "Fortnightly (every 2 weeks)"
+    },
+    "monthly": {
+      "label": "Monthly"
+    },
+    "yearly": {
+      "label": "Yearly"
+    },
+    "other": {
+      "label": "Other"
+    },
+    "otherFrequency": {
+      "label": "How often would this rent be paid?"
+    }
   },
   "errors": {
     "applicantSuggestedMarketRent": {
@@ -14,6 +30,14 @@
       "invalid": "Market rent amount must be a number with no more than 2 decimal places, like 120 or 120.50",
       "decimalPlaces": "Market rent amount must be a number with no more than 2 decimal places, like 120 or 120.50",
       "tooLarge": "Market rent amount must be 16 digits or less"
+    },
+    "applicantSuggestedMarketRentFrequency": {
+      "required": "Select how often this rent would be paid"
+    },
+    "applicantSuggestedMarketRentOtherFrequency": {
+      "required": "Enter how often this rent would be paid",
+      "invalidMaxLength": "The frequency must be 50 characters or less",
+      "invalidMinLength": "The frequency must be 2 characters or more"
     }
   }
 }

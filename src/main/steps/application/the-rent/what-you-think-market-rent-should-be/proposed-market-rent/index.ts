@@ -1,13 +1,15 @@
 import { flowConfig } from '../../../flow.config';
 
-import { createFormStep, getFormDataString, getTranslationFunction } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { formatRentAmount, getRentAmountError } from '@utils/rentAmount';
 
 const journeyName = 'application';
 const stepName = 'proposed-market-rent';
 
-const fieldName = 'applicantSuggestedMarketRent';
+const suggestedRentField = 'applicantSuggestedMarketRent';
+const rentFrequencyField = 'applicantSuggestedMarketRentFrequency';
+const otherFrequencyField = 'applicantSuggestedMarketRentFrequency';
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -21,22 +23,9 @@ export const step: StepDefinition = createFormStep({
   translationKeys: {
     pageTitle: 'pageTitle',
   },
-
-  // The heading asks for the rent in the frequency given in the current rent
-  // section, and reads without one until that question has been answered.
-  extendGetContent: req => {
-    const t = getTranslationFunction(req);
-    const paymentFrequency =
-      getFormDataString(req, 'rent-payment-frequency', 'rentPaymentFrequency') ??
-      req.session.ccdCase?.currentRentsDetails?.rentPaymentFrequency;
-
-    return {
-      frequency: paymentFrequency ? t(`frequency.${paymentFrequency}`) : '',
-    };
-  },
   fields: [
     {
-      name: fieldName,
+      name: suggestedRentField,
       type: 'text',
       required: true,
       isPageHeading: true,
@@ -45,25 +34,78 @@ export const step: StepDefinition = createFormStep({
       prefix: { text: '£' },
       attributes: { inputmode: 'decimal' },
       translationKey: { label: 'questionTitle', hint: 'questionHint' },
-      errorMessage: `errors.${fieldName}.required`,
+      errorMessage: `errors.${suggestedRentField}.required`,
       validator: (value: unknown): boolean | string => {
         if (!value) {
           return true;
         }
 
         const error = getRentAmountError(value as string);
-        return error ? `errors.${fieldName}.${error}` : true;
+        return error ? `errors.${suggestedRentField}.${error}` : true;
       },
     },
+    {
+      name: rentFrequencyField,
+      type: 'radio',
+      required: true,
+      isPageHeading: false,
+      legendClasses: 'govuk-fieldset__legend--m',
+      translationKey: {
+        label: 'secondQuestionTitle',
+        hint: 'secondQuestionHint',
+      },
+      options: [
+        { value: 'Weekly', translationKey: 'options.weekly.label' },
+        { value: 'Fortnightly (every 2 weeks)', translationKey: 'options.fortnightly.label' },
+        { value: 'Monthly', translationKey: 'options.monthly.label' },
+        { value: 'Yearly', translationKey: 'options.yearly.label' },
+        {
+          value: 'Other',
+          translationKey: 'options.other.label',
+          subFields: {
+            applicantSuggestedMarketRentOtherFrequency: {
+              name: `${otherFrequencyField}`,
+              type: 'textarea',
+              maxLength: 50,
+              required: true,
+              translationKey: { label: 'options.otherFrequency.label' },
+              validator: (value): boolean | string => {
+                if (value && String(value).length > 50) {
+                  return `errors.${otherFrequencyField}.invalidMaxLength`;
+                }
+
+                if (value && String(value).length < 2) {
+                  return `errors.${otherFrequencyField}.invalidMinLength`;
+                }
+
+                return true;
+              },
+            },
+          },
+        },
+      ],
+    },
   ],
+
   getInitialFormData: req => {
     const value = formatRentAmount(
-      getFormDataString(req, stepName, fieldName) ??
+      getFormDataString(req, stepName, suggestedRentField) ??
         req.session.ccdCase?.marketRentDetails?.applicantSuggestedMarketRent
     );
+    const frequency =
+      getFormDataString(req, stepName, 'applicantSuggestedMarketRentFrequency') ??
+      req.session.ccdCase?.marketRentDetails?.applicantSuggestedMarketRentFrequency;
+
+    const otherFrequency =
+      getFormDataString(req, stepName, 'applicantSuggestedMarketRentOtherFrequency') ??
+      req.session.ccdCase?.marketRentDetails?.applicantSuggestedMarketRentOtherFrequency;
 
     return {
-      ...(value !== undefined && { [fieldName]: value }),
+      ...(value !== undefined && { [suggestedRentField]: value }),
+      ...(frequency && { applicantSuggestedMarketRentFrequency: frequency }),
+      ...(otherFrequency && {
+        'applicantSuggestedMarketRentFrequency.applicantSuggestedMarketRentOtherFrequency': otherFrequency,
+      }),
     };
   },
 });
