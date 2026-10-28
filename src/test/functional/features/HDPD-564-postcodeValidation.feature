@@ -1,4 +1,4 @@
-@JIRA-EPIC:HDPD-564
+@JIRA-EPIC:HDPD-564 @regression
 Feature: Postcode Validation and Rollout Journey
 As a citizen
 I want to enter a postcode for my property
@@ -18,6 +18,8 @@ So that the system validates it and directs me to the correct journey
       | SW1A 1AA | You need to use another form to apply            |
       | CF10 1EP | Sorry, this service is only available in England |
       |          | Enter a postcode                                 |
+      | M14 5AB  | Is your landlord a housing association?          |
+      | B15 2TT  | Is your landlord a housing association?          |
 
   @AC5 @JIRA-TEST-KEY:PTSD-771
   Scenario: Invalid postcode format
