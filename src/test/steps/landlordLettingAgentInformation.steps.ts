@@ -2,36 +2,36 @@ import { landlordLettingAgentInformation } from '../functional/page-data/landlor
 
 const { I } = inject();
 
-Given("I am  on the letting agent's email address page", () => {
+const { saveAndContinueButton: saveAndContinue } = landlordLettingAgentInformation;
+
+const goToLettingAgentEmailPage = (): void => {
   I.click(landlordLettingAgentInformation.landlordDetailsIncludingAnyRepresentativesLink);
-  I.click(landlordLettingAgentInformation.saveAndContinueButton);
+  I.checkOption(landlordLettingAgentInformation.landlordIndividualOption);
+  I.fillField(
+    landlordLettingAgentInformation.landlordFirstNameField,
+    landlordLettingAgentInformation.landlordFirstName
+  );
+  I.fillField(landlordLettingAgentInformation.landlordLastNameField, landlordLettingAgentInformation.landlordLastName);
+  I.click(saveAndContinue);
+  I.click(saveAndContinue);
   I.fillField(
     landlordLettingAgentInformation.landlordEmailAddressField,
     landlordLettingAgentInformation.validEmailAddress
   );
-  I.click(landlordLettingAgentInformation.saveAndContinueButton);
+  I.click(saveAndContinue);
   I.waitForText(landlordLettingAgentInformation.landLordPhoneNumberHeading, 10);
-  I.click(landlordLettingAgentInformation.saveAndContinueButton);
+  I.click(saveAndContinue);
   I.checkOption(landlordLettingAgentInformation.lettingAgentRadioBtn);
-  I.click(landlordLettingAgentInformation.saveAndContinueButton);
+  I.click(saveAndContinue);
   I.waitForText(landlordLettingAgentInformation.LandLordLettingAgentEmailAddresspageHeading, 10);
-});
+};
+
+Given("I am  on the letting agent's email address page", goToLettingAgentEmailPage);
 
 Given("I am on the letting agent's phone number page", () => {
-  I.click(landlordLettingAgentInformation.landlordDetailsIncludingAnyRepresentativesLink);
-  I.click(landlordLettingAgentInformation.saveAndContinueButton);
-  I.fillField(
-    landlordLettingAgentInformation.landlordEmailAddressField,
-    landlordLettingAgentInformation.validEmailAddress
-  );
-  I.click(landlordLettingAgentInformation.saveAndContinueButton);
-  I.waitForText(landlordLettingAgentInformation.landLordPhoneNumberHeading, 10);
-  I.click(landlordLettingAgentInformation.saveAndContinueButton);
-  I.checkOption(landlordLettingAgentInformation.lettingAgentRadioBtn);
-  I.click(landlordLettingAgentInformation.saveAndContinueButton);
-  I.waitForText(landlordLettingAgentInformation.LandLordLettingAgentEmailAddresspageHeading, 10);
+  goToLettingAgentEmailPage();
   I.fillField(landlordLettingAgentInformation.emailField, landlordLettingAgentInformation.validEmail);
-  I.click(landlordLettingAgentInformation.saveAndContinueButton);
+  I.click(saveAndContinue);
   I.waitForText(landlordLettingAgentInformation.LandLoradLettingAgentphoneNumberPageHeading, 10);
 });
 
