@@ -393,6 +393,8 @@ export interface MarketRentDetails {
   applicantSuggestedMarketRent?: number;
   applicantSuggestedMarketRentReasons?: string;
   suggestedMarketRentEvidence?: PtCaseDocument[];
+  additionalPropertyInfoToConsiderWhenDetermining?: YesNoValue;
+  additionalPropertyInfoToConsiderWhenDeterminingDetails?: string;
 }
 
 export interface InspectionAndHearing {
