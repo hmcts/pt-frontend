@@ -32,7 +32,7 @@ describe('error-handler', () => {
       'errorPages.technicalError.title': 'Sorry, there is a problem with the service',
       'errorPages.technicalError.paragraph': 'Try again later.',
       'errorPages.accessDenied.title': 'You do not have access to this page',
-      'errorPages.accessDenied.paragraph':
+      'errorPages.accessDenied.paragraph1':
         'Contact us if you think you should have access, or if you need help with your case.',
       serviceName: 'Property Tribunal',
       phase: 'ALPHA',
@@ -78,7 +78,7 @@ describe('error-handler', () => {
       expect(res.render).toHaveBeenCalledWith('error');
       expect(res.locals.errorPageKey).toBe('accessDenied');
       expect(res.locals.t('errorPages.accessDenied.title')).toBe('You do not have access to this page');
-      expect(res.locals.t('errorPages.accessDenied.paragraph')).toBe(
+      expect(res.locals.t('errorPages.accessDenied.paragraph1')).toBe(
         'Contact us if you think you should have access, or if you need help with your case.'
       );
     });
