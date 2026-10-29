@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { UserDetails } from '../../../main/auth/user/oidc';
+import { UserDetails } from '../../../../main/auth/user/oidc';
 
 import { CcdApiClient } from '@services/ccd/ccdApiClient';
 import { CITIZEN_UPDATE_CASE } from '@services/ccd/ccdCase.interface';
@@ -227,7 +227,7 @@ describe('getCaseUsers', () => {
           {
             case_id: TEST_CASE_ID,
             user_id: 'user-id-1',
-            case_role: '[DEFENDANT]',
+            case_role: '[RESPONDENT]',
           },
         ],
       },
@@ -241,7 +241,7 @@ describe('getCaseUsers', () => {
       {
         case_id: TEST_CASE_ID,
         user_id: 'user-id-1',
-        case_role: '[DEFENDANT]',
+        case_role: '[RESPONDENT]',
       },
     ]);
     expect(mockedAxios.get).toHaveBeenCalledWith('/case-users', {

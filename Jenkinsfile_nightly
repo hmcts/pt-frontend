@@ -43,15 +43,16 @@ static Map secret(String secretName, String envVariable) {
   ]
 }
 
-def ptE2eVaultSecrets = [
+def secrets = [
   secret('pt-frontend-idam-secret', 'PT_FRONTEND_IDAM_SECRET'),
   secret('pt-idam-test-user-password', 'IDAM_PT_USER_PASSWORD'),
+  secret('pcq-token-key', 'PCQ_TOKEN'),
 ]
 
 withNightlyPipeline(type, product, component) {
   enableSlackNotifications('#pt-tech')
   handleEnvironmentSetting()
-  loadVaultSecrets(["pt-kv1-${env.ENVIRONMENT}": ptE2eVaultSecrets])
+  loadVaultSecrets(["pt-kv1-${env.ENVIRONMENT}": secrets])
   setFunctionalTestEnvVars()
   env.FORTIFY_SCAN_RUNNER = 'library'
   enableFortifyScan('pt-kv1-aat')
@@ -62,7 +63,7 @@ withNightlyPipeline(type, product, component) {
 
   // Runs after the Fortify Scan stage has finished, including the vulnerability report.
   onSuccess {
-    runRegressionTests(yarnBuilder, ptE2eVaultSecrets)
+    runRegressionTests(yarnBuilder, secrets)
   }
 }
 

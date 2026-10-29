@@ -29,13 +29,13 @@ describe('requireCaseRoleMiddleware', () => {
 
   beforeEach(() => {
     getCaseUsersMock.mockReset();
-    getCaseUsersMock.mockResolvedValue([{ case_id: TEST_CASE_ID, user_id: user.id, case_role: CaseRole.DEFENDANT }]);
+    getCaseUsersMock.mockResolvedValue([{ case_id: TEST_CASE_ID, user_id: user.id, case_role: CaseRole.RESPONDENT }]);
   });
 
   it('allows user to access case journey if they have appropriate case role', async () => {
     const { req, res, next } = build();
 
-    await requireCaseRole(CaseRole.DEFENDANT)(req, res, next);
+    await requireCaseRole(CaseRole.RESPONDENT)(req, res, next);
 
     expect(getCaseUsersMock).toHaveBeenCalledWith(TEST_CASE_ID, user);
     expect(next).toHaveBeenCalledWith();
@@ -55,7 +55,7 @@ describe('requireCaseRoleMiddleware', () => {
     getCaseUsersMock.mockResolvedValue([]);
     const { req, res, next } = build();
 
-    await requireCaseRole(CaseRole.DEFENDANT)(req, res, next);
+    await requireCaseRole(CaseRole.RESPONDENT)(req, res, next);
 
     expect(res.redirect).toHaveBeenCalledWith('/');
     expect(next).not.toHaveBeenCalled();
@@ -66,7 +66,7 @@ describe('requireCaseRoleMiddleware', () => {
     getCaseUsersMock.mockRejectedValue(error);
     const { req, res, next } = build();
 
-    await requireCaseRole(CaseRole.DEFENDANT)(req, res, next);
+    await requireCaseRole(CaseRole.RESPONDENT)(req, res, next);
 
     expect(next).toHaveBeenCalledWith(error);
     expect(res.redirect).not.toHaveBeenCalled();
