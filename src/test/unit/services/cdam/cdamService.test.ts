@@ -6,7 +6,7 @@ import axios from 'axios';
 import config from 'config';
 import type FormData from 'form-data';
 
-import { requireServiceAuthToken } from '../../../main/auth/service/get-service-auth-token';
+import { requireServiceAuthToken } from '../../../../main/auth/service/get-service-auth-token';
 
 import { CdamUploadRejected, deleteDocument, uploadDocument } from '@services/cdam/cdamService';
 
@@ -16,7 +16,7 @@ jest.mock('@modules/logger', () => ({
   },
 }));
 jest.mock('axios');
-jest.mock('../../../main/auth/service/get-service-auth-token');
+jest.mock('../../../../main/auth/service/get-service-auth-token');
 
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 const mockedRequireServiceAuthToken = requireServiceAuthToken as jest.MockedFunction<typeof requireServiceAuthToken>;
