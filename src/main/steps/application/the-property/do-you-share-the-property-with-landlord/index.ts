@@ -27,7 +27,7 @@ export const step: StepDefinition = createFormStep({
       errorMessage: 'errors.propertySharedWithLandlord.required',
       options: [
         {
-          value: 'yes',
+          value: 'Yes',
           translationKey: 'common:yes',
           subFields: {
             propertySharedWithLandlordDetails: {
@@ -46,17 +46,20 @@ export const step: StepDefinition = createFormStep({
             },
           },
         },
-        { value: 'no', translationKey: 'common:no' },
+        { value: 'No', translationKey: 'common:no' },
       ],
     },
   ],
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (ccdCase?.propertySharedWithLandlord === 'yes') {
+  const propertyDetails = ccdCase?.propertyDetails;
+
+  if (propertyDetails?.propertySharedWithLandlord === 'Yes') {
     return Boolean(
-      ccdCase?.propertySharedWithLandlordDetails && textAreaIsValidLength(ccdCase.propertySharedWithLandlordDetails)
+      propertyDetails?.propertySharedWithLandlordDetails &&
+      textAreaIsValidLength(propertyDetails.propertySharedWithLandlordDetails)
     );
   }
-  return ccdCase?.propertySharedWithLandlord === 'no';
+  return ccdCase?.propertySharedWithLandlord === 'No';
 }

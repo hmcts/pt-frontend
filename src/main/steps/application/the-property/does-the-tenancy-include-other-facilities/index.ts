@@ -27,7 +27,7 @@ export const step: StepDefinition = createFormStep({
       errorMessage: 'errors.propertyIncludesOtherFacilities.required',
       options: [
         {
-          value: 'yes',
+          value: 'Yes',
           translationKey: 'common:yes',
           subFields: {
             propertyFacilitiesDescription: {
@@ -46,17 +46,20 @@ export const step: StepDefinition = createFormStep({
             },
           },
         },
-        { value: 'no', translationKey: 'common:no' },
+        { value: 'No', translationKey: 'common:no' },
       ],
     },
   ],
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (ccdCase?.propertyIncludesOtherFacilities === 'yes') {
+  const propertyDetails = ccdCase?.propertyDetails;
+
+  if (propertyDetails?.propertyIncludesOtherFacilities === 'Yes') {
     return Boolean(
-      ccdCase?.propertyFacilitiesDescription && textAreaIsValidLength(ccdCase.propertyFacilitiesDescription)
+      propertyDetails?.propertyFacilitiesDescription &&
+      textAreaIsValidLength(propertyDetails.propertyFacilitiesDescription)
     );
   }
-  return ccdCase?.propertyIncludesOtherFacilities === 'no';
+  return propertyDetails?.propertyIncludesOtherFacilities === 'No';
 }

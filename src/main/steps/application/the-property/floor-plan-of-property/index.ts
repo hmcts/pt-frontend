@@ -24,9 +24,9 @@ export const step: StepDefinition = createFormStep({
       translationKey: { label: 'questionTitle' },
       errorMessage: 'errors.hasFloorPlanOfProperty.required',
       options: [
-        { value: 'yes', translationKey: 'common:yes' },
+        { value: 'Yes', translationKey: 'common:yes' },
         {
-          value: 'no',
+          value: 'No',
           translationKey: 'common:no',
           subFields: {
             propertyLayoutDescription: {
@@ -53,8 +53,10 @@ export const step: StepDefinition = createFormStep({
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  const propertyDetails = ccdCase?.propertyDetails;
+
   return (
-    ccdCase?.hasFloorPlanOfProperty === 'yes' ||
-    (ccdCase?.hasFloorPlanOfProperty === 'no' && Boolean(ccdCase?.propertyLayoutDescription))
+    propertyDetails?.hasFloorPlanOfProperty === 'yes' ||
+    (propertyDetails?.hasFloorPlanOfProperty === 'no' && Boolean(propertyDetails?.propertyLayoutDescription))
   );
 }

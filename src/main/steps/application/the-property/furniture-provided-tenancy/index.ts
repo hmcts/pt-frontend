@@ -27,7 +27,7 @@ export const step: StepDefinition = createFormStep({
       errorMessage: 'errors.furnitureProvided.required',
       options: [
         {
-          value: 'yes',
+          value: 'Yes',
           translationKey: 'common:yes',
           subFields: {
             furnitureProvidedDetails: {
@@ -49,17 +49,20 @@ export const step: StepDefinition = createFormStep({
             },
           },
         },
-        { value: 'no', translationKey: 'common:no' },
+        { value: 'No', translationKey: 'common:no' },
       ],
     },
   ],
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (ccdCase?.furnitureProvided === 'yes') {
+  const propertyDetails = ccdCase?.propertyDetails;
+
+  if (propertyDetails?.furnitureProvided === 'Yes') {
     return Boolean(
-      ccdCase?.furnitureProvidedDetails && textAreaIsValidLength(ccdCase?.furnitureProvidedDetails as string)
+      propertyDetails?.furnitureProvidedDetails &&
+      textAreaIsValidLength(propertyDetails?.furnitureProvidedDetails as string)
     );
   }
-  return ccdCase?.furnitureProvided === 'no';
+  return propertyDetails?.furnitureProvided === 'No';
 }
