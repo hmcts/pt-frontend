@@ -29,7 +29,7 @@ export enum LanguageUsed {
 
 export enum CaseRole {
   CREATOR = '[CREATOR]',
-  DEFENDANT = '[DEFENDANT]',
+  RESPONDENT = '[RESPONDENT]',
 }
 
 /** CCD SDK Document type -- flat reference with URLs. */
