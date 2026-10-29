@@ -101,3 +101,61 @@ Then(
 When('I select the option {string}', async (option: string) => {
   selectOptionByLabel(option);
 });
+
+When('I enter {string} for the label {string}', (value: string, label: string) => {
+  I.fillField(label, value);
+});
+
+When('I enter {string} in {string}', (value: string, fieldLabel: string) => {
+  I.fillField(fieldLabel, value);
+});
+
+Then('the field {string} with value {string} is {string}', (fieldName: string, value: string, visibility: string) => {
+  if (visibility === 'displayed') {
+    I.see(fieldName);
+    I.see(value);
+  } else if (visibility === 'not displayed') {
+    I.dontSee(fieldName);
+    I.dontSee(value);
+  }
+});
+
+Then('the field {string} is {string}', (fieldName: string, visibility: string) => {
+  if (visibility === 'displayed') {
+    I.see(fieldName);
+  } else if (visibility === 'not displayed') {
+    I.dontSee(fieldName);
+  }
+});
+
+Then('the field {string} is prepopulated with {string}', (fieldName: string, value: string) => {
+  I.seeInField(fieldName, value);
+});
+
+When('I upload {string}', (fileType: string) => {
+  switch (fileType) {
+    case 'supported-file':
+      I.attachFile(commonPage.uploadField, commonPage.validFile);
+      I.wait(2);
+      break;
+    case 'empty-file':
+      I.attachFile(commonPage.uploadField, commonPage.emptyFile);
+      I.wait(2);
+      break;
+
+    case 'unsupported-file':
+      I.attachFile(commonPage.uploadField, commonPage.unsupportedFile);
+      break;
+
+    case 'oversized-file':
+      I.attachFile(commonPage.uploadField, commonPage.oversizedFile);
+      break;
+
+    case 'password-file':
+      I.attachFile(commonPage.uploadField, commonPage.passwordProtectedFile);
+      break;
+
+    case 'no-file':
+      break;
+  }
+});
