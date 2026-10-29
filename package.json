@@ -112,7 +112,7 @@
     "@typescript-eslint/eslint-plugin": "8.72.1",
     "@typescript-eslint/parser": "8.72.1",
     "chai": "6.3.0",
-    "chokidar": "4.0.3",
+    "chokidar": "6.0.0",
     "codeceptjs": "^3.3.6",
     "codeceptjs-cucumber-json-reporter": "^1.0.14",
     "copy-webpack-plugin": "14.0.0",
