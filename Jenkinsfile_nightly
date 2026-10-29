@@ -24,6 +24,11 @@ properties([
       choices: ['@regression', '@smoke', '@idam'],
       description: 'Codecept grep (E2E_TEST_SCOPE). First option is the default for scheduled runs.'
     ),
+    string(
+      name: 'E2E_WORKERS',
+      defaultValue: '',
+      description: 'Codecept worker count. Blank uses 4 for @regression and 1 for @smoke or @idam. Set 1 to force a serial run. The count is capped at the number of matching feature files.'
+    ),
   ])
 ])
 
