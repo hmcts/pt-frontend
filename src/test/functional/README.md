@@ -60,7 +60,7 @@ Jenkins does not run these tests on a pull request unless the PR has a label:
 
 | Label                 | Effect                                                              |
 | --------------------- | ------------------------------------------------------------------- |
-| `e2e-tag:@regression` | Run `@regression` features in 4 parallel workers (`E2E_TEST_SCOPE`) |
+| `e2e-tag:@regression` | Run `@regression` features in 2 parallel workers (`E2E_TEST_SCOPE`) |
 | `e2e-tag:@smoke`      | Run the master happy-path scenarios tagged `@smoke`                 |
 | `e2e-tag:@idam`       | Run scenarios whose title or tags match `@idam` (`E2E_TEST_SCOPE`)  |
 | `e2e-spec:idam-login` | Run feature files whose path contains `idam-login` (`E2E_SPEC`)     |
@@ -69,7 +69,7 @@ Separate several spec keywords with a comma or semicolon, for example `e2e-spec:
 
 Master (`Jenkinsfile_CNP`) runs functional tests with `E2E_TEST_SCOPE=@smoke` only, in a single worker. The full pack stays on the nightly job.
 
-The nightly job (`Jenkinsfile_nightly`) runs weekdays around 07:00. After the Fortify scan it runs `yarn test:functional` with `E2E_TEST_SCOPE=@regression` against AAT, across 4 Codecept workers. A pull request labelled `e2e-tag:@regression` uses that same parallel run. A manual nightly build can change the environment, grep tag (`@regression`, `@smoke`, or `@idam`), feature filter, or worker count (`E2E_WORKERS`). Leave workers blank to keep the default. Set `1` to force a serial run.
+The nightly job (`Jenkinsfile_nightly`) runs weekdays around 07:00. After the Fortify scan it runs `yarn test:functional` with `E2E_TEST_SCOPE=@regression` against AAT, across 2 Codecept workers. A pull request labelled `e2e-tag:@regression` uses that same parallel run. A manual nightly build can change the environment, grep tag (`@regression`, `@smoke`, or `@idam`), feature filter, or worker count (`E2E_WORKERS`). Leave workers blank to keep the default. Set `1` to force a serial run.
 
 ### Gherkin tags
 
@@ -111,7 +111,7 @@ E2E_TEST_SCOPE=@smoke yarn test:functional
 
 ### Parallel regression
 
-`E2E_TEST_SCOPE=@regression` (the nightly job, and a PR labelled `e2e-tag:@regression`) starts 4 workers. Each feature file stays on one worker, so scenarios in that file still run one after another. Other scopes stay on a single worker.
+`E2E_TEST_SCOPE=@regression` (the nightly job, and a PR labelled `e2e-tag:@regression`) starts 2 workers. Each feature file stays on one worker, so scenarios in that file still run one after another. Other scopes stay on a single worker.
 
 ```bash
 E2E_TEST_SCOPE=@regression yarn test:functional

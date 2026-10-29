@@ -17,7 +17,7 @@ cd "$ROOT_DIR"
 
 # Codecept 3.7 leaves a worker thread open when it is given no tests, which hangs
 # the job. Never start more workers than matching feature files.
-REGRESSION_WORKERS=4
+REGRESSION_WORKERS=2
 
 trim() {
   local value="$1"
