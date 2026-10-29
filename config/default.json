@@ -48,7 +48,8 @@
     "clientSecret": "NEED TO INSERT SECRET",
     "systemUsername": "dummy_user",
     "systemPassword": "NEED TO INSERT SECRET",
-    "caching": false
+    "caching": false,
+    "requiredRole": "citizen"
   },
   "oidc": {
     "accessTokenEarlyRefreshSeconds": 30
