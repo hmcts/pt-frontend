@@ -16,10 +16,10 @@ const CASE_REF = '1234123412341234';
 const configFor = (stepName: string) =>
   (createFormStep as jest.Mock).mock.calls.map(call => call[0]).find(config => config.stepName === stepName);
 
-const reqWith = (formData: Record<string, unknown>, currentRentsDetails: Record<string, unknown> = {}): Request =>
+const reqWith = (formData: Record<string, unknown>, rentDetails: Record<string, unknown> = {}): Request =>
   ({
     params: { caseReference: CASE_REF },
-    session: { formData: { [CASE_REF]: formData }, ccdCase: { currentRentsDetails } },
+    session: { formData: { [CASE_REF]: formData }, ccdCase: { rentDetails } },
   }) as unknown as Request;
 
 describe.each([

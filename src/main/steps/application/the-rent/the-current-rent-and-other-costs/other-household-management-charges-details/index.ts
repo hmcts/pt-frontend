@@ -37,7 +37,7 @@ export const step: StepDefinition = createFormStep({
     },
   ],
   getInitialFormData: req => {
-    const value = getFormDataString(req, stepName, fieldName) ?? req.session.ccdCase?.currentRentsDetails?.[fieldName];
+    const value = getFormDataString(req, stepName, fieldName) ?? req.session.ccdCase?.rentDetails?.[fieldName];
 
     return {
       ...(value && { [fieldName]: value }),
@@ -46,8 +46,8 @@ export const step: StepDefinition = createFormStep({
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (ccdCase?.currentRentsDetails?.otherHouseholdManagementChargesDetails === undefined) {
+  if (ccdCase?.rentDetails?.otherHouseholdManagementChargesDetails === undefined) {
     return false;
   }
-  return textAreaIsValidLength(ccdCase?.currentRentsDetails?.otherHouseholdManagementChargesDetails);
+  return textAreaIsValidLength(ccdCase?.rentDetails?.otherHouseholdManagementChargesDetails);
 }

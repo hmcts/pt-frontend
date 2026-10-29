@@ -15,7 +15,7 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/tenancyEndDate.njk`,
   showCancelButton: false,
-  isAnswered: req => Boolean(req.session.ccdCase?.currentRentsDetails?.currentTenancyEndDate),
+  isAnswered: req => Boolean(req.session.ccdCase?.rentDetails?.currentTenancyEndDate),
   fields: [
     {
       name: fieldName,
@@ -29,8 +29,7 @@ export const step: StepDefinition = createFormStep({
   ],
   getInitialFormData: req => {
     const value =
-      getFormData(req, stepName)[fieldName] ??
-      toDateParts(req.session.ccdCase?.currentRentsDetails?.currentTenancyEndDate);
+      getFormData(req, stepName)[fieldName] ?? toDateParts(req.session.ccdCase?.rentDetails?.currentTenancyEndDate);
 
     return {
       ...(value && { [fieldName]: value }),

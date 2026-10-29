@@ -11,14 +11,14 @@ const CASE_REF = '1234123412341234';
 
 const buildReq = (
   formData: Record<string, unknown> = {},
-  currentRentsDetails: Record<string, unknown> = {},
+  rentDetails: Record<string, unknown> = {},
   lang = 'en'
 ): Request =>
   ({
     params: { caseReference: CASE_REF },
     session: {
       formData: { [CASE_REF]: formData },
-      ccdCase: { caseReference: CASE_REF, currentRentsDetails },
+      ccdCase: { caseReference: CASE_REF, rentDetails },
     },
     i18n: { language: lang },
   }) as unknown as Request;

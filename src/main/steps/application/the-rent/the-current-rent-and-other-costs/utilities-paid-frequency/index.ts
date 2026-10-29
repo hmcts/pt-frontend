@@ -18,7 +18,7 @@ const amountFieldNames = {
   yearly: 'utilitiesPaidCostYearly',
 } as const;
 
-// RentDetails mirrors CurrentRentsDetailsDto, which drops "Paid" from the utilities cost fields.
+// RentDetails mirrors RentDetailsDto, which drops "Paid" from the utilities cost fields.
 const caseFieldNames = {
   utilitiesPaidCostWeekly: 'utilitiesCostWeekly',
   utilitiesPaidCostFortnightly: 'utilitiesCostFortnightly',
@@ -56,7 +56,7 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/utilitiesPaidFrequency.njk`,
   showCancelButton: false,
-  isAnswered: req => Boolean(req.session.ccdCase?.currentRentsDetails?.utilitiesPaidFrequency),
+  isAnswered: req => Boolean(req.session.ccdCase?.rentDetails?.utilitiesPaidFrequency),
 
   beforeRedirect: req => {
     const stepData = getFormData(req, stepName);
@@ -113,7 +113,7 @@ export const step: StepDefinition = createFormStep({
   ],
   getInitialFormData: req => {
     const stepData = getFormData(req, stepName);
-    const rentDetails = req.session.ccdCase?.currentRentsDetails;
+    const rentDetails = req.session.ccdCase?.rentDetails;
     const frequency = stepData?.[frequencyFieldName] ?? rentDetails?.[frequencyFieldName];
     const amountFieldName = amountFieldNames[frequency as keyof typeof amountFieldNames];
     const amount = formatRentAmount(

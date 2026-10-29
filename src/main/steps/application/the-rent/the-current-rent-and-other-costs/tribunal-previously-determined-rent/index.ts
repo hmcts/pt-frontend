@@ -23,7 +23,7 @@ export const step: StepDefinition = createFormStep({
   customTemplate: `${__dirname}/tribunalPreviouslyDeterminedRent.njk`,
   showCancelButton: false,
   // Task-list status tag: 'No' is a complete answer, so presence is enough.
-  isAnswered: req => Boolean(req.session.ccdCase?.currentRentsDetails?.tribunalPreviouslyDeterminedTenancyRent),
+  isAnswered: req => Boolean(req.session.ccdCase?.rentDetails?.tribunalPreviouslyDeterminedTenancyRent),
 
   // Runs after the answers are written to the session. Normalises the stored
   // reference, and drops it if the answer is not 'Yes' setFormData currently
@@ -84,7 +84,7 @@ export const step: StepDefinition = createFormStep({
   ],
   getInitialFormData: req => {
     const stepData = getFormData(req, stepName);
-    const rentDetails = req.session.ccdCase?.currentRentsDetails;
+    const rentDetails = req.session.ccdCase?.rentDetails;
     const answer =
       stepData?.tribunalPreviouslyDeterminedTenancyRent ?? rentDetails?.tribunalPreviouslyDeterminedTenancyRent;
     const caseReference =

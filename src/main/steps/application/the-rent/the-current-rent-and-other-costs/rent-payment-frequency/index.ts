@@ -62,7 +62,7 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/rentPaymentFrequency.njk`,
   showCancelButton: false,
-  isAnswered: req => Boolean(req.session.ccdCase?.currentRentsDetails?.rentPaymentFrequency),
+  isAnswered: req => Boolean(req.session.ccdCase?.rentDetails?.rentPaymentFrequency),
 
   // Runs after setFormData has written the whole POST body to the session. The
   // conditional reveal only hides inputs with CSS, so the browser submits all
@@ -102,7 +102,7 @@ export const step: StepDefinition = createFormStep({
   ],
   getInitialFormData: req => {
     const stepData = getFormData(req, stepName);
-    const rentDetails = req.session.ccdCase?.currentRentsDetails;
+    const rentDetails = req.session.ccdCase?.rentDetails;
     const frequency = stepData?.[frequencyFieldName] ?? rentDetails?.[frequencyFieldName];
     const amountFieldName = amountFieldNames[frequency as keyof typeof amountFieldNames];
     const amount = formatRentAmount(
