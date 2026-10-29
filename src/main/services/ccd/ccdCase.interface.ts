@@ -29,7 +29,7 @@ export enum LanguageUsed {
 
 export enum CaseRole {
   CREATOR = '[CREATOR]',
-  DEFENDANT = '[DEFENDANT]',
+  RESPONDENT = '[RESPONDENT]',
 }
 
 /** CCD SDK Document type -- flat reference with URLs. */
@@ -76,6 +76,7 @@ export interface CcdCaseData {
   tenantDetails?: {
     companyName?: string;
     referenceNumberForCommunications?: string;
+    pcqId?: string;
   };
 
   hearingInspectionDetails?: {
@@ -193,6 +194,7 @@ export interface PartyDetails {
   emailAddress?: string;
   phoneNumber?: string;
   dxNumber?: string;
+  pcqId?: string;
 }
 
 /** Case representation used by services: id + case_data. */
@@ -245,6 +247,7 @@ export interface PTCaseData
   caseReference: bigint;
   createdDate: string;
   submittedOn?: string;
+  state?: string;
 
   applicantFirstName?: string;
   applicantLastName?: string;
@@ -268,6 +271,7 @@ export interface TenantDetails {
   lastName?: string;
   companyName?: string;
   referenceNumberForCommunications?: string;
+  pcqId?: UUID;
 }
 
 export interface ContactPreferences {
