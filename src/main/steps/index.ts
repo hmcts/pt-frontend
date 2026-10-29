@@ -73,7 +73,6 @@ export const journeyRegistry: Record<string, JourneyConfig> = {
   landlordResponse: {
     name: 'landlordResponse',
     slug: 'landlordResponse',
-    routeMiddleware: [requireCaseRole(CaseRole.RESPONDENT)],
     default: {
       flowConfig: landlordResponseFlowConfig,
       stepRegistry: landlordResponseStepRegistry,
