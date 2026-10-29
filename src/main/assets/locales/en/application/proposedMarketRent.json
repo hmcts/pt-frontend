@@ -1,9 +1,8 @@
 {
-  "pageTitle": "How much do you think the market rent should be?",
   "questionTitle": "How much do you think the market rent should be?",
   "questionHint": "Use the same payment period as your current rent",
-  "secondQuestionTitle": "How often would this rent be paid?",
-  "secondQuestionHint": "For example, if you currently pay monthly, enter how much you think you should pay monthly",
+  "frequencyQuestion": "How often would this rent be paid?",
+  "frequencyHint": "For example, if you currently pay monthly, enter how much you think you should pay monthly",
   "options": {
     "weekly": {
       "label": "Weekly"
@@ -19,25 +18,25 @@
     },
     "other": {
       "label": "Other"
-    },
-    "otherFrequency": {
-      "label": "How often would this rent be paid?"
     }
+  },
+  "applicantSuggestedMarketRentFrequencyOther": {
+    "label": "How often would this rent be paid?"
   },
   "errors": {
     "applicantSuggestedMarketRent": {
-      "required": "Enter the market rent you think you should pay",
-      "invalid": "Market rent amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "required": "Enter the rent you think you should pay",
+      "invalid": "The rent you think you should pay must contain numbers only",
       "decimalPlaces": "Market rent amount must be a number with no more than 2 decimal places, like 120 or 120.50",
       "tooLarge": "Market rent amount must be 16 digits or less"
     },
     "applicantSuggestedMarketRentFrequency": {
       "required": "Select how often this rent would be paid"
     },
-    "applicantSuggestedMarketRentOtherFrequency": {
+    "applicantSuggestedMarketRentFrequencyOther": {
       "required": "Enter how often this rent would be paid",
-      "invalidMaxLength": "The frequency must be 50 characters or less",
-      "invalidMinLength": "The frequency must be 2 characters or more"
+      "tooShort": "How often this rent would be paid must be 2 characters or more",
+      "tooLong": "How often this rent would be paid must be 500 characters or less"
     }
   }
 }

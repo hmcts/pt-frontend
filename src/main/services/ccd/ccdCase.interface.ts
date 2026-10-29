@@ -160,7 +160,7 @@ export interface CcdCaseData {
   marketRentDetails?: {
     applicantSuggestedMarketRent?: number;
     applicantSuggestedMarketRentFrequency?: string;
-    applicantSuggestedMarketRentOtherFrequency?: string;
+    applicantSuggestedMarketRentFrequencyOther?: string;
     applicantSuggestedMarketRentReasons?: string;
     suggestedMarketRentEvidence?: CcdUploadedDocument;
     additionalInfoToConsiderWhenDeterminingRent?: string | boolean;
@@ -394,7 +394,7 @@ export interface RentDetails {
 export interface MarketRentDetails {
   applicantSuggestedMarketRent?: number;
   applicantSuggestedMarketRentFrequency?: string;
-  applicantSuggestedMarketRentOtherFrequency?: string;
+  applicantSuggestedMarketRentFrequencyOther?: string;
   applicantSuggestedMarketRentReasons?: string;
 }
 

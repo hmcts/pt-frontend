@@ -1,15 +1,21 @@
+import { getTextLenghtError } from '../../../../utils/fieldValidators';
 import { flowConfig } from '../../../flow.config';
 
-import { createFormStep, getFormDataString } from '@modules/steps';
+import { createFormStep, getFormData, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { PTCaseData } from '@services/ccd/ccdCase.interface';
 import { formatRentAmount, getRentAmountError } from '@utils/rentAmount';
 
 const journeyName = 'application';
 const stepName = 'proposed-market-rent';
 
-const suggestedRentField = 'applicantSuggestedMarketRent';
-const rentFrequencyField = 'applicantSuggestedMarketRentFrequency';
-const otherFrequencyField = 'applicantSuggestedMarketRentFrequency';
+const amountFieldName = 'applicantSuggestedMarketRent';
+const frequencyFieldName = 'applicantSuggestedMarketRentFrequency';
+const otherFieldName = 'applicantSuggestedMarketRentFrequencyOther';
+const otherFormKey = `${frequencyFieldName}.${otherFieldName}`;
+
+const otherMinLength = 2;
+const otherMaxLength = 500;
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -18,14 +24,17 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/proposedMarketRent.njk`,
   showCancelButton: false,
-  isAnswered: req =>
-    formatRentAmount(req.session.ccdCase?.marketRentDetails?.applicantSuggestedMarketRent) !== undefined,
-  translationKeys: {
-    pageTitle: 'pageTitle',
+  isAnswered: req => isAnswered(req.session.ccdCase),
+  beforeRedirect: req => {
+    const stepData = getFormData(req, stepName);
+
+    if (stepData[frequencyFieldName] !== 'other') {
+      stepData[otherFormKey] = '';
+    }
   },
   fields: [
     {
-      name: suggestedRentField,
+      name: amountFieldName,
       type: 'text',
       required: true,
       isPageHeading: true,
@@ -34,51 +43,42 @@ export const step: StepDefinition = createFormStep({
       prefix: { text: '£' },
       attributes: { inputmode: 'decimal' },
       translationKey: { label: 'questionTitle', hint: 'questionHint' },
-      errorMessage: `errors.${suggestedRentField}.required`,
+      errorMessage: `errors.${amountFieldName}.required`,
       validator: (value: unknown): boolean | string => {
         if (!value) {
           return true;
         }
 
         const error = getRentAmountError(value as string);
-        return error ? `errors.${suggestedRentField}.${error}` : true;
+        return error ? `errors.${amountFieldName}.${error}` : true;
       },
     },
     {
-      name: rentFrequencyField,
+      name: frequencyFieldName,
       type: 'radio',
       required: true,
-      isPageHeading: false,
       legendClasses: 'govuk-fieldset__legend--m',
-      translationKey: {
-        label: 'secondQuestionTitle',
-        hint: 'secondQuestionHint',
-      },
+      translationKey: { label: 'frequencyQuestion', hint: 'frequencyHint' },
+      errorMessage: `errors.${frequencyFieldName}.required`,
       options: [
-        { value: 'Weekly', translationKey: 'options.weekly.label' },
-        { value: 'Fortnightly (every 2 weeks)', translationKey: 'options.fortnightly.label' },
-        { value: 'Monthly', translationKey: 'options.monthly.label' },
-        { value: 'Yearly', translationKey: 'options.yearly.label' },
+        { value: 'weekly', translationKey: 'options.weekly.label' },
+        { value: 'fortnightly', translationKey: 'options.fortnightly.label' },
+        { value: 'monthly', translationKey: 'options.monthly.label' },
+        { value: 'yearly', translationKey: 'options.yearly.label' },
         {
-          value: 'Other',
+          value: 'other',
           translationKey: 'options.other.label',
           subFields: {
-            applicantSuggestedMarketRentOtherFrequency: {
-              name: `${otherFrequencyField}`,
-              type: 'textarea',
-              maxLength: 50,
+            [otherFieldName]: {
+              name: otherFieldName,
+              type: 'text',
               required: true,
-              translationKey: { label: 'options.otherFrequency.label' },
-              validator: (value): boolean | string => {
-                if (value && String(value).length > 50) {
-                  return `errors.${otherFrequencyField}.invalidMaxLength`;
-                }
-
-                if (value && String(value).length < 2) {
-                  return `errors.${otherFrequencyField}.invalidMinLength`;
-                }
-
-                return true;
+              labelClasses: 'govuk-label--s',
+              translationKey: { label: `${otherFieldName}.label` },
+              errorMessage: `errors.${otherFieldName}.required`,
+              validator: (value: unknown): boolean | string => {
+                const error = getTextLenghtError(value as string, otherMinLength, otherMaxLength);
+                return error ? `errors.${otherFieldName}.${error}` : true;
               },
             },
           },
@@ -86,26 +86,31 @@ export const step: StepDefinition = createFormStep({
       ],
     },
   ],
-
   getInitialFormData: req => {
-    const value = formatRentAmount(
-      getFormDataString(req, stepName, suggestedRentField) ??
-        req.session.ccdCase?.marketRentDetails?.applicantSuggestedMarketRent
-    );
-    const frequency =
-      getFormDataString(req, stepName, 'applicantSuggestedMarketRentFrequency') ??
-      req.session.ccdCase?.marketRentDetails?.applicantSuggestedMarketRentFrequency;
-
-    const otherFrequency =
-      getFormDataString(req, stepName, 'applicantSuggestedMarketRentOtherFrequency') ??
-      req.session.ccdCase?.marketRentDetails?.applicantSuggestedMarketRentOtherFrequency;
+    const saved = req.session.ccdCase?.marketRentDetails;
+    const amount = formatRentAmount(getFormDataString(req, stepName, amountFieldName) ?? saved?.[amountFieldName]);
+    const frequency = getFormDataString(req, stepName, frequencyFieldName) ?? saved?.[frequencyFieldName];
+    const other =
+      frequency === 'other' ? (getFormDataString(req, stepName, otherFormKey) ?? saved?.[otherFieldName]) : undefined;
 
     return {
-      ...(value !== undefined && { [suggestedRentField]: value }),
-      ...(frequency && { applicantSuggestedMarketRentFrequency: frequency }),
-      ...(otherFrequency && {
-        'applicantSuggestedMarketRentFrequency.applicantSuggestedMarketRentOtherFrequency': otherFrequency,
-      }),
+      ...(amount !== undefined && { [amountFieldName]: amount }),
+      ...(frequency && { [frequencyFieldName]: frequency }),
+      ...(other && { [otherFormKey]: other }),
     };
   },
 });
+
+function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  const details = ccdCase?.marketRentDetails;
+
+  if (formatRentAmount(details?.[amountFieldName]) === undefined) {
+    return false;
+  }
+
+  if (details?.[frequencyFieldName] === 'other') {
+    return Boolean(details?.[otherFieldName]);
+  }
+
+  return Boolean(details?.[frequencyFieldName]);
+}
