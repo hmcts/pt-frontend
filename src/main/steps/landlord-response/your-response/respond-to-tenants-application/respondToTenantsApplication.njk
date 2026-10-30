@@ -1,4 +1,6 @@
 {% extends "stepsTemplate.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton%}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% block pageTitle %}{{ pageTitle }} &ndash; HM Courts &amp; Tribunals Service &ndash; GOV.UK{% endblock %}
 
@@ -6,4 +8,31 @@
   {% if heading %}
     <h1 class="govuk-heading-l">{{ heading }}</h1>
   {% endif %}
+  <p class="govuk-body">{{ daysNotice }}</p>
+  <p class="govuk-body">{{ respondingOptional }}</p>
+  <p class="govuk-body">{{ noFee }}</p>
+  <p class="govuk-body">{{ answersSavedAutomatically }}</p>
+  <p class="govuk-body">{{ responseSharedWithTenant }}</p>
+
+  <h2 class ="govuk-heading-m">{{ subheading }}</h2>
+  <p class="govuk-body">{{ wantCopy }}</p>
+  <p class="govuk-body">{{ viewTenantsApplication | safe}}</p>
+  <p class="govuk-body">{{ showTenantsAnswers }}</p>
+  <p class="govuk-body">{{ confirmBasicDetails }}</p>
+    <ul class="govuk-list govuk-list--bullet">
+    <li>{{ bullet1 }}</li>
+    <li>{{ bullet2 }}</li>
+    <li>{{ bullet3 }}</li>
+  </ul>
+
+  <form method="post" action="{{ url }}" novalidate>
+    {{ govukButton({
+      text: t('startNow'),
+      isStartButton: true,
+      attributes: { name: 'action', value: 'continue'}
+      })
+    }}
+    {{ csrfProtection(csrfToken) }}
+  </form>
+
 {% endblock %}
