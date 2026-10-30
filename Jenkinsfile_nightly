@@ -27,7 +27,7 @@ properties([
     string(
       name: 'E2E_WORKERS',
       defaultValue: '',
-      description: 'Codecept worker count. Blank uses 2 for @regression and 1 for @smoke or @idam. Set 1 to force a serial run. The count is capped at the number of matching feature files.'
+      description: 'Codecept worker count. Blank uses 4 for @regression and 1 for @smoke or @idam. Each worker creates its own temporary IDAM citizen. Set 1 to force a serial run. The count is capped at the number of matching feature files.'
     ),
   ])
 ])

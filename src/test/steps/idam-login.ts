@@ -144,14 +144,21 @@ function isPtHost(url: string): boolean {
 }
 
 async function waitForPtRedirect(page: import('playwright').Page): Promise<void> {
+  if (isPtHost(page.url())) {
+    return;
+  }
+
   const ptHost = new URL(testConfig.TEST_URL).hostname;
 
   try {
     await page.waitForURL(url => isPtHost(url.toString()), {
       timeout: testConfig.LoginRedirectTimeout,
-      waitUntil: 'domcontentloaded',
+      waitUntil: 'commit',
     });
   } catch (error) {
+    if (isPtHost(page.url())) {
+      return;
+    }
     const wrapped = new Error(
       `Timed out waiting for redirect to PT (${ptHost}) after IDAM sign-in. Current URL: ${page.url()}`
     ) as Error & { cause?: unknown };

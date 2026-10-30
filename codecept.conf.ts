@@ -1,6 +1,7 @@
 import { isMainThread, threadId } from 'node:worker_threads';
 
 import { config as testConfig } from './src/test/config';
+import { useTemporaryCitizen } from './src/test/functional/utils/temporaryIdamUser';
 
 const { setHeadlessWhen } = require('@codeceptjs/configure');
 
@@ -12,6 +13,9 @@ const cucumberReportFile = isMainThread
   ? '../../zephyr/cucumber-report.json'
   : `../../zephyr/cucumber-report.worker-${threadId}.json`;
 export const config: CodeceptJS.MainConfig = {
+  bootstrap: async () => {
+    await useTemporaryCitizen();
+  },
   name: 'functional',
   ...(e2eTag ? { grep: e2eTag } : {}),
   gherkin: testConfig.Gherkin,

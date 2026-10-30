@@ -58,18 +58,18 @@ lib/
 
 Jenkins does not run these tests on a pull request unless the PR has a label:
 
-| Label                 | Effect                                                              |
-| --------------------- | ------------------------------------------------------------------- |
-| `e2e-tag:@regression` | Run `@regression` features in 2 parallel workers (`E2E_TEST_SCOPE`) |
-| `e2e-tag:@smoke`      | Run the master happy-path scenarios tagged `@smoke`                 |
-| `e2e-tag:@idam`       | Run scenarios whose title or tags match `@idam` (`E2E_TEST_SCOPE`)  |
-| `e2e-spec:idam-login` | Run feature files whose path contains `idam-login` (`E2E_SPEC`)     |
+| Label                 | Effect                                                                                               |
+| --------------------- | ---------------------------------------------------------------------------------------------------- |
+| `e2e-tag:@regression` | Run `@regression` features in 4 parallel workers, one temporary IDAM citizen each (`E2E_TEST_SCOPE`) |
+| `e2e-tag:@smoke`      | Run the master happy-path scenarios tagged `@smoke`                                                  |
+| `e2e-tag:@idam`       | Run scenarios whose title or tags match `@idam` (`E2E_TEST_SCOPE`)                                   |
+| `e2e-spec:idam-login` | Run feature files whose path contains `idam-login` (`E2E_SPEC`)                                      |
 
 Separate several spec keywords with a comma or semicolon, for example `e2e-spec:idam-login,my-application`. A tag and a spec label can be used together.
 
 Master (`Jenkinsfile_CNP`) runs functional tests with `E2E_TEST_SCOPE=@smoke` only, in a single worker. The full pack stays on the nightly job.
 
-The nightly job (`Jenkinsfile_nightly`) runs weekdays around 07:00. After the Fortify scan it runs `yarn test:functional` with `E2E_TEST_SCOPE=@regression` against AAT, across 2 Codecept workers. A pull request labelled `e2e-tag:@regression` uses that same parallel run. A manual nightly build can change the environment, grep tag (`@regression`, `@smoke`, or `@idam`), feature filter, or worker count (`E2E_WORKERS`). Leave workers blank to keep the default. Set `1` to force a serial run.
+The nightly job (`Jenkinsfile_nightly`) runs weekdays around 07:00. After the Fortify scan it runs `yarn test:functional` with `E2E_TEST_SCOPE=@regression` against AAT, across 4 Codecept workers. Each worker creates its own temporary IDAM citizen. A pull request labelled `e2e-tag:@regression` uses that same parallel run. A manual nightly build can change the environment, grep tag (`@regression`, `@smoke`, or `@idam`), feature filter, or worker count (`E2E_WORKERS`). Leave workers blank to keep the default. Set `1` to force a serial run.
 
 ### Gherkin tags
 
@@ -111,7 +111,7 @@ E2E_TEST_SCOPE=@smoke yarn test:functional
 
 ### Parallel regression
 
-`E2E_TEST_SCOPE=@regression` (the nightly job, and a PR labelled `e2e-tag:@regression`) starts 2 workers. Each feature file stays on one worker, so scenarios in that file still run one after another. Other scopes stay on a single worker.
+`E2E_TEST_SCOPE=@regression` (the nightly job, and a PR labelled `e2e-tag:@regression`) starts 4 workers. Each worker creates one temporary IDAM citizen and keeps each feature file to itself, so scenarios in that file still run one after another. Other scopes stay on a single worker and create one temporary citizen for that run.
 
 ```bash
 E2E_TEST_SCOPE=@regression yarn test:functional
@@ -119,7 +119,7 @@ E2E_WORKERS=2 E2E_TEST_SCOPE=@regression yarn test:functional
 E2E_WORKERS=1 E2E_TEST_SCOPE=@regression yarn test:functional
 ```
 
-Workers share the AAT citizen user, each in its own browser. If logins start colliding, set `E2E_WORKERS=1`. The runner will not start more workers than matching feature files: a spare worker with no tests hangs the Codecept 3.7 run.
+A 4-worker regression run therefore creates 4 temporary IDAM citizens (`TEST_PT_USER.citizen…@test.test`, forename `pt`, surname `citizen`) and each worker signs in as its own account. The accounts expire after about two hours. `pt-citizen@test.com` stays available for manual testing. Set `IDAM_PT_USE_PERMANENT_USER=true` to sign in as that permanent citizen instead. The runner will not start more workers than matching feature files: a spare worker with no tests hangs the Codecept 3.7 run.
 
 Worker Cucumber JSON files are merged back into `functional-output/zephyr/cucumber-report.json` before Zephyr post-processing. The merge still runs when scenarios fail, so the archived report includes the failures.
 
@@ -153,13 +153,13 @@ PR/pipeline env mappings are in `config/custom-environment-variables.json`.
 
 ### IDAM credentials
 
-| Item     | Value / location                                                                      |
-| -------- | ------------------------------------------------------------------------------------- |
-| Email    | `pt-citizen@test.com` (`idam.testUser.email` in `config/test.json`)                   |
-| Password | Azure Key Vault secret `pt-idam-test-user-password` in `pt-kv1-aat`                   |
-| Env var  | `IDAM_PT_USER_PASSWORD` (or `IDAM_PT_USER_PASSWORD_B64` for awkward shell characters) |
+| Item     | Value / location                                                                                                                                                               |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Email    | Temporary citizen created at the start of each worker. Falls back to `pt-citizen@test.com` when `PT_FRONTEND_IDAM_SECRET` is unset, or when `IDAM_PT_USE_PERMANENT_USER=true`. |
+| Password | Azure Key Vault secret `pt-idam-test-user-password` in `pt-kv1-aat`. The temporary citizen uses this same password.                                                            |
+| Env var  | `IDAM_PT_USER_PASSWORD` (or `IDAM_PT_USER_PASSWORD_B64` for awkward shell characters)                                                                                          |
 
-In Jenkins, the secret is mapped to `IDAM_PT_USER_PASSWORD` via `Jenkinsfile_CNP`. If the password is missing, login tests fail early with a message pointing to Key Vault.
+The permanent citizen’s password grant, with `PT_FRONTEND_IDAM_SECRET`, calls IDAM testing support (`POST /test/idam/users`) the same way pcs-frontend does. Jenkins already maps both secrets in `Jenkinsfile_CNP`. If the password is missing, login tests fail early with a message pointing to Key Vault.
 
 ## Current features
 
