@@ -76,6 +76,7 @@ export interface CcdCaseData {
   tenantDetails?: {
     companyName?: string;
     referenceNumberForCommunications?: string;
+    pcqId?: string;
   };
 
   hearingInspectionDetails?: {
@@ -161,7 +162,7 @@ export interface CcdCaseData {
   marketRentDetails?: {
     applicantSuggestedMarketRent?: number;
     applicantSuggestedMarketRentReasons?: string;
-    suggestedMarketRentEvidence?: CcdUploadedDocument;
+    suggestedMarketRentEvidence?: CcdCollectionItem<CcdUploadedDocument>[];
     additionalInfoToConsiderWhenDeterminingRent?: string | boolean;
     additionalInfoToConsiderWhenDeterminingRentDetails?: string;
   };
@@ -192,6 +193,7 @@ export interface PartyDetails {
   emailAddress?: string;
   phoneNumber?: string;
   dxNumber?: string;
+  pcqId?: string;
 }
 
 /** Case representation used by services: id + case_data. */
@@ -243,6 +245,7 @@ export interface PTCaseData extends LandlordDetails, PropertyDetails, LettingAge
   caseReference: bigint;
   createdDate: string;
   submittedOn?: string;
+  state?: string;
 
   applicantFirstName?: string;
   applicantLastName?: string;
@@ -267,6 +270,7 @@ export interface TenantDetails {
   lastName?: string;
   companyName?: string;
   referenceNumberForCommunications?: string;
+  pcqId?: UUID;
 }
 
 export interface ContactPreferences {
@@ -393,6 +397,9 @@ export interface RentDetails {
 export interface MarketRentDetails {
   applicantSuggestedMarketRent?: number;
   applicantSuggestedMarketRentReasons?: string;
+  suggestedMarketRentEvidence?: PtCaseDocument[];
+  additionalPropertyInfoToConsiderWhenDetermining?: YesNoValue;
+  additionalPropertyInfoToConsiderWhenDeterminingDetails?: string;
 }
 
 export interface HearingInspectionDetails {

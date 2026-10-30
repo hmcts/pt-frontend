@@ -1,4 +1,4 @@
-import { getTextLenghtError } from '../../../utils/fieldValidators';
+import { getTextLengthError } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
 
 import { createFormStep, getFormData } from '@modules/steps';
@@ -9,7 +9,7 @@ const journeyName = 'application';
 const stepName = 'landlord-individual-or-organisation';
 
 const validateLanlordNameLength = (value: unknown): boolean | string => {
-  const error = getTextLenghtError(value as string, 2, 50);
+  const error = getTextLengthError(value as string, 2, 50);
   if (error === 'tooShort') {
     return 'errors.landlordName.tooShort';
   }
