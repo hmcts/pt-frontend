@@ -1,4 +1,18 @@
 {
   "pageTitle": "Respond to tenants application",
-  "heading": "Respond to tenants application (placeholder)"
+  "heading": "Respond to tenants application",
+  "daysNotice": "You have 28 days from the date the tribunal sent you the tenant’s application if you want to submit a response. The deadline date is written under ‘Your response’ in your case overview.",
+  "respondingOptional": "Responding is optional.",
+  "noFee": "There is no fee to send a response. ",
+  "answersSavedAutomatically": "Your answers are saved automatically.",
+  "responseSharedWithTenant": "We will share your response and any attachments with the tenant and any representatives",
+  "subheading": "What you will need",
+  "wantCopy": "You may want to have a copy of the tenant’s application with you.",
+  "viewTenantsApplication": "<a href=\"{{viewTenantsApplicationUrl}}\" class=\"govuk-link\">View the tenant’s application (opens in a new tab)</a>",
+  "showTenantsAnswers": "We will also show you the answers provided in their application in this response form. You can tell us if you disagree with anything, give your reasons, and upload any evidence you have.",
+  "confirmBasicDetails": "We will first ask you to confirm some basic details the tenant gave in their application, including:",
+  "bullet1": "the address of the property",
+  "bullet2": "your name (as the landlord)",
+  "bullet3": "your address (as the landlord)",
+  "startNow": "Start now"
 }

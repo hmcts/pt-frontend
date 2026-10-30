@@ -1,4 +1,6 @@
 {% extends "stepsTemplate.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton%}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% block pageTitle %}{{ pageTitle }} &ndash; HM Courts &amp; Tribunals Service &ndash; GOV.UK{% endblock %}
 
@@ -6,4 +8,31 @@
   {% if heading %}
     <h1 class="govuk-heading-l">{{ heading }}</h1>
   {% endif %}
+  <p class="govuk-body">{{ t('daysNotice') }}</p>
+  <p class="govuk-body">{{ t('respondingOptional') }}</p>
+  <p class="govuk-body">{{ t('noFee') }}</p>
+  <p class="govuk-body">{{ t('answersSavedAutomatically') }}</p>
+  <p class="govuk-body">{{ t('responseSharedWithTenant') }}</p>
+
+  <h2 class ="govuk-heading-m">{{ subheading }}</h2>
+  <p class="govuk-body">{{ t('wantCopy') }}</p>
+  <p class="govuk-body">{{ t('viewTenantsApplication', { viewTenantsApplicationUrl: viewTenantsApplicationUrl }) | safe}}</p>
+  <p class="govuk-body">{{ t('showTenantsAnswers') }}</p>
+  <p class="govuk-body">{{ t('confirmBasicDetails') }}</p>
+    <ul class="govuk-list govuk-list--bullet">
+    <li>{{ bullet1 }}</li>
+    <li>{{ bullet2 }}</li>
+    <li>{{ bullet3 }}</li>
+  </ul>
+
+  <form method="post" action="{{ url }}" novalidate>
+    {{ govukButton({
+      text: t('startNow'),
+      isStartButton: true,
+      attributes: { name: 'action', value: 'continue'}
+      })
+    }}
+    {{ csrfProtection(csrfToken) }}
+  </form>
+
 {% endblock %}

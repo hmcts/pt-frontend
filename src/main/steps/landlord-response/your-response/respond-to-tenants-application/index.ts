@@ -1,6 +1,6 @@
 import { flowConfig } from '../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getStepUrl } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
 const journeyName = 'landlord-response';
@@ -13,7 +13,9 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/respondToTenantsApplication.njk`,
   showCancelButton: false,
-  isAnswered: () => false,
+  extendGetContent: req => ({
+    viewTenantsApplicationUrl: getStepUrl('view-tenants-application', flowConfig, String(req.params.caseReference)),
+  }),
   translationKeys: {
     pageTitle: 'pageTitle',
     heading: 'heading',
