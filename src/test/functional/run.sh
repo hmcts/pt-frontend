@@ -13,5 +13,5 @@ cd "$ROOT_DIR"
 
 mkdir -p functional-output/zephyr
 yarn playwright install
-codeceptjs run --steps
+codeceptjs run --steps --verbose
 tsx zephyr-scripts/postprocess-cucumber-report.ts
