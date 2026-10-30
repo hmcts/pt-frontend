@@ -47,7 +47,7 @@ describe('document storage', () => {
     test('reads documents from pt-api, which nests them by slice', async () => {
       givenCase({
         propertyDetails: { floorPlanDocuments: [ptApiDocument('floor-plan')] },
-        noticeOfRentIncreaseDetails: { noticeNotLegallyValidDocument: ptApiDocument('notice') },
+        noticeOfRentIncreaseDetails: { noticeNotLegallyValidDocuments: ptApiDocument('notice') },
       });
 
       const all = await readAllDocuments(req());
@@ -64,7 +64,7 @@ describe('document storage', () => {
           sizeInBytes: 100,
         },
       ]);
-      expect(all.noticeNotLegallyValidDocument).toHaveLength(1);
+      expect(all.noticeNotLegallyValidDocuments).toHaveLength(1);
       expect(all.outsidePropertyDocuments).toEqual([]);
     });
 
