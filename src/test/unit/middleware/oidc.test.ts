@@ -10,7 +10,14 @@ jest.mock('jose', () => ({
   decodeJwt: jest.fn((token: string) => JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString())),
 }));
 jest.mock('config', () => ({
-  get: jest.fn((key: string) => (key === 'oidc.accessTokenEarlyRefreshSeconds' ? 30 : undefined)),
+  get: jest.fn(
+    (key: string) =>
+      ({
+        'oidc.accessTokenEarlyRefreshSeconds': 30,
+        'idam.requiredRole': 'citizen',
+        'session.cookieName': 'pt_session',
+      })[key]
+  ),
 }));
 jest.mock('@modules/logger', () => {
   const logger = { info: jest.fn(), warn: jest.fn(), error: jest.fn() };
@@ -27,10 +34,11 @@ const tokenExpiringIn = (seconds: number): string => sign({ uid: 'user-1', exp: 
 const tokenWithoutExpiry = sign({ uid: 'user-1' }, SECRET, { noTimestamp: true });
 
 type SessionUser = Record<string, unknown>;
-type TestSession = { user?: SessionUser; returnTo?: string; save: jest.Mock };
+type TestSession = { user?: SessionUser; returnTo?: string; save: jest.Mock; destroy: jest.Mock };
 
 const signedInUser = (overrides: SessionUser = {}): SessionUser => ({
   uid: 'user-1',
+  roles: ['citizen'],
   accessToken: tokenExpiringIn(3600),
   refreshToken: 'refresh-token',
   idToken: 'id-token',
@@ -42,6 +50,7 @@ const expiredUser = (overrides: SessionUser = {}): SessionUser =>
 const makeSession = (user?: SessionUser, extra: Partial<TestSession> = {}): TestSession => ({
   user,
   save: jest.fn((done: () => void) => done()),
+  destroy: jest.fn((done: () => void) => done()),
   ...extra,
 });
 
@@ -55,7 +64,8 @@ const makeRequest = (session: TestSession | undefined, locals: Record<string, un
     session,
     app: { locals: { nunjucksEnv: { addGlobal }, oidc: { refreshUserTokens }, ...locals } },
   } as unknown as Request;
-  const res = { redirect: jest.fn() } as unknown as Response & { redirect: jest.Mock };
+  const res = { redirect: jest.fn(), clearCookie: jest.fn() } as unknown as Response &
+    Record<'redirect' | 'clearCookie', jest.Mock>;
   const next = jest.fn() as unknown as NextFunction & jest.Mock;
   return { req, res, next, addGlobal };
 };
@@ -120,8 +130,40 @@ describe('oidcMiddleware', () => {
     });
   });
 
+  describe('when the signed-in user does not have the citizen role', () => {
+    it.each([
+      ['a different role', ['caseworker']],
+      ['no roles', undefined],
+    ])('destroys the session, clears the cookie and responds 403 for %s', async (_label, roles) => {
+      const session = makeSession(signedInUser({ roles }));
+      const ctx = makeRequest(session);
+
+      await run(ctx);
+
+      expect(session.destroy).toHaveBeenCalledTimes(1);
+      expect(ctx.res.clearCookie).toHaveBeenCalledWith('pt_session', { path: '/' });
+      expect(ctx.next).toHaveBeenCalledWith(expect.objectContaining({ status: 403 }));
+      expect(ctx.res.redirect).not.toHaveBeenCalled();
+      expect(ctx.addGlobal).not.toHaveBeenCalled();
+      expect(refreshUserTokens).not.toHaveBeenCalled();
+      expect(logger.warn).toHaveBeenCalledWith(
+        'Session user does not possess required citizen role',
+        expect.objectContaining({ userId: 'user-1', path: PAGE })
+      );
+    });
+
+    it('rejects the user before refreshing an expired token', async () => {
+      const ctx = makeRequest(makeSession(expiredUser({ roles: ['caseworker'] })));
+
+      await run(ctx);
+
+      expect(refreshUserTokens).not.toHaveBeenCalled();
+      expect(ctx.next).toHaveBeenCalledWith(expect.objectContaining({ status: 403 }));
+    });
+  });
+
   it('signs the user out when the session user has no access token', async () => {
-    const session = makeSession({ uid: 'user-1', refreshToken: 'refresh-token' });
+    const session = makeSession({ uid: 'user-1', roles: ['citizen'], refreshToken: 'refresh-token' });
     const ctx = makeRequest(session);
 
     await run(ctx);

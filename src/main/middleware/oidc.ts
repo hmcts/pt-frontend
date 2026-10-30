@@ -2,6 +2,9 @@ import config from 'config';
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import * as jose from 'jose';
 
+import { HTTPError } from '../HttpError';
+import { hasRequiredRole } from '../auth/user/roles';
+
 import { Logger } from '@modules/logger';
 
 const logger = Logger.getLogger('oidcMiddleware');
@@ -37,6 +40,18 @@ export const oidcMiddleware: RequestHandler = async (
 
     if (!req.session?.user) {
       return setReturnToAndRedirectToLogin();
+    }
+
+    if (!hasRequiredRole(req.session.user)) {
+      logger.warn('Session user does not possess required citizen role', {
+        userId: req.session.user.uid,
+        path: req.originalUrl,
+      });
+      req.session.destroy(() => {
+        res.clearCookie(config.get('session.cookieName'), { path: '/' });
+        next(new HTTPError('User lacks required citizen role', 403));
+      });
+      return;
     }
 
     const user = req.session.user;
