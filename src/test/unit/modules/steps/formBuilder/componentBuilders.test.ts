@@ -139,6 +139,27 @@ describe('componentBuilders', () => {
         expect(result.component.errorPrefix).toBe('Error:');
       });
 
+      it('lists the extra file types a field allows in the wrong file type message', () => {
+        const t = jest.fn((_key: string, fallback?: string, options?: Record<string, unknown>) =>
+          options?.fileTypes ? String(options.fileTypes) : fallback
+        );
+
+        const result = buildComponentConfig({
+          ...buildArgs(fileField({ extraExtensions: { '.mp3': 100, '.mp4': 100 } })),
+          t: t as unknown as TFunction,
+        });
+
+        expect(result.component.errorWrongFileType).toBe(
+          'DOC, DOCX, XLS, XLSX, PPT, PPTX, PDF, RTF, TXT, CSV, JPG, JPEG, PNG, BMP, TIF, TIFF, MP3 or MP4'
+        );
+      });
+
+      it('passes the text shown when no file has been chosen', () => {
+        const result = buildComponentConfig(buildArgs(fileField()));
+
+        expect(result.component.noFileChosenText).toBe('No file chosen');
+      });
+
       it('defaults a single-document field to rejecting multiple files', () => {
         const result = buildComponentConfig(buildArgs(fileField()));
 

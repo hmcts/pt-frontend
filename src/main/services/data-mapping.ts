@@ -299,6 +299,12 @@ export function prepareDataForSave(
 
     case 'whatYouThinkMarketRentShouldBe': {
       const marketRentDetails = saved?.marketRentDetails;
+      const additionalInfo =
+        getFormDataString(
+          req,
+          'anything-else-tribunal-should-consider',
+          'additionalInfoToConsiderWhenDeterminingRent'
+        ) ?? marketRentDetails?.additionalPropertyInfoToConsiderWhenDetermining;
 
       return {
         marketRentDetails: {
@@ -309,6 +315,15 @@ export function prepareDataForSave(
           applicantSuggestedMarketRentReasons:
             getFormDataString(req, 'proposed-market-rent-reasons', 'applicantSuggestedMarketRentReasons') ??
             marketRentDetails?.applicantSuggestedMarketRentReasons,
+          additionalInfoToConsiderWhenDeterminingRent: additionalInfo,
+          additionalInfoToConsiderWhenDeterminingRentDetails:
+            additionalInfo === 'Yes'
+              ? (getFormDataString(
+                  req,
+                  'anything-else-tribunal-should-consider',
+                  'additionalInfoToConsiderWhenDeterminingRent.additionalInfoToConsiderWhenDeterminingRentDetails'
+                ) ?? marketRentDetails?.additionalPropertyInfoToConsiderWhenDeterminingDetails)
+              : undefined,
         },
       };
     }
@@ -316,9 +331,33 @@ export function prepareDataForSave(
     // case 'propertyDetails': {
     //   return {};
     // }
-    // case 'propertyInspection': {
-    //   return {};
-    // }
+    case 'propertyInspection': {
+      const details = saved?.hearingInspectionDetails;
+      const agreeToDecisionWithoutInspection =
+        getFormDataString(req, 'property-inspection', 'agreeToDecisionWithoutInspection') ??
+        details?.agreeToDecisionWithoutInspection;
+      const hearingRequested = getFormDataString(req, 'hearing', 'hearingRequested') ?? details?.hearingRequested;
+
+      return {
+        hearingInspectionDetails: {
+          agreeToDecisionWithoutInspection,
+          noDecisionWithoutInspectionReason:
+            agreeToDecisionWithoutInspection === 'No'
+              ? (getFormDataString(
+                  req,
+                  'property-inspection',
+                  'agreeToDecisionWithoutInspection.noDecisionWithoutInspectionReason'
+                ) ?? details?.noDecisionWithoutInspectionReason)
+              : undefined,
+          hearingRequested,
+          reasonHearingRequested:
+            hearingRequested === 'Yes'
+              ? (getFormDataString(req, 'hearing', 'hearingRequested.reasonHearingRequested') ??
+                details?.reasonHearingRequested)
+              : undefined,
+        },
+      };
+    }
     // case 'extraSupport': {
     //   return {};
     // }
