@@ -1,19 +1,42 @@
 {
-  "pageTitle": "cyWhat do you think is the market rent you should pay?",
-  "questionTitle": "cyWhat do you think is the {{frequency}} market rent you should pay?",
-  "questionHint": "cyYou can tell us your reasons next",
-  "frequency": {
-    "weekly": "cyweekly",
-    "fortnightly": "cyfortnightly",
-    "monthly": "cymonthly",
-    "yearly": "cyyearly"
+  "questionTitle": "cyHow much do you think the market rent should be?",
+  "questionHint": "cyUse the same payment period as your current rent",
+  "frequencyQuestion": "cyHow often would this rent be paid?",
+  "frequencyHint": "cyFor example, if you currently pay monthly, enter how much you think you should pay monthly",
+  "options": {
+    "weekly": {
+      "label": "cyWeekly"
+    },
+    "fortnightly": {
+      "label": "cyFortnightly (every 2 weeks)"
+    },
+    "monthly": {
+      "label": "cyMonthly"
+    },
+    "yearly": {
+      "label": "cyYearly"
+    },
+    "other": {
+      "label": "cyOther"
+    }
+  },
+  "applicantSuggestedMarketRentFrequencyOther": {
+    "label": "cyHow often would this rent be paid?"
   },
   "errors": {
     "applicantSuggestedMarketRent": {
-      "required": "cyEnter the market rent you think you should pay",
-      "invalid": "cyMarket rent amount must be a number with no more than 2 decimal places, like 120 or 120.50",
+      "required": "cyEnter the rent you think you should pay",
+      "invalid": "cyThe rent you think you should pay must contain numbers only",
       "decimalPlaces": "cyMarket rent amount must be a number with no more than 2 decimal places, like 120 or 120.50",
       "tooLarge": "cyMarket rent amount must be 16 digits or less"
+    },
+    "applicantSuggestedMarketRentFrequency": {
+      "required": "cySelect how often this rent would be paid"
+    },
+    "applicantSuggestedMarketRentFrequencyOther": {
+      "required": "cyEnter how often this rent would be paid",
+      "tooShort": "cyHow often this rent would be paid must be 2 characters or more",
+      "tooLong": "cyHow often this rent would be paid must be 500 characters or less"
     }
   }
 }
