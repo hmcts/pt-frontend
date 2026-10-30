@@ -18,7 +18,8 @@ export function resolveIdamPassword(): string {
 }
 
 export function resolveIdamEmail(): string {
-  const email = testConfig.IDAM_PT_USER_EMAIL?.trim();
+  // Read the env var on each call. A worker sets IDAM_PT_USER_EMAIL after config has loaded.
+  const email = process.env.IDAM_PT_USER_EMAIL?.trim() || testConfig.IDAM_PT_USER_EMAIL?.trim();
   if (!email) {
     throw new Error('idam.testUser.email is not set in config/test.json (or IDAM_PT_USER_EMAIL).');
   }

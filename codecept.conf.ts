@@ -1,10 +1,21 @@
+import { isMainThread, threadId } from 'node:worker_threads';
+
 import { config as testConfig } from './src/test/config';
+import { useTemporaryCitizen } from './src/test/functional/utils/temporaryIdamUser';
 
 const { setHeadlessWhen } = require('@codeceptjs/configure');
 
 setHeadlessWhen(testConfig.TestHeadlessBrowser);
 const e2eTag = process.env.E2E_TEST_SCOPE?.trim();
+// Workers share a process, so a single cucumber JSON file would be overwritten.
+// Each worker thread writes its own file; run.sh merges them after the run.
+const cucumberReportFile = isMainThread
+  ? '../../zephyr/cucumber-report.json'
+  : `../../zephyr/cucumber-report.worker-${threadId}.json`;
 export const config: CodeceptJS.MainConfig = {
+  bootstrap: async () => {
+    await useTemporaryCitizen();
+  },
   name: 'functional',
   ...(e2eTag ? { grep: e2eTag } : {}),
   gherkin: testConfig.Gherkin,
@@ -33,10 +44,14 @@ export const config: CodeceptJS.MainConfig = {
     },
     cucumberJsonReporter: {
       enabled: true,
+      // Codecept 4 re-emits simplified worker suites on the main process.
+      // Those copies have no Gherkin feature and crash this reporter.
+      // Each worker still writes its own cucumber JSON; run.sh merges them.
+      runInParent: false,
       require: 'codeceptjs-cucumber-json-reporter',
       attachScreenshots: true,
       attachComments: true,
-      outputFile: '../../zephyr/cucumber-report.json',
+      outputFile: cucumberReportFile,
     },
   },
 };

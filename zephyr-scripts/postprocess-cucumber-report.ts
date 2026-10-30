@@ -45,6 +45,38 @@ type CucumberFeature = {
 const reportPath = path.resolve(process.cwd(), process.argv[2] ?? 'functional-output/zephyr/cucumber-report.json');
 const featuresRoot = path.resolve(process.cwd(), 'src/test/functional/features');
 
+function mergeWorkerReports(targetPath: string): void {
+  const zephyrDir = path.dirname(targetPath);
+  if (!fs.existsSync(zephyrDir)) {
+    return;
+  }
+
+  const workerFiles = fs
+    .readdirSync(zephyrDir)
+    .filter(file => /^cucumber-report\.worker-\d+\.json$/.test(file))
+    .sort();
+
+  if (workerFiles.length === 0) {
+    return;
+  }
+
+  const features: CucumberFeature[] = [];
+  for (const file of workerFiles) {
+    const absolutePath = path.join(zephyrDir, file);
+    const parsed = JSON.parse(fs.readFileSync(absolutePath, 'utf8')) as CucumberFeature[];
+    if (!Array.isArray(parsed)) {
+      throw new Error(`Expected a feature array in ${absolutePath}`);
+    }
+    features.push(...parsed);
+  }
+
+  fs.writeFileSync(targetPath, JSON.stringify(features, null, 2));
+  for (const file of workerFiles) {
+    fs.unlinkSync(path.join(zephyrDir, file));
+  }
+  console.log(`Merged ${workerFiles.length} worker Cucumber reports into ${targetPath}`);
+}
+
 function findFeatureUri(featureName: string): string | undefined {
   const files = fs.readdirSync(featuresRoot).filter(file => file.endsWith('.feature'));
 
@@ -72,6 +104,8 @@ function sanitiseFeature(feature: CucumberFeature): CucumberFeature {
     elements: (feature.elements ?? []).map(({ executed: _executed, ...element }) => element),
   };
 }
+
+mergeWorkerReports(reportPath);
 
 if (!fs.existsSync(reportPath)) {
   console.warn(`Cucumber report not found at ${reportPath}; skipping post-processing.`);
