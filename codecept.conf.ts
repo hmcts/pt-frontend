@@ -44,6 +44,10 @@ export const config: CodeceptJS.MainConfig = {
     },
     cucumberJsonReporter: {
       enabled: true,
+      // Codecept 4 re-emits simplified worker suites on the main process.
+      // Those copies have no Gherkin feature and crash this reporter.
+      // Each worker still writes its own cucumber JSON; run.sh merges them.
+      runInParent: false,
       require: 'codeceptjs-cucumber-json-reporter',
       attachScreenshots: true,
       attachComments: true,
