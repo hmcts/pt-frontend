@@ -28,22 +28,22 @@ Feature: Validate  Review and manage hearing information Page
         And I check that the text "The tribunal will decide if a hearing is needed." is displayed on the page
 
     @AC2 @JIRA-TEST-KEY:PTSD-872
-    Scenario: Verify reason field is displayed when No is selected
+    Scenario: Verify reason field is displayed when Yes is selected
 
-        When I select "No" for the question "Do you agree in the tribunal making a decision without a hearing?"
+        When I select "Yes" for the question "Do you want a hearing?"
         Then I check that the text "Tell us why you think a hearing is needed" is displayed on the page
 
     @AC3 @JIRA-TEST-KEY:PTSD-873
-    Scenario: Verify citizen can continue when Yes is selected
+    Scenario: Verify citizen can continue when No is selected
 
-        When I select "Yes" for the question "Do you agree in the tribunal making a decision without a hearing?"
+        When I select "No" for the question "Do you want a hearing?"
         And  I click "Save and continue"
         Then I check that the text "Check your answers" is displayed on the page
 
     @AC4 @JIRA-TEST-KEY:PTSD-873
-    Scenario: Verify citizen can continue when No is selected with a reason
+    Scenario: Verify citizen can continue when Yes is selected with a reason
 
-        When I select "No" for the question "Do you agree in the tribunal making a decision without a hearing?"
+        When I select "Yes" for the question "Do you want a hearing?"
         And I enter "Hearing detail is provided" for the question "Tell us why you think a hearing is needed"
         And I click "Save and continue"
         Then I check that the text "Check your answers" is displayed on the page
@@ -53,11 +53,11 @@ Feature: Validate  Review and manage hearing information Page
     Scenario: Verify validation when no option is selected
 
         When I click "Save and continue"
-        Then I check that the error message "Select yes if you agree to the tribunal making a decision without a hearing" is displayed on the page
+        Then I check that the error message "Select yes if you want a hearing" is displayed on the page
 
     @AC6 @JIRA-TEST-KEY:PTSD-874
-    Scenario: Verify validation when No is selected without a reason
+    Scenario: Verify validation when Yes is selected without a reason
 
-        When I select "No" for the question "Do you agree in the tribunal making a decision without a hearing?"
+        When I select "Yes" for the question "Do you want a hearing?"
         And I click "Save and continue"
         Then I check that the error message "Enter why you think a hearing is needed" is displayed on the page

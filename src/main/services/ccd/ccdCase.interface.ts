@@ -80,6 +80,7 @@ export interface CcdCaseData {
 
   hearingInspectionDetails?: {
     hearingRequested?: string | boolean;
+    reasonHearingRequested?: string;
     agreeToDecisionWithoutInspection?: string | boolean;
     noDecisionWithoutInspectionReason?: string;
   };

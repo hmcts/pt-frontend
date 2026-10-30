@@ -4,7 +4,6 @@ import { flowConfig } from '../../flow.config';
 import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccd/ccdCase.interface';
-import { invertYesNo } from '@utils/yesNo';
 
 const journeyName = 'application';
 const stepName = 'hearing';
@@ -19,49 +18,45 @@ export const step: StepDefinition = createFormStep({
   isAnswered: req => isAnswered(req.session.ccdCase),
   fields: [
     {
-      name: 'agreeToDecisionWithoutHearing',
+      name: 'hearingRequested',
       type: 'radio',
       required: true,
       isPageHeading: false,
       legendClasses: 'govuk-fieldset__legend--m',
       translationKey: { label: 'questionTitle' },
-      errorMessage: 'errors.agreeToDecisionWithoutHearing.required',
+      errorMessage: 'errors.hearingRequested.required',
       options: [
-        { value: 'Yes', translationKey: 'common:yes' },
         {
-          value: 'No',
-          translationKey: 'common:no',
+          value: 'Yes',
+          translationKey: 'common:yes',
           subFields: {
-            noDecisionWithoutHearingReason: {
-              name: 'noDecisionWithoutHearingReason',
+            reasonHearingRequested: {
+              name: 'reasonHearingRequested',
               type: 'textarea',
               maxLength: 500,
               required: true,
-              errorMessage: 'errors.noDecisionWithoutHearingReason.required',
+              errorMessage: 'errors.reasonHearingRequested.required',
               translationKey: {
-                label: 'options.noDecisionWithoutHearingReason.label',
+                label: 'options.reasonHearingRequested.label',
               },
               validator: (value): boolean | string =>
-                textAreaIsValidLength(value as string) ? true : 'errors.noDecisionWithoutHearingReason.invalid',
+                textAreaIsValidLength(value as string) ? true : 'errors.reasonHearingRequested.invalid',
             },
           },
         },
+        { value: 'No', translationKey: 'common:no' },
       ],
     },
   ],
   getInitialFormData: req => {
     const details = req.session.ccdCase?.hearingInspectionDetails;
-    const agreeToDecisionWithoutHearing =
-      getFormDataString(req, stepName, 'agreeToDecisionWithoutHearing') ?? invertYesNo(details?.hearingRequested);
-    const noDecisionWithoutHearingReason =
-      getFormDataString(req, stepName, 'agreeToDecisionWithoutHearing.noDecisionWithoutHearingReason') ??
-      details?.reasonHearingRequested;
+    const hearingRequested = getFormDataString(req, stepName, 'hearingRequested') ?? details?.hearingRequested;
+    const reasonHearingRequested =
+      getFormDataString(req, stepName, 'hearingRequested.reasonHearingRequested') ?? details?.reasonHearingRequested;
 
     return {
-      ...(agreeToDecisionWithoutHearing && { agreeToDecisionWithoutHearing }),
-      ...(noDecisionWithoutHearingReason && {
-        'agreeToDecisionWithoutHearing.noDecisionWithoutHearingReason': noDecisionWithoutHearingReason,
-      }),
+      ...(hearingRequested && { hearingRequested }),
+      ...(reasonHearingRequested && { 'hearingRequested.reasonHearingRequested': reasonHearingRequested }),
     };
   },
 });

@@ -3,7 +3,6 @@ import { Request } from 'express';
 import { getFormData, getFormDataString } from '@modules/steps/formBuilder/helpers';
 import { PTCaseData } from '@services/ccd/ccdCase.interface';
 import { toCaseReference16 } from '@utils/caseReference';
-import { invertYesNo } from '@utils/yesNo';
 
 type DateParts = { day?: string; month?: string; year?: string };
 
@@ -322,8 +321,7 @@ export function prepareDataForSave(
       const agreeToDecisionWithoutInspection =
         getFormDataString(req, 'property-inspection', 'agreeToDecisionWithoutInspection') ??
         details?.agreeToDecisionWithoutInspection;
-      const hearingRequested =
-        invertYesNo(getFormDataString(req, 'hearing', 'agreeToDecisionWithoutHearing')) ?? details?.hearingRequested;
+      const hearingRequested = getFormDataString(req, 'hearing', 'hearingRequested') ?? details?.hearingRequested;
 
       return {
         hearingInspectionDetails: {
@@ -339,7 +337,7 @@ export function prepareDataForSave(
           hearingRequested,
           reasonHearingRequested:
             hearingRequested === 'Yes'
-              ? (getFormDataString(req, 'hearing', 'agreeToDecisionWithoutHearing.noDecisionWithoutHearingReason') ??
+              ? (getFormDataString(req, 'hearing', 'hearingRequested.reasonHearingRequested') ??
                 details?.reasonHearingRequested)
               : undefined,
         },

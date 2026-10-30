@@ -15,15 +15,15 @@
       "label": "cyWhy you think an inspection is needed",
       "changeHidden": "cywhy you think an inspection is needed"
     },
-    "agreeToDecisionWithoutHearing": {
-      "label": "cyDo you agree to the tribunal making a decision without a hearing?",
-      "changeHidden": "cywhether you agree to the tribunal making a decision without a hearing",
+    "hearingRequested": {
+      "label": "cyDo you want a hearing?",
+      "changeHidden": "cywhether you want a hearing",
       "options": {
         "Yes": "cyYes",
         "No": "cyNo"
       }
     },
-    "noDecisionWithoutHearingReason": {
+    "reasonHearingRequested": {
       "label": "cyWhy you think a hearing is needed",
       "changeHidden": "cywhy you think a hearing is needed"
     }

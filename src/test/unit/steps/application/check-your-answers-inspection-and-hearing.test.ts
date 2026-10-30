@@ -26,7 +26,7 @@ describe('buildSectionCyaRows for inspection and hearing', () => {
     expect(buildSectionCyaRows(req, t)).toEqual([]);
   });
 
-  it('shows only the two questions when both answers are Yes', () => {
+  it('shows only the two questions when no inspection or hearing is needed', () => {
     const rows = buildSectionCyaRows(
       buildReq({
         'property-inspection': {
@@ -34,20 +34,17 @@ describe('buildSectionCyaRows for inspection and hearing', () => {
           'agreeToDecisionWithoutInspection.noDecisionWithoutInspectionReason': 'stale reason',
         },
         hearing: {
-          agreeToDecisionWithoutHearing: 'Yes',
-          'agreeToDecisionWithoutHearing.noDecisionWithoutHearingReason': 'stale reason',
+          hearingRequested: 'No',
+          'hearingRequested.reasonHearingRequested': 'stale reason',
         },
       }),
       t
     );
 
-    expect(keysOf(rows)).toEqual([
-      'rows.agreeToDecisionWithoutInspection.label',
-      'rows.agreeToDecisionWithoutHearing.label',
-    ]);
+    expect(keysOf(rows)).toEqual(['rows.agreeToDecisionWithoutInspection.label', 'rows.hearingRequested.label']);
   });
 
-  it('shows each reason under its question when both answers are No', () => {
+  it('shows each reason under its question when an inspection and a hearing are needed', () => {
     const rows = buildSectionCyaRows(
       buildReq({
         'property-inspection': {
@@ -55,8 +52,8 @@ describe('buildSectionCyaRows for inspection and hearing', () => {
           'agreeToDecisionWithoutInspection.noDecisionWithoutInspectionReason': 'Damp\nin the <b>bedroom</b>',
         },
         hearing: {
-          agreeToDecisionWithoutHearing: 'No',
-          'agreeToDecisionWithoutHearing.noDecisionWithoutHearingReason': 'I want to attend',
+          hearingRequested: 'Yes',
+          'hearingRequested.reasonHearingRequested': 'I want to attend',
         },
       }),
       t
@@ -65,18 +62,18 @@ describe('buildSectionCyaRows for inspection and hearing', () => {
     expect(keysOf(rows)).toEqual([
       'rows.agreeToDecisionWithoutInspection.label',
       'rows.noDecisionWithoutInspectionReason.label',
-      'rows.agreeToDecisionWithoutHearing.label',
-      'rows.noDecisionWithoutHearingReason.label',
+      'rows.hearingRequested.label',
+      'rows.reasonHearingRequested.label',
     ]);
     expect(valuesOf(rows)).toEqual([
       'rows.agreeToDecisionWithoutInspection.options.No',
       'Damp<br>in the &lt;b&gt;bedroom&lt;/b&gt;',
-      'rows.agreeToDecisionWithoutHearing.options.No',
+      'rows.hearingRequested.options.Yes',
       'I want to attend',
     ]);
   });
 
-  it('flips the saved hearingRequested back to the answer the citizen gave', () => {
+  it('reads the saved answers when there is no form data', () => {
     const rows = buildSectionCyaRows(
       buildReq(
         {},
@@ -91,7 +88,7 @@ describe('buildSectionCyaRows for inspection and hearing', () => {
 
     expect(valuesOf(rows)).toEqual([
       'rows.agreeToDecisionWithoutInspection.options.Yes',
-      'rows.agreeToDecisionWithoutHearing.options.No',
+      'rows.hearingRequested.options.Yes',
       'I want to attend',
     ]);
   });
@@ -103,7 +100,7 @@ describe('buildSectionCyaRows for inspection and hearing', () => {
           agreeToDecisionWithoutInspection: 'No',
           'agreeToDecisionWithoutInspection.noDecisionWithoutInspectionReason': 'Damp',
         },
-        hearing: { agreeToDecisionWithoutHearing: 'Yes' },
+        hearing: { hearingRequested: 'No' },
       }),
       t
     );

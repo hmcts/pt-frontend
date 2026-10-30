@@ -10,7 +10,7 @@ jest.mock('@modules/steps', () => ({
 }));
 
 const CASE_REF = '1234123412341234';
-const REASON_KEY = 'agreeToDecisionWithoutHearing.noDecisionWithoutHearingReason';
+const REASON_KEY = 'hearingRequested.reasonHearingRequested';
 
 describe('application hearing step', () => {
   const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
@@ -45,27 +45,27 @@ describe('application hearing step', () => {
   });
 
   it('checks the reason length with the shared helper', () => {
-    const validator = capturedConfig.fields[0].options[1].subFields.noDecisionWithoutHearingReason.validator;
+    const validator = capturedConfig.fields[0].options[0].subFields.reasonHearingRequested.validator;
 
     expect(validator('a'.repeat(500))).toBe(true);
-    expect(validator('a'.repeat(501))).toBe('errors.noDecisionWithoutHearingReason.invalid');
+    expect(validator('a'.repeat(501))).toBe('errors.reasonHearingRequested.invalid');
   });
 
   describe('getInitialFormData', () => {
     it('returns the answers from the form data', () => {
-      const req = makeReq({ hearing: { agreeToDecisionWithoutHearing: 'No', [REASON_KEY]: 'From the form' } });
+      const req = makeReq({ hearing: { hearingRequested: 'Yes', [REASON_KEY]: 'From the form' } });
 
       expect(capturedConfig.getInitialFormData(req)).toEqual({
-        agreeToDecisionWithoutHearing: 'No',
+        hearingRequested: 'Yes',
         [REASON_KEY]: 'From the form',
       });
     });
 
-    it('flips the saved hearingRequested back to the answer the citizen gave', () => {
+    it('falls back to the saved case', () => {
       const req = makeReq({}, { hearingRequested: 'Yes', reasonHearingRequested: 'Saved' });
 
       expect(capturedConfig.getInitialFormData(req)).toEqual({
-        agreeToDecisionWithoutHearing: 'No',
+        hearingRequested: 'Yes',
         [REASON_KEY]: 'Saved',
       });
     });

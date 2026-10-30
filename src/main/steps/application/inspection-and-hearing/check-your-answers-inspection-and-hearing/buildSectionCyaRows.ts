@@ -5,7 +5,6 @@ import { SummaryListRow, createRowContext, escapeWithLineBreaks } from '../../se
 import { ApplicationSectionId } from '../../sections.config';
 
 import { getFormDataString } from '@modules/steps';
-import { invertYesNo } from '@utils/yesNo';
 
 const SECTION_ID: ApplicationSectionId = 'propertyInspection';
 
@@ -46,19 +45,17 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
     });
   }
 
-  const hearing =
-    getFormDataString(req, 'hearing', 'agreeToDecisionWithoutHearing') ?? invertYesNo(details?.hearingRequested);
+  const hearing = getFormDataString(req, 'hearing', 'hearingRequested') ?? details?.hearingRequested;
   const hearingReason =
-    getFormDataString(req, 'hearing', 'agreeToDecisionWithoutHearing.noDecisionWithoutHearingReason') ??
-    details?.reasonHearingRequested;
+    getFormDataString(req, 'hearing', 'hearingRequested.reasonHearingRequested') ?? details?.reasonHearingRequested;
 
   if (hearing) {
-    addRow('agreeToDecisionWithoutHearing', 'hearing', {
-      text: t(`rows.agreeToDecisionWithoutHearing.options.${hearing}`),
+    addRow('hearingRequested', 'hearing', {
+      text: t(`rows.hearingRequested.options.${hearing}`),
     });
   }
-  if (hearing === 'No' && hearingReason) {
-    addRow('noDecisionWithoutHearingReason', 'hearing', { html: escapeWithLineBreaks(hearingReason) });
+  if (hearing === 'Yes' && hearingReason) {
+    addRow('reasonHearingRequested', 'hearing', { html: escapeWithLineBreaks(hearingReason) });
   }
 
   return rows;

@@ -520,7 +520,7 @@ describe('prepareDataForSave', () => {
   });
 
   describe('propertyInspection data mapping', () => {
-    it('should map both answers and flip the hearing answer to hearingRequested', () => {
+    it('should map both answers', () => {
       const mockReq = {
         params: { caseReference: CASE_REF },
         session: {
@@ -531,8 +531,8 @@ describe('prepareDataForSave', () => {
                 'agreeToDecisionWithoutInspection.noDecisionWithoutInspectionReason': 'Damp in the bedroom',
               },
               hearing: {
-                agreeToDecisionWithoutHearing: 'No',
-                'agreeToDecisionWithoutHearing.noDecisionWithoutHearingReason': 'I want to attend',
+                hearingRequested: 'Yes',
+                'hearingRequested.reasonHearingRequested': 'I want to attend',
               },
             },
           },
@@ -562,8 +562,8 @@ describe('prepareDataForSave', () => {
                 'agreeToDecisionWithoutInspection.noDecisionWithoutInspectionReason': 'stale reason',
               },
               hearing: {
-                agreeToDecisionWithoutHearing: 'Yes',
-                'agreeToDecisionWithoutHearing.noDecisionWithoutHearingReason': 'stale reason',
+                hearingRequested: 'No',
+                'hearingRequested.reasonHearingRequested': 'stale reason',
               },
             },
           },

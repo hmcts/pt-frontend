@@ -15,15 +15,15 @@
       "label": "Why you think an inspection is needed",
       "changeHidden": "why you think an inspection is needed"
     },
-    "agreeToDecisionWithoutHearing": {
-      "label": "Do you agree to the tribunal making a decision without a hearing?",
-      "changeHidden": "whether you agree to the tribunal making a decision without a hearing",
+    "hearingRequested": {
+      "label": "Do you want a hearing?",
+      "changeHidden": "whether you want a hearing",
       "options": {
         "Yes": "Yes",
         "No": "No"
       }
     },
-    "noDecisionWithoutHearingReason": {
+    "reasonHearingRequested": {
       "label": "Why you think a hearing is needed",
       "changeHidden": "why you think a hearing is needed"
     }
