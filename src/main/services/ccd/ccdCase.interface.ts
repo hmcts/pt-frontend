@@ -161,7 +161,7 @@ export interface CcdCaseData {
   marketRentDetails?: {
     applicantSuggestedMarketRent?: number;
     applicantSuggestedMarketRentReasons?: string;
-    suggestedMarketRentEvidence?: CcdUploadedDocument;
+    suggestedMarketRentEvidence?: CcdCollectionItem<CcdUploadedDocument>[];
     additionalInfoToConsiderWhenDeterminingRent?: string | boolean;
     additionalInfoToConsiderWhenDeterminingRentDetails?: string;
   };
@@ -396,6 +396,9 @@ export interface RentDetails {
 export interface MarketRentDetails {
   applicantSuggestedMarketRent?: number;
   applicantSuggestedMarketRentReasons?: string;
+  suggestedMarketRentEvidence?: PtCaseDocument[];
+  additionalPropertyInfoToConsiderWhenDetermining?: YesNoValue;
+  additionalPropertyInfoToConsiderWhenDeterminingDetails?: string;
 }
 
 export interface InspectionAndHearing {

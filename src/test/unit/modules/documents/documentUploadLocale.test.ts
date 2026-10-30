@@ -1,7 +1,7 @@
 import cyCommon from '../../../../main/assets/locales/cy/common.json';
 import enCommon from '../../../../main/assets/locales/en/common.json';
 
-const LABELS = ['label', 'uploadButton', 'filesAddedHeading', 'deleteButton', 'chooseFile', 'dropFile'];
+const LABELS = ['label', 'uploadButton', 'filesAddedHeading', 'deleteButton', 'chooseFile', 'dropFile', 'noFileChosen'];
 
 const MESSAGES = [
   'wrongFileType',

@@ -30,7 +30,7 @@ function normalisedLength(value: string): number {
   return String(value).replace(/\r\n?/g, '\n').length;
 }
 
-export function getTextLenghtError(
+export function getTextLengthError(
   value: string | undefined,
   min: number,
   max: number
