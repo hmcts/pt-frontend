@@ -1,7 +1,7 @@
 import { textAreaIsValidLength } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccd/ccdCase.interface';
 
@@ -18,48 +18,53 @@ export const step: StepDefinition = createFormStep({
   isAnswered: req => isAnswered(req.session.ccdCase),
   fields: [
     {
-      name: 'agreeToDecisionWithoutHearing',
+      name: 'hearingRequested',
       type: 'radio',
       required: true,
       isPageHeading: false,
       legendClasses: 'govuk-fieldset__legend--m',
       translationKey: { label: 'questionTitle' },
-      errorMessage: 'errors.agreeToDecisionWithoutHearing.required',
+      errorMessage: 'errors.hearingRequested.required',
       options: [
-        { value: 'yes', translationKey: 'common:yes' },
         {
-          value: 'no',
-          translationKey: 'common:no',
+          value: 'Yes',
+          translationKey: 'common:yes',
           subFields: {
-            noDecisionWithoutHearingReason: {
-              name: 'noDecisionWithoutHearingReason',
+            reasonHearingRequested: {
+              name: 'reasonHearingRequested',
               type: 'textarea',
               maxLength: 500,
               required: true,
-              errorMessage: 'errors.noDecisionWithoutHearingReason.required',
+              errorMessage: 'errors.reasonHearingRequested.required',
               translationKey: {
-                label: 'options.noDecisionWithoutHearingReason.label',
+                label: 'options.reasonHearingRequested.label',
               },
-              validator: (value): boolean | string => {
-                if (value && String(value).length > 500) {
-                  return 'errors.noDecisionWithoutHearingReason.invalid';
-                }
-                return true;
-              },
+              validator: (value): boolean | string =>
+                textAreaIsValidLength(value as string) ? true : 'errors.reasonHearingRequested.invalid',
             },
           },
         },
+        { value: 'No', translationKey: 'common:no' },
       ],
     },
   ],
+  getInitialFormData: req => {
+    const details = req.session.ccdCase?.hearingInspectionDetails;
+    const hearingRequested = getFormDataString(req, stepName, 'hearingRequested') ?? details?.hearingRequested;
+    const reasonHearingRequested =
+      getFormDataString(req, stepName, 'hearingRequested.reasonHearingRequested') ?? details?.reasonHearingRequested;
+
+    return {
+      ...(hearingRequested && { hearingRequested }),
+      ...(reasonHearingRequested && { 'hearingRequested.reasonHearingRequested': reasonHearingRequested }),
+    };
+  },
 });
 
-function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (ccdCase?.agreeToDecisionWithoutHearing === 'no') {
-    return Boolean(
-      ccdCase?.noDecisionWithoutHearingReason &&
-      textAreaIsValidLength(ccdCase?.noDecisionWithoutHearingReason as string)
-    );
+export function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  const details = ccdCase?.hearingInspectionDetails;
+  if (details?.hearingRequested === 'Yes') {
+    return Boolean(details.reasonHearingRequested && textAreaIsValidLength(details.reasonHearingRequested));
   }
-  return ccdCase?.agreeToDecisionWithoutHearing === 'yes';
+  return details?.hearingRequested === 'No';
 }
