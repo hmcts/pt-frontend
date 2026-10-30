@@ -331,9 +331,33 @@ export function prepareDataForSave(
     // case 'propertyDetails': {
     //   return {};
     // }
-    // case 'propertyInspection': {
-    //   return {};
-    // }
+    case 'propertyInspection': {
+      const details = saved?.hearingInspectionDetails;
+      const agreeToDecisionWithoutInspection =
+        getFormDataString(req, 'property-inspection', 'agreeToDecisionWithoutInspection') ??
+        details?.agreeToDecisionWithoutInspection;
+      const hearingRequested = getFormDataString(req, 'hearing', 'hearingRequested') ?? details?.hearingRequested;
+
+      return {
+        hearingInspectionDetails: {
+          agreeToDecisionWithoutInspection,
+          noDecisionWithoutInspectionReason:
+            agreeToDecisionWithoutInspection === 'No'
+              ? (getFormDataString(
+                  req,
+                  'property-inspection',
+                  'agreeToDecisionWithoutInspection.noDecisionWithoutInspectionReason'
+                ) ?? details?.noDecisionWithoutInspectionReason)
+              : undefined,
+          hearingRequested,
+          reasonHearingRequested:
+            hearingRequested === 'Yes'
+              ? (getFormDataString(req, 'hearing', 'hearingRequested.reasonHearingRequested') ??
+                details?.reasonHearingRequested)
+              : undefined,
+        },
+      };
+    }
     // case 'extraSupport': {
     //   return {};
     // }
