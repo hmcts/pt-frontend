@@ -153,7 +153,7 @@ async function waitForPtRedirect(page: import('playwright').Page): Promise<void>
     });
   } catch (error) {
     const wrapped = new Error(
-      `Timed out waiting for redirect to PT (${ptHost}) after IDAM sign-in. Current URL: ${page.url()}`
+      `Timed out waiting for redirect to PT (${ptHost}) after IDAM sign-in. Current URL: ${page.url()}. Cause: ${(error as Error)?.message}`
     ) as Error & { cause?: unknown };
     wrapped.cause = error;
     throw wrapped;
@@ -214,9 +214,10 @@ export async function submitSignInCredentials(
 
     if (options?.waitForPtRedirect) {
       // Start waiting before the click so a fast OAuth redirect is not missed.
-      const redirected = waitForPtRedirect(page);
-      await clickButtonOrLink(page, idamLogin.continueButton, { waitForLoad: false });
-      await redirected;
+      await Promise.all([
+        waitForPtRedirect(page),
+        clickButtonOrLink(page, idamLogin.continueButton, { waitForLoad: false }),
+      ]);
       return;
     }
 
