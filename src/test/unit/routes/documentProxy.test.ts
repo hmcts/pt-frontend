@@ -229,7 +229,7 @@ describe('documentProxy', () => {
         .attach('documents', Buffer.from('x'), 'room.pdf');
 
       expect(response.status).toBe(400);
-      expect(response.body.error.message).toBe('Total upload size must not exceed 300MB');
+      expect(response.body.error.message).toBe('The files you have selected must be smaller than 300MB in total');
       expect(mockedDeleteDocument).toHaveBeenCalledWith(cdamDocument.document_url, 'user-token');
     });
 
@@ -341,6 +341,30 @@ describe('documentProxy', () => {
 
       expect(response.status).toBe(400);
       expect(mockedUploadDocument).not.toHaveBeenCalled();
+    });
+
+    test('passes the total limit and the file types of the field to the translated messages', async () => {
+      const app = express();
+      app.use((req, _res, next) => {
+        Object.assign(req, {
+          session: { user: { accessToken: 'user-token' } },
+          t: (key: string, fallback: string, options: Record<string, unknown> = {}) =>
+            key.endsWith('.or') ? fallback : JSON.stringify(options),
+        });
+        next();
+      });
+      documentProxy(app);
+
+      const response = await request(app)
+        .post(`${MEDIA_URL}/upload`)
+        .attach('documents', Buffer.from('MZ'), 'virus.exe');
+
+      expect(JSON.parse(response.body.error.message)).toEqual(
+        expect.objectContaining({
+          maxTotalFileSize: 300,
+          fileTypes: 'DOC, DOCX, XLS, XLSX, PPT, PPTX, PDF, RTF, TXT, CSV, JPG, JPEG, PNG, BMP, TIF, TIFF, MP3 or MP4',
+        })
+      );
     });
 
     test('accepts mp4 on a field that opts in', async () => {

@@ -1,4 +1,4 @@
-import { getTextLenghtError } from '../../../../utils/fieldValidators';
+import { getTextLengthError } from '../../../../utils/fieldValidators';
 import { flowConfig } from '../../../flow.config';
 
 import { createFormStep, getFormData, getFormDataString } from '@modules/steps';
@@ -77,7 +77,7 @@ export const step: StepDefinition = createFormStep({
               translationKey: { label: `${otherFieldName}.label` },
               errorMessage: `errors.${otherFieldName}.required`,
               validator: (value: unknown): boolean | string => {
-                const error = getTextLenghtError(value as string, otherMinLength, otherMaxLength);
+                const error = getTextLengthError(value as string, otherMinLength, otherMaxLength);
                 return error ? `errors.${otherFieldName}.${error}` : true;
               },
             },

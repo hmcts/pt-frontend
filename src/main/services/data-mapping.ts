@@ -302,6 +302,12 @@ export function prepareDataForSave(
       const marketRentFrequency =
         getFormDataString(req, 'proposed-market-rent', 'applicantSuggestedMarketRentFrequency') ??
         marketRentDetails?.applicantSuggestedMarketRentFrequency;
+      const additionalInfo =
+        getFormDataString(
+          req,
+          'anything-else-tribunal-should-consider',
+          'additionalInfoToConsiderWhenDeterminingRent'
+        ) ?? marketRentDetails?.additionalPropertyInfoToConsiderWhenDetermining;
 
       return {
         marketRentDetails: {
@@ -321,6 +327,15 @@ export function prepareDataForSave(
           applicantSuggestedMarketRentReasons:
             getFormDataString(req, 'proposed-market-rent-reasons', 'applicantSuggestedMarketRentReasons') ??
             marketRentDetails?.applicantSuggestedMarketRentReasons,
+          additionalInfoToConsiderWhenDeterminingRent: additionalInfo,
+          additionalInfoToConsiderWhenDeterminingRentDetails:
+            additionalInfo === 'Yes'
+              ? (getFormDataString(
+                  req,
+                  'anything-else-tribunal-should-consider',
+                  'additionalInfoToConsiderWhenDeterminingRent.additionalInfoToConsiderWhenDeterminingRentDetails'
+                ) ?? marketRentDetails?.additionalPropertyInfoToConsiderWhenDeterminingDetails)
+              : undefined,
         },
       };
     }

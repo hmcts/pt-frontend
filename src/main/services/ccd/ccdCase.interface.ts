@@ -29,7 +29,7 @@ export enum LanguageUsed {
 
 export enum CaseRole {
   CREATOR = '[CREATOR]',
-  RESPONDENT = '[RESPONDENT]',
+  DEFENDANT = '[DEFENDANT]',
 }
 
 /** CCD SDK Document type -- flat reference with URLs. */
@@ -163,7 +163,7 @@ export interface CcdCaseData {
     applicantSuggestedMarketRentFrequency?: string;
     applicantSuggestedMarketRentFrequencyOther?: string;
     applicantSuggestedMarketRentReasons?: string;
-    suggestedMarketRentEvidence?: CcdUploadedDocument;
+    suggestedMarketRentEvidence?: CcdCollectionItem<CcdUploadedDocument>[];
     additionalInfoToConsiderWhenDeterminingRent?: string | boolean;
     additionalInfoToConsiderWhenDeterminingRentDetails?: string;
   };
@@ -400,6 +400,9 @@ export interface MarketRentDetails {
   applicantSuggestedMarketRentFrequency?: string;
   applicantSuggestedMarketRentFrequencyOther?: string;
   applicantSuggestedMarketRentReasons?: string;
+  suggestedMarketRentEvidence?: PtCaseDocument[];
+  additionalPropertyInfoToConsiderWhenDetermining?: YesNoValue;
+  additionalPropertyInfoToConsiderWhenDeterminingDetails?: string;
 }
 
 export interface InspectionAndHearing {
