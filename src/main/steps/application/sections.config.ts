@@ -98,7 +98,13 @@ const sectionDefs = [
     id: 'whatYouThinkMarketRentShouldBe',
     groupId: 'theRent',
     titleKey: 'taskList.whatYouThinkMarketRentShouldBe',
-    steps: ['proposed-market-rent', 'proposed-market-rent-reasons', 'upload-evidence-proposed-market-rent'],
+    steps: [
+      'proposed-market-rent',
+      'proposed-market-rent-reasons',
+      'upload-evidence-proposed-market-rent',
+      'anything-else-tribunal-should-consider',
+      'check-your-answers-what-you-think-market-rent-should-be',
+    ],
   },
   {
     id: 'propertyDetails',

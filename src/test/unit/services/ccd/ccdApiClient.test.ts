@@ -227,7 +227,7 @@ describe('getCaseUsers', () => {
           {
             case_id: TEST_CASE_ID,
             user_id: 'user-id-1',
-            case_role: '[RESPONDENT]',
+            case_role: '[DEFENDANT]',
           },
         ],
       },
@@ -241,7 +241,7 @@ describe('getCaseUsers', () => {
       {
         case_id: TEST_CASE_ID,
         user_id: 'user-id-1',
-        case_role: '[RESPONDENT]',
+        case_role: '[DEFENDANT]',
       },
     ]);
     expect(mockedAxios.get).toHaveBeenCalledWith('/case-users', {
