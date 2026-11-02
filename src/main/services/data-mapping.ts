@@ -1,5 +1,7 @@
 import { Request } from 'express';
 
+import type { StepName } from '../steps/stepNames';
+
 import { getFormData, getFormDataString } from '@modules/steps/formBuilder/helpers';
 import { PTCaseData } from '@services/ccd/ccdCase.interface';
 import { toCaseReference16 } from '@utils/caseReference';
@@ -30,7 +32,7 @@ const toIsoDate = (day?: unknown, month?: unknown, year?: unknown): string | und
   return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 };
 
-const dateParts = (req: Request, step: string, field: string): DateParts | undefined =>
+const dateParts = (req: Request, step: StepName, field: string): DateParts | undefined =>
   getFormData(req, step)[field] as DateParts | undefined;
 
 export function prepareDataForSave(

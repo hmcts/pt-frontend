@@ -32,4 +32,5 @@ export interface StepDefinition {
   showCancelButton?: boolean;
   // Truthy/falsy — consumers coerce. Lets `req => validatedCase?.foo` work without a Boolean(...) wrap.
   isAnswered?: (req: Request) => unknown;
+  fieldNames?: readonly string[];
 }
