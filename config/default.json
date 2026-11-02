@@ -48,8 +48,7 @@
     "clientSecret": "",
     "systemUsername": "dummy_user",
     "systemPassword": "",
-    "caching": false,
-    "requiredRole": "citizen"
+    "caching": false
   },
   "oidc": {
     "accessTokenEarlyRefreshSeconds": 30

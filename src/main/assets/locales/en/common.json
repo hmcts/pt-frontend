@@ -90,8 +90,7 @@
     },
     "accessDenied": {
       "title": "You do not have access to this page",
-      "paragraph1": "Contact us if you think you should have access, or if you need help with your case.",
-      "paragraph2": "If you signed in with a work or professional account, <a href=\"/logout\" class=\"govuk-link\">sign out</a> and sign in again with your personal account."
+      "paragraph": "Contact us if you think you should have access, or if you need help with your case."
     }
   },
   "taskList": {
