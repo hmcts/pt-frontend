@@ -1,5 +1,5 @@
 import {
-  getTextLenghtError,
+  getTextLengthError,
   looksLikeHtml,
   stripHtmlTags,
   textAreaIsValidLength,
@@ -73,28 +73,28 @@ describe('textAreaIsValidLength', () => {
     expect(textAreaIsValidLength('a'.repeat(4999) + '\r\n\r\n', 5000)).toBe(false);
   });
 
-  describe('getTextLenghtError', () => {
+  describe('getTextLengthError', () => {
     it('returns undefined when value is empty', () => {
-      expect(getTextLenghtError(undefined, 2, 50)).toBeUndefined();
-      expect(getTextLenghtError('', 2, 50)).toBeUndefined();
+      expect(getTextLengthError(undefined, 2, 50)).toBeUndefined();
+      expect(getTextLengthError('', 2, 50)).toBeUndefined();
     });
 
     it('returns "tooShort" when value is shorter than min', () => {
-      expect(getTextLenghtError('a', 2, 50)).toBe('tooShort');
+      expect(getTextLengthError('a', 2, 50)).toBe('tooShort');
     });
 
     it('returns "tooLong" when value is longer than max', () => {
-      expect(getTextLenghtError('a'.repeat(51), 2, 50)).toBe('tooLong');
+      expect(getTextLengthError('a'.repeat(51), 2, 50)).toBe('tooLong');
     });
 
     it('returns undefined when value is within min and max', () => {
-      expect(getTextLenghtError('a'.repeat(25), 2, 50)).toBeUndefined();
+      expect(getTextLengthError('a'.repeat(25), 2, 50)).toBeUndefined();
     });
 
     it('counts line breaks as one character each', () => {
-      expect(getTextLenghtError('a'.repeat(49) + '\r\n', 2, 50)).toBeUndefined();
-      expect(getTextLenghtError('a'.repeat(48) + '\r\n\r\n', 2, 50)).toBeUndefined();
-      expect(getTextLenghtError('a'.repeat(48) + '\r\n\r\n\r\n', 2, 50)).toBe('tooLong');
+      expect(getTextLengthError('a'.repeat(49) + '\r\n', 2, 50)).toBeUndefined();
+      expect(getTextLengthError('a'.repeat(48) + '\r\n\r\n', 2, 50)).toBeUndefined();
+      expect(getTextLengthError('a'.repeat(48) + '\r\n\r\n\r\n', 2, 50)).toBe('tooLong');
     });
   });
 });
