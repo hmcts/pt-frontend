@@ -9,6 +9,10 @@
   "cdam": {
     "url": "CDAM_URL"
   },
+  "equalityAndDiversity": {
+    "url": "EQUALITY_URL",
+    "tokenKey": "PCQ_TOKEN"
+  },
   "documentUpload": {
     "maxFileSizeMB": "DOCUMENT_UPLOAD_MAX_FILE_SIZE_MB",
     "maxTotalFileSizeMB": "DOCUMENT_UPLOAD_MAX_TOTAL_FILE_SIZE_MB",

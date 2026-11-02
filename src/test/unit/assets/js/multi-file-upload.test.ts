@@ -8,6 +8,7 @@ import { initMultiFileUpload } from '../../../../main/assets/js/multi-file-uploa
 jest.mock('@ministryofjustice/frontend', () => ({
   MultiFileUpload: jest.fn().mockImplementation(function (this: Record<string, unknown>) {
     this.uploadFile = jest.fn();
+    this.getDeleteButton = jest.fn();
   }),
 }));
 
@@ -64,6 +65,8 @@ const render = (serverErrorSummary = false, multiple = false): void => {
                  data-error-prefix="Error:"
                  data-choose-file-text="Choose file"
                  data-drop-file-text="or drop file"
+                 data-no-file-chosen-text="No file chosen"
+                 data-delete-button-text="Remove"
                  data-multiple="${multiple}">
               <div class="govuk-form-group">
                 <label class="govuk-label" for="documents">Upload a floor plan</label>
@@ -487,6 +490,84 @@ describe('initMultiFileUpload', () => {
 
       expect(config.dropzoneButtonText).toBe('Choose file');
       expect(config.dropzoneHintText).toBe('or drop file');
+    });
+  });
+
+  describe('the no file chosen status', () => {
+    const status = (): HTMLElement => document.querySelector('.pt-file-upload-status') as HTMLElement;
+
+    it('shows the text from the page above the button when nothing is uploaded', () => {
+      expect(status().textContent).toBe('No file chosen');
+      expect(status().classList).not.toContain('moj-hidden');
+      expect(document.querySelector('.moj-multi-file-upload__dropzone')?.firstElementChild).toBe(status());
+    });
+
+    it('starts hidden when the page already lists a document', () => {
+      jest.clearAllMocks();
+      render();
+      uploadedRow();
+      initMultiFileUpload();
+
+      expect(status().classList).toContain('moj-hidden');
+    });
+
+    it('hides once a document is uploaded', () => {
+      uploadedRow();
+      hooksOf().exitHook(null, fileOf('floor-plan.pdf'), jsonXhr({}, 200), 'OK');
+
+      expect(status().classList).toContain('moj-hidden');
+    });
+
+    it('shows again once the last document is removed', () => {
+      const row = uploadedRow();
+      hooksOf().exitHook(null, fileOf('floor-plan.pdf'), jsonXhr({}, 200), 'OK');
+
+      row.remove();
+      hooksOf().deleteHook(null, undefined, jsonXhr(null, 200), 'OK');
+
+      expect(status().classList).not.toContain('moj-hidden');
+    });
+
+    it('falls back to English when the page gives no text', () => {
+      jest.clearAllMocks();
+      render();
+      container().removeAttribute('data-no-file-chosen-text');
+      initMultiFileUpload();
+
+      expect(status().textContent).toBe('No file chosen');
+    });
+  });
+
+  describe('the button on a newly uploaded row', () => {
+    const deleteButtonFor = (file: { filename: string; originalname: string }): HTMLButtonElement =>
+      (
+        mockedMultiFileUpload.mock.instances[0] as unknown as {
+          getDeleteButton: (f: typeof file) => HTMLButtonElement;
+        }
+      ).getDeleteButton(file);
+
+    it('uses the page text rather than the component default, matching rows drawn on page load', () => {
+      const button = deleteButtonFor({ filename: '7', originalname: 'floor-plan.pdf' });
+
+      expect(button.firstChild?.textContent).toBe('Remove');
+      expect(button.value).toBe('7');
+      expect(button.classList).toContain('moj-multi-file-upload__delete');
+      expect(button.querySelector('.govuk-visually-hidden')?.textContent).toBe(' floor-plan.pdf');
+    });
+
+    it('treats the file name as text, not markup', () => {
+      const button = deleteButtonFor({ filename: '7', originalname: '<img src=x>.pdf' });
+
+      expect(button.querySelector('img')).toBeNull();
+    });
+
+    it('falls back to Remove when the page gives no text', () => {
+      jest.clearAllMocks();
+      render();
+      container().removeAttribute('data-delete-button-text');
+      initMultiFileUpload();
+
+      expect(deleteButtonFor({ filename: '7', originalname: 'a.pdf' }).firstChild?.textContent).toBe('Remove');
     });
   });
 

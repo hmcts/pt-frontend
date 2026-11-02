@@ -25,6 +25,13 @@
   "cdam": {
     "url": "http://ccd-case-document-am-api-aat.service.core-compute-aat.internal"
   },
+  "equalityAndDiversity": {
+    "name": "Equality and Diversity Service",
+    "url": "http://localhost:5000",
+    "path": "/service-endpoint",
+    "port": 5000,
+    "tokenKey": ""
+  },
   "documentUpload": {
     "maxFileSizeMB": 25,
     "maxTotalFileSizeMB": 300,
@@ -38,9 +45,9 @@
     "endSessionURL": "https://hmcts-access.aat.platform.hmcts.net/o/endSession",
     "clientID": "pt-frontend",
     "authorizationScope": "openid profile roles",
-    "clientSecret": "NEED TO INSERT SECRET",
+    "clientSecret": "",
     "systemUsername": "dummy_user",
-    "systemPassword": "NEED TO INSERT SECRET",
+    "systemPassword": "",
     "caching": false
   },
   "oidc": {
@@ -49,11 +56,11 @@
   "authProvider": {
     "url": "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal",
     "microservice": "pt_frontend",
-    "secret": "NEED TO INSERT SECRET"
+    "secret": ""
   },
   "session": {
     "redis-connection-string": "redis://localhost:6379",
-    "pt-session-secret": "NEED TO INSERT SECRET",
+    "pt-session-secret": "",
     "prefix": "pt-session",
     "cookieName": "pt_session",
     "redis": {
