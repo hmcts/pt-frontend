@@ -29,7 +29,7 @@ export enum LanguageUsed {
 
 export enum CaseRole {
   CREATOR = '[CREATOR]',
-  RESPONDENT = '[RESPONDENT]',
+  DEFENDANT = '[DEFENDANT]',
 }
 
 /** CCD SDK Document type -- flat reference with URLs. */
@@ -81,6 +81,7 @@ export interface CcdCaseData {
 
   hearingInspectionDetails?: {
     hearingRequested?: string | boolean;
+    reasonHearingRequested?: string;
     agreeToDecisionWithoutInspection?: string | boolean;
     noDecisionWithoutInspectionReason?: string;
   };
@@ -161,7 +162,7 @@ export interface CcdCaseData {
   marketRentDetails?: {
     applicantSuggestedMarketRent?: number;
     applicantSuggestedMarketRentReasons?: string;
-    suggestedMarketRentEvidence?: CcdUploadedDocument;
+    suggestedMarketRentEvidence?: CcdCollectionItem<CcdUploadedDocument>[];
     additionalInfoToConsiderWhenDeterminingRent?: string | boolean;
     additionalInfoToConsiderWhenDeterminingRentDetails?: string;
   };
@@ -240,8 +241,7 @@ export interface StartCallbackData {
  * Case data payload returned from PT API get case(s) calls
  * To reflect ApplicationDto in pt-api
  * */
-export interface PTCaseData
-  extends LandlordDetails, PropertyDetails, LettingAgentDetails, InspectionAndHearing, HelpWithFeesDetails {
+export interface PTCaseData extends LandlordDetails, PropertyDetails, LettingAgentDetails, HelpWithFeesDetails {
   caseReference: bigint;
   createdDate: string;
   submittedOn?: string;
@@ -262,6 +262,7 @@ export interface PTCaseData
   marketRentDetails?: MarketRentDetails;
   tenancyAgreementDetails?: TenancyAgreementDetails;
   noticeOfRentIncreaseDetails?: NoticeOfRentIncreaseDetails;
+  hearingInspectionDetails?: HearingInspectionDetails;
 }
 
 export interface TenantDetails {
@@ -396,13 +397,16 @@ export interface RentDetails {
 export interface MarketRentDetails {
   applicantSuggestedMarketRent?: number;
   applicantSuggestedMarketRentReasons?: string;
+  suggestedMarketRentEvidence?: PtCaseDocument[];
+  additionalPropertyInfoToConsiderWhenDetermining?: YesNoValue;
+  additionalPropertyInfoToConsiderWhenDeterminingDetails?: string;
 }
 
-export interface InspectionAndHearing {
-  agreeToDecisionWithoutInspection?: string | boolean;
+export interface HearingInspectionDetails {
+  agreeToDecisionWithoutInspection?: string;
   noDecisionWithoutInspectionReason?: string;
-  agreeToDecisionWithoutHearing?: string | boolean;
-  noDecisionWithoutHearingReason?: string;
+  hearingRequested?: string;
+  reasonHearingRequested?: string;
 }
 
 export interface HelpWithFeesDetails {
