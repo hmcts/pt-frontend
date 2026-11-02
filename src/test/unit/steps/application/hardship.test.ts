@@ -57,7 +57,7 @@ describe('application hardship step', () => {
     const { req, res } = await post({
       action: 'continue',
       rentIncreaseCauseHardship: 'no',
-      rentIncreaseHardshipDetails: 'some reason',
+      'rentIncreaseCauseHardship.rentIncreaseHardshipDetails': 'some reason',
     });
 
     expect(res.redirect).toHaveBeenCalled();
