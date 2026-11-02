@@ -1,10 +1,10 @@
 {
   "pageTitle": "cyRespond to the tenant’s application",
   "heading": "cyRespond to the tenant’s application",
-  "daysNotice": "cyYou have 28 days from the date the tribunal sent you the tenant’s application if you want to submit a response. The deadline date is written under ‘Your response’ in your case overview.",
+  "daysNotice": "cyYou have 28 days from the tenant’s application date if you want to submit a response to the tribunal. ",
   "respondingOptional": "cyResponding is optional.",
-  "noFee": "cyThere is no fee to send a response. ",
-  "answersSavedAutomatically": "cyYour answers are saved automatically.",
+  "noFee": "cyThere is no fee to send a response.",
+  "answersSavedAutomatically": "cyYour answers get saved automatically. You can review and edit your answers before you submit your response.",
   "responseSharedWithTenant": "cyWe will share your response and any attachments with the tenant and any representatives.",
   "subheading": "cyWhat you will need",
   "wantCopy": "cyYou may want to have a copy of the tenant’s application with you.",
