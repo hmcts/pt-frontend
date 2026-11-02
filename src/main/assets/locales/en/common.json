@@ -90,7 +90,8 @@
     },
     "accessDenied": {
       "title": "You do not have access to this page",
-      "paragraph": "Contact us if you think you should have access, or if you need help with your case."
+      "paragraph1": "Contact us if you think you should have access, or if you need help with your case.",
+      "paragraph2": "If you signed in with a work or professional account, <a href=\"/logout\" class=\"govuk-link\">sign out</a> and sign in again with your personal account."
     }
   },
   "taskList": {
@@ -106,7 +107,10 @@
     "propertyInspection": "Tell us if you think an inspection, a hearing, or both are needed",
     "extraSupport": "Tell us if you need extra support during your case",
     "tellUsIfYouNeedHelp": "Tell us if you are eligible for help with fees",
-    "checkYourAnswersAndSubmit": "Check your answers and submit your application"
+    "checkYourAnswersAndSubmit": "Check your answers and submit your application",
+    "tenantsApplication": "Tenant's application",
+    "yourResponse": "Respond to tenant's application",
+    "tribunalsDetermination": "View the tribunal’s open market rent decision"
   },
   "documentUpload": {
     "uploadButton": "Upload file",
