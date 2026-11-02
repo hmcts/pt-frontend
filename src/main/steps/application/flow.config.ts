@@ -24,6 +24,9 @@ export const flowConfig: JourneyFlowConfig = {
     'upload-tenancy-agreement': {
       showCondition: (req: Request) => getFormData(req, 'have-tenancy-agreement').copyOfTenancyAgreement === 'Yes',
     },
+    'upload-landlords-notice': {
+      showCondition: (req: Request) => getFormData(req, 'have-landlords-notice').haveLandlordsNotice === 'Yes',
+    },
     'upload-evidence-notice-not-legally-valid': {
       showCondition: (req: Request) => getFormData(req, 'your-notice-proposing-a-new-rent').noticeLegallyValid === 'no',
     },
