@@ -2,6 +2,7 @@ import type { Request } from 'express';
 import type { TFunction } from 'i18next';
 import { DateTime } from 'luxon';
 
+import type { ApplicationStepName } from '../../../stepRegistry';
 import { SummaryListRow, createRowContext, escapeWithLineBreaks, isYes } from '../../section-cya/cyaRow';
 import { ApplicationSectionId } from '../../sections.config';
 
@@ -62,24 +63,24 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
     return [];
   }
   const { rows, validatedCase, change } = ctx;
-  const stepData = (step: string): Record<string, unknown> => getFormData(req, step);
+  const stepData = (step: ApplicationStepName): Record<string, unknown> => getFormData(req, step);
   const lang = req.i18n?.language ?? 'en';
 
   const rentDetails = validatedCase?.rentDetails;
 
-  const read = (step: string, field: string): string | undefined =>
+  const read = (step: ApplicationStepName, field: string): string | undefined =>
     (stepData(step)[field] as string | undefined) ??
     (rentDetails?.[(caseFieldNames[field] ?? field) as keyof RentDetails] as string | undefined);
 
-  const readSubField = (step: string, parent: string, field: string): string | undefined =>
+  const readSubField = (step: ApplicationStepName, parent: string, field: string): string | undefined =>
     (stepData(step)[`${parent}.${field}`] as string | undefined) ??
     (rentDetails?.[(caseFieldNames[field] ?? field) as keyof RentDetails] as string | undefined);
 
-  const readDate = (step: string, field: string): DateValue | undefined =>
+  const readDate = (step: ApplicationStepName, field: string): DateValue | undefined =>
     (stepData(step)[field] as DateValue | undefined) ??
     toDateParts(rentDetails?.[field as keyof RentDetails] as string | undefined);
 
-  const pushYesNo = (step: string, field: string, answer: string): void => {
+  const pushYesNo = (step: ApplicationStepName, field: string, answer: string): void => {
     rows.push({
       key: { text: t(`rows.${field}.label`) },
       value: { text: t(`rows.${field}.options.${answer.trim().toLowerCase()}`) },
@@ -87,7 +88,7 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
     });
   };
 
-  const pushTextRow = (step: string, field: string, value: string): void => {
+  const pushTextRow = (step: ApplicationStepName, field: string, value: string): void => {
     rows.push({
       key: { text: t(`rows.${field}.label`) },
       value: { html: escapeWithLineBreaks(value) },
@@ -95,7 +96,7 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
     });
   };
 
-  const pushDateRow = (step: string, field: string, value?: DateValue): void => {
+  const pushDateRow = (step: ApplicationStepName, field: string, value?: DateValue): void => {
     const formatted = formatDateValue(value ?? readDate(step, field), lang);
     if (formatted) {
       rows.push({
@@ -106,7 +107,12 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
     }
   };
 
-  const pushFrequencyRows = (step: string, field: string, amountFields: AmountFields, detailsField: string): void => {
+  const pushFrequencyRows = (
+    step: ApplicationStepName,
+    field: string,
+    amountFields: AmountFields,
+    detailsField: string
+  ): void => {
     const frequency = read(step, field);
     if (!frequency) {
       return;

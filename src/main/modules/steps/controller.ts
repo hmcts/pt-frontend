@@ -3,7 +3,7 @@ import type { TFunction } from 'i18next';
 
 import { getCommonTranslations, getRequestLanguage } from '../i18n';
 
-import { getFormData, setFormData, validateForm } from './formBuilder/helpers';
+import { getFormDataUnchecked, setFormData, validateForm } from './formBuilder/helpers';
 import { type TranslationContent, getStepTranslations, getTranslationFunction, loadStepNamespace } from './i18n';
 
 import { Logger } from '@modules/logger';
@@ -62,7 +62,7 @@ export const createGetController = (
       }
     }
 
-    const formData = getFormData(req, stepName);
+    const formData = getFormDataUnchecked(req, stepName);
     const postData = req.body || {};
     const lang = getRequestLanguage(req);
 

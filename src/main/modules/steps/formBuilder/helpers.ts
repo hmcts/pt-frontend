@@ -2,6 +2,7 @@ import type { Request } from 'express';
 import type { TFunction } from 'i18next';
 import _ from 'lodash';
 
+import type { StepName } from '../../../steps/stepNames';
 import { stripHtmlTags } from '../../../steps/utils/fieldValidators';
 
 import { getNestedFieldName, isOptionSelected } from './conditionalFields';
@@ -281,9 +282,11 @@ export const getFormDataScope = (req: Request): string => toCaseReference16(req.
 export const getScopedFormData = (req: Request): Record<string, StepFormData> =>
   req.session?.formData?.[getFormDataScope(req)] ?? {};
 
-export const getFormData = (req: Request, stepName: string): StepFormData => {
+export const getFormDataUnchecked = (req: Request, stepName: string): StepFormData => {
   return getScopedFormData(req)[stepName] || {};
 };
+
+export const getFormData = (req: Request, stepName: StepName): StepFormData => getFormDataUnchecked(req, stepName);
 
 export const setFormData = (req: Request, stepName: string, data: StepFormData): void => {
   const scope = getFormDataScope(req);
@@ -297,7 +300,7 @@ export const setFormData = (req: Request, stepName: string, data: StepFormData):
 };
 
 /** One field of a step's answers, narrowed to a string. */
-export const getFormDataString = (req: Request, stepName: string, field: string): string | undefined => {
+export const getFormDataString = (req: Request, stepName: StepName, field: string): string | undefined => {
   const value = getFormData(req, stepName)[field];
   return typeof value === 'string' ? value : undefined;
 };
