@@ -37,6 +37,7 @@
     "tokenURL": "IDAM_API_URL",
     "endSessionURL": "IDAM_END_SESSION_URL",
     "clientSecret": "PT_FRONTEND_IDAM_SECRET",
+    "systemPassword": "PT_SYSTEM_USER_PASSWORD",
     "testUser": {
       "email": "IDAM_PT_USER_EMAIL",
       "password": "IDAM_PT_USER_PASSWORD"
@@ -47,6 +48,7 @@
     "secret": "S2S_AUTH_PROVIDER_SECRET"
   },
   "session": {
-    "redis-connection-string": "REDIS_CONNECTION_STRING"
+    "redis-connection-string": "REDIS_CONNECTION_STRING",
+    "pt-session-secret": "PT_SESSION_SECRET"
   }
 }
