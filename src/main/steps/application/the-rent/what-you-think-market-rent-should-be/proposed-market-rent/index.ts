@@ -14,9 +14,6 @@ const frequencyFieldName = 'applicantSuggestedMarketRentFrequency';
 const otherFieldName = 'applicantSuggestedMarketRentFrequencyOther';
 const otherFormKey = `${frequencyFieldName}.${otherFieldName}`;
 
-const otherMinLength = 2;
-const otherMaxLength = 500;
-
 export const step: StepDefinition = createFormStep({
   stepName,
   journeyFolder: journeyName,
@@ -77,7 +74,7 @@ export const step: StepDefinition = createFormStep({
               translationKey: { label: `${otherFieldName}.label` },
               errorMessage: `errors.${otherFieldName}.required`,
               validator: (value: unknown): boolean | string => {
-                const error = getTextLengthError(value as string, otherMinLength, otherMaxLength);
+                const error = getTextLengthError(value as string, 2, 500);
                 return error ? `errors.${otherFieldName}.${error}` : true;
               },
             },
