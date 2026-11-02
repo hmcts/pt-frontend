@@ -57,7 +57,7 @@ describe('application your-notice-proposing-a-new-rent step', () => {
     const { req, res } = await post({
       action: 'continue',
       noticeLegallyValid: 'yes',
-      noticeNotLegallyValidReason: 'some reason',
+      'noticeLegallyValid.noticeNotLegallyValidReason': 'some reason',
     });
 
     expect(res.redirect).toHaveBeenCalled();
