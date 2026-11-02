@@ -5,17 +5,17 @@
     "paragraph2": "cyOnly ask for a hearing if you want to attend a tribunal to add to the documents and evidence you have provided. The tribunal will consider all documents and evidence with or without a hearing.",
     "paragraph3": "cyThe tribunal will decide if a hearing is needed."
   },
-  "questionTitle": "cyDo you agree in the tribunal making a decision without a hearing?",
+  "questionTitle": "cyDo you want a hearing?",
   "options": {
-    "noDecisionWithoutHearingReason": {
+    "reasonHearingRequested": {
       "label": "cyTell us why you think a hearing is needed"
     }
   },
   "errors": {
-    "agreeToDecisionWithoutHearing": {
-      "required": "cySelect yes if you agree to the tribunal making a decision without a hearing"
+    "hearingRequested": {
+      "required": "cySelect yes if you want a hearing"
     },
-    "noDecisionWithoutHearingReason": {
+    "reasonHearingRequested": {
       "required": "cyEnter why you think a hearing is needed",
       "invalid": "cyWhy you think a hearing is needed must be 500 characters or fewer"
     }
