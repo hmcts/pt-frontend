@@ -24,16 +24,22 @@ export const config: CodeceptJS.MainConfig = {
   tests: './*_test.{js,ts}',
   retry: 2,
   plugins: {
+    // Codecept 4 replays worker events on the main process. These plugins expect
+    // the live test, browser, or Gherkin feature, which only exist inside a worker
+    // (and on a serial run, where worker mode is off).
     allure: {
       enabled: true,
       require: '@codeceptjs/allure-legacy',
+      runInParent: false,
     },
     pauseOnFail: {
       enabled: !testConfig.TestHeadlessBrowser,
+      runInParent: false,
     },
     retryFailedStep: {
       enabled: true,
       retries: 1,
+      runInParent: false,
     },
     tryTo: {
       enabled: false,
@@ -41,12 +47,10 @@ export const config: CodeceptJS.MainConfig = {
     screenshotOnFail: {
       enabled: true,
       fullPageScreenshots: true,
+      runInParent: false,
     },
     cucumberJsonReporter: {
       enabled: true,
-      // Codecept 4 re-emits simplified worker suites on the main process.
-      // Those copies have no Gherkin feature and crash this reporter.
-      // Each worker still writes its own cucumber JSON; run.sh merges them.
       runInParent: false,
       require: 'codeceptjs-cucumber-json-reporter',
       attachScreenshots: true,
