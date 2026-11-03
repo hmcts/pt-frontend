@@ -69,7 +69,7 @@
     "libphonenumber-js": "^1.13.11",
     "lodash": "4.18.1",
     "luxon": "3.7.2",
-    "module-alias": "2.3.4",
+    "module-alias": "2.3.5",
     "moment": "^2.31.0",
     "multer": "^2.5.0",
     "node-cache": "5.1.2",
