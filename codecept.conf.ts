@@ -22,7 +22,12 @@ export const config: CodeceptJS.MainConfig = {
   output: './functional-output/functional/reports',
   helpers: testConfig.helpers,
   tests: './*_test.{js,ts}',
-  retry: 2,
+  // Scenario retries a failed scenario. Before retries the Gherkin Background,
+  // which a plain number does not cover. Both are extra attempts after the first run.
+  retry: {
+    Scenario: 2,
+    Before: 2,
+  },
   plugins: {
     // Codecept 4 replays worker events on the main process. These plugins expect
     // the live test, browser, or Gherkin feature, which only exist inside a worker
