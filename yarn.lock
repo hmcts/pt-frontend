@@ -11073,10 +11073,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jose@npm:6.2.14":
-  version: 6.2.14
-  resolution: "jose@npm:6.2.14"
-  checksum: 10/9b49493c2b7f65c3f00e7feb803faf85bb29b85f4bed571b797987a653abaa6cdb47dafb49837e0cf2bd7cbf1736a254ec9b895af28b2bd53dae8c5f011d03b9
+"jose@npm:6.2.15":
+  version: 6.2.15
+  resolution: "jose@npm:6.2.15"
+  checksum: 10/57ea834a3aae6612b603dc04e5e068dabf1582934ffc759f004a0c654632bec06e6184aee73246157d03fb56179d50ac4e5c56ad02cf939086ef888ae8d8ebec
   languageName: node
   linkType: hard
 
@@ -13728,7 +13728,7 @@ __metadata:
     jest-environment-jsdom: "npm:30.5.2"
     jest-html-reporter: "npm:3.10.2"
     jest-junit: "npm:16.0.0"
-    jose: "npm:6.2.14"
+    jose: "npm:6.2.15"
     jsonwebtoken: "npm:^9.0.3"
     libphonenumber-js: "npm:^1.13.11"
     lint-staged: "npm:17.6.0"
