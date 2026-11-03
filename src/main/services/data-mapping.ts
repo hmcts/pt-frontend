@@ -301,6 +301,9 @@ export function prepareDataForSave(
 
     case 'whatYouThinkMarketRentShouldBe': {
       const marketRentDetails = saved?.marketRentDetails;
+      const marketRentFrequency =
+        getFormDataString(req, 'proposed-market-rent', 'applicantSuggestedMarketRentFrequency') ??
+        marketRentDetails?.applicantSuggestedMarketRentFrequency;
       const additionalInfo =
         getFormDataString(
           req,
@@ -314,6 +317,15 @@ export function prepareDataForSave(
             getFormDataString(req, 'proposed-market-rent', 'applicantSuggestedMarketRent') ??
               marketRentDetails?.applicantSuggestedMarketRent
           ),
+          applicantSuggestedMarketRentFrequency: marketRentFrequency,
+          applicantSuggestedMarketRentFrequencyOther:
+            marketRentFrequency === 'other'
+              ? (getFormDataString(
+                  req,
+                  'proposed-market-rent',
+                  'applicantSuggestedMarketRentFrequency.applicantSuggestedMarketRentFrequencyOther'
+                ) ?? marketRentDetails?.applicantSuggestedMarketRentFrequencyOther)
+              : undefined,
           applicantSuggestedMarketRentReasons:
             getFormDataString(req, 'proposed-market-rent-reasons', 'applicantSuggestedMarketRentReasons') ??
             marketRentDetails?.applicantSuggestedMarketRentReasons,
