@@ -358,9 +358,16 @@ export function prepareDataForSave(
         },
       };
     }
-    // case 'extraSupport': {
-    //   return {};
-    // }
+    case 'extraSupport': {
+      const extraSupportRequired =
+        getFormDataString(req, 'extra-support', 'extraSupport') ?? saved?.extraSupportDetails?.extraSupportRequired;
+
+      return {
+        extraSupportDetails: {
+          extraSupportRequired,
+        },
+      };
+    }
     // case 'tellUsIfYouNeedHelp': {
     //   return {};
     // }

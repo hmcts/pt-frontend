@@ -1,4 +1,23 @@
 {
-  "pageTitle": "cySupport for health conditions",
-  "heading": "cySupport for health conditions"
+  "pageTitle": "cy Extra support during your case",
+  "heading": "cy Extra support during your case",
+  "guidance": "cy Some people need support to access information and use our services. We call this a reasonable adjustment. Some reasonable adjustments need to be agreed by the judge or HMCTS. You can discuss with the tribunal if your needs change.",
+  "reasonableAdjustments": {
+    "summary": "cy What support is available?",
+    "introduction": "cy Reasonable adjustments can include:",
+    "option1": "cy documents in alternative formats, colours and fonts",
+    "option2": "cy help with communicating, sight, hearing, speaking and interpretation",
+    "option3": "cy access and mobility support if you attend a hearing in person"
+  },
+  "questionTitle": "cy Do you have a physical, mental or learning disability or health condition that means you need support during your case?",
+  "options": {
+    "no": {
+      "label": "cy No - I do not need any support at this time"
+    }
+  },
+  "errors": {
+    "extraSupport": {
+      "required": "cy Select whether you have a physical, mental or learning disability or health condition that means you need support during your case"
+    }
+  }
 }
