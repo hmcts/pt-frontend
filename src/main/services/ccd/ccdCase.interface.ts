@@ -158,6 +158,8 @@ export interface CcdCaseData {
     anyOtherHouseholdManagementCharges?: string | boolean;
     otherHouseholdManagementChargesDetails?: string;
     applicantSuggestedMarketRent?: number;
+    applicantSuggestedMarketRentFrequency?: string;
+    applicantSuggestedMarketRentFrequencyOther?: string;
     applicantSuggestedMarketRentReasons?: string;
     suggestedMarketRentEvidence?: CcdCollectionItem<CcdUploadedDocument>[];
     additionalInfoToConsiderWhenDeterminingRent?: string | boolean;
@@ -390,6 +392,8 @@ export interface RentDetails {
 
   // market rent
   applicantSuggestedMarketRent?: number;
+  applicantSuggestedMarketRentFrequency?: string;
+  applicantSuggestedMarketRentFrequencyOther?: string;
   applicantSuggestedMarketRentReasons?: string;
   suggestedMarketRentEvidence?: PtCaseDocument[];
   additionalPropertyInfoToConsiderWhenDetermining?: YesNoValue;
