@@ -1447,40 +1447,40 @@ describe('formBuilder helpers', () => {
     describe('validate function', () => {
       it('should return error when validate function returns string', () => {
         const req = createMockRequest({
-          password: '123',
-          confirmPassword: '456',
+          email: '123',
+          confirmEmail: '456',
         });
         const fields: FormFieldConfig[] = [
           {
-            name: 'confirmPassword',
+            name: 'confirmEmail',
             type: 'text',
             validate: (value, formData) => {
-              return value === formData.password ? undefined : 'Passwords do not match';
+              return value === formData.email ? undefined : 'Emails do not match';
             },
           },
         ];
 
         const errors = validateForm(req, fields);
-        expect(errors.confirmPassword).toBe('Passwords do not match');
+        expect(errors.confirmEmail).toBe('Emails do not match');
       });
 
       it('should not return error when validate function returns undefined', () => {
         const req = createMockRequest({
-          password: '123',
-          confirmPassword: '123',
+          email: '123',
+          confirmEmail: '123',
         });
         const fields: FormFieldConfig[] = [
           {
-            name: 'confirmPassword',
+            name: 'confirmEmail',
             type: 'text',
             validate: (value, formData) => {
-              return value === formData.password ? undefined : 'Passwords do not match';
+              return value === formData.email ? undefined : 'Emails do not match';
             },
           },
         ];
 
         const errors = validateForm(req, fields);
-        expect(errors.confirmPassword).toBeUndefined();
+        expect(errors.confirmEmail).toBeUndefined();
       });
 
       it('should run validate function even for empty optional fields', () => {
@@ -1848,49 +1848,49 @@ describe('formBuilder helpers', () => {
     describe('allFormData parameter', () => {
       it('should use allFormData for validation context', () => {
         const req = createMockRequest({
-          confirmPassword: '123',
+          confirmEmail: '123',
         });
         const fields: FormFieldConfig[] = [
           {
-            name: 'confirmPassword',
+            name: 'confirmEmail',
             type: 'text',
             validate: (value, formData, allData) => {
-              return value === allData?.password ? undefined : 'Passwords do not match';
+              return value === allData?.email ? undefined : 'Emails do not match';
             },
           },
         ];
 
         const allFormData = {
-          password: '123',
+          email: '123',
         };
 
         const errors = validateForm(req, fields, undefined, allFormData);
-        expect(errors.confirmPassword).toBeUndefined();
+        expect(errors.confirmEmail).toBeUndefined();
       });
 
       it('should merge session formData when allFormData not provided', () => {
         const req = createMockRequest(
           {
-            confirmPassword: '123',
+            confirmEmail: '123',
           },
           {
             step1: {
-              password: '123',
+              email: '123',
             },
           }
         );
         const fields: FormFieldConfig[] = [
           {
-            name: 'confirmPassword',
+            name: 'confirmEmail',
             type: 'text',
             validate: (value, formData, allData) => {
-              return value === allData?.password ? undefined : 'Passwords do not match';
+              return value === allData?.email ? undefined : 'Emails do not match';
             },
           },
         ];
 
         const errors = validateForm(req, fields);
-        expect(errors.confirmPassword).toBeUndefined();
+        expect(errors.confirmEmail).toBeUndefined();
       });
     });
   });

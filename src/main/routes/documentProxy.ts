@@ -22,7 +22,12 @@ import {
 } from '@modules/documents/storage';
 import { Logger } from '@modules/logger';
 import { CdamUploadRejected, deleteDocument, uploadDocument } from '@services/cdam/cdamService';
-import { maxFileSizeBytes, maxTotalFileSizeMB, validateUploadedFile } from '@utils/documentUploadValidation';
+import {
+  fileTypesFor,
+  maxFileSizeBytes,
+  maxTotalFileSizeMB,
+  validateUploadedFile,
+} from '@utils/documentUploadValidation';
 
 const logger = Logger.getLogger('documentProxy');
 
@@ -94,7 +99,7 @@ const getTranslations =
       noFileSelected: 'Select a file to upload',
       wrongFileType: 'This file type is not accepted',
       fileTooLarge: 'This file is too large',
-      totalTooLarge: `Total upload size must not exceed ${maxTotalFileSizeMB()}MB`,
+      totalTooLarge: `The files you have selected must be smaller than ${maxTotalFileSizeMB()}MB in total`,
       fileEmpty: 'The selected file is empty',
       passwordProtected: 'The selected file is password protected',
       filenameTooLong: 'This file name is too long',
@@ -102,10 +107,13 @@ const getTranslations =
       deleteFailed: 'This file could not be removed',
       onlyOneFile: 'You can only upload one file',
       removeFileFirst: 'Remove the uploaded file before adding another',
+      or: 'or',
     };
     const fallback = fallbacks[key] ?? fallbacks.uploadFailed;
     return typeof translate === 'function'
-      ? String(translate(`errors.documentUpload.${key}`, fallback, options))
+      ? String(
+          translate(`errors.documentUpload.${key}`, fallback, { maxTotalFileSize: maxTotalFileSizeMB(), ...options })
+        )
       : fallback;
   };
 
@@ -156,9 +164,14 @@ export default function (app: Application): void {
           uploadLimitsFor(field, file.originalname)
         );
         if (validationError) {
-          res
-            .status(400)
-            .json(uploadError(t(validationError, { maxFileSize: maxFileSizeMBForFile(field, file.originalname) })));
+          res.status(400).json(
+            uploadError(
+              t(validationError, {
+                maxFileSize: maxFileSizeMBForFile(field, file.originalname),
+                fileTypes: fileTypesFor(Object.keys(field.extraExtensions ?? {}), t('or')),
+              })
+            )
+          );
           return;
         }
 
