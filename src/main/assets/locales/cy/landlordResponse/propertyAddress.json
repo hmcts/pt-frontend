@@ -1,0 +1,36 @@
+{
+  "pageTitle": "Check the property details",
+  "heading": "Check the property details",
+  "question": "Has the tenant provided the correct address of the property?",
+  "correctAddressHint": "Enter the correct address of the property",
+  "labels": {
+    "addressLine1": "Address line 1",
+    "addressLine2": "Address line 2 (optional)",
+    "townOrCity": "Town or city",
+    "county": "County (optional)",
+    "postcode": "Postcode"
+  },
+  "errors": {
+    "tenantProvidedCorrectAddress": {
+      "required": "Select whether the tenant has provided the correct address of the property"
+    },
+    "addressLine1": {
+      "required": "Enter address line 1, typically the building and street",
+      "invalid": "Address line 1 must be 2 characters or more"
+    },
+    "addressLine2": {
+      "invalid": "Address line 2 must be 2 characters or more"
+    },
+    "townOrCity": {
+      "required": "Enter town or city",
+      "invalid": "Town or city must be 2 characters or more"
+    },
+    "county": {
+      "invalid": "County must be 2 characters or more"
+    },
+    "postcode": {
+      "required": "Enter postcode",
+      "invalid": "Enter a full UK postcode"
+    }
+  }
+}
