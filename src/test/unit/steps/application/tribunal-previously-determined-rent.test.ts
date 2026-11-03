@@ -1,7 +1,7 @@
 import type { Request } from 'express';
 import type { Environment } from 'nunjucks';
 
-import { step } from '../../../../main/steps/application/the-rent/the-current-rent-and-other-costs/tribunal-previously-determined-rent';
+import { step } from '../../../../main/steps/application/the-rent/tribunal-previously-determined-rent';
 
 import { createFormStep } from '@modules/steps';
 

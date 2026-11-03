@@ -1,7 +1,7 @@
 import type { Request } from 'express';
 import type { Environment } from 'nunjucks';
 
-import { step } from '../../../../main/steps/application/the-rent/the-current-rent-and-other-costs/rent-payment-frequency';
+import { step } from '../../../../main/steps/application/the-rent/rent-payment-frequency';
 
 import { createFormStep } from '@modules/steps';
 

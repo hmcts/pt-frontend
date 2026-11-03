@@ -2,9 +2,9 @@ import type { Request } from 'express';
 
 import { createFormStep } from '@modules/steps';
 
-import '../../../../main/steps/application/the-rent/the-current-rent-and-other-costs/rent-payment-frequency';
-import '../../../../main/steps/application/the-rent/the-current-rent-and-other-costs/council-tax-frequency';
-import '../../../../main/steps/application/the-rent/the-current-rent-and-other-costs/utilities-paid-frequency';
+import '../../../../main/steps/application/the-rent/rent-payment-frequency';
+import '../../../../main/steps/application/the-rent/council-tax-frequency';
+import '../../../../main/steps/application/the-rent/utilities-paid-frequency';
 
 jest.mock('@modules/steps', () => ({
   ...jest.requireActual('@modules/steps'),

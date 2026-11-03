@@ -1,6 +1,6 @@
 import type { Request } from 'express';
 
-import { step } from '../../../../main/steps/application/the-rent/the-current-rent-and-other-costs/current-tenancy-replace-original-tenancy';
+import { step } from '../../../../main/steps/application/the-rent/current-tenancy-replace-original-tenancy';
 
 import { createFormStep } from '@modules/steps';
 

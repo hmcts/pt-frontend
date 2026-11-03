@@ -2,7 +2,7 @@ import type { Request } from 'express';
 
 import { createFormStep } from '@modules/steps';
 
-import '../../../../main/steps/application/the-rent/the-current-rent-and-other-costs/rent-includes-council-tax';
+import '../../../../main/steps/application/the-rent/rent-includes-council-tax';
 
 jest.mock('@modules/steps', () => ({
   ...jest.requireActual('@modules/steps'),

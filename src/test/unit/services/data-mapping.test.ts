@@ -147,8 +147,8 @@ describe('prepareDataForSave', () => {
     });
   });
 
-  describe('theCurrentRentAndOtherCosts data mapping', () => {
-    const sectionId = 'theCurrentRentAndOtherCosts';
+  describe('rentDetails data mapping for the current rent questions', () => {
+    const sectionId = 'rentDetails';
 
     const reqWith = (formData: Record<string, unknown>): Request =>
       ({
@@ -372,8 +372,8 @@ describe('prepareDataForSave', () => {
     });
   });
 
-  describe('whatYouThinkMarketRentShouldBe data mapping', () => {
-    const sectionId = 'whatYouThinkMarketRentShouldBe';
+  describe('rentDetails data mapping for the market rent questions', () => {
+    const sectionId = 'rentDetails';
 
     const reqWith = (formData: Record<string, unknown>): Request =>
       ({
@@ -383,6 +383,28 @@ describe('prepareDataForSave', () => {
 
     const rentDetailsFrom = (mapped: Record<string, unknown>): Record<string, unknown> =>
       (mapped as { rentDetails: Record<string, unknown> }).rentDetails;
+
+    it('should save the current rent and market rent answers together', () => {
+      const mockReq = reqWith({
+        'rent-payment-frequency': {
+          rentPaymentFrequency: 'monthly',
+          'rentPaymentFrequency.rentCostMonthly': '1000',
+        },
+        'proposed-market-rent': {
+          applicantSuggestedMarketRent: '950',
+          applicantSuggestedMarketRentFrequency: 'monthly',
+        },
+      });
+
+      const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
+
+      expect(rentDetailsFrom(mappedData)).toMatchObject({
+        rentPaymentFrequency: 'monthly',
+        rentCostMonthly: 1000,
+        applicantSuggestedMarketRent: 950,
+        applicantSuggestedMarketRentFrequency: 'monthly',
+      });
+    });
 
     it('should map the market rent from form data as a number', () => {
       const mockReq = reqWith({

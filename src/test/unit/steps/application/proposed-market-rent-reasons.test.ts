@@ -2,7 +2,7 @@ import type { Request } from 'express';
 
 import { createFormStep } from '@modules/steps';
 
-import './../../../../main/steps/application/the-rent/what-you-think-market-rent-should-be/proposed-market-rent-reasons/index';
+import './../../../../main/steps/application/the-rent/proposed-market-rent-reasons/index';
 
 jest.mock('@modules/steps', () => ({
   ...jest.requireActual('@modules/steps'),

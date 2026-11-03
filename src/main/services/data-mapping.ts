@@ -93,7 +93,7 @@ export function prepareDataForSave(
       };
     }
 
-    case 'theCurrentRentAndOtherCosts': {
+    case 'rentDetails': {
       const rentDetails = saved?.rentDetails;
 
       const startDate = dateParts(req, 'current-tenancy-start-date', 'currentTenancyStartDate');
@@ -117,6 +117,15 @@ export function prepareDataForSave(
       const chargesVary =
         getFormDataString(req, 'additional-rental-service-charges-vary', 'additionalRentalServiceChargesVary') ??
         rentDetails?.additionalRentalServiceChargesVary;
+      const marketRentFrequency =
+        getFormDataString(req, 'proposed-market-rent', 'applicantSuggestedMarketRentFrequency') ??
+        rentDetails?.applicantSuggestedMarketRentFrequency;
+      const additionalInfo =
+        getFormDataString(
+          req,
+          'anything-else-tribunal-should-consider',
+          'additionalInfoToConsiderWhenDeterminingRent'
+        ) ?? rentDetails?.additionalPropertyInfoToConsiderWhenDetermining;
 
       return {
         rentDetails: {
@@ -293,24 +302,6 @@ export function prepareDataForSave(
                   'additionalRentalServiceChargesVary.varyingAdditionalRentalServiceChargesDetails'
                 ) ?? rentDetails?.varyingAdditionalRentalServiceChargesDetails)
               : undefined,
-        },
-      };
-    }
-
-    case 'whatYouThinkMarketRentShouldBe': {
-      const rentDetails = saved?.rentDetails;
-      const marketRentFrequency =
-        getFormDataString(req, 'proposed-market-rent', 'applicantSuggestedMarketRentFrequency') ??
-        rentDetails?.applicantSuggestedMarketRentFrequency;
-      const additionalInfo =
-        getFormDataString(
-          req,
-          'anything-else-tribunal-should-consider',
-          'additionalInfoToConsiderWhenDeterminingRent'
-        ) ?? rentDetails?.additionalPropertyInfoToConsiderWhenDetermining;
-
-      return {
-        rentDetails: {
           applicantSuggestedMarketRent: toNumber(
             getFormDataString(req, 'proposed-market-rent', 'applicantSuggestedMarketRent') ??
               rentDetails?.applicantSuggestedMarketRent
