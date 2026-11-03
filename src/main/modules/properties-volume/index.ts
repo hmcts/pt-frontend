@@ -15,6 +15,7 @@ export class PropertiesVolume {
       this.setSecret('secrets.pt-kv1.idam-system-user-password', 'idam.systemPassword');
       this.setSecret('secrets.pt-kv1.pt-frontend-idam-secret', 'idam.clientSecret');
       this.setSecret('secrets.pt-kv1.pt-frontend-s2s-secret', 'authProvider.secret');
+      this.setSecret('secrets.pt-kv1.pcq-token-key', 'equalityAndDiversity.tokenKey');
 
       if (!process.env.REDIS_CONNECTION_STRING) {
         this.setSecret('secrets.pt-kv1.redis-connection-string', 'session.redis-connection-string');

@@ -27,6 +27,11 @@ export const acceptedExtensions = (extraExtensions: readonly string[] = []): rea
 export const acceptAttributeFor = (extraExtensions: readonly string[] = []): string =>
   acceptedExtensions(extraExtensions).join(',');
 
+export const fileTypesFor = (extraExtensions: readonly string[] = [], or = 'or'): string => {
+  const types = acceptedExtensions(extraExtensions).map(extension => extension.slice(1).toUpperCase());
+  return `${types.slice(0, -1).join(', ')} ${or} ${types[types.length - 1]}`;
+};
+
 const ALLOWED_MIME_TYPES = new Set([
   'application/msword',
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',

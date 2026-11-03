@@ -28,6 +28,10 @@ describe('application proposed-market-rent-reasons step', () => {
       expect(capturedConfig.isAnswered(makeReq())).toBe(false);
     });
 
+    it('is not answered when pt-api returns null for a question that has not been visited', () => {
+      expect(capturedConfig.isAnswered(makeReq({}, { applicantSuggestedMarketRentReasons: null }))).toBe(false);
+    });
+
     it('is answered when the citizen gave reasons', () => {
       expect(
         capturedConfig.isAnswered(makeReq({}, { applicantSuggestedMarketRentReasons: 'Similar flats nearby' }))
