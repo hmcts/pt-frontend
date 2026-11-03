@@ -11,7 +11,7 @@ export type DocumentSlice =
   | 'propertyDetails'
   | 'noticeOfRentIncreaseDetails'
   | 'tenancyAgreementDetails'
-  | 'marketRentDetails';
+  | 'rentDetails';
 
 export interface DocumentFieldDefinition {
   slice: DocumentSlice;
@@ -78,7 +78,7 @@ export const DOCUMENT_FIELDS = {
     documentType: 'tenancyAgreement',
   },
   suggestedMarketRentEvidence: {
-    slice: 'marketRentDetails',
+    slice: 'rentDetails',
     ptApiField: 'suggestedMarketRentEvidence',
     ccdField: 'suggestedMarketRentEvidence',
     documentType: 'tenantProposedRentEvidence',
