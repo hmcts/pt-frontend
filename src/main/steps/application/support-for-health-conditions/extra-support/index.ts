@@ -65,7 +65,7 @@ export const step: StepDefinition = createFormStep({
     const extraSupport: string | null | undefined =
       getFormDataString(req, 'extra-support', 'extraSupport') ?? caseData?.extraSupportDetails?.extraSupportRequired;
     const extraSupportDetails: string | undefined =
-      getFormDataString(req, 'extra-support', 'extraSupport.extraSupportDetails') ??
+      getFormDataString(req, 'extra-support', 'extraSupport.extraSupportDetails') ||
       caseData?.extraSupportDetails?.extraSupportRequiredDetails;
     return {
       ...(extraSupport && { extraSupport }),
