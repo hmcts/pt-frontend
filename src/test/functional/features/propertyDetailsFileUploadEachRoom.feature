@@ -1,4 +1,4 @@
-@JIRA-TEST-KEY:HDPD-614 @regression @Fail
+@JIRA-TEST-KEY:HDPD-614 @regression
 Feature: Property details - Upload photos of each room at the property
   As a PT user completing the form
   I want to upload photos of each room at the property

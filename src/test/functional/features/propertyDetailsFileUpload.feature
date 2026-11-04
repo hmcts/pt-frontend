@@ -1,4 +1,4 @@
-@JIRA-TEST-KEY:HDPD-613 @regression @Fail
+@JIRA-TEST-KEY:HDPD-613 @regression
 Feature: Property details - Upload photos outside of the property
     As a PT user completing the form
     I want to upload photos of the outside of the property
