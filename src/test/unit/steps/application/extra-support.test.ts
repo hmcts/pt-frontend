@@ -55,7 +55,7 @@ describe('extra support step', () => {
 
       expect(capturedConfig.getInitialFormData(req)).toEqual({
         extraSupport: 'Yes',
-        extraSupportDetails: 'Communication difficulties',
+        'extraSupport.extraSupportDetails': 'Communication difficulties',
       });
     });
 
@@ -67,7 +67,7 @@ describe('extra support step', () => {
 
       expect(capturedConfig.getInitialFormData(req)).toEqual({
         extraSupport: 'Yes',
-        extraSupportDetails: 'Communication difficulties',
+        'extraSupport.extraSupportDetails': 'Communication difficulties',
       });
     });
 
@@ -87,7 +87,7 @@ describe('extra support step', () => {
 
       expect(capturedConfig.getInitialFormData(req)).toEqual({
         extraSupport: 'Yes',
-        extraSupportDetails: 'Updated communication requirements',
+        'extraSupport.extraSupportDetails': 'Updated communication requirements',
       });
     });
 
