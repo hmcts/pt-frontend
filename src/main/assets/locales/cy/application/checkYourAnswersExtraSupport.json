@@ -1,4 +1,20 @@
 {
-  "pageTitle": "cy Check your answers Extra Support (placeholder)",
-  "heading": "cy Check your answers Extra Support (placeholder)"
+  "pageTitle": "cy Check your answers",
+  "heading": "cy Check your answers",
+  "cardTitle": "cy Support for physical and mental health conditions",
+  "rows": {
+    "extraSupport": {
+      "label": "cy Do you have a physical, mental or learning disability or health condition that means you need support during your case?",
+      "changeHidden": "cy whether you have support needs during your case",
+      "options": {
+        "Yes": "cy Yes",
+        "No": "cy No - I do not need any support at this time"
+      }
+    },
+    "extraSupportDetails": {
+      "label": "cy Tell us what support you need to ask for",
+      "changeHidden": "cy what your support needs are"
+    }
+  },
+  "reviewAndChangeInfo": "cy You can review and change your answers before you submit your application."
 }

@@ -13,11 +13,19 @@
   "options": {
     "no": {
       "label": "cy No - I do not need any support at this time"
+    },
+    "extraSupportDetails": {
+      "label": "cy Tell us what support you need to ask for"
     }
   },
   "errors": {
     "extraSupport": {
       "required": "cy Select whether you have a physical, mental or learning disability or health condition that means you need support during your case"
+    },
+    "extraSupportDetails": {
+      "required": "cy Enter what support you need to ask for",
+      "invalidMaxLength": "cy Details about the support you need must be 500 characters or less",
+      "invalidMinLength": "cy Details about the support you need must be 2 characters or more"
     }
   }
 }

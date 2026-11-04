@@ -33,6 +33,27 @@ export const step: StepDefinition = createFormStep({
         {
           value: 'Yes',
           translationKey: 'common:yes',
+          subFields: {
+            extraSupportDetails: {
+              name: 'extraSupportDetails',
+              type: 'textarea',
+              maxLength: 500,
+              required: true,
+              errorMessage: 'errors.extraSupportDetails.required',
+              translationKey: {
+                label: 'options.extraSupportDetails.label',
+              },
+              validator: (value): boolean | string => {
+                if (value && String(value).length > 500) {
+                  return 'errors.extraSupportDetails.invalidMaxLength';
+                }
+                if (value && String(value).length < 2) {
+                  return 'errors.extraSupportDetails.invalidMinLength';
+                }
+                return true;
+              },
+            },
+          },
         },
         { value: 'No', translationKey: 'options.no.label' },
       ],
@@ -43,13 +64,21 @@ export const step: StepDefinition = createFormStep({
     const caseData: PTCaseData | undefined = req.session.ccdCase;
     const extraSupport: string | null | undefined =
       getFormDataString(req, 'extra-support', 'extraSupport') ?? caseData?.extraSupportDetails?.extraSupportRequired;
+    const extraSupportDetails: string | undefined =
+      getFormDataString(req, 'extra-support', 'extraSupportDetails') ??
+      caseData?.extraSupportDetails?.extraSupportRequiredDetails;
     return {
       ...(extraSupport && { extraSupport }),
+      ...(extraSupportDetails && { extraSupportDetails }),
     };
   },
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  const answer = ccdCase?.extraSupportDetails?.extraSupportRequired;
-  return answer === 'YES' || answer === 'NO';
+  if (ccdCase?.extraSupportDetails?.extraSupportRequired === 'YES') {
+    return Boolean(
+      ccdCase?.extraSupportDetails?.extraSupportRequired && ccdCase?.extraSupportDetails?.extraSupportRequiredDetails
+    );
+  }
+  return ccdCase?.propertySharedWithLandlord === 'NO';
 }
