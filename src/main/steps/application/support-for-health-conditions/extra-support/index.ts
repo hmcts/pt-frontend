@@ -65,20 +65,28 @@ export const step: StepDefinition = createFormStep({
     const extraSupport: string | null | undefined =
       getFormDataString(req, 'extra-support', 'extraSupport') ?? caseData?.extraSupportDetails?.extraSupportRequired;
     const extraSupportDetails: string | undefined =
-      getFormDataString(req, 'extra-support', 'extraSupportDetails') ??
+      getFormDataString(req, 'extra-support', 'extraSupport.extraSupportDetails') ??
       caseData?.extraSupportDetails?.extraSupportRequiredDetails;
     return {
       ...(extraSupport && { extraSupport }),
-      ...(extraSupportDetails && { extraSupportDetails }),
+      ...((extraSupport === 'YES' || extraSupport === 'Yes') &&
+        extraSupportDetails && {
+          extraSupportDetails,
+        }),
     };
   },
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (ccdCase?.extraSupportDetails?.extraSupportRequired === 'YES') {
-    return Boolean(
-      ccdCase?.extraSupportDetails?.extraSupportRequired && ccdCase?.extraSupportDetails?.extraSupportRequiredDetails
-    );
+  const extraSupport = ccdCase?.extraSupportDetails?.extraSupportRequired;
+
+  if (extraSupport === 'NO') {
+    return true;
   }
-  return ccdCase?.propertySharedWithLandlord === 'NO';
+
+  if (extraSupport === 'YES') {
+    return Boolean(ccdCase?.extraSupportDetails?.extraSupportRequiredDetails);
+  }
+
+  return false;
 }
