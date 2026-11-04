@@ -29,37 +29,16 @@ When('I enter room sizes as {string} for the question {string}', (roomSizes: str
   I.fillField(question, roomSizes);
 });
 
-Then('the page should display the text {string}', (text: string) => {
-  I.waitForText(text);
-});
-
-When('I click on the {string} button and upload a file {string}',async (buttonText: string, fileName: string) => {
-    await I.usePlaywrightTo('upload a property photo', async ({ page }) => {
-      const filePath = path.resolve(process.cwd(),'src/test/test-data', fileName);
-
-      await page.getByLabel(propertyDetails.uploadFileInputLabel, { exact: true }).setInputFiles(filePath);
-
-      await page
-        .locator(propertyDetails.uploadedFileSuccessSelector)
-        .filter({ hasText: fileName })
-        .waitFor({
-          state: 'visible',
-          timeout: 60000,
-        });
-    });
-  },
-);
-
 When('I select the file {string} for upload', async (fileName: string) => {
   await I.usePlaywrightTo('select file for upload validation', async ({ page }) => {
-    const filePath = path.resolve(process.cwd(), 'src/test/test-data', fileName);
+    const filePath = path.resolve(process.cwd(), propertyDetails.testDataDir, fileName);
     await page.getByLabel(propertyDetails.uploadFileInputLabel, { exact: true }).setInputFiles(filePath);
   });
 });
 
 When('I select {int} files from {string} for upload', async (fileCount: number, fileName: string) => {
   await I.usePlaywrightTo('select multiple property photo files', async ({ page }) => {
-    const filePath = path.resolve(process.cwd(), 'src/test/test-data', fileName);
+    const filePath = path.resolve(process.cwd(), propertyDetails.testDataDir, fileName);
     await page
       .getByLabel(propertyDetails.uploadFileInputLabel, { exact: true })
       .setInputFiles(Array.from({ length: fileCount }, () => filePath));
@@ -70,7 +49,7 @@ When('I upload files {string} in parallel', async (fileNames: string) => {
   await I.usePlaywrightTo('select property photos for parallel upload', async ({ page }) => {
     const filePaths = fileNames
       .split(',')
-      .map(fileName => path.resolve(process.cwd(), 'src/test/test-data', fileName.trim()));
+      .map(fileName => path.resolve(process.cwd(), propertyDetails.testDataDir, fileName.trim()));
     await page.getByLabel(propertyDetails.uploadFileInputLabel, { exact: true }).setInputFiles(filePaths);
   });
 });
