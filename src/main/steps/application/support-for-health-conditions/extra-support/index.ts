@@ -71,7 +71,7 @@ export const step: StepDefinition = createFormStep({
       ...(extraSupport && { extraSupport }),
       ...((extraSupport === 'YES' || extraSupport === 'Yes') &&
         extraSupportDetails && {
-          extraSupportDetails,
+          'extraSupport.extraSupportDetails': extraSupportDetails,
         }),
     };
   },
