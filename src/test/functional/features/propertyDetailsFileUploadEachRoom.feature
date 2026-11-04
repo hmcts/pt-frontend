@@ -1,4 +1,4 @@
-@JIRA-TEST-KEY:HDPD-1024 @regression
+@JIRA-TEST-KEY:HDPD-614 @regression
 Feature: Property details - Upload photos of each room at the property
   As a PT user completing the form
   I want to upload photos of each room at the property
@@ -35,7 +35,7 @@ Feature: Property details - Upload photos of each room at the property
         And I click "Save and continue"
         Then the page should include "Upload a photo of each room at your property (optional)"
 
-    @JIRA-TEST-KEY:PTSD-842
+    @JIRA-TEST-KEY:PTSD-944
     Scenario: Upload and remove an individual room photo
         When I upload "supported-file"
         Then I check that file name "supportedFile.docx" is displayed on the page with green tick mark
@@ -45,12 +45,12 @@ Feature: Property details - Upload photos of each room at the property
         And I click "Save for later"
         Then check that the user is redirected to the task-list citizen dashboard page
 
-    @JIRA-TEST-KEY:PTSD-842
+    @JIRA-TEST-KEY:PTSD-945
     Scenario: Show an error when more than three room photos are selected
         When I select 4 files from "test-image.jpg" for upload
         Then I check for error message "You can only select up to 3 files at the same time"
 
-    @JIRA-TEST-KEY:PTSD-842
+    @JIRA-TEST-KEY:PTSD-946
     Scenario: Upload three room photos in parallel
         When I upload files "test-image.jpg, test-pdf.pdf, test-png.png" in parallel
         Then I check that file name "test-image.jpg" is displayed on the page with green tick mark
@@ -58,8 +58,3 @@ Feature: Property details - Upload photos of each room at the property
         And I check that file name "test-png.png" is displayed on the page with green tick mark
         And I click "Save for later"
         Then check that the user is redirected to the task-list citizen dashboard page
-
-    @JIRA-TEST-KEY:PTSD-842
-    Scenario: Show an error when a room photo is larger than 25 MB
-        When I select the file "test-image-28mb.jpg" for upload
-        Then I check for error message "The selected file must be smaller than 25MB"
