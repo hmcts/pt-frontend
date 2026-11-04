@@ -18,6 +18,18 @@ export const step: StepDefinition = createFormStep({
     pageTitle: 'pageTitle',
     heading: 'heading',
   },
+  extendGetContent: req => {
+    const ccdCase = req.session.ccdCase;
+    return {
+      tenantPropertyHtml: [
+        ccdCase?.propertyDetails?.addressLine1,
+        ccdCase?.propertyDetails?.postTown,
+        ccdCase?.propertyDetails?.postcode,
+      ]
+        .filter(Boolean)
+        .join('<br>'),
+    };
+  },
   fields: [
     {
       name: 'tenantProvidedCorrectAddress',
@@ -50,13 +62,13 @@ export const step: StepDefinition = createFormStep({
               isPageHeading: false,
               translationKey: { label: 'labels.addressLine2' },
             },
-            townCity: {
-              name: 'townCity',
+            postTown: {
+              name: 'postTown',
               type: 'text',
               required: true,
               isPageHeading: false,
-              translationKey: { label: 'labels.townOrCity' },
-              errorMessage: 'errors.townOrCity.required',
+              translationKey: { label: 'labels.postTown' },
+              errorMessage: 'errors.postTown.required',
             },
             postcode: {
               name: 'postcode',
