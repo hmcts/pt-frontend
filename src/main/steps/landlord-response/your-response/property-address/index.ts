@@ -1,7 +1,8 @@
 import { flowConfig } from '../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormData } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { PTCaseData } from '@services/ccd/ccdCase.interface';
 
 const journeyName = 'landlord-response';
 const stepName = 'property-address';
@@ -13,7 +14,17 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/propertyAddress.njk`,
   showCancelButton: false,
-  isAnswered: () => false,
+  isAnswered: req => isAnswered(req.session.ccdCase),
+  beforeRedirect: req => {
+    const stepData = getFormData(req, stepName);
+    if (stepData.tenantProvidedCorrectAddress === 'No') {
+      return;
+    }
+    delete stepData['tenantProvidedCorrectAddress.addressLine1'];
+    delete stepData['tenantProvidedCorrectAddress.addressLine2'];
+    delete stepData['tenantProvidedCorrectAddress.postTown'];
+    delete stepData['tenantProvidedCorrectAddress.postcode'];
+  },
   translationKeys: {
     pageTitle: 'pageTitle',
     heading: 'heading',
@@ -40,9 +51,9 @@ export const step: StepDefinition = createFormStep({
       translationKey: { label: 'question' },
       errorMessage: 'errors.tenantProvidedCorrectAddress.required',
       options: [
-        { value: 'yes', translationKey: 'common:yes' },
+        { value: 'Yes', translationKey: 'common:yes' },
         {
-          value: 'no',
+          value: 'No',
           translationKey: 'common:no',
           conditionalText: 'correctAddressHint',
           subFields: {
@@ -84,3 +95,11 @@ export const step: StepDefinition = createFormStep({
     },
   ],
 });
+
+function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  const propertyAddress = ccdCase?.landlordResponse?.propertyAddress;
+  if (propertyAddress?.tenantProvidedCorrectAddress === 'No') {
+    return Boolean(propertyAddress?.addressLine1 && propertyAddress?.postTown && propertyAddress?.postcode);
+  }
+  return propertyAddress?.tenantProvidedCorrectAddress === 'Yes';
+}
