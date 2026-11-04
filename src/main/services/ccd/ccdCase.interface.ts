@@ -181,7 +181,7 @@ export interface CcdCaseData {
   };
 
   extraSupportDetails?: {
-    extraSupportRequired?: string;
+    extraSupportRequired?: YesNoValue;
   };
 }
 
@@ -415,7 +415,7 @@ export interface HearingInspectionDetails {
 }
 
 export interface ExtraSupportDetails {
-  extraSupportRequired?: string;
+  extraSupportRequired?: YesNoValue;
 }
 
 export interface HelpWithFeesDetails {

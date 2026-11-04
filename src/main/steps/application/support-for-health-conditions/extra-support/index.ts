@@ -41,7 +41,7 @@ export const step: StepDefinition = createFormStep({
 
   getInitialFormData: req => {
     const caseData: PTCaseData | undefined = req.session.ccdCase;
-    const extraSupport: string | boolean | undefined =
+    const extraSupport: string | null | undefined =
       getFormDataString(req, 'extra-support', 'extraSupport') ?? caseData?.extraSupportDetails?.extraSupportRequired;
     return {
       ...(extraSupport && { extraSupport }),
@@ -51,5 +51,5 @@ export const step: StepDefinition = createFormStep({
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
   const answer = ccdCase?.extraSupportDetails?.extraSupportRequired;
-  return answer === 'Yes' || answer === 'No';
+  return answer === 'YES' || answer === 'NO';
 }
