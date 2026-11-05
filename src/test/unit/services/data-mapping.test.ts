@@ -435,6 +435,41 @@ describe('prepareDataForSave', () => {
       expect(marketRentDetailsFrom(empty).applicantSuggestedMarketRent).toBeUndefined();
       expect(marketRentDetailsFrom(notANumber).applicantSuggestedMarketRent).toBeUndefined();
     });
+
+    it('should map the frequency and the other details when other is selected', () => {
+      const mockReq = reqWith({
+        'proposed-market-rent': {
+          applicantSuggestedMarketRentFrequency: 'other',
+          'applicantSuggestedMarketRentFrequency.applicantSuggestedMarketRentFrequencyOther': 'Every 4 weeks',
+        },
+      });
+
+      const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
+
+      expect(marketRentDetailsFrom(mappedData)).toEqual({
+        applicantSuggestedMarketRentFrequency: 'other',
+        applicantSuggestedMarketRentFrequencyOther: 'Every 4 weeks',
+      });
+    });
+
+    it('should leave out saved other details when a different frequency is selected', () => {
+      const mockReq = reqWith({
+        'proposed-market-rent': { applicantSuggestedMarketRentFrequency: 'monthly' },
+      });
+
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        marketRentDetails: {
+          applicantSuggestedMarketRentFrequency: 'other',
+          applicantSuggestedMarketRentFrequencyOther: 'Every 4 weeks',
+        },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
+
+      expect(marketRentDetailsFrom(mappedData).applicantSuggestedMarketRentFrequency).toBe('monthly');
+      expect(marketRentDetailsFrom(mappedData).applicantSuggestedMarketRentFrequencyOther).toBeUndefined();
+    });
   });
 
   describe('yourTenancyAgreement data mapping', () => {
