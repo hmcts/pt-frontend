@@ -1,4 +1,5 @@
 import { Application, Request, Response } from 'express';
+import type { TFunction } from 'i18next';
 
 import { getTranslationFunction } from '@modules/i18n';
 import { PTCaseData } from '@services/ccd/ccdCase.interface';
@@ -10,30 +11,40 @@ export default function (app: Application): void {
     if (req.session?.user) {
       const t = getTranslationFunction(req);
       const ptApi = getPtApi(req.session.user);
-      const userApplications = await ptApi.getAllCasesByUser();
+      const userApplicantApplications = await ptApi.getAllCasesByApplicantUser();
+      const userRespondentApplications = await ptApi.getAllCasesByRespondentUser();
 
-      const mappedUserApplications = userApplications.map((application: PTCaseData) => {
-        return [
-          {
-            html: `<a class="govuk-link govuk-link--no-visited-state" href="/${application.caseReference}/task-list">${application.caseReference}</a>`,
-          },
-          {
-            text: formatDate(application.createdDate),
-          },
-          {
-            text: formatDate(application.submittedOn) || t('myApplicationsTable.notYetSubmitted', 'Not yet submitted'),
-          },
-          {
-            text: 'In progress', //TODO: case STATE to be pulled from application object once HDPD-1410 completed
-          },
-        ];
-      });
+      const mappedUserApplications = populateApplicationsTable(userApplicantApplications, t);
+
+      const mappedUserRespondentApplications = populateApplicationsTable(userRespondentApplications, t);
 
       res.render('myApplications', {
-        applications: mappedUserApplications,
+        applicationsAsApplicant: mappedUserApplications,
+        applicationsAsLinkedRespondent: mappedUserRespondentApplications,
       });
     } else {
       res.redirect('/login');
     }
+  });
+}
+
+function populateApplicationsTable(applications: PTCaseData[], translationFn: TFunction) {
+  return applications.map((application: PTCaseData) => {
+    return [
+      {
+        html: `<a class="govuk-link govuk-link--no-visited-state" href="/${application.caseReference}/task-list">${application.caseReference}</a>`,
+      },
+      {
+        text: formatDate(application.createdDate),
+      },
+      {
+        text:
+          formatDate(application.submittedOn) ||
+          translationFn('myApplicationsTable.notYetSubmitted', 'Not yet submitted'),
+      },
+      {
+        text: 'In progress', //TODO: case STATE to be pulled from application object once HDPD-1410 completed
+      },
+    ];
   });
 }

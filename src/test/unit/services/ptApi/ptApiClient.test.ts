@@ -33,7 +33,7 @@ describe('getAllCasesByUser', () => {
     });
 
     const ptApiInstance: PtApiClient = new PtApiClient(mockedAxios);
-    const result = await ptApiInstance.getAllCasesByUser();
+    const result = await ptApiInstance.getAllCasesByApplicantUser();
     expect(result).toEqual([
       {
         firstName: 'test1',
@@ -53,7 +53,7 @@ describe('getAllCasesByUser', () => {
 
     const ptApiInstance: PtApiClient = new PtApiClient(mockedAxios);
 
-    await expect(ptApiInstance.getAllCasesByUser()).rejects.toThrow('Could not fetch cases');
+    await expect(ptApiInstance.getAllCasesByApplicantUser()).rejects.toThrow('Could not fetch cases');
   });
 });
 
