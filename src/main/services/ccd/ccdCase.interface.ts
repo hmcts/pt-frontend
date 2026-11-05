@@ -92,7 +92,7 @@ export interface CcdCaseData {
     landlordNoticeProposingNewRentDocument?: CcdUploadedDocument;
     noticeLegallyValid?: string | boolean;
     noticeNotLegallyValidDetails?: string;
-    noticeNotLegallyValidDocument?: CcdUploadedDocument;
+    noticeNotLegallyValidDocuments?: CcdCollectionItem<CcdUploadedDocument>[];
     rentIncreaseToCauseHardship?: string | boolean;
     rentIncreaseHardshipDocuments?: CcdCollectionItem<CcdUploadedDocument>[];
   };
