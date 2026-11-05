@@ -144,14 +144,21 @@ function isPtHost(url: string): boolean {
 }
 
 async function waitForPtRedirect(page: import('playwright').Page): Promise<void> {
+  if (isPtHost(page.url())) {
+    return;
+  }
+
   const ptHost = new URL(testConfig.TEST_URL).hostname;
 
   try {
     await page.waitForURL(url => isPtHost(url.toString()), {
       timeout: testConfig.LoginRedirectTimeout,
-      waitUntil: 'domcontentloaded',
+      waitUntil: 'commit',
     });
   } catch (error) {
+    if (isPtHost(page.url())) {
+      return;
+    }
     const wrapped = new Error(
       `Timed out waiting for redirect to PT (${ptHost}) after IDAM sign-in. Current URL: ${page.url()}`
     ) as Error & { cause?: unknown };
@@ -237,10 +244,13 @@ Given('a user wants to log in to PT', () => {
   // Scenario setup only — navigation happens in the When step.
 });
 
-Given('the user navigates to PT url', () => {
-  // Unauthenticated users are sent to the HMCTS Access sign-in or create account page.
-  I.amOnPage(testConfig.TEST_URL);
-  I.waitInUrl(idamLogin.idamHost);
+Given('the user navigates to PT url', async () => {
+  // A worker keeps one browser for the whole feature. The previous scenario's
+  // IDAM session would open the app directly, and the check below would time out
+  // waiting for HMCTS Access while the page is already the PT host.
+  await I.clearCookie();
+  await I.amOnPage(testConfig.TEST_URL);
+  await I.waitInUrl(idamLogin.idamHost);
 });
 
 Then('they are redirected to the IDAM authentication page', async () => {
