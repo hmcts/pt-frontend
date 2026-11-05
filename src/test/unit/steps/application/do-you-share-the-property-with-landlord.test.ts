@@ -14,7 +14,12 @@ const MAX_LENGTH = 500;
 describe('application do-you-share-the-property-with-landlord step', () => {
   const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
 
-  const makeReq = (ccdCase?: Record<string, unknown>): Request => ({ session: { ccdCase } }) as unknown as Request;
+  const makeReq = (propertyDetails?: Record<string, unknown>): Request =>
+    ({
+      session: {
+        ccdCase: propertyDetails ? { propertyDetails } : undefined,
+      },
+    }) as unknown as Request;
 
   describe('isAnswered', () => {
     it('is not answered when nothing has been saved', () => {
@@ -23,12 +28,12 @@ describe('application do-you-share-the-property-with-landlord step', () => {
     });
 
     it('is answered when the citizen does not share the property', () => {
-      expect(capturedConfig.isAnswered(makeReq({ propertySharedWithLandlord: 'no' }))).toBe(true);
+      expect(capturedConfig.isAnswered(makeReq({ propertySharedWithLandlord: 'No' }))).toBe(true);
     });
 
     it('is answered when the citizen shares the property and said how', () => {
       const req = makeReq({
-        propertySharedWithLandlord: 'yes',
+        propertySharedWithLandlord: 'Yes',
         propertySharedWithLandlordDetails: 'We share the kitchen',
       });
 
@@ -36,12 +41,12 @@ describe('application do-you-share-the-property-with-landlord step', () => {
     });
 
     it('is not answered when the citizen shares the property but has not said how', () => {
-      expect(capturedConfig.isAnswered(makeReq({ propertySharedWithLandlord: 'yes' }))).toBe(false);
+      expect(capturedConfig.isAnswered(makeReq({ propertySharedWithLandlord: 'Yes' }))).toBe(false);
     });
 
     it('is not answered when the saved details are longer than the limit', () => {
       const req = makeReq({
-        propertySharedWithLandlord: 'yes',
+        propertySharedWithLandlord: 'Yes',
         propertySharedWithLandlordDetails: 'a'.repeat(MAX_LENGTH + 1),
       });
 

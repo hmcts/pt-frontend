@@ -13,7 +13,7 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/repairsAndImprovements.njk`,
   showCancelButton: false,
-  isAnswered: req => Boolean(req.session.ccdCase?.hasRepairsAndImprovements),
+  isAnswered: req => Boolean(req.session.ccdCase?.propertyDetails?.hasRepairsAndImprovements),
   fields: [
     {
       name: 'hasRepairsAndImprovements',
@@ -23,9 +23,9 @@ export const step: StepDefinition = createFormStep({
       legendClasses: 'govuk-fieldset__legend--m',
       translationKey: { label: 'questionTitle' },
       options: [
-        { value: 'yes', translationKey: 'common:yes' },
-        { value: 'no', translationKey: 'common:no' },
-        { value: 'notSure', translationKey: 'options.notSure.label' },
+        { value: 'Yes', translationKey: 'common:yes' },
+        { value: 'No', translationKey: 'common:no' },
+        { value: 'NotSure', translationKey: 'options.notSure.label' },
       ],
     },
   ],

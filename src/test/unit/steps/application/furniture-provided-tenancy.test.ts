@@ -14,7 +14,12 @@ const MAX_LENGTH = 500;
 describe('application furniture-provided-tenancy step', () => {
   const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
 
-  const makeReq = (ccdCase?: Record<string, unknown>): Request => ({ session: { ccdCase } }) as unknown as Request;
+  const makeReq = (propertyDetails?: Record<string, unknown>): Request =>
+    ({
+      session: {
+        ccdCase: propertyDetails ? { propertyDetails } : undefined,
+      },
+    }) as unknown as Request;
 
   describe('isAnswered', () => {
     it('is not answered when nothing has been saved', () => {
@@ -23,21 +28,21 @@ describe('application furniture-provided-tenancy step', () => {
     });
 
     it('is answered when no furniture is provided', () => {
-      expect(capturedConfig.isAnswered(makeReq({ furnitureProvided: 'no' }))).toBe(true);
+      expect(capturedConfig.isAnswered(makeReq({ furnitureProvided: 'No' }))).toBe(true);
     });
 
     it('is answered when furniture is provided and the citizen said what', () => {
-      const req = makeReq({ furnitureProvided: 'yes', furnitureProvidedDetails: 'A bed and a sofa' });
+      const req = makeReq({ furnitureProvided: 'Yes', furnitureProvidedDetails: 'A bed and a sofa' });
 
       expect(capturedConfig.isAnswered(req)).toBe(true);
     });
 
     it('is not answered when furniture is provided but the citizen has not said what', () => {
-      expect(capturedConfig.isAnswered(makeReq({ furnitureProvided: 'yes' }))).toBe(false);
+      expect(capturedConfig.isAnswered(makeReq({ furnitureProvided: 'Yes' }))).toBe(false);
     });
 
     it('is not answered when the saved details are longer than the limit', () => {
-      const req = makeReq({ furnitureProvided: 'yes', furnitureProvidedDetails: 'a'.repeat(MAX_LENGTH + 1) });
+      const req = makeReq({ furnitureProvided: 'Yes', furnitureProvidedDetails: 'a'.repeat(MAX_LENGTH + 1) });
 
       expect(capturedConfig.isAnswered(req)).toBe(false);
     });

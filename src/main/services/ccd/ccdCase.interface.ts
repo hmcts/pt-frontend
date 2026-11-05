@@ -324,7 +324,7 @@ export interface NoticeOfRentIncreaseDetails {
 export interface PropertyDetails {
   addressLine1?: string;
   addressLine2?: string;
-  townOrCity?: string;
+  postTown?: string;
   county?: string;
   postcode?: string;
   propertyType?: string;
