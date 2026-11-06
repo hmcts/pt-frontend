@@ -20,7 +20,7 @@ export const step: StepDefinition = createFormStep({
     const stepData = getFormData(req, stepName);
 
     if (stepData.noticeLegallyValid !== 'no') {
-      delete stepData.noticeNotLegallyValidReason;
+      delete stepData['noticeLegallyValid.noticeNotLegallyValidReason'];
     }
   },
   translationKeys: {

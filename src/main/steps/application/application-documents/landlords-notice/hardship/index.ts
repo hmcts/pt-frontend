@@ -20,7 +20,7 @@ export const step: StepDefinition = createFormStep({
     const stepData = getFormData(req, stepName);
 
     if (stepData.rentIncreaseCauseHardship !== 'yes') {
-      delete stepData.rentIncreaseHardshipDetails;
+      delete stepData['rentIncreaseCauseHardship.rentIncreaseHardshipDetails'];
     }
   },
   translationKeys: {

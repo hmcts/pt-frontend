@@ -7,10 +7,11 @@ import { createGetController } from '../controller';
 import { createStepNavigation } from '../flow';
 import { getTranslationFunction, loadStepNamespace } from '../i18n';
 
+import { getNestedFieldName } from './conditionalFields';
 import { withFileUploadUrls } from './fileUploadUtils';
 import { getStaticBasePath, getStaticEntryStepId, resolveFormBuilderFlowConfig } from './flowConfig';
 import { buildFormContent } from './formContent';
-import { getFormData } from './helpers';
+import { getFormDataUnchecked } from './helpers';
 import { createPostHandler } from './postHandler';
 import { validateConfigInDevelopment } from './schema';
 
@@ -19,6 +20,8 @@ import type { JourneyFlowConfig } from '@modules/steps/stepFlow.interface';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
 export type { FormBuilderConfig } from '@modules/steps/formBuilder/formFieldConfig.interface';
+
+const DATE_PARTS = ['day', 'month', 'year'] as const;
 
 function getPersistedFormDataFromResolvedConfig(
   req: Request,
@@ -29,7 +32,7 @@ function getPersistedFormDataFromResolvedConfig(
     return {};
   }
 
-  return getFormData(req, stepName);
+  return getFormDataUnchecked(req, stepName);
 }
 
 /**
@@ -78,6 +81,15 @@ export function createFormStep(config: FormBuilderConfig): StepDefinition {
     stepDir,
     showCancelButton,
     isAnswered,
+    fieldNames: fields.flatMap(field => [
+      field.name,
+      ...(field.options ?? []).flatMap(option =>
+        Object.entries(option.subFields ?? {}).flatMap(([subFieldName, subField]) => {
+          const nestedName = getNestedFieldName(field.name, subFieldName);
+          return subField.type === 'date' ? DATE_PARTS.map(part => `${nestedName}-${part}`) : [nestedName];
+        })
+      ),
+    ]),
     getController: () => {
       return createGetController(viewPath, stepName, stepNavigation, async (req: Request) => {
         await loadStepNamespace(req);

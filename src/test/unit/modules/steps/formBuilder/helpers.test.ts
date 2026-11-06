@@ -557,26 +557,26 @@ describe('formBuilder helpers', () => {
 
     describe('getFormData', () => {
       it('should return form data from the current case bucket', () => {
-        const req = reqFor(CASE_A, { [CASE_A]: { step1: { field1: 'value1' } } });
-        expect(getFormData(req, 'step1')).toEqual({ field1: 'value1' });
+        const req = reqFor(CASE_A, { [CASE_A]: { 'text-updates': { field1: 'value1' } } });
+        expect(getFormData(req, 'text-updates')).toEqual({ field1: 'value1' });
       });
 
       it('should return empty object when step data does not exist', () => {
-        expect(getFormData(reqFor(CASE_A, { [CASE_A]: {} }), 'step1')).toEqual({});
+        expect(getFormData(reqFor(CASE_A, { [CASE_A]: {} }), 'text-updates')).toEqual({});
       });
 
       it('should return empty object when session formData does not exist', () => {
-        expect(getFormData(reqFor(CASE_A, undefined), 'step1')).toEqual({});
+        expect(getFormData(reqFor(CASE_A, undefined), 'text-updates')).toEqual({});
       });
 
       it('does not read answers belonging to a different case', () => {
-        const req = reqFor(CASE_B, { [CASE_A]: { step1: { field1: 'case A only' } } });
-        expect(getFormData(req, 'step1')).toEqual({});
+        const req = reqFor(CASE_B, { [CASE_A]: { 'text-updates': { field1: 'case A only' } } });
+        expect(getFormData(req, 'text-updates')).toEqual({});
       });
 
       it('does not read draft-journey answers once a case exists', () => {
-        const req = reqFor(CASE_A, { [DRAFT_SCOPE]: { step1: { field1: 'from pre-application' } } });
-        expect(getFormData(req, 'step1')).toEqual({});
+        const req = reqFor(CASE_A, { [DRAFT_SCOPE]: { 'text-updates': { field1: 'from pre-application' } } });
+        expect(getFormData(req, 'text-updates')).toEqual({});
       });
     });
 
@@ -659,18 +659,18 @@ describe('formBuilder helpers', () => {
 
     describe('getFormDataString', () => {
       it('returns a stored string field', () => {
-        const req = reqFor(CASE_A, { [CASE_A]: { step1: { field1: 'value1' } } });
-        expect(getFormDataString(req, 'step1', 'field1')).toBe('value1');
+        const req = reqFor(CASE_A, { [CASE_A]: { 'text-updates': { field1: 'value1' } } });
+        expect(getFormDataString(req, 'text-updates', 'field1')).toBe('value1');
       });
 
       it('returns undefined for a missing field', () => {
-        const req = reqFor(CASE_A, { [CASE_A]: { step1: {} } });
-        expect(getFormDataString(req, 'step1', 'field1')).toBeUndefined();
+        const req = reqFor(CASE_A, { [CASE_A]: { 'text-updates': {} } });
+        expect(getFormDataString(req, 'text-updates', 'field1')).toBeUndefined();
       });
 
       it('returns undefined for a non-string value', () => {
-        const req = reqFor(CASE_A, { [CASE_A]: { step1: { field1: ['a', 'b'] } } });
-        expect(getFormDataString(req, 'step1', 'field1')).toBeUndefined();
+        const req = reqFor(CASE_A, { [CASE_A]: { 'text-updates': { field1: ['a', 'b'] } } });
+        expect(getFormDataString(req, 'text-updates', 'field1')).toBeUndefined();
       });
     });
   });
