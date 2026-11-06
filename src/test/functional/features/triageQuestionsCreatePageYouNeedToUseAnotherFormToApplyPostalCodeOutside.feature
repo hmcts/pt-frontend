@@ -1,4 +1,4 @@
-@JIRA-EPIC:HDPD-995 @regression @WIP
+@JIRA-EPIC:HDPD-995 @regression
 Feature: Verify online application form ,download the paper and gov.uk link after entering postal code
 
   Background:
