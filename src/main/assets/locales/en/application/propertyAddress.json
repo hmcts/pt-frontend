@@ -4,7 +4,7 @@
   "labels": {
     "addressLine1": "Address line 1",
     "addressLine2": "Address line 2 (optional)",
-    "townOrCity": "Town or city",
+    "postTown": "Town or city",
     "county": "County (optional)",
     "postcode": "Postcode"
   },
@@ -16,7 +16,7 @@
     "addressLine2": {
       "invalid": "Address line 2 must be 2 characters or more"
     },
-    "townOrCity": {
+    "postTown": {
       "required": "Enter town or city",
       "invalid": "Town or city must be 2 characters or more"
     },
