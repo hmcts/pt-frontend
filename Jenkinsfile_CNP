@@ -38,6 +38,7 @@ withPipeline(type, product, component) {
   env.CASE_TYPE_ID = "PT"
   env.CDAM_URL = "http://ccd-case-document-am-api-aat.service.core-compute-aat.internal"
   onPR() {
+    enableFullFunctionalTest(120)
     // Functional tests are the PR e2e run. Skip them unless a label opts in.
     // e2e-tag:@idam sets Codecept --grep; e2e-spec:idam-login filters feature paths.
     env.RUN_FUNCTIONAL_TESTS = 'false'
