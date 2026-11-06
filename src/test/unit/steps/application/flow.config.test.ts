@@ -20,10 +20,10 @@ describe('application flow config show conditions', () => {
       'upload-evidence-notice-not-legally-valid',
       'your-notice-proposing-a-new-rent',
       'noticeLegallyValid',
-      'no',
-      ['yes'],
+      'No',
+      ['Yes'],
     ],
-    ['upload-evidence-experience-hardship', 'hardship', 'rentIncreaseCauseHardship', 'yes', ['no']],
+    ['upload-evidence-experience-hardship', 'hardship', 'rentIncreaseToCauseHardship', 'Yes', ['No']],
     [
       'upload-evidence-improvements-or-repairs',
       'repairs-and-improvements',
