@@ -1,4 +1,4 @@
-@JIRA-EPIC:HDPD-998 @regression @WIP
+@JIRA-EPIC:HDPD-998 @regression
 Feature: Non-English postcode journey
 
     Background:
