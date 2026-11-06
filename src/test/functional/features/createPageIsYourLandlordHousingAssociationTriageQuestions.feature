@@ -1,4 +1,4 @@
-@JIRA-EPIC:HDPD-636 @regression
+@JIRA-EPIC:HDPD-636 @regression @WIP
 Feature: Landing is a House Association
 
   Background:

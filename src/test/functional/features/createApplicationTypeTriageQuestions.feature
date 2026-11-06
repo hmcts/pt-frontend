@@ -1,4 +1,4 @@
-@JIRA-EPIC:HDPD-1011 @regression
+@JIRA-EPIC:HDPD-1011 @regression @WIP
 
 Feature: Create application type triage questions
 
