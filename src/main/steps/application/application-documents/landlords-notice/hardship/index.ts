@@ -19,7 +19,7 @@ export const step: StepDefinition = createFormStep({
   beforeRedirect: req => {
     const stepData = getFormData(req, stepName);
 
-    if (stepData.rentIncreaseCauseHardship !== 'yes') {
+    if (stepData.rentIncreaseCauseHardship !== 'Yes') {
       delete stepData.rentIncreaseHardshipDetails;
     }
   },
@@ -38,7 +38,7 @@ export const step: StepDefinition = createFormStep({
       errorMessage: 'errors.rentIncreaseCauseHardship.required',
       options: [
         {
-          value: 'yes',
+          value: 'Yes',
           translationKey: 'common:yes',
           subFields: {
             rentIncreaseHardshipDetails: {
@@ -55,13 +55,13 @@ export const step: StepDefinition = createFormStep({
             },
           },
         },
-        { value: 'no', translationKey: 'common:no' },
+        { value: 'No', translationKey: 'common:no' },
       ],
     },
   ],
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  const rentIncreaseCauseHardship = ccdCase?.noticeOfRentIncreaseDetails?.rentIncreaseCauseHardship;
-  return rentIncreaseCauseHardship === 'yes' || rentIncreaseCauseHardship === 'no';
+  const rentIncreaseToCauseHardship = ccdCase?.noticeOfRentIncreaseDetails?.rentIncreaseToCauseHardship;
+  return rentIncreaseToCauseHardship === 'Yes' || rentIncreaseToCauseHardship === 'No';
 }

@@ -28,10 +28,10 @@ export const flowConfig: JourneyFlowConfig = {
       showCondition: (req: Request) => getFormData(req, 'have-landlords-notice').haveLandlordsNotice === 'Yes',
     },
     'upload-evidence-notice-not-legally-valid': {
-      showCondition: (req: Request) => getFormData(req, 'your-notice-proposing-a-new-rent').noticeLegallyValid === 'no',
+      showCondition: (req: Request) => getFormData(req, 'your-notice-proposing-a-new-rent').noticeLegallyValid === 'No',
     },
     'upload-evidence-experience-hardship': {
-      showCondition: (req: Request) => getFormData(req, 'hardship').rentIncreaseCauseHardship === 'yes',
+      showCondition: (req: Request) => getFormData(req, 'hardship').rentIncreaseCauseHardship === 'Yes',
     },
     'upload-evidence-improvements-or-repairs': {
       showCondition: (req: Request) => getFormData(req, 'repairs-and-improvements').hasRepairsAndImprovements === 'yes',
