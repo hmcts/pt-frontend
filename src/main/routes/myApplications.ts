@@ -14,12 +14,12 @@ export default function (app: Application): void {
       const userApplicantApplications = await ptApi.getAllCasesByApplicantUser();
       const userRespondentApplications = await ptApi.getAllCasesByRespondentUser();
 
-      const mappedUserApplications = populateApplicationsTable(userApplicantApplications, t);
+      const mappedUserApplicantApplications = populateApplicationsTable(userApplicantApplications, t);
 
       const mappedUserRespondentApplications = populateApplicationsTable(userRespondentApplications, t);
 
       res.render('myApplications', {
-        applicationsAsApplicant: mappedUserApplications,
+        applicationsAsApplicant: mappedUserApplicantApplications,
         applicationsAsLinkedRespondent: mappedUserRespondentApplications,
       });
     } else {

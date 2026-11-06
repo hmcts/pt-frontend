@@ -16,8 +16,8 @@ jest.mock('axios');
 
 const TEST_CASE_ID = '1234123412341234';
 
-describe('getAllCasesByUser', () => {
-  test('Should fetch all cases for user', async () => {
+describe('getAllCasesByApplicantUser', () => {
+  test('Should fetch all cases created by applicant user', async () => {
     const mockedAxios = axios as jest.Mocked<typeof axios>;
     mockedAxios.get.mockResolvedValue({
       data: [
@@ -54,6 +54,47 @@ describe('getAllCasesByUser', () => {
     const ptApiInstance: PtApiClient = new PtApiClient(mockedAxios);
 
     await expect(ptApiInstance.getAllCasesByApplicantUser()).rejects.toThrow('Could not fetch cases');
+  });
+});
+
+describe('getAllCasesByRespondentUser', () => {
+  test('Should fetch all cases where user is the respondent on the case', async () => {
+    const mockedAxios = axios as jest.Mocked<typeof axios>;
+    mockedAxios.get.mockResolvedValue({
+      data: [
+        {
+          firstName: 'test1',
+          lastName: 'name1',
+        },
+        {
+          firstName: 'test2',
+          lastName: 'name2',
+        },
+      ],
+    });
+
+    const ptApiInstance: PtApiClient = new PtApiClient(mockedAxios);
+    const result = await ptApiInstance.getAllCasesByRespondentUser();
+    expect(result).toEqual([
+      {
+        firstName: 'test1',
+        lastName: 'name1',
+      },
+      {
+        firstName: 'test2',
+        lastName: 'name2',
+      },
+    ]);
+    expect(mockedAxios.get).toHaveBeenCalledWith('/applications');
+  });
+
+  test('Should throw error when cases could not be fetched', async () => {
+    const mockedAxios = axios as jest.Mocked<typeof axios>;
+    mockedAxios.get.mockRejectedValue(new Error('Could not fetch cases'));
+
+    const ptApiInstance: PtApiClient = new PtApiClient(mockedAxios);
+
+    await expect(ptApiInstance.getAllCasesByRespondentUser()).rejects.toThrow('Could not fetch cases');
   });
 });
 
