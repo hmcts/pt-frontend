@@ -1,5 +1,5 @@
-@JIRA-EPIC:HDPD-636 @regression @WIP
-Feature: Landing is a House Association
+@JIRA-EPIC:HDPD-636 @regression
+Feature: Validate landlord housing association page
 
   Background:
     Given I am on the landlord housing association page
