@@ -13,7 +13,7 @@ export const step: StepDefinition = createFormStep({
   journeyFolder: journeyName,
   stepDir: __dirname,
   flowConfig,
-  customTemplate: `${__dirname}/haveLandlordsNotice.njk`,
+  customTemplate: `${__dirname}/receivedLandlordNoticeProposingNewRent.njk`,
   showCancelButton: false,
   isAnswered: req => isAnswered(req.session.ccdCase),
   translationKeys: {
@@ -21,35 +21,35 @@ export const step: StepDefinition = createFormStep({
   },
   fields: [
     {
-      name: 'haveLandlordsNotice',
+      name: 'receivedLandlordNoticeProposingNewRent',
       type: 'radio',
       required: true,
       isPageHeading: true,
       legendClasses: 'govuk-fieldset__legend--l',
       translationKey: { label: 'heading' },
-      errorMessage: 'errors.haveLandlordsNotice.required',
+      errorMessage: 'errors.receivedLandlordNoticeProposingNewRent.required',
       options: [
         { value: 'Yes', translationKey: 'common:yes' },
         {
           value: 'No',
           translationKey: 'common:no',
           subFields: {
-            noLandlordsNoticeReason: {
-              name: 'noLandlordsNoticeReason',
+            noUploadOfNoticeProposingNewRentReason: {
+              name: 'noUploadOfNoticeProposingNewRentReason',
               type: 'textarea',
               maxLength: 500,
               required: true,
-              errorMessage: 'errors.noLandlordsNoticeReason.required',
+              errorMessage: 'errors.noUploadOfNoticeProposingNewRentReason.required',
               translationKey: {
-                label: 'options.noLandlordsNoticeReason.label',
+                label: 'options.noUploadOfNoticeProposingNewRentReason.label',
               },
               validator: (value): boolean | string => {
                 if (!textAreaIsValidLength(value as string)) {
-                  return 'errors.noLandlordsNoticeReason.invalidMaxLength';
+                  return 'errors.noUploadOfNoticeProposingNewRentReason.invalidMaxLength';
                 }
 
                 if (value && String(value).length < 2) {
-                  return 'errors.noLandlordsNoticeReason.invalidMinLength';
+                  return 'errors.noUploadOfNoticeProposingNewRentReason.invalidMinLength';
                 }
 
                 return true;
@@ -62,17 +62,21 @@ export const step: StepDefinition = createFormStep({
   ],
   getInitialFormData: req => {
     const caseData: PTCaseData | undefined = req.session.ccdCase;
-    const haveLandlordsNotice: string | boolean | undefined =
-      getFormDataString(req, 'have-landlords-notice', 'haveLandlordsNotice') ??
+    const receivedLandlordNoticeProposingNewRent: string | boolean | undefined =
+      getFormDataString(req, 'have-landlords-notice', 'receivedLandlordNoticeProposingNewRent') ??
       caseData?.noticeOfRentIncreaseDetails?.receivedLandlordNoticeProposingNewRent;
-    const noLandlordsNoticeReason: string | undefined =
-      getFormDataString(req, 'have-landlords-notice', 'haveLandlordsNotice.noLandlordsNoticeReason') ??
-      caseData?.noticeOfRentIncreaseDetails?.noUploadOfNoticeProposingNewRentReason;
+    const noUploadOfNoticeProposingNewRentReason: string | undefined =
+      getFormDataString(
+        req,
+        'have-landlords-notice',
+        'receivedLandlordNoticeProposingNewRent.noUploadOfNoticeProposingNewRentReason'
+      ) ?? caseData?.noticeOfRentIncreaseDetails?.noUploadOfNoticeProposingNewRentReason;
 
     return {
-      ...(haveLandlordsNotice && { haveLandlordsNotice }),
-      ...(noLandlordsNoticeReason && {
-        'haveLandlordsNotice.noLandlordsNoticeReason': noLandlordsNoticeReason,
+      ...(receivedLandlordNoticeProposingNewRent && { receivedLandlordNoticeProposingNewRent }),
+      ...(noUploadOfNoticeProposingNewRentReason && {
+        'receivedLandlordNoticeProposingNewRent.noUploadOfNoticeProposingNewRentReason':
+          noUploadOfNoticeProposingNewRentReason,
       }),
     };
   },

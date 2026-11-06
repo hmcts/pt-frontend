@@ -3,7 +3,7 @@
   "heading": "Check your answers",
   "cardTitle": "Application documents",
   "rows": {
-    "haveLandlordsNotice": {
+    "receivedLandlordNoticeProposingNewRent": {
       "label": "Do you have a landlord’s notice proposing a new rent to upload?",
       "changeHidden": "landlord’s notice proposing a new rent",
       "options": {
@@ -11,7 +11,7 @@
         "No": "No"
       }
     },
-    "noLandlordsNoticeReason": {
+    "noUploadOfNoticeProposingNewRentReason": {
       "label": "Why can you not upload a notice proposing a new rent?",
       "changeHidden": "reason for not uploading a landlord’s notice proposing a new rent"
     },

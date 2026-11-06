@@ -27,23 +27,27 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
     }
   };
 
-  const haveLandlordsNotice =
-    getFormDataString(req, 'have-landlords-notice', 'haveLandlordsNotice') ??
+  const receivedLandlordNoticeProposingNewRent =
+    getFormDataString(req, 'have-landlords-notice', 'receivedLandlordNoticeProposingNewRent') ??
     (noticeDetails?.receivedLandlordNoticeProposingNewRent as string | undefined);
   addRow(
-    'haveLandlordsNotice',
-    haveLandlordsNotice,
+    'receivedLandlordNoticeProposingNewRent',
+    receivedLandlordNoticeProposingNewRent,
     'have-landlords-notice',
-    haveLandlordsNotice && t(`rows.haveLandlordsNotice.options.${haveLandlordsNotice}`)
+    receivedLandlordNoticeProposingNewRent &&
+      t(`rows.receivedLandlordNoticeProposingNewRent.options.${receivedLandlordNoticeProposingNewRent}`)
   );
-  const noLandlordsNoticeReason =
-    getFormDataString(req, 'have-landlords-notice', 'haveLandlordsNotice.noLandlordsNoticeReason') ??
-    noticeDetails?.noUploadOfNoticeProposingNewRentReason;
-  if (haveLandlordsNotice === 'No') {
-    addRow('noLandlordsNoticeReason', noLandlordsNoticeReason, 'have-landlords-notice');
+  const noUploadOfNoticeProposingNewRentReason =
+    getFormDataString(
+      req,
+      'have-landlords-notice',
+      'receivedLandlordNoticeProposingNewRent.noUploadOfNoticeProposingNewRentReason'
+    ) ?? noticeDetails?.noUploadOfNoticeProposingNewRentReason;
+  if (receivedLandlordNoticeProposingNewRent === 'No') {
+    addRow('noUploadOfNoticeProposingNewRentReason', noUploadOfNoticeProposingNewRentReason, 'have-landlords-notice');
   }
 
-  if (haveLandlordsNotice === 'Yes') {
+  if (receivedLandlordNoticeProposingNewRent === 'Yes') {
     const documents = getFormData(req, 'upload-landlords-notice').documents as DisplayDocument[] | undefined;
     const filename =
       documents?.[0]?.document_filename ?? noticeDetails?.landlordNoticeProposingNewRentDocument?.filename;
@@ -61,7 +65,7 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
   );
 
   const noticeNotLegallyValidDetails =
-    getFormDataString(req, 'your-notice-proposing-a-new-rent', 'noticeLegallyValid.noticeNotLegallyValidReason') ??
+    getFormDataString(req, 'your-notice-proposing-a-new-rent', 'noticeLegallyValid.noticeNotLegallyValidDetails') ??
     noticeDetails?.noticeNotLegallyValidDetails;
 
   if (noticeLegallyValid === 'No') {
@@ -77,7 +81,7 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
   }
 
   const rentIncreaseToCauseHardship =
-    getFormDataString(req, 'hardship', 'rentIncreaseCauseHardship') ?? noticeDetails?.rentIncreaseToCauseHardship;
+    getFormDataString(req, 'hardship', 'rentIncreaseToCauseHardship') ?? noticeDetails?.rentIncreaseToCauseHardship;
   addRow(
     'rentIncreaseToCauseHardship',
     rentIncreaseToCauseHardship,
@@ -87,7 +91,7 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
 
   if (rentIncreaseToCauseHardship === 'Yes') {
     const rentIncreaseToCauseHardshipDetails =
-      getFormDataString(req, 'hardship', 'rentIncreaseCauseHardship.rentIncreaseHardshipDetails') ??
+      getFormDataString(req, 'hardship', 'rentIncreaseToCauseHardship.rentIncreaseToCauseHardshipDetails') ??
       noticeDetails?.rentIncreaseToCauseHardshipDetails;
     addRow('rentIncreaseToCauseHardshipDetails', rentIncreaseToCauseHardshipDetails, 'hardship');
 

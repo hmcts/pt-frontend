@@ -20,7 +20,7 @@ export const step: StepDefinition = createFormStep({
     const stepData = getFormData(req, stepName);
 
     if (stepData.noticeLegallyValid !== 'No') {
-      delete stepData.noticeNotLegallyValidReason;
+      delete stepData.noticeNotLegallyValidDetails;
     }
   },
   translationKeys: {
@@ -42,17 +42,17 @@ export const step: StepDefinition = createFormStep({
           value: 'No',
           translationKey: 'common:no',
           subFields: {
-            noticeNotLegallyValidReason: {
-              name: 'noticeNotLegallyValidReason',
+            noticeNotLegallyValidDetails: {
+              name: 'noticeNotLegallyValidDetails',
               type: 'textarea',
               maxLength: 500,
               required: false,
               translationKey: {
-                label: 'options.noticeNotLegallyValidReason.label',
-                hint: 'options.noticeNotLegallyValidReason.hint',
+                label: 'options.noticeNotLegallyValidDetails.label',
+                hint: 'options.noticeNotLegallyValidDetails.hint',
               },
               validator: (value): boolean | string =>
-                textAreaIsValidLength(value as string) ? true : 'errors.noticeNotLegallyValidReason.invalid',
+                textAreaIsValidLength(value as string) ? true : 'errors.noticeNotLegallyValidDetails.invalid',
             },
           },
         },

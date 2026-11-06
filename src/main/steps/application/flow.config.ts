@@ -25,13 +25,14 @@ export const flowConfig: JourneyFlowConfig = {
       showCondition: (req: Request) => getFormData(req, 'have-tenancy-agreement').copyOfTenancyAgreement === 'Yes',
     },
     'upload-landlords-notice': {
-      showCondition: (req: Request) => getFormData(req, 'have-landlords-notice').haveLandlordsNotice === 'Yes',
+      showCondition: (req: Request) =>
+        getFormData(req, 'have-landlords-notice').receivedLandlordNoticeProposingNewRent === 'Yes',
     },
     'upload-evidence-notice-not-legally-valid': {
       showCondition: (req: Request) => getFormData(req, 'your-notice-proposing-a-new-rent').noticeLegallyValid === 'No',
     },
     'upload-evidence-experience-hardship': {
-      showCondition: (req: Request) => getFormData(req, 'hardship').rentIncreaseCauseHardship === 'Yes',
+      showCondition: (req: Request) => getFormData(req, 'hardship').rentIncreaseToCauseHardship === 'Yes',
     },
     'upload-evidence-improvements-or-repairs': {
       showCondition: (req: Request) => getFormData(req, 'repairs-and-improvements').hasRepairsAndImprovements === 'yes',
