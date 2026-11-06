@@ -1,5 +1,5 @@
-@JIRA-EPIC:HDPD-648 @regression @WIP
-Feature: You need to use another form
+@JIRA-EPIC:HDPD-648 @regression
+Feature:  validate You need to use another form for I am applying on behalf of someone else option
 
   @AC1 @JIRA-TEST-KEY:PTSD-443
   Scenario: Citizen opens the online application form
