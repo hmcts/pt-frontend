@@ -370,9 +370,22 @@ export function prepareDataForSave(
         },
       };
     }
-    // case 'extraSupport': {
-    //   return {};
-    // }
+    case 'extraSupport': {
+      const extraSupportRequired =
+        getFormDataString(req, 'extra-support', 'extraSupport') ?? saved?.extraSupportDetails?.extraSupportRequired;
+
+      const supportIsRequired = extraSupportRequired === 'Yes' || extraSupportRequired === 'YES';
+
+      return {
+        extraSupportDetails: {
+          extraSupportRequired,
+          extraSupportRequiredDetails: supportIsRequired
+            ? (getFormDataString(req, 'extra-support', 'extraSupport.extraSupportDetails') ??
+              saved?.extraSupportDetails?.extraSupportRequiredDetails)
+            : undefined,
+        },
+      };
+    }
     // case 'tellUsIfYouNeedHelp': {
     //   return {};
     // }

@@ -181,6 +181,11 @@ export interface CcdCaseData {
     lettingAgentPartyDetails?: PartyDetails;
     representativePartyDetails?: PartyDetails;
   };
+
+  extraSupportDetails?: {
+    extraSupportRequired?: YesNoValue;
+    extraSupportRequiredDetails?: string;
+  };
 }
 
 export interface PartyDetails {
@@ -265,6 +270,7 @@ export interface PTCaseData extends LandlordDetails, PropertyDetails, LettingAge
   tenancyAgreementDetails?: TenancyAgreementDetails;
   noticeOfRentIncreaseDetails?: NoticeOfRentIncreaseDetails;
   hearingInspectionDetails?: HearingInspectionDetails;
+  extraSupportDetails?: ExtraSupportDetails;
 }
 
 export interface TenantDetails {
@@ -411,6 +417,11 @@ export interface HearingInspectionDetails {
   noDecisionWithoutInspectionReason?: string;
   hearingRequested?: string;
   reasonHearingRequested?: string;
+}
+
+export interface ExtraSupportDetails {
+  extraSupportRequired?: YesNoValue;
+  extraSupportRequiredDetails?: string;
 }
 
 export interface HelpWithFeesDetails {
