@@ -16,7 +16,7 @@ export default function (app: Application): void {
 
       const mappedUserApplicantApplications = populateApplicationsTable(userApplicantApplications, t);
 
-      const mappedUserRespondentApplications = populateApplicationsTable(userRespondentApplications, t);
+      const mappedUserRespondentApplications = populateApplicationsTable(userRespondentApplications, t, true);
 
       res.render('myApplications', {
         applicationsAsApplicant: mappedUserApplicantApplications,
@@ -27,12 +27,17 @@ export default function (app: Application): void {
     }
   });
 }
+//:caseReference/landlord-response/task-list
 
-function populateApplicationsTable(applications: PTCaseData[], translationFn: TFunction) {
+function populateApplicationsTable(
+  applications: PTCaseData[],
+  translationFn: TFunction,
+  isRespondentApplicationsTable: boolean = false
+) {
   return applications.map((application: PTCaseData) => {
     return [
       {
-        html: `<a class="govuk-link govuk-link--no-visited-state" href="/${application.caseReference}/task-list">${application.caseReference}</a>`,
+        html: `<a class="govuk-link govuk-link--no-visited-state" href="/${application.caseReference}${isRespondentApplicationsTable ? '/landlord-response' : ''}/task-list">${application.caseReference}</a>`,
       },
       {
         text: formatDate(application.createdDate),

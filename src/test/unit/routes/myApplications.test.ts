@@ -94,7 +94,7 @@ describe('my applications route', () => {
       applicationsAsLinkedRespondent: [
         [
           {
-            html: '<a class="govuk-link govuk-link--no-visited-state" href="/1234123412346767/task-list">1234123412346767</a>',
+            html: '<a class="govuk-link govuk-link--no-visited-state" href="/1234123412346767/landlord-response/task-list">1234123412346767</a>',
           },
           {
             text: '28 August 2026',
