@@ -1,7 +1,7 @@
 import type { Request } from 'express';
 import type { TFunction } from 'i18next';
 
-import { buildSectionCyaRows } from '../../../../main/steps/application/the-rent/the-current-rent-and-other-costs/check-your-answers-current-rent-and-other-costs/buildSectionCyaRows';
+import { buildSectionCyaRows } from '../../../../main/steps/application/the-rent/check-your-answers-current-rent-and-other-costs/buildSectionCyaRows';
 // Print the key back so assertions read as the key that was looked up
 const t = ((key: string) => key) as unknown as TFunction;
 
@@ -11,14 +11,14 @@ const CASE_REF = '1234123412341234';
 
 const buildReq = (
   formData: Record<string, unknown> = {},
-  currentRentsDetails: Record<string, unknown> = {},
+  rentDetails: Record<string, unknown> = {},
   lang = 'en'
 ): Request =>
   ({
     params: { caseReference: CASE_REF },
     session: {
       formData: { [CASE_REF]: formData },
-      ccdCase: { caseReference: CASE_REF, currentRentsDetails },
+      ccdCase: { caseReference: CASE_REF, rentDetails },
     },
     i18n: { language: lang },
   }) as unknown as Request;
@@ -300,8 +300,6 @@ describe('buildSectionCyaRows for the current rent and other costs', () => {
       t
     ) as unknown as { actions: { items: { href: string }[] } }[];
 
-    expect(rows[0].actions.items[0].href).toBe(
-      '/1234123412341234/rent-includes-council-tax?edit=theCurrentRentAndOtherCosts'
-    );
+    expect(rows[0].actions.items[0].href).toBe('/1234123412341234/rent-includes-council-tax?edit=rentDetails');
   });
 });
