@@ -80,8 +80,8 @@ export async function createTemporaryCitizen(input: CreateCitizenInput): Promise
 }
 
 export function idamServiceUrls(): { tokenBase: string; testingSupport: string } {
-  const configured = (process.env.ENVIRONMENT || 'aat').trim().toLowerCase();
-  const environment = KNOWN_ENVIRONMENTS.has(configured) ? configured : 'aat';
+  const configuredEnvironment = (process.env.ENVIRONMENT || 'aat').trim().toLowerCase();
+  const environment = KNOWN_ENVIRONMENTS.has(configuredEnvironment) ? configuredEnvironment : 'aat';
 
   return {
     tokenBase: stripTrailingSlash(
