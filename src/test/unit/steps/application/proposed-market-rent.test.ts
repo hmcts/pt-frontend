@@ -2,7 +2,7 @@ import type { Request } from 'express';
 
 import { createFormStep } from '@modules/steps';
 
-import './../../../../main/steps/application/the-rent/what-you-think-market-rent-should-be/proposed-market-rent/index';
+import './../../../../main/steps/application/the-rent/proposed-market-rent/index';
 
 jest.mock('@modules/steps', () => ({
   ...jest.requireActual('@modules/steps'),
@@ -15,15 +15,15 @@ const OTHER_KEY = 'applicantSuggestedMarketRentFrequency.applicantSuggestedMarke
 describe('application proposed-market-rent step', () => {
   const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
 
-  const makeReq = (formData: Record<string, unknown> = {}, marketRentDetails?: Record<string, unknown>): Request =>
+  const makeReq = (formData: Record<string, unknown> = {}, rentDetails?: Record<string, unknown>): Request =>
     ({
       params: { caseReference: CASE_REF },
-      session: { formData: { [CASE_REF]: formData }, ccdCase: { marketRentDetails } },
+      session: { formData: { [CASE_REF]: formData }, ccdCase: { rentDetails } },
     }) as unknown as Request;
 
   describe('isAnswered', () => {
-    const isAnswered = (marketRentDetails?: Record<string, unknown>): boolean =>
-      capturedConfig.isAnswered({ session: { ccdCase: { marketRentDetails } } } as unknown as Request);
+    const isAnswered = (rentDetails?: Record<string, unknown>): boolean =>
+      capturedConfig.isAnswered({ session: { ccdCase: { rentDetails } } } as unknown as Request);
 
     it('is not answered when nothing has been saved', () => {
       expect(isAnswered()).toBe(false);
