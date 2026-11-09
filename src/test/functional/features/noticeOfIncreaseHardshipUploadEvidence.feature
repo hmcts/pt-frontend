@@ -1,4 +1,4 @@
-@JIRA-TEST-KEY:HDPD-585 @regression
+@JIRA-TEST-KEY:HDPD-585 @regression @WIP
 Feature: Verify Notice proposing a new rent question page
 
     Background:
