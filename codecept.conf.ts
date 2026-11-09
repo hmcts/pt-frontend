@@ -57,7 +57,8 @@ export const config: CodeceptJS.MainConfig = {
     cucumberJsonReporter: {
       enabled: true,
       runInParent: false,
-      require: 'codeceptjs-cucumber-json-reporter',
+      // Guards the published reporter so a missing step result cannot fail a Background.
+      require: './src/test/functional/plugins/cucumberJsonReporter.js',
       attachScreenshots: true,
       attachComments: true,
       outputFile: cucumberReportFile,
