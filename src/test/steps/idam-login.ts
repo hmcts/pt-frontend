@@ -2,7 +2,7 @@ import { config as testConfig } from '../config';
 import { idamLogin } from '../functional/page-data/idamLogin.page.data';
 import { ptPreApplication } from '../functional/page-data/ptPreApplication.page.data';
 import { resolveIdamEmail, resolveIdamPassword } from '../functional/utils/idamPassword';
-import { clickButtonOrLink, fillFieldByLabel } from '../functional/utils/playwrightActions';
+import { fillFieldByLabel } from '../functional/utils/playwrightActions';
 
 const { I } = inject();
 
@@ -167,6 +167,66 @@ async function waitForPtRedirect(page: import('playwright').Page): Promise<void>
   }
 }
 
+async function visiblePasswordField(
+  page: import('playwright').Page
+): Promise<import('playwright').Locator | undefined> {
+  const field = page.locator('input[type="password"]').filter({ visible: true }).first();
+  if ((await field.count()) === 0) {
+    return undefined;
+  }
+  return field;
+}
+
+// The email step's Continue button can stay in the page after IDAM moves to
+// enter-password. Clicking the first Continue leaves the password unsubmitted.
+async function clickCurrentContinue(page: import('playwright').Page): Promise<void> {
+  const passwordField = await visiblePasswordField(page);
+  if (passwordField) {
+    const continueInForm = passwordField
+      .locator('xpath=ancestor::form[1]')
+      .getByRole('button', { name: idamLogin.continueButton, exact: true });
+    if ((await continueInForm.count()) > 0) {
+      await continueInForm.click();
+      return;
+    }
+  }
+
+  await page
+    .getByRole('button', { name: idamLogin.continueButton, exact: true })
+    .filter({ visible: true })
+    .last()
+    .click();
+}
+
+async function submitPasswordAndWaitForPt(page: import('playwright').Page, password: string): Promise<void> {
+  const passwordField = await visiblePasswordField(page);
+  if (passwordField) {
+    await passwordField.fill(password);
+  }
+
+  // Start waiting before the click so a fast OAuth redirect is not missed.
+  const redirected = waitForPtRedirect(page);
+  await clickCurrentContinue(page);
+
+  try {
+    await redirected;
+  } catch (error) {
+    if (isPtHost(page.url())) {
+      return;
+    }
+    if (!page.url().includes('/enter-password')) {
+      throw error;
+    }
+    const passwordAgain = await visiblePasswordField(page);
+    if (passwordAgain) {
+      await passwordAgain.fill(password);
+    }
+    const retryRedirect = waitForPtRedirect(page);
+    await clickCurrentContinue(page);
+    await retryRedirect;
+  }
+}
+
 async function fillSignInForm(
   page: import('playwright').Page,
   email: string,
@@ -181,7 +241,8 @@ async function fillSignInForm(
     if (isPtHost(page.url())) {
       return 'pt';
     }
-    await clickButtonOrLink(page, idamLogin.continueButton);
+    await clickCurrentContinue(page);
+    await page.waitForLoadState('domcontentloaded');
     if (isPtHost(page.url())) {
       return 'pt';
     }
@@ -220,14 +281,11 @@ export async function submitSignInCredentials(
     }
 
     if (options?.waitForPtRedirect) {
-      // Start waiting before the click so a fast OAuth redirect is not missed.
-      const redirected = waitForPtRedirect(page);
-      await clickButtonOrLink(page, idamLogin.continueButton, { waitForLoad: false });
-      await redirected;
+      await submitPasswordAndWaitForPt(page, password);
       return;
     }
 
-    await clickButtonOrLink(page, idamLogin.continueButton);
+    await clickCurrentContinue(page);
   });
 }
 
