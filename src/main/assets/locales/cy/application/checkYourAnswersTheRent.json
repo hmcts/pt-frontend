@@ -129,8 +129,8 @@
       }
     },
     "originalTenancyStartDate": {
-      "label": "cyWhen did the original tenancy start?",
-      "changeHidden": "cywhen the original tenancy started"
+      "label": "cyOriginal tenancy start date",
+      "changeHidden": "cyoriginal tenancy start date"
     },
     "anyOtherHouseholdManagementCharges": {
       "label": "cyAre you charged separately for anything else?",
@@ -153,8 +153,8 @@
       }
     },
     "varyingAdditionalRentalServiceChargesDetails": {
-      "label": "cyHow the charges vary",
-      "changeHidden": "cyhow the charges vary"
+      "label": "cyHow the charges you pay vary",
+      "changeHidden": "cyhow the charges you pay vary"
     },
     "applicantSuggestedMarketRent": {
       "label": "cyHow much do you think the market rent should be?",
