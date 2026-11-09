@@ -1,7 +1,7 @@
 import { textAreaIsValidLength } from '../../../../utils/fieldValidators';
 import { flowConfig } from '../../../flow.config';
 
-import { createFormStep, getFormDataString } from '@modules/steps';
+import { createFormStep, getFormData, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccd/ccdCase.interface';
 
@@ -13,9 +13,16 @@ export const step: StepDefinition = createFormStep({
   journeyFolder: journeyName,
   stepDir: __dirname,
   flowConfig,
-  customTemplate: `${__dirname}/receivedLandlordNoticeProposingNewRent.njk`,
+  customTemplate: `${__dirname}/haveLandlordsNotice.njk`,
   showCancelButton: false,
   isAnswered: req => isAnswered(req.session.ccdCase),
+  beforeRedirect: req => {
+    const stepData = getFormData(req, stepName);
+
+    if (stepData.receivedLandlordNoticeProposingNewRent !== 'No') {
+      delete stepData.noUploadOfNoticeProposingNewRentReason;
+    }
+  },
   translationKeys: {
     pageTitle: 'pageTitle',
   },
