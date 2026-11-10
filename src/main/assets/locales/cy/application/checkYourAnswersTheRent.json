@@ -1,7 +1,7 @@
 {
-  "pageTitle": "cyCheck your answers - Current rent and other costs",
+  "pageTitle": "cyCheck your answers - Current rent, other costs and your proposed market rent",
   "heading": "cyCheck your answers",
-  "cardTitle": "cyCurrent rent and other costs",
+  "cardTitle": "cyCurrent rent, other costs and your proposed market rent",
   "rows": {
     "tribunalPreviouslyDeterminedTenancyRent": {
       "label": "cyHas the tribunal previously determined the rent for your tenancy?",
@@ -129,8 +129,8 @@
       }
     },
     "originalTenancyStartDate": {
-      "label": "cyWhen did the original tenancy start?",
-      "changeHidden": "cywhen the original tenancy started"
+      "label": "cyOriginal tenancy start date",
+      "changeHidden": "cyoriginal tenancy start date"
     },
     "anyOtherHouseholdManagementCharges": {
       "label": "cyAre you charged separately for anything else?",
@@ -153,8 +153,52 @@
       }
     },
     "varyingAdditionalRentalServiceChargesDetails": {
-      "label": "cyHow the charges vary",
-      "changeHidden": "cyhow the charges vary"
+      "label": "cyHow the charges you pay vary",
+      "changeHidden": "cyhow the charges you pay vary"
+    },
+    "applicantSuggestedMarketRent": {
+      "label": "cyHow much do you think the market rent should be?",
+      "changeHidden": "cyhow much you think the market rent should be",
+      "weekly": {
+        "label": "cyWhat do you think is the weekly market rent you should pay?",
+        "changeHidden": "cythe weekly market rent you think you should pay"
+      },
+      "fortnightly": {
+        "label": "cyWhat do you think is the fortnightly market rent you should pay?",
+        "changeHidden": "cythe fortnightly market rent you think you should pay"
+      },
+      "monthly": {
+        "label": "cyWhat do you think is the monthly market rent you should pay?",
+        "changeHidden": "cythe monthly market rent you think you should pay"
+      },
+      "yearly": {
+        "label": "cyWhat do you think is the yearly market rent you should pay?",
+        "changeHidden": "cythe yearly market rent you think you should pay"
+      }
+    },
+    "applicantSuggestedMarketRentFrequencyOther": {
+      "label": "cyHow often would this rent be paid?",
+      "changeHidden": "cyhow often this rent would be paid"
+    },
+    "applicantSuggestedMarketRentReasons": {
+      "label": "cyWhat are your reasons for your proposed market rent? (optional)",
+      "changeHidden": "cyyour reasons for your proposed market rent"
+    },
+    "suggestedMarketRentEvidence": {
+      "label": "cyUpload evidence to support your proposed market rent (optional)",
+      "changeHidden": "cyevidence to support your proposed market rent"
+    },
+    "additionalInfoToConsiderWhenDeterminingRent": {
+      "label": "cyIs there anything else you think the tribunal should consider about your property when determining the rent?",
+      "changeHidden": "cywhether there is anything else the tribunal should consider about your property",
+      "options": {
+        "yes": "cyYes",
+        "no": "cyNo"
+      }
+    },
+    "additionalInfoToConsiderWhenDeterminingRentDetails": {
+      "label": "cyWhat you want the tribunal to consider",
+      "changeHidden": "cywhat you want the tribunal to consider"
     }
   },
   "reviewAndChangeInfo": "cyYou can review and change your answers before you submit your application."

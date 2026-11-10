@@ -95,7 +95,7 @@ const sectionDefs = [
       'proposed-market-rent-reasons',
       'upload-evidence-proposed-market-rent',
       'anything-else-tribunal-should-consider',
-      'check-your-answers-current-rent-and-other-costs',
+      'check-your-answers-the-rent',
     ],
   },
   {

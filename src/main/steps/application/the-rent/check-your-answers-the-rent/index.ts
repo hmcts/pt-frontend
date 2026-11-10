@@ -3,7 +3,7 @@ import { createSectionCyaStep } from '../../section-cya/createSectionCyaStep';
 import { buildSectionCyaRows } from './buildSectionCyaRows';
 
 export const step = createSectionCyaStep({
-  stepName: 'check-your-answers-current-rent-and-other-costs',
+  stepName: 'check-your-answers-the-rent',
   cardTitleKey: 'cardTitle',
   stepDir: __dirname,
   buildRows: buildSectionCyaRows,

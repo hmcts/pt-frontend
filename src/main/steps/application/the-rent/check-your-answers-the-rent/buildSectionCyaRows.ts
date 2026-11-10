@@ -5,6 +5,7 @@ import { DateTime } from 'luxon';
 import { SummaryListRow, createRowContext, escapeWithLineBreaks, isYes } from '../../section-cya/cyaRow';
 import { ApplicationSectionId } from '../../sections.config';
 
+import type { DisplayDocument } from '@modules/documents/storage';
 import { getFormData } from '@modules/steps';
 import type { DateValue, RentDetails } from '@services/ccd/ccdCase.interface';
 import { toDateParts } from '@utils/date';
@@ -35,13 +36,18 @@ const utilitiesAmountFields: AmountFields = {
   yearly: 'utilitiesPaidCostYearly',
 };
 
-// RentDetails mirrors RentDetailsDto, which drops "Paid" from the utilities cost fields.
+// RentDetails mirrors RentDetailsDto, which drops "Paid" from the utilities cost fields
+// and names the anything else answers differently from the page.
 const caseFieldNames: Record<string, string> = {
   utilitiesPaidCostWeekly: 'utilitiesCostWeekly',
   utilitiesPaidCostFortnightly: 'utilitiesCostFortnightly',
   utilitiesPaidCostMonthly: 'utilitiesCostMonthly',
   utilitiesPaidCostYearly: 'utilitiesCostYearly',
+  additionalInfoToConsiderWhenDeterminingRent: 'additionalPropertyInfoToConsiderWhenDetermining',
+  additionalInfoToConsiderWhenDeterminingRentDetails: 'additionalPropertyInfoToConsiderWhenDeterminingDetails',
 };
+
+const marketRentFrequencies = ['weekly', 'fortnightly', 'monthly', 'yearly'];
 
 // The existing date helpers take an ISO string, but dates are stored here as three parts
 const formatDateValue = (value: DateValue | undefined, lang: string): string | undefined => {
@@ -233,6 +239,72 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
         'additional-rental-service-charges-vary',
         'varyingAdditionalRentalServiceChargesDetails',
         varyDetails
+      );
+    }
+  }
+
+  const marketRent = displayRentAmount(read('proposed-market-rent', 'applicantSuggestedMarketRent'));
+  const marketRentFrequency = read('proposed-market-rent', 'applicantSuggestedMarketRentFrequency');
+
+  if (marketRent !== undefined) {
+    const marketRentKey =
+      marketRentFrequency && marketRentFrequencies.includes(marketRentFrequency)
+        ? `rows.applicantSuggestedMarketRent.${marketRentFrequency}`
+        : 'rows.applicantSuggestedMarketRent';
+
+    rows.push({
+      key: { text: t(`${marketRentKey}.label`) },
+      value: { text: `£${marketRent}` },
+      actions: { items: [change('proposed-market-rent', `${marketRentKey}.changeHidden`)] },
+    });
+  }
+
+  const marketRentFrequencyOther = readSubField(
+    'proposed-market-rent',
+    'applicantSuggestedMarketRentFrequency',
+    'applicantSuggestedMarketRentFrequencyOther'
+  );
+  if (marketRentFrequency === 'other' && marketRentFrequencyOther) {
+    pushTextRow('proposed-market-rent', 'applicantSuggestedMarketRentFrequencyOther', marketRentFrequencyOther);
+  }
+
+  const marketRentReasons = read('proposed-market-rent-reasons', 'applicantSuggestedMarketRentReasons');
+  if (marketRentReasons) {
+    pushTextRow('proposed-market-rent-reasons', 'applicantSuggestedMarketRentReasons', marketRentReasons);
+  }
+
+  const sessionEvidence = stepData('upload-evidence-proposed-market-rent').documents as DisplayDocument[] | undefined;
+  const evidenceFilenames = (
+    sessionEvidence?.map(document => document.document_filename) ??
+    rentDetails?.suggestedMarketRentEvidence?.map(document => document.filename) ??
+    []
+  ).filter((filename): filename is string => Boolean(filename));
+
+  if (evidenceFilenames.length > 0) {
+    rows.push({
+      key: { text: t('rows.suggestedMarketRentEvidence.label') },
+      value: { html: evidenceFilenames.map(filename => escapeWithLineBreaks(filename)).join('<br>') },
+      actions: {
+        items: [change('upload-evidence-proposed-market-rent', 'rows.suggestedMarketRentEvidence.changeHidden')],
+      },
+    });
+  }
+
+  const anythingElse = read('anything-else-tribunal-should-consider', 'additionalInfoToConsiderWhenDeterminingRent');
+  if (anythingElse) {
+    pushYesNo('anything-else-tribunal-should-consider', 'additionalInfoToConsiderWhenDeterminingRent', anythingElse);
+
+    const anythingElseDetails = readSubField(
+      'anything-else-tribunal-should-consider',
+      'additionalInfoToConsiderWhenDeterminingRent',
+      'additionalInfoToConsiderWhenDeterminingRentDetails'
+    );
+
+    if (isYes(anythingElse) && anythingElseDetails) {
+      pushTextRow(
+        'anything-else-tribunal-should-consider',
+        'additionalInfoToConsiderWhenDeterminingRentDetails',
+        anythingElseDetails
       );
     }
   }
