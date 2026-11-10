@@ -3,7 +3,7 @@ import { Application, Request, Response } from 'express';
 import myApplications from '@routes/myApplications';
 
 jest.mock('@services/ptApi/ptApiClient', () => {
-  const getAllCasesByUserMock = jest.fn(() => [
+  const getAllCasesByApplicantUserMock = jest.fn(() => [
     {
       caseReference: '1234123412341234',
       createdDate: '2026-07-28T10:54:13.43763',
@@ -14,11 +14,20 @@ jest.mock('@services/ptApi/ptApiClient', () => {
     },
   ]);
 
+  const getAllCasesByRespondentUserMock = jest.fn(() => [
+    {
+      caseReference: '1234123412346767',
+      createdDate: '2026-08-28T10:54:13.43763',
+    },
+  ]);
+
   return {
     getPtApi: jest.fn(() => ({
-      getAllCasesByUser: getAllCasesByUserMock,
+      getAllCasesByApplicantUser: getAllCasesByApplicantUserMock,
+      getAllCasesByRespondentUser: getAllCasesByRespondentUserMock,
     })),
-    __getAllCasesByUser: getAllCasesByUserMock, // expose it for the test
+    __getAllCasesByApplicantUser: getAllCasesByApplicantUserMock, // expose it for the test
+    __getAllCasesByRespondentUser: getAllCasesByRespondentUserMock, // expose it for the test
   };
 });
 
@@ -52,7 +61,7 @@ describe('my applications route', () => {
     await handler(req, res);
 
     expect(res.render).toHaveBeenCalledWith('myApplications', {
-      applications: [
+      applicationsAsApplicant: [
         [
           {
             html: '<a class="govuk-link govuk-link--no-visited-state" href="/1234123412341234/task-list">1234123412341234</a>',
@@ -73,6 +82,22 @@ describe('my applications route', () => {
           },
           {
             text: '08 May 2026',
+          },
+          {
+            text: 'Not yet submitted',
+          },
+          {
+            text: 'In progress',
+          },
+        ],
+      ],
+      applicationsAsLinkedRespondent: [
+        [
+          {
+            html: '<a class="govuk-link govuk-link--no-visited-state" href="/1234123412346767/landlord-response/task-list">1234123412346767</a>',
+          },
+          {
+            text: '28 August 2026',
           },
           {
             text: 'Not yet submitted',
