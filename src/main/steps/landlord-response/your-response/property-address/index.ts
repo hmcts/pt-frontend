@@ -3,6 +3,7 @@ import { flowConfig } from '../../flow.config';
 import { createFormStep, getFormData } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccd/ccdCase.interface';
+import { isValidPostcode } from '@utils/postcode';
 
 const journeyName = 'landlord-response';
 const stepName = 'property-address';
@@ -34,7 +35,9 @@ export const step: StepDefinition = createFormStep({
     return {
       tenantPropertyHtml: [
         ccdCase?.propertyDetails?.addressLine1,
+        ccdCase?.propertyDetails?.addressLine2,
         ccdCase?.propertyDetails?.postTown,
+        ccdCase?.propertyDetails?.county,
         ccdCase?.propertyDetails?.postcode,
       ]
         .filter(Boolean)
@@ -65,6 +68,15 @@ export const step: StepDefinition = createFormStep({
               translationKey: { label: 'labels.addressLine1' },
               errorMessage: 'errors.addressLine1.required',
               labelClasses: 'govuk-!-margin-top-4',
+              attributes: {
+                autocomplete: 'address-line1',
+              },
+              validator: (value): boolean | string => {
+                if (value && String(value).length < 2) {
+                  return 'errors.addressLine1.invalid';
+                }
+                return true;
+              },
             },
             addressLine2: {
               name: 'addressLine2',
@@ -72,6 +84,15 @@ export const step: StepDefinition = createFormStep({
               required: false,
               isPageHeading: false,
               translationKey: { label: 'labels.addressLine2' },
+              attributes: {
+                autocomplete: 'address-line2',
+              },
+              validator: (value): boolean | string => {
+                if (value && String(value).length < 2) {
+                  return 'errors.addressLine2.invalid';
+                }
+                return true;
+              },
             },
             postTown: {
               name: 'postTown',
@@ -80,6 +101,31 @@ export const step: StepDefinition = createFormStep({
               isPageHeading: false,
               translationKey: { label: 'labels.postTown' },
               errorMessage: 'errors.postTown.required',
+              attributes: {
+                autocomplete: 'address-level2',
+              },
+              validator: (value): boolean | string => {
+                if (value && String(value).length < 2) {
+                  return 'errors.postTown.invalid';
+                }
+                return true;
+              },
+            },
+            county: {
+              name: 'county',
+              type: 'text',
+              required: false,
+              isPageHeading: false,
+              translationKey: { label: 'labels.county' },
+              attributes: {
+                autocomplete: 'address-level1',
+              },
+              validator: (value): boolean | string => {
+                if (value && String(value).length < 2) {
+                  return 'errors.county.invalid';
+                }
+                return true;
+              },
             },
             postcode: {
               name: 'postcode',
@@ -88,6 +134,12 @@ export const step: StepDefinition = createFormStep({
               isPageHeading: false,
               translationKey: { label: 'labels.postcode' },
               errorMessage: 'errors.postcode.required',
+              validator: (value): boolean | string => {
+                if (value && !isValidPostcode(value as string)) {
+                  return 'errors.postcode.invalid';
+                }
+                return true;
+              },
             },
           },
         },
