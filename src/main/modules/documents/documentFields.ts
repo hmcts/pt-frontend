@@ -59,17 +59,20 @@ export const DOCUMENT_FIELDS = {
     ccdField: 'landlordNoticeProposingNewRentDocument',
     documentType: 'newRentIncreaseNotice',
   },
-  noticeNotLegallyValidDocument: {
+  noticeNotLegallyValidDocuments: {
     slice: 'noticeOfRentIncreaseDetails',
-    ptApiField: 'noticeNotLegallyValidDocument',
-    ccdField: 'noticeNotLegallyValidDocument',
+    ptApiField: 'noticeNotLegallyValidDocuments',
+    ccdField: 'noticeNotLegallyValidDocuments',
     documentType: 'noticeNotLegallyValidEvidence',
+    multiple: true,
   },
-  rentIncreaseToCauseHardshipDocument: {
+  rentIncreaseHardshipDocuments: {
     slice: 'noticeOfRentIncreaseDetails',
-    ptApiField: 'rentIncreaseToCauseHardshipDocument',
-    ccdField: 'rentIncreaseToCauseHardshipDocument',
+    ptApiField: 'rentIncreaseHardshipDocuments',
+    ccdField: 'rentIncreaseHardshipDocuments',
     documentType: 'hardshipEvidence',
+    multiple: true,
+    extraExtensions: { '.mp3': 100, '.mp4': 100 },
   },
   tenancyAgreementDocument: {
     slice: 'tenancyAgreementDetails',
