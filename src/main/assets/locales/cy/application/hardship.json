@@ -11,7 +11,7 @@
     }
   },
   "errors": {
-    "rentIncreaseCauseHardship": {
+    "noticeNotLegallyValidDetails": {
       "required": "cySelect whether you think a rent increase on the proposed start date will cause you hardship"
     },
     "rentIncreaseToCauseHardshipDetails": {

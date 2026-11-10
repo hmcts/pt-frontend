@@ -21,7 +21,7 @@
     "noticeLegallyValid": {
       "required": "cySelect whether you think the notice is legally valid"
     },
-    "noticeNotLegallyValidReason": {
+    "noticeNotLegallyValidDetails": {
       "invalid": "cyExplanation must be 500 characters or less"
     }
   }
