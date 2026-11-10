@@ -2,7 +2,7 @@ import type { Request } from 'express';
 
 import { createFormStep } from '@modules/steps';
 
-import './../../../../main/steps/application/the-rent/what-you-think-market-rent-should-be/anything-else-tribunal-should-consider/index';
+import './../../../../main/steps/application/the-rent/anything-else-tribunal-should-consider/index';
 
 jest.mock('@modules/steps', () => ({
   ...jest.requireActual('@modules/steps'),
@@ -18,12 +18,12 @@ const DETAILS_KEY = `${FIELD}.${DETAILS}`;
 describe('application anything-else-tribunal-should-consider step', () => {
   const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
 
-  const makeReq = (stepData?: Record<string, unknown>, marketRentDetails?: Record<string, unknown>): Request =>
+  const makeReq = (stepData?: Record<string, unknown>, rentDetails?: Record<string, unknown>): Request =>
     ({
       params: { caseReference: CASE_REF },
       session: {
         formData: { [CASE_REF]: stepData ? { [STEP_NAME]: stepData } : {} },
-        ccdCase: { marketRentDetails },
+        ccdCase: { rentDetails },
       },
     }) as unknown as Request;
 

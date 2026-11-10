@@ -1,7 +1,7 @@
 import type { Request } from 'express';
 import type { Environment } from 'nunjucks';
 
-import { step } from '../../../../main/steps/application/the-rent/the-current-rent-and-other-costs/rent-payment-frequency';
+import { step } from '../../../../main/steps/application/the-rent/rent-payment-frequency';
 
 import { createFormStep } from '@modules/steps';
 
@@ -124,8 +124,8 @@ describe('application rent-payment-frequency step', () => {
   });
 
   describe('isAnswered', () => {
-    const isAnswered = (currentRentsDetails?: Record<string, unknown>): unknown =>
-      step.isAnswered?.({ session: { ccdCase: { currentRentsDetails } } } as unknown as Request);
+    const isAnswered = (rentDetails?: Record<string, unknown>): unknown =>
+      step.isAnswered?.({ session: { ccdCase: { rentDetails } } } as unknown as Request);
 
     it('is not answered when no frequency has been saved', () => {
       expect(isAnswered()).toBe(false);

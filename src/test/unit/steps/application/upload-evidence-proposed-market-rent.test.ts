@@ -9,7 +9,7 @@ jest.mock('@modules/documents/storage', () => ({
   readDocuments: jest.fn(),
 }));
 
-import './../../../../main/steps/application/the-rent/what-you-think-market-rent-should-be/upload-evidence-proposed-market-rent/index';
+import './../../../../main/steps/application/the-rent/upload-evidence-proposed-market-rent/index';
 
 const mockedReadDocuments = readDocuments as jest.MockedFunction<typeof readDocuments>;
 

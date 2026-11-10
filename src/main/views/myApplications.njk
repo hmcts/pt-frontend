@@ -1,6 +1,7 @@
 {% extends "stepsTemplate.njk" %}
 
-{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+{% from "macros/applicationTable.njk" import applicationTable %}
 
 {% block content %}
   <h1 class="govuk-heading-l">{{ t('myApplications') }}</h1>
@@ -8,15 +9,25 @@
   {# TODO: enable link to case once WP3 work completed  #}
   {#  <p class="govuk-body"><a href="/link-to-case" class="govuk-link govuk-link--no-visited-state">{{ t('linkToCaseLinkText') }}</a></p>#}
 
-  {% if applications.length > 0 %}
-    {{ govukTable({
-      head: [
-        { text: t('myApplicationsTable.applicationNumberHeading') },
-        { text: t('myApplicationsTable.createdHeading') },
-        { text: t('myApplicationsTable.submittedOnHeading') },
-        { text: t('myApplicationsTable.statusHeading') }
-      ],
-      rows: applications
-    }) }}
+  {% set tabItems = [] %}
+
+  {% if applicationsAsApplicant.length > 0 %}
+    {% set tabItems = (tabItems.push({
+      label: "Applicant cases",
+      id: "applicant-cases",
+      panel: { html: applicationTable(applicationsAsApplicant) }
+    }), tabItems) %}
+  {% endif %}
+
+{#  {% if applicationsAsLinkedRespondent.length > 0 %}#}
+    {% set tabItems = (tabItems.push({
+      label: "Respondent cases",
+      id: "respondent-cases",
+      panel: { html: applicationTable(applicationsAsLinkedRespondent) }
+    }), tabItems) %}
+{#  {% endif %}#}
+
+  {% if tabItems.length > 0 %}
+    {{ govukTabs({ items: tabItems }) }}
   {% endif %}
 {% endblock %}

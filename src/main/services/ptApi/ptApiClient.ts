@@ -12,12 +12,22 @@ const logger = Logger.getLogger('pt-api-client');
 export class PtApiClient {
   constructor(private readonly client: AxiosInstance) {}
 
-  async getAllCasesByUser(): Promise<PTCaseData[]> {
+  async getAllCasesByApplicantUser(): Promise<PTCaseData[]> {
     try {
       const response = await this.client.get<PTCaseData[]>('/applications');
       return response.data;
     } catch (err) {
       logger.error('Failed to list applications for user', err);
+      throw err;
+    }
+  }
+
+  async getAllCasesByRespondentUser(): Promise<PTCaseData[]> {
+    try {
+      const response = await this.client.get<PTCaseData[]>('/respondent/applications');
+      return response.data;
+    } catch (err) {
+      logger.error('Failed to list applications for landlord respondent user', err);
       throw err;
     }
   }
