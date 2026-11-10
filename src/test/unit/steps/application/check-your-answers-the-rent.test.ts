@@ -1,7 +1,7 @@
 import type { Request } from 'express';
 import type { TFunction } from 'i18next';
 
-import { buildSectionCyaRows } from '../../../../main/steps/application/the-rent/check-your-answers-current-rent-and-other-costs/buildSectionCyaRows';
+import { buildSectionCyaRows } from '../../../../main/steps/application/the-rent/check-your-answers-the-rent/buildSectionCyaRows';
 // Print the key back so assertions read as the key that was looked up
 const t = ((key: string) => key) as unknown as TFunction;
 
@@ -30,7 +30,7 @@ const valueOf = (rows: Row[], key: string): string | undefined => {
   return row?.value.text ?? row?.value.html;
 };
 
-describe('buildSectionCyaRows for the current rent and other costs', () => {
+describe('buildSectionCyaRows for the current rent, other costs and proposed market rent', () => {
   it('returns no rows when the route has no case reference', () => {
     const req = { session: {} } as unknown as Request;
 
@@ -301,5 +301,125 @@ describe('buildSectionCyaRows for the current rent and other costs', () => {
     ) as unknown as { actions: { items: { href: string }[] } }[];
 
     expect(rows[0].actions.items[0].href).toBe('/1234123412341234/rent-includes-council-tax?edit=rentDetails');
+  });
+
+  describe('proposed market rent rows', () => {
+    it('follows the current rent rows, in journey order', () => {
+      const rows = buildSectionCyaRows(
+        buildReq({
+          'other-household-management-charges': { anyOtherHouseholdManagementCharges: 'No' },
+          'proposed-market-rent': {
+            applicantSuggestedMarketRent: '1230',
+            applicantSuggestedMarketRentFrequency: 'weekly',
+          },
+          'proposed-market-rent-reasons': { applicantSuggestedMarketRentReasons: 'Similar flats nearby' },
+          'upload-evidence-proposed-market-rent': {
+            documents: [{ index: 0, document_url: 'url', document_filename: 'listing.pdf' }],
+          },
+          'anything-else-tribunal-should-consider': { additionalInfoToConsiderWhenDeterminingRent: 'No' },
+        }),
+        t
+      ) as Row[];
+
+      expect(keysOf(rows)).toEqual([
+        'rows.anyOtherHouseholdManagementCharges.label',
+        'rows.applicantSuggestedMarketRent.weekly.label',
+        'rows.applicantSuggestedMarketRentReasons.label',
+        'rows.suggestedMarketRentEvidence.label',
+        'rows.additionalInfoToConsiderWhenDeterminingRent.label',
+      ]);
+      expect(valueOf(rows, 'rows.applicantSuggestedMarketRent.weekly.label')).toBe('£1230.00');
+    });
+
+    it('shows the amount under its own question and the typed frequency when Other is selected', () => {
+      const rows = buildSectionCyaRows(
+        buildReq({
+          'proposed-market-rent': {
+            applicantSuggestedMarketRent: '1230',
+            applicantSuggestedMarketRentFrequency: 'other',
+            'applicantSuggestedMarketRentFrequency.applicantSuggestedMarketRentFrequencyOther': 'Every 4 weeks',
+          },
+        }),
+        t
+      ) as Row[];
+
+      expect(keysOf(rows)).toEqual([
+        'rows.applicantSuggestedMarketRent.label',
+        'rows.applicantSuggestedMarketRentFrequencyOther.label',
+      ]);
+      expect(valueOf(rows, 'rows.applicantSuggestedMarketRent.label')).toBe('£1230.00');
+      expect(valueOf(rows, 'rows.applicantSuggestedMarketRentFrequencyOther.label')).toBe('Every 4 weeks');
+    });
+
+    it('reads the market rent from the saved case', () => {
+      const rows = buildSectionCyaRows(
+        buildReq(
+          {},
+          {
+            applicantSuggestedMarketRent: 950.5,
+            applicantSuggestedMarketRentFrequency: 'monthly',
+            applicantSuggestedMarketRentFrequencyOther: 'Left over from an earlier answer',
+            applicantSuggestedMarketRentReasons: 'Needs repairs',
+            suggestedMarketRentEvidence: [{ filename: 'photo.jpg' }, { filename: 'quote.pdf' }],
+          }
+        ),
+        t
+      ) as Row[];
+
+      expect(valueOf(rows, 'rows.applicantSuggestedMarketRent.monthly.label')).toBe('£950.50');
+      expect(keysOf(rows)).not.toContain('rows.applicantSuggestedMarketRentFrequencyOther.label');
+      expect(valueOf(rows, 'rows.applicantSuggestedMarketRentReasons.label')).toBe('Needs repairs');
+      expect(valueOf(rows, 'rows.suggestedMarketRentEvidence.label')).toBe('photo.jpg<br>quote.pdf');
+    });
+
+    it('leaves out the optional rows when they were not answered', () => {
+      const rows = buildSectionCyaRows(
+        buildReq(
+          { 'upload-evidence-proposed-market-rent': { documents: [] } },
+          { applicantSuggestedMarketRentReasons: null, suggestedMarketRentEvidence: [{ filename: 'stale.pdf' }] }
+        ),
+        t
+      ) as Row[];
+
+      expect(rows).toEqual([]);
+    });
+
+    it('escapes uploaded file names', () => {
+      const rows = buildSectionCyaRows(
+        buildReq({
+          'upload-evidence-proposed-market-rent': {
+            documents: [{ index: 0, document_url: 'url', document_filename: '<b>a</b>.pdf' }],
+          },
+        }),
+        t
+      ) as Row[];
+
+      expect(valueOf(rows, 'rows.suggestedMarketRentEvidence.label')).toBe('&lt;b&gt;a&lt;/b&gt;.pdf');
+    });
+
+    it('shows what the tribunal should consider only when the answer is Yes', () => {
+      const yesRows = buildSectionCyaRows(
+        buildReq(
+          {},
+          {
+            additionalPropertyInfoToConsiderWhenDetermining: 'Yes',
+            additionalPropertyInfoToConsiderWhenDeterminingDetails: 'Damp in the bedroom',
+          }
+        ),
+        t
+      ) as Row[];
+      const noRows = buildSectionCyaRows(
+        buildReq(
+          { 'anything-else-tribunal-should-consider': { additionalInfoToConsiderWhenDeterminingRent: 'No' } },
+          { additionalPropertyInfoToConsiderWhenDeterminingDetails: 'Damp in the bedroom' }
+        ),
+        t
+      ) as Row[];
+
+      expect(valueOf(yesRows, 'rows.additionalInfoToConsiderWhenDeterminingRentDetails.label')).toBe(
+        'Damp in the bedroom'
+      );
+      expect(keysOf(noRows)).toEqual(['rows.additionalInfoToConsiderWhenDeterminingRent.label']);
+    });
   });
 });
