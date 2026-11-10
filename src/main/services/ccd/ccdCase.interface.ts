@@ -127,7 +127,7 @@ export interface CcdCaseData {
     repairsEvidenceDocuments?: CcdCollectionItem<CcdUploadedDocument>[];
   };
 
-  currentRentDetails?: {
+  rentDetails?: {
     tribunalPreviouslyDeterminedTenancyRent?: string | boolean;
     previousTribunalCaseReference?: string;
     rentPaymentFrequency?: string;
@@ -157,9 +157,6 @@ export interface CcdCaseData {
     varyingAdditionalRentalServiceChargesDetails?: string;
     anyOtherHouseholdManagementCharges?: string | boolean;
     otherHouseholdManagementChargesDetails?: string;
-  };
-
-  marketRentDetails?: {
     applicantSuggestedMarketRent?: number;
     applicantSuggestedMarketRentFrequency?: string;
     applicantSuggestedMarketRentFrequencyOther?: string;
@@ -264,9 +261,8 @@ export interface PTCaseData extends LandlordDetails, PropertyDetails, LettingAge
 
   applicantContactPreferences?: ContactPreferences;
   tenantDetails?: TenantDetails;
-  currentRentsDetails?: RentDetails;
+  rentDetails?: RentDetails;
   propertyDetails?: PropertyDetails;
-  marketRentDetails?: MarketRentDetails;
   tenancyAgreementDetails?: TenancyAgreementDetails;
   noticeOfRentIncreaseDetails?: NoticeOfRentIncreaseDetails;
   hearingInspectionDetails?: HearingInspectionDetails;
@@ -399,10 +395,8 @@ export interface RentDetails {
   otherHouseholdManagementChargesDetails?: string;
   additionalRentalServiceChargesVary?: YesNoValue;
   varyingAdditionalRentalServiceChargesDetails?: string;
-}
 
-/** Fields captured across the what you think the market rent should be journey. */
-export interface MarketRentDetails {
+  // market rent
   applicantSuggestedMarketRent?: number;
   applicantSuggestedMarketRentFrequency?: string;
   applicantSuggestedMarketRentFrequencyOther?: string;

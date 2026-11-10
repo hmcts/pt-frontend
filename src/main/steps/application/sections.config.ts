@@ -75,9 +75,9 @@ const sectionDefs = [
     steps: ['have-tenancy-agreement', 'upload-tenancy-agreement', 'check-your-answers-your-tenancy-agreement'],
   },
   {
-    id: 'theCurrentRentAndOtherCosts',
+    id: 'rentDetails',
     groupId: 'theRent',
-    titleKey: 'taskList.theCurrentRentAndOtherCosts',
+    titleKey: 'taskList.rentDetails',
     steps: [
       'tribunal-previously-determined-rent',
       'rent-payment-frequency',
@@ -91,19 +91,11 @@ const sectionDefs = [
       'other-household-management-charges',
       'other-household-management-charges-details',
       'additional-rental-service-charges-vary',
-      'check-your-answers-current-rent-and-other-costs',
-    ],
-  },
-  {
-    id: 'whatYouThinkMarketRentShouldBe',
-    groupId: 'theRent',
-    titleKey: 'taskList.whatYouThinkMarketRentShouldBe',
-    steps: [
       'proposed-market-rent',
       'proposed-market-rent-reasons',
       'upload-evidence-proposed-market-rent',
       'anything-else-tribunal-should-consider',
-      'check-your-answers-what-you-think-market-rent-should-be',
+      'check-your-answers-current-rent-and-other-costs',
     ],
   },
   {
@@ -163,8 +155,7 @@ const sectionDefs = [
       'landlordDetails',
       'landlordsNotice',
       'yourTenancyAgreement',
-      'theCurrentRentAndOtherCosts',
-      'whatYouThinkMarketRentShouldBe',
+      'rentDetails',
       'propertyDetails',
       'propertyInspection',
       'extraSupport',
