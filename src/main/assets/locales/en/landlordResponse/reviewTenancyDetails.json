@@ -1,0 +1,46 @@
+{
+  "pageTitle": "Review tenancy details",
+  "intro": "Review the information provided by the tenant in their application and tell us if you want to respond to the tribunal about any of their answers. You can also upload supporting documents or evidence.",
+  "relatedContent": {
+    "heading": "Related content",
+    "viewTenantsApplication": "View the tenant's full application (opens in new tab)"
+  },
+  "tenancyDetails": {
+    "title": "Tenancy details provided by the tenant",
+    "rows": {
+      "tribunalPreviouslyDeterminedTenancyRent": "Has the tribunal previously determined the rent for your tenancy?",
+      "rentPaymentFrequency": "How often do you pay your rent?",
+      "rentCost": "How much is the current rent?",
+      "rentIncludesCouncilTax": "Does your rent include council tax?",
+      "rentInclusiveOfUtilityCharges": "Does the rent include any charges for utilities?",
+      "utilitiesCost": "How much do all utilities cost in your property? (optional)",
+      "utilitiesPaidFrequency": "How often are utilities paid? (optional)",
+      "currentTenancyStartDate": "When did your current tenancy start?",
+      "anyOtherHouseholdManagementCharges": "Are you charged separately for anything else?",
+      "otherHouseholdManagementChargesDetails": "Describe what you are charged separately for",
+      "additionalRentalServiceChargesVary": "Do the charges you pay for these services vary?"
+    },
+    "frequency": {
+      "weekly": "Weekly",
+      "fortnightly": "Fortnightly (every 2 weeks)",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "other": "Other"
+    }
+  },
+  "questionTitle": "Do you want to respond to any answers from the tenant about tenancy details?",
+  "questionHint": "For example, because you disagree or want to add more context",
+  "details": {
+    "label": "Tell us more about the tenancy details provided by the tenant",
+    "hint": "You can upload any documents or evidence next"
+  },
+  "errors": {
+    "respondToTenantAnswersAboutTenancyDetails": {
+      "required": "Select whether you want to respond to any answers from the tenant about tenancy details"
+    },
+    "respondToTenantAnswersAboutTenancyDetailsDescription": {
+      "required": "Tell us more about the tenancy details provided by the tenant",
+      "invalid": "Tell us more about the tenancy details provided by the tenant in 500 characters or less"
+    }
+  }
+}

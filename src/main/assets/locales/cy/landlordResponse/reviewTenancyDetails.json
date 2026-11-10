@@ -1,0 +1,46 @@
+{
+  "pageTitle": "cyReview tenancy details",
+  "intro": "cyReview the information provided by the tenant in their application and tell us if you want to respond to the tribunal about any of their answers. You can also upload supporting documents or evidence.",
+  "relatedContent": {
+    "heading": "cyRelated content",
+    "viewTenantsApplication": "cyView the tenant's full application (opens in new tab)"
+  },
+  "tenancyDetails": {
+    "title": "cyTenancy details provided by the tenant",
+    "rows": {
+      "tribunalPreviouslyDeterminedTenancyRent": "cyHas the tribunal previously determined the rent for your tenancy?",
+      "rentPaymentFrequency": "cyHow often do you pay your rent?",
+      "rentCost": "cyHow much is the current rent?",
+      "rentIncludesCouncilTax": "cyDoes your rent include council tax?",
+      "rentInclusiveOfUtilityCharges": "cyDoes the rent include any charges for utilities?",
+      "utilitiesCost": "cyHow much do all utilities cost in your property? (optional)",
+      "utilitiesPaidFrequency": "cyHow often are utilities paid? (optional)",
+      "currentTenancyStartDate": "cyWhen did your current tenancy start?",
+      "anyOtherHouseholdManagementCharges": "cyAre you charged separately for anything else?",
+      "otherHouseholdManagementChargesDetails": "cyDescribe what you are charged separately for",
+      "additionalRentalServiceChargesVary": "cyDo the charges you pay for these services vary?"
+    },
+    "frequency": {
+      "weekly": "cyWeekly",
+      "fortnightly": "cyFortnightly (every 2 weeks)",
+      "monthly": "cyMonthly",
+      "yearly": "cyYearly",
+      "other": "cyOther"
+    }
+  },
+  "questionTitle": "cyDo you want to respond to any answers from the tenant about tenancy details?",
+  "questionHint": "cyFor example, because you disagree or want to add more context",
+  "details": {
+    "label": "cyTell us more about the tenancy details provided by the tenant",
+    "hint": "cyYou can upload any documents or evidence next"
+  },
+  "errors": {
+    "respondToTenantAnswersAboutTenancyDetails": {
+      "required": "cySelect whether you want to respond to any answers from the tenant about tenancy details"
+    },
+    "respondToTenantAnswersAboutTenancyDetailsDescription": {
+      "required": "cyTell us more about the tenancy details provided by the tenant",
+      "invalid": "cyTell us more about the tenancy details provided by the tenant in 500 characters or less"
+    }
+  }
+}

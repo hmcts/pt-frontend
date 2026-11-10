@@ -261,6 +261,7 @@ export interface PTCaseData extends LandlordDetails, PropertyDetails, LettingAge
   tenancyAgreementDetails?: TenancyAgreementDetails;
   noticeOfRentIncreaseDetails?: NoticeOfRentIncreaseDetails;
   hearingInspectionDetails?: HearingInspectionDetails;
+  landlordResponse?: LandlordResponse;
 }
 
 export interface TenantDetails {
@@ -410,4 +411,9 @@ export interface HearingInspectionDetails {
 export interface HelpWithFeesDetails {
   appliedForHelpWithFees?: YesNoValue;
   referenceNumber?: string;
+}
+
+export interface LandlordResponse {
+  respondToTenantAnswersAboutTenancyDetails?: string;
+  respondToTenantAnswersAboutTenancyDetailsDescription?: string;
 }
