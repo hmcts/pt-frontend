@@ -2,9 +2,9 @@ import type { Request } from 'express';
 
 import { createFormStep } from '@modules/steps';
 
-import '../../../../main/steps/application/the-rent/the-current-rent-and-other-costs/rent-payment-frequency';
-import '../../../../main/steps/application/the-rent/the-current-rent-and-other-costs/council-tax-frequency';
-import '../../../../main/steps/application/the-rent/the-current-rent-and-other-costs/utilities-paid-frequency';
+import '../../../../main/steps/application/the-rent/rent-payment-frequency';
+import '../../../../main/steps/application/the-rent/council-tax-frequency';
+import '../../../../main/steps/application/the-rent/utilities-paid-frequency';
 
 jest.mock('@modules/steps', () => ({
   ...jest.requireActual('@modules/steps'),
@@ -16,10 +16,10 @@ const CASE_REF = '1234123412341234';
 const configFor = (stepName: string) =>
   (createFormStep as jest.Mock).mock.calls.map(call => call[0]).find(config => config.stepName === stepName);
 
-const reqWith = (formData: Record<string, unknown>, currentRentsDetails: Record<string, unknown> = {}): Request =>
+const reqWith = (formData: Record<string, unknown>, rentDetails: Record<string, unknown> = {}): Request =>
   ({
     params: { caseReference: CASE_REF },
-    session: { formData: { [CASE_REF]: formData }, ccdCase: { currentRentsDetails } },
+    session: { formData: { [CASE_REF]: formData }, ccdCase: { rentDetails } },
   }) as unknown as Request;
 
 describe.each([

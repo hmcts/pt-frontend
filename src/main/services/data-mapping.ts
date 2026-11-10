@@ -130,8 +130,8 @@ export function prepareDataForSave(
       };
     }
 
-    case 'theCurrentRentAndOtherCosts': {
-      const rentDetails = saved?.currentRentsDetails;
+    case 'rentDetails': {
+      const rentDetails = saved?.rentDetails;
 
       const startDate = dateParts(req, 'current-tenancy-start-date', 'currentTenancyStartDate');
       const endDate = dateParts(req, 'tenancy-end-date', 'currentTenancyEndDate');
@@ -154,9 +154,18 @@ export function prepareDataForSave(
       const chargesVary =
         getFormDataString(req, 'additional-rental-service-charges-vary', 'additionalRentalServiceChargesVary') ??
         rentDetails?.additionalRentalServiceChargesVary;
+      const marketRentFrequency =
+        getFormDataString(req, 'proposed-market-rent', 'applicantSuggestedMarketRentFrequency') ??
+        rentDetails?.applicantSuggestedMarketRentFrequency;
+      const additionalInfo =
+        getFormDataString(
+          req,
+          'anything-else-tribunal-should-consider',
+          'additionalInfoToConsiderWhenDeterminingRent'
+        ) ?? rentDetails?.additionalPropertyInfoToConsiderWhenDetermining;
 
       return {
-        currentRentDetails: {
+        rentDetails: {
           tribunalPreviouslyDeterminedTenancyRent: tribunalDetermined,
           previousTribunalCaseReference:
             tribunalDetermined === 'Yes'
@@ -330,27 +339,9 @@ export function prepareDataForSave(
                   'additionalRentalServiceChargesVary.varyingAdditionalRentalServiceChargesDetails'
                 ) ?? rentDetails?.varyingAdditionalRentalServiceChargesDetails)
               : undefined,
-        },
-      };
-    }
-
-    case 'whatYouThinkMarketRentShouldBe': {
-      const marketRentDetails = saved?.marketRentDetails;
-      const marketRentFrequency =
-        getFormDataString(req, 'proposed-market-rent', 'applicantSuggestedMarketRentFrequency') ??
-        marketRentDetails?.applicantSuggestedMarketRentFrequency;
-      const additionalInfo =
-        getFormDataString(
-          req,
-          'anything-else-tribunal-should-consider',
-          'additionalInfoToConsiderWhenDeterminingRent'
-        ) ?? marketRentDetails?.additionalPropertyInfoToConsiderWhenDetermining;
-
-      return {
-        marketRentDetails: {
           applicantSuggestedMarketRent: toNumber(
             getFormDataString(req, 'proposed-market-rent', 'applicantSuggestedMarketRent') ??
-              marketRentDetails?.applicantSuggestedMarketRent
+              rentDetails?.applicantSuggestedMarketRent
           ),
           applicantSuggestedMarketRentFrequency: marketRentFrequency,
           applicantSuggestedMarketRentFrequencyOther:
@@ -359,11 +350,11 @@ export function prepareDataForSave(
                   req,
                   'proposed-market-rent',
                   'applicantSuggestedMarketRentFrequency.applicantSuggestedMarketRentFrequencyOther'
-                ) ?? marketRentDetails?.applicantSuggestedMarketRentFrequencyOther)
+                ) ?? rentDetails?.applicantSuggestedMarketRentFrequencyOther)
               : undefined,
           applicantSuggestedMarketRentReasons:
             getFormDataString(req, 'proposed-market-rent-reasons', 'applicantSuggestedMarketRentReasons') ??
-            marketRentDetails?.applicantSuggestedMarketRentReasons,
+            rentDetails?.applicantSuggestedMarketRentReasons,
           additionalInfoToConsiderWhenDeterminingRent: additionalInfo,
           additionalInfoToConsiderWhenDeterminingRentDetails:
             additionalInfo === 'Yes'
@@ -371,7 +362,7 @@ export function prepareDataForSave(
                   req,
                   'anything-else-tribunal-should-consider',
                   'additionalInfoToConsiderWhenDeterminingRent.additionalInfoToConsiderWhenDeterminingRentDetails'
-                ) ?? marketRentDetails?.additionalPropertyInfoToConsiderWhenDeterminingDetails)
+                ) ?? rentDetails?.additionalPropertyInfoToConsiderWhenDeterminingDetails)
               : undefined,
         },
       };
