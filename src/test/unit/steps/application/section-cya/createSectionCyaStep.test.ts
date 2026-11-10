@@ -3,11 +3,11 @@ import type { Request, Response } from 'express';
 import { HTTPError } from '../../../../../main/HttpError';
 import { flowConfig } from '../../../../../main/steps/application/flow.config';
 import { createSectionCyaStep } from '../../../../../main/steps/application/section-cya/createSectionCyaStep';
+import { prepareDataForSave } from '../../../../../main/steps/utils/dataMapping';
 
 import type { GetController } from '@modules/steps';
 import type { JourneyFlowConfig } from '@modules/steps/stepFlow.interface';
 import { getCaseApi } from '@services/ccd/ccdApiClient';
-import { prepareDataForSave } from '@services/data-mapping';
 import { getFlowConfigForJourney } from '@steps';
 
 const mockT = jest.fn((key: string) => `translated ${key}`);
@@ -18,7 +18,10 @@ jest.mock('@modules/steps/i18n', () => ({
 }));
 
 jest.mock('@services/ccd/ccdApiClient', () => ({ getCaseApi: jest.fn() }));
-jest.mock('@services/data-mapping', () => ({ prepareDataForSave: jest.fn() }));
+jest.mock('../../../../../main/steps/utils/dataMapping', () => ({
+  ...jest.requireActual('../../../../../main/steps/utils/dataMapping'),
+  prepareDataForSave: jest.fn(),
+}));
 jest.mock('@steps', () => ({ getFlowConfigForJourney: jest.fn() }));
 
 const CASE_REF = '1234123412341234';
@@ -115,7 +118,7 @@ describe('createSectionCyaStep', () => {
         const { res, next } = await post(req);
 
         expect(getCaseApi).toHaveBeenCalledWith(USER);
-        expect(prepareDataForSave).toHaveBeenCalledWith('contactPreferences', req, CCD_CASE);
+        expect(prepareDataForSave).toHaveBeenCalledWith('contactPreferences', req, CCD_CASE, flowConfig);
         expect(updateCase).toHaveBeenCalledWith(CASE_REF, PAYLOAD);
         expect(req.session.formData).toEqual({ [OTHER_CASE]: { 'text-updates': { textUpdates: 'Yes' } } });
         expect(res.redirect).toHaveBeenCalledWith(303, `/${CASE_REF}/task-list`);

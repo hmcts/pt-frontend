@@ -24,6 +24,7 @@ const { getCaseApi: getCaseApiMock, __getEventTriggerMock: updateCaseMock } =
   jest.requireMock('@services/ccd/ccdApiClient');
 
 const flowConfig: JourneyFlowConfig = {
+  journeyName: 'application',
   stepOrder: [],
   steps: {},
 };
