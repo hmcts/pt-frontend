@@ -2,9 +2,9 @@ import type { Request } from 'express';
 import type { TFunction } from 'i18next';
 import { DateTime } from 'luxon';
 
-import type { ApplicationStepName } from '../../../stepRegistry';
 import { SummaryListRow, createRowContext, escapeWithLineBreaks, isYes } from '../../section-cya/cyaRow';
 import { ApplicationSectionId } from '../../sections.config';
+import type { ApplicationStepName } from '../../stepRegistry';
 
 import { getFormData } from '@modules/steps';
 import type { DateValue, RentDetails } from '@services/ccd/ccdCase.interface';
