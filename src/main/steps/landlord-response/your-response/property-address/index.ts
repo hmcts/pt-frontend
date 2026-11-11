@@ -23,6 +23,7 @@ export const step: StepDefinition = createFormStep({
     }
     delete stepData['tenantProvidedCorrectAddress.addressLine1'];
     delete stepData['tenantProvidedCorrectAddress.addressLine2'];
+    delete stepData['tenantProvidedCorrectAddress.county'];
     delete stepData['tenantProvidedCorrectAddress.postTown'];
     delete stepData['tenantProvidedCorrectAddress.postcode'];
   },
