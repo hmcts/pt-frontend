@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from 'express';
 import type { TFunction } from 'i18next';
 
 import { HTTPError } from '../../../HttpError';
-import { prepareDataForSave } from '../../../steps/utils/dataMapping';
+import { saveSection } from '../../../steps/utils/dataMapping';
 import { safeRedirect303 } from '../../../steps/utils/safeRedirect';
 import { createStepNavigation, getStepUrl } from '../flow';
 import { getTranslationFunction, loadStepNamespace } from '../i18n';
@@ -33,7 +33,6 @@ import type {
 } from '@modules/steps/formBuilder/formFieldConfig.interface';
 import { validateConfigInDevelopment } from '@modules/steps/formBuilder/schema';
 import type { JourneyFlowConfig } from '@modules/steps/stepFlow.interface';
-import { getCaseApi } from '@services/ccd/ccdApiClient';
 import { toCaseReference16 } from '@utils/caseReference';
 import { isDiagnosticsEnabled } from '@utils/environment';
 
@@ -182,11 +181,7 @@ export function createPostHandler(
         }
 
         try {
-          const data = prepareDataForSave(sectionId, req, req.session.ccdCase, resolvedFlowConfig);
-          if (Object.keys(data).length > 0) {
-            const ccdCaseApi = getCaseApi(req.session.user);
-            await ccdCaseApi.updateCase(caseReference, data);
-          }
+          await saveSection(caseReference, sectionId, req, resolvedFlowConfig);
         } catch (error) {
           return next(error);
         }

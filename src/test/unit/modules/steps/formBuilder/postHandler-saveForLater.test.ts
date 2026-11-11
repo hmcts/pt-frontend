@@ -5,6 +5,7 @@ import { FormFieldConfig } from '../../../../../main/modules/steps/formBuilder/f
 import { createPostHandler } from '../../../../../main/modules/steps/formBuilder/postHandler';
 import { JourneyFlowConfig } from '../../../../../main/modules/steps/stepFlow.interface';
 
+import { CITIZEN_UPDATE_CASE } from '@services/ccd/ccdCase.interface';
 import { CcdCaseModel } from '@services/ccd/ccdCaseData.model';
 
 jest.mock('@modules/i18n');
@@ -227,13 +228,17 @@ describe('PostHandler - Save for Later Fix', () => {
 
       expect(getCaseApiMock).toHaveBeenCalledTimes(1);
       expect(updateCaseMock).toHaveBeenCalledTimes(1);
-      expect(updateCaseMock).toHaveBeenCalledWith('1234123412341234', {
-        applicantContactPreferences: {
-          phoneNumberForCalls: '07123456789',
-          textUpdates: 'Yes',
-          textUpdatesPhoneNumber: '+447777777777',
+      expect(updateCaseMock).toHaveBeenCalledWith(
+        '1234123412341234',
+        {
+          applicantContactPreferences: {
+            phoneNumberForCalls: '07123456789',
+            textUpdates: 'Yes',
+            textUpdatesPhoneNumber: '+447777777777',
+          },
         },
-      });
+        CITIZEN_UPDATE_CASE
+      );
 
       // Should call beforeRedirect (save to CCD)
       expect(mockBeforeRedirect).toHaveBeenCalled();
@@ -256,7 +261,7 @@ describe('PostHandler - Save for Later Fix', () => {
 
       await post(mockRequest as unknown as Request, mockResponse as Response, mockNext);
 
-      expect(updateCaseMock).toHaveBeenCalledWith(OTHER_CASE, expect.anything());
+      expect(updateCaseMock).toHaveBeenCalledWith(OTHER_CASE, expect.anything(), CITIZEN_UPDATE_CASE);
     });
 
     it('only sends the routed case answers to CCD, never another case in the same session', async () => {
@@ -275,13 +280,17 @@ describe('PostHandler - Save for Later Fix', () => {
 
       await post(mockRequest as unknown as Request, mockResponse as Response, mockNext);
 
-      expect(updateCaseMock).toHaveBeenCalledWith(OTHER_CASE, {
-        applicantContactPreferences: {
-          phoneNumberForCalls: '07123456789',
-          textUpdates: undefined,
-          textUpdatesPhoneNumber: undefined,
+      expect(updateCaseMock).toHaveBeenCalledWith(
+        OTHER_CASE,
+        {
+          applicantContactPreferences: {
+            phoneNumberForCalls: '07123456789',
+            textUpdates: undefined,
+            textUpdatesPhoneNumber: undefined,
+          },
         },
-      });
+        CITIZEN_UPDATE_CASE
+      );
     });
 
     it('404s rather than guessing when the route has no valid case reference', async () => {

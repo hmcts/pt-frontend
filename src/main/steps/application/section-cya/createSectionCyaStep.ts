@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from 'express';
 import type { TFunction } from 'i18next';
 
 import { HTTPError } from '../../../HttpError';
-import { prepareDataForSave } from '../../utils/dataMapping';
+import { saveSection } from '../../utils/dataMapping';
 import { APPLICATION_ROUTE, flowConfig } from '../flow.config';
 import { findSectionIdForStep } from '../sections.config';
 
@@ -11,7 +11,6 @@ import type { SummaryListRow } from './cyaRow';
 import { clearFormData, createGetController, createStepNavigation, getTranslationFunction } from '@modules/steps';
 import { getStepUrl } from '@modules/steps/flow';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
-import { getCaseApi } from '@services/ccd/ccdApiClient';
 import { getFlowConfigForJourney } from '@steps';
 import { toCaseReference16 } from '@utils/caseReference';
 
@@ -84,12 +83,7 @@ export function createSectionCyaStep({
 
         if (sectionId) {
           try {
-            const data = prepareDataForSave(sectionId, req, req.session.ccdCase, resolveFlow());
-            if (Object.keys(data).length > 0) {
-              const ccdCaseApi = getCaseApi(req.session.user);
-              await ccdCaseApi.updateCase(caseRef, data);
-            }
-
+            await saveSection(caseRef, sectionId, req, resolveFlow());
             clearFormData(req);
           } catch (error) {
             return next(error);
