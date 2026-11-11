@@ -668,6 +668,105 @@ describe('prepareDataForSave', () => {
     });
   });
 
+  describe('extraSupport data mapping', () => {
+    const sectionId = 'extraSupport';
+
+    const reqWith = (formData: Record<string, unknown>): Request =>
+      ({
+        params: { caseReference: CASE_REF },
+        session: { formData: { [CASE_REF]: formData } },
+      }) as unknown as Request;
+
+    it('should map the extra support answer and details from form data', () => {
+      const mockReq = reqWith({
+        'extra-support': {
+          extraSupport: 'Yes',
+          'extraSupport.extraSupportDetails': 'Communication difficulties',
+        },
+      });
+
+      const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
+
+      expect(mappedData).toEqual({
+        extraSupportDetails: {
+          extraSupportRequired: 'Yes',
+          extraSupportRequiredDetails: 'Communication difficulties',
+        },
+      });
+    });
+
+    it('should fall back to saved case data when form data is not present', () => {
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        extraSupportDetails: {
+          extraSupportRequired: 'Yes',
+          extraSupportRequiredDetails: 'Communication difficulties',
+        },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareDataForSave(sectionId, reqWith({}), ccdCaseData);
+
+      expect(mappedData).toEqual({
+        extraSupportDetails: {
+          extraSupportRequired: 'Yes',
+          extraSupportRequiredDetails: 'Communication difficulties',
+        },
+      });
+    });
+
+    it('should prefer form data over saved case data', () => {
+      const mockReq = reqWith({
+        'extra-support': {
+          extraSupport: 'Yes',
+          'extraSupport.extraSupportDetails': 'Updated communication requirements',
+        },
+      });
+
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        extraSupportDetails: {
+          extraSupportRequired: 'Yes',
+          extraSupportRequiredDetails: 'Previous details',
+        },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
+
+      expect(mappedData).toEqual({
+        extraSupportDetails: {
+          extraSupportRequired: 'Yes',
+          extraSupportRequiredDetails: 'Updated communication requirements',
+        },
+      });
+    });
+
+    it('should clear previously saved details when support is not required', () => {
+      const mockReq = reqWith({
+        'extra-support': {
+          extraSupport: 'No',
+          'extraSupport.extraSupportDetails': 'stale reason',
+        },
+      });
+
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        extraSupportDetails: {
+          extraSupportRequired: 'Yes',
+          extraSupportRequiredDetails: 'Previously saved details',
+        },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
+
+      expect(mappedData).toEqual({
+        extraSupportDetails: {
+          extraSupportRequired: 'No',
+          extraSupportRequiredDetails: undefined,
+        },
+      });
+    });
+  });
+
   describe('case scoping', () => {
     const OTHER_CASE = '9999999999999999';
 
