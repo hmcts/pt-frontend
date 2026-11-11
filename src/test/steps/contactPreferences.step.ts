@@ -1,4 +1,4 @@
-import { expect } from '@playwright/test';
+import { expect } from 'playwright/test';
 
 import { contactPreferences } from '../functional/page-data/contactPreferences.page.data';
 import { changeLink, summaryAnswer, summaryRow } from '../functional/utils/commonLocators';

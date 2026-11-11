@@ -1,4 +1,4 @@
-import { expect } from '@playwright/test';
+import { expect } from 'playwright/test';
 
 import { config as testConfig } from '../config';
 import { commonPage } from '../functional/page-data/common.page.data';

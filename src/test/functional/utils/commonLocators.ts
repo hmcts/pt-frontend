@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import type { Page } from 'playwright';
 
 import { commonPage } from '../page-data/common.page.data';
 
