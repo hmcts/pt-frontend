@@ -1,7 +1,12 @@
+import { expect } from '@playwright/test';
+
 import { config as testConfig } from '../config';
 import { commonPage } from '../functional/page-data/common.page.data';
+import { changeLink, errorSummary } from '../functional/utils/commonLocators';
 
 const { I } = inject();
+
+const escapeRegex = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 export const iAmOnPage = (text: string): void => {
   const url = new URL(text, testConfig.TEST_URL);
@@ -34,6 +39,35 @@ Then('I should see the button {string}', async (buttonText: string) => {
   });
 });
 
+Then('no option should be selected for the question {string}', async (question: string) => {
+  await I.usePlaywrightTo(`check no option is selected for "${question}"`, async ({ page }) => {
+    const questionGroup = page.getByRole('group', { name: question, exact: true });
+
+    await expect(questionGroup.getByRole('radio').first()).toBeVisible();
+    await expect(questionGroup.getByRole('radio', { checked: true })).toHaveCount(0);
+  });
+});
+
+Then('I should see an error summary link for {string}', async (errorMessage: string) => {
+  await I.usePlaywrightTo(`check error summary link for "${errorMessage}"`, async ({ page }) => {
+    const link = errorSummary(page).getByRole('link', { name: errorMessage, exact: true });
+    await expect(link).toHaveAttribute('href', /^#.+/);
+
+    const targetId = (await link.getAttribute('href'))?.slice(1) ?? '';
+    await link.click();
+    await expect(page.locator(`id=${targetId}`)).toBeFocused();
+  });
+});
+
+Then('I should see inline error {string} for the question {string}', async (errorMessage: string, question: string) => {
+  await I.usePlaywrightTo(`check inline error for "${question}"`, async ({ page }) => {
+    const questionGroup = page.getByRole('group', { name: question, exact: true });
+    const questionField = page.getByLabel(question, { exact: true });
+
+    await expect(questionGroup.or(questionField)).toHaveAccessibleDescription(new RegExp(escapeRegex(errorMessage)));
+  });
+});
+
 export const selectOptionByLabel = (label: string): void => {
   I.checkOption(label);
 };
@@ -47,15 +81,8 @@ When('I click {string} link', (linkText: string) => {
 });
 
 When('I click the change link for {string}', async (question: string) => {
-  await I.usePlaywrightTo('click change link for summary answer', async ({ page }) => {
-    const row = page.locator(commonPage.summaryRowSelector).filter({
-      has: page.locator(commonPage.summaryKeySelector).getByText(question, { exact: true }),
-    });
-    await row
-      .locator(commonPage.summaryActionsSelector)
-      .locator(commonPage.summaryActionLinkSelector)
-      .filter({ hasText: commonPage.changeLinkLabel })
-      .click();
+  await I.usePlaywrightTo(`click change link for "${question}"`, async ({ page }) => {
+    await changeLink(page, question).click();
   });
 });
 
@@ -63,8 +90,38 @@ When('I select {string} for the question {string}', (option: string, question: s
   I.checkOption(option, locate('fieldset').withChild(locate('legend').withText(question)));
 });
 
+Then('I check {string} is selected for the question {string}', async (option: string, question: string) => {
+  await I.usePlaywrightTo('check selected radio option by question', async ({ page }) => {
+    const group = page.locator('fieldset').filter({
+      has: page.locator('legend').getByText(question, { exact: true }),
+    });
+    const radio = group.getByLabel(option, { exact: true });
+    await radio.waitFor({ state: 'visible' });
+    if (!(await radio.isChecked())) {
+      throw new Error(`Expected "${option}" to be selected for "${question}"`);
+    }
+  });
+});
+
 When('I enter {string} for the question {string}', (value: string, question: string) => {
   I.fillField(question, value);
+});
+
+When('I clear the field for the question {string}', async (question: string) => {
+  await I.usePlaywrightTo('clear labeled field', async ({ page }) => {
+    await page.getByLabel(question, { exact: true }).fill('');
+  });
+});
+
+Then('I check {string} for the question {string}', async (expectedValue: string, question: string) => {
+  await I.usePlaywrightTo('check labeled field value', async ({ page }) => {
+    const field = page.getByLabel(question, { exact: true });
+    await field.waitFor({ state: 'visible' });
+    const actualValue = await field.inputValue();
+    if (actualValue !== expectedValue) {
+      throw new Error(`Expected field "${question}" to contain "${expectedValue}", got "${actualValue}"`);
+    }
+  });
 });
 
 When('I enter {string} for the label {string}', (value: string, label: string) => {

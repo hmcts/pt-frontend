@@ -1,17 +1,15 @@
-import { commonPage } from '../functional/page-data/common.page.data';
+import { expect } from '@playwright/test';
+
 import { contactPreferences } from '../functional/page-data/contactPreferences.page.data';
+import { changeLink, summaryAnswer, summaryRow } from '../functional/utils/commonLocators';
 
 const { I } = inject();
 
 async function expectSummaryRow(question: string, answer: string): Promise<void> {
-  await I.usePlaywrightTo('check contact preference answer and change link', async ({ page }) => {
-    const row = page.locator(commonPage.summaryRowSelector).filter({ hasText: question }).first();
-    await row.getByText(answer, { exact: true }).waitFor({ state: 'visible' });
-    await row
-      .locator(commonPage.summaryActionsSelector)
-      .locator(commonPage.summaryActionLinkSelector)
-      .filter({ hasText: commonPage.changeLinkLabel })
-      .waitFor({ state: 'visible' });
+  await I.usePlaywrightTo(`check summary row "${question}"`, async ({ page }) => {
+    await expect(summaryRow(page, question)).toHaveCount(1);
+    await expect(summaryAnswer(page, question)).toHaveText(answer);
+    await expect(changeLink(page, question)).toBeVisible();
   });
 }
 
@@ -31,6 +29,12 @@ Then('I should see the section heading {string}', async (heading: string) => {
 
 Then('I should see the answer {string} for {string} and the change link', async (answer: string, question: string) => {
   await expectSummaryRow(question, answer);
+});
+
+Then('I should not see the summary row for {string}', async (question: string) => {
+  await I.usePlaywrightTo(`check summary row "${question}" is absent`, async ({ page }) => {
+    await expect(summaryRow(page, question)).toHaveCount(0);
+  });
 });
 
 Then('I should see the mobile phone number {string} and the change link', async (phoneNumber: string) => {
