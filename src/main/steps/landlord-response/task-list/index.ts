@@ -46,7 +46,7 @@ export const step: StepDefinition = {
       const ptApi = getPtApi(user);
 
       req.session.ccdCase = await ptApi.getCaseByCaseReference(caseReference);
-
+      console.log(req.session.ccdCase);
       const t: TFunction = getTranslationFunction(req);
       const allStatuses = await getAllSectionStatuses(flowConfig, stepRegistry, req);
       const groups = buildGroups(allStatuses, t, req, caseReference);

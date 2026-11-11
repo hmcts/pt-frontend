@@ -8,7 +8,7 @@ export const CITIZEN_DELETE_CASE = 'citizen-delete-application';
 export const CITIZEN_UPLOAD_DOCUMENT = 'citizen-upload-document';
 export const CITIZEN_DELETE_DOCUMENT = 'citizen-delete-document';
 
-export type YesNoValue = 'YES' | 'NO' | null;
+export type YesNoValue = 'Yes' | 'No' | null;
 export type YesNoNotSureValue = 'YES' | 'NO' | 'NOT_SURE' | null;
 export enum YesNoEnum {
   YES = 'YES',
@@ -261,6 +261,7 @@ export interface PTCaseData extends LandlordDetails, PropertyDetails, LettingAge
   tenancyAgreementDetails?: TenancyAgreementDetails;
   noticeOfRentIncreaseDetails?: NoticeOfRentIncreaseDetails;
   hearingInspectionDetails?: HearingInspectionDetails;
+  landlordResponse?: LandlordResponse;
 }
 
 export interface TenantDetails {
@@ -410,4 +411,8 @@ export interface HearingInspectionDetails {
 export interface HelpWithFeesDetails {
   appliedForHelpWithFees?: YesNoValue;
   referenceNumber?: string;
+}
+
+export interface LandlordResponse {
+  servedNoticeProposingNewRent?: YesNoValue;
 }

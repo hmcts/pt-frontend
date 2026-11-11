@@ -1,0 +1,10 @@
+{
+  "pageTitle": "Have you served a notice on the tenant?",
+  "questionTitle": "Did you serve the notice proposing a new rent provided in the tenant’s application?",
+  "questionHint": "Including if your letting agent or representative served the notice",
+  "errors": {
+    "servedNoticeProposingNewRent": {
+      "required": "Select whether you served the notice proposing a new rent provided in the tenant's application"
+    }
+  }
+}
