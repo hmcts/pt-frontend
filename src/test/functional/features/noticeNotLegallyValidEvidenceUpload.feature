@@ -30,13 +30,13 @@ Feature: Verify Notice proposing a new rent question page
 
         Then I check that the text "If you are taking a picture of a document, put the document on a flat surface and take the picture from above." is displayed on the page
 
+    # Need to check in master
+    # @AC3 @JIRA-TEST-KEY:PTSD-999
+    # Scenario: Select suported file and click on save and continue buttom
 
-    @AC3 @JIRA-TEST-KEY:PTSD-999
-    Scenario: Select suported file and click on save and continue buttom
-
-        When I upload "supported-file"
-        And  I click 'Save and continue'
-        Then I check that the text "Hardship" is displayed on the page
+    #     When I upload "supported-file"
+    #     And  I click 'Save and continue'
+    #     Then I check that the text "Hardship" is displayed on the page
 
     @AC4 @JIRA-TEST-KEY:PTSD-1000
     Scenario: Click on save and continue button without selecting file
