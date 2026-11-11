@@ -19,7 +19,7 @@ export const flowConfig: JourneyFlowConfig = {
   hubStepName: 'task-list',
   steps: {
     'upload-floor-plan-of-property': {
-      showCondition: (req: Request) => getFormData(req, 'floor-plan-of-property').hasFloorPlanOfProperty === 'yes',
+      showCondition: (req: Request) => getFormData(req, 'floor-plan-of-property').hasFloorPlanOfProperty === 'Yes',
     },
     'upload-tenancy-agreement': {
       showCondition: (req: Request) => getFormData(req, 'have-tenancy-agreement').copyOfTenancyAgreement === 'Yes',
@@ -34,7 +34,7 @@ export const flowConfig: JourneyFlowConfig = {
       showCondition: (req: Request) => getFormData(req, 'hardship').rentIncreaseCauseHardship === 'yes',
     },
     'upload-evidence-improvements-or-repairs': {
-      showCondition: (req: Request) => getFormData(req, 'repairs-and-improvements').hasRepairsAndImprovements === 'yes',
+      showCondition: (req: Request) => getFormData(req, 'repairs-and-improvements').hasRepairsAndImprovements === 'Yes',
     },
     'council-tax-frequency': {
       showCondition: (req: Request) => getFormData(req, 'rent-includes-council-tax').rentIncludesCouncilTax === 'Yes',

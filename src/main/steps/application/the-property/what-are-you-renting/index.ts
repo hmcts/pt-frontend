@@ -1,5 +1,6 @@
 import { textAreaIsValidLength } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
+import { getValidatedCase } from '../../section-cya/cyaRow';
 
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
@@ -15,7 +16,7 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/whatAreYouRenting.njk`,
   showCancelButton: false,
-  isAnswered: req => isAnswered(req.session.ccdCase),
+  isAnswered: req => isAnswered(getValidatedCase(req)),
   fields: [
     {
       name: 'propertyType',
@@ -30,7 +31,7 @@ export const step: StepDefinition = createFormStep({
           translationKey: 'options.roomOrRooms.label',
           subFields: {
             roomOrRoomsDescription: {
-              name: 'propertyTypeRoomDescription',
+              name: 'rentingRoomDetails',
               type: 'textarea',
               maxLength: 500,
               required: false,
@@ -53,7 +54,7 @@ export const step: StepDefinition = createFormStep({
           translationKey: 'options.flat.label',
           subFields: {
             flatFloor: {
-              name: 'propertyTypeFlatFloor',
+              name: 'rentingFlatDetails',
               type: 'text',
               maxLength: 500,
               required: false,
@@ -78,7 +79,7 @@ export const step: StepDefinition = createFormStep({
           translationKey: 'options.other.label',
           subFields: {
             otherDescription: {
-              name: 'propertyTypeOtherDescription',
+              name: 'otherMethodRentingDetails',
               type: 'textarea',
               maxLength: 500,
               required: true,
@@ -102,11 +103,13 @@ export const step: StepDefinition = createFormStep({
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (!ccdCase) {
+  const propertyDetails = ccdCase?.propertyDetails;
+
+  if (!propertyDetails) {
     return false;
   }
 
-  const { propertyType, propertyTypeRoomDescription, propertyTypeFlatFloor, propertyTypeOtherDescription } = ccdCase;
+  const { propertyType, rentingRoomDetails, rentingFlatDetails, otherMethodRentingDetails } = propertyDetails;
 
   switch (propertyType) {
     case 'terraced':
@@ -114,11 +117,11 @@ function isAnswered(ccdCase: PTCaseData | undefined): boolean {
     case 'detached':
       return true;
     case 'roomOrRooms':
-      return textAreaIsValidLength(propertyTypeRoomDescription);
+      return textAreaIsValidLength(rentingRoomDetails);
     case 'flat':
-      return textAreaIsValidLength(propertyTypeFlatFloor);
+      return textAreaIsValidLength(rentingFlatDetails);
     case 'other':
-      return Boolean(propertyTypeOtherDescription);
+      return Boolean(otherMethodRentingDetails);
     default:
       return false;
   }

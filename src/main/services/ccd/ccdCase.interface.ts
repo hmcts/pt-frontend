@@ -320,29 +320,29 @@ export interface NoticeOfRentIncreaseDetails {
 export interface PropertyDetails {
   addressLine1?: string;
   addressLine2?: string;
-  townOrCity?: string;
+  postTown?: string;
   county?: string;
   postcode?: string;
   propertyType?: string;
-  propertyTypeRoomDescription?: string;
-  propertyTypeFlatFloor?: string;
-  propertyTypeOtherDescription?: string;
-  hasFloorPlanOfProperty?: string | boolean;
-  propertyLayoutDescription?: string;
+  rentingRoomDetails?: string; // propertyTypeRoomDescription
+  rentingFlatDetails?: string; // propertyTypeFlatFloor
+  otherMethodRentingDetails?: string; // propertyTypeOtherDescription
+  propertyFloorPlanAvailable?: string | boolean; // hasFloorPlanOfProperty
+  floorPlanManualDetails?: string; // propertyLayoutDescription
   indoorFeatures?: string;
   outsidePropertyDocuments?: PtCaseDocument[];
-  propertyIncludesOtherFacilities?: string | boolean;
-  propertyFacilitiesDescription?: string;
-  propertySharedWithLandlord?: string | boolean;
-  propertySharedWithLandlordDetails?: string;
+  otherFacilitiesAvailable?: string | boolean; // propertyIncludesOtherFacilities
+  otherFacilitiesDetails?: string; // propertyFacilitiesDescription
+  sharePropertyWithLandlord?: string | boolean; // propertySharedWithLandlord
+  sharePropertyWithLandlordDetails?: string; // propertySharedWithLandlordDetails
   propertyRoomsDocuments?: PtCaseDocument[];
-  furnitureProvided?: string | boolean;
-  furnitureProvidedDetails?: string;
-  servicesProvided?: string | boolean;
-  servicesProvidedDetails?: string;
+  furnitureProvidedInTenancy?: string | boolean; // furnitureProvided
+  furnitureProvidedInTenancyDetails?: string; // furnitureProvidedDetails
+  additionalServicesProvidedInTenancy?: string | boolean; // servicesProvided
+  additionalServicesProvidedInTenancyDetails?: string; // servicesProvidedDetails
   landlordRepairsDetails?: string;
   tenantRepairsDetails?: string;
-  hasRepairsAndImprovements?: string | boolean;
+  anyTenantsMadePropertyRepairs?: string | boolean; // hasRepairsAndImprovements
   floorPlanDocuments?: { url?: string }[];
   repairsEvidenceDocuments?: { url?: string }[];
 }

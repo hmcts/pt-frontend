@@ -14,7 +14,12 @@ const MAX_LENGTH = 500;
 describe('application floor-plan-of-property step', () => {
   const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
 
-  const makeReq = (ccdCase?: Record<string, unknown>): Request => ({ session: { ccdCase } }) as unknown as Request;
+  const makeReq = (propertyDetails?: Record<string, unknown>): Request =>
+    ({
+      session: {
+        ccdCase: propertyDetails ? { propertyDetails } : undefined,
+      },
+    }) as unknown as Request;
 
   describe('isAnswered', () => {
     it('is not answered when nothing has been saved', () => {
@@ -23,23 +28,23 @@ describe('application floor-plan-of-property step', () => {
     });
 
     it('is answered when the citizen has a floor plan', () => {
-      expect(capturedConfig.isAnswered(makeReq({ hasFloorPlanOfProperty: 'yes' }))).toBe(true);
+      expect(capturedConfig.isAnswered(makeReq({ propertyFloorPlanAvailable: 'Yes' }))).toBe(true);
     });
 
     it('is answered when the citizen has no floor plan and described the layout', () => {
-      const req = makeReq({ hasFloorPlanOfProperty: 'no', propertyLayoutDescription: 'Two bedrooms upstairs' });
+      const req = makeReq({ propertyFloorPlanAvailable: 'No', floorPlanManualDetails: 'Two bedrooms upstairs' });
 
       expect(capturedConfig.isAnswered(req)).toBe(true);
     });
 
     it('is not answered when the citizen has no floor plan and left the optional layout description blank', () => {
-      expect(capturedConfig.isAnswered(makeReq({ hasFloorPlanOfProperty: 'no' }))).toBe(false);
+      expect(capturedConfig.isAnswered(makeReq({ propertyFloorPlanAvailable: 'No' }))).toBe(false);
     });
   });
 
   describe('layout description validator', () => {
     const validate = (value: unknown): boolean | string =>
-      capturedConfig.fields[0].options[1].subFields.propertyLayoutDescription.validator(value);
+      capturedConfig.fields[0].options[1].subFields.floorPlanManualDetails.validator(value);
 
     it('accepts a description up to the limit', () => {
       expect(validate('a'.repeat(MAX_LENGTH))).toBe(true);

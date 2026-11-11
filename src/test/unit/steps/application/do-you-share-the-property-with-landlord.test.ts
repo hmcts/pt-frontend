@@ -14,7 +14,12 @@ const MAX_LENGTH = 500;
 describe('application do-you-share-the-property-with-landlord step', () => {
   const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
 
-  const makeReq = (ccdCase?: Record<string, unknown>): Request => ({ session: { ccdCase } }) as unknown as Request;
+  const makeReq = (propertyDetails?: Record<string, unknown>): Request =>
+    ({
+      session: {
+        ccdCase: propertyDetails ? { propertyDetails } : undefined,
+      },
+    }) as unknown as Request;
 
   describe('isAnswered', () => {
     it('is not answered when nothing has been saved', () => {
@@ -23,26 +28,26 @@ describe('application do-you-share-the-property-with-landlord step', () => {
     });
 
     it('is answered when the citizen does not share the property', () => {
-      expect(capturedConfig.isAnswered(makeReq({ propertySharedWithLandlord: 'no' }))).toBe(true);
+      expect(capturedConfig.isAnswered(makeReq({ sharePropertyWithLandlord: 'No' }))).toBe(true);
     });
 
     it('is answered when the citizen shares the property and said how', () => {
       const req = makeReq({
-        propertySharedWithLandlord: 'yes',
-        propertySharedWithLandlordDetails: 'We share the kitchen',
+        sharePropertyWithLandlord: 'Yes',
+        sharePropertyWithLandlordDetails: 'We share the kitchen',
       });
 
       expect(capturedConfig.isAnswered(req)).toBe(true);
     });
 
     it('is not answered when the citizen shares the property but has not said how', () => {
-      expect(capturedConfig.isAnswered(makeReq({ propertySharedWithLandlord: 'yes' }))).toBe(false);
+      expect(capturedConfig.isAnswered(makeReq({ sharePropertyWithLandlord: 'Yes' }))).toBe(false);
     });
 
     it('is not answered when the saved details are longer than the limit', () => {
       const req = makeReq({
-        propertySharedWithLandlord: 'yes',
-        propertySharedWithLandlordDetails: 'a'.repeat(MAX_LENGTH + 1),
+        sharePropertyWithLandlord: 'Yes',
+        sharePropertyWithLandlordDetails: 'a'.repeat(MAX_LENGTH + 1),
       });
 
       expect(capturedConfig.isAnswered(req)).toBe(false);
@@ -51,7 +56,7 @@ describe('application do-you-share-the-property-with-landlord step', () => {
 
   describe('details validator', () => {
     const validate = (value: unknown): boolean | string =>
-      capturedConfig.fields[0].options[0].subFields.propertySharedWithLandlordDetails.validator(value);
+      capturedConfig.fields[0].options[0].subFields.sharePropertyWithLandlordDetails.validator(value);
 
     it('accepts details up to the limit', () => {
       expect(validate('a'.repeat(MAX_LENGTH))).toBe(true);

@@ -1,5 +1,140 @@
 {
   "pageTitle": "Check your answers - The property",
   "heading": "Check your answers",
-  "pageCaption": "The property"
+  "cardTitle": "The property",
+  "rows": {
+    "documentUploaded": "Document uploaded",
+    "propertyAddress": {
+      "label": "What is the address of the property",
+      "changeHidden": "the address of the property"
+    },
+    "propertyType": {
+      "label": "What are you renting?",
+      "changeHidden": "what are you renting",
+      "options": {
+        "roomOrRooms": "Room or rooms",
+        "flat": "Flat",
+        "terraced": "terraced",
+        "semiDetached": "Semi-detached house",
+        "detached": "Fully detached house",
+        "other": "Other"
+      }
+    },
+    "rentingRoomDetails": {
+      "label": "Describe what type of property your room or rooms are in",
+      "changeHidden": "the description of the room or rooms"
+    },
+    "rentingFlatDetails": {
+      "label": "What floor or floors is the flat on? (optional)",
+      "changeHidden": "what floor or floors is the flat on"
+    },
+    "otherMethodRentingDetails": {
+      "label": "Describe what type of property you are renting",
+      "changeHidden": "the description of the property you are renting"
+    },
+    "propertyFloorPlanAvailable": {
+      "label": "Do you have a floor plan of the property?",
+      "changeHidden": "whether you have a floor plan of the property",
+      "options": {
+        "yes": "Yes",
+        "no": "No",
+        "empty": "Not Answered"
+      }
+    },
+    "floorPlanManualDetails": {
+      "label": "Describe the layout of the property",
+      "changeHidden": "the layout of the property"
+    },
+    "floorPlanDocuments": {
+      "label": "Upload a floor plan of the property",
+      "changeHidden": "the uploaded floor plan of the property"
+    },
+    "indoorFeatures": {
+      "label": "Tell us about the property's indoor features",
+      "changeHidden": "the property's indoor features"
+    },
+    "otherFacilitiesAvailable": {
+      "label": "Does the tenancy include other facilities?",
+      "changeHidden": "weather the tenancy includes other facilities",
+      "options": {
+        "yes": "Yes",
+        "no": "No",
+        "empty": "Not Answered"
+      }
+    },
+    "otherFacilitiesDetails": {
+      "label": "Describe the other facilities described in the tenancy",
+      "changeHidden": "the other facilities described in the tenancy"
+    },
+    "sharePropertyWithLandlord": {
+      "label": "Do you share the property with the landlord?",
+      "changeHidden": "whether you share the property with your landlord",
+      "options": {
+        "yes": "Yes",
+        "no": "No",
+        "empty": "Not Answered"
+      }
+    },
+    "sharePropertyWithLandlordDetails": {
+      "label": "Describe how you share the property with your landlord",
+      "changeHidden": "how you share the property with your landlord"
+    },
+    "outsidePropertyDocuments": {
+      "label": "Upload a photo of the outside of the property (optional)",
+      "changeHidden": "the uploaded photos of the outside of the property"
+    },
+    "propertyRoomsDocuments": {
+      "label": "Upload a photo of each room at your property (optional)",
+      "changeHidden": "the uploaded photos of each room at the property"
+    },
+    "furnitureProvidedInTenancy": {
+      "label": "Is furniture provided in your tenancy?",
+      "changeHidden": "whether furniture is provided in the tenancy",
+      "options": {
+        "yes": "Yes",
+        "no": "No",
+        "empty": "Not Answered"
+      }
+    },
+    "furnitureProvidedInTenancyDetails": {
+      "label": "Describe the furniture provided",
+      "changeHidden": "the furniture provided"
+    },
+    "additionalServicesProvidedInTenancy": {
+      "label": "Are there any services provided in your tenancy?",
+      "changeHidden": "whether  services are provided in the tenancy",
+      "options": {
+        "yes": "Yes",
+        "no": "No",
+        "empty": "Not Answered"
+      }
+    },
+    "additionalServicesProvidedInTenancyDetails": {
+      "label": "Describe the services provided",
+      "changeHidden": "the services are provided in the tenancy"
+    },
+    "landlordRepairsDetails": {
+      "label": "What repairs are the landlord's responsibilities? (optional)",
+      "changeHidden": "the repairs that are the landlord's responsibility"
+    },
+    "tenantRepairsDetails": {
+      "label": "What repairs are the tenant's responsibilities? (optional)",
+      "changeHidden": "the repairs that are the tenant's responsibility"
+    },
+    "anyTenantsMadePropertyRepairs": {
+      "label": "Have you or any past tenants made any changes or repairs to the property?",
+      "changeHidden": "whether you or past tenants have made changes or repairs to the property",
+      "options": {
+        "yes": "Yes",
+        "no": "No",
+        "empty": "Not Answered",
+        "notSure": "I'm not sure"
+      }
+    },
+    "repairsEvidenceDocuments": {
+      "label": "Upload evidence of improvements or repairs",
+      "changeHidden": "the uploaded evidence of improvements or repairs"
+    }
+  },
+  "reviewAndChangeInfo": "You can review and change your answers before you submit your application"
 }

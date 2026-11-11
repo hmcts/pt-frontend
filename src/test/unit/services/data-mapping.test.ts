@@ -668,6 +668,485 @@ describe('prepareDataForSave', () => {
     });
   });
 
+  describe('propertyDetails data mapping', () => {
+    const sectionId = 'propertyDetails';
+
+    const reqWith = (formData: Record<string, unknown>): Request =>
+      ({
+        params: { caseReference: CASE_REF },
+        session: { formData: { [CASE_REF]: formData } },
+      }) as unknown as Request;
+
+    const propertyDetailsFrom = (mapped: Record<string, unknown>): Record<string, unknown> =>
+      (mapped as { propertyDetails: Record<string, unknown> }).propertyDetails;
+
+    it('should map property details from form data', () => {
+      const mockReq = reqWith({
+        '': {
+          addressLine1: '10 High Street',
+          addressLine2: 'Flat 2',
+          townOrCity: 'London',
+          county: 'Greater London',
+          postcode: 'SW1A 1AA',
+        },
+        'what-are-you-renting': {
+          propertyType: 'roomOrRooms',
+          'propertyType.roomOrRoomsDescription': 'A furnished bedroom',
+        },
+        'floor-plan-of-property': {
+          propertyFloorPlanAvailable: 'No',
+          'propertyFloorPlanAvailable.propertyLayoutDescription': 'Two bedrooms and a shared kitchen',
+        },
+        'indoor-features': {
+          indoorFeatures: 'Central heating, double glazing',
+        },
+        'does-the-tenancy-include-other-facilities': {
+          propertyIncludesOtherFacilities: 'Yes',
+          'propertyIncludesOtherFacilities.propertyFacilitiesDescription': 'Garden and parking',
+        },
+        'do-you-share-the-property-with-landlord': {
+          propertySharedWithLandlord: 'Yes',
+          'propertySharedWithLandlord.propertySharedWithLandlordDetails': 'The landlord lives upstairs',
+        },
+        'furniture-provided-tenancy': {
+          furnitureProvided: 'Yes',
+          'furnitureProvided.furnitureProvidedDetails': 'Bed, wardrobe and desk',
+        },
+        'services-provided-tenancy': {
+          servicesProvided: 'Yes',
+          'servicesProvided.servicesProvidedDetails': 'Weekly cleaning',
+        },
+        'what-reairs-landlord-responsibility': {
+          landlordRepairsDetails: 'Roof and boiler repairs',
+          tenantRepairDetails: 'Minor internal repairs',
+        },
+        'repairs-and-improvments': {
+          hasRepairsAndImprovements: 'Yes',
+        },
+      });
+
+      const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
+
+      expect(propertyDetailsFrom(mappedData)).toEqual({
+        addressLine1: '10 High Street',
+        addressLine2: 'Flat 2',
+        postTown: 'London',
+        county: 'Greater London',
+        postcode: 'SW1A 1AA',
+        propertyType: 'roomOrRooms',
+        rentingRoomDetails: 'A furnished bedroom',
+        rentingFlatDetails: undefined,
+        otherMethodRentingDetails: undefined,
+        propertyFloorPlanAvailable: 'No',
+        floorPlanManualDetails: 'Two bedrooms and a shared kitchen',
+        indoorFeatures: 'Central heating, double glazing',
+        otherFacilitiesAvailable: 'Yes',
+        otherFacilitiesDetails: 'Garden and parking',
+        sharePropertyWithLandlord: 'Yes',
+        sharePropertyWithLandlordDetails: 'The landlord lives upstairs',
+        furnitureProvidedInTenancy: 'Yes',
+        furnitureProvidedInTenancyDetails: 'Bed, wardrobe and desk',
+        servicesProvidedInTenancy: 'Yes',
+        servicesProvidedInTenancyDetails: 'Weekly cleaning',
+        landlordRepairsDetails: 'Roof and boiler repairs',
+        tenantRepairDetails: 'Minor internal repairs',
+        anyTenantsMadePropertyRepairs: 'Yes',
+      });
+    });
+
+    it('should fall back to saved case data when form data is not present', () => {
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        propertyDetails: {
+          addressLine1: '20 High Street',
+          addressLine2: 'Apartment 3',
+          postTown: 'Manchester',
+          county: 'Lancashire',
+          postcode: 'M1 1AA',
+          propertyType: 'flat',
+          rentingFlatDetails: 'Second floor',
+          propertyFloorPlanAvailable: 'No',
+          floorPlanManualDetails: 'Two bedrooms and one bathroom',
+          indoorFeatures: 'Double glazing',
+          otherFacilitiesAvailable: 'Yes',
+          otherFacilitiesDetails: 'Communal garden',
+          sharePropertyWithLandlord: 'Yes',
+          sharePropertyWithLandlordDetails: 'Landlord occupies the ground floor',
+          furnitureProvidedInTenancy: 'Yes',
+          furnitureProvidedInTenancyDetails: 'Fully furnished',
+          additionalServicesProvidedInTenancy: 'Yes',
+          additionalServicesProvidedInTenancyDetails: 'Cleaning service',
+          landlordRepairsDetails: 'Structural repairs',
+          tenantRepairsDetails: 'Minor repairs',
+          anyTenantsMadePropertyRepairs: 'Yes',
+        },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareDataForSave(sectionId, reqWith({}), ccdCaseData);
+
+      expect(propertyDetailsFrom(mappedData)).toEqual({
+        addressLine1: '20 High Street',
+        addressLine2: 'Apartment 3',
+        postTown: 'Manchester',
+        county: 'Lancashire',
+        postcode: 'M1 1AA',
+        propertyType: 'flat',
+        rentingRoomDetails: undefined,
+        rentingFlatDetails: 'Second floor',
+        otherMethodRentingDetails: undefined,
+        propertyFloorPlanAvailable: 'No',
+        floorPlanManualDetails: 'Two bedrooms and one bathroom',
+        indoorFeatures: 'Double glazing',
+        otherFacilitiesAvailable: 'Yes',
+        otherFacilitiesDetails: 'Communal garden',
+        sharePropertyWithLandlord: 'Yes',
+        sharePropertyWithLandlordDetails: 'Landlord occupies the ground floor',
+        furnitureProvidedInTenancy: 'Yes',
+        furnitureProvidedInTenancyDetails: 'Fully furnished',
+        servicesProvidedInTenancy: 'Yes',
+        servicesProvidedInTenancyDetails: 'Cleaning service',
+        landlordRepairsDetails: 'Structural repairs',
+        tenantRepairDetails: 'Minor repairs',
+        anyTenantsMadePropertyRepairs: 'Yes',
+      });
+    });
+
+    it('should prefer form data over saved case data', () => {
+      const mockReq = reqWith({
+        'what-are-you-renting': {
+          propertyType: 'flat',
+          'propertyType.flatFloor': 'Third floor',
+        },
+        'indoor-features': {
+          indoorFeatures: 'Central heating',
+        },
+      });
+
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        propertyDetails: {
+          propertyType: 'roomOrRooms',
+          rentingRoomDetails: 'Old room description',
+          rentingFlatDetails: 'First floor',
+          indoorFeatures: 'Electric heating',
+        },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
+
+      expect(propertyDetailsFrom(mappedData)).toMatchObject({
+        propertyType: 'flat',
+        rentingFlatDetails: 'Third floor',
+        indoorFeatures: 'Central heating',
+      });
+
+      expect(propertyDetailsFrom(mappedData).rentingRoomDetails).toBeUndefined();
+    });
+
+    it('should map flat details when flat is selected', () => {
+      const mockReq = reqWith({
+        'what-are-you-renting': {
+          propertyType: 'flat',
+          'propertyType.flatFloor': 'Second floor',
+          'propertyType.roomOrRoomsDescription': 'Stale room description',
+          'propertyType.otherDescription': 'Stale other description',
+        },
+      });
+
+      const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
+
+      expect(propertyDetailsFrom(mappedData)).toMatchObject({
+        propertyType: 'flat',
+        rentingFlatDetails: 'Second floor',
+      });
+
+      expect(propertyDetailsFrom(mappedData).rentingRoomDetails).toBeUndefined();
+      expect(propertyDetailsFrom(mappedData).otherMethodRentingDetails).toBeUndefined();
+    });
+
+    it('should map other property type details when other is selected', () => {
+      const mockReq = reqWith({
+        'what-are-you-renting': {
+          propertyType: 'other',
+          'propertyType.otherDescription': 'A converted warehouse',
+        },
+      });
+
+      const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
+
+      expect(propertyDetailsFrom(mappedData)).toMatchObject({
+        propertyType: 'other',
+        otherMethodRentingDetails: 'A converted warehouse',
+      });
+
+      expect(propertyDetailsFrom(mappedData).rentingRoomDetails).toBeUndefined();
+      expect(propertyDetailsFrom(mappedData).rentingFlatDetails).toBeUndefined();
+    });
+
+    it('should clear property type descriptions when a different property type is selected', () => {
+      const mockReq = reqWith({
+        'what-are-you-renting': {
+          propertyType: 'other',
+          'propertyType.otherDescription': 'A converted warehouse',
+        },
+      });
+
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        propertyDetails: {
+          propertyType: 'roomOrRooms',
+          rentingRoomDetails: 'Old room description',
+          rentingFlatDetails: 'Old floor description',
+        },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
+      const propertyDetails = propertyDetailsFrom(mappedData);
+
+      expect(propertyDetails.otherMethodRentingDetails).toBe('A converted warehouse');
+      expect(propertyDetails.rentingRoomDetails).toBeUndefined();
+      expect(propertyDetails.rentingFlatDetails).toBeUndefined();
+    });
+
+    it('should clear floor plan details when a floor plan is available', () => {
+      const mockReq = reqWith({
+        'floor-plan-of-property': {
+          propertyFloorPlanAvailable: 'Yes',
+          'propertyFloorPlanAvailable.propertyLayoutDescription': 'Stale layout description',
+        },
+      });
+
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        propertyDetails: {
+          propertyFloorPlanAvailable: 'No',
+          floorPlanManualDetails: 'Old layout description',
+        },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
+      const propertyDetails = propertyDetailsFrom(mappedData);
+
+      expect(propertyDetails.propertyFloorPlanAvailable).toBe('Yes');
+      expect(propertyDetails.floorPlanManualDetails).toBeUndefined();
+    });
+
+    it('should map floor plan description when no floor plan is available', () => {
+      const mockReq = reqWith({
+        'floor-plan-of-property': {
+          propertyFloorPlanAvailable: 'No',
+          'propertyFloorPlanAvailable.propertyLayoutDescription': 'A kitchen, lounge and two bedrooms',
+        },
+      });
+
+      const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
+
+      expect(propertyDetailsFrom(mappedData)).toMatchObject({
+        propertyFloorPlanAvailable: 'No',
+        floorPlanManualDetails: 'A kitchen, lounge and two bedrooms',
+      });
+    });
+
+    it('should clear conditional property details when the answer is No', () => {
+      const mockReq = reqWith({
+        'does-the-tenancy-include-other-facilities': {
+          propertyIncludesOtherFacilities: 'No',
+          'propertyIncludesOtherFacilities.propertyFacilitiesDescription': 'Stale facilities',
+        },
+        'do-you-share-the-property-with-landlord': {
+          propertySharedWithLandlord: 'No',
+          'propertySharedWithLandlord.propertySharedWithLandlordDetails': 'Stale sharing details',
+        },
+        'furniture-provided-tenancy': {
+          furnitureProvided: 'No',
+          'furnitureProvided.furnitureProvidedDetails': 'Stale furniture details',
+        },
+        'services-provided-tenancy': {
+          servicesProvided: 'No',
+          'servicesProvided.servicesProvidedDetails': 'Stale services details',
+        },
+      });
+
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        propertyDetails: {
+          otherFacilitiesAvailable: 'Yes',
+          propertyFacilitiesDescription: 'Old facilities',
+          sharePropertyWithLandlord: 'Yes',
+          sharePropertyWithLandlordDetails: 'Old sharing details',
+          furnitureProvidedInTenancy: 'Yes',
+          furnitureProvidedInTenancyDetails: 'Old furniture',
+          additionalServicesProvidedInTenancy: 'Yes',
+          additionalServicesProvidedInTenancyDetails: 'Old services',
+        },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
+      const propertyDetails = propertyDetailsFrom(mappedData);
+
+      expect(propertyDetails.otherFacilitiesAvailable).toBe('No');
+      expect(propertyDetails.otherFacilitiesDetails).toBeUndefined();
+
+      expect(propertyDetails.sharePropertyWithLandlord).toBe('No');
+      expect(propertyDetails.sharePropertyWithLandlordDetails).toBeUndefined();
+
+      expect(propertyDetails.furnitureProvidedInTenancy).toBe('No');
+      expect(propertyDetails.furnitureProvidedInTenancyDetails).toBeUndefined();
+
+      expect(propertyDetails.servicesProvidedInTenancy).toBe('No');
+      expect(propertyDetails.servicesProvidedInTenancyDetails).toBeUndefined();
+    });
+
+    it('should retain conditional details from saved case data when the answer is Yes', () => {
+      const mockReq = reqWith({
+        'does-the-tenancy-include-other-facilities': {
+          propertyFloorPlanAvailable: 'Yes',
+        },
+        'do-you-share-the-property-with-landlord': {
+          propertySharedWithLandlord: 'Yes',
+        },
+        'furniture-provided-tenancy': {
+          furnitureProvided: 'Yes',
+        },
+        'services-provided-tenancy': {
+          servicesProvided: 'Yes',
+        },
+      });
+
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        propertyDetails: {
+          otherFacilitiesAvailable: 'Yes',
+          otherFacilitiesDetails: 'Parking and garden',
+          sharePropertyWithLandlord: 'Yes',
+          sharePropertyWithLandlordDetails: 'Landlord lives upstairs',
+          furnitureProvidedInTenancy: 'Yes',
+          furnitureProvidedInTenancyDetails: 'Bed and wardrobe',
+          additionalServicesProvidedInTenancy: 'Yes',
+          additionalServicesProvidedInTenancyDetails: 'Weekly cleaning',
+        },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
+
+      expect(propertyDetailsFrom(mappedData)).toMatchObject({
+        otherFacilitiesDetails: 'Parking and garden',
+        sharePropertyWithLandlordDetails: 'Landlord lives upstairs',
+        furnitureProvidedInTenancyDetails: 'Bed and wardrobe',
+        servicesProvidedInTenancyDetails: 'Weekly cleaning',
+      });
+    });
+
+    it('should map Yes and No string values for conditional property answers', () => {
+      const mockReq = reqWith({
+        'floor-plan-of-property': {
+          propertyFloorPlanAvailable: 'No',
+          'propertyFloorPlanAvailable.propertyLayoutDescription': 'Layout details',
+        },
+        'does-the-tenancy-include-other-facilities': {
+          propertyIncludesOtherFacilities: 'Yes',
+          'propertyIncludesOtherFacilities.propertyFacilitiesDescription': 'Garden',
+        },
+        'do-you-share-the-property-with-landlord': {
+          propertySharedWithLandlord: 'Yes',
+          'propertySharedWithLandlord.propertySharedWithLandlordDetails': 'Landlord lives here',
+        },
+        'furniture-provided-tenancy': {
+          furnitureProvided: 'Yes',
+          'furnitureProvided.furnitureProvidedDetails': 'Furnished',
+        },
+        'services-provided-tenancy': {
+          servicesProvided: 'Yes',
+          'servicesProvided.servicesProvidedDetails': 'Cleaning',
+        },
+      });
+
+      const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
+
+      expect(propertyDetailsFrom(mappedData)).toMatchObject({
+        propertyFloorPlanAvailable: 'No',
+        floorPlanManualDetails: 'Layout details',
+        otherFacilitiesAvailable: 'Yes',
+        otherFacilitiesDetails: 'Garden',
+        sharePropertyWithLandlord: 'Yes',
+        sharePropertyWithLandlordDetails: 'Landlord lives here',
+        furnitureProvidedInTenancy: 'Yes',
+        furnitureProvidedInTenancyDetails: 'Furnished',
+        servicesProvidedInTenancy: 'Yes',
+        servicesProvidedInTenancyDetails: 'Cleaning',
+      });
+    });
+
+    it('should map landlord and tenant repair details', () => {
+      const mockReq = reqWith({
+        'what-reairs-landlord-responsibility': {
+          landlordRepairsDetails: 'Structural repairs',
+          tenantRepairDetails: 'Replacing light bulbs',
+        },
+        'repairs-and-improvments': {
+          hasRepairsAndImprovements: 'Yes',
+        },
+      });
+
+      const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
+
+      expect(propertyDetailsFrom(mappedData)).toMatchObject({
+        landlordRepairsDetails: 'Structural repairs',
+        tenantRepairDetails: 'Replacing light bulbs',
+        anyTenantsMadePropertyRepairs: 'Yes',
+      });
+    });
+
+    it('should fall back to saved repair details when form data is missing', () => {
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        propertyDetails: {
+          landlordRepairsDetails: 'Boiler maintenance',
+          tenantRepairsDetails: 'Internal decoration',
+          anyTenantsMadePropertyRepairs: 'No',
+        },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareDataForSave(sectionId, reqWith({}), ccdCaseData);
+
+      expect(propertyDetailsFrom(mappedData)).toMatchObject({
+        landlordRepairsDetails: 'Boiler maintenance',
+        tenantRepairDetails: 'Internal decoration',
+        anyTenantsMadePropertyRepairs: 'No',
+      });
+    });
+
+    it('should return undefined values when neither form data nor saved case data is present', () => {
+      const mappedData = prepareDataForSave(sectionId, reqWith({}), {} as unknown as PTCaseData);
+
+      expect(propertyDetailsFrom(mappedData)).toEqual({
+        addressLine1: undefined,
+        addressLine2: undefined,
+        postTown: undefined,
+        county: undefined,
+        postcode: undefined,
+        propertyType: undefined,
+        rentingRoomDetails: undefined,
+        rentingFlatDetails: undefined,
+        otherMethodRentingDetails: undefined,
+        propertyFloorPlanAvailable: undefined,
+        floorPlanManualDetails: undefined,
+        indoorFeatures: undefined,
+        otherFacilitiesAvailable: undefined,
+        otherFacilitiesDetails: undefined,
+        sharePropertyWithLandlord: undefined,
+        sharePropertyWithLandlordDetails: undefined,
+        furnitureProvidedInTenancy: undefined,
+        furnitureProvidedInTenancyDetails: undefined,
+        servicesProvidedInTenancy: undefined,
+        servicesProvidedInTenancyDetails: undefined,
+        landlordRepairsDetails: undefined,
+        tenantRepairDetails: undefined,
+        anyTenantsMadePropertyRepairs: undefined,
+      });
+    });
+  });
+
   describe('case scoping', () => {
     const OTHER_CASE = '9999999999999999';
 

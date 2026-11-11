@@ -18,7 +18,7 @@ export const step: StepDefinition = createFormStep({
   isAnswered: req => isAnswered(req.session.ccdCase),
   fields: [
     {
-      name: 'furnitureProvided',
+      name: 'furnitureProvidedInTenancy',
       type: 'radio',
       required: true,
       isPageHeading: true,
@@ -27,11 +27,11 @@ export const step: StepDefinition = createFormStep({
       errorMessage: 'errors.furnitureProvided.required',
       options: [
         {
-          value: 'yes',
+          value: 'Yes',
           translationKey: 'common:yes',
           subFields: {
-            furnitureProvidedDetails: {
-              name: 'furnitureProvidedDetails',
+            furnitureProvidedInTenancyDetails: {
+              name: 'furnitureProvidedInTenancyDetails',
               type: 'textarea',
               maxLength: 500,
               required: true,
@@ -49,17 +49,20 @@ export const step: StepDefinition = createFormStep({
             },
           },
         },
-        { value: 'no', translationKey: 'common:no' },
+        { value: 'No', translationKey: 'common:no' },
       ],
     },
   ],
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (ccdCase?.furnitureProvided === 'yes') {
+  const propertyDetails = ccdCase?.propertyDetails;
+
+  if (propertyDetails?.furnitureProvidedInTenancy === 'Yes') {
     return Boolean(
-      ccdCase?.furnitureProvidedDetails && textAreaIsValidLength(ccdCase?.furnitureProvidedDetails as string)
+      propertyDetails?.furnitureProvidedInTenancyDetails &&
+      textAreaIsValidLength(propertyDetails?.furnitureProvidedInTenancyDetails as string)
     );
   }
-  return ccdCase?.furnitureProvided === 'no';
+  return propertyDetails?.furnitureProvidedInTenancy === 'No';
 }

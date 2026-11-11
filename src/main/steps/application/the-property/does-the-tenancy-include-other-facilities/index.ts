@@ -18,7 +18,7 @@ export const step: StepDefinition = createFormStep({
   isAnswered: req => isAnswered(req.session.ccdCase),
   fields: [
     {
-      name: 'propertyIncludesOtherFacilities',
+      name: 'otherFacilitiesAvailable',
       type: 'radio',
       required: true,
       isPageHeading: true,
@@ -27,11 +27,11 @@ export const step: StepDefinition = createFormStep({
       errorMessage: 'errors.propertyIncludesOtherFacilities.required',
       options: [
         {
-          value: 'yes',
+          value: 'Yes',
           translationKey: 'common:yes',
           subFields: {
-            propertyFacilitiesDescription: {
-              name: 'propertyFacilitiesDescription',
+            otherFacilitiesDetails: {
+              name: 'otherFacilitiesDetails',
               type: 'textarea',
               maxLength: 500,
               required: true,
@@ -46,17 +46,19 @@ export const step: StepDefinition = createFormStep({
             },
           },
         },
-        { value: 'no', translationKey: 'common:no' },
+        { value: 'No', translationKey: 'common:no' },
       ],
     },
   ],
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (ccdCase?.propertyIncludesOtherFacilities === 'yes') {
+  const propertyDetails = ccdCase?.propertyDetails;
+
+  if (propertyDetails?.otherFacilitiesAvailable === 'Yes') {
     return Boolean(
-      ccdCase?.propertyFacilitiesDescription && textAreaIsValidLength(ccdCase.propertyFacilitiesDescription)
+      propertyDetails?.otherFacilitiesDetails && textAreaIsValidLength(propertyDetails.otherFacilitiesDetails)
     );
   }
-  return ccdCase?.propertyIncludesOtherFacilities === 'no';
+  return propertyDetails?.otherFacilitiesAvailable === 'No';
 }
