@@ -16,7 +16,7 @@ Feature: Contact preferences phone number validation and save-for-later function
         And I click "Continue"
         And I click "Contact preferences" link
 
-    @AC6 @CT @Fail
+    @AC6
     Scenario: Required text update selection shows linked summary and inline error
         When I click "Save and continue"
         Then I should see an error summary link for "Select whether you want to receive text updates"
@@ -26,7 +26,7 @@ Feature: Contact preferences phone number validation and save-for-later function
         And I click "Contact preferences" link
         Then no option should be selected for the question "Do you want to receive text updates?"
 
-    @AC6 @CT @Fail
+    @AC6
     Scenario: Yes with an empty mobile number shows linked summary and inline error
         When I select "Yes" for the question "Do you want to receive text updates?"
         And I click "Save and continue"
@@ -39,7 +39,7 @@ Feature: Contact preferences phone number validation and save-for-later function
         And I click "Contact preferences" link
         Then no option should be selected for the question "Do you want to receive text updates?"
 
-    @AC6 @CT @Fail
+    @AC6
     Scenario: Yes with an invalid mobile number shows linked summary and inline error
         When I select "Yes" for the question "Do you want to receive text updates?"
         And I enter "08234342342333" for the question "Enter a mobile phone number"
