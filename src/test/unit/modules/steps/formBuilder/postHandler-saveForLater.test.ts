@@ -32,7 +32,7 @@ const flowConfig: JourneyFlowConfig = {
 
 const CASE_REF = '1234123412341234';
 
-describe('PostHandler - Save for Later Fix', () => {
+describe('PostHandler - Save for Later', () => {
   let mockRequest: Partial<Request>;
   let mockResponse: Partial<Response>;
   let mockNext: NextFunction;
@@ -118,7 +118,7 @@ describe('PostHandler - Save for Later Fix', () => {
     jest.clearAllMocks();
   });
 
-  describe('Fix #3: Save for Later Functionality', () => {
+  describe('Save for Later Functionality', () => {
     it('passes current step post payload to navigation for forward routing', async () => {
       const getNextStepUrl = jest.fn().mockResolvedValue('/case/1771325608502536/application/contact-preferences');
       (flowModule.createStepNavigation as jest.Mock).mockReturnValue({
@@ -404,6 +404,34 @@ describe('PostHandler - Save for Later Fix', () => {
 
       // Should NOT redirect
       expect(mockResponse.redirect).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Continue', () => {
+    it('saves the section and goes to the next step', async () => {
+      const { post } = createPostHandler(fields, 'contact-by-phone', 'contactByPhone.njk', 'application', flowConfig);
+      mockRequest.body = { hadLegalAdvice: 'yes', phoneNumberForCalls: '07123456789' };
+
+      await post(mockRequest as unknown as Request, mockResponse as Response, mockNext);
+
+      expect(updateCaseMock).toHaveBeenCalledWith(
+        CASE_REF,
+        {
+          applicantContactPreferences: {
+            phoneNumberForCalls: '07123456789',
+            textUpdates: 'Yes',
+            textUpdatesPhoneNumber: '+447777777777',
+          },
+        },
+        CITIZEN_UPDATE_CASE
+      );
+      expect(mockResponse.redirect).toHaveBeenCalledWith(303, '/next-step');
+      expect(mockNext).not.toHaveBeenCalled();
+      expect(
+        (mockRequest.session as { formData?: Record<string, Record<string, unknown>> }).formData?.[CASE_REF]?.[
+          'text-updates'
+        ]
+      ).toBeDefined();
     });
   });
 });
