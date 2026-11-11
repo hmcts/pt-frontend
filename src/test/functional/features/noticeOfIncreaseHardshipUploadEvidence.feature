@@ -43,13 +43,12 @@ Feature: Verify Notice proposing a new rent question page
         And  I click 'Save and continue'
         And the field "No file chosen" is "not displayed"
 
-    #    Need to check in master
-    # @AC3 @JIRA-TEST-KEY:PTSD-1021
-    # Scenario: Select supproted file and click on save and continue button
+    @AC3 @JIRA-TEST-KEY:PTSD-1021
+    Scenario: Select supproted file and click on save and continue button
 
-    #     When I upload "supported-file"
-    #     And  I click 'Save and continue'
-    #     And I check that the text "Check your answers" is displayed on the page
+        When I upload "supported-file"
+        And  I click 'Save and continue'
+        And I check that the text "Check your answers" is displayed on the page
 
 
     @AC4 @JIRA-TEST-KEY:PTSD-1022
