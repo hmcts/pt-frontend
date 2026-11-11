@@ -11083,10 +11083,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jose@npm:6.2.16":
-  version: 6.2.16
-  resolution: "jose@npm:6.2.16"
-  checksum: 10/328b4f6dbd213248996aec8aa8c27696cd6f15ef20f5d775b036ebc7f2029c89b6f0241c3d2a206167bdfccd3477693822fa0ba5df88b9201b3806ce3b156c4d
+"jose@npm:6.2.17":
+  version: 6.2.17
+  resolution: "jose@npm:6.2.17"
+  checksum: 10/df6ae5da42e71a4c3bd1483534c5579ed32f5806ec362ea472f309e8e57aef42afa1dbac62289596975d3587f7ac38deefe4313e1434ce76972ea0f029070bc9
   languageName: node
   linkType: hard
 
@@ -11417,9 +11417,9 @@ __metadata:
   linkType: hard
 
 "libphonenumber-js@npm:^1.13.11":
-  version: 1.13.15
-  resolution: "libphonenumber-js@npm:1.13.15"
-  checksum: 10/01c715a9526db7d114477155f69a071e47667ae62fa58b9e59d06fce3f6c9950aac8eb47dc6b9873493c88f2f9efa915bea7820a5b9a101821dd7cf19388c881
+  version: 1.13.16
+  resolution: "libphonenumber-js@npm:1.13.16"
+  checksum: 10/931798f22c72e052292ce949aca2373ff4d640a5513c25929321b5155b750b40b5ef96705a3702a7159c55c9f318c327d777f36d801c99f9f6dd41db328c4429
   languageName: node
   linkType: hard
 
@@ -13738,7 +13738,7 @@ __metadata:
     jest-environment-jsdom: "npm:30.5.2"
     jest-html-reporter: "npm:3.10.2"
     jest-junit: "npm:16.0.0"
-    jose: "npm:6.2.16"
+    jose: "npm:6.2.17"
     jsonwebtoken: "npm:^9.0.3"
     libphonenumber-js: "npm:^1.13.11"
     lint-staged: "npm:17.6.0"
