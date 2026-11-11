@@ -1,6 +1,6 @@
-import type { SectionConfig } from '../../modules/steps/stepFlow.interface';
-
 import type { ApplicationStepName } from './stepRegistry';
+
+import type { SectionConfig } from '@modules/steps/stepFlow.interface';
 
 // Visual groups on the task-list page. Section order within a group follows declaration order below.
 export const APPLICATION_SECTION_GROUPS = [
@@ -75,9 +75,9 @@ const sectionDefs = [
     steps: ['have-tenancy-agreement', 'upload-tenancy-agreement', 'check-your-answers-your-tenancy-agreement'],
   },
   {
-    id: 'theCurrentRentAndOtherCosts',
+    id: 'rentDetails',
     groupId: 'theRent',
-    titleKey: 'taskList.theCurrentRentAndOtherCosts',
+    titleKey: 'taskList.rentDetails',
     steps: [
       'tribunal-previously-determined-rent',
       'rent-payment-frequency',
@@ -91,19 +91,11 @@ const sectionDefs = [
       'other-household-management-charges',
       'other-household-management-charges-details',
       'additional-rental-service-charges-vary',
-      'check-your-answers-current-rent-and-other-costs',
-    ],
-  },
-  {
-    id: 'whatYouThinkMarketRentShouldBe',
-    groupId: 'theRent',
-    titleKey: 'taskList.whatYouThinkMarketRentShouldBe',
-    steps: [
       'proposed-market-rent',
       'proposed-market-rent-reasons',
       'upload-evidence-proposed-market-rent',
       'anything-else-tribunal-should-consider',
-      'check-your-answers-what-you-think-market-rent-should-be',
+      'check-your-answers-the-rent',
     ],
   },
   {
@@ -163,8 +155,7 @@ const sectionDefs = [
       'landlordDetails',
       'landlordsNotice',
       'yourTenancyAgreement',
-      'theCurrentRentAndOtherCosts',
-      'whatYouThinkMarketRentShouldBe',
+      'rentDetails',
       'propertyDetails',
       'propertyInspection',
       'extraSupport',

@@ -1,0 +1,205 @@
+{
+  "pageTitle": "cyCheck your answers - Current rent, other costs and your proposed market rent",
+  "heading": "cyCheck your answers",
+  "cardTitle": "cyCurrent rent, other costs and your proposed market rent",
+  "rows": {
+    "tribunalPreviouslyDeterminedTenancyRent": {
+      "label": "cyHas the tribunal previously determined the rent for your tenancy?",
+      "changeHidden": "cywhether the tribunal previously determined the rent",
+      "options": {
+        "yes": "cyYes",
+        "no": "cyNo"
+      }
+    },
+    "previousTribunalCaseReference": {
+      "label": "cyPrevious tribunal case reference",
+      "changeHidden": "cyprevious tribunal case reference"
+    },
+    "rentPaymentFrequency": {
+      "label": "cyHow often do you pay your rent?",
+      "changeHidden": "cyhow often you pay your rent",
+      "options": {
+        "weekly": "cyWeekly",
+        "fortnightly": "cyFortnightly (every 2 weeks)",
+        "monthly": "cyMonthly",
+        "yearly": "cyYearly"
+      }
+    },
+    "rentCostWeekly": {
+      "label": "cyHow much is the current weekly rent?",
+      "changeHidden": "cythe current weekly rent"
+    },
+    "rentCostFortnightly": {
+      "label": "cyHow much is the current fortnightly rent?",
+      "changeHidden": "cythe current fortnightly rent"
+    },
+    "rentCostMonthly": {
+      "label": "cyHow much is the current monthly rent?",
+      "changeHidden": "cythe current monthly rent"
+    },
+    "rentCostYearly": {
+      "label": "cyHow much is the current yearly rent?",
+      "changeHidden": "cythe current yearly rent"
+    },
+    "rentIncludesCouncilTax": {
+      "label": "cyDoes your rent include council tax?",
+      "changeHidden": "cywhether your rent includes council tax",
+      "options": {
+        "yes": "cyYes",
+        "no": "cyNo"
+      }
+    },
+    "councilTaxFrequency": {
+      "label": "cyHow often is council tax paid? (optional)",
+      "changeHidden": "cyhow often council tax is paid",
+      "options": {
+        "weekly": "cyWeekly",
+        "fortnightly": "cyFortnightly (every 2 weeks)",
+        "monthly": "cyMonthly",
+        "yearly": "cyYearly",
+        "other": "cyOther"
+      }
+    },
+    "councilTaxCostWeekly": {
+      "label": "cyHow much does council tax cost weekly? (optional)",
+      "changeHidden": "cyhow much council tax costs weekly"
+    },
+    "councilTaxCostFortnightly": {
+      "label": "cyHow much does council tax cost fortnightly? (optional)",
+      "changeHidden": "cyhow much council tax costs fortnightly"
+    },
+    "councilTaxCostMonthly": {
+      "label": "cyHow much does council tax cost monthly? (optional)",
+      "changeHidden": "cyhow much council tax costs monthly"
+    },
+    "councilTaxCostYearly": {
+      "label": "cyHow much does council tax cost yearly? (optional)",
+      "changeHidden": "cyhow much council tax costs yearly"
+    },
+    "rentInclusiveOfUtilityCharges": {
+      "label": "cyDoes the rent include any charges for utilities?",
+      "changeHidden": "cywhether the rent includes charges for utilities",
+      "options": {
+        "yes": "cyYes",
+        "no": "cyNo"
+      }
+    },
+    "utilitiesPaidFrequency": {
+      "label": "cyHow often are utilities paid? (optional)",
+      "changeHidden": "cyhow often utilities are paid",
+      "options": {
+        "weekly": "cyWeekly",
+        "fortnightly": "cyFortnightly (every 2 weeks)",
+        "monthly": "cyMonthly",
+        "yearly": "cyYearly",
+        "other": "cyOther"
+      }
+    },
+    "utilitiesPaidCostWeekly": {
+      "label": "cyHow much do utilities cost weekly? (optional)",
+      "changeHidden": "cyhow much utilities cost weekly"
+    },
+    "utilitiesPaidCostFortnightly": {
+      "label": "cyHow much do utilities cost fortnightly? (optional)",
+      "changeHidden": "cyhow much utilities cost fortnightly"
+    },
+    "utilitiesPaidCostMonthly": {
+      "label": "cyHow much do utilities cost monthly? (optional)",
+      "changeHidden": "cyhow much utilities cost monthly"
+    },
+    "utilitiesPaidCostYearly": {
+      "label": "cyHow much do utilities cost yearly? (optional)",
+      "changeHidden": "cyhow much utilities cost yearly"
+    },
+    "currentTenancyStartDate": {
+      "label": "cyWhen did your current tenancy start?",
+      "changeHidden": "cywhen your current tenancy started"
+    },
+    "currentTenancyEndDate": {
+      "label": "cyWhen does your tenancy end?",
+      "changeHidden": "cywhen your tenancy ends"
+    },
+    "currentTenancyReplaceOriginalTenancy": {
+      "label": "cyDoes your current tenancy replace an original tenancy?",
+      "changeHidden": "cywhether your current tenancy replaces an original tenancy",
+      "options": {
+        "yes": "cyYes",
+        "no": "cyNo",
+        "notsure": "cyI'm not sure"
+      }
+    },
+    "originalTenancyStartDate": {
+      "label": "cyOriginal tenancy start date",
+      "changeHidden": "cyoriginal tenancy start date"
+    },
+    "anyOtherHouseholdManagementCharges": {
+      "label": "cyAre you charged separately for anything else?",
+      "changeHidden": "cywhether you are charged separately for anything else",
+      "options": {
+        "yes": "cyYes",
+        "no": "cyNo"
+      }
+    },
+    "otherHouseholdManagementChargesDetails": {
+      "label": "cyOther charges (optional)",
+      "changeHidden": "cyother charges"
+    },
+    "additionalRentalServiceChargesVary": {
+      "label": "cyDo the charges you pay for these services vary?",
+      "changeHidden": "cywhether the charges you pay for these services vary",
+      "options": {
+        "yes": "cyYes",
+        "no": "cyNo"
+      }
+    },
+    "varyingAdditionalRentalServiceChargesDetails": {
+      "label": "cyHow the charges you pay vary",
+      "changeHidden": "cyhow the charges you pay vary"
+    },
+    "applicantSuggestedMarketRent": {
+      "label": "cyHow much do you think the market rent should be?",
+      "changeHidden": "cyhow much you think the market rent should be",
+      "weekly": {
+        "label": "cyWhat do you think is the weekly market rent you should pay?",
+        "changeHidden": "cythe weekly market rent you think you should pay"
+      },
+      "fortnightly": {
+        "label": "cyWhat do you think is the fortnightly market rent you should pay?",
+        "changeHidden": "cythe fortnightly market rent you think you should pay"
+      },
+      "monthly": {
+        "label": "cyWhat do you think is the monthly market rent you should pay?",
+        "changeHidden": "cythe monthly market rent you think you should pay"
+      },
+      "yearly": {
+        "label": "cyWhat do you think is the yearly market rent you should pay?",
+        "changeHidden": "cythe yearly market rent you think you should pay"
+      }
+    },
+    "applicantSuggestedMarketRentFrequencyOther": {
+      "label": "cyHow often would this rent be paid?",
+      "changeHidden": "cyhow often this rent would be paid"
+    },
+    "applicantSuggestedMarketRentReasons": {
+      "label": "cyWhat are your reasons for your proposed market rent? (optional)",
+      "changeHidden": "cyyour reasons for your proposed market rent"
+    },
+    "suggestedMarketRentEvidence": {
+      "label": "cyUpload evidence to support your proposed market rent (optional)",
+      "changeHidden": "cyevidence to support your proposed market rent"
+    },
+    "additionalInfoToConsiderWhenDeterminingRent": {
+      "label": "cyIs there anything else you think the tribunal should consider about your property when determining the rent?",
+      "changeHidden": "cywhether there is anything else the tribunal should consider about your property",
+      "options": {
+        "yes": "cyYes",
+        "no": "cyNo"
+      }
+    },
+    "additionalInfoToConsiderWhenDeterminingRentDetails": {
+      "label": "cyWhat you want the tribunal to consider",
+      "changeHidden": "cywhat you want the tribunal to consider"
+    }
+  },
+  "reviewAndChangeInfo": "cyYou can review and change your answers before you submit your application."
+}

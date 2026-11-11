@@ -1,7 +1,7 @@
 import type { Request } from 'express';
 import type { Environment } from 'nunjucks';
 
-import { step } from '../../../../main/steps/application/the-rent/the-current-rent-and-other-costs/tribunal-previously-determined-rent';
+import { step } from '../../../../main/steps/application/the-rent/tribunal-previously-determined-rent';
 
 import { createFormStep } from '@modules/steps';
 
@@ -138,10 +138,10 @@ describe('application tribunal-previously-determined-rent step', () => {
     expect(res.redirect).toHaveBeenCalled();
   });
 
-  const makeReq = (formData: Record<string, unknown> = {}, currentRentsDetails?: Record<string, unknown>): Request =>
+  const makeReq = (formData: Record<string, unknown> = {}, rentDetails?: Record<string, unknown>): Request =>
     ({
       params: { caseReference: CASE_REF },
-      session: { formData: { [CASE_REF]: formData }, ccdCase: { currentRentsDetails } },
+      session: { formData: { [CASE_REF]: formData }, ccdCase: { rentDetails } },
     }) as unknown as Request;
 
   describe('isAnswered', () => {
