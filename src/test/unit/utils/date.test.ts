@@ -1,4 +1,4 @@
-import { formatDate, toDateParts } from '@utils/date';
+import { formatDate, formatDateParts, toDateParts } from '@utils/date';
 
 describe('formatDate', () => {
   it('should correctly format provided date', () => {
@@ -30,5 +30,24 @@ describe('toDateParts', () => {
 
   test('returns undefined rather than throwing for a value that is not a date', () => {
     expect(formatDate('not-a-date')).toBeUndefined();
+  });
+});
+
+describe('formatDateParts', () => {
+  it('formats a date in English', () => {
+    expect(formatDateParts({ day: '02', month: '01', year: '2000' }, 'en')).toBe('2 January 2000');
+  });
+
+  it('formats a date with Welsh month names', () => {
+    expect(formatDateParts({ day: '02', month: '01', year: '2000' }, 'cy')).toBe('2 Ionawr 2000');
+  });
+
+  it('returns undefined when a part is missing', () => {
+    expect(formatDateParts(undefined, 'en')).toBeUndefined();
+    expect(formatDateParts({ day: '', month: '01', year: '2000' }, 'en')).toBeUndefined();
+  });
+
+  it('returns undefined for a date that does not exist', () => {
+    expect(formatDateParts({ day: '31', month: '02', year: '2000' }, 'en')).toBeUndefined();
   });
 });

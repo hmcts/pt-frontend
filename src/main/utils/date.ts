@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 export function formatDate(isoString: string | undefined): string | undefined {
   if (!isoString) {
     return undefined;
@@ -24,4 +26,19 @@ export function toDateParts(value: string | undefined): { day: string; month: st
     return undefined;
   }
   return { day, month, year };
+}
+
+export function formatDateParts(
+  value: { day: string; month: string; year: string } | undefined,
+  lang: string
+): string | undefined {
+  if (!value?.day || !value?.month || !value?.year) {
+    return undefined;
+  }
+  const parsed = DateTime.fromObject({
+    day: Number(value.day),
+    month: Number(value.month),
+    year: Number(value.year),
+  }).setLocale(lang === 'cy' ? 'cy' : 'en-gb');
+  return parsed.isValid ? parsed.toFormat('d LLLL y') : undefined;
 }

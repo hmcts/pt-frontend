@@ -1,6 +1,5 @@
 import type { Request } from 'express';
 import type { TFunction } from 'i18next';
-import { DateTime } from 'luxon';
 
 import {
   type SummaryListRow,
@@ -10,6 +9,7 @@ import {
 } from '../../../application/section-cya/cyaRow';
 
 import type { RentDetails } from '@services/ccd/ccdCase.interface';
+import { formatDateParts, toDateParts } from '@utils/date';
 import { displayRentAmount } from '@utils/rentAmount';
 
 type AmountField = keyof RentDetails;
@@ -26,14 +26,6 @@ const utilitiesAmountFields: Record<string, AmountField> = {
   fortnightly: 'utilitiesCostFortnightly',
   monthly: 'utilitiesCostMonthly',
   yearly: 'utilitiesCostYearly',
-};
-
-const formatDate = (value: string | undefined, lang: string): string | undefined => {
-  if (!value) {
-    return undefined;
-  }
-  const parsed = DateTime.fromISO(value.split('T')[0]).setLocale(lang === 'cy' ? 'cy' : 'en-gb');
-  return parsed.isValid ? parsed.toFormat('d LLLL y') : undefined;
 };
 
 export function buildTenancyDetailsRows(req: Request, t: TFunction): SummaryListRow[] {
@@ -91,7 +83,7 @@ export function buildTenancyDetailsRows(req: Request, t: TFunction): SummaryList
     );
   }
 
-  const startDate = formatDate(rentDetails.currentTenancyStartDate, lang);
+  const startDate = formatDateParts(toDateParts(rentDetails.currentTenancyStartDate), lang);
   if (startDate) {
     push('currentTenancyStartDate', { text: startDate });
   }
