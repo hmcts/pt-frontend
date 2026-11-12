@@ -28,6 +28,10 @@ export function toDateParts(value: string | undefined): { day: string; month: st
   return { day, month, year };
 }
 
+/**
+ * Formats day, month and year parts as "1 January 2026", with Welsh month names when lang is cy.
+ * formatDate above takes an ISO string and always formats in English with a two digit day.
+ */
 export function formatDateParts(
   value: { day: string; month: string; year: string } | undefined,
   lang: string
