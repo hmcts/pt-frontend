@@ -850,7 +850,7 @@ describe('propertyDetails data mapping', () => {
       },
     } as unknown as Request;
 
-    expect(prepareDataForSave('propertyDetails', mockReq, {} as unknown as PTCaseData)).toEqual({
+    expect(prepareApplicationDataForSave('propertyDetails', mockReq, {} as unknown as PTCaseData)).toEqual({
       propertyDetails: {
         addressLine1: '123 Main St',
         addressLine2: 'Apt 4B',
@@ -886,7 +886,7 @@ describe('propertyDetails data mapping', () => {
       },
     } as unknown as PTCaseData;
 
-    expect(prepareDataForSave('propertyDetails', mockReq, ccdCaseData)).toEqual({
+    expect(prepareApplicationDataForSave('propertyDetails', mockReq, ccdCaseData)).toEqual({
       propertyDetails: {
         addressLine1: '456 Elm St',
         addressLine2: 'Apt 4B',
