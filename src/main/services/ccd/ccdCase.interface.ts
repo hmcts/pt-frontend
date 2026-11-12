@@ -262,7 +262,6 @@ export interface PTCaseData extends LandlordDetails, PropertyDetails, LettingAge
   noticeOfRentIncreaseDetails?: NoticeOfRentIncreaseDetails;
   hearingInspectionDetails?: HearingInspectionDetails;
   landlordResponse?: LandlordResponse;
-  landlordResponse?: LandlordResponse;
 }
 
 export interface TenantDetails {
