@@ -939,3 +939,70 @@ describe('prepareDataForSave', () => {
     });
   });
 });
+
+describe('propertyDetails data mapping', () => {
+  it('maps property details form data for save', () => {
+    const mockReq = {
+      params: { caseReference: CASE_REF },
+      session: {
+        formData: {
+          [CASE_REF]: {
+            'property-address': {
+              addressLine1: '123 Main St',
+              addressLine2: 'Apt 4B',
+              postTown: 'London',
+              county: 'Greater London',
+              postcode: 'AB12 3CD',
+            },
+          },
+        },
+      },
+    } as unknown as Request;
+
+    expect(prepareDataForSave('propertyDetails', mockReq, {} as unknown as PTCaseData)).toEqual({
+      propertyDetails: {
+        addressLine1: '123 Main St',
+        addressLine2: 'Apt 4B',
+        postTown: 'London',
+        county: 'Greater London',
+        postcode: 'AB12 3CD',
+      },
+    });
+  });
+
+  it('falls back to saved case data when form fields are missing', () => {
+    const mockReq = {
+      params: { caseReference: CASE_REF },
+      session: {
+        formData: {
+          [CASE_REF]: {
+            'property-address': {
+              addressLine1: '456 Elm St',
+            },
+          },
+        },
+      },
+    } as unknown as Request;
+
+    const ccdCaseData = {
+      caseReference: BigInt(CASE_REF),
+      propertyDetails: {
+        addressLine1: '123 Main St',
+        addressLine2: 'Apt 4B',
+        postTown: 'London',
+        county: 'Greater London',
+        postcode: 'AB12 3CD',
+      },
+    } as unknown as PTCaseData;
+
+    expect(prepareDataForSave('propertyDetails', mockReq, ccdCaseData)).toEqual({
+      propertyDetails: {
+        addressLine1: '456 Elm St',
+        addressLine2: 'Apt 4B',
+        postTown: 'London',
+        county: 'Greater London',
+        postcode: 'AB12 3CD',
+      },
+    });
+  });
+});

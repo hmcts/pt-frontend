@@ -39,7 +39,8 @@ withPipeline(type, product, component) {
   env.CDAM_URL = "http://ccd-case-document-am-api-aat.service.core-compute-aat.internal"
   onPR() {
     // Functional tests are the PR e2e run. Skip them unless a label opts in.
-    // e2e-tag:@idam sets Codecept --grep; e2e-spec:idam-login filters feature paths.
+    // e2e-tag:@idam sets Codecept grep; e2e-spec:idam-login filters feature paths.
+    // e2e-tag:@regression is the full pack and runs in parallel (see run.sh).
     env.RUN_FUNCTIONAL_TESTS = 'false'
     def e2eTag = prLabelSuffix(githubApi, 'e2e-tag:')
     if (e2eTag?.trim()) {

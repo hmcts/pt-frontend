@@ -368,9 +368,20 @@ export function prepareDataForSave(
       };
     }
 
-    // case 'propertyDetails': {
-    //   return {};
-    // }
+    case 'propertyDetails': {
+      return {
+        propertyDetails: {
+          addressLine1:
+            getFormDataString(req, 'property-address', 'addressLine1') ?? saved?.propertyDetails?.addressLine1,
+          addressLine2:
+            getFormDataString(req, 'property-address', 'addressLine2') ?? saved?.propertyDetails?.addressLine2,
+          postTown: getFormDataString(req, 'property-address', 'postTown') ?? saved?.propertyDetails?.postTown,
+          county: getFormDataString(req, 'property-address', 'county') ?? saved?.propertyDetails?.county,
+          postcode: getFormDataString(req, 'property-address', 'postcode') ?? saved?.propertyDetails?.postcode,
+        },
+      };
+    }
+
     case 'propertyInspection': {
       const details = saved?.hearingInspectionDetails;
       const agreeToDecisionWithoutInspection =
