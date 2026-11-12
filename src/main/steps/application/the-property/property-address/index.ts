@@ -55,18 +55,18 @@ export const step: StepDefinition = createFormStep({
       },
     },
     {
-      name: 'townOrCity',
+      name: 'postTown',
       type: 'text',
       required: true,
       isPageHeading: false,
-      translationKey: { label: 'labels.townOrCity' },
-      errorMessage: 'errors.townOrCity.required',
+      translationKey: { label: 'labels.postTown' },
+      errorMessage: 'errors.postTown.required',
       attributes: {
         autocomplete: 'address-level2',
       },
       validator: (value): boolean | string => {
         if (value && String(value).length < 2) {
-          return 'errors.townOrCity.invalid';
+          return 'errors.postTown.invalid';
         }
         return true;
       },
@@ -108,5 +108,5 @@ export const step: StepDefinition = createFormStep({
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  return Boolean(ccdCase?.addressLine1 && ccdCase?.townOrCity && ccdCase?.postcode);
+  return Boolean(ccdCase?.addressLine1 && ccdCase?.postTown && ccdCase?.postcode);
 }

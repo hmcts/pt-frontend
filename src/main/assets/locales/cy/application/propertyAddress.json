@@ -4,7 +4,7 @@
   "labels": {
     "addressLine1": "cyAddress line 1",
     "addressLine2": "cyAddress line 2 (optional)",
-    "townOrCity": "cyTown or city",
+    "postTown": "cyTown or city",
     "county": "cyCounty (optional)",
     "postcode": "cyPostcode"
   },
@@ -16,7 +16,7 @@
     "addressLine2": {
       "invalid": "cyAddress line 2 must be 2 characters or more"
     },
-    "townOrCity": {
+    "postTown": {
       "required": "cyEnter town or city",
       "invalid": "cyTown or city must be 2 characters or more"
     },
