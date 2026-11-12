@@ -1,4 +1,4 @@
-@JIRA-TEST-KEY:HDPD-548 @regression @WIP
+@JIRA-TEST-KEY:HDPD-548 @regression
 Feature: Contact preferences phone number validation and save-for-later functionality
     As a tenant I want to enter my contact preferences with valid phone numbers
     So that I can complete the section successfully and save my application for later

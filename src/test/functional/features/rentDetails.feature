@@ -1,4 +1,4 @@
-@JIRA-TEST-KEY:HDPD-591 @regression @WIP
+@JIRA-TEST-KEY:HDPD-591 @regression
 Feature: Current rent payment frequency
     As a PT user completing the application
     I want to enter how often I pay rent and the matching amount
