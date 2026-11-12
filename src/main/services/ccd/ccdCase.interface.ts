@@ -166,6 +166,10 @@ export interface CcdCaseData {
     additionalInfoToConsiderWhenDeterminingRentDetails?: string;
   };
 
+  landlordResponse?: {
+    tenancyDetailsResponseEvidence?: CcdCollectionItem<CcdUploadedDocument>[];
+  };
+
   tenancyAgreementDetails?: {
     copyOfTenancyAgreement?: string | boolean;
     noTenancyAgreementReason?: string;
@@ -417,6 +421,7 @@ export interface LandlordResponse {
   propertyAddress?: LandlordResponsePropertyAddress;
   respondToTenantAnswersAboutTenancyDetails?: string;
   respondToTenantAnswersAboutTenancyDetailsDescription?: string;
+  tenancyDetailsResponseEvidence?: PtCaseDocument[];
 }
 
 export interface LandlordResponsePropertyAddress {
