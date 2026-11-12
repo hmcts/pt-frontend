@@ -2,10 +2,11 @@ import type { NextFunction, Request, Response } from 'express';
 import type { TFunction } from 'i18next';
 
 import { HTTPError } from '../../../HttpError';
-import { findSectionIdForStep } from '../../../steps/application/sections.config';
+import { saveSection } from '../../../steps/utils/dataMapping';
 import { safeRedirect303 } from '../../../steps/utils/safeRedirect';
 import { createStepNavigation, getStepUrl } from '../flow';
 import { getTranslationFunction, loadStepNamespace } from '../i18n';
+import { findSectionIdForStep } from '../sections';
 
 import { renderWithErrors } from './errorUtils';
 import { translateFields } from './fieldTranslation';
@@ -32,8 +33,6 @@ import type {
 } from '@modules/steps/formBuilder/formFieldConfig.interface';
 import { validateConfigInDevelopment } from '@modules/steps/formBuilder/schema';
 import type { JourneyFlowConfig } from '@modules/steps/stepFlow.interface';
-import { getCaseApi } from '@services/ccd/ccdApiClient';
-import { prepareDataForSave } from '@services/data-mapping';
 import { toCaseReference16 } from '@utils/caseReference';
 import { isDiagnosticsEnabled } from '@utils/environment';
 
@@ -173,25 +172,22 @@ export function createPostHandler(
         }
       }
 
-      if (isSaveForLater) {
-        const sectionId = findSectionIdForStep(stepName);
-        if (sectionId) {
-          // Write target comes from the route; session.ccdCase can be stale.
-          const caseReference = toCaseReference16(req.params?.caseReference);
-          if (!caseReference) {
-            return next(new HTTPError('Invalid case reference format', 404));
-          }
-
-          try {
-            const ccdCaseApi = getCaseApi(req.session.user);
-            const data = prepareDataForSave(sectionId, req, req.session.ccdCase);
-
-            await ccdCaseApi.updateCase(caseReference, data);
-          } catch (error) {
-            return next(error);
-          }
+      const sectionId = findSectionIdForStep(stepName, resolvedFlowConfig);
+      if (sectionId) {
+        // Write target comes from the route; session.ccdCase can be stale.
+        const caseReference = toCaseReference16(req.params?.caseReference);
+        if (!caseReference) {
+          return next(new HTTPError('Invalid case reference format', 404));
         }
 
+        try {
+          await saveSection(caseReference, sectionId, req, resolvedFlowConfig);
+        } catch (error) {
+          return next(error);
+        }
+      }
+
+      if (isSaveForLater) {
         clearFormData(req);
         delete req.session.returnToCya;
         return safeRedirect303(res, resolveSaveForLaterRedirect(req, resolvedFlowConfig), '/', ['/']);

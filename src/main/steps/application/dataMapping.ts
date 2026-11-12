@@ -1,39 +1,11 @@
-import { Request } from 'express';
+import type { Request } from 'express';
 
-import { getFormData, getFormDataString } from '@modules/steps/formBuilder/helpers';
-import { PTCaseData } from '@services/ccd/ccdCase.interface';
-import { toCaseReference16 } from '@utils/caseReference';
+import { caseForThisRequest, dateParts, toIsoDate, toNumber } from '../utils/dataMappingHelpers';
 
-type DateParts = { day?: string; month?: string; year?: string };
+import { getFormDataString } from '@modules/steps/formBuilder/helpers';
+import type { PTCaseData } from '@services/ccd/ccdCase.interface';
 
-/** Saved answers are only safe to fall back on when they belong to the case being written. */
-function caseForThisRequest(req: Request, ccdCase: PTCaseData | undefined): PTCaseData | undefined {
-  const routeCaseReference = toCaseReference16(req.params?.caseReference);
-  if (!routeCaseReference || ccdCase?.caseReference === undefined) {
-    return undefined;
-  }
-  return String(ccdCase.caseReference) === routeCaseReference ? ccdCase : undefined;
-}
-
-const toNumber = (value: unknown): number | undefined => {
-  if (value === undefined || value === null || value === '') {
-    return undefined;
-  }
-  const parsed = Number(value);
-  return Number.isNaN(parsed) ? undefined : parsed;
-};
-
-const toIsoDate = (day?: unknown, month?: unknown, year?: unknown): string | undefined => {
-  if (!day || !month || !year) {
-    return undefined;
-  }
-  return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-};
-
-const dateParts = (req: Request, step: string, field: string): DateParts | undefined =>
-  getFormData(req, step)[field] as DateParts | undefined;
-
-export function prepareDataForSave(
+export function prepareApplicationDataForSave(
   sectionId: string,
   req: Request,
   ccdCase: PTCaseData | undefined
