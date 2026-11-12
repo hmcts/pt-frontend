@@ -55,7 +55,7 @@ Feature: Validate Are you charged separately for anything else? Page
 
         When I select "No" for the question "Are you charged separately for anything else?"
         And I click "Save and continue"
-        Then I check that the text "Check your answers" is displayed on the page
+        Then I check that the text "How much do you think the market rent should be?" is displayed on the page
 
     @AC4 @JIRA-TEST-KEY:PTSD-841
     Scenario: Validation error

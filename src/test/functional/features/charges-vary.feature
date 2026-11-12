@@ -58,14 +58,14 @@ Feature: Validate Do the charges you pay for these services vary? Page
         When I select "Yes" for the question "Do the charges you pay for these services vary?"
         And I enter "Charge vary as per requirment" for the question "Tell us how the charges you pay vary"
         And I click "Save and continue"
-        Then I check that the text "Check your answers" is displayed on the page
+        Then I check that the text "How much do you think the market rent should be?" is displayed on the page
 
     @AC4 @JIRA-TEST-KEY:PTSD-835
     Scenario: Verify save and continue with No selected
 
         When I select "No" for the question "Do the charges you pay for these services vary?"
         And I click "Save and continue"
-        Then I check that the text "Check your answers" is displayed on the page
+        Then I check that the text "How much do you think the market rent should be?" is displayed on the page
 
     @AC5 @JIRA-TEST-KEY:PTSD-836
     Scenario: Verify Save for Later
