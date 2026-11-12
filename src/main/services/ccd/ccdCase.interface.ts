@@ -262,6 +262,7 @@ export interface PTCaseData extends LandlordDetails, PropertyDetails, LettingAge
   noticeOfRentIncreaseDetails?: NoticeOfRentIncreaseDetails;
   hearingInspectionDetails?: HearingInspectionDetails;
   landlordResponse?: LandlordResponse;
+  landlordResponse?: LandlordResponse;
 }
 
 export interface TenantDetails {
@@ -321,7 +322,7 @@ export interface NoticeOfRentIncreaseDetails {
 export interface PropertyDetails {
   addressLine1?: string;
   addressLine2?: string;
-  townOrCity?: string;
+  postTown?: string;
   county?: string;
   postcode?: string;
   propertyType?: string;
@@ -412,7 +413,16 @@ export interface HelpWithFeesDetails {
   appliedForHelpWithFees?: YesNoValue;
   referenceNumber?: string;
 }
-
 export interface LandlordResponse {
+  propertyAddress?: LandlordResponsePropertyAddress;
   servedNoticeProposingNewRent?: YesNoValue;
+}
+
+export interface LandlordResponsePropertyAddress {
+  tenantProvidedCorrectAddress?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  postTown?: string;
+  county?: string;
+  postcode?: string;
 }
