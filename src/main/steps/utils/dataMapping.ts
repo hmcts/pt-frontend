@@ -24,15 +24,6 @@ function getJourneySaveConfig(flowConfig: JourneyFlowConfig): JourneySaveConfig 
   return journeyName ? journeySaveConfigs[journeyName] : undefined;
 }
 
-export function prepareDataForSave(
-  sectionId: string,
-  req: Request,
-  ccdCase: PTCaseData | undefined,
-  flowConfig: JourneyFlowConfig
-): Record<string, unknown> {
-  return getJourneySaveConfig(flowConfig)?.mapData(sectionId, req, ccdCase) ?? {};
-}
-
 export async function saveSection(
   caseReference: string,
   sectionId: string,
