@@ -415,8 +415,11 @@ export interface HelpWithFeesDetails {
   appliedForHelpWithFees?: YesNoValue;
   referenceNumber?: string;
 }
+
 export interface LandlordResponse {
   propertyAddress?: LandlordResponsePropertyAddress;
+  respondToTenantAnswersAboutTenancyDetails?: string;
+  respondToTenantAnswersAboutTenancyDetailsDescription?: string;
 }
 
 export interface LandlordResponsePropertyAddress {

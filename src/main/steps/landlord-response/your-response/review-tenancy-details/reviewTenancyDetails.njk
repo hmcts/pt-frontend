@@ -1,0 +1,46 @@
+{% extends "stepsTemplate.njk" %}
+{% from "macros/stepButtons.njk" import stepButtons %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% block pageTitle %}{{ pageTitle }} &ndash; HM Courts &amp; Tribunals Service &ndash; GOV.UK{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if errorSummary %}
+        {{ govukErrorSummary(errorSummary) }}
+      {% endif %}
+
+      <h1 class="govuk-heading-l">{{ pageTitle }}</h1>
+      <p class="govuk-body">{{ t('intro') }}</p>
+
+      {{ govukSummaryList({
+        card: { title: { text: t('tenancyDetails.title') } },
+        rows: tenancyDetailsRows
+      }) }}
+
+      <form method="post" action="{{ url }}" novalidate>
+        {% for field in fields %}
+          {% if field.componentType == 'radios' %}
+            {{ govukRadios(field.component) }}
+          {% endif %}
+        {% endfor %}
+
+        {{ stepButtons(saveAndContinue, saveForLater) }}
+        {{ csrfProtection(csrfToken) }}
+      </form>
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+      <aside aria-label="{{ t('relatedContent.heading') }}">
+        <h2 class="govuk-heading-m">{{ t('relatedContent.heading') }}</h2>
+        <p class="govuk-body">
+          <a class="govuk-link" href="{{ viewTenantsApplicationUrl }}" target="_blank" rel="noopener noreferrer">{{ t('relatedContent.viewTenantsApplication') }}</a>
+        </p>
+      </aside>
+    </div>
+  </div>
+{% endblock %}

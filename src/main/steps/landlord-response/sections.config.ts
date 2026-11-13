@@ -22,7 +22,16 @@ const sectionDefs = [
     id: 'yourResponse',
     groupId: 'yourResponse',
     titleKey: 'taskList.yourResponse',
-    steps: ['respond-to-tenants-application', 'property-address', 'landlord-name'],
+    steps: [
+      'respond-to-tenants-application',
+      'property-address',
+      'landlord-name',
+      'your-phone-number',
+      'served-notice-proposing-new-rent',
+      'review-tenancy-details',
+      'upload-evidence-tenancy-details',
+      'review-property-details',
+    ],
   },
   {
     id: 'tribunalsDetermination',
