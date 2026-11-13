@@ -138,6 +138,16 @@ describe('document storage', () => {
       );
       expect(triggerEvent).not.toHaveBeenCalled();
     });
+
+    test('submits the respondent upload event for a landlord response field', async () => {
+      await saveDocuments(req(), 'tenancyDetailsResponseEvidence', [newDocument]);
+
+      expect(getEventTrigger).toHaveBeenCalledWith(CASE_REFERENCE, 'respondent-upload-document');
+      expect(triggerEvent.mock.calls[0][2]).toBe('respondent-upload-document');
+      expect(triggerEvent.mock.calls[0][1]).toMatchObject({
+        landlordResponse: { tenancyDetailsResponseEvidence: [{ value: newDocument }] },
+      });
+    });
   });
 
   describe('deleting', () => {
@@ -157,7 +167,7 @@ describe('document storage', () => {
     });
 
     test('submits its own event naming the document by row id', async () => {
-      await deleteDocumentById(req(), 42);
+      await deleteDocumentById(req(), 'floorPlanDocuments', 42);
 
       expect(getEventTrigger).toHaveBeenCalledWith(CASE_REFERENCE, 'citizen-delete-document');
       const [, data, eventName] = triggerEvent.mock.calls[0];
@@ -166,10 +176,23 @@ describe('document storage', () => {
     });
 
     test('never removes a document through the upload event', async () => {
-      await deleteDocumentById(req(), 42);
+      await deleteDocumentById(req(), 'floorPlanDocuments', 42);
 
       expect(triggerEvent).toHaveBeenCalledTimes(1);
       expect(triggerEvent.mock.calls[0][2]).not.toBe('citizen-upload-document');
+    });
+
+    test('submits the respondent delete event for a landlord response field', async () => {
+      await deleteDocumentById(req(), 'tenancyDetailsResponseEvidence', 42);
+
+      expect(getEventTrigger).toHaveBeenCalledWith(CASE_REFERENCE, 'respondent-delete-document');
+      expect(triggerEvent.mock.calls[0][2]).toBe('respondent-delete-document');
+      expect(triggerEvent.mock.calls[0][1]).toEqual({ documentIdToDelete: '42' });
+    });
+
+    test('rejects a delete for an unknown document field', async () => {
+      await expect(deleteDocumentById(req(), 'notAField', 42)).rejects.toThrow('Unknown document field notAField');
+      expect(triggerEvent).not.toHaveBeenCalled();
     });
   });
 });
