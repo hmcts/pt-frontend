@@ -11,7 +11,7 @@ export const CITIZEN_DELETE_DOCUMENT = 'citizen-delete-document';
 export const RESPONDENT_UPDATE_RESPONSE = 'respondent-update-response';
 export const RESPONDENT_SUBMIT_RESPONSE = 'respondent-submit-response';
 
-export type YesNoValue = 'YES' | 'NO' | null;
+export type YesNoValue = 'Yes' | 'No' | null;
 export type YesNoNotSureValue = 'YES' | 'NO' | 'NOT_SURE' | null;
 export enum YesNoEnum {
   YES = 'YES',
@@ -417,6 +417,7 @@ export interface HelpWithFeesDetails {
 }
 export interface LandlordResponse {
   propertyAddress?: LandlordResponsePropertyAddress;
+  servedNoticeProposingNewRent?: YesNoValue;
 }
 
 export interface LandlordResponsePropertyAddress {

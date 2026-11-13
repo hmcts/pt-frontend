@@ -1,0 +1,10 @@
+{
+  "pageTitle": "cyHave you served a notice on the tenant?",
+  "questionTitle": "cyDid you serve the notice proposing a new rent provided in the tenant’s application?",
+  "questionHint": "cyIncluding if your letting agent or representative served the notice",
+  "errors": {
+    "servedNoticeProposingNewRent": {
+      "required": "cySelect whether you served the notice proposing a new rent provided in the tenant's application"
+    }
+  }
+}

@@ -78,9 +78,9 @@ function isAnswered(ccdCase: PTCaseData | undefined): boolean {
     return false;
   }
 
-  if (ccdCase.appliedForHelpWithFees === 'YES') {
+  if (ccdCase.appliedForHelpWithFees === 'Yes') {
     return Boolean(ccdCase.referenceNumber && isValidHelpWithFeesReference(ccdCase.referenceNumber));
   }
 
-  return ccdCase.appliedForHelpWithFees === 'NO';
+  return ccdCase.appliedForHelpWithFees === 'No';
 }
