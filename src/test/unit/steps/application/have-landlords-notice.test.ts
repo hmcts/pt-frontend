@@ -67,18 +67,18 @@ describe('application have-landlords-notice step', () => {
 
   describe('reason validator', () => {
     const validate = (value: unknown): boolean | string =>
-      capturedConfig.fields[0].options[1].subFields.noLandlordsNoticeReason.validator(value);
+      capturedConfig.fields[0].options[1].subFields.noUploadOfNoticeProposingNewRentReason.validator(value);
 
     it('accepts a reason up to the maximum length', () => {
       expect(validate('a'.repeat(500))).toBe(true);
     });
 
     it('returns the invalid error key when the reason is too long', () => {
-      expect(validate('a'.repeat(501))).toBe('errors.noLandlordsNoticeReason.invalidMaxLength');
+      expect(validate('a'.repeat(501))).toBe('errors.noUploadOfNoticeProposingNewRentReason.invalidMaxLength');
     });
 
     it('returns the invalid error key when the reason is too short', () => {
-      expect(validate('a'.repeat(1))).toBe('errors.noLandlordsNoticeReason.invalidMinLength');
+      expect(validate('a'.repeat(1))).toBe('errors.noUploadOfNoticeProposingNewRentReason.invalidMinLength');
     });
   });
 
@@ -87,16 +87,16 @@ describe('application have-landlords-notice step', () => {
       const req = makeReq(
         {
           'have-landlords-notice': {
-            haveLandlordsNotice: 'No',
-            'haveLandlordsNotice.noLandlordsNoticeReason': 'From the form',
+            receivedLandlordNoticeProposingNewRent: 'No',
+            'receivedLandlordNoticeProposingNewRent.noUploadOfNoticeProposingNewRentReason': 'From the form',
           },
         },
         { receivedLandlordNoticeProposingNewRent: 'Yes', noUploadOfNoticeProposingNewRentReason: 'From the case' }
       );
 
       expect(capturedConfig.getInitialFormData(req)).toEqual({
-        haveLandlordsNotice: 'No',
-        'haveLandlordsNotice.noLandlordsNoticeReason': 'From the form',
+        receivedLandlordNoticeProposingNewRent: 'No',
+        'receivedLandlordNoticeProposingNewRent.noUploadOfNoticeProposingNewRentReason': 'From the form',
       });
     });
 
@@ -107,8 +107,8 @@ describe('application have-landlords-notice step', () => {
       );
 
       expect(capturedConfig.getInitialFormData(req)).toEqual({
-        haveLandlordsNotice: 'No',
-        'haveLandlordsNotice.noLandlordsNoticeReason': 'From the case',
+        receivedLandlordNoticeProposingNewRent: 'No',
+        'receivedLandlordNoticeProposingNewRent.noUploadOfNoticeProposingNewRentReason': 'From the case',
       });
     });
 

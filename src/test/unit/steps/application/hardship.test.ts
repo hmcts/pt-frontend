@@ -14,6 +14,10 @@ jest.mock('../../../../main/modules/i18n', () => ({
   getCommonTranslations: jest.fn(() => ({})),
 }));
 
+jest.mock('@services/ccd/ccdApiClient', () => ({
+  getCaseApi: jest.fn(() => ({ updateCase: jest.fn().mockResolvedValue({}) })),
+}));
+
 const CASE_REF = '1234123412341234';
 
 describe('application hardship step', () => {
@@ -53,26 +57,26 @@ describe('application hardship step', () => {
     jest.clearAllMocks();
   });
 
-  it('clears rentIncreaseHardshipDetails when no is selected', async () => {
+  it('clears rentIncreaseToCauseHardshipDetails when No is selected', async () => {
     const { req, res } = await post({
       action: 'continue',
-      rentIncreaseCauseHardship: 'no',
-      rentIncreaseHardshipDetails: 'some reason',
+      rentIncreaseToCauseHardship: 'No',
+      rentIncreaseToCauseHardshipDetails: 'some reason',
     });
 
     expect(res.redirect).toHaveBeenCalled();
     expect(req.session.formData[CASE_REF][stepName]).toStrictEqual({
-      rentIncreaseCauseHardship: 'no',
+      rentIncreaseToCauseHardship: 'No',
     });
   });
 
   describe('hardship details validator', () => {
-    const detailsField = 'rentIncreaseCauseHardship.rentIncreaseHardshipDetails';
+    const detailsField = 'rentIncreaseToCauseHardship.rentIncreaseToCauseHardshipDetails';
 
     it('accepts details up to the maximum length', async () => {
       const { res } = await post({
         action: 'continue',
-        rentIncreaseCauseHardship: 'yes',
+        rentIncreaseToCauseHardship: 'Yes',
         [detailsField]: 'a'.repeat(500),
       });
 
@@ -83,13 +87,13 @@ describe('application hardship step', () => {
     it('returns the invalid error key when the details are too long', async () => {
       const { res } = await post({
         action: 'continue',
-        rentIncreaseCauseHardship: 'yes',
+        rentIncreaseToCauseHardship: 'Yes',
         [detailsField]: 'a'.repeat(501),
       });
 
       expect(res.status).toHaveBeenCalledWith(400);
       expect(res.render.mock.calls[0][1].errors).toEqual({
-        [detailsField]: 'errors.rentIncreaseHardshipDetails.invalid',
+        [detailsField]: 'errors.rentIncreaseToCauseHardshipDetails.invalid',
       });
     });
   });
@@ -104,11 +108,11 @@ describe('application hardship step', () => {
     });
 
     it('is answered when the citizen said the increase would cause hardship', () => {
-      expect(isAnswered({ rentIncreaseCauseHardship: 'yes' })).toBe(true);
+      expect(isAnswered({ rentIncreaseToCauseHardship: 'Yes' })).toBe(true);
     });
 
     it('is answered when the citizen said the increase would not cause hardship', () => {
-      expect(isAnswered({ rentIncreaseCauseHardship: 'no' })).toBe(true);
+      expect(isAnswered({ rentIncreaseToCauseHardship: 'No' })).toBe(true);
     });
   });
 });

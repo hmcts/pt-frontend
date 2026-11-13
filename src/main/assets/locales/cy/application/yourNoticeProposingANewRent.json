@@ -12,7 +12,7 @@
   "stillChallengeIncrease": "cyYou can still challenge the rent increase even if the notice is valid.",
   "mustStillSubmitApplication": "cyIf you think the notice is not valid, you must still submit this market rent determination application.",
   "options": {
-    "noticeNotLegallyValidReason": {
+    "noticeNotLegallyValidDetails": {
       "label": "cyExplain why the notice is not legally valid (optional)",
       "hint": "cyYou can upload supporting evidence next"
     }
@@ -21,7 +21,7 @@
     "noticeLegallyValid": {
       "required": "cySelect whether you think the notice is legally valid"
     },
-    "noticeNotLegallyValidReason": {
+    "noticeNotLegallyValidDetails": {
       "invalid": "cyExplanation must be 500 characters or less"
     }
   }

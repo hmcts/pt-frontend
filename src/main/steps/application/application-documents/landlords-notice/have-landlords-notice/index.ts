@@ -1,7 +1,7 @@
 import { textAreaIsValidLength } from '../../../../utils/fieldValidators';
 import { flowConfig } from '../../../flow.config';
 
-import { createFormStep, getFormDataString } from '@modules/steps';
+import { createFormStep, getFormData, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccd/ccdCase.interface';
 
@@ -16,40 +16,47 @@ export const step: StepDefinition = createFormStep({
   customTemplate: `${__dirname}/haveLandlordsNotice.njk`,
   showCancelButton: false,
   isAnswered: req => isAnswered(req.session.ccdCase),
+  beforeRedirect: req => {
+    const stepData = getFormData(req, stepName);
+
+    if (stepData.receivedLandlordNoticeProposingNewRent !== 'No') {
+      delete stepData.noUploadOfNoticeProposingNewRentReason;
+    }
+  },
   translationKeys: {
     pageTitle: 'pageTitle',
   },
   fields: [
     {
-      name: 'haveLandlordsNotice',
+      name: 'receivedLandlordNoticeProposingNewRent',
       type: 'radio',
       required: true,
       isPageHeading: true,
       legendClasses: 'govuk-fieldset__legend--l',
       translationKey: { label: 'heading' },
-      errorMessage: 'errors.haveLandlordsNotice.required',
+      errorMessage: 'errors.receivedLandlordNoticeProposingNewRent.required',
       options: [
         { value: 'Yes', translationKey: 'common:yes' },
         {
           value: 'No',
           translationKey: 'common:no',
           subFields: {
-            noLandlordsNoticeReason: {
-              name: 'noLandlordsNoticeReason',
+            noUploadOfNoticeProposingNewRentReason: {
+              name: 'noUploadOfNoticeProposingNewRentReason',
               type: 'textarea',
               maxLength: 500,
               required: true,
-              errorMessage: 'errors.noLandlordsNoticeReason.required',
+              errorMessage: 'errors.noUploadOfNoticeProposingNewRentReason.required',
               translationKey: {
-                label: 'options.noLandlordsNoticeReason.label',
+                label: 'options.noUploadOfNoticeProposingNewRentReason.label',
               },
               validator: (value): boolean | string => {
                 if (!textAreaIsValidLength(value as string)) {
-                  return 'errors.noLandlordsNoticeReason.invalidMaxLength';
+                  return 'errors.noUploadOfNoticeProposingNewRentReason.invalidMaxLength';
                 }
 
                 if (value && String(value).length < 2) {
-                  return 'errors.noLandlordsNoticeReason.invalidMinLength';
+                  return 'errors.noUploadOfNoticeProposingNewRentReason.invalidMinLength';
                 }
 
                 return true;
@@ -62,17 +69,21 @@ export const step: StepDefinition = createFormStep({
   ],
   getInitialFormData: req => {
     const caseData: PTCaseData | undefined = req.session.ccdCase;
-    const haveLandlordsNotice: string | boolean | undefined =
-      getFormDataString(req, 'have-landlords-notice', 'haveLandlordsNotice') ??
+    const receivedLandlordNoticeProposingNewRent: string | boolean | undefined =
+      getFormDataString(req, 'have-landlords-notice', 'receivedLandlordNoticeProposingNewRent') ??
       caseData?.noticeOfRentIncreaseDetails?.receivedLandlordNoticeProposingNewRent;
-    const noLandlordsNoticeReason: string | undefined =
-      getFormDataString(req, 'have-landlords-notice', 'haveLandlordsNotice.noLandlordsNoticeReason') ??
-      caseData?.noticeOfRentIncreaseDetails?.noUploadOfNoticeProposingNewRentReason;
+    const noUploadOfNoticeProposingNewRentReason: string | undefined =
+      getFormDataString(
+        req,
+        'have-landlords-notice',
+        'receivedLandlordNoticeProposingNewRent.noUploadOfNoticeProposingNewRentReason'
+      ) ?? caseData?.noticeOfRentIncreaseDetails?.noUploadOfNoticeProposingNewRentReason;
 
     return {
-      ...(haveLandlordsNotice && { haveLandlordsNotice }),
-      ...(noLandlordsNoticeReason && {
-        'haveLandlordsNotice.noLandlordsNoticeReason': noLandlordsNoticeReason,
+      ...(receivedLandlordNoticeProposingNewRent && { receivedLandlordNoticeProposingNewRent }),
+      ...(noUploadOfNoticeProposingNewRentReason && {
+        'receivedLandlordNoticeProposingNewRent.noUploadOfNoticeProposingNewRentReason':
+          noUploadOfNoticeProposingNewRentReason,
       }),
     };
   },

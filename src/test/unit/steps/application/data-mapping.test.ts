@@ -829,6 +829,116 @@ describe('prepareApplicationDataForSave', () => {
       });
     });
   });
+
+  describe('landlordsNotice data mapping', () => {
+    it('should map form answers', () => {
+      const mockReq = {
+        params: { caseReference: CASE_REF },
+        session: {
+          formData: {
+            [CASE_REF]: {
+              'have-landlords-notice': {
+                receivedLandlordNoticeProposingNewRent: 'No',
+                'receivedLandlordNoticeProposingNewRent.noUploadOfNoticeProposingNewRentReason':
+                  'I never received a notice',
+              },
+              'your-notice-proposing-a-new-rent': {
+                noticeLegallyValid: 'No',
+                'noticeLegallyValid.noticeNotLegallyValidDetails': 'The notice is invalid',
+              },
+              hardship: {
+                rentIncreaseToCauseHardship: 'Yes',
+                'rentIncreaseToCauseHardship.rentIncreaseToCauseHardshipDetails':
+                  'The increase will cause financial hardship',
+              },
+            },
+          },
+        },
+      } as unknown as Request;
+
+      const mappedData = prepareApplicationDataForSave('landlordsNotice', mockReq, {} as unknown as PTCaseData);
+
+      expect(mappedData).toEqual({
+        noticeOfRentIncreaseDetails: {
+          receivedLandlordNoticeProposingNewRent: 'No',
+          noUploadOfNoticeProposingNewRentReason: 'I never received a notice',
+          noticeLegallyValid: 'No',
+          noticeNotLegallyValidDetails: 'The notice is invalid',
+          rentIncreaseToCauseHardship: 'Yes',
+          rentIncreaseToCauseHardshipDetails: 'The increase will cause financial hardship',
+        },
+      });
+    });
+
+    it('should clear conditional details when they do not apply', () => {
+      const mockReq = {
+        params: { caseReference: CASE_REF },
+        session: {
+          formData: {
+            [CASE_REF]: {
+              'have-landlords-notice': {
+                receivedLandlordNoticeProposingNewRent: 'Yes',
+                'receivedLandlordNoticeProposingNewRent.noUploadOfNoticeProposingNewRentReason': 'stale reason',
+              },
+              'your-notice-proposing-a-new-rent': {
+                noticeLegallyValid: 'Yes',
+                'noticeLegallyValid.noticeNotLegallyValidDetails': 'stale reason',
+              },
+              hardship: {
+                rentIncreaseToCauseHardship: 'No',
+                'rentIncreaseToCauseHardship.rentIncreaseToCauseHardshipDetails': 'stale reason',
+              },
+            },
+          },
+        },
+      } as unknown as Request;
+
+      const mappedData = prepareApplicationDataForSave('landlordsNotice', mockReq, {} as unknown as PTCaseData);
+
+      expect(mappedData).toEqual({
+        noticeOfRentIncreaseDetails: {
+          receivedLandlordNoticeProposingNewRent: 'Yes',
+          noUploadOfNoticeProposingNewRentReason: undefined,
+          noticeLegallyValid: 'Yes',
+          noticeNotLegallyValidDetails: undefined,
+          rentIncreaseToCauseHardship: 'No',
+          rentIncreaseToCauseHardshipDetails: undefined,
+        },
+      });
+    });
+
+    it('should fall back to saved case data when form data is not present', () => {
+      const mockReq = {
+        params: { caseReference: CASE_REF },
+        session: { formData: { [CASE_REF]: {} } },
+      } as unknown as Request;
+
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        noticeOfRentIncreaseDetails: {
+          receivedLandlordNoticeProposingNewRent: 'No',
+          noUploadOfNoticeProposingNewRentReason: 'I never received a notice',
+          noticeLegallyValid: 'No',
+          noticeNotLegallyValidDetails: 'The notice is invalid',
+          rentIncreaseToCauseHardship: 'Yes',
+          rentIncreaseToCauseHardshipDetails: 'The increase will cause financial hardship',
+        },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareApplicationDataForSave('landlordsNotice', mockReq, ccdCaseData);
+
+      expect(mappedData).toEqual({
+        noticeOfRentIncreaseDetails: {
+          receivedLandlordNoticeProposingNewRent: 'No',
+          noUploadOfNoticeProposingNewRentReason: 'I never received a notice',
+          noticeLegallyValid: 'No',
+          noticeNotLegallyValidDetails: 'The notice is invalid',
+          rentIncreaseToCauseHardship: 'Yes',
+          rentIncreaseToCauseHardshipDetails: 'The increase will cause financial hardship',
+        },
+      });
+    });
+  });
 });
 
 describe('propertyDetails data mapping', () => {

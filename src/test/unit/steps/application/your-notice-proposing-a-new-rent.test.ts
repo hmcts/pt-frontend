@@ -14,6 +14,10 @@ jest.mock('../../../../main/modules/i18n', () => ({
   getCommonTranslations: jest.fn(() => ({})),
 }));
 
+jest.mock('@services/ccd/ccdApiClient', () => ({
+  getCaseApi: jest.fn(() => ({ updateCase: jest.fn().mockResolvedValue({}) })),
+}));
+
 const CASE_REF = '1234123412341234';
 
 describe('application your-notice-proposing-a-new-rent step', () => {
@@ -53,11 +57,11 @@ describe('application your-notice-proposing-a-new-rent step', () => {
     jest.clearAllMocks();
   });
 
-  it('clears noticeNotLegallyValidReason when yes is selected', async () => {
+  it('clears noticeNotLegallyValidDetails when yes is selected', async () => {
     const { req, res } = await post({
       action: 'continue',
       noticeLegallyValid: 'yes',
-      noticeNotLegallyValidReason: 'some reason',
+      noticeNotLegallyValidDetails: 'some reason',
     });
 
     expect(res.redirect).toHaveBeenCalled();
@@ -67,7 +71,7 @@ describe('application your-notice-proposing-a-new-rent step', () => {
   });
 
   describe('reason validator', () => {
-    const reasonField = 'noticeLegallyValid.noticeNotLegallyValidReason';
+    const reasonField = 'noticeLegallyValid.noticeNotLegallyValidDetails';
 
     it('accepts a reason up to the maximum length', async () => {
       const { res } = await post({ action: 'continue', noticeLegallyValid: 'no', [reasonField]: 'a'.repeat(500) });
@@ -77,11 +81,11 @@ describe('application your-notice-proposing-a-new-rent step', () => {
     });
 
     it('returns the invalid error key when the reason is too long', async () => {
-      const { res } = await post({ action: 'continue', noticeLegallyValid: 'no', [reasonField]: 'a'.repeat(501) });
+      const { res } = await post({ action: 'continue', noticeLegallyValid: 'No', [reasonField]: 'a'.repeat(501) });
 
       expect(res.status).toHaveBeenCalledWith(400);
       expect(res.render.mock.calls[0][1].errors).toEqual({
-        [reasonField]: 'errors.noticeNotLegallyValidReason.invalid',
+        [reasonField]: 'errors.noticeNotLegallyValidDetails.invalid',
       });
     });
   });
@@ -96,11 +100,11 @@ describe('application your-notice-proposing-a-new-rent step', () => {
     });
 
     it('is answered when the citizen said the notice is legally valid', () => {
-      expect(isAnswered({ noticeLegallyValid: 'yes' })).toBe(true);
+      expect(isAnswered({ noticeLegallyValid: 'Yes' })).toBe(true);
     });
 
     it('is answered when the citizen said the notice is not legally valid', () => {
-      expect(isAnswered({ noticeLegallyValid: 'no' })).toBe(true);
+      expect(isAnswered({ noticeLegallyValid: 'No' })).toBe(true);
     });
   });
 });
