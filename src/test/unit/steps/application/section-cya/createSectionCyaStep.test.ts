@@ -3,11 +3,10 @@ import type { Request, Response } from 'express';
 import { HTTPError } from '../../../../../main/HttpError';
 import { flowConfig } from '../../../../../main/steps/application/flow.config';
 import { createSectionCyaStep } from '../../../../../main/steps/application/section-cya/createSectionCyaStep';
+import { saveSection } from '../../../../../main/steps/utils/dataMapping';
 
 import type { GetController } from '@modules/steps';
 import type { JourneyFlowConfig } from '@modules/steps/stepFlow.interface';
-import { getCaseApi } from '@services/ccd/ccdApiClient';
-import { prepareDataForSave } from '@services/data-mapping';
 import { getFlowConfigForJourney } from '@steps';
 
 const mockT = jest.fn((key: string) => `translated ${key}`);
@@ -17,21 +16,16 @@ jest.mock('@modules/steps/i18n', () => ({
   getTranslationFunction: jest.fn(() => mockT),
 }));
 
-jest.mock('@services/ccd/ccdApiClient', () => ({ getCaseApi: jest.fn() }));
-jest.mock('@services/data-mapping', () => ({ prepareDataForSave: jest.fn() }));
 jest.mock('@steps', () => ({ getFlowConfigForJourney: jest.fn() }));
+jest.mock('../../../../../main/steps/utils/dataMapping', () => ({ saveSection: jest.fn() }));
 
 const CASE_REF = '1234123412341234';
 const OTHER_CASE = '9999999999999999';
 const STEP_NAME = 'check-your-answers-contact-preferences';
 const ROWS = [{ key: { text: 'Question' }, value: { text: 'Answer' } }];
-const USER = { accessToken: 'token' };
-const CCD_CASE = { caseReference: CASE_REF };
-const PAYLOAD = { applicantContactPreferences: { textUpdates: 'No' } };
 
 describe('createSectionCyaStep', () => {
   const buildRows = jest.fn(() => ROWS);
-  const updateCase = jest.fn();
 
   const makeStep = (stepName = STEP_NAME, renderRowsAsPresentation?: boolean) =>
     createSectionCyaStep({
@@ -47,8 +41,8 @@ describe('createSectionCyaStep', () => {
       params: { caseReference: 'caseReference' in overrides ? overrides.caseReference : CASE_REF },
       body: { action: overrides.action ?? 'continue' },
       session: {
-        user: USER,
-        ccdCase: CCD_CASE,
+        user: { accessToken: 'token' },
+        ccdCase: { caseReference: CASE_REF },
         returnToCya: overrides.returnToCya,
         formData: {
           [CASE_REF]: { 'text-updates': { textUpdates: 'No' } },
@@ -73,9 +67,7 @@ describe('createSectionCyaStep', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (getFlowConfigForJourney as jest.Mock).mockReturnValue(undefined);
-    (getCaseApi as jest.Mock).mockReturnValue({ updateCase });
-    (prepareDataForSave as jest.Mock).mockReturnValue(PAYLOAD);
-    updateCase.mockResolvedValue(undefined);
+    (saveSection as jest.Mock).mockResolvedValue(undefined);
   });
 
   describe('GET', () => {
@@ -114,20 +106,27 @@ describe('createSectionCyaStep', () => {
         const req = makeReq({ action });
         const { res, next } = await post(req);
 
-        expect(getCaseApi).toHaveBeenCalledWith(USER);
-        expect(prepareDataForSave).toHaveBeenCalledWith('contactPreferences', req, CCD_CASE);
-        expect(updateCase).toHaveBeenCalledWith(CASE_REF, PAYLOAD);
+        expect(saveSection).toHaveBeenCalledWith(CASE_REF, 'contactPreferences', req, flowConfig);
         expect(req.session.formData).toEqual({ [OTHER_CASE]: { 'text-updates': { textUpdates: 'Yes' } } });
         expect(res.redirect).toHaveBeenCalledWith(303, `/${CASE_REF}/task-list`);
         expect(next).not.toHaveBeenCalled();
       }
     );
 
+    it('saves with the registered journey flow in preference to the imported one', async () => {
+      const registeredFlow = { ...flowConfig, hubStepName: 'another-hub' };
+      (getFlowConfigForJourney as jest.Mock).mockReturnValue(registeredFlow);
+      const req = makeReq();
+      await post(req);
+
+      expect(saveSection).toHaveBeenCalledWith(CASE_REF, 'contactPreferences', req, registeredFlow);
+    });
+
     it('returns to the page in session.returnToCya and clears it', async () => {
       const req = makeReq({ returnToCya: `/${CASE_REF}/check-your-answers-and-submit` });
       const { res } = await post(req);
 
-      expect(updateCase).toHaveBeenCalled();
+      expect(saveSection).toHaveBeenCalled();
       expect(res.redirect).toHaveBeenCalledWith(303, `/${CASE_REF}/check-your-answers-and-submit`);
       expect(req.session.returnToCya).toBeUndefined();
     });
@@ -145,13 +144,13 @@ describe('createSectionCyaStep', () => {
 
       expect(next).toHaveBeenCalledWith(expect.any(HTTPError));
       expect(next.mock.calls[0][0].status).toBe(404);
-      expect(updateCase).not.toHaveBeenCalled();
+      expect(saveSection).not.toHaveBeenCalled();
       expect(res.redirect).not.toHaveBeenCalled();
     });
 
     it('passes a failed save to the error handler and keeps the answers', async () => {
       const error = new Error('CCD unavailable');
-      updateCase.mockRejectedValue(error);
+      (saveSection as jest.Mock).mockRejectedValue(error);
       const req = makeReq({ returnToCya: '/somewhere' });
       const { res, next } = await post(req);
 
@@ -165,7 +164,7 @@ describe('createSectionCyaStep', () => {
       const req = makeReq();
       const { res } = await post(req, 'check-your-answers-not-in-a-section');
 
-      expect(updateCase).not.toHaveBeenCalled();
+      expect(saveSection).not.toHaveBeenCalled();
       expect(req.session.formData?.[CASE_REF]).toBeDefined();
       expect(res.redirect).toHaveBeenCalledWith(303, `/${CASE_REF}/task-list`);
     });
