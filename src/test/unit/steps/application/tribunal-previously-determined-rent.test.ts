@@ -10,6 +10,10 @@ jest.mock('@modules/steps', () => {
   return { ...actual, createFormStep: jest.fn(actual.createFormStep) };
 });
 
+jest.mock('@services/ccd/ccdApiClient', () => ({
+  getCaseApi: jest.fn(() => ({ updateCase: jest.fn().mockResolvedValue({}) })),
+}));
+
 jest.mock('../../../../main/modules/steps/i18n', () => ({
   loadStepNamespace: jest.fn(),
   getStepTranslations: jest.fn(() => ({})),
