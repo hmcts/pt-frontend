@@ -8,6 +8,9 @@ export const CITIZEN_DELETE_CASE = 'citizen-delete-application';
 export const CITIZEN_UPLOAD_DOCUMENT = 'citizen-upload-document';
 export const CITIZEN_DELETE_DOCUMENT = 'citizen-delete-document';
 
+export const RESPONDENT_UPDATE_RESPONSE = 'respondent-update-response';
+export const RESPONDENT_SUBMIT_RESPONSE = 'respondent-submit-response';
+
 export type YesNoValue = 'YES' | 'NO' | null;
 export type YesNoNotSureValue = 'YES' | 'NO' | 'NOT_SURE' | null;
 export enum YesNoEnum {
