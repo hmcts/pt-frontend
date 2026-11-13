@@ -410,7 +410,7 @@ describe('documentProxy', () => {
 
       expect(response.status).toBe(200);
       expect(response.body).toEqual({ success: true });
-      expect(mockedDeleteById).toHaveBeenCalledWith(expect.anything(), 42);
+      expect(mockedDeleteById).toHaveBeenCalledWith(expect.anything(), 'tenancyAgreementDocument', 42);
       expect(mockedDeleteDocument).not.toHaveBeenCalled();
       expect(mockedSaveDocuments).not.toHaveBeenCalled();
     });
@@ -422,7 +422,7 @@ describe('documentProxy', () => {
 
       await request(buildApp()).post(`${COLLECTION_URL}/delete`).send({ delete: '2' });
 
-      expect(mockedDeleteById).toHaveBeenCalledWith(expect.anything(), 2);
+      expect(mockedDeleteById).toHaveBeenCalledWith(expect.anything(), 'propertyRoomsDocuments', 2);
       expect(mockedDeleteById).toHaveBeenCalledTimes(1);
     });
 
