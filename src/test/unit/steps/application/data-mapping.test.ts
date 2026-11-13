@@ -856,7 +856,7 @@ describe('prepareApplicationDataForSave', () => {
         },
       } as unknown as Request;
 
-      const mappedData = prepareDataForSave('landlordsNotice', mockReq, {} as unknown as PTCaseData);
+      const mappedData = prepareApplicationDataForSave('landlordsNotice', mockReq, {} as unknown as PTCaseData);
 
       expect(mappedData).toEqual({
         noticeOfRentIncreaseDetails: {
@@ -893,7 +893,7 @@ describe('prepareApplicationDataForSave', () => {
         },
       } as unknown as Request;
 
-      const mappedData = prepareDataForSave('landlordsNotice', mockReq, {} as unknown as PTCaseData);
+      const mappedData = prepareApplicationDataForSave('landlordsNotice', mockReq, {} as unknown as PTCaseData);
 
       expect(mappedData).toEqual({
         noticeOfRentIncreaseDetails: {
@@ -925,7 +925,7 @@ describe('prepareApplicationDataForSave', () => {
         },
       } as unknown as PTCaseData;
 
-      const mappedData = prepareDataForSave('landlordsNotice', mockReq, ccdCaseData);
+      const mappedData = prepareApplicationDataForSave('landlordsNotice', mockReq, ccdCaseData);
 
       expect(mappedData).toEqual({
         noticeOfRentIncreaseDetails: {

@@ -14,6 +14,10 @@ jest.mock('../../../../main/modules/i18n', () => ({
   getCommonTranslations: jest.fn(() => ({})),
 }));
 
+jest.mock('@services/ccd/ccdApiClient', () => ({
+  getCaseApi: jest.fn(() => ({ updateCase: jest.fn().mockResolvedValue({}) })),
+}));
+
 const CASE_REF = '1234123412341234';
 
 describe('application your-notice-proposing-a-new-rent step', () => {
