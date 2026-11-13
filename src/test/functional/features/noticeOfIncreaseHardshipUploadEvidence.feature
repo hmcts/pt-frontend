@@ -1,4 +1,4 @@
-@JIRA-TEST-KEY:HDPD-585 @regression @WIP
+@JIRA-TEST-KEY:HDPD-585 @regression
 Feature: Verify Notice proposing a new rent question page
 
     Background:
@@ -41,7 +41,8 @@ Feature: Verify Notice proposing a new rent question page
 
         When I upload "supported-file"
         And  I click 'Save and continue'
-        And the field "No file chosen" is "not displayed"
+        Then I check that the text "Check your answers" is displayed on the page
+
 
     @AC3 @JIRA-TEST-KEY:PTSD-1021
     Scenario: Select supproted file and click on save and continue button
