@@ -8,6 +8,9 @@ export const CITIZEN_DELETE_CASE = 'citizen-delete-application';
 export const CITIZEN_UPLOAD_DOCUMENT = 'citizen-upload-document';
 export const CITIZEN_DELETE_DOCUMENT = 'citizen-delete-document';
 
+export const RESPONDENT_UPDATE_RESPONSE = 'respondent-update-response';
+export const RESPONDENT_SUBMIT_RESPONSE = 'respondent-submit-response';
+
 export type YesNoValue = 'YES' | 'NO' | null;
 export type YesNoNotSureValue = 'YES' | 'NO' | 'NOT_SURE' | null;
 export enum YesNoEnum {
@@ -267,6 +270,7 @@ export interface PTCaseData extends LandlordDetails, PropertyDetails, LettingAge
   noticeOfRentIncreaseDetails?: NoticeOfRentIncreaseDetails;
   hearingInspectionDetails?: HearingInspectionDetails;
   extraSupportDetails?: ExtraSupportDetails;
+  landlordResponse?: LandlordResponse;
 }
 
 export interface TenantDetails {
@@ -326,7 +330,7 @@ export interface NoticeOfRentIncreaseDetails {
 export interface PropertyDetails {
   addressLine1?: string;
   addressLine2?: string;
-  townOrCity?: string;
+  postTown?: string;
   county?: string;
   postcode?: string;
   propertyType?: string;
@@ -421,4 +425,16 @@ export interface ExtraSupportDetails {
 export interface HelpWithFeesDetails {
   appliedForHelpWithFees?: YesNoValue;
   referenceNumber?: string;
+}
+export interface LandlordResponse {
+  propertyAddress?: LandlordResponsePropertyAddress;
+}
+
+export interface LandlordResponsePropertyAddress {
+  tenantProvidedCorrectAddress?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  postTown?: string;
+  county?: string;
+  postcode?: string;
 }

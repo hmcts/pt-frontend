@@ -14,7 +14,7 @@ describe('application property-address step', () => {
 
   const makeReq = (ccdCase?: Record<string, unknown>): Request => ({ session: { ccdCase } }) as unknown as Request;
 
-  const requiredParts = { addressLine1: '1 High Street', townOrCity: 'Leeds', postcode: 'LS1 1AA' };
+  const requiredParts = { addressLine1: '1 High Street', postTown: 'Leeds', postcode: 'LS1 1AA' };
 
   describe('isAnswered', () => {
     it('is not answered when nothing has been saved', () => {
@@ -26,7 +26,7 @@ describe('application property-address step', () => {
       expect(capturedConfig.isAnswered(makeReq(requiredParts))).toBe(true);
     });
 
-    it.each(['addressLine1', 'townOrCity', 'postcode'])('is not answered when %s is missing', missing => {
+    it.each(['addressLine1', 'postTown', 'postcode'])('is not answered when %s is missing', missing => {
       expect(capturedConfig.isAnswered(makeReq({ ...requiredParts, [missing]: undefined }))).toBe(false);
     });
   });
@@ -38,7 +38,7 @@ describe('application property-address step', () => {
     it.each([
       ['addressLine1', 'errors.addressLine1.invalid'],
       ['addressLine2', 'errors.addressLine2.invalid'],
-      ['townOrCity', 'errors.townOrCity.invalid'],
+      ['postTown', 'errors.postTown.invalid'],
       ['county', 'errors.county.invalid'],
     ])('rejects a one character %s', (name, errorKey) => {
       expect(validatorFor(name)('ab')).toBe(true);

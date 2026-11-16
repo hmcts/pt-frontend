@@ -16,7 +16,7 @@ Feature: Council tax details can be added and updated
     Then check that the user is redirected to the "tenancy-type" page
     And I select the option "Assured periodic tenancy"
     And I click "Continue"
-    And I click "The current rent and other costs"
+    And I click "Current rent, other costs and your proposed market rent"
     And I select "Yes" for the question "Has the tribunal previously determined the rent for your tenancy?"
     And I enter "LON/00AD/SMO/2023/0002" for the question "What was the tribunal's case reference number for the previous determination? (optional)"
     And I click "Save and continue"

@@ -1,0 +1,37 @@
+{
+  "pageTitle": "cyCheck the property details",
+  "heading": "cyCheck the property details",
+  "address": "cyAddress",
+  "question": "cyHas the tenant provided the correct address of the property?",
+  "correctAddressHint": "cyEnter the correct address of the property",
+  "labels": {
+    "addressLine1": "cyAddress line 1",
+    "addressLine2": "cyAddress line 2 (optional)",
+    "postTown": "cyTown or city",
+    "county": "cyCounty (optional)",
+    "postcode": "cyPostcode"
+  },
+  "errors": {
+    "tenantProvidedCorrectAddress": {
+      "required": "cySelect whether the tenant has provided the correct address of the property"
+    },
+    "addressLine1": {
+      "required": "cyEnter address line 1, typically the building and street",
+      "invalid": "cyAddress line 1 must be 2 characters or more"
+    },
+    "addressLine2": {
+      "invalid": "cyAddress line 2 must be 2 characters or more"
+    },
+    "postTown": {
+      "required": "cyEnter town or city",
+      "invalid": "cyTown or city must be 2 characters or more"
+    },
+    "county": {
+      "invalid": "cyCounty must be 2 characters or more"
+    },
+    "postcode": {
+      "required": "cyEnter postcode",
+      "invalid": "cyEnter a full UK postcode"
+    }
+  }
+}
