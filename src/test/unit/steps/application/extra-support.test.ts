@@ -30,17 +30,17 @@ describe('extra support step', () => {
     });
 
     it('is answered when the citizen selects No to extra support', () => {
-      expect(isAnswered({ extraSupportRequired: 'NO' })).toBe(true);
+      expect(isAnswered({ extraSupportRequired: 'No' })).toBe(true);
     });
 
     it('is not answered when the citizen selects Yes but has not provided details', () => {
-      expect(isAnswered({ extraSupportRequired: 'YES' })).toBe(false);
+      expect(isAnswered({ extraSupportRequired: 'Yes' })).toBe(false);
     });
 
     it('is answered when the citizen selects Yes and provides details', () => {
       expect(
         isAnswered({
-          extraSupportRequired: 'YES',
+          extraSupportRequired: 'Yes',
           extraSupportRequiredDetails: 'Communication difficulties',
         })
       ).toBe(true);

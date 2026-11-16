@@ -69,7 +69,7 @@ export const step: StepDefinition = createFormStep({
       caseData?.extraSupportDetails?.extraSupportRequiredDetails;
     return {
       ...(extraSupport && { extraSupport }),
-      ...((extraSupport === 'YES' || extraSupport === 'Yes') &&
+      ...(extraSupport === 'Yes' &&
         extraSupportDetails && {
           'extraSupport.extraSupportDetails': extraSupportDetails,
         }),
@@ -80,11 +80,11 @@ export const step: StepDefinition = createFormStep({
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
   const extraSupport = ccdCase?.extraSupportDetails?.extraSupportRequired;
 
-  if (extraSupport === 'NO') {
+  if (extraSupport === 'No') {
     return true;
   }
 
-  if (extraSupport === 'YES') {
+  if (extraSupport === 'Yes') {
     return Boolean(ccdCase?.extraSupportDetails?.extraSupportRequiredDetails);
   }
 
