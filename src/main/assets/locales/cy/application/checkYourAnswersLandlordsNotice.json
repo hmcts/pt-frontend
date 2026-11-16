@@ -1,4 +1,57 @@
 {
   "pageTitle": "cyCheck your answers",
-  "heading": "cyCheck your answers (placeholder)"
+  "heading": "cyCheck your answers",
+  "cardTitle": "cyApplication documents",
+  "rows": {
+    "receivedLandlordNoticeProposingNewRent": {
+      "label": "cyDo you have a landlord’s notice proposing a new rent to upload?",
+      "changeHidden": "cylandlord’s notice proposing a new rent",
+      "options": {
+        "Yes": "cyYes",
+        "No": "cyNo"
+      }
+    },
+    "noUploadOfNoticeProposingNewRentReason": {
+      "label": "cyWhy can you not upload a notice proposing a new rent?",
+      "changeHidden": "cyreason for not uploading a landlord’s notice proposing a new rent"
+    },
+    "landlordNoticeProposingNewRentDocument": {
+      "label": "cyUpload your landlord’s notice proposing a new rent",
+      "changeHidden": "cylandlord’s notice proposing a new rent"
+    },
+    "noticeLegallyValid": {
+      "label": "cyDo you think the notice is legally valid?",
+      "changeHidden": "cylegally valid",
+      "options": {
+        "Yes": "cyYes",
+        "No": "cyNo"
+      }
+    },
+    "noticeNotLegallyValidDetails": {
+      "label": "cyExplain why the notice is not legally valid (optional)",
+      "changeHidden": "cyreason for why the notice is not legally valid"
+    },
+    "noticeNotLegallyValidDocuments": {
+      "label": "cyUpload evidence to show why you think the notice is not legally valid (optional)",
+      "changeHidden": "cyevidence for why the notice is not legally valid"
+    },
+
+    "rentIncreaseToCauseHardship": {
+      "label": "cyWill a rent increase on the proposed start date cause you hardship?",
+      "changeHidden": "cyrent increase to cause hardship",
+      "options": {
+        "Yes": "cyYes",
+        "No": "cyNo"
+      }
+    },
+    "rentIncreaseToCauseHardshipDetails": {
+      "label": "cyTell us how you would experience financial hardship if the rent was increased on the proposed start date (optional)",
+      "changeHidden": "cyreason for why the rent increase would cause hardship"
+    },
+    "rentIncreaseToCauseHardshipDocuments": {
+      "label": "cyUpload your supporting evidence for how you would experience hardship (optional)",
+      "changeHidden": "cyevidence for how the rent increase would cause hardship"
+    }
+  },
+  "reviewAndChangeInfo": "cyYou can review and change your answers before you submit your application."
 }
