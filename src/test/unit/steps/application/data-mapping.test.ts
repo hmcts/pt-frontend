@@ -686,7 +686,7 @@ describe('prepareApplicationDataForSave', () => {
         },
       });
 
-      const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
+      const mappedData = prepareApplicationDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
 
       expect(mappedData).toEqual({
         extraSupportDetails: {
@@ -705,7 +705,7 @@ describe('prepareApplicationDataForSave', () => {
         },
       } as unknown as PTCaseData;
 
-      const mappedData = prepareDataForSave(sectionId, reqWith({}), ccdCaseData);
+      const mappedData = prepareApplicationDataForSave(sectionId, reqWith({}), ccdCaseData);
 
       expect(mappedData).toEqual({
         extraSupportDetails: {
@@ -731,7 +731,7 @@ describe('prepareApplicationDataForSave', () => {
         },
       } as unknown as PTCaseData;
 
-      const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
+      const mappedData = prepareApplicationDataForSave(sectionId, mockReq, ccdCaseData);
 
       expect(mappedData).toEqual({
         extraSupportDetails: {
@@ -757,7 +757,7 @@ describe('prepareApplicationDataForSave', () => {
         },
       } as unknown as PTCaseData;
 
-      const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
+      const mappedData = prepareApplicationDataForSave(sectionId, mockReq, ccdCaseData);
 
       expect(mappedData).toEqual({
         extraSupportDetails: {
