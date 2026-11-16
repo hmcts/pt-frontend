@@ -10,8 +10,6 @@ export const CITIZEN_DELETE_DOCUMENT = 'citizen-delete-document';
 
 export const RESPONDENT_UPDATE_RESPONSE = 'respondent-update-response';
 export const RESPONDENT_SUBMIT_RESPONSE = 'respondent-submit-response';
-export const RESPONDENT_UPLOAD_DOCUMENT = 'respondent-upload-document';
-export const RESPONDENT_DELETE_DOCUMENT = 'respondent-delete-document';
 
 export type YesNoValue = 'Yes' | 'No' | null;
 export type YesNoNotSureValue = 'YES' | 'NO' | 'NOT_SURE' | null;
@@ -439,6 +437,7 @@ export interface HelpWithFeesDetails {
 export interface LandlordResponse {
   propertyAddress?: LandlordResponsePropertyAddress;
   servedNoticeProposingNewRent?: YesNoValue;
+  landlordPhoneNumber?: string;
   respondToTenantAnswersAboutTenancyDetails?: string;
   respondToTenantAnswersAboutTenancyDetailsDescription?: string;
   tenancyDetailsResponseEvidence?: PtCaseDocument[];
