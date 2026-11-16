@@ -2926,9 +2926,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/otlp-transformer@npm:0.301.1":
-  version: 0.301.1
-  resolution: "@opentelemetry/otlp-transformer@npm:0.301.1"
+"@opentelemetry/otlp-transformer@npm:0.301.2":
+  version: 0.301.2
+  resolution: "@opentelemetry/otlp-transformer@npm:0.301.2"
   dependencies:
     "@opentelemetry/core": "npm:3.1.1"
     "@opentelemetry/resources": "npm:3.1.1"
@@ -2937,7 +2937,7 @@ __metadata:
     "@opentelemetry/sdk-trace": "npm:3.1.1"
   peerDependencies:
     "@opentelemetry/api": ">=1.10.0 <1.11.0"
-  checksum: 10/2941b3e636b2e7ab55fe326acc8a93f8e85f91ff05cb79bebaad3ddf6b7d4ae565a6a9dce06f34a0b5ac31a486393140adf8e4593a96d89d95df7626fac4c194
+  checksum: 10/8d08adac960beff45bc5a21926488e7ddcaa375106b83684bc8f14c0fcb4cf47b88c4c37d5e1484cb8f35c645d2f216fae0ec703caded20a808674479597c202
   languageName: node
   linkType: hard
 
@@ -13678,7 +13678,7 @@ __metadata:
     "@jest/types": "npm:^30.5.1"
     "@ministryofjustice/frontend": "npm:^12.0.0"
     "@opentelemetry/api": "npm:1.10.0"
-    "@opentelemetry/otlp-transformer": "npm:0.301.1"
+    "@opentelemetry/otlp-transformer": "npm:0.301.2"
     "@pact-foundation/pact": "npm:^17.0.1"
     "@pact-foundation/pact-cli": "npm:18.10.9"
     "@types/body-parser": "npm:1.19.6"
