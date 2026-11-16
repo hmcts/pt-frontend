@@ -46,9 +46,46 @@ export function prepareApplicationDataForSave(
     // case 'landlordDetails': {
     //   return {};
     // }
-    // case 'landlordsNotice': {
-    //   return {};
-    // }
+    case 'landlordsNotice': {
+      const noticeDetails = saved?.noticeOfRentIncreaseDetails;
+      const receivedLandlordNoticeProposingNewRent =
+        getFormDataString(req, 'have-landlords-notice', 'receivedLandlordNoticeProposingNewRent') ??
+        noticeDetails?.receivedLandlordNoticeProposingNewRent;
+      const hasNotice = receivedLandlordNoticeProposingNewRent === 'Yes';
+      const noticeLegallyValid =
+        getFormDataString(req, 'your-notice-proposing-a-new-rent', 'noticeLegallyValid') ??
+        noticeDetails?.noticeLegallyValid;
+      const rentIncreaseToCauseHardship =
+        getFormDataString(req, 'hardship', 'rentIncreaseToCauseHardship') ?? noticeDetails?.rentIncreaseToCauseHardship;
+      const causesHardship = rentIncreaseToCauseHardship === 'Yes';
+
+      return {
+        noticeOfRentIncreaseDetails: {
+          receivedLandlordNoticeProposingNewRent,
+          noUploadOfNoticeProposingNewRentReason: hasNotice
+            ? undefined
+            : (getFormDataString(
+                req,
+                'have-landlords-notice',
+                'receivedLandlordNoticeProposingNewRent.noUploadOfNoticeProposingNewRentReason'
+              ) ?? noticeDetails?.noUploadOfNoticeProposingNewRentReason),
+          noticeLegallyValid,
+          noticeNotLegallyValidDetails:
+            noticeLegallyValid === 'No'
+              ? (getFormDataString(
+                  req,
+                  'your-notice-proposing-a-new-rent',
+                  'noticeLegallyValid.noticeNotLegallyValidDetails'
+                ) ?? noticeDetails?.noticeNotLegallyValidDetails)
+              : undefined,
+          rentIncreaseToCauseHardship,
+          rentIncreaseToCauseHardshipDetails: causesHardship
+            ? (getFormDataString(req, 'hardship', 'rentIncreaseToCauseHardship.rentIncreaseToCauseHardshipDetails') ??
+              noticeDetails?.rentIncreaseToCauseHardshipDetails)
+            : undefined,
+        },
+      };
+    }
     case 'yourTenancyAgreement': {
       const copyOfTenancyAgreement =
         getFormDataString(req, 'have-tenancy-agreement', 'copyOfTenancyAgreement') ??
