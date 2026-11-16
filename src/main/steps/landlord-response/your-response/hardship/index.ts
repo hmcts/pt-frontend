@@ -13,7 +13,6 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/hardship.njk`,
   showCancelButton: false,
-  isAnswered: () => false,
   translationKeys: {
     pageTitle: 'pageTitle',
     heading: 'heading',
