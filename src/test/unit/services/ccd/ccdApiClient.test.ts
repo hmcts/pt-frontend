@@ -82,10 +82,14 @@ describe('updateCase', () => {
     });
 
     const caseApiInstance: CcdApiClient = new CcdApiClient(mockedAxios);
-    const result = await caseApiInstance.updateCase(TEST_CASE_ID, {
-      applicantFirstName: 'test',
-      applicantLastName: 'name',
-    });
+    const result = await caseApiInstance.updateCase(
+      TEST_CASE_ID,
+      {
+        applicantFirstName: 'test',
+        applicantLastName: 'name',
+      },
+      CITIZEN_UPDATE_CASE
+    );
 
     expect(result).toEqual({
       applicantFirstName: 'test',
