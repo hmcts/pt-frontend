@@ -19,8 +19,8 @@ export const step: StepDefinition = createFormStep({
   beforeRedirect: req => {
     const stepData = getFormData(req, stepName);
 
-    if (stepData.noticeLegallyValid !== 'no') {
-      delete stepData.noticeNotLegallyValidReason;
+    if (stepData.noticeLegallyValid !== 'No') {
+      delete stepData.noticeNotLegallyValidDetails;
     }
   },
   translationKeys: {
@@ -37,22 +37,22 @@ export const step: StepDefinition = createFormStep({
       translationKey: { label: 'questionTitle' },
       errorMessage: 'errors.noticeLegallyValid.required',
       options: [
-        { value: 'yes', translationKey: 'common:yes' },
+        { value: 'Yes', translationKey: 'common:yes' },
         {
-          value: 'no',
+          value: 'No',
           translationKey: 'common:no',
           subFields: {
-            noticeNotLegallyValidReason: {
-              name: 'noticeNotLegallyValidReason',
+            noticeNotLegallyValidDetails: {
+              name: 'noticeNotLegallyValidDetails',
               type: 'textarea',
               maxLength: 500,
               required: false,
               translationKey: {
-                label: 'options.noticeNotLegallyValidReason.label',
-                hint: 'options.noticeNotLegallyValidReason.hint',
+                label: 'options.noticeNotLegallyValidDetails.label',
+                hint: 'options.noticeNotLegallyValidDetails.hint',
               },
               validator: (value): boolean | string =>
-                textAreaIsValidLength(value as string) ? true : 'errors.noticeNotLegallyValidReason.invalid',
+                textAreaIsValidLength(value as string) ? true : 'errors.noticeNotLegallyValidDetails.invalid',
             },
           },
         },
@@ -63,5 +63,5 @@ export const step: StepDefinition = createFormStep({
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
   const noticeLegallyValid = ccdCase?.noticeOfRentIncreaseDetails?.noticeLegallyValid;
-  return noticeLegallyValid === 'yes' || noticeLegallyValid === 'no';
+  return noticeLegallyValid === 'Yes' || noticeLegallyValid === 'No';
 }
