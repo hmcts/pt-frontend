@@ -1,10 +1,13 @@
 import { flowConfig } from '../../flow.config';
 
+import { acceptFor, maxFileSizeMBFor } from '@modules/documents/documentFields';
+import { readDocuments, toDisplayDocuments } from '@modules/documents/storage';
 import { createFormStep } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
 const journeyName = 'landlord-response';
 const stepName = 'upload-evidence-tenancy-details';
+const documentField = 'tenancyDetailsResponseEvidence';
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -13,10 +16,21 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/uploadEvidenceTenancyDetails.njk`,
   showCancelButton: false,
-  isAnswered: () => false,
-  translationKeys: {
-    pageTitle: 'pageTitle',
-    heading: 'heading',
-  },
-  fields: [],
+  documentField,
+  translationKeys: { pageTitle: 'pageTitle' },
+  fields: [
+    {
+      name: 'documents',
+      type: 'file',
+      required: false,
+      accept: acceptFor(documentField),
+      maxFileSize: maxFileSizeMBFor(documentField),
+      isPageHeading: false,
+      labelClasses: 'govuk-body',
+      translationKey: { label: 'documentUpload.label' },
+    },
+  ],
+  getInitialFormData: async req => ({
+    documents: toDisplayDocuments(await readDocuments(req, documentField)),
+  }),
 });
