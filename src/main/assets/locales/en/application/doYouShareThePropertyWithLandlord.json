@@ -7,7 +7,7 @@
     }
   },
   "errors": {
-    "propertySharedWithLandlord": {
+    "sharePropertyWithLandlord": {
       "required": "Select whether you share the property with your landlord"
     },
     "sharePropertyWithLandlordDetails": {

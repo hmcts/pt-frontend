@@ -7,7 +7,7 @@
     }
   },
   "errors": {
-    "propertyIncludesOtherFacilities": {
+    "otherFacilitiesAvailable": {
       "required": "cy Select whether the tenancy includes any other facilities"
     },
     "propertyFacilitiesDescription": {

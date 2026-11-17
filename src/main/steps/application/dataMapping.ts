@@ -366,17 +366,17 @@ export function prepareApplicationDataForSave(
         getFormDataString(req, 'services-provided-tenancy', 'additionalServicesProvidedInTenancy') ??
         propertyDetails?.additionalServicesProvidedInTenancy;
 
-      const repairsAndImprovements =
-        getFormDataString(req, 'repairs-and-improvments', 'anyTenantsMadePropertyRepairs') ??
+      const anyTenantsMadePropertyRepairs =
+        getFormDataString(req, 'repairs-and-improvements', 'anyTenantsMadePropertyRepairs') ??
         propertyDetails?.anyTenantsMadePropertyRepairs;
 
       return {
         propertyDetails: {
-          addressLine1: getFormDataString(req, '', 'addressLine1') ?? propertyDetails?.addressLine1,
-          addressLine2: getFormDataString(req, '', 'addressLine2') ?? propertyDetails?.addressLine2,
-          postTown: getFormDataString(req, '', 'townOrCity') ?? propertyDetails?.postTown,
-          county: getFormDataString(req, '', 'county') ?? propertyDetails?.county,
-          postcode: getFormDataString(req, '', 'postcode') ?? propertyDetails?.postcode,
+          addressLine1: getFormDataString(req, 'property-address', 'addressLine1') ?? propertyDetails?.addressLine1,
+          addressLine2: getFormDataString(req, 'property-address', 'addressLine2') ?? propertyDetails?.addressLine2,
+          postTown: getFormDataString(req, 'property-address', 'postTown') ?? propertyDetails?.postTown,
+          county: getFormDataString(req, 'property-address', 'county') ?? propertyDetails?.county,
+          postcode: getFormDataString(req, 'property-address', 'postcode') ?? propertyDetails?.postcode,
 
           propertyType,
           rentingRoomDetails:
@@ -450,14 +450,14 @@ export function prepareApplicationDataForSave(
               : undefined,
 
           landlordRepairsDetails:
-            getFormDataString(req, 'what-reairs-landlord-responsibility', 'landlordRepairsDetails') ??
+            getFormDataString(req, 'what-repairs-landlord-responsibility', 'landlordRepairsDetails') ??
             propertyDetails?.landlordRepairsDetails,
 
           tenantRepairsDetails:
-            getFormDataString(req, 'what-reairs-landlord-responsibility', 'tenantRepairsDetails') ??
+            getFormDataString(req, 'what-repairs-tenant-responsibility', 'tenantRepairsDetails') ??
             propertyDetails?.tenantRepairsDetails,
 
-          anyTenantsMadePropertyRepairs: repairsAndImprovements,
+          anyTenantsMadePropertyRepairs,
         },
       };
     }

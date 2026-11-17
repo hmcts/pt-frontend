@@ -5,7 +5,7 @@
   "rows": {
     "documentUploaded": "cyDocument uploaded",
     "propertyAddress": {
-      "label": "cyWhat is the address of the property",
+      "label": "cyWhat is the address of the property?",
       "changeHidden": "cythe address of the property"
     },
     "propertyType": {
@@ -14,7 +14,7 @@
       "options": {
         "room": "cyRoom or rooms",
         "flat": "cyFlat",
-        "terracedHouse": "cyterracedHouse",
+        "terracedHouse": "cyTerraced house",
         "semiDetachedHouse": "cySemi-detached house",
         "fullyDetachedHouse": "cyFully detached house",
         "other": "cyOther",
@@ -22,7 +22,7 @@
       }
     },
     "rentingRoomDetails": {
-      "label": "cyDescribe what type of property your room or rooms are in",
+      "label": "cyDescribe what type of property your room or rooms are in (optional)",
       "changeHidden": "cythe description of the room or rooms"
     },
     "rentingFlatDetails": {
@@ -56,8 +56,8 @@
       "empty": "cyNot Answered"
     },
     "otherFacilitiesAvailable": {
-      "label": "cyDoes the tenancy include other facilities?",
-      "changeHidden": "cyweather the tenancy includes other facilities",
+      "label": "cyDoes the tenancy include any other facilities?",
+      "changeHidden": "cywhether the tenancy includes other facilities",
       "options": {
         "yes": "cyYes",
         "no": "cyNo",
@@ -65,11 +65,11 @@
       }
     },
     "otherFacilitiesDetails": {
-      "label": "cyDescribe the other facilities described in the tenancy",
+      "label": "cyWhat other facilities does your tenancy include?",
       "changeHidden": "cythe other facilities described in the tenancy"
     },
     "sharePropertyWithLandlord": {
-      "label": "cyDo you share the property with the landlord?",
+      "label": "cyDo you share the property with your landlord?",
       "changeHidden": "cywhether you share the property with your landlord",
       "options": {
         "yes": "cyYes",
@@ -78,7 +78,7 @@
       }
     },
     "sharePropertyWithLandlordDetails": {
-      "label": "cyDescribe how you share the property with your landlord",
+      "label": "cyTell us how you share the property with the landlord",
       "changeHidden": "cyhow you share the property with your landlord"
     },
     "outsidePropertyDocuments": {
@@ -105,7 +105,7 @@
       "changeHidden": "cythe furniture provided"
     },
     "additionalServicesProvidedInTenancy": {
-      "label": "cyAre there any services provided in your tenancy?",
+      "label": "cyAre any services provided in your tenancy?",
       "changeHidden": "cywhether  services are provided in the tenancy",
       "options": {
         "yes": "cyYes",
@@ -118,12 +118,12 @@
       "changeHidden": "cythe services are provided in the tenancy"
     },
     "landlordRepairsDetails": {
-      "label": "cyWhat repairs are the landlord's responsibilities? (optional)",
+      "label": "cyWhat repairs are the landlord's responsibility? (optional)",
       "changeHidden": "cythe repairs that are the landlord's responsibility",
       "empty": "cyNot Answered"
     },
     "tenantRepairsDetails": {
-      "label": "cyWhat repairs are the tenant's responsibilities? (optional)",
+      "label": "cyWhat repairs are the tenant's responsibility? (optional)",
       "changeHidden": "cythe repairs that are the tenant's responsibility",
       "empty": "cyNot Answered"
     },
@@ -138,9 +138,9 @@
       }
     },
     "repairsEvidenceDocuments": {
-      "label": "cyUpload evidence of improvements or repairs",
+      "label": "cyUpload evidence of the improvements or repairs (optional)",
       "changeHidden": "cythe uploaded evidence of improvements or repairs"
     }
   },
-  "reviewAndChangeInfo": "cyYou can review and change your answers before you submit your application"
+  "reviewAndChangeInfo": "cyYou can review and change your answers before you submit your application."
 }
