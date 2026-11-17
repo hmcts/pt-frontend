@@ -1,4 +1,31 @@
 {
-  "pageTitle": "Tell us if you need extra support during your case",
-  "heading": "Tell us if you need extra support during your case"
+  "pageTitle": "Extra support during your case",
+  "heading": "Extra support during your case",
+  "guidance": "Some people need support to access information and use our services. We call this a reasonable adjustment. Some reasonable adjustments need to be agreed by the judge or HMCTS. You can discuss with the tribunal if your needs change.",
+  "reasonableAdjustments": {
+    "summary": "What support is available?",
+    "introduction": "Reasonable adjustments can include:",
+    "option1": "documents in alternative formats, colours and fonts",
+    "option2": "help with communicating, sight, hearing, speaking and interpretation",
+    "option3": "access and mobility support if you attend a hearing in person"
+  },
+  "questionTitle": "Do you have a physical, mental or learning disability or health condition that means you need support during your case?",
+  "options": {
+    "no": {
+      "label": "No - I do not need any support at this time"
+    },
+    "extraSupportDetails": {
+      "label": "Tell us what support you need to ask for"
+    }
+  },
+  "errors": {
+    "extraSupport": {
+      "required": "Select whether you have a physical, mental or learning disability or health condition that means you need support during your case"
+    },
+    "extraSupportDetails": {
+      "required": "Enter what support you need to ask for",
+      "invalidMaxLength": "Details about the support you need must be 500 characters or less",
+      "invalidMinLength": "Details about the support you need must be 2 characters or more"
+    }
+  }
 }

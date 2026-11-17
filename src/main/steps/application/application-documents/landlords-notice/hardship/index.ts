@@ -19,8 +19,8 @@ export const step: StepDefinition = createFormStep({
   beforeRedirect: req => {
     const stepData = getFormData(req, stepName);
 
-    if (stepData.rentIncreaseCauseHardship !== 'yes') {
-      delete stepData.rentIncreaseHardshipDetails;
+    if (stepData.rentIncreaseToCauseHardship !== 'Yes') {
+      delete stepData.rentIncreaseToCauseHardshipDetails;
     }
   },
   translationKeys: {
@@ -29,39 +29,39 @@ export const step: StepDefinition = createFormStep({
   },
   fields: [
     {
-      name: 'rentIncreaseCauseHardship',
+      name: 'rentIncreaseToCauseHardship',
       type: 'radio',
       required: true,
       isPageHeading: false,
       legendClasses: 'govuk-fieldset__legend--m',
       translationKey: { label: 'questionTitle' },
-      errorMessage: 'errors.rentIncreaseCauseHardship.required',
+      errorMessage: 'errors.rentIncreaseToCauseHardship.required',
       options: [
         {
-          value: 'yes',
+          value: 'Yes',
           translationKey: 'common:yes',
           subFields: {
-            rentIncreaseHardshipDetails: {
-              name: 'rentIncreaseHardshipDetails',
+            rentIncreaseToCauseHardshipDetails: {
+              name: 'rentIncreaseToCauseHardshipDetails',
               type: 'textarea',
               maxLength: 500,
               required: false,
               translationKey: {
-                label: 'options.rentIncreaseHardshipDetails.label',
-                hint: 'options.rentIncreaseHardshipDetails.hint',
+                label: 'options.rentIncreaseToCauseHardshipDetails.label',
+                hint: 'options.rentIncreaseToCauseHardshipDetails.hint',
               },
               validator: (value): boolean | string =>
-                textAreaIsValidLength(value as string) ? true : 'errors.rentIncreaseHardshipDetails.invalid',
+                textAreaIsValidLength(value as string) ? true : 'errors.rentIncreaseToCauseHardshipDetails.invalid',
             },
           },
         },
-        { value: 'no', translationKey: 'common:no' },
+        { value: 'No', translationKey: 'common:no' },
       ],
     },
   ],
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  const rentIncreaseCauseHardship = ccdCase?.noticeOfRentIncreaseDetails?.rentIncreaseCauseHardship;
-  return rentIncreaseCauseHardship === 'yes' || rentIncreaseCauseHardship === 'no';
+  const rentIncreaseToCauseHardship = ccdCase?.noticeOfRentIncreaseDetails?.rentIncreaseToCauseHardship;
+  return rentIncreaseToCauseHardship === 'Yes' || rentIncreaseToCauseHardship === 'No';
 }

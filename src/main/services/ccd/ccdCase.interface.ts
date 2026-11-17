@@ -97,6 +97,7 @@ export interface CcdCaseData {
     noticeNotLegallyValidDetails?: string;
     noticeNotLegallyValidDocuments?: CcdCollectionItem<CcdUploadedDocument>[];
     rentIncreaseToCauseHardship?: string | boolean;
+    rentIncreaseToCauseHardshipDetails?: string;
     rentIncreaseHardshipDocuments?: CcdCollectionItem<CcdUploadedDocument>[];
   };
 
@@ -181,6 +182,11 @@ export interface CcdCaseData {
     lettingAgentPartyDetails?: PartyDetails;
     representativePartyDetails?: PartyDetails;
   };
+
+  extraSupportDetails?: {
+    extraSupportRequired?: YesNoValue;
+    extraSupportRequiredDetails?: string;
+  };
 }
 
 export interface PartyDetails {
@@ -264,6 +270,7 @@ export interface PTCaseData extends LandlordDetails, PropertyDetails, LettingAge
   tenancyAgreementDetails?: TenancyAgreementDetails;
   noticeOfRentIncreaseDetails?: NoticeOfRentIncreaseDetails;
   hearingInspectionDetails?: HearingInspectionDetails;
+  extraSupportDetails?: ExtraSupportDetails;
   landlordResponse?: LandlordResponse;
 }
 
@@ -314,11 +321,13 @@ export interface LandlordDetails {
 export interface NoticeOfRentIncreaseDetails {
   receivedLandlordNoticeProposingNewRent?: string | boolean;
   noUploadOfNoticeProposingNewRentReason?: string;
-  noticeLegallyValid?: string;
-  noticeNotLegallyValidReason?: string;
-  rentIncreaseCauseHardship?: string;
-  rentIncreaseHardshipDetails?: string;
   landlordNoticeProposingNewRentDocument?: PtCaseDocument;
+  noticeLegallyValid?: string;
+  noticeNotLegallyValidDetails?: string;
+  noticeNotLegallyValidDocuments?: PtCaseDocument[];
+  rentIncreaseToCauseHardship?: string;
+  rentIncreaseToCauseHardshipDetails?: string;
+  rentIncreaseToCauseHardshipDocuments?: PtCaseDocument[];
 }
 
 export interface PropertyDetails {
@@ -409,6 +418,11 @@ export interface HearingInspectionDetails {
   noDecisionWithoutInspectionReason?: string;
   hearingRequested?: string;
   reasonHearingRequested?: string;
+}
+
+export interface ExtraSupportDetails {
+  extraSupportRequired?: YesNoValue;
+  extraSupportRequiredDetails?: string;
 }
 
 export interface HelpWithFeesDetails {
