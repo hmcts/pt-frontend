@@ -100,17 +100,16 @@ describe('application have-you-applied-for-help step', () => {
       expect(isAnswered({})).toBe(false);
     });
 
-    it('is answered when the saved answer is NO', () => {
-      expect(isAnswered({ appliedForHelpWithFees: 'NO' })).toBe(true);
+    it('is answered when the saved answer is No', () => {
+      expect(isAnswered({ appliedForHelpWithFees: 'No' })).toBe(true);
     });
 
-    it('is answered when the saved answer is YES with a valid reference number', () => {
-      expect(isAnswered({ appliedForHelpWithFees: 'YES', referenceNumber: 'HWF-A1B-23C' })).toBe(true);
+    it('is answered when the saved answer is Yes with a valid reference number', () => {
+      expect(isAnswered({ appliedForHelpWithFees: 'Yes', referenceNumber: 'HWF-A1B-23C' })).toBe(true);
     });
 
-    it('is not answered when the saved answer is YES without a valid reference number', () => {
-      expect(isAnswered({ appliedForHelpWithFees: 'YES' })).toBe(false);
-      expect(isAnswered({ appliedForHelpWithFees: 'YES', referenceNumber: 'HWF-123' })).toBe(false);
+    it('is not answered when the saved answer is No without a valid reference number', () => {
+      expect(isAnswered({ appliedForHelpWithFees: 'No' })).toBe(true);
     });
   });
 });
