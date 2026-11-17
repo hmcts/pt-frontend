@@ -25,7 +25,6 @@ export const step: StepDefinition = createFormStep({
     {
       name: 'representativeEmailAddress',
       type: 'text',
-      required: true,
       isPageHeading: true,
       labelClasses: 'govuk-label--l',
       classes: 'govuk-input--width-20',

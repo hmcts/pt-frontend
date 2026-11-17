@@ -306,7 +306,7 @@ export interface LettingAgentDetails {
 export interface LandlordDetails {
   landlordIndividualOrOrganisation?: string;
   landlordPhoneNumber?: string;
-  landlordHasLettingAgentOrRepresentative?: string;
+  landlordHasRepresentative?: string;
   landlordEmailAddress?: string;
   representativeEmailAddress?: string;
   representativePhoneNumber?: string;

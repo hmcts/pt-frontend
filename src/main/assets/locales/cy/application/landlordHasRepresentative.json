@@ -8,7 +8,7 @@
     "notSure": "cy I'm not sure"
   },
   "errors": {
-    "landlordHasLettingAgentOrRepresentative": {
+    "landlordHasRepresentative": {
       "required": "cy Enter whether the landlord has a letting agent or representative"
     }
   }

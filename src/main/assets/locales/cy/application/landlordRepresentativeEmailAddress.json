@@ -1,6 +1,6 @@
 {
-  "pageTitle": "cyYour landlord's representative's email address",
-  "heading": "cyYour landlord's representative's email address",
+  "pageTitle": "cyThe landlord's representative’s email address (optional)",
+  "heading": "cyThe landlord's representative’s email address (optional)",
   "errors": {
     "representativeEmailAddress": {
       "required": "cyEnter an email address",

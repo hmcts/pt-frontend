@@ -26,7 +26,6 @@ export const step: StepDefinition = createFormStep({
     {
       name: 'representativePhoneNumber',
       type: 'text',
-      required: false,
       isPageHeading: true,
       labelClasses: 'govuk-label--l',
       classes: 'govuk-input--width-20',
