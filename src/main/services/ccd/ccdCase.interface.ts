@@ -352,25 +352,25 @@ export interface PropertyDetails {
   county?: string;
   postcode?: string;
   propertyType?: string;
-  rentingRoomDetails?: string; // propertyTypeRoomDescription
-  rentingFlatDetails?: string; // propertyTypeFlatFloor
-  otherMethodRentingDetails?: string; // propertyTypeOtherDescription
-  propertyFloorPlanAvailable?: string | boolean; // hasFloorPlanOfProperty
-  floorPlanManualDetails?: string; // propertyLayoutDescription
+  rentingRoomDetails?: string;
+  rentingFlatDetails?: string;
+  otherMethodRentingDetails?: string;
+  propertyFloorPlanAvailable?: string | boolean;
+  floorPlanManualDetails?: string;
   indoorFeatures?: string;
   outsidePropertyDocuments?: PtCaseDocument[];
-  otherFacilitiesAvailable?: string | boolean; // propertyIncludesOtherFacilities
-  otherFacilitiesDetails?: string; // propertyFacilitiesDescription
-  sharePropertyWithLandlord?: string | boolean; // propertySharedWithLandlord
-  sharePropertyWithLandlordDetails?: string; // propertySharedWithLandlordDetails
+  otherFacilitiesAvailable?: string | boolean;
+  otherFacilitiesDetails?: string;
+  sharePropertyWithLandlord?: string | boolean;
+  sharePropertyWithLandlordDetails?: string;
   propertyRoomsDocuments?: PtCaseDocument[];
-  furnitureProvidedInTenancy?: string | boolean; // furnitureProvided      detached(?!H)
-  furnitureProvidedInTenancyDetails?: string; // furnitureProvidedDetails
-  additionalServicesProvidedInTenancy?: string | boolean; // servicesProvided
-  additionalServicesProvidedInTenancyDetails?: string; // servicesProvidedDetails
+  furnitureProvidedInTenancy?: string | boolean;
+  furnitureProvidedInTenancyDetails?: string;
+  additionalServicesProvidedInTenancy?: string | boolean;
+  additionalServicesProvidedInTenancyDetails?: string;
   landlordRepairsDetails?: string;
   tenantRepairsDetails?: string;
-  anyTenantsMadePropertyRepairs?: string | boolean; // hasRepairsAndImprovements
+  anyTenantsMadePropertyRepairs?: string | boolean;
   floorPlanDocuments?: { url?: string }[];
   repairsEvidenceDocuments?: { url?: string }[];
 }

@@ -24,7 +24,7 @@ export const step: StepDefinition = createFormStep({
       isPageHeading: true,
       legendClasses: 'govuk-fieldset__legend--l',
       translationKey: { label: 'questionTitle', hint: 'questionHint' },
-      errorMessage: 'errorsadditionalServicesProvidedInTenancy.required',
+      errorMessage: 'error.sadditionalServicesProvidedInTenancy.required',
       options: [
         {
           value: 'Yes',

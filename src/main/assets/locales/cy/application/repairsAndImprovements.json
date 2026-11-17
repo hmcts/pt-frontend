@@ -8,7 +8,7 @@
     }
   },
   "errors": {
-    "hasRepairsAndImprovements": {
+    "anyTenantsMadePropertyRepairs": {
       "required": "cy Select whether you or any past tenants made any changes or repairs to the property"
     }
   }

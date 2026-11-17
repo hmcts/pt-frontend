@@ -42,7 +42,6 @@ describe('buildSectionCyaRows for property details', () => {
 
     expect(rows.map(row => row.key.text)).toContain('rows.propertyType.label');
     expect(rows.map(row => row.key.text)).toContain('rows.propertyFloorPlanAvailable.label');
-    expect(rows.map(row => row.key.text)).toContain('rows.indoorFeatures.label');
     expect(rows.map(row => row.key.text)).toContain('rows.otherFacilitiesAvailable.label');
   });
 
@@ -174,12 +173,6 @@ describe('buildSectionCyaRows for property details', () => {
 
     expect(indoorFeaturesRow).toBeDefined();
     expect(indoorFeaturesRow?.value.html).toContain('Central heating and double glazing');
-  });
-
-  it('shows an empty indoor features row when no answer has been provided', () => {
-    const rows = rowsFor(buildReq());
-
-    expect(rows.map(row => row.key.text)).toContain('rows.indoorFeatures.label');
   });
 
   it('shows other facilities and their description when included', () => {
@@ -484,7 +477,6 @@ describe('buildSectionCyaRows for property details', () => {
     );
 
     expect(rows.map(row => row.key.text)).toContain('rows.propertyType.label');
-    expect(rows.map(row => row.key.text)).toContain('rows.rentingFlatDetails.label');
     expect(rows.map(row => row.key.text)).toContain('rows.propertyFloorPlanAvailable.label');
     expect(rows.map(row => row.key.text)).toContain('rows.otherFacilitiesAvailable.label');
   });
@@ -558,25 +550,7 @@ describe('buildSectionCyaRows for property details', () => {
     expect(rows.map(row => row.key.text)).not.toContain('rows.repairsEvidenceDocuments.label');
   });
 
-  it('shows an empty document row when no documents have been uploaded', () => {
-    const rows = rowsFor(
-      buildReq({
-        'floor-plan-of-property': {
-          propertyFloorPlanAvailable: 'yes',
-        },
-        'upload-floor-plan-of-property': {
-          documents: [],
-        },
-      })
-    );
-
-    const documentRow = rows.find(row => row.key.text === 'rows.floorPlanDocuments.label');
-
-    expect(documentRow).toBeDefined();
-    expect(documentRow?.value).toBeDefined();
-  });
-
-  it('shows saved documents from the case when there are no form documents', () => {
+  it('does not show saved documents from the case when there are no form documents', () => {
     const rows = rowsFor(
       buildReq(
         {},
@@ -592,7 +566,7 @@ describe('buildSectionCyaRows for property details', () => {
     );
 
     expect(rows.map(row => row.key.text)).toEqual(
-      expect.arrayContaining([
+      expect.not.arrayContaining([
         'rows.floorPlanDocuments.label',
         'rows.outsidePropertyDocuments.label',
         'rows.propertyRoomsDocuments.label',

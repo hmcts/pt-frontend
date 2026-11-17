@@ -5,7 +5,7 @@
   "rows": {
     "documentUploaded": "Document uploaded",
     "propertyAddress": {
-      "label": "What is the address of the property",
+      "label": "What is the address of the property?",
       "changeHidden": "the address of the property"
     },
     "propertyType": {
@@ -14,7 +14,7 @@
       "options": {
         "room": "Room or rooms",
         "flat": "Flat",
-        "terracedHouse": "terracedHouse",
+        "terracedHouse": "Terraced house",
         "semiDetachedHouse": "Semi-detached house",
         "fullyDetachedHouse": "Fully detached house",
         "other": "Other",
@@ -22,7 +22,7 @@
       }
     },
     "rentingRoomDetails": {
-      "label": "Describe what type of property your room or rooms are in",
+      "label": "Describe what type of property your room or rooms are in (optional)",
       "changeHidden": "the description of the room or rooms"
     },
     "rentingFlatDetails": {
@@ -56,8 +56,8 @@
       "empty": "Not Answered"
     },
     "otherFacilitiesAvailable": {
-      "label": "Does the tenancy include other facilities?",
-      "changeHidden": "weather the tenancy includes other facilities",
+      "label": "Does the tenancy include any other facilities?",
+      "changeHidden": "whether the tenancy includes other facilities",
       "options": {
         "yes": "Yes",
         "no": "No",
@@ -65,11 +65,11 @@
       }
     },
     "otherFacilitiesDetails": {
-      "label": "Describe the other facilities described in the tenancy",
+      "label": "What other facilities does your tenancy include?",
       "changeHidden": "the other facilities described in the tenancy"
     },
     "sharePropertyWithLandlord": {
-      "label": "Do you share the property with the landlord?",
+      "label": "Do you share the property with your landlord?",
       "changeHidden": "whether you share the property with your landlord",
       "options": {
         "yes": "Yes",
@@ -78,7 +78,7 @@
       }
     },
     "sharePropertyWithLandlordDetails": {
-      "label": "Describe how you share the property with your landlord",
+      "label": "Tell us how you share the property with the landlord",
       "changeHidden": "how you share the property with your landlord"
     },
     "outsidePropertyDocuments": {
@@ -105,7 +105,7 @@
       "changeHidden": "the furniture provided"
     },
     "additionalServicesProvidedInTenancy": {
-      "label": "Are there any services provided in your tenancy?",
+      "label": "Are any services provided in your tenancy?",
       "changeHidden": "whether  services are provided in the tenancy",
       "options": {
         "yes": "Yes",
@@ -118,12 +118,12 @@
       "changeHidden": "the services are provided in the tenancy"
     },
     "landlordRepairsDetails": {
-      "label": "What repairs are the landlord's responsibilities? (optional)",
+      "label": "What repairs are the landlord's responsibility? (optional)",
       "changeHidden": "the repairs that are the landlord's responsibility",
       "empty": "Not Answered"
     },
     "tenantRepairsDetails": {
-      "label": "What repairs are the tenant's responsibilities? (optional)",
+      "label": "What repairs are the tenant's responsibility? (optional)",
       "changeHidden": "the repairs that are the tenant's responsibility",
       "empty": "Not Answered"
     },
@@ -138,9 +138,9 @@
       }
     },
     "repairsEvidenceDocuments": {
-      "label": "Upload evidence of improvements or repairs",
+      "label": "Upload evidence of the improvements or repairs (optional)",
       "changeHidden": "the uploaded evidence of improvements or repairs"
     }
   },
-  "reviewAndChangeInfo": "You can review and change your answers before you submit your application"
+  "reviewAndChangeInfo": "You can review and change your answers before you submit your application."
 }

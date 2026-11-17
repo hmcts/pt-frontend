@@ -782,10 +782,10 @@ describe('prepareApplicationDataForSave', () => {
 
     it('should map property details from form data', () => {
       const mockReq = reqWith({
-        '': {
+        'property-address': {
           addressLine1: '10 High Street',
           addressLine2: 'Flat 2',
-          townOrCity: 'London',
+          postTown: 'London',
           county: 'Greater London',
           postcode: 'SW1A 1AA',
         },
@@ -816,16 +816,18 @@ describe('prepareApplicationDataForSave', () => {
           additionalServicesProvidedInTenancy: 'Yes',
           'additionalServicesProvidedInTenancy.additionalServicesProvidedInTenancyDetails': 'Weekly cleaning',
         },
-        'what-reairs-landlord-responsibility': {
+        'what-repairs-landlord-responsibility': {
           landlordRepairsDetails: 'Roof and boiler repairs',
+        },
+        'what-repairs-tenant-responsibility': {
           tenantRepairsDetails: 'Minor internal repairs',
         },
-        'repairs-and-improvments': {
+        'repairs-and-improvements': {
           anyTenantsMadePropertyRepairs: 'Yes',
         },
       });
 
-      const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
+      const mappedData = prepareApplicationDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
 
       expect(propertyDetailsFrom(mappedData)).toEqual({
         addressLine1: '10 High Street',
@@ -882,7 +884,7 @@ describe('prepareApplicationDataForSave', () => {
         },
       } as unknown as PTCaseData;
 
-      const mappedData = prepareDataForSave(sectionId, reqWith({}), ccdCaseData);
+      const mappedData = prepareApplicationDataForSave(sectionId, reqWith({}), ccdCaseData);
 
       expect(propertyDetailsFrom(mappedData)).toEqual({
         addressLine1: '20 High Street',
@@ -932,7 +934,7 @@ describe('prepareApplicationDataForSave', () => {
         },
       } as unknown as PTCaseData;
 
-      const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
+      const mappedData = prepareApplicationDataForSave(sectionId, mockReq, ccdCaseData);
 
       expect(propertyDetailsFrom(mappedData)).toMatchObject({
         propertyType: 'flat',
@@ -953,7 +955,7 @@ describe('prepareApplicationDataForSave', () => {
         },
       });
 
-      const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
+      const mappedData = prepareApplicationDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
 
       expect(propertyDetailsFrom(mappedData)).toMatchObject({
         propertyType: 'flat',
@@ -972,7 +974,7 @@ describe('prepareApplicationDataForSave', () => {
         },
       });
 
-      const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
+      const mappedData = prepareApplicationDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
 
       expect(propertyDetailsFrom(mappedData)).toMatchObject({
         propertyType: 'other',
@@ -1000,7 +1002,7 @@ describe('prepareApplicationDataForSave', () => {
         },
       } as unknown as PTCaseData;
 
-      const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
+      const mappedData = prepareApplicationDataForSave(sectionId, mockReq, ccdCaseData);
       const propertyDetails = propertyDetailsFrom(mappedData);
 
       expect(propertyDetails.otherMethodRentingDetails).toBe('A converted warehouse');
@@ -1024,7 +1026,7 @@ describe('prepareApplicationDataForSave', () => {
         },
       } as unknown as PTCaseData;
 
-      const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
+      const mappedData = prepareApplicationDataForSave(sectionId, mockReq, ccdCaseData);
       const propertyDetails = propertyDetailsFrom(mappedData);
 
       expect(propertyDetails.propertyFloorPlanAvailable).toBe('Yes');
@@ -1039,7 +1041,7 @@ describe('prepareApplicationDataForSave', () => {
         },
       });
 
-      const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
+      const mappedData = prepareApplicationDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
 
       expect(propertyDetailsFrom(mappedData)).toMatchObject({
         propertyFloorPlanAvailable: 'No',
@@ -1081,7 +1083,7 @@ describe('prepareApplicationDataForSave', () => {
         },
       } as unknown as PTCaseData;
 
-      const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
+      const mappedData = prepareApplicationDataForSave(sectionId, mockReq, ccdCaseData);
       const propertyDetails = propertyDetailsFrom(mappedData);
 
       expect(propertyDetails.otherFacilitiesAvailable).toBe('No');
@@ -1127,7 +1129,7 @@ describe('prepareApplicationDataForSave', () => {
         },
       } as unknown as PTCaseData;
 
-      const mappedData = prepareDataForSave(sectionId, mockReq, ccdCaseData);
+      const mappedData = prepareApplicationDataForSave(sectionId, mockReq, ccdCaseData);
 
       expect(propertyDetailsFrom(mappedData)).toMatchObject({
         otherFacilitiesDetails: 'Parking and garden',
@@ -1161,7 +1163,7 @@ describe('prepareApplicationDataForSave', () => {
         },
       });
 
-      const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
+      const mappedData = prepareApplicationDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
 
       expect(propertyDetailsFrom(mappedData)).toMatchObject({
         propertyFloorPlanAvailable: 'No',
@@ -1179,16 +1181,18 @@ describe('prepareApplicationDataForSave', () => {
 
     it('should map landlord and tenant repair details', () => {
       const mockReq = reqWith({
-        'what-reairs-landlord-responsibility': {
+        'what-repairs-landlord-responsibility': {
           landlordRepairsDetails: 'Structural repairs',
+        },
+        'what-repairs-tenant-responsibility': {
           tenantRepairsDetails: 'Replacing light bulbs',
         },
-        'repairs-and-improvments': {
+        'repairs-and-improvements': {
           anyTenantsMadePropertyRepairs: 'Yes',
         },
       });
 
-      const mappedData = prepareDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
+      const mappedData = prepareApplicationDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
 
       expect(propertyDetailsFrom(mappedData)).toMatchObject({
         landlordRepairsDetails: 'Structural repairs',
@@ -1207,7 +1211,7 @@ describe('prepareApplicationDataForSave', () => {
         },
       } as unknown as PTCaseData;
 
-      const mappedData = prepareDataForSave(sectionId, reqWith({}), ccdCaseData);
+      const mappedData = prepareApplicationDataForSave(sectionId, reqWith({}), ccdCaseData);
 
       expect(propertyDetailsFrom(mappedData)).toMatchObject({
         landlordRepairsDetails: 'Boiler maintenance',
@@ -1217,7 +1221,7 @@ describe('prepareApplicationDataForSave', () => {
     });
 
     it('should return undefined values when neither form data nor saved case data is present', () => {
-      const mappedData = prepareDataForSave(sectionId, reqWith({}), {} as unknown as PTCaseData);
+      const mappedData = prepareApplicationDataForSave(sectionId, reqWith({}), {} as unknown as PTCaseData);
 
       expect(propertyDetailsFrom(mappedData)).toEqual({
         addressLine1: undefined,

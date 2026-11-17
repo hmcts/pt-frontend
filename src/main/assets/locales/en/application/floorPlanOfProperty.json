@@ -7,7 +7,7 @@
     }
   },
   "errors": {
-    "hasFloorPlanOfProperty": {
+    "propertyFloorPlanAvailable": {
       "required": "Enter whether you have a floor plan of the property"
     },
     "floorPlanManualDetails": {

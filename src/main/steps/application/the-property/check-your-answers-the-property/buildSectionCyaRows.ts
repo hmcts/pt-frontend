@@ -1,13 +1,7 @@
 import type { Request } from 'express';
 import type { TFunction } from 'i18next';
 
-import {
-  SummaryListRow,
-  createRowContext,
-  escapeWithLineBreaks,
-  isYes,
-  multiSelectValue,
-} from '../../section-cya/cyaRow';
+import { SummaryListRow, createRowContext, escapeWithLineBreaks, isYes } from '../../section-cya/cyaRow';
 import { ApplicationSectionId } from '../../sections.config';
 
 import { type DisplayDocument } from '@modules/documents/storage';
@@ -57,17 +51,29 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
       answer = 'empty';
     }
 
-    const upper = answer.trim().toUpperCase();
-    const option = upper === 'NOT_SURE' || upper === 'NOTSURE' ? 'notSure' : upper.toLowerCase();
+    const trimmed = answer.trim();
+    const upper = trimmed.toUpperCase();
+
+    const normalizedAnswer =
+      {
+        YES: 'yes',
+        NO: 'no',
+        NOT_SURE: 'notSure',
+        NOTSURE: 'notSure',
+      }[upper] ?? trimmed;
 
     rows.push({
       key: { text: t(`rows.${field}.label`) },
-      value: { text: t(`rows.${field}.options.${option}`) },
+      value: { text: t(`rows.${field}.options.${normalizedAnswer}`) },
       actions: { items: [change(step, `rows.${field}.changeHidden`)] },
     });
   };
 
-  const pushTextRow = (step: string, field: string, value?: string): void => {
+  const pushTextRow = (step: string, field: string, hideIfEmpty: boolean, value?: string): void => {
+    if (hideIfEmpty && !value) {
+      return;
+    }
+
     rows.push({
       key: { text: t(`rows.${field}.label`) },
       value: { html: !value?.trim() ? t(`rows.${field}.empty`) : escapeWithLineBreaks(value) },
@@ -76,19 +82,20 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
   };
 
   const pushDocumentRow = (step: string, field: string, savedDocuments?: PtCaseDocument[]): void => {
-    const documents = stepData(step).documents as DisplayDocument[] | undefined;
-
+    const stepDocuments = stepData(step).documents as DisplayDocument[] | undefined;
     const filenames = (
-      documents !== undefined
-        ? documents.map(doc => doc.document_filename)
-        : (savedDocuments ?? []).map(doc => (doc.url ? t('rows.documentUploaded') : ''))
-    ).filter((name): name is string => Boolean(name));
+      stepDocuments?.map(document => document.document_filename) ??
+      savedDocuments?.map(document => document.filename) ??
+      []
+    ).filter((filename): filename is string => Boolean(filename));
 
-    rows.push({
-      key: { text: t(`rows.${field}.label`) },
-      value: documents?.length ? multiSelectValue(filenames, new Set(filenames)) : { text: t(`rows.${field}.empty`) },
-      actions: { items: [change(step, `rows.${field}.changeHidden`)] },
-    });
+    if (filenames.length > 0) {
+      rows.push({
+        key: { text: t(`rows.${field}.label`) },
+        value: { html: filenames.map(filename => escapeWithLineBreaks(filename)).join('<br>') },
+        actions: { items: [change(step, `rows.${field}.changeHidden`)] },
+      });
+    }
   };
 
   const address = [
@@ -100,7 +107,7 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
   ].filter((part): part is string => Boolean(part?.trim()));
 
   if (address.length) {
-    pushTextRow('property-address', 'propertyAddress', address.join('\n'));
+    pushTextRow('property-address', 'propertyAddress', false, address.join('\n'));
   }
 
   const propertyType = read('what-are-you-renting', 'propertyType');
@@ -110,17 +117,17 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
 
   if (propertyType === 'room') {
     const roomDescription = readSubField('what-are-you-renting', 'propertyType', 'roomDescription');
-    pushTextRow('what-are-you-renting', 'rentingRoomDetails', roomDescription);
+    pushTextRow('what-are-you-renting', 'rentingRoomDetails', true, roomDescription);
   }
 
   if (propertyType === 'flat') {
     const flatFloor = readSubField('what-are-you-renting', 'propertyType', 'flatFloor');
-    pushTextRow('what-are-you-renting', 'rentingFlatDetails', flatFloor);
+    pushTextRow('what-are-you-renting', 'rentingFlatDetails', true, flatFloor);
   }
 
   if (propertyType === 'other') {
     const otherDescription = readSubField('what-are-you-renting', 'propertyType', 'otherDescription');
-    pushTextRow('what-are-you-renting', 'otherMethodRentingDetails', otherDescription);
+    pushTextRow('what-are-you-renting', 'otherMethodRentingDetails', false, otherDescription);
   }
 
   // Floor plan
@@ -134,7 +141,7 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
       'propertyFloorPlanAvailable',
       'floorPlanManualDetails'
     );
-    pushTextRow('floor-plan-of-property', 'floorPlanManualDetails', layoutDescription);
+    pushTextRow('floor-plan-of-property', 'floorPlanManualDetails', false, layoutDescription);
   }
 
   // Upload floor plan
@@ -144,7 +151,7 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
 
   //Indoor features
   const indoorFeatures = read('indoor-features', 'indoorFeatures');
-  pushTextRow('indoor-features', 'indoorFeatures', indoorFeatures);
+  pushTextRow('indoor-features', 'indoorFeatures', true, indoorFeatures);
 
   // Other Facilities
   const facilities = read('does-the-tenancy-include-other-facilities', 'otherFacilitiesAvailable');
@@ -157,7 +164,7 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
       'otherFacilitiesAvailable',
       'otherFacilitiesDetails'
     );
-    pushTextRow('does-the-tenancy-include-other-facilities', 'otherFacilitiesDetails', facilitiesDescription);
+    pushTextRow('does-the-tenancy-include-other-facilities', 'otherFacilitiesDetails', false, facilitiesDescription);
   }
 
   // Shared property with landlord
@@ -171,7 +178,7 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
       'sharePropertyWithLandlord',
       'sharePropertyWithLandlordDetails'
     );
-    pushTextRow('do-you-share-the-property-with-landlord', 'sharePropertyWithLandlordDetails', sharingDetails);
+    pushTextRow('do-you-share-the-property-with-landlord', 'sharePropertyWithLandlordDetails', false, sharingDetails);
   }
 
   // Outside photos
@@ -195,7 +202,7 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
       'furnitureProvidedInTenancy',
       'furnitureProvidedInTenancyDetails'
     );
-    pushTextRow('furniture-provided-tenancy', 'furnitureProvidedInTenancyDetails', furnitureDetails);
+    pushTextRow('furniture-provided-tenancy', 'furnitureProvidedInTenancyDetails', false, furnitureDetails);
   }
 
   // Services provided
@@ -213,16 +220,16 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
       'additionalServicesProvidedInTenancy',
       'additionalServicesProvidedInTenancyDetails'
     );
-    pushTextRow('services-provided-tenancy', 'additionalServicesProvidedInTenancyDetails', servicesDetails);
+    pushTextRow('services-provided-tenancy', 'additionalServicesProvidedInTenancyDetails', false, servicesDetails);
   }
 
   // Repairs the landlord is responsible for
   const landlordRepairs = read('what-repairs-landlord-responsibility', 'landlordRepairsDetails');
-  pushTextRow('what-repairs-landlord-responsibility', 'landlordRepairsDetails', landlordRepairs);
+  pushTextRow('what-repairs-landlord-responsibility', 'landlordRepairsDetails', true, landlordRepairs);
 
   // Repairs the tenant is responsible for
   const tenantRepairs = read('what-repairs-tenant-responsibility', 'tenantRepairsDetails');
-  pushTextRow('what-repairs-tenant-responsibility', 'tenantRepairsDetails', tenantRepairs);
+  pushTextRow('what-repairs-tenant-responsibility', 'tenantRepairsDetails', true, tenantRepairs);
 
   // Repairs and improvements
   const repairsAndImprovements = read('repairs-and-improvements', 'anyTenantsMadePropertyRepairs');
