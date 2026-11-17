@@ -131,7 +131,7 @@ const sectionDefs = [
     id: 'extraSupport',
     groupId: 'supportForHealthConditions',
     titleKey: 'taskList.extraSupport',
-    steps: ['extra-support'],
+    steps: ['extra-support', 'check-your-answers-extra-support'],
   },
   {
     id: 'tellUsIfYouNeedHelp',

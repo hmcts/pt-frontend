@@ -669,6 +669,105 @@ describe('prepareApplicationDataForSave', () => {
     });
   });
 
+  describe('extraSupport data mapping', () => {
+    const sectionId = 'extraSupport';
+
+    const reqWith = (formData: Record<string, unknown>): Request =>
+      ({
+        params: { caseReference: CASE_REF },
+        session: { formData: { [CASE_REF]: formData } },
+      }) as unknown as Request;
+
+    it('should map the extra support answer and details from form data', () => {
+      const mockReq = reqWith({
+        'extra-support': {
+          extraSupport: 'Yes',
+          'extraSupport.extraSupportDetails': 'Communication difficulties',
+        },
+      });
+
+      const mappedData = prepareApplicationDataForSave(sectionId, mockReq, {} as unknown as PTCaseData);
+
+      expect(mappedData).toEqual({
+        extraSupportDetails: {
+          extraSupportRequired: 'Yes',
+          extraSupportRequiredDetails: 'Communication difficulties',
+        },
+      });
+    });
+
+    it('should fall back to saved case data when form data is not present', () => {
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        extraSupportDetails: {
+          extraSupportRequired: 'Yes',
+          extraSupportRequiredDetails: 'Communication difficulties',
+        },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareApplicationDataForSave(sectionId, reqWith({}), ccdCaseData);
+
+      expect(mappedData).toEqual({
+        extraSupportDetails: {
+          extraSupportRequired: 'Yes',
+          extraSupportRequiredDetails: 'Communication difficulties',
+        },
+      });
+    });
+
+    it('should prefer form data over saved case data', () => {
+      const mockReq = reqWith({
+        'extra-support': {
+          extraSupport: 'Yes',
+          'extraSupport.extraSupportDetails': 'Updated communication requirements',
+        },
+      });
+
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        extraSupportDetails: {
+          extraSupportRequired: 'Yes',
+          extraSupportRequiredDetails: 'Previous details',
+        },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareApplicationDataForSave(sectionId, mockReq, ccdCaseData);
+
+      expect(mappedData).toEqual({
+        extraSupportDetails: {
+          extraSupportRequired: 'Yes',
+          extraSupportRequiredDetails: 'Updated communication requirements',
+        },
+      });
+    });
+
+    it('should clear previously saved details when support is not required', () => {
+      const mockReq = reqWith({
+        'extra-support': {
+          extraSupport: 'No',
+          'extraSupport.extraSupportDetails': 'stale reason',
+        },
+      });
+
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        extraSupportDetails: {
+          extraSupportRequired: 'Yes',
+          extraSupportRequiredDetails: 'Previously saved details',
+        },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareApplicationDataForSave(sectionId, mockReq, ccdCaseData);
+
+      expect(mappedData).toEqual({
+        extraSupportDetails: {
+          extraSupportRequired: 'No',
+          extraSupportRequiredDetails: undefined,
+        },
+      });
+    });
+  });
+
   describe('case scoping', () => {
     const OTHER_CASE = '9999999999999999';
 
@@ -825,6 +924,116 @@ describe('prepareApplicationDataForSave', () => {
         tenantDetails: {
           companyName: 'Smith Company',
           referenceNumberForCommunications: 'AB123',
+        },
+      });
+    });
+  });
+
+  describe('landlordsNotice data mapping', () => {
+    it('should map form answers', () => {
+      const mockReq = {
+        params: { caseReference: CASE_REF },
+        session: {
+          formData: {
+            [CASE_REF]: {
+              'have-landlords-notice': {
+                receivedLandlordNoticeProposingNewRent: 'No',
+                'receivedLandlordNoticeProposingNewRent.noUploadOfNoticeProposingNewRentReason':
+                  'I never received a notice',
+              },
+              'your-notice-proposing-a-new-rent': {
+                noticeLegallyValid: 'No',
+                'noticeLegallyValid.noticeNotLegallyValidDetails': 'The notice is invalid',
+              },
+              hardship: {
+                rentIncreaseToCauseHardship: 'Yes',
+                'rentIncreaseToCauseHardship.rentIncreaseToCauseHardshipDetails':
+                  'The increase will cause financial hardship',
+              },
+            },
+          },
+        },
+      } as unknown as Request;
+
+      const mappedData = prepareApplicationDataForSave('landlordsNotice', mockReq, {} as unknown as PTCaseData);
+
+      expect(mappedData).toEqual({
+        noticeOfRentIncreaseDetails: {
+          receivedLandlordNoticeProposingNewRent: 'No',
+          noUploadOfNoticeProposingNewRentReason: 'I never received a notice',
+          noticeLegallyValid: 'No',
+          noticeNotLegallyValidDetails: 'The notice is invalid',
+          rentIncreaseToCauseHardship: 'Yes',
+          rentIncreaseToCauseHardshipDetails: 'The increase will cause financial hardship',
+        },
+      });
+    });
+
+    it('should clear conditional details when they do not apply', () => {
+      const mockReq = {
+        params: { caseReference: CASE_REF },
+        session: {
+          formData: {
+            [CASE_REF]: {
+              'have-landlords-notice': {
+                receivedLandlordNoticeProposingNewRent: 'Yes',
+                'receivedLandlordNoticeProposingNewRent.noUploadOfNoticeProposingNewRentReason': 'stale reason',
+              },
+              'your-notice-proposing-a-new-rent': {
+                noticeLegallyValid: 'Yes',
+                'noticeLegallyValid.noticeNotLegallyValidDetails': 'stale reason',
+              },
+              hardship: {
+                rentIncreaseToCauseHardship: 'No',
+                'rentIncreaseToCauseHardship.rentIncreaseToCauseHardshipDetails': 'stale reason',
+              },
+            },
+          },
+        },
+      } as unknown as Request;
+
+      const mappedData = prepareApplicationDataForSave('landlordsNotice', mockReq, {} as unknown as PTCaseData);
+
+      expect(mappedData).toEqual({
+        noticeOfRentIncreaseDetails: {
+          receivedLandlordNoticeProposingNewRent: 'Yes',
+          noUploadOfNoticeProposingNewRentReason: undefined,
+          noticeLegallyValid: 'Yes',
+          noticeNotLegallyValidDetails: undefined,
+          rentIncreaseToCauseHardship: 'No',
+          rentIncreaseToCauseHardshipDetails: undefined,
+        },
+      });
+    });
+
+    it('should fall back to saved case data when form data is not present', () => {
+      const mockReq = {
+        params: { caseReference: CASE_REF },
+        session: { formData: { [CASE_REF]: {} } },
+      } as unknown as Request;
+
+      const ccdCaseData = {
+        caseReference: BigInt(CASE_REF),
+        noticeOfRentIncreaseDetails: {
+          receivedLandlordNoticeProposingNewRent: 'No',
+          noUploadOfNoticeProposingNewRentReason: 'I never received a notice',
+          noticeLegallyValid: 'No',
+          noticeNotLegallyValidDetails: 'The notice is invalid',
+          rentIncreaseToCauseHardship: 'Yes',
+          rentIncreaseToCauseHardshipDetails: 'The increase will cause financial hardship',
+        },
+      } as unknown as PTCaseData;
+
+      const mappedData = prepareApplicationDataForSave('landlordsNotice', mockReq, ccdCaseData);
+
+      expect(mappedData).toEqual({
+        noticeOfRentIncreaseDetails: {
+          receivedLandlordNoticeProposingNewRent: 'No',
+          noUploadOfNoticeProposingNewRentReason: 'I never received a notice',
+          noticeLegallyValid: 'No',
+          noticeNotLegallyValidDetails: 'The notice is invalid',
+          rentIncreaseToCauseHardship: 'Yes',
+          rentIncreaseToCauseHardshipDetails: 'The increase will cause financial hardship',
         },
       });
     });
