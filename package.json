@@ -129,7 +129,7 @@
     "jest-environment-jsdom": "30.5.2",
     "jest-html-reporter": "3.10.2",
     "jest-junit": "16.0.0",
-    "lint-staged": "17.6.0",
+    "lint-staged": "17.6.1",
     "mini-css-extract-plugin": "2.10.2",
     "nodemon": "2.0.22",
     "pa11y": "^8.0.0",
