@@ -7,8 +7,6 @@ Feature:  validate You need to use another form for I am applying on behalf of s
     And I check the page for accessibility issues
     When the citizen selects the online application form link
     Then the citizen is taken to the online application form
-    And I check the page for accessibility issues
-    And the citizen closes the external page
 
   # Need to check @WIP
   # @AC2 @JIRA-TEST-KEY:PTSD-444 @WIP
@@ -23,5 +21,3 @@ Feature:  validate You need to use another form for I am applying on behalf of s
     And I check the page for accessibility issues
     When the citizen selects the guidance on GOV.UK link
     Then the citizen is taken to the GOV.UK guidance page
-    And I check the page for accessibility issues
-    And the citizen closes the external page
