@@ -1,12 +1,13 @@
 import { textAreaIsValidLength } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccd/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'furniture-provided-tenancy';
+const fieldName = 'furnitureProvidedInTenancy';
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -53,6 +54,20 @@ export const step: StepDefinition = createFormStep({
       ],
     },
   ],
+  getInitialFormData: req => {
+    const propertyDetails = req.session.ccdCase?.propertyDetails;
+    const value = getFormDataString(req, stepName, fieldName) ?? propertyDetails?.[fieldName];
+    const furnitureProvidedInTenancyDetails =
+      getFormDataString(req, stepName, `${fieldName}.furnitureProvidedInTenancyDetails`) ??
+      (value === 'Yes' ? propertyDetails?.furnitureProvidedInTenancyDetails : undefined);
+
+    return {
+      ...(value && { [fieldName]: value }),
+      ...(furnitureProvidedInTenancyDetails && {
+        [`${fieldName}.furnitureProvidedInTenancyDetails`]: furnitureProvidedInTenancyDetails,
+      }),
+    };
+  },
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {

@@ -71,4 +71,65 @@ describe('application services-provided-tenancy step', () => {
       expect(validate('a'.repeat(MAX_LENGTH + 1))).toBe('errors.additionalServicesProvidedInTenancyDetails.invalid');
     });
   });
+
+  describe('getInitialFormData', () => {
+    const INITIAL_CASE_REF = '1234123412341234';
+    const makeInitialReq = (
+      stepFormData: Record<string, unknown> = {},
+      propertyDetails?: Record<string, unknown>
+    ): Request =>
+      ({
+        params: { caseReference: INITIAL_CASE_REF },
+        session: {
+          formData: { [INITIAL_CASE_REF]: { ['services-provided-tenancy']: stepFormData } },
+          ccdCase: propertyDetails ? { propertyDetails } : undefined,
+        },
+      }) as unknown as Request;
+    const getInitialFormData = (req: Request) => capturedConfig.getInitialFormData(req);
+
+    it('prefills the saved answer and details so the change link does not open a blank page', () => {
+      expect(
+        getInitialFormData(
+          makeInitialReq(
+            {},
+            {
+              additionalServicesProvidedInTenancy: 'Yes',
+              additionalServicesProvidedInTenancyDetails: 'Weekly cleaning',
+            }
+          )
+        )
+      ).toEqual({
+        additionalServicesProvidedInTenancy: 'Yes',
+        'additionalServicesProvidedInTenancy.additionalServicesProvidedInTenancyDetails': 'Weekly cleaning',
+      });
+    });
+
+    it('prefers the answer in the session over the saved case', () => {
+      const req = makeInitialReq(
+        {
+          additionalServicesProvidedInTenancy: 'Yes',
+          'additionalServicesProvidedInTenancy.additionalServicesProvidedInTenancyDetails': 'Changed in session',
+        },
+        { additionalServicesProvidedInTenancy: 'Yes', additionalServicesProvidedInTenancyDetails: 'Weekly cleaning' }
+      );
+
+      expect(getInitialFormData(req)).toEqual({
+        additionalServicesProvidedInTenancy: 'Yes',
+        'additionalServicesProvidedInTenancy.additionalServicesProvidedInTenancyDetails': 'Changed in session',
+      });
+    });
+
+    it('does not bring back the saved details once the answer has changed', () => {
+      const req = makeInitialReq(
+        { additionalServicesProvidedInTenancy: 'No' },
+        { additionalServicesProvidedInTenancy: 'Yes', additionalServicesProvidedInTenancyDetails: 'Weekly cleaning' }
+      );
+
+      expect(getInitialFormData(req)).toEqual({ additionalServicesProvidedInTenancy: 'No' });
+    });
+
+    it('returns nothing when the question has not been answered', () => {
+      expect(getInitialFormData(makeInitialReq())).toEqual({});
+    });
+  });
 });

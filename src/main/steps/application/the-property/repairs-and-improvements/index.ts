@@ -1,10 +1,11 @@
 import { flowConfig } from '../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
 const journeyName = 'application';
 const stepName = 'repairs-and-improvements';
+const fieldName = 'anyTenantsMadePropertyRepairs';
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -29,4 +30,12 @@ export const step: StepDefinition = createFormStep({
       ],
     },
   ],
+  getInitialFormData: req => {
+    const propertyDetails = req.session.ccdCase?.propertyDetails;
+    const value = getFormDataString(req, stepName, fieldName) ?? propertyDetails?.[fieldName];
+
+    return {
+      ...(value && { [fieldName]: value }),
+    };
+  },
 });

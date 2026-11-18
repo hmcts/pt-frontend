@@ -48,4 +48,48 @@ describe('application what-repairs-landlord-responsibility step', () => {
       expect(validate('a'.repeat(MAX_LENGTH + 1))).toBe('errors.landlordRepairsDetails.invalid');
     });
   });
+
+  describe('getInitialFormData', () => {
+    const INITIAL_CASE_REF = '1234123412341234';
+    const makeInitialReq = (
+      stepFormData: Record<string, unknown> = {},
+      propertyDetails?: Record<string, unknown>
+    ): Request =>
+      ({
+        params: { caseReference: INITIAL_CASE_REF },
+        session: {
+          formData: { [INITIAL_CASE_REF]: { ['what-repairs-landlord-responsibility']: stepFormData } },
+          ccdCase: propertyDetails ? { propertyDetails } : undefined,
+        },
+      }) as unknown as Request;
+    const getInitialFormData = (req: Request) => capturedConfig.getInitialFormData(req);
+
+    it('prefills the saved answer so the change link does not open a blank page', () => {
+      expect(
+        getInitialFormData(makeInitialReq({}, { landlordRepairsDetails: 'Saved landlordRepairsDetails' }))
+      ).toEqual({ landlordRepairsDetails: 'Saved landlordRepairsDetails' });
+    });
+
+    it('prefers the answer in the session over the saved case', () => {
+      const req = makeInitialReq(
+        { landlordRepairsDetails: 'From session' },
+        { landlordRepairsDetails: 'Saved landlordRepairsDetails' }
+      );
+
+      expect(getInitialFormData(req)).toMatchObject({ landlordRepairsDetails: 'From session' });
+    });
+
+    it('keeps a field the user cleared in the session blank', () => {
+      const req = makeInitialReq(
+        { landlordRepairsDetails: '' },
+        { landlordRepairsDetails: 'Saved landlordRepairsDetails' }
+      );
+
+      expect(getInitialFormData(req)).toEqual({});
+    });
+
+    it('returns nothing when the question has not been answered', () => {
+      expect(getInitialFormData(makeInitialReq())).toEqual({});
+    });
+  });
 });

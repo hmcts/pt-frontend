@@ -2,12 +2,13 @@ import { textAreaIsValidLength } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
 import { getValidatedCase } from '../../section-cya/cyaRow';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccd/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'what-are-you-renting';
+const fieldName = 'propertyType';
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -108,6 +109,26 @@ export const step: StepDefinition = createFormStep({
       ],
     },
   ],
+  getInitialFormData: req => {
+    const propertyDetails = req.session.ccdCase?.propertyDetails;
+    const value = getFormDataString(req, stepName, fieldName) ?? propertyDetails?.[fieldName];
+    const roomDescription =
+      getFormDataString(req, stepName, `${fieldName}.roomDescription`) ??
+      (value === 'room' ? propertyDetails?.rentingRoomDetails : undefined);
+    const flatFloor =
+      getFormDataString(req, stepName, `${fieldName}.flatFloor`) ??
+      (value === 'flat' ? propertyDetails?.rentingFlatDetails : undefined);
+    const otherDescription =
+      getFormDataString(req, stepName, `${fieldName}.otherDescription`) ??
+      (value === 'other' ? propertyDetails?.otherMethodRentingDetails : undefined);
+
+    return {
+      ...(value && { [fieldName]: value }),
+      ...(roomDescription && { [`${fieldName}.roomDescription`]: roomDescription }),
+      ...(flatFloor && { [`${fieldName}.flatFloor`]: flatFloor }),
+      ...(otherDescription && { [`${fieldName}.otherDescription`]: otherDescription }),
+    };
+  },
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
