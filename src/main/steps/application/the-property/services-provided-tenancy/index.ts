@@ -1,12 +1,13 @@
 import { textAreaIsValidLength } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccd/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'services-provided-tenancy';
+const fieldName = 'additionalServicesProvidedInTenancy';
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -24,7 +25,7 @@ export const step: StepDefinition = createFormStep({
       isPageHeading: true,
       legendClasses: 'govuk-fieldset__legend--l',
       translationKey: { label: 'questionTitle', hint: 'questionHint' },
-      errorMessage: 'error.sadditionalServicesProvidedInTenancy.required',
+      errorMessage: 'errors.additionalServicesProvidedInTenancy.required',
       options: [
         {
           value: 'Yes',
@@ -52,6 +53,20 @@ export const step: StepDefinition = createFormStep({
       ],
     },
   ],
+  getInitialFormData: req => {
+    const propertyDetails = req.session.ccdCase?.propertyDetails;
+    const value = getFormDataString(req, stepName, fieldName) ?? propertyDetails?.[fieldName];
+    const additionalServicesProvidedInTenancyDetails =
+      getFormDataString(req, stepName, `${fieldName}.additionalServicesProvidedInTenancyDetails`) ??
+      (value === 'Yes' ? propertyDetails?.additionalServicesProvidedInTenancyDetails : undefined);
+
+    return {
+      ...(value && { [fieldName]: value }),
+      ...(additionalServicesProvidedInTenancyDetails && {
+        [`${fieldName}.additionalServicesProvidedInTenancyDetails`]: additionalServicesProvidedInTenancyDetails,
+      }),
+    };
+  },
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {

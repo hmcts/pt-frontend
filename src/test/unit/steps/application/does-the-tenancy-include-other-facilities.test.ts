@@ -66,4 +66,54 @@ describe('application does-the-tenancy-include-other-facilities step', () => {
       expect(validate('a'.repeat(MAX_LENGTH + 1))).toBe('errors.otherFacilitiesDetails.invalid');
     });
   });
+
+  describe('getInitialFormData', () => {
+    const INITIAL_CASE_REF = '1234123412341234';
+    const makeInitialReq = (
+      stepFormData: Record<string, unknown> = {},
+      propertyDetails?: Record<string, unknown>
+    ): Request =>
+      ({
+        params: { caseReference: INITIAL_CASE_REF },
+        session: {
+          formData: { [INITIAL_CASE_REF]: { ['does-the-tenancy-include-other-facilities']: stepFormData } },
+          ccdCase: propertyDetails ? { propertyDetails } : undefined,
+        },
+      }) as unknown as Request;
+    const getInitialFormData = (req: Request) => capturedConfig.getInitialFormData(req);
+
+    it('prefills the saved answer and details so the change link does not open a blank page', () => {
+      expect(
+        getInitialFormData(makeInitialReq({}, { otherFacilitiesAvailable: 'Yes', otherFacilitiesDetails: 'A garden' }))
+      ).toEqual({
+        otherFacilitiesAvailable: 'Yes',
+        'otherFacilitiesAvailable.otherFacilitiesDetails': 'A garden',
+      });
+    });
+
+    it('prefers the answer in the session over the saved case', () => {
+      const req = makeInitialReq(
+        { otherFacilitiesAvailable: 'Yes', 'otherFacilitiesAvailable.otherFacilitiesDetails': 'Changed in session' },
+        { otherFacilitiesAvailable: 'Yes', otherFacilitiesDetails: 'A garden' }
+      );
+
+      expect(getInitialFormData(req)).toEqual({
+        otherFacilitiesAvailable: 'Yes',
+        'otherFacilitiesAvailable.otherFacilitiesDetails': 'Changed in session',
+      });
+    });
+
+    it('does not bring back the saved details once the answer has changed', () => {
+      const req = makeInitialReq(
+        { otherFacilitiesAvailable: 'No' },
+        { otherFacilitiesAvailable: 'Yes', otherFacilitiesDetails: 'A garden' }
+      );
+
+      expect(getInitialFormData(req)).toEqual({ otherFacilitiesAvailable: 'No' });
+    });
+
+    it('returns nothing when the question has not been answered', () => {
+      expect(getInitialFormData(makeInitialReq())).toEqual({});
+    });
+  });
 });

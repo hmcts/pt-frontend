@@ -54,4 +54,56 @@ describe('application floor-plan-of-property step', () => {
       expect(validate('a'.repeat(MAX_LENGTH + 1))).toBe('errors.floorPlanManualDetails.invalid');
     });
   });
+
+  describe('getInitialFormData', () => {
+    const INITIAL_CASE_REF = '1234123412341234';
+    const makeInitialReq = (
+      stepFormData: Record<string, unknown> = {},
+      propertyDetails?: Record<string, unknown>
+    ): Request =>
+      ({
+        params: { caseReference: INITIAL_CASE_REF },
+        session: {
+          formData: { [INITIAL_CASE_REF]: { ['floor-plan-of-property']: stepFormData } },
+          ccdCase: propertyDetails ? { propertyDetails } : undefined,
+        },
+      }) as unknown as Request;
+    const getInitialFormData = (req: Request) => capturedConfig.getInitialFormData(req);
+
+    it('prefills the saved answer and details so the change link does not open a blank page', () => {
+      expect(
+        getInitialFormData(
+          makeInitialReq({}, { propertyFloorPlanAvailable: 'No', floorPlanManualDetails: 'Two bedrooms upstairs' })
+        )
+      ).toEqual({
+        propertyFloorPlanAvailable: 'No',
+        'propertyFloorPlanAvailable.floorPlanManualDetails': 'Two bedrooms upstairs',
+      });
+    });
+
+    it('prefers the answer in the session over the saved case', () => {
+      const req = makeInitialReq(
+        { propertyFloorPlanAvailable: 'No', 'propertyFloorPlanAvailable.floorPlanManualDetails': 'Changed in session' },
+        { propertyFloorPlanAvailable: 'No', floorPlanManualDetails: 'Two bedrooms upstairs' }
+      );
+
+      expect(getInitialFormData(req)).toEqual({
+        propertyFloorPlanAvailable: 'No',
+        'propertyFloorPlanAvailable.floorPlanManualDetails': 'Changed in session',
+      });
+    });
+
+    it('does not bring back the saved details once the answer has changed', () => {
+      const req = makeInitialReq(
+        { propertyFloorPlanAvailable: 'Yes' },
+        { propertyFloorPlanAvailable: 'No', floorPlanManualDetails: 'Two bedrooms upstairs' }
+      );
+
+      expect(getInitialFormData(req)).toEqual({ propertyFloorPlanAvailable: 'Yes' });
+    });
+
+    it('returns nothing when the question has not been answered', () => {
+      expect(getInitialFormData(makeInitialReq())).toEqual({});
+    });
+  });
 });

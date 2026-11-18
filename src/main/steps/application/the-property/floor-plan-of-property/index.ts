@@ -1,11 +1,12 @@
 import { flowConfig } from '../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccd/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'floor-plan-of-property';
+const fieldName = 'propertyFloorPlanAvailable';
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -50,6 +51,18 @@ export const step: StepDefinition = createFormStep({
       ],
     },
   ],
+  getInitialFormData: req => {
+    const propertyDetails = req.session.ccdCase?.propertyDetails;
+    const value = getFormDataString(req, stepName, fieldName) ?? propertyDetails?.[fieldName];
+    const floorPlanManualDetails =
+      getFormDataString(req, stepName, `${fieldName}.floorPlanManualDetails`) ??
+      (value === 'No' ? propertyDetails?.floorPlanManualDetails : undefined);
+
+    return {
+      ...(value && { [fieldName]: value }),
+      ...(floorPlanManualDetails && { [`${fieldName}.floorPlanManualDetails`]: floorPlanManualDetails }),
+    };
+  },
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {

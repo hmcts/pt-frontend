@@ -1,12 +1,13 @@
 import { textAreaIsValidLength } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccd/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'do-you-share-the-property-with-landlord';
+const fieldName = 'sharePropertyWithLandlord';
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -50,6 +51,20 @@ export const step: StepDefinition = createFormStep({
       ],
     },
   ],
+  getInitialFormData: req => {
+    const propertyDetails = req.session.ccdCase?.propertyDetails;
+    const value = getFormDataString(req, stepName, fieldName) ?? propertyDetails?.[fieldName];
+    const sharePropertyWithLandlordDetails =
+      getFormDataString(req, stepName, `${fieldName}.sharePropertyWithLandlordDetails`) ??
+      (value === 'Yes' ? propertyDetails?.sharePropertyWithLandlordDetails : undefined);
+
+    return {
+      ...(value && { [fieldName]: value }),
+      ...(sharePropertyWithLandlordDetails && {
+        [`${fieldName}.sharePropertyWithLandlordDetails`]: sharePropertyWithLandlordDetails,
+      }),
+    };
+  },
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {

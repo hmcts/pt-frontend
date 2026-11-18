@@ -106,7 +106,7 @@
     },
     "additionalServicesProvidedInTenancy": {
       "label": "cyAre any services provided in your tenancy?",
-      "changeHidden": "cywhether  services are provided in the tenancy",
+      "changeHidden": "cywhether services are provided in the tenancy",
       "options": {
         "yes": "cyYes",
         "no": "cyNo",
@@ -115,7 +115,7 @@
     },
     "additionalServicesProvidedInTenancyDetails": {
       "label": "cyDescribe the services provided",
-      "changeHidden": "cythe services are provided in the tenancy"
+      "changeHidden": "cythe services provided in the tenancy"
     },
     "landlordRepairsDetails": {
       "label": "cyWhat repairs are the landlord's responsibility? (optional)",

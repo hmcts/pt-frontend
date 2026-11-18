@@ -462,12 +462,6 @@ export function prepareApplicationDataForSave(
       };
     }
 
-    // case 'propertyInspection': {
-    //   return {};
-    // }
-    // case 'propertyDetails': {
-    //   return {};
-    // }
     case 'propertyInspection': {
       const details = saved?.hearingInspectionDetails;
       const agreeToDecisionWithoutInspection =

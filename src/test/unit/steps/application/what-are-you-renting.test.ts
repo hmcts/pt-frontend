@@ -91,4 +91,61 @@ describe('application what-are-you-renting step', () => {
       expect(validator('a'.repeat(MAX_LENGTH + 1))).toBe(errorKey);
     });
   });
+
+  describe('getInitialFormData', () => {
+    const INITIAL_CASE_REF = '1234123412341234';
+    const makeInitialReq = (
+      stepFormData: Record<string, unknown> = {},
+      propertyDetails?: Record<string, unknown>
+    ): Request =>
+      ({
+        params: { caseReference: INITIAL_CASE_REF },
+        session: {
+          formData: { [INITIAL_CASE_REF]: { ['what-are-you-renting']: stepFormData } },
+          ccdCase: propertyDetails ? { propertyDetails } : undefined,
+        },
+      }) as unknown as Request;
+    const getInitialFormData = (req: Request) => capturedConfig.getInitialFormData(req);
+
+    it('prefills the saved answer and details so the change link does not open a blank page', () => {
+      expect(
+        getInitialFormData(makeInitialReq({}, { propertyType: 'flat', rentingFlatDetails: 'Second floor' }))
+      ).toEqual({
+        propertyType: 'flat',
+        'propertyType.flatFloor': 'Second floor',
+      });
+    });
+
+    it('prefers the answer in the session over the saved case', () => {
+      const req = makeInitialReq(
+        { propertyType: 'flat', 'propertyType.flatFloor': 'Changed in session' },
+        { propertyType: 'flat', rentingFlatDetails: 'Second floor' }
+      );
+
+      expect(getInitialFormData(req)).toEqual({ propertyType: 'flat', 'propertyType.flatFloor': 'Changed in session' });
+    });
+
+    it('does not bring back the saved details once the answer has changed', () => {
+      const req = makeInitialReq(
+        { propertyType: 'terracedHouse' },
+        { propertyType: 'flat', rentingFlatDetails: 'Second floor' }
+      );
+
+      expect(getInitialFormData(req)).toEqual({ propertyType: 'terracedHouse' });
+    });
+
+    it.each([
+      ['room', 'roomDescription', 'rentingRoomDetails'],
+      ['other', 'otherDescription', 'otherMethodRentingDetails'],
+    ])('prefills the %s description under the right reveal', (propertyType, subFieldKey, savedField) => {
+      expect(getInitialFormData(makeInitialReq({}, { propertyType, [savedField]: 'Described' }))).toEqual({
+        propertyType,
+        [`propertyType.${subFieldKey}`]: 'Described',
+      });
+    });
+
+    it('returns nothing when the question has not been answered', () => {
+      expect(getInitialFormData(makeInitialReq())).toEqual({});
+    });
+  });
 });

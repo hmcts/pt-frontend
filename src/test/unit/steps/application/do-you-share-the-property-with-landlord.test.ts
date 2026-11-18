@@ -66,4 +66,62 @@ describe('application do-you-share-the-property-with-landlord step', () => {
       expect(validate('a'.repeat(MAX_LENGTH + 1))).toBe('errors.sharePropertyWithLandlordDetails.invalid');
     });
   });
+
+  describe('getInitialFormData', () => {
+    const INITIAL_CASE_REF = '1234123412341234';
+    const makeInitialReq = (
+      stepFormData: Record<string, unknown> = {},
+      propertyDetails?: Record<string, unknown>
+    ): Request =>
+      ({
+        params: { caseReference: INITIAL_CASE_REF },
+        session: {
+          formData: { [INITIAL_CASE_REF]: { ['do-you-share-the-property-with-landlord']: stepFormData } },
+          ccdCase: propertyDetails ? { propertyDetails } : undefined,
+        },
+      }) as unknown as Request;
+    const getInitialFormData = (req: Request) => capturedConfig.getInitialFormData(req);
+
+    it('prefills the saved answer and details so the change link does not open a blank page', () => {
+      expect(
+        getInitialFormData(
+          makeInitialReq(
+            {},
+            { sharePropertyWithLandlord: 'Yes', sharePropertyWithLandlordDetails: 'We share the kitchen' }
+          )
+        )
+      ).toEqual({
+        sharePropertyWithLandlord: 'Yes',
+        'sharePropertyWithLandlord.sharePropertyWithLandlordDetails': 'We share the kitchen',
+      });
+    });
+
+    it('prefers the answer in the session over the saved case', () => {
+      const req = makeInitialReq(
+        {
+          sharePropertyWithLandlord: 'Yes',
+          'sharePropertyWithLandlord.sharePropertyWithLandlordDetails': 'Changed in session',
+        },
+        { sharePropertyWithLandlord: 'Yes', sharePropertyWithLandlordDetails: 'We share the kitchen' }
+      );
+
+      expect(getInitialFormData(req)).toEqual({
+        sharePropertyWithLandlord: 'Yes',
+        'sharePropertyWithLandlord.sharePropertyWithLandlordDetails': 'Changed in session',
+      });
+    });
+
+    it('does not bring back the saved details once the answer has changed', () => {
+      const req = makeInitialReq(
+        { sharePropertyWithLandlord: 'No' },
+        { sharePropertyWithLandlord: 'Yes', sharePropertyWithLandlordDetails: 'We share the kitchen' }
+      );
+
+      expect(getInitialFormData(req)).toEqual({ sharePropertyWithLandlord: 'No' });
+    });
+
+    it('returns nothing when the question has not been answered', () => {
+      expect(getInitialFormData(makeInitialReq())).toEqual({});
+    });
+  });
 });
