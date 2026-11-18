@@ -1,10 +1,9 @@
 import { AxeBuilder } from '@axe-core/playwright';
 import type { Page } from 'playwright';
 
-const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
+import { axeExclusions } from './axe-exclusions.config';
 
-/** Decorative GOV.UK brand assets already excluded from the pa11y suite. */
-const EXCLUDED_SELECTORS = ['.govuk-footer__licence-logo', '.govuk-footer__crown', '.govuk-header__logotype-crown'];
+const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 
 /** Axe audits HTML. PDF downloads and non-http viewers have no DOM to scan. */
 export function accessibilitySkipReason(pageUrl: string): string | undefined {
@@ -45,7 +44,7 @@ function formatViolations(url: string, violations: Awaited<ReturnType<AxeBuilder
 
 export async function checkPageAccessibility(page: Page): Promise<void> {
   const builder = new AxeBuilder({ page }).withTags(WCAG_TAGS);
-  for (const selector of EXCLUDED_SELECTORS) {
+  for (const selector of axeExclusions) {
     builder.exclude(selector);
   }
 
