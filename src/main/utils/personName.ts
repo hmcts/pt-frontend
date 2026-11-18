@@ -1,4 +1,4 @@
-import { getTextLengthError } from 'steps/utils/fieldValidators';
+import { getTextLengthError } from '../steps/utils/fieldValidators';
 
 // Check string for valid person name characters (letters, spaces, hyphens, and apostrophes allowed only)
 const PERSON_NAME_PATTERN = /^[A-Za-z' -]+$/;
