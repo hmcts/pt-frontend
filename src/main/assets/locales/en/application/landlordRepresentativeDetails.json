@@ -1,4 +1,25 @@
 {
-  "pageTitle": "Your landlord's representative's details (placeholder)",
-  "heading": "Your landlord's representative's details (placeholder)"
+  "pageTitle": "The landlord's representative’s details",
+  "heading": "The landlord's representative’s details",
+  "labels": {
+    "representativeFirstName": "First name",
+    "representativeLastName": "Last name",
+    "representativeCompanyName": "Company name (optional)"
+  },
+  "errors": {
+    "representativeFirstName": {
+      "required": "Enter a first name",
+      "invalid": "First name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes",
+      "tooShort": "First name must be 2 characters or more",
+      "tooLong": "First name must be 100 characters or less"
+    },
+    "representativeLastName": {
+      "required": "Enter a last name",
+      "invalid": "Last name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes",
+      "tooShort": "Last name must be 2 characters or more",
+      "tooLong": "Last name must be 100 characters or less"
+    },
+    "representativeFirstNameMaxLength": "First name must be 100 characters or less",
+    "representativeLastNameMaxLength": "Last name must be 100 characters or less"
+  }
 }
