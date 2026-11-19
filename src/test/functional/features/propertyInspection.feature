@@ -15,6 +15,7 @@ Feature: Validate Property Inspection Page
         Then check that the user is redirected to the task-list citizen dashboard page
         When I click "Tell us if you think an inspection, a hearing, or both are needed" link
         Then I check that the text "Property inspection" is displayed on the page
+        And I check the page for accessibility issues
 
 
     @AC1 @JIRA-TEST-KEY:PTSD-867
@@ -23,6 +24,7 @@ Feature: Validate Property Inspection Page
         Then I check that the text "The tribunal will usually make its decision based on the documents and evidence provided by you and the landlord." is displayed on the page
         And I check that the text "Only ask for an inspection if you think there are reasons that your evidence cannot show." is displayed on the page
         And I check that the text "The tribunal will decide if an inspection is needed." is displayed on the page
+        And I check the page for accessibility issues
 
     @AC2 @JIRA-TEST-KEY:PTSD-868
     Scenario: Conditional reveal when No is selected
@@ -30,6 +32,7 @@ Feature: Validate Property Inspection Page
         When I select "No" for the question "Do you agree to the tribunal making a decision without an inspection?"
         Then I check that the text "Tell us why you think an inspection is needed" is displayed on the page
         And I check that the text "For example, if the condition or quality of the property is not shown properly in pictures - describe this in detail" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC3 @JIRA-TEST-KEY:PTSD-868
     Scenario: Reason field is mandatory when No is selected
@@ -37,6 +40,7 @@ Feature: Validate Property Inspection Page
         When I select "No" for the question "Do you agree to the tribunal making a decision without an inspection?"
         And I click "Save and continue"
         Then I check that the error message "Enter why you think an inspection is needed" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC4 @JIRA-TEST-KEY:PTSD-869
     Scenario: Save and continue with Yes selected
@@ -44,6 +48,7 @@ Feature: Validate Property Inspection Page
         When I select "Yes" for the question "Do you agree to the tribunal making a decision without an inspection?"
         And I click "Save and continue"
         Then I check that the text "Hearing" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC5 @JIRA-TEST-KEY:PTSD-869
     Scenario: Save and continue with No selected and reason entered
@@ -52,6 +57,7 @@ Feature: Validate Property Inspection Page
         And I enter "Inspection detail is provided" for the question "Tell us why you think an inspection is needed"
         And I click "Save and continue"
         Then I check that the text "Hearing" is displayed on the page
+        And I check the page for accessibility issues
 
 
     @AC6 @JIRA-TEST-KEY:PTSD-870
@@ -59,3 +65,4 @@ Feature: Validate Property Inspection Page
 
         When  I click "Save and continue"
         Then I check that the error message "Select yes if you agree to the tribunal making a decision without an inspection" is displayed on the page
+        And I check the page for accessibility issues

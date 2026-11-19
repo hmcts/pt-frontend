@@ -13,30 +13,38 @@ Feature: Validate Property address Page
         And I select the option "Assured periodic tenancy"
         And I click "Continue"
         Then check that the user is redirected to the task-list citizen dashboard page
+        And I check the page for accessibility issues
 
     @AC1 @JIRA-TEST-KEY:PTSD-842
     Scenario: Verify property address page content
         Given the citizen is on the Property Address page
+        And I check the page for accessibility issues
         Then the property address page displays all expected content
+        And I check the page for accessibility issues
 
     @smoke @AC2 @JIRA-TEST-KEY:PTSD-843
     Scenario: Verify Save and Continue with valid mandatory fields
         Given the citizen is on the Property Address page
+        And I check the page for accessibility issues
         When the citizen enters valid mandatory property address details
         And I click "Save and continue"
         Then the citizen is navigated to the What are you renting page
+        And I check the page for accessibility issues
 
 
     @AC3 @JIRA-TEST-KEY:PTSD-844
     Scenario: Verify Save for Later
         Given the citizen is on the Property Address page
+        And I check the page for accessibility issues
         When the citizen enters valid mandatory property address details
         And I click "Save for later"
         Then check that the user is redirected to the task-list citizen dashboard page
+        And I check the page for accessibility issues
 
     @AC4 @JIRA-TEST-KEY:PTSD-845
     Scenario: Verify validation when mandatory fields are empty
         Given the citizen is on the Property Address page
+        And I check the page for accessibility issues
         And I click "Save and continue"
         Then I check that the error message "Enter address line 1" is displayed on the page
         Then I check that the error message "Enter town or city" is displayed on the page
@@ -56,3 +64,4 @@ Feature: Validate Property address Page
         When the citizen enters a County value less than 2 characters
         And I click "Save and continue"
         Then I check that the error message "County must be 2 characters or more" is displayed on the page
+        And I check the page for accessibility issues
