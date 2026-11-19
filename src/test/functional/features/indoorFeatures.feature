@@ -26,6 +26,7 @@ Feature: Validate Indoor features Page
         And I enter room sizes as "Room 1: 10x10, Room 2: 12x12" for the question "Tell us the number and type of rooms, and their sizes (optional)"
         And I click "Save and continue"
         Then I check that the text "Indoor features" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC1 @JIRA-TEST-KEY:PTSD-851
     Scenario: Verify indoor features page content
@@ -35,6 +36,7 @@ Feature: Validate Indoor features Page
         And I check that the text "what type of heating it has" is displayed on the page
         And I check that the text "whether it has double glazing" is displayed on the page
         And I check that the text "what type of flooring it has (for example, carpet, tiles or wood flooring)" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC2 @JIRA-TEST-KEY:PTSD-854
     Scenario: Verify Save and Continue with indoor feature details
@@ -42,12 +44,14 @@ Feature: Validate Indoor features Page
         When I enter "Indoor feature is provided" for the question "Tell us about the property's indoor features (optional)"
         And I click "Save and continue"
         Then I check that the text "Does the tenancy include any other facilities?" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC3 @JIRA-TEST-KEY:PTSD-854
     Scenario: Verify Save and Continue with blank indoor feature details
 
         When I click "Save and continue"
         Then I check that the text "Does the tenancy include any other facilities?" is displayed on the page
+        And I check the page for accessibility issues
 
     @AC4 @JIRA-TEST-KEY:PTSD-855
     Scenario: Verify Save for Later
@@ -55,4 +59,5 @@ Feature: Validate Indoor features Page
         When I enter "Indoor feature is provided" for the question "Tell us about the property's indoor features (optional)"
         And I click "Save for later"
         Then check that the user is redirected to the task-list citizen dashboard page
+        And I check the page for accessibility issues
 

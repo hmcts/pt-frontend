@@ -13,9 +13,20 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/servedNoticeProposingNewRent.njk`,
   showCancelButton: false,
-  translationKeys: {
-    pageTitle: 'pageTitle',
-    heading: 'heading',
-  },
-  fields: [],
+  isAnswered: req => Boolean(req.session.ccdCase?.landlordResponse?.servedNoticeProposingNewRent),
+  fields: [
+    {
+      name: 'servedNoticeProposingNewRent',
+      type: 'radio',
+      required: true,
+      isPageHeading: true,
+      legendClasses: 'govuk-fieldset__legend--l',
+      translationKey: { label: 'questionTitle', hint: 'questionHint' },
+      errorMessage: 'errors.servedNoticeProposingNewRent.required',
+      options: [
+        { value: 'Yes', translationKey: 'common:yes' },
+        { value: 'No', translationKey: 'common:no' },
+      ],
+    },
+  ],
 });

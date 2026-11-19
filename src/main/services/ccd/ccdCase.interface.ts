@@ -13,7 +13,7 @@ export const RESPONDENT_SUBMIT_RESPONSE = 'respondent-submit-response';
 export const RESPONDENT_UPLOAD_DOCUMENT = 'respondent-upload-document';
 export const RESPONDENT_DELETE_DOCUMENT = 'respondent-delete-document';
 
-export type YesNoValue = 'YES' | 'NO' | null;
+export type YesNoValue = 'Yes' | 'No' | null;
 export type YesNoNotSureValue = 'YES' | 'NO' | 'NOT_SURE' | null;
 export enum YesNoEnum {
   YES = 'YES',
@@ -438,6 +438,7 @@ export interface HelpWithFeesDetails {
 
 export interface LandlordResponse {
   propertyAddress?: LandlordResponsePropertyAddress;
+  servedNoticeProposingNewRent?: YesNoValue;
   respondToTenantAnswersAboutTenancyDetails?: string;
   respondToTenantAnswersAboutTenancyDetailsDescription?: string;
   tenancyDetailsResponseEvidence?: PtCaseDocument[];
