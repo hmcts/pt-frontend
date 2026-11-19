@@ -1,4 +1,41 @@
 {
-  "pageTitle": "CyWhat is your landlord’s address?(placeholder)",
-  "heading": "CyWhat is your landlord’s address?(placeholder)"
+  "pageTitle": "cyWhat is your landlord’s address?",
+  "heading": "cyWhat is your landlord’s address?",
+  "headingHint": "cyEnter the landlord’s address written on your notice proposing a new rent or tenancy agreement",
+  "labels": {
+    "landlordAddressLine1": "cyAddress line 1",
+    "landlordAddressLine2": "cyAddress line 2 (optional)",
+    "landlordPostTown": "cyTown or city",
+    "landlordCounty": "cyCounty or region (optional)",
+    "landlordPostcode": "cyPostcode or area code (optional)",
+    "landlordCountry": "cyCountry"
+  },
+  "hints": {
+    "landlordPostcode": "cyLeave blank if the address does not have one"
+  },
+  "errors": {
+    "landlordAddressLine1": {
+      "required": "cyEnter address line 1",
+      "invalid": "cyAddress line 1 must be 2 characters or more"
+    },
+    "landlordAddressLine2": {
+      "invalid": "cyAddress line 2 must be 2 characters or more"
+    },
+    "landlordPostTown": {
+      "required": "cyEnter town or city",
+      "invalid": "cyTown or city must be 2 characters or more"
+    },
+    "landlordCounty": {
+      "invalid": "cyCounty or region must be 2 characters or more"
+    },
+    "landlordCountry": {
+      "required": "cyEnter country",
+      "invalid": "cyCountry must be 2 characters or more"
+    },
+    "landlordAddressLine1MaxLength": "cyAddress line 1 must be 100 characters or less",
+    "landlordAddressLine2MaxLength": "cyAddress line 2 must be less than 100 characters or less",
+    "landlordPostTownMaxLength": "cyTown or city must be 100 characters or less",
+    "landlordCountyMaxLength": "cyCounty or region must be 100 characters or less",
+    "landlordCountryMaxLength": "cyCountry must be 100 characters or less"
+  }
 }
