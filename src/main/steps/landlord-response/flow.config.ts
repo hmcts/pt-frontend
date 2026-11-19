@@ -1,3 +1,5 @@
+import type { Request } from 'express';
+
 import { landlordResponseSections } from './sections.config';
 import type { LandlordResponseStepName } from './stepRegistry';
 
@@ -14,5 +16,9 @@ export const flowConfig: JourneyFlowConfig = {
   nonSectionStepOrder: ['task-list'],
   // First visible step of any section back-links to this hub step.
   hubStepName: 'task-list',
-  steps: {} satisfies Partial<Record<LandlordResponseStepName, StepConfig>>,
+  steps: {
+    'served-notice-proposing-new-rent': {
+      showCondition: (req: Request) => req.session.ccdCase?.applicationType === 'challengeRentIncrease',
+    },
+  } satisfies Partial<Record<LandlordResponseStepName, StepConfig>>,
 };
