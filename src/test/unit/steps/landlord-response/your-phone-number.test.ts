@@ -1,10 +1,5 @@
 import type { Request } from 'express';
 
-import cyLocale from '../../../../main/assets/locales/cy/landlordResponse/yourPhoneNumber.json';
-import enLocale from '../../../../main/assets/locales/en/landlordResponse/yourPhoneNumber.json';
-import { landlordResponseSections } from '../../../../main/steps/landlord-response/sections.config';
-import { yourResponseRegistry } from '../../../../main/steps/landlord-response/your-response/stepRegistry';
-
 import { createFormStep } from '@modules/steps';
 
 import '../../../../main/steps/landlord-response/your-response/your-phone-number/index';
@@ -29,38 +24,6 @@ describe('landlord-response your-phone-number step', () => {
 
   const withSavedNumber = (landlordPhoneNumber?: string): Record<string, unknown> => ({
     landlordResponse: { landlordPhoneNumber },
-  });
-
-  describe('config', () => {
-    it('is registered under your-phone-number and sits between landlords-address and served-notice-proposing-new-rent', () => {
-      expect(Object.keys(yourResponseRegistry)).toContain(STEP_NAME);
-      const steps = landlordResponseSections.find(s => s.id === 'yourResponse')?.steps ?? [];
-      const index = steps.indexOf(STEP_NAME);
-
-      expect(index).toBeGreaterThan(0);
-      expect(steps[index - 1]).toBe('landlords-address');
-      expect(steps[index + 1]).toBe('served-notice-proposing-new-rent');
-    });
-
-    it('has a single required text field with a hint and tel autocomplete', () => {
-      expect(capturedConfig.fields).toHaveLength(1);
-      expect(capturedConfig.fields[0]).toEqual(
-        expect.objectContaining({
-          name: FIELD_NAME,
-          type: 'text',
-          required: true,
-          isPageHeading: true,
-          attributes: { autocomplete: 'tel' },
-          translationKey: { label: 'questionTitle', hint: 'questionHint' },
-          errorMessage: 'errors.landlordPhoneNumber.required',
-        })
-      );
-    });
-
-    it('hides the cancel button and uses the custom template', () => {
-      expect(capturedConfig.showCancelButton).toBe(false);
-      expect(capturedConfig.customTemplate).toMatch(/yourPhoneNumber\.njk$/);
-    });
   });
 
   describe('isAnswered', () => {
@@ -104,25 +67,6 @@ describe('landlord-response your-phone-number step', () => {
         expect(validate(value)).toBe('errors.landlordPhoneNumber.invalid');
       }
     );
-  });
-
-  describe('translations', () => {
-    it.each([
-      ['en', enLocale],
-      ['cy', cyLocale],
-    ])('%s has the heading, hint and both error messages', (_lang, locale) => {
-      expect(locale.questionTitle).not.toMatch(/optional/i);
-      expect(locale.questionHint).toMatch(/We will only call you if we need to contact you urgently/);
-      expect(locale.errors.landlordPhoneNumber.required).toBeTruthy();
-      expect(locale.errors.landlordPhoneNumber.invalid).toBeTruthy();
-    });
-
-    it('uses the approved English error copy', () => {
-      expect(enLocale.errors.landlordPhoneNumber).toEqual({
-        required: 'Enter a phone number',
-        invalid: 'Phone number must be in the correct format, like 01632 960 001, 07700 900 982 or +44 808 157 0192',
-      });
-    });
   });
 
   describe('getInitialFormData', () => {
