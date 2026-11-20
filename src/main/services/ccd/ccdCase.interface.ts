@@ -311,9 +311,12 @@ export interface LettingAgentDetails {
 
 export interface LandlordDetails {
   landlordIndividualOrOrganisation?: string;
-  landlordPhoneNumber?: string;
-  landlordHasLettingAgentOrRepresentative?: string;
   landlordEmailAddress?: string;
+  landlordPhoneNumber?: string;
+  landlordHasRepresentative?: string;
+  representativeFirstName?: string;
+  representativeLastName?: string;
+  representativeCompanyName?: string;
   representativeEmailAddress?: string;
   representativePhoneNumber?: string;
 }
