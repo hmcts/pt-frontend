@@ -35,4 +35,13 @@ describe('landlord response flow config show conditions', () => {
     expect(isShown('upload-evidence-tenancy-details', answer('No'))).toBe(false);
     expect(isShown('upload-evidence-tenancy-details', answer())).toBe(false);
   });
+
+  it('shows the property details upload page only when the landlord wants to respond', () => {
+    const answer = (value?: string) =>
+      makeReq(undefined, { 'review-property-details': { respondToTenantAnswersAboutPropertyDetails: value } });
+
+    expect(isShown('upload-evidence-property-details', answer('Yes'))).toBe(true);
+    expect(isShown('upload-evidence-property-details', answer('No'))).toBe(false);
+    expect(isShown('upload-evidence-property-details', answer())).toBe(false);
+  });
 });
