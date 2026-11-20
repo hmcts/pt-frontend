@@ -362,7 +362,7 @@ export interface PropertyDetails {
   landlordRepairsDetails?: string;
   tenantRepairsDetails?: string;
   anyTenantsMadePropertyRepairs?: string | boolean;
-  floorPlanDocuments?: { url?: string }[];
+  floorPlanDocuments?: PtCaseDocument[];
   repairsEvidenceDocuments?: { url?: string }[];
 }
 
@@ -441,6 +441,8 @@ export interface LandlordResponse {
   servedNoticeProposingNewRent?: YesNoValue;
   respondToTenantAnswersAboutTenancyDetails?: string;
   respondToTenantAnswersAboutTenancyDetailsDescription?: string;
+  respondToTenantAnswersAboutPropertyDetails?: string;
+  respondToTenantAnswersAboutPropertyDetailsDescription?: string;
   tenancyDetailsResponseEvidence?: PtCaseDocument[];
 }
 

@@ -25,5 +25,9 @@ export const flowConfig: JourneyFlowConfig = {
       showCondition: (req: Request) =>
         getFormData(req, 'review-tenancy-details').respondToTenantAnswersAboutTenancyDetails === 'Yes',
     },
+    'upload-evidence-property-details': {
+      showCondition: (req: Request) =>
+        getFormData(req, 'review-property-details').respondToTenantAnswersAboutPropertyDetails === 'Yes',
+    },
   } satisfies Partial<Record<LandlordResponseStepName, StepConfig>>,
 };
