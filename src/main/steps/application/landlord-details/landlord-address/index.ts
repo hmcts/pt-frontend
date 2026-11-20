@@ -1,3 +1,4 @@
+import { getTextLengthError } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
 
 import { createFormStep, getFormDataString } from '@modules/steps';
@@ -33,7 +34,7 @@ export const step: StepDefinition = createFormStep({
         autocomplete: 'address-line1',
       },
       validator: (value): boolean | string => {
-        if (value && String(value).length < 2) {
+        if (value && getTextLengthError(value as string, 2, 100) === 'tooShort') {
           return 'errors.landlordAddressLine1.invalid';
         }
         return true;
@@ -50,7 +51,7 @@ export const step: StepDefinition = createFormStep({
         autocomplete: 'address-line2',
       },
       validator: (value): boolean | string => {
-        if (value && String(value).length < 2) {
+        if (value && getTextLengthError(value as string, 2, 100) === 'tooShort') {
           return 'errors.landlordAddressLine2.invalid';
         }
         return true;
@@ -67,7 +68,7 @@ export const step: StepDefinition = createFormStep({
         autocomplete: 'address-level2',
       },
       validator: (value): boolean | string => {
-        if (value && String(value).length < 2) {
+        if (value && getTextLengthError(value as string, 2, 100) === 'tooShort') {
           return 'errors.landlordPostTown.invalid';
         }
         return true;
@@ -84,7 +85,7 @@ export const step: StepDefinition = createFormStep({
         autocomplete: 'address-level1',
       },
       validator: (value): boolean | string => {
-        if (value && String(value).length < 2) {
+        if (value && getTextLengthError(value as string, 2, 100) === 'tooShort') {
           return 'errors.landlordCounty.invalid';
         }
         return true;
@@ -109,7 +110,7 @@ export const step: StepDefinition = createFormStep({
         autocomplete: 'country',
       },
       validator: (value): boolean | string => {
-        if (value && String(value).length < 2) {
+        if (value && getTextLengthError(value as string, 2, 100) === 'tooShort') {
           return 'errors.landlordCountry.invalid';
         }
         return true;
