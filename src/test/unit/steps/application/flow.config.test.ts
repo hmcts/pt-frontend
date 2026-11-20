@@ -14,7 +14,7 @@ const isShown = (stepName: string, req: Request) => flowConfig.steps[stepName].s
 
 describe('application flow config show conditions', () => {
   const singleAnswerGates: [string, string, string, string, string[]][] = [
-    ['upload-floor-plan-of-property', 'floor-plan-of-property', 'hasFloorPlanOfProperty', 'yes', ['no']],
+    ['upload-floor-plan-of-property', 'floor-plan-of-property', 'propertyFloorPlanAvailable', 'Yes', ['No']],
     ['upload-tenancy-agreement', 'have-tenancy-agreement', 'copyOfTenancyAgreement', 'Yes', ['No']],
     [
       'upload-evidence-notice-not-legally-valid',
@@ -27,9 +27,9 @@ describe('application flow config show conditions', () => {
     [
       'upload-evidence-improvements-or-repairs',
       'repairs-and-improvements',
-      'hasRepairsAndImprovements',
-      'yes',
-      ['no', 'notSure'],
+      'anyTenantsMadePropertyRepairs',
+      'Yes',
+      ['No', 'NotSure'],
     ],
     ['council-tax-frequency', 'rent-includes-council-tax', 'rentIncludesCouncilTax', 'Yes', ['No']],
     ['utilities-paid-frequency', 'rent-inclusive-of-utility-charges', 'rentInclusiveOfUtilityCharges', 'Yes', ['No']],

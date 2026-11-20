@@ -1,12 +1,13 @@
 import { textAreaIsValidLength } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccd/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'services-provided-tenancy';
+const fieldName = 'additionalServicesProvidedInTenancy';
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -18,47 +19,64 @@ export const step: StepDefinition = createFormStep({
   isAnswered: req => isAnswered(req.session.ccdCase),
   fields: [
     {
-      name: 'servicesProvided',
+      name: 'additionalServicesProvidedInTenancy',
       type: 'radio',
       required: true,
       isPageHeading: true,
       legendClasses: 'govuk-fieldset__legend--l',
       translationKey: { label: 'questionTitle', hint: 'questionHint' },
-      errorMessage: 'errors.servicesProvided.required',
+      errorMessage: 'errors.additionalServicesProvidedInTenancy.required',
       options: [
         {
-          value: 'yes',
+          value: 'Yes',
           translationKey: 'common:yes',
           subFields: {
-            servicesProvidedDetails: {
-              name: 'servicesProvidedDetails',
+            additionalServicesProvidedInTenancyDetails: {
+              name: 'additionalServicesProvidedInTenancyDetails',
               type: 'textarea',
               maxLength: 500,
               required: true,
-              errorMessage: 'errors.servicesProvidedDetails.required',
+              errorMessage: 'errors.additionalServicesProvidedInTenancyDetails.required',
               translationKey: {
-                label: 'options.servicesProvidedDetails.label',
+                label: 'options.additionalServicesProvidedInTenancyDetails.label',
               },
               validator: (value): boolean | string => {
                 if (value && (String(value).length < 2 || String(value).length > 500)) {
-                  return 'errors.servicesProvidedDetails.invalid';
+                  return 'errors.additionalServicesProvidedInTenancyDetails.invalid';
                 }
                 return true;
               },
             },
           },
         },
-        { value: 'no', translationKey: 'common:no' },
+        { value: 'No', translationKey: 'common:no' },
       ],
     },
   ],
+  getInitialFormData: req => {
+    const propertyDetails = req.session.ccdCase?.propertyDetails;
+    const value = getFormDataString(req, stepName, fieldName) ?? propertyDetails?.[fieldName];
+    const additionalServicesProvidedInTenancyDetails =
+      getFormDataString(req, stepName, `${fieldName}.additionalServicesProvidedInTenancyDetails`) ??
+      (value === 'Yes' ? propertyDetails?.additionalServicesProvidedInTenancyDetails : undefined);
+
+    return {
+      ...(value && { [fieldName]: value }),
+      ...(additionalServicesProvidedInTenancyDetails && {
+        [`${fieldName}.additionalServicesProvidedInTenancyDetails`]: additionalServicesProvidedInTenancyDetails,
+      }),
+    };
+  },
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (ccdCase?.servicesProvided === 'yes') {
+  const propertyDetails = ccdCase?.propertyDetails;
+
+  if (propertyDetails?.additionalServicesProvidedInTenancy === 'Yes') {
     return Boolean(
-      ccdCase?.servicesProvidedDetails && textAreaIsValidLength(ccdCase?.servicesProvidedDetails as string)
+      propertyDetails?.additionalServicesProvidedInTenancyDetails &&
+      textAreaIsValidLength(propertyDetails?.additionalServicesProvidedInTenancyDetails as string)
     );
   }
-  return ccdCase?.servicesProvided === 'no';
+  return propertyDetails?.additionalServicesProvidedInTenancy === 'No';
 }

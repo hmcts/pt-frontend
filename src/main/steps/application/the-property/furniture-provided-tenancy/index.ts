@@ -1,12 +1,13 @@
 import { textAreaIsValidLength } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccd/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'furniture-provided-tenancy';
+const fieldName = 'furnitureProvidedInTenancy';
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -18,48 +19,65 @@ export const step: StepDefinition = createFormStep({
   isAnswered: req => isAnswered(req.session.ccdCase),
   fields: [
     {
-      name: 'furnitureProvided',
+      name: 'furnitureProvidedInTenancy',
       type: 'radio',
       required: true,
       isPageHeading: true,
       legendClasses: 'govuk-fieldset__legend--l',
       translationKey: { label: 'questionTitle' },
-      errorMessage: 'errors.furnitureProvided.required',
+      errorMessage: 'errors.furnitureProvidedInTenancy.required',
       options: [
         {
-          value: 'yes',
+          value: 'Yes',
           translationKey: 'common:yes',
           subFields: {
-            furnitureProvidedDetails: {
-              name: 'furnitureProvidedDetails',
+            furnitureProvidedInTenancyDetails: {
+              name: 'furnitureProvidedInTenancyDetails',
               type: 'textarea',
               maxLength: 500,
               required: true,
-              errorMessage: 'errors.furnitureProvidedDetails.required',
+              errorMessage: 'errors.furnitureProvidedInTenancyDetails.required',
               translationKey: {
-                label: 'options.furnitureProvidedDetails.label',
-                hint: 'options.furnitureProvidedDetails.hint',
+                label: 'options.furnitureProvidedInTenancyDetails.label',
+                hint: 'options.furnitureProvidedInTenancyDetails.hint',
               },
               validator: (value): boolean | string => {
                 if (value && (String(value).length < 2 || String(value).length > 500)) {
-                  return 'errors.furnitureProvidedDetails.invalid';
+                  return 'errors.furnitureProvidedInTenancyDetails.invalid';
                 }
                 return true;
               },
             },
           },
         },
-        { value: 'no', translationKey: 'common:no' },
+        { value: 'No', translationKey: 'common:no' },
       ],
     },
   ],
+  getInitialFormData: req => {
+    const propertyDetails = req.session.ccdCase?.propertyDetails;
+    const value = getFormDataString(req, stepName, fieldName) ?? propertyDetails?.[fieldName];
+    const furnitureProvidedInTenancyDetails =
+      getFormDataString(req, stepName, `${fieldName}.furnitureProvidedInTenancyDetails`) ??
+      (value === 'Yes' ? propertyDetails?.furnitureProvidedInTenancyDetails : undefined);
+
+    return {
+      ...(value && { [fieldName]: value }),
+      ...(furnitureProvidedInTenancyDetails && {
+        [`${fieldName}.furnitureProvidedInTenancyDetails`]: furnitureProvidedInTenancyDetails,
+      }),
+    };
+  },
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  if (ccdCase?.furnitureProvided === 'yes') {
+  const propertyDetails = ccdCase?.propertyDetails;
+
+  if (propertyDetails?.furnitureProvidedInTenancy === 'Yes') {
     return Boolean(
-      ccdCase?.furnitureProvidedDetails && textAreaIsValidLength(ccdCase?.furnitureProvidedDetails as string)
+      propertyDetails?.furnitureProvidedInTenancyDetails &&
+      textAreaIsValidLength(propertyDetails?.furnitureProvidedInTenancyDetails as string)
     );
   }
-  return ccdCase?.furnitureProvided === 'no';
+  return propertyDetails?.furnitureProvidedInTenancy === 'No';
 }

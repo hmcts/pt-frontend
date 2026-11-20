@@ -2,15 +2,15 @@
   "questionTitle": "cy Are any services provided in your tenancy?",
   "questionHint": "cy For example, cleaning or gardening",
   "options": {
-    "servicesProvidedDetails": {
+    "additionalServicesProvidedInTenancyDetails": {
       "label": "cy Describe the services provided"
     }
   },
   "errors": {
-    "servicesProvided": {
+    "additionalServicesProvidedInTenancy": {
       "required": "cy Select whether services are provided in your tenancy"
     },
-    "servicesProvidedDetails": {
+    "additionalServicesProvidedInTenancyDetails": {
       "required": "cy Enter the services provided in your tenancy",
       "invalid": "cy Details about the services provided must be 2 characters or more"
     }

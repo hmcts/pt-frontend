@@ -1,23 +1,23 @@
 {
   "questionTitle": "cy What are you renting?",
   "options": {
-    "roomOrRooms": {
+    "room": {
       "label": "cy Room or rooms",
-      "roomOrRoomsDescriptionLabel": "cy Describe what type of property your room or rooms are in (optional)",
-      "roomOrRoomsDescriptionHint": "cy For example, 'One room in a house on the ground floor'"
+      "roomDescriptionLabel": "cy Describe what type of property your room or rooms are in (optional)",
+      "roomDescriptionHint": "cy For example, 'One room in a house on the ground floor'"
     },
     "flat": {
       "label": "cy Flat",
       "flatFloor": "cy What floor or floors is the flat on? (optional)"
     },
-    "terraced": {
+    "terracedHouse": {
       "label": "cy Terraced house"
     },
-    "semiDetached": {
+    "semiDetachedHouse": {
       "label": "cy Semi-detached house",
       "hint": "cy Including semi-detached bungalows"
     },
-    "detached": {
+    "fullyDetachedHouse": {
       "label": "cy Fully detached house",
       "hint": "cy Including fully detached bungalows"
     },
@@ -31,7 +31,7 @@
     "propertyType": {
       "required": "cy Select what you are renting"
     },
-    "roomOrRoomsDescription": {
+    "roomDescription": {
       "invalid": "cy Enter a valid description of the room or rooms you ar renting"
     },
     "flatFloor": {
