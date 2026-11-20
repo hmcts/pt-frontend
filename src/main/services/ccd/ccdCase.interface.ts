@@ -432,6 +432,7 @@ export interface HelpWithFeesDetails {
 export interface LandlordResponse {
   propertyAddress?: LandlordResponsePropertyAddress;
   servedNoticeProposingNewRent?: YesNoValue;
+  landlordPhoneNumber?: string;
 }
 
 export interface LandlordResponsePropertyAddress {
