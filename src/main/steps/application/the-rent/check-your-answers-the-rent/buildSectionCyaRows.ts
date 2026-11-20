@@ -1,6 +1,5 @@
 import type { Request } from 'express';
 import type { TFunction } from 'i18next';
-import { DateTime } from 'luxon';
 
 import { SummaryListRow, createRowContext, escapeWithLineBreaks, isYes } from '../../section-cya/cyaRow';
 import { ApplicationSectionId } from '../../sections.config';
@@ -8,7 +7,7 @@ import { ApplicationSectionId } from '../../sections.config';
 import type { DisplayDocument } from '@modules/documents/storage';
 import { getFormData } from '@modules/steps';
 import type { DateValue, RentDetails } from '@services/ccd/ccdCase.interface';
-import { toDateParts } from '@utils/date';
+import { formatDateParts, toDateParts } from '@utils/date';
 import { displayRentAmount } from '@utils/rentAmount';
 
 const SECTION_ID: ApplicationSectionId = 'rentDetails';
@@ -48,19 +47,6 @@ const caseFieldNames: Record<string, string> = {
 };
 
 const marketRentFrequencies = ['weekly', 'fortnightly', 'monthly', 'yearly'];
-
-// The existing date helpers take an ISO string, but dates are stored here as three parts
-const formatDateValue = (value: DateValue | undefined, lang: string): string | undefined => {
-  if (!value?.day || !value?.month || !value?.year) {
-    return undefined;
-  }
-  const parsed = DateTime.fromObject({
-    day: Number(value.day),
-    month: Number(value.month),
-    year: Number(value.year),
-  }).setLocale(lang === 'cy' ? 'cy' : 'en-gb');
-  return parsed.isValid ? parsed.toFormat('d LLLL y') : undefined;
-};
 
 export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[] {
   const ctx = createRowContext(req, SECTION_ID, t);
@@ -102,7 +88,7 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
   };
 
   const pushDateRow = (step: string, field: string, value?: DateValue): void => {
-    const formatted = formatDateValue(value ?? readDate(step, field), lang);
+    const formatted = formatDateParts(value ?? readDate(step, field), lang);
     if (formatted) {
       rows.push({
         key: { text: t(`rows.${field}.label`) },
