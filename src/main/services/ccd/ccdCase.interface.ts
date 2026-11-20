@@ -320,6 +320,12 @@ export interface LandlordDetails {
   landlordPhoneNumber?: string;
   landlordHasLettingAgentOrRepresentative?: string;
   landlordEmailAddress?: string;
+  landlordAddressLine1?: string;
+  landlordAddressLine2?: string;
+  landlordPostTown?: string;
+  landlordCounty?: string;
+  landlordPostcode?: string;
+  landlordCountry?: string;
   representativeEmailAddress?: string;
   representativePhoneNumber?: string;
 }
