@@ -19,7 +19,11 @@
       "tooShort": "Last name must be 2 characters or more",
       "tooLong": "Last name must be 100 characters or less"
     },
+    "representativeCompanyName": {
+      "tooShort": "Company name must be 2 characters or more"
+    },
     "representativeFirstNameMaxLength": "First name must be 100 characters or less",
-    "representativeLastNameMaxLength": "Last name must be 100 characters or less"
+    "representativeLastNameMaxLength": "Last name must be 100 characters or less",
+    "representativeCompanyNameMaxLength": "Company name must be 100 characters or less"
   }
 }

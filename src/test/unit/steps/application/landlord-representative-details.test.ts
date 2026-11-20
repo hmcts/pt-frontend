@@ -40,6 +40,17 @@ describe('landlord-representative-details step', () => {
     expect(lastNameField.validator('Smith@')).toBe('errors.representativeLastName.invalid');
   });
 
+  it('rejects a one character company name and allows blank or valid values', () => {
+    const companyNameField = capturedConfig.fields.find(
+      (field: { name: string }) => field.name === 'representativeCompanyName'
+    );
+
+    expect(companyNameField.validator('a')).toBe('errors.representativeCompanyName.tooShort');
+    expect(companyNameField.validator('ab')).toBe(true);
+    expect(companyNameField.validator('')).toBe(true);
+    expect(companyNameField.validator(undefined)).toBe(true);
+  });
+
   it('pre-populates values from CCVD when form data is empty', () => {
     const req = {
       params: { caseReference: '1234123412341234' },

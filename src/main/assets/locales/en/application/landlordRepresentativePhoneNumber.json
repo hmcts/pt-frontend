@@ -3,7 +3,7 @@
   "heading": "The landlord's representative’s contact phone number (optional)",
   "errors": {
     "representativePhoneNumber": {
-      "invalid": "Enter a phone number in the correct format, including the country code for international numbers"
+      "invalid": "Phone number must be in the correct format, like 01632 960 001, 07700 900 982 or +44 808 157 0192"
     }
   }
 }

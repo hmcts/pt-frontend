@@ -1,3 +1,4 @@
+import { getTextLengthError } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
 
 import { createFormStep, getFormDataString } from '@modules/steps';
@@ -58,6 +59,12 @@ export const step: StepDefinition = createFormStep({
       translationKey: { label: 'labels.representativeCompanyName' },
       attributes: {
         autocomplete: 'organization',
+      },
+      validator: (value): boolean | string => {
+        if (value && getTextLengthError(value as string, 2, 100) === 'tooShort') {
+          return 'errors.representativeCompanyName.tooShort';
+        }
+        return true;
       },
     },
   ],

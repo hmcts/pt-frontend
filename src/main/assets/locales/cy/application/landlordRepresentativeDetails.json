@@ -19,7 +19,11 @@
       "tooShort": "cyLast name must be 2 characters or more",
       "tooLong": "cyLast name must be 100 characters or less"
     },
+    "representativeCompanyName": {
+      "tooShort": "cyCompany name must be 2 characters or more"
+    },
     "representativeFirstNameMaxLength": "cyFirst name must be 100 characters or less",
-    "representativeLastNameMaxLength": "cyLast name must be 100 characters or less"
+    "representativeLastNameMaxLength": "cyLast name must be 100 characters or less",
+    "representativeCompanyNameMaxLength": "cyCompany name must be 100 characters or less"
   }
 }

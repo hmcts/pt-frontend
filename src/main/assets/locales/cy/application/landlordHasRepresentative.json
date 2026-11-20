@@ -3,7 +3,7 @@
   "questionHint": "cyThis could be a letting agent or legal representative",
   "errors": {
     "landlordHasRepresentative": {
-      "required": "cyEnter whether the landlord has a representative"
+      "required": "cySelect whether your landlord has a representative"
     }
   }
 }
