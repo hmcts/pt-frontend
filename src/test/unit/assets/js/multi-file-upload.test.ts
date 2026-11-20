@@ -246,8 +246,7 @@ describe('initMultiFileUpload', () => {
 
     it('removes the aria-describedby it added once the error clears', () => {
       upload(fileOf('virus.exe'));
-
-      hooksOf().exitHook(null, fileOf('floor-plan.pdf'), jsonXhr({}, 200), 'OK');
+      upload(fileOf('floor-plan.pdf'));
 
       expect(fileInput().hasAttribute('aria-describedby')).toBe(false);
       expect(formGroup().classList).not.toContain('govuk-form-group--error');
@@ -365,6 +364,15 @@ describe('initMultiFileUpload', () => {
       expect(summaryMessages()).toEqual(['This file type is not accepted']);
       expect(uploaded()).toHaveBeenCalledTimes(1);
     });
+
+    it('preserves errors when another file in the same batch succeeds', () => {
+      upload(fileOf('virus.exe'), fileOf('floor-plan.pdf'));
+
+      hooksOf().exitHook(null, fileOf('floor-plan.pdf'), jsonXhr({}, 200), 'OK');
+
+      expect(summaryMessages()).toEqual(['This file type is not accepted']);
+      expect(summary()?.hidden).toBe(false);
+    });
   });
 
   describe('failures reported by the server', () => {
@@ -397,6 +405,7 @@ describe('initMultiFileUpload', () => {
     it('clears the error and removes any failed rows', () => {
       upload(fileOf('virus.exe'));
       failedRow();
+      upload(fileOf('floor-plan.pdf'));
 
       hooksOf().exitHook(null, fileOf('floor-plan.pdf'), jsonXhr({}, 200), 'OK');
 
