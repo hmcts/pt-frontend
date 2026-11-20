@@ -134,7 +134,7 @@ export const step: StepDefinition = createFormStep({
       ...(landlordAddressLine2 && { landlordAddressLine2 }),
       ...(landlordPostTown && { landlordPostTown }),
       ...(landlordCounty && { landlordCounty }),
-      ...(landlordPostcode && { landlordCounty }),
+      ...(landlordPostcode && { landlordPostcode }),
       ...(landlordCountry && { landlordCountry }),
     };
   },
