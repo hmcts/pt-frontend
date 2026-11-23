@@ -344,6 +344,21 @@ export const initMultiFileUpload = (): MultiFileUpload[] => {
       syncStatusVisibility(container);
     }
 
+    const dropzoneLabel = dropzone?.querySelector<HTMLLabelElement>('label.govuk-button--secondary');
+    if (dropzoneLabel) {
+      const chooseFileButton = document.createElement('button');
+      chooseFileButton.type = 'button';
+      chooseFileButton.className = dropzoneLabel.className;
+      chooseFileButton.textContent = dropzoneLabel.textContent?.trim() || 'Choose file';
+      chooseFileButton.addEventListener('click', event => {
+        event.preventDefault();
+        container.querySelector<HTMLInputElement>('.moj-multi-file-upload__input')?.click();
+      });
+      dropzoneLabel.replaceWith(chooseFileButton);
+
+      (instance as unknown as { $label: HTMLElement }).$label = chooseFileButton;
+    }
+
     instances.push(instance);
   });
 
