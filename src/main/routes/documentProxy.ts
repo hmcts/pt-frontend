@@ -242,7 +242,7 @@ export default function (app: Application): void {
 
       const current = await readDocuments(req, fieldKeyOf(req));
       if (current.some(doc => doc.id === documentId)) {
-        await deleteDocumentById(req, documentId);
+        await deleteDocumentById(req, fieldKeyOf(req), documentId);
       }
 
       res.json({ success: true });
