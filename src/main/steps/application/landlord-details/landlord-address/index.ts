@@ -1,4 +1,4 @@
-import { getTextLengthError } from '../../../utils/fieldValidators';
+import { getTooShortErrorIfUnderTwoCharacters } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
 
 import { createFormStep, getFormDataString } from '@modules/steps';
@@ -33,12 +33,7 @@ export const step: StepDefinition = createFormStep({
       attributes: {
         autocomplete: 'address-line1',
       },
-      validator: (value): boolean | string => {
-        if (value && getTextLengthError(value as string, 2, 100) === 'tooShort') {
-          return 'errors.landlordAddressLine1.invalid';
-        }
-        return true;
-      },
+      validator: value => getTooShortErrorIfUnderTwoCharacters(value, 'landlordAddressLine1'),
     },
     {
       name: 'landlordAddressLine2',
@@ -50,12 +45,7 @@ export const step: StepDefinition = createFormStep({
       attributes: {
         autocomplete: 'address-line2',
       },
-      validator: (value): boolean | string => {
-        if (value && getTextLengthError(value as string, 2, 100) === 'tooShort') {
-          return 'errors.landlordAddressLine2.invalid';
-        }
-        return true;
-      },
+      validator: value => getTooShortErrorIfUnderTwoCharacters(value, 'landlordAddressLine2'),
     },
     {
       name: 'landlordPostTown',
@@ -67,12 +57,7 @@ export const step: StepDefinition = createFormStep({
       attributes: {
         autocomplete: 'address-level2',
       },
-      validator: (value): boolean | string => {
-        if (value && getTextLengthError(value as string, 2, 100) === 'tooShort') {
-          return 'errors.landlordPostTown.invalid';
-        }
-        return true;
-      },
+      validator: value => getTooShortErrorIfUnderTwoCharacters(value, 'landlordPostTown'),
     },
     {
       name: 'landlordCounty',
@@ -84,12 +69,7 @@ export const step: StepDefinition = createFormStep({
       attributes: {
         autocomplete: 'address-level1',
       },
-      validator: (value): boolean | string => {
-        if (value && getTextLengthError(value as string, 2, 100) === 'tooShort') {
-          return 'errors.landlordCounty.invalid';
-        }
-        return true;
-      },
+      validator: value => getTooShortErrorIfUnderTwoCharacters(value, 'landlordCounty'),
     },
     {
       name: 'landlordPostCode',
@@ -109,12 +89,7 @@ export const step: StepDefinition = createFormStep({
       attributes: {
         autocomplete: 'country',
       },
-      validator: (value): boolean | string => {
-        if (value && getTextLengthError(value as string, 2, 100) === 'tooShort') {
-          return 'errors.landlordCountry.invalid';
-        }
-        return true;
-      },
+      validator: value => getTooShortErrorIfUnderTwoCharacters(value, 'landlordCountry'),
     },
   ],
 

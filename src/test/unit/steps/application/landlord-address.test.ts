@@ -43,11 +43,11 @@ describe('application landlord-address step', () => {
       capturedConfig.fields.find((field: { name: string }) => field.name === name).validator;
 
     it.each([
-      ['landlordAddressLine1', 'errors.landlordAddressLine1.invalid'],
-      ['landlordAddressLine2', 'errors.landlordAddressLine2.invalid'],
-      ['landlordPostTown', 'errors.landlordPostTown.invalid'],
-      ['landlordCounty', 'errors.landlordCounty.invalid'],
-      ['landlordCountry', 'errors.landlordCountry.invalid'],
+      ['landlordAddressLine1', 'errors.landlordAddressLine1.tooShort'],
+      ['landlordAddressLine2', 'errors.landlordAddressLine2.tooShort'],
+      ['landlordPostTown', 'errors.landlordPostTown.tooShort'],
+      ['landlordCounty', 'errors.landlordCounty.tooShort'],
+      ['landlordCountry', 'errors.landlordCountry.tooShort'],
     ])('rejects a one character %s', (name, errorKey) => {
       expect(validatorFor(name)('ab')).toBe(true);
       expect(validatorFor(name)('a')).toBe(errorKey);

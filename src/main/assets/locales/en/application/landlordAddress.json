@@ -16,21 +16,21 @@
   "errors": {
     "landlordAddressLine1": {
       "required": "Enter address line 1",
-      "invalid": "Address line 1 must be 2 characters or more"
+      "tooShort": "Address line 1 must be 2 characters or more"
     },
     "landlordAddressLine2": {
-      "invalid": "Address line 2 must be 2 characters or more"
+      "tooShort": "Address line 2 must be 2 characters or more"
     },
     "landlordPostTown": {
       "required": "Enter town or city",
-      "invalid": "Town or city must be 2 characters or more"
+      "tooShort": "Town or city must be 2 characters or more"
     },
     "landlordCounty": {
-      "invalid": "County or region must be 2 characters or more"
+      "tooShort": "County or region must be 2 characters or more"
     },
     "landlordCountry": {
       "required": "Enter country",
-      "invalid": "Country must be 2 characters or more"
+      "tooShort": "Country must be 2 characters or more"
     },
     "landlordAddressLine1MaxLength": "Address line 1 must be 100 characters or less",
     "landlordAddressLine2MaxLength": "Address line 2 must be less than 100 characters or less",

@@ -64,3 +64,10 @@ export function getTextLengthError(
 export function textAreaIsValidLength(value: string | undefined, max = 500): boolean {
   return !value || normalisedLength(value) <= max;
 }
+
+export function getTooShortErrorIfUnderTwoCharacters(value: unknown, fieldName: string): boolean | string {
+  if (value && String(value).length < 2) {
+    return `errors.${fieldName}.tooShort`;
+  }
+  return true;
+}
