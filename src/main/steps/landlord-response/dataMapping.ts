@@ -9,12 +9,7 @@ const responseDescription = (
   answer: string | undefined,
   entered: string | undefined,
   saved: string | undefined
-): string | undefined => {
-  if (answer === 'Yes') {
-    return entered ?? saved;
-  }
-  return answer === 'No' ? '' : undefined;
-};
+): string | undefined => (answer === 'Yes' ? (entered ?? saved) : '');
 
 export function prepareLandlordResponseDataForSave(
   sectionId: string,

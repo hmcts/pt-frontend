@@ -74,13 +74,13 @@ describe('prepareLandlordResponseDataForSave', () => {
       expect(result.landlordResponse).toEqual(expect.objectContaining({ [PROPERTY]: 'No', [PROPERTY_DETAILS]: '' }));
     });
 
-    it('leaves out the details while a question has not been answered', () => {
+    it('sends empty details while a question has not been answered', () => {
       expect(prepareLandlordResponseDataForSave('yourResponse', buildReq(), savedCase({}))).toEqual({
         landlordResponse: {
           [TENANCY]: undefined,
-          [TENANCY_DETAILS]: undefined,
+          [TENANCY_DETAILS]: '',
           [PROPERTY]: undefined,
-          [PROPERTY_DETAILS]: undefined,
+          [PROPERTY_DETAILS]: '',
         },
       });
     });
@@ -94,9 +94,9 @@ describe('prepareLandlordResponseDataForSave', () => {
       expect(prepareLandlordResponseDataForSave('yourResponse', buildReq(), other)).toEqual({
         landlordResponse: {
           [TENANCY]: undefined,
-          [TENANCY_DETAILS]: undefined,
+          [TENANCY_DETAILS]: '',
           [PROPERTY]: undefined,
-          [PROPERTY_DETAILS]: undefined,
+          [PROPERTY_DETAILS]: '',
         },
       });
     });
