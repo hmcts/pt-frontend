@@ -4,7 +4,12 @@ import { DOCUMENT_FIELDS, type DocumentFieldDefinition, documentFieldFor } from 
 
 import { Logger } from '@modules/logger';
 import { getCaseApi } from '@services/ccd/ccdApiClient';
-import { CITIZEN_DELETE_DOCUMENT, CITIZEN_UPLOAD_DOCUMENT } from '@services/ccd/ccdCase.interface';
+import {
+  CITIZEN_DELETE_DOCUMENT,
+  CITIZEN_UPLOAD_DOCUMENT,
+  RESPONDENT_DELETE_DOCUMENT,
+  RESPONDENT_UPLOAD_DOCUMENT,
+} from '@services/ccd/ccdCase.interface';
 import type { CdamDocument } from '@services/cdam/documentUpload.interface';
 import { getPtApi } from '@services/ptApi/ptApiClient';
 
@@ -116,6 +121,20 @@ const toPayload = (field: DocumentFieldDefinition, docs: CcdUploadedDocument[]):
   },
 });
 
+const citizenDocumentEvents = { upload: CITIZEN_UPLOAD_DOCUMENT, delete: CITIZEN_DELETE_DOCUMENT };
+const respondentDocumentEvents = { upload: RESPONDENT_UPLOAD_DOCUMENT, delete: RESPONDENT_DELETE_DOCUMENT };
+
+const documentEventsFor = (field: DocumentFieldDefinition) =>
+  field.slice === 'landlordResponse' ? respondentDocumentEvents : citizenDocumentEvents;
+
+const requireField = (fieldKey: string): DocumentFieldDefinition => {
+  const field = documentFieldFor(fieldKey);
+  if (!field) {
+    throw new Error(`Unknown document field ${fieldKey}`);
+  }
+  return field;
+};
+
 const submitEvent = async (req: Request, eventName: string, data: Record<string, unknown>): Promise<void> => {
   const caseReference = String(req.params.caseReference);
   const caseApi = getCaseApi(req.session.user);
@@ -127,16 +146,15 @@ const submitEvent = async (req: Request, eventName: string, data: Record<string,
 };
 
 export const saveDocuments = async (req: Request, fieldKey: string, docs: CcdUploadedDocument[]): Promise<void> => {
-  const field = documentFieldFor(fieldKey);
-  if (!field) {
-    throw new Error(`Unknown document field ${fieldKey}`);
-  }
+  const field = requireField(fieldKey);
 
-  await submitEvent(req, CITIZEN_UPLOAD_DOCUMENT, toPayload(field, docs));
+  await submitEvent(req, documentEventsFor(field).upload, toPayload(field, docs));
   logger.info('Saved documents', { fieldKey, count: docs.length });
 };
 
-export const deleteDocumentById = async (req: Request, documentId: number): Promise<void> => {
-  await submitEvent(req, CITIZEN_DELETE_DOCUMENT, { documentIdToDelete: String(documentId) });
-  logger.info('Deleted document', { documentId });
+export const deleteDocumentById = async (req: Request, fieldKey: string, documentId: number): Promise<void> => {
+  const field = requireField(fieldKey);
+
+  await submitEvent(req, documentEventsFor(field).delete, { documentIdToDelete: String(documentId) });
+  logger.info('Deleted document', { fieldKey, documentId });
 };
