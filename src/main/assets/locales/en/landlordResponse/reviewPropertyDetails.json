@@ -1,4 +1,50 @@
 {
-  "pageTitle": "Review property details (placeholder)",
-  "heading": "Review property details (placeholder)"
+  "pageTitle": "Review property details",
+  "intro": "Review the information provided by the tenant in their application and tell us if you want to respond to the tribunal about any of their answers. You can also upload supporting documents or evidence.",
+  "relatedContent": {
+    "heading": "Related content",
+    "viewTenantsApplication": "View the tenant's full application (opens in new tab)"
+  },
+  "propertyDetails": {
+    "title": "Property details provided by the tenant",
+    "rows": {
+      "propertyAddress": "What is the address of the property?",
+      "propertyType": "What are you renting?",
+      "propertyFloorPlanAvailable": "Do you have a floor plan of the property?",
+      "floorPlanDocuments": "Upload a floor plan of the property",
+      "indoorFeatures": "Tell us about the property's indoor features",
+      "otherFacilitiesAvailable": "Does the tenancy include any other facilities?",
+      "sharePropertyWithLandlord": "Do you share the property with your landlord?",
+      "outsidePropertyDocuments": "Upload a photo of the outside of the property (optional)",
+      "propertyRoomsDocuments": "Upload a photo of each room at your property (optional)",
+      "furnitureProvidedInTenancy": "Is furniture provided in your tenancy?",
+      "furnitureProvidedInTenancyDetails": "Describe the furniture provided",
+      "additionalServicesProvidedInTenancy": "Are any services provided in your tenancy?",
+      "landlordRepairsDetails": "What repairs are the landlord's responsibility? (optional)",
+      "tenantRepairsDetails": "What repairs are the tenant's responsibility? (optional)"
+    },
+    "propertyType": {
+      "room": "Room or rooms",
+      "flat": "Flat",
+      "terracedHouse": "Terraced house",
+      "semiDetachedHouse": "Semi-detached house",
+      "fullyDetachedHouse": "Fully detached house",
+      "other": "Other"
+    }
+  },
+  "questionTitle": "Do you want to respond to any answers from the tenant about property details?",
+  "questionHint": "For example, because you disagree or want to add more context",
+  "details": {
+    "label": "Tell us more about the property details provided by the tenant",
+    "hint": "You can upload any documents or evidence next"
+  },
+  "errors": {
+    "respondToTenantAnswersAboutPropertyDetails": {
+      "required": "Select whether you want to respond to any answers from the tenant about property details"
+    },
+    "respondToTenantAnswersAboutPropertyDetailsDescription": {
+      "required": "Tell us more about the property details provided by the tenant",
+      "invalid": "Tell us more about the property details provided by the tenant in 500 characters or less"
+    }
+  }
 }

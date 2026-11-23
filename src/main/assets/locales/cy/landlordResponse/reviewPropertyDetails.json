@@ -1,4 +1,50 @@
 {
-  "pageTitle": "cyReview property details (placeholder)",
-  "heading": "cyReview property details (placeholder)"
+  "pageTitle": "cyReview property details",
+  "intro": "cyReview the information provided by the tenant in their application and tell us if you want to respond to the tribunal about any of their answers. You can also upload supporting documents or evidence.",
+  "relatedContent": {
+    "heading": "cyRelated content",
+    "viewTenantsApplication": "cyView the tenant's full application (opens in new tab)"
+  },
+  "propertyDetails": {
+    "title": "cyProperty details provided by the tenant",
+    "rows": {
+      "propertyAddress": "cyWhat is the address of the property?",
+      "propertyType": "cyWhat are you renting?",
+      "propertyFloorPlanAvailable": "cyDo you have a floor plan of the property?",
+      "floorPlanDocuments": "cyUpload a floor plan of the property",
+      "indoorFeatures": "cyTell us about the property's indoor features",
+      "otherFacilitiesAvailable": "cyDoes the tenancy include any other facilities?",
+      "sharePropertyWithLandlord": "cyDo you share the property with your landlord?",
+      "outsidePropertyDocuments": "cyUpload a photo of the outside of the property (optional)",
+      "propertyRoomsDocuments": "cyUpload a photo of each room at your property (optional)",
+      "furnitureProvidedInTenancy": "cyIs furniture provided in your tenancy?",
+      "furnitureProvidedInTenancyDetails": "cyDescribe the furniture provided",
+      "additionalServicesProvidedInTenancy": "cyAre any services provided in your tenancy?",
+      "landlordRepairsDetails": "cyWhat repairs are the landlord's responsibility? (optional)",
+      "tenantRepairsDetails": "cyWhat repairs are the tenant's responsibility? (optional)"
+    },
+    "propertyType": {
+      "room": "cyRoom or rooms",
+      "flat": "cyFlat",
+      "terracedHouse": "cyTerraced house",
+      "semiDetachedHouse": "cySemi-detached house",
+      "fullyDetachedHouse": "cyFully detached house",
+      "other": "cyOther"
+    }
+  },
+  "questionTitle": "cyDo you want to respond to any answers from the tenant about property details?",
+  "questionHint": "cyFor example, because you disagree or want to add more context",
+  "details": {
+    "label": "cyTell us more about the property details provided by the tenant",
+    "hint": "cyYou can upload any documents or evidence next"
+  },
+  "errors": {
+    "respondToTenantAnswersAboutPropertyDetails": {
+      "required": "cySelect whether you want to respond to any answers from the tenant about property details"
+    },
+    "respondToTenantAnswersAboutPropertyDetailsDescription": {
+      "required": "cyTell us more about the property details provided by the tenant",
+      "invalid": "cyTell us more about the property details provided by the tenant in 500 characters or less"
+    }
+  }
 }
