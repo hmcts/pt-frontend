@@ -1,4 +1,4 @@
-import { getTooShortErrorIfUnderTwoCharacters } from '../../../utils/fieldValidators';
+import { getTooShortErrorIfUnderMinimumCharacters } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
 
 import { createFormStep, getFormDataString } from '@modules/steps';
@@ -33,7 +33,7 @@ export const step: StepDefinition = createFormStep({
       attributes: {
         autocomplete: 'address-line1',
       },
-      validator: value => getTooShortErrorIfUnderTwoCharacters(value, 'landlordAddressLine1'),
+      validator: value => getTooShortErrorIfUnderMinimumCharacters(value, 'landlordAddressLine1'),
     },
     {
       name: 'landlordAddressLine2',
@@ -45,7 +45,7 @@ export const step: StepDefinition = createFormStep({
       attributes: {
         autocomplete: 'address-line2',
       },
-      validator: value => getTooShortErrorIfUnderTwoCharacters(value, 'landlordAddressLine2'),
+      validator: value => getTooShortErrorIfUnderMinimumCharacters(value, 'landlordAddressLine2'),
     },
     {
       name: 'landlordPostTown',
@@ -57,7 +57,7 @@ export const step: StepDefinition = createFormStep({
       attributes: {
         autocomplete: 'address-level2',
       },
-      validator: value => getTooShortErrorIfUnderTwoCharacters(value, 'landlordPostTown'),
+      validator: value => getTooShortErrorIfUnderMinimumCharacters(value, 'landlordPostTown'),
     },
     {
       name: 'landlordCounty',
@@ -69,7 +69,7 @@ export const step: StepDefinition = createFormStep({
       attributes: {
         autocomplete: 'address-level1',
       },
-      validator: value => getTooShortErrorIfUnderTwoCharacters(value, 'landlordCounty'),
+      validator: value => getTooShortErrorIfUnderMinimumCharacters(value, 'landlordCounty'),
     },
     {
       name: 'landlordPostCode',
@@ -89,7 +89,7 @@ export const step: StepDefinition = createFormStep({
       attributes: {
         autocomplete: 'country',
       },
-      validator: value => getTooShortErrorIfUnderTwoCharacters(value, 'landlordCountry'),
+      validator: value => getTooShortErrorIfUnderMinimumCharacters(value, 'landlordCountry'),
     },
   ],
 

@@ -1,6 +1,6 @@
 import {
   getTextLengthError,
-  getTooShortErrorIfUnderTwoCharacters,
+  getTooShortErrorIfUnderMinimumCharacters,
   looksLikeHtml,
   stripHtmlTags,
   textAreaIsValidLength,
@@ -99,20 +99,30 @@ describe('textAreaIsValidLength', () => {
     });
   });
 
-  describe('getTooShortErrorIfUnderTwoCharacters', () => {
+  describe('getTooShortErrorIfUnderMinimumCharacters', () => {
     it('returns the tooShort error key when value is shorter than 2 characters', () => {
-      expect(getTooShortErrorIfUnderTwoCharacters('a', 'landlordAddressLine1')).toBe(
+      expect(getTooShortErrorIfUnderMinimumCharacters('a', 'landlordAddressLine1')).toBe(
         'errors.landlordAddressLine1.tooShort'
       );
     });
 
     it('returns true if 2 characters or more', () => {
-      expect(getTooShortErrorIfUnderTwoCharacters('ab', 'landlordAddressLine1')).toBe(true);
+      expect(getTooShortErrorIfUnderMinimumCharacters('ab', 'landlordAddressLine1')).toBe(true);
+    });
+
+    it('returns the tooShort error when set to min 3 characters and it has 2 characters', () => {
+      expect(getTooShortErrorIfUnderMinimumCharacters('ab', 'landlordAddressLine1', 3)).toBe(
+        'errors.landlordAddressLine1.tooShort'
+      );
+    });
+
+    it('returns true set to min 3 characters and 3 characters or more', () => {
+      expect(getTooShortErrorIfUnderMinimumCharacters('abc', 'landlordAddressLine1')).toBe(true);
     });
 
     it('returns true when blank value', () => {
-      expect(getTooShortErrorIfUnderTwoCharacters('', 'landlordAddressLine1')).toBe(true);
-      expect(getTooShortErrorIfUnderTwoCharacters(undefined, 'landlordAddressLine1')).toBe(true);
+      expect(getTooShortErrorIfUnderMinimumCharacters('', 'landlordAddressLine1')).toBe(true);
+      expect(getTooShortErrorIfUnderMinimumCharacters(undefined, 'landlordAddressLine1')).toBe(true);
     });
   });
 });
