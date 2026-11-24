@@ -27,6 +27,7 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: true,
       isPageHeading: false,
+      classes: 'govuk-!-width-full',
       maxLength: 100,
       translationKey: { label: 'labels.landlordAddressLine1' },
       errorMessage: 'errors.landlordAddressLine1.required',
@@ -40,6 +41,7 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: false,
       isPageHeading: false,
+      classes: 'govuk-!-width-full',
       maxLength: 100,
       translationKey: { label: 'labels.landlordAddressLine2' },
       attributes: {
@@ -52,6 +54,7 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: true,
       isPageHeading: false,
+      classes: 'govuk-!-width-two-thirds',
       maxLength: 100,
       translationKey: { label: 'labels.landlordPostTown' },
       attributes: {
@@ -64,6 +67,7 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: false,
       isPageHeading: false,
+      classes: 'govuk-!-width-two-thirds',
       maxLength: 100,
       translationKey: { label: 'labels.landlordCounty' },
       attributes: {
@@ -76,6 +80,7 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: false,
       isPageHeading: false,
+      classes: 'govuk-!-width-one-third',
       translationKey: { label: 'labels.landlordPostcode', hint: 'hints.landlordPostcode' },
     },
     {
@@ -83,6 +88,7 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: true,
       isPageHeading: false,
+      classes: 'govuk-!-width-one-third',
       maxLength: 100,
       translationKey: { label: 'labels.landlordCountry' },
       errorMessage: 'errors.landlordCountry.required',

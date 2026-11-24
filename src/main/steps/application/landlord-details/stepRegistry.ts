@@ -1,10 +1,8 @@
 import { step as checkYourAnswersLandlordDetails } from './check-your-answers-landlord-details';
 import { step as landlordAddress } from './landlord-address';
 import { step as landlordEmailAddress } from './landlord-email-address';
-import { step as landlordHasLettingAgentOrRepresentative } from './landlord-has-letting-agent-or-representative';
+import { step as landlordHasRepresentative } from './landlord-has-representative';
 import { step as landlordIndividualOrOrganisation } from './landlord-individual-or-organisation';
-import { step as landlordLettingAgentEmailAddress } from './landlord-letting-agent-email-address';
-import { step as landlordLettingAgentPhoneNumber } from './landlord-letting-agent-phone-number';
 import { step as landlordPhoneNumber } from './landlord-phone-number';
 import { step as landlordRepresentativeAddress } from './landlord-representative-address';
 import { step as landlordRepresentativeDetails } from './landlord-representative-details';
@@ -18,9 +16,7 @@ export const landlordDetailsStepRegistry = {
   'landlord-address': landlordAddress,
   'landlord-email-address': landlordEmailAddress,
   'landlord-phone-number': landlordPhoneNumber,
-  'landlord-has-letting-agent-or-representative': landlordHasLettingAgentOrRepresentative,
-  'landlord-letting-agent-email-address': landlordLettingAgentEmailAddress,
-  'landlord-letting-agent-phone-number': landlordLettingAgentPhoneNumber,
+  'landlord-has-representative': landlordHasRepresentative,
   'landlord-representative-details': landlordRepresentativeDetails,
   'landlord-representative-address': landlordRepresentativeAddress,
   'landlord-representative-email-address': landlordRepresentativeEmailAddress,

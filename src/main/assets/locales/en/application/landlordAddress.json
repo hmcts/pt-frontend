@@ -15,7 +15,7 @@
   },
   "errors": {
     "landlordAddressLine1": {
-      "required": "Enter address line 1",
+      "required": "Enter address line 1, typically the building and street",
       "tooShort": "Address line 1 must be 2 characters or more"
     },
     "landlordAddressLine2": {

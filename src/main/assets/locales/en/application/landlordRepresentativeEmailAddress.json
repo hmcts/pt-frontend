@@ -1,10 +1,10 @@
 {
-  "pageTitle": "Your landlord's representative's email address",
-  "heading": "Your landlord's representative's email address",
+  "pageTitle": "The landlord's representative’s email address (optional)",
+  "heading": "The landlord's representative’s email address (optional)",
   "errors": {
     "representativeEmailAddress": {
       "required": "Enter an email address",
-      "invalid": "Enter an email address in the correct format, like name@example.com"
+      "invalid": "Email address must be in the correct format, like name@example.com"
     }
   }
 }

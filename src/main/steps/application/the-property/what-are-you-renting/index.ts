@@ -34,7 +34,7 @@ export const step: StepDefinition = createFormStep({
               type: 'textarea',
               maxLength: 500,
               required: false,
-              errorMessage: 'errors.textUpdatesPhoneNumber.required',
+              errorMessage: 'errors.roomOrRoomsDescription.required',
               translationKey: {
                 label: 'options.roomOrRooms.roomOrRoomsDescriptionLabel',
                 hint: 'options.roomOrRooms.roomOrRoomsDescriptionHint',
