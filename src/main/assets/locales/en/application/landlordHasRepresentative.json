@@ -1,0 +1,9 @@
+{
+  "questionTitle": "Does your landlord have a representative?",
+  "questionHint": "This could be a letting agent or legal representative",
+  "errors": {
+    "landlordHasRepresentative": {
+      "required": "Select whether your landlord has a representative"
+    }
+  }
+}
