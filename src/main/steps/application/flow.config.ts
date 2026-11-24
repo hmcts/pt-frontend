@@ -55,6 +55,9 @@ export const flowConfig: JourneyFlowConfig = {
     'landlord-representative-details': {
       showCondition: (req: Request) => hasLandlordRepresentative(req),
     },
+    'landlord-representative-address': {
+      showCondition: (req: Request) => hasLandlordRepresentative(req),
+    },
     'landlord-representative-email-address': {
       showCondition: (req: Request) => hasLandlordRepresentative(req),
     },
