@@ -317,8 +317,6 @@ export interface LettingAgentDetails {
 
 export interface LandlordDetails {
   landlordIndividualOrOrganisation?: string;
-  landlordPhoneNumber?: string;
-  landlordHasLettingAgentOrRepresentative?: string;
   landlordEmailAddress?: string;
   landlordAddressLine1?: string;
   landlordAddressLine2?: string;
@@ -326,6 +324,11 @@ export interface LandlordDetails {
   landlordCounty?: string;
   landlordPostcode?: string;
   landlordCountry?: string;
+  landlordPhoneNumber?: string;
+  landlordHasRepresentative?: string;
+  representativeFirstName?: string;
+  representativeLastName?: string;
+  representativeCompanyName?: string;
   representativeEmailAddress?: string;
   representativePhoneNumber?: string;
 }

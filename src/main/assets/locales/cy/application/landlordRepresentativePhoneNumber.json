@@ -1,9 +1,9 @@
 {
-  "pageTitle": "cyYour landlord's representative's phone number (optional)",
-  "heading": "cyYour landlord's representative's phone number (optional)",
+  "pageTitle": "cyThe landlord's representative’s contact phone number (optional)",
+  "heading": "cyThe landlord's representative’s contact phone number (optional)",
   "errors": {
     "representativePhoneNumber": {
-      "invalid": "cyEnter a phone number in the correct format, including the country code for international numbers"
+      "invalid": "cyPhone number must be in the correct format, like 01632 960 001, 07700 900 982 or +44 808 157 0192"
     }
   }
 }
