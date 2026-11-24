@@ -174,6 +174,7 @@ export interface CcdCaseData {
 
   landlordResponse?: {
     tenancyDetailsResponseEvidence?: CcdCollectionItem<CcdUploadedDocument>[];
+    propertyDetailsResponseEvidence?: CcdCollectionItem<CcdUploadedDocument>[];
   };
 
   tenancyAgreementDetails?: {
@@ -444,6 +445,7 @@ export interface LandlordResponse {
   respondToTenantAnswersAboutPropertyDetails?: string;
   respondToTenantAnswersAboutPropertyDetailsDescription?: string;
   tenancyDetailsResponseEvidence?: PtCaseDocument[];
+  propertyDetailsResponseEvidence?: PtCaseDocument[];
 }
 
 export interface LandlordResponsePropertyAddress {
