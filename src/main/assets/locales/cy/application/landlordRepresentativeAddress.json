@@ -1,20 +1,19 @@
 {
-  "pageTitle": "cyThe landlord’s representative’s address",
-  "heading": "cyThe landlord’s representative’s address",
+  "pageTitle": "cyThe landlord's representative's address",
+  "heading": "cyThe landlord's representative's address",
   "labels": {
     "representativeAddressLine1": "cyAddress line 1",
     "representativeAddressLine2": "cyAddress line 2 (optional)",
     "representativePostTown": "cyTown or city",
     "representativeCounty": "cyCounty or region (optional)",
-    "representativePostcode": "cyPostcode or area code (optional)",
-    "representativeCountry": "cyCountry"
+    "representativePostcode": "cyPostcode or area code (optional)"
   },
   "hints": {
     "representativePostcode": "cyLeave blank if the address does not have one"
   },
   "errors": {
     "representativeAddressLine1": {
-      "required": "cyEnter address line 1",
+      "required": "cyEnter address line 1, typically the building and street",
       "tooShort": "cyAddress line 1 must be 2 characters or more"
     },
     "representativeAddressLine2": {
@@ -27,14 +26,9 @@
     "representativeCounty": {
       "tooShort": "cyCounty or region must be 2 characters or more"
     },
-    "representativeCountry": {
-      "required": "cyEnter country",
-      "tooShort": "cyCountry must be 2 characters or more"
-    },
     "representativeAddressLine1MaxLength": "cyAddress line 1 must be 100 characters or less",
     "representativeAddressLine2MaxLength": "cyAddress line 2 must be less than 100 characters or less",
     "representativePostTownMaxLength": "cyTown or city must be 100 characters or less",
-    "representativeCountyMaxLength": "cyCounty or region must be 100 characters or less",
-    "representativeCountryMaxLength": "cyCountry must be 100 characters or less"
+    "representativeCountyMaxLength": "cyCounty or region must be 100 characters or less"
   }
 }

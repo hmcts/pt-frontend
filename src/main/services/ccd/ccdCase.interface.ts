@@ -331,7 +331,6 @@ export interface LandlordDetails {
   representativePostTown?: string;
   representativeCounty?: string;
   representativePostcode?: string;
-  representativeCountry?: string;
   representativeEmailAddress?: string;
   representativePhoneNumber?: string;
 }

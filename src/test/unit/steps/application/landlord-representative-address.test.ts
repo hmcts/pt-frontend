@@ -17,7 +17,6 @@ describe('application landlord-representative-address step', () => {
   const requiredParts = {
     representativeAddressLine1: '1 High Street',
     representativePostTown: 'Leeds',
-    representativeCountry: 'United Kingdom',
   };
 
   describe('isAnswered', () => {
@@ -30,12 +29,9 @@ describe('application landlord-representative-address step', () => {
       expect(capturedConfig.isAnswered(makeReq(requiredParts))).toBe(true);
     });
 
-    it.each(['representativeAddressLine1', 'representativePostTown', 'representativeCountry'])(
-      'is not answered when %s is missing',
-      missing => {
-        expect(capturedConfig.isAnswered(makeReq({ ...requiredParts, [missing]: undefined }))).toBe(false);
-      }
-    );
+    it.each(['representativeAddressLine1', 'representativePostTown'])('is not answered when %s is missing', missing => {
+      expect(capturedConfig.isAnswered(makeReq({ ...requiredParts, [missing]: undefined }))).toBe(false);
+    });
   });
 
   describe('validators', () => {
@@ -47,7 +43,6 @@ describe('application landlord-representative-address step', () => {
       ['representativeAddressLine2', 'errors.representativeAddressLine2.tooShort'],
       ['representativePostTown', 'errors.representativePostTown.tooShort'],
       ['representativeCounty', 'errors.representativeCounty.tooShort'],
-      ['representativeCountry', 'errors.representativeCountry.tooShort'],
     ])('rejects a one character %s', (name, errorKey) => {
       expect(validatorFor(name)('ab')).toBe(true);
       expect(validatorFor(name)('a')).toBe(errorKey);
@@ -88,7 +83,6 @@ describe('application landlord-representative-address step', () => {
               'landlord-representative-address': {
                 representativeAddressLine1: 'Amended Line 1',
                 representativePostTown: 'Amended Town',
-                representativeCountry: 'Amended Country',
               },
             },
           },
@@ -99,7 +93,6 @@ describe('application landlord-representative-address step', () => {
       expect(capturedConfig.getInitialFormData(req)).toEqual({
         representativeAddressLine1: 'Amended Line 1',
         representativePostTown: 'Amended Town',
-        representativeCountry: 'Amended Country',
       });
     });
 

@@ -27,6 +27,7 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: true,
       isPageHeading: false,
+      classes: 'govuk-!-width-full',
       maxLength: 100,
       translationKey: { label: 'labels.representativeAddressLine1' },
       errorMessage: 'errors.representativeAddressLine1.required',
@@ -40,6 +41,7 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: false,
       isPageHeading: false,
+      classes: 'govuk-!-width-full',
       maxLength: 100,
       translationKey: { label: 'labels.representativeAddressLine2' },
       attributes: {
@@ -52,6 +54,7 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: true,
       isPageHeading: false,
+      classes: 'govuk-!-width-two-thirds',
       maxLength: 100,
       translationKey: { label: 'labels.representativePostTown' },
       attributes: {
@@ -64,6 +67,7 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: false,
       isPageHeading: false,
+      classes: 'govuk-!-width-two-thirds',
       maxLength: 100,
       translationKey: { label: 'labels.representativeCounty' },
       attributes: {
@@ -76,20 +80,8 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: false,
       isPageHeading: false,
+      classes: 'govuk-!-width-one-third',
       translationKey: { label: 'labels.representativePostcode', hint: 'hints.representativePostcode' },
-    },
-    {
-      name: 'representativeCountry',
-      type: 'text',
-      required: true,
-      isPageHeading: false,
-      maxLength: 100,
-      translationKey: { label: 'labels.representativeCountry' },
-      errorMessage: 'errors.representativeCountry.required',
-      attributes: {
-        autocomplete: 'country',
-      },
-      validator: value => getTooShortErrorIfUnderMinimumCharacters(value, 'representativeCountry'),
     },
   ],
 
@@ -106,8 +98,6 @@ export const step: StepDefinition = createFormStep({
       getFormDataString(req, stepName, 'representativeCounty') ?? caseData?.representativeCounty;
     const representativePostcode =
       getFormDataString(req, stepName, 'representativePostcode') ?? caseData?.representativePostcode;
-    const representativeCountry =
-      getFormDataString(req, stepName, 'representativeCountry') ?? caseData?.representativeCountry;
 
     return {
       ...(representativeAddressLine1 && { representativeAddressLine1 }),
@@ -115,13 +105,10 @@ export const step: StepDefinition = createFormStep({
       ...(representativePostTown && { representativePostTown }),
       ...(representativeCounty && { representativeCounty }),
       ...(representativePostcode && { representativePostcode }),
-      ...(representativeCountry && { representativeCountry }),
     };
   },
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  return Boolean(
-    ccdCase?.representativeAddressLine1 && ccdCase?.representativePostTown && ccdCase?.representativeCountry
-  );
+  return Boolean(ccdCase?.representativeAddressLine1 && ccdCase?.representativePostTown);
 }
