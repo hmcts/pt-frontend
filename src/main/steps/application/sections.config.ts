@@ -49,6 +49,7 @@ const sectionDefs = [
       'landlord-letting-agent-email-address',
       'landlord-letting-agent-phone-number',
       'landlord-representative-details',
+      'landlord-representative-address',
       'landlord-representative-email-address',
       'landlord-representative-phone-number',
       'check-your-answers-landlord-details',

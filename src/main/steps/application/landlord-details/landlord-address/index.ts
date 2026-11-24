@@ -72,7 +72,7 @@ export const step: StepDefinition = createFormStep({
       validator: value => getTooShortErrorIfUnderMinimumCharacters(value, 'landlordCounty'),
     },
     {
-      name: 'landlordPostCode',
+      name: 'landlordPostcode',
       type: 'text',
       required: false,
       isPageHeading: false,

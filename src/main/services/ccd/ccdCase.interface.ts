@@ -326,6 +326,12 @@ export interface LandlordDetails {
   landlordCounty?: string;
   landlordPostcode?: string;
   landlordCountry?: string;
+  representativeAddressLine1?: string;
+  representativeAddressLine2?: string;
+  representativePostTown?: string;
+  representativeCounty?: string;
+  representativePostcode?: string;
+  representativeCountry?: string;
   representativeEmailAddress?: string;
   representativePhoneNumber?: string;
 }

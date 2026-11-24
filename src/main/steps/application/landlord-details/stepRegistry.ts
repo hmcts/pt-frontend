@@ -6,6 +6,7 @@ import { step as landlordIndividualOrOrganisation } from './landlord-individual-
 import { step as landlordLettingAgentEmailAddress } from './landlord-letting-agent-email-address';
 import { step as landlordLettingAgentPhoneNumber } from './landlord-letting-agent-phone-number';
 import { step as landlordPhoneNumber } from './landlord-phone-number';
+import { step as landlordRepresentativeAddress } from './landlord-representative-address';
 import { step as landlordRepresentativeDetails } from './landlord-representative-details';
 import { step as landlordRepresentativeEmailAddress } from './landlord-representative-email-address';
 import { step as landlordRepresentativePhoneNumber } from './landlord-representative-phone-number';
@@ -21,6 +22,7 @@ export const landlordDetailsStepRegistry = {
   'landlord-letting-agent-email-address': landlordLettingAgentEmailAddress,
   'landlord-letting-agent-phone-number': landlordLettingAgentPhoneNumber,
   'landlord-representative-details': landlordRepresentativeDetails,
+  'landlord-representative-address': landlordRepresentativeAddress,
   'landlord-representative-email-address': landlordRepresentativeEmailAddress,
   'landlord-representative-phone-number': landlordRepresentativePhoneNumber,
   'check-your-answers-landlord-details': checkYourAnswersLandlordDetails,
