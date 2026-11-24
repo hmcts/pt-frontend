@@ -14,11 +14,6 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/landlordRepresentativePhoneNumber.njk`,
   showCancelButton: false,
-  isAnswered: req =>
-    Boolean(
-      req.session.ccdCase?.representativePhoneNumber &&
-      isValidPhoneNumber(req.session.ccdCase.representativePhoneNumber)
-    ),
   translationKeys: {
     pageTitle: 'pageTitle',
   },
