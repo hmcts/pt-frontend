@@ -15,7 +15,7 @@
   },
   "errors": {
     "landlordAddressLine1": {
-      "required": "cyEnter address line 1",
+      "required": "cyEnter address line 1, typically the building and street",
       "tooShort": "cyAddress line 1 must be 2 characters or more"
     },
     "landlordAddressLine2": {
