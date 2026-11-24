@@ -97,6 +97,14 @@ export const DOCUMENT_FIELDS = {
     multiple: true,
     extraExtensions: { '.mp3': 100, '.mp4': 100 },
   },
+  propertyDetailsResponseEvidence: {
+    slice: 'landlordResponse',
+    ptApiField: 'propertyDetailsResponseEvidence',
+    ccdField: 'propertyDetailsResponseEvidence',
+    documentType: 'evidenceSupportingResponseToPropertyDetails',
+    multiple: true,
+    extraExtensions: { '.mp3': 100, '.mp4': 100 },
+  },
 } satisfies Record<string, DocumentFieldDefinition>;
 
 export type DocumentFieldKey = keyof typeof DOCUMENT_FIELDS;
