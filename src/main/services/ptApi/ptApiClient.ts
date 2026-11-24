@@ -9,6 +9,21 @@ import { Logger } from '@modules/logger';
 
 const logger = Logger.getLogger('pt-api-client');
 
+export interface CreateCardPaymentRequest {
+  language: string;
+  returnUrl: string;
+}
+
+export interface CreateCardPaymentResponse {
+  paymentReference: string;
+  status: string;
+  nextUrl: string;
+}
+
+export interface CardPaymentStatusResponse {
+  status: string;
+}
+
 export class PtApiClient {
   constructor(private readonly client: AxiosInstance) {}
 
@@ -47,6 +62,34 @@ export class PtApiClient {
       await this.client.post<void>(`/cases/${caseReference}/validate-access-code`, { accessCode });
     } catch (err) {
       logger.error(`Could not link respondent to case ${caseReference}`, err);
+      throw err;
+    }
+  }
+
+  async createCardPayment(
+    serviceRequestReference: string,
+    request: CreateCardPaymentRequest
+  ): Promise<CreateCardPaymentResponse> {
+    try {
+      const response = await this.client.post<CreateCardPaymentResponse>(
+        `/payment/service-request/${encodeURIComponent(serviceRequestReference)}/card-payment`,
+        request
+      );
+      return response.data;
+    } catch (err) {
+      logger.error('Failed to create card payment', err, { serviceRequestReference });
+      throw err;
+    }
+  }
+
+  async getCardPaymentStatus(paymentReference: string): Promise<CardPaymentStatusResponse> {
+    try {
+      const response = await this.client.get<CardPaymentStatusResponse>(
+        `/payment/card-payment/${encodeURIComponent(paymentReference)}/status`
+      );
+      return response.data;
+    } catch (err) {
+      logger.error('Failed to get card payment status', err, { paymentReference });
       throw err;
     }
   }

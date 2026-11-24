@@ -3,7 +3,7 @@
   "heading": "cyCheck the property details",
   "address": "cyAddress",
   "question": "cyHas the tenant provided the correct address of the property?",
-  "correctAddressHint": "cyEnter the correct address of the property",
+  "correctAddressHint": "<p class=\"govuk-hint\">cyEnter the correct address of the property</p>",
   "labels": {
     "addressLine1": "cyAddress line 1",
     "addressLine2": "cyAddress line 2 (optional)",
