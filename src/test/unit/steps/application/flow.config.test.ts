@@ -66,32 +66,23 @@ describe('application flow config show conditions', () => {
     expect(isShown(stepName, makeReq())).toBe(false);
   });
 
-  describe('letting agent and representative pages', () => {
-    const parentStep = 'landlord-has-letting-agent-or-representative';
-    const answers = [
-      'lettingAgentOnly',
-      'representativeOnly',
-      'lettingAgentAndRepresentative',
-      'noLettingAgentAndRepresentative',
-      'notSure',
-    ];
-    const agentAnswers = ['lettingAgentOnly', 'lettingAgentAndRepresentative'];
-    const representativeAnswers = ['representativeOnly', 'lettingAgentAndRepresentative'];
+  describe('letting representative pages', () => {
+    const parentStep = 'landlord-has-representative';
+    const answers = ['Yes', 'No', 'NotSure'];
+    const showFor = ['Yes'];
 
-    const gates: [string, string[]][] = [
-      ['landlord-letting-agent-email-address', agentAnswers],
-      ['landlord-letting-agent-phone-number', agentAnswers],
-      ['landlord-representative-details', representativeAnswers],
-      ['landlord-representative-email-address', representativeAnswers],
-      ['landlord-representative-phone-number', representativeAnswers],
+    const gates = [
+      'landlord-representative-details',
+      'landlord-representative-email-address',
+      'landlord-representative-phone-number',
     ];
 
     it.each(
-      gates.flatMap(([stepName, showFor]) =>
+      gates.flatMap(stepName =>
         answers.map(answer => [stepName, showFor.includes(answer) ? 'shows' : 'hides', answer] as const)
       )
     )('%s %s for %s', (stepName, outcome, answer) => {
-      const req = makeReq({ [parentStep]: { landlordHasLettingAgentOrRepresentative: answer } });
+      const req = makeReq({ [parentStep]: { landlordHasRepresentative: answer } });
 
       expect(isShown(stepName, req)).toBe(outcome === 'shows');
     });

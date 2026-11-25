@@ -32,7 +32,8 @@
       "required": "cy Select what you are renting"
     },
     "roomOrRoomsDescription": {
-      "invalid": "cy Enter a valid description of the room or rooms you ar renting"
+      "required": "cy Enter a description of the room or rooms you are renting",
+      "invalid": "cy Enter a valid description of the room or rooms you are renting"
     },
     "flatFloor": {
       "invalid": "cy Enter a valid floor that your flat is on"
