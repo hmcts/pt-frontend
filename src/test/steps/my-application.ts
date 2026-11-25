@@ -26,6 +26,11 @@ Given('the user has successfully logged on to market-rent-determination applicat
   await verifyRedirectedToPtUI();
 });
 
+Given('the {string} user has successfully logged on to market-rent-determination application', async (role: string) => {
+  await submitSignInCredentials(resolveIdamEmail(role), resolveIdamPassword(), { waitForPtRedirect: true });
+  await verifyRedirectedToPtUI();
+});
+
 Then('check that the user is redirected to the my-application page', async () => {
   I.waitForText(myApplication.myApplicationPageHeading);
 });
