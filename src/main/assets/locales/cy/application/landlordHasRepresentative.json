@@ -1,0 +1,9 @@
+{
+  "questionTitle": "cyDoes your landlord have a representative?",
+  "questionHint": "cyThis could be a letting agent or legal representative",
+  "errors": {
+    "landlordHasRepresentative": {
+      "required": "cySelect whether your landlord has a representative"
+    }
+  }
+}

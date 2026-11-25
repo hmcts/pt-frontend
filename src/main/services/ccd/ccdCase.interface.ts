@@ -10,6 +10,8 @@ export const CITIZEN_DELETE_DOCUMENT = 'citizen-delete-document';
 
 export const RESPONDENT_UPDATE_RESPONSE = 'respondent-update-response';
 export const RESPONDENT_SUBMIT_RESPONSE = 'respondent-submit-response';
+export const RESPONDENT_UPLOAD_DOCUMENT = 'respondent-upload-document';
+export const RESPONDENT_DELETE_DOCUMENT = 'respondent-delete-document';
 
 export type YesNoValue = 'Yes' | 'No' | null;
 export type YesNoNotSureValue = 'YES' | 'NO' | 'NOT_SURE' | null;
@@ -170,6 +172,10 @@ export interface CcdCaseData {
     additionalInfoToConsiderWhenDeterminingRentDetails?: string;
   };
 
+  landlordResponse?: {
+    tenancyDetailsResponseEvidence?: CcdCollectionItem<CcdUploadedDocument>[];
+  };
+
   tenancyAgreementDetails?: {
     copyOfTenancyAgreement?: string | boolean;
     noTenancyAgreementReason?: string;
@@ -311,9 +317,12 @@ export interface LettingAgentDetails {
 
 export interface LandlordDetails {
   landlordIndividualOrOrganisation?: string;
-  landlordPhoneNumber?: string;
-  landlordHasLettingAgentOrRepresentative?: string;
   landlordEmailAddress?: string;
+  landlordPhoneNumber?: string;
+  landlordHasRepresentative?: string;
+  representativeFirstName?: string;
+  representativeLastName?: string;
+  representativeCompanyName?: string;
   representativeEmailAddress?: string;
   representativePhoneNumber?: string;
 }
@@ -429,9 +438,13 @@ export interface HelpWithFeesDetails {
   appliedForHelpWithFees?: YesNoValue;
   referenceNumber?: string;
 }
+
 export interface LandlordResponse {
   propertyAddress?: LandlordResponsePropertyAddress;
   servedNoticeProposingNewRent?: YesNoValue;
+  respondToTenantAnswersAboutTenancyDetails?: string;
+  respondToTenantAnswersAboutTenancyDetailsDescription?: string;
+  tenancyDetailsResponseEvidence?: PtCaseDocument[];
 }
 
 export interface LandlordResponsePropertyAddress {
