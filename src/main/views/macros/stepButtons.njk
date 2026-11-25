@@ -16,13 +16,3 @@
     {% endif %}
   </div>
 {% endmacro %}
-
-{# Navigation back to the landlord response case overview #}
-{% macro returnToCaseOverview(caseReference) %}
-  {% if caseReference %}
-    {{ govukButton({
-      text: 'Return to your case overview',
-      href: '/' + caseReference + '/landlord-response/task-list'
-    }) }}
-  {% endif %}
-{% endmacro %}

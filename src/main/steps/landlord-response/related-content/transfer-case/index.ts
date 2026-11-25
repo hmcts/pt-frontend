@@ -1,6 +1,7 @@
 import { flowConfig } from '../../flow.config';
 
 import { createFormStep } from '@modules/steps';
+import { getStepUrl } from '@modules/steps/flow';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 
 const journeyName = 'landlord-response';
@@ -17,9 +18,10 @@ export const step: StepDefinition = createFormStep({
   translationKeys: {
     pageTitle: 'pageTitle',
     heading: 'heading',
+    returnToCaseOverview: 'returnToCaseOverview',
   },
-  extendGetContent: async req => ({
-    returnCaseReference: req.params.caseReference,
+  extendGetContent: req => ({
+    returnCaseOverviewUrl: getStepUrl('task-list', flowConfig, req.params.caseReference as string),
   }),
   fields: [],
 });

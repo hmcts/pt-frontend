@@ -4,5 +4,6 @@
   "guidance": {
     "paragraph1": "cyIf you want your letting agent or representative to respond and manage this case, you need to send them the email or letter we sent you. Ask them to follow instructions under the section 'Access the case as a letting agent or representative'. They will need to create or sign in to a 'MyHMCTS' account.",
     "paragraph2": "cyOnce they have followed the steps to access the case, the tribunal will communicate with your letting agent or representative."
-  }
+  },
+  "returnToCaseOverview": "cyReturn to your case overview"
 }

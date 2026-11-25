@@ -1,18 +1,19 @@
 {% extends "stepsTemplate.njk" %}
-{% from "macros/stepButtons.njk" import stepButtons, returnToCaseOverview %}
 
 {% block pageTitle %}{{ pageTitle }} &ndash; HM Courts &amp; Tribunals Service &ndash; GOV.UK{% endblock %}
 
 {% block mainContent %}
-
   <h1 class="govuk-heading-l">{{ t('heading') }}</h1>
 
   <p class="govuk-body">{{ t('guidance.paragraph1') }}</p>
 
   <p class="govuk-body">{{ t('guidance.paragraph2') }}</p>
-    
-  <div class="govuk-!-margin-top-6">
-  {{ returnToCaseOverview(returnCaseReference) }}
-  </div>
 
+  <div class="govuk-!-margin-top-6">
+  <p class="govuk-body">
+    <a href="{{ returnCaseOverviewUrl }}" class="govuk-button">
+      {{ t('returnToCaseOverview') }}
+    </a>
+  </p>
+  </div>
 {% endblock %}
