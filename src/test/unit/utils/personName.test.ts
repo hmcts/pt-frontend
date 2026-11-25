@@ -1,4 +1,4 @@
-import { isValidPersonName } from '@utils/personName';
+import { isValidPersonName, validatePersonName } from '@utils/personName';
 
 describe('isValidPersonName', () => {
   it('should accept names with letters, spaces, hyphens and apostrophes', () => {
@@ -15,5 +15,19 @@ describe('isValidPersonName', () => {
     expect(isValidPersonName('José')).toBe(false);
     expect(isValidPersonName('')).toBe(false);
     expect(isValidPersonName('   ')).toBe(false);
+  });
+});
+
+describe('validatePersonaName', () => {
+  it('returns tooShort when the name has fewer than 2 characters', () => {
+    expect(validatePersonName('a', 'representativeFirstName')).toBe('errors.representativeFirstName.tooShort');
+  });
+
+  it('returns invalid when the name contains dissalowed characters', () => {
+    expect(validatePersonName('John2', 'representativeLastName')).toBe('errors.representativeLastName.invalid');
+  });
+
+  it('returns true for a valid name', () => {
+    expect(validatePersonName('Arthur-James', 'representativeFirstName')).toBe(true);
   });
 });

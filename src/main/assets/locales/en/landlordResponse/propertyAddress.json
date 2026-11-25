@@ -3,7 +3,7 @@
   "heading": "Check the property details",
   "address": "Address",
   "question": "Has the tenant provided the correct address of the property?",
-  "correctAddressHint": "Enter the correct address of the property",
+  "correctAddressHint": "<p class=\"govuk-hint\">Enter the correct address of the property</p>",
   "labels": {
     "addressLine1": "Address line 1",
     "addressLine2": "Address line 2 (optional)",

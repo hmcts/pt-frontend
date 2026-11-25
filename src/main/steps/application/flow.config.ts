@@ -52,32 +52,8 @@ export const flowConfig: JourneyFlowConfig = {
       showCondition: (req: Request) =>
         getFormData(req, 'other-household-management-charges').anyOtherHouseholdManagementCharges === 'Yes',
     },
-    'landlord-letting-agent-email-address': {
-      showCondition: (req: Request) => {
-        const answer = getFormData(
-          req,
-          'landlord-has-letting-agent-or-representative'
-        ).landlordHasLettingAgentOrRepresentative;
-        return answer === 'lettingAgentOnly' || answer === 'lettingAgentAndRepresentative';
-      },
-    },
-    'landlord-letting-agent-phone-number': {
-      showCondition: (req: Request) => {
-        const answer = getFormData(
-          req,
-          'landlord-has-letting-agent-or-representative'
-        ).landlordHasLettingAgentOrRepresentative;
-        return answer === 'lettingAgentOnly' || answer === 'lettingAgentAndRepresentative';
-      },
-    },
     'landlord-representative-details': {
-      showCondition: (req: Request) => {
-        const answer = getFormData(
-          req,
-          'landlord-has-letting-agent-or-representative'
-        ).landlordHasLettingAgentOrRepresentative;
-        return answer === 'representativeOnly' || answer === 'lettingAgentAndRepresentative';
-      },
+      showCondition: (req: Request) => hasLandlordRepresentative(req),
     },
     'landlord-representative-email-address': {
       showCondition: (req: Request) => hasLandlordRepresentative(req),
@@ -92,9 +68,5 @@ export const flowConfig: JourneyFlowConfig = {
 };
 
 function hasLandlordRepresentative(req: Request): boolean {
-  const answer = getFormData(
-    req,
-    'landlord-has-letting-agent-or-representative'
-  ).landlordHasLettingAgentOrRepresentative;
-  return ['representativeOnly', 'lettingAgentAndRepresentative'].includes(answer as string);
+  return getFormData(req, 'landlord-has-representative').landlordHasRepresentative === 'Yes';
 }
