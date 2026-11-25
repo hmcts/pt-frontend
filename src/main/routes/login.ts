@@ -24,7 +24,6 @@ export default function (app: Application): void {
       }
       res
         .clearCookie(config.get('session.cookieName'), { path: '/' })
-        .setHeader('Clear-Site-Data', '"cache", "cookies", "storage"')
         .redirect(getEndIdamSessionUrl(`${protocol}${res.locals.host}${port}`));
     });
   });

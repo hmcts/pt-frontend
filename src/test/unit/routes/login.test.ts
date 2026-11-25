@@ -116,7 +116,6 @@ describe('login route', () => {
 
       expect(req.session.destroy).toHaveBeenCalled();
       expect(res.clearCookie).toHaveBeenCalledWith('pt_session', { path: '/' });
-      expect(res.setHeader).toHaveBeenCalledWith('Clear-Site-Data', '"cache", "cookies", "storage"');
       expect(res.redirect).toHaveBeenCalledWith(
         'https://idam-web-public.aat.platform.hmcts.net/o/endSession?post_logout_redirect_uri=https%3A%2F%2Fpt.aat.platform.hmcts.net'
       );
