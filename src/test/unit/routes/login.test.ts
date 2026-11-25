@@ -77,11 +77,9 @@ const buildResponse = (): Response => {
   const res = {
     locals: { host: 'pt.aat.platform.hmcts.net' },
     clearCookie: jest.fn(),
-    setHeader: jest.fn(),
     redirect: jest.fn(),
   };
   res.clearCookie.mockReturnValue(res);
-  res.setHeader.mockReturnValue(res);
   return res as unknown as Response;
 };
 
