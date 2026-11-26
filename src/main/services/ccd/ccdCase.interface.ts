@@ -371,6 +371,7 @@ export interface PropertyDetails {
   landlordRepairsDetails?: string;
   tenantRepairsDetails?: string;
   anyTenantsMadePropertyRepairs?: string | boolean;
+  tenantsPropertyRepairsDetails?: string;
   floorPlanDocuments?: { url?: string }[];
   repairsEvidenceDocuments?: { url?: string }[];
 }

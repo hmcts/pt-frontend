@@ -458,6 +458,14 @@ export function prepareApplicationDataForSave(
             propertyDetails?.tenantRepairsDetails,
 
           anyTenantsMadePropertyRepairs,
+          tenantsPropertyRepairsDetails:
+            String(anyTenantsMadePropertyRepairs).toLowerCase() === 'yes'
+              ? (getFormDataString(
+                  req,
+                  'repairs-and-improvements',
+                  'anyTenantsMadePropertyRepairs.tenantsPropertyRepairsDetails'
+                ) ?? propertyDetails?.tenantsPropertyRepairsDetails)
+              : undefined,
         },
       };
     }

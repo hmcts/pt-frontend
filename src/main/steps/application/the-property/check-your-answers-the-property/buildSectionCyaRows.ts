@@ -141,7 +141,7 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
       'propertyFloorPlanAvailable',
       'floorPlanManualDetails'
     );
-    pushTextRow('floor-plan-of-property', 'floorPlanManualDetails', false, layoutDescription);
+    pushTextRow('floor-plan-of-property', 'floorPlanManualDetails', true, layoutDescription);
   }
 
   // Upload floor plan
@@ -235,6 +235,15 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
   const repairsAndImprovements = read('repairs-and-improvements', 'anyTenantsMadePropertyRepairs');
 
   pushChoiceRow('repairs-and-improvements', 'anyTenantsMadePropertyRepairs', repairsAndImprovements);
+
+  if (repairsAndImprovements?.trim().toUpperCase() === 'YES') {
+    const tenantsPropertyRepairsDetails = readSubField(
+      'repairs-and-improvements',
+      'anyTenantsMadePropertyRepairs',
+      'tenantsPropertyRepairsDetails'
+    );
+    pushTextRow('repairs-and-improvements', 'tenantsPropertyRepairsDetails', true, tenantsPropertyRepairsDetails);
+  }
 
   // Upload - repairs and improvements
   if (isYes(repairsAndImprovements)) {

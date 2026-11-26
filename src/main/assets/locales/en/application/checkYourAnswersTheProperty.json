@@ -43,7 +43,7 @@
       }
     },
     "floorPlanManualDetails": {
-      "label": "Describe the layout of the property",
+      "label": "Describe the layout of the property (optional)",
       "changeHidden": "the layout of the property"
     },
     "floorPlanDocuments": {
@@ -51,7 +51,7 @@
       "changeHidden": "the uploaded floor plan of the property"
     },
     "indoorFeatures": {
-      "label": "Tell us about the property's indoor features",
+      "label": "Tell us about the property's indoor features (optional)",
       "changeHidden": "the property's indoor features",
       "empty": "Not Answered"
     },
@@ -137,9 +137,13 @@
         "notSure": "I'm not sure"
       }
     },
+    "tenantsPropertyRepairsDetails": {
+      "label": "Describe the improvements and repair work",
+      "changeHidden": "a description of the repairs or improvements"
+    },
     "repairsEvidenceDocuments": {
-      "label": "Upload evidence of the improvements or repairs (optional)",
-      "changeHidden": "the uploaded evidence of improvements or repairs"
+      "label": "Upload evidence of the repairs or improvements (optional)",
+      "changeHidden": "the uploaded evidence of repairs or improvements"
     }
   },
   "reviewAndChangeInfo": "You can review and change your answers before you submit your application."
