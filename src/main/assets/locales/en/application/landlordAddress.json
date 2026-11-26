@@ -33,7 +33,7 @@
       "tooShort": "Country must be 2 characters or more"
     },
     "landlordPostcode": {
-      "tooShort": "Postcode must be 2 characters or more"
+      "tooShort": "Postcode or area code must be 2 characters or more"
     },
     "landlordAddressLine1MaxLength": "Address line 1 must be 100 characters or less",
     "landlordAddressLine2MaxLength": "Address line 2 must be less than 100 characters or less",
