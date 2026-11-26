@@ -1,6 +1,6 @@
 # @JIRA-EPIC:HDPD-1004 @regression
 
-# Feature: Validate Letting Agent Phone Number Page
+Feature: Validate Letting Agent Phone Number Page
 
 #     Background:
 #         Given the user navigates to PT url

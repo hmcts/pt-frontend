@@ -17,7 +17,14 @@ export function resolveIdamPassword(): string {
   return password;
 }
 
-export function resolveIdamEmail(): string {
+export function resolveIdamEmail(role: string = 'citizen'): string {
+  if (role === 'landlord') {
+    return 'pt-citizen-landlord@test.com';
+  }
+  if (role !== 'citizen') {
+    throw new Error(`Unknown test user role: "${role}"`);
+  }
+
   const email = process.env.IDAM_PT_USER_EMAIL?.trim() || testConfig.IDAM_PT_USER_EMAIL?.trim();
   if (!email) {
     throw new Error('idam.testUser.email is not set in config/test.json (or IDAM_PT_USER_EMAIL).');

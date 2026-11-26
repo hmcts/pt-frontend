@@ -453,6 +453,7 @@ export interface HelpWithFeesDetails {
 export interface LandlordResponse {
   propertyAddress?: LandlordResponsePropertyAddress;
   servedNoticeProposingNewRent?: YesNoValue;
+  landlordPhoneNumber?: string;
   respondToTenantAnswersAboutTenancyDetails?: string;
   respondToTenantAnswersAboutTenancyDetailsDescription?: string;
   tenancyDetailsResponseEvidence?: PtCaseDocument[];

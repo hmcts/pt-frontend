@@ -1,6 +1,6 @@
 # @JIRA-EPIC:HDPD-1003 @regression
 
-# Feature: Validate Enter and validate the letting agent's email address page
+Feature: Validate Enter and validate the letting agent's email address page
 
 #     Background:
 #         Given the user navigates to PT url
