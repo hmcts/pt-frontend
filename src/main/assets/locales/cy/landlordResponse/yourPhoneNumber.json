@@ -1,4 +1,10 @@
 {
-  "pageTitle": "cyYour phone number(placeholder)",
-  "heading": "cyYour phone number(placeholder)"
+  "questionTitle": "cy What is your phone number?",
+  "questionHint": "cy We will only call you if we need to contact you urgently",
+  "errors": {
+    "landlordPhoneNumber": {
+      "required": "cy Enter a phone number",
+      "invalid": "cy Phone number must be in the correct format, like 01632 960 001, 07700 900 982 or +44 808 157 0192"
+    }
+  }
 }
