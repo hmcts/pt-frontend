@@ -26,6 +26,7 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: true,
       isPageHeading: false,
+      classes: 'govuk-!-width-full',
       translationKey: { label: 'labels.addressLine1' },
       errorMessage: 'errors.addressLine1.required',
       attributes: {
@@ -43,6 +44,7 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: false,
       isPageHeading: false,
+      classes: 'govuk-!-width-full',
       translationKey: { label: 'labels.addressLine2' },
       attributes: {
         autocomplete: 'address-line2',
@@ -59,6 +61,7 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: true,
       isPageHeading: false,
+      classes: 'govuk-!-width-two-thirds',
       translationKey: { label: 'labels.postTown' },
       errorMessage: 'errors.postTown.required',
       attributes: {
@@ -76,6 +79,7 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: false,
       isPageHeading: false,
+      classes: 'govuk-!-width-two-thirds',
       translationKey: { label: 'labels.county' },
       attributes: {
         autocomplete: 'address-level1',
@@ -92,6 +96,7 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: true,
       isPageHeading: false,
+      classes: 'govuk-!-width-one-third',
       translationKey: { label: 'labels.postcode' },
       errorMessage: 'errors.postcode.required',
       attributes: {
