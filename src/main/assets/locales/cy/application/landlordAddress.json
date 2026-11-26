@@ -33,7 +33,7 @@
       "tooShort": "cyCountry must be 2 characters or more"
     },
     "landlordPostcode": {
-      "tooShort": "cyPostcode must be 2 characters or more"
+      "tooShort": "cyPostcode or area code must be 2 characters or more"
     },
     "landlordAddressLine1MaxLength": "cyAddress line 1 must be 100 characters or less",
     "landlordAddressLine2MaxLength": "cyAddress line 2 must be less than 100 characters or less",
