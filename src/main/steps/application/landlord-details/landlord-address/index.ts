@@ -86,6 +86,7 @@ export const step: StepDefinition = createFormStep({
       },
       classes: 'govuk-!-width-one-third',
       translationKey: { label: 'labels.landlordPostcode', hint: 'hints.landlordPostcode' },
+      validator: value => getTooShortErrorIfUnderMinimumCharacters(value, 'landlordPostcode'),
     },
     {
       name: 'landlordCountry',
