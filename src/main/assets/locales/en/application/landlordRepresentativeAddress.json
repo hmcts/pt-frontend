@@ -29,6 +29,9 @@
     "representativeAddressLine1MaxLength": "Address line 1 must be 100 characters or less",
     "representativeAddressLine2MaxLength": "Address line 2 must be less than 100 characters or less",
     "representativePostTownMaxLength": "Town or city must be 100 characters or less",
-    "representativeCountyMaxLength": "County or region must be 100 characters or less"
+    "representativeCountyMaxLength": "County or region must be 100 characters or less",
+    "postcode": {
+      "invalid": "Enter a valid postcode"
+    }
   }
 }

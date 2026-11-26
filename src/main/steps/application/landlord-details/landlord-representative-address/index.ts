@@ -4,6 +4,7 @@ import { flowConfig } from '../../flow.config';
 import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccd/ccdCase.interface';
+import { isValidPostcode } from '@utils/postcode';
 
 const journeyName = 'application';
 const stepName = 'landlord-representative-address';
@@ -82,6 +83,12 @@ export const step: StepDefinition = createFormStep({
       isPageHeading: false,
       classes: 'govuk-!-width-one-third',
       translationKey: { label: 'labels.representativePostcode', hint: 'hints.representativePostcode' },
+      validator: (value): boolean | string => {
+        if (value && !isValidPostcode(value as string)) {
+          return 'errors.postcode.invalid';
+        }
+        return true;
+      },
     },
   ],
 

@@ -29,6 +29,9 @@
     "representativeAddressLine1MaxLength": "cyAddress line 1 must be 100 characters or less",
     "representativeAddressLine2MaxLength": "cyAddress line 2 must be less than 100 characters or less",
     "representativePostTownMaxLength": "cyTown or city must be 100 characters or less",
-    "representativeCountyMaxLength": "cyCounty or region must be 100 characters or less"
+    "representativeCountyMaxLength": "cyCounty or region must be 100 characters or less",
+    "postcode": {
+      "invalid": "cyEnter a valid postcode"
+    }
   }
 }
