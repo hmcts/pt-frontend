@@ -30,6 +30,7 @@ export const getUserDetails = async (serviceUrl: string, rawCode: string): Promi
 
   return {
     accessToken: response.data.access_token,
+    idToken: response.data.id_token,
     id: jwt.uid,
     email: jwt.sub,
     givenName: jwt.given_name,
@@ -95,13 +96,18 @@ export const getIdamToken = async (
   return response;
 };
 
-export const getEndIdamSessionUrl = (redirectUrl: string): string => {
+export const getEndIdamSessionUrl = (redirectUrl: string, idToken?: string): string => {
   const endSessionUrl: string = config.get('idam.endSessionURL');
-  return `${endSessionUrl}?post_logout_redirect_uri=${encodeURIComponent(redirectUrl)}`;
+  const params = new URLSearchParams({ post_logout_redirect_uri: redirectUrl });
+  if (idToken) {
+    params.set('id_token_hint', idToken);
+  }
+  return `${endSessionUrl}?${params.toString()}`;
 };
 
 export interface UserDetails {
   accessToken: string;
+  idToken?: string;
   id: string;
   email: string;
   givenName: string;
