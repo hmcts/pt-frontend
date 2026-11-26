@@ -2,6 +2,7 @@ import type { Request } from 'express';
 
 import { caseForThisRequest } from '../utils/dataMappingHelpers';
 
+import { getFormDataString } from '@modules/steps';
 import type { PTCaseData } from '@services/ccd/ccdCase.interface';
 
 export function prepareLandlordResponseDataForSave(
@@ -12,9 +13,13 @@ export function prepareLandlordResponseDataForSave(
   const saved = caseForThisRequest(req, ccdCase);
 
   switch (sectionId) {
-    case 'placeholder': {
+    case 'yourResponse': {
+      const details = saved?.landlordResponse;
       return {
-        caseReference: saved?.caseReference,
+        landlordResponse: {
+          landlordPhoneNumber:
+            getFormDataString(req, 'your-phone-number', 'landlordPhoneNumber') ?? details?.landlordPhoneNumber,
+        },
       };
     }
     default:

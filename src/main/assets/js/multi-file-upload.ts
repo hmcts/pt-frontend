@@ -344,6 +344,26 @@ export const initMultiFileUpload = (): MultiFileUpload[] => {
       syncStatusVisibility(container);
     }
 
+    // MOJ injects a <label for="documents"> styled as a button inside the dropzone. A label
+    // with no matching control (or with a duplicate for= reference) triggers WAVE "Orphaned
+    // form label". Replace the element with a real <button> so semantics are correct and no
+    // label rule fires. MOJ replaces the <input> with a clone after every upload, so the
+    // click handler uses a live querySelector rather than a cached reference.
+    const dropzoneLabel = dropzone?.querySelector<HTMLLabelElement>('label.govuk-button--secondary');
+    if (dropzoneLabel) {
+      const chooseFileButton = document.createElement('button');
+      chooseFileButton.type = 'button';
+      chooseFileButton.className = dropzoneLabel.className;
+      chooseFileButton.textContent = dropzoneLabel.textContent?.trim() || 'Choose file';
+      chooseFileButton.addEventListener('click', event => {
+        event.preventDefault();
+        container.querySelector<HTMLInputElement>('.moj-multi-file-upload__input')?.click();
+      });
+      dropzoneLabel.replaceWith(chooseFileButton);
+
+      (instance as unknown as { $label: HTMLElement }).$label = chooseFileButton;
+    }
+
     instances.push(instance);
   });
 
