@@ -13779,7 +13779,7 @@ __metadata:
     typescript: "npm:5.9.3"
     webpack: "npm:5.113.0"
     webpack-cli: "npm:7.3.1"
-    webpack-dev-middleware: "npm:8.5.0"
+    webpack-dev-middleware: "npm:8.6.3"
     webpack-node-externals: "npm:3.0.0"
     winston: "npm:3.19.0"
     xss: "npm:^1.0.15"
@@ -14576,7 +14576,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"schema-utils@npm:^4.0.0, schema-utils@npm:^4.3.3":
+"schema-utils@npm:^4.0.0":
   version: 4.3.3
   resolution: "schema-utils@npm:4.3.3"
   dependencies:
@@ -16534,14 +16534,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-dev-middleware@npm:8.5.0":
-  version: 8.5.0
-  resolution: "webpack-dev-middleware@npm:8.5.0"
+"webpack-dev-middleware@npm:8.6.3":
+  version: 8.6.3
+  resolution: "webpack-dev-middleware@npm:8.6.3"
   dependencies:
     memfs: "npm:^4.68.2"
     mime-db: "npm:^1.54.0"
     range-parser: "npm:^1.3.0"
-    schema-utils: "npm:^4.3.3"
+    schema-utils: "npm:^4.8.5"
     ws: "npm:^8.18.3"
   peerDependencies:
     webpack: ^5.101.0
@@ -16551,7 +16551,7 @@ __metadata:
   peerDependenciesMeta:
     webpack:
       optional: true
-  checksum: 10/f90aadab845c0ce59fa329358dd6906b6cb052826d6ee02874631d40c9778c30fdc34a427b0dc1e3c318c840b4f141cc0c421a8b35d501ae3e2d3e1a6322c8cb
+  checksum: 10/3f6a5ecb0dc01467ee5455d5685c93777f0afe0e12467f0809008cbab50743acb5a874ae904cc50e7631bbc8d30789d7a42a80e175986e16713c00a03fd09236
   languageName: node
   linkType: hard
 
