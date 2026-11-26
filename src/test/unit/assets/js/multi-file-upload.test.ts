@@ -475,7 +475,8 @@ describe('initMultiFileUpload', () => {
       const dropzone = document.querySelector('.moj-multi-file-upload__dropzone') as HTMLElement;
       const children = Array.from(dropzone.children).map(child => child.tagName);
 
-      expect(children.indexOf('LABEL')).toBeLessThan(children.indexOf('P'));
+      expect(children.indexOf('BUTTON')).toBeGreaterThan(-1);
+      expect(children.indexOf('BUTTON')).toBeLessThan(children.indexOf('P'));
     });
 
     it('moves the hint spacing to the side it now sits on', () => {
@@ -490,6 +491,35 @@ describe('initMultiFileUpload', () => {
 
       expect(config.dropzoneButtonText).toBe('Choose file');
       expect(config.dropzoneHintText).toBe('or drop file');
+    });
+  });
+
+  describe('the choose file control', () => {
+    const chooseFileButton = (): HTMLButtonElement | null =>
+      document.querySelector('.moj-multi-file-upload__dropzone button.govuk-button--secondary');
+
+    it('replaces the dropzone label with a button of the same text and style', () => {
+      const button = chooseFileButton();
+
+      expect(document.querySelector('.moj-multi-file-upload__dropzone label')).toBeNull();
+      expect(button).toBeInstanceOf(HTMLButtonElement);
+      expect(button?.type).toBe('button');
+      expect(button?.classList).toContain('govuk-button');
+      expect(button?.textContent).toBe('Choose file');
+    });
+
+    it('opens the file picker when clicked', () => {
+      const click = jest.spyOn(fileInput(), 'click').mockImplementation(() => {});
+
+      chooseFileButton()?.click();
+
+      expect(click).toHaveBeenCalledTimes(1);
+    });
+
+    it('points MOJ focus styling at the new button', () => {
+      const mojInstance = mockedMultiFileUpload.mock.instances[0] as unknown as { $label: HTMLElement };
+
+      expect(mojInstance.$label).toBe(chooseFileButton());
     });
   });
 
