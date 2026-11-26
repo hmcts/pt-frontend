@@ -80,6 +80,10 @@ export const step: StepDefinition = createFormStep({
       type: 'text',
       required: false,
       isPageHeading: false,
+      maxLength: 16,
+      attributes: {
+        autocomplete: 'post-code',
+      },
       classes: 'govuk-!-width-one-third',
       translationKey: { label: 'labels.landlordPostcode', hint: 'hints.landlordPostcode' },
     },

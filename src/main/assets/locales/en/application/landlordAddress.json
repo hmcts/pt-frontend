@@ -36,6 +36,7 @@
     "landlordAddressLine2MaxLength": "Address line 2 must be less than 100 characters or less",
     "landlordPostTownMaxLength": "Town or city must be 100 characters or less",
     "landlordCountyMaxLength": "County or region must be 100 characters or less",
-    "landlordCountryMaxLength": "Country must be 100 characters or less"
+    "landlordCountryMaxLength": "Country must be 100 characters or less",
+    "landlordPostcodeMaxLength": "Postcode or area code must be 16 characters or less"
   }
 }

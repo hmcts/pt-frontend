@@ -36,6 +36,7 @@
     "landlordAddressLine2MaxLength": "cyAddress line 2 must be less than 100 characters or less",
     "landlordPostTownMaxLength": "cyTown or city must be 100 characters or less",
     "landlordCountyMaxLength": "cyCounty or region must be 100 characters or less",
-    "landlordCountryMaxLength": "cyCountry must be 100 characters or less"
+    "landlordCountryMaxLength": "cyCountry must be 100 characters or less",
+    "landlordPostcodeMaxLength": "cyPostcode or area code must be 16 characters or less"
   }
 }
