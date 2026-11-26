@@ -3264,58 +3264,58 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pact-foundation/pact-cli-darwin-arm64@npm:18.10.9":
-  version: 18.10.9
-  resolution: "@pact-foundation/pact-cli-darwin-arm64@npm:18.10.9"
+"@pact-foundation/pact-cli-darwin-arm64@npm:18.10.10":
+  version: 18.10.10
+  resolution: "@pact-foundation/pact-cli-darwin-arm64@npm:18.10.10"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@pact-foundation/pact-cli-darwin-x64@npm:18.10.9":
-  version: 18.10.9
-  resolution: "@pact-foundation/pact-cli-darwin-x64@npm:18.10.9"
+"@pact-foundation/pact-cli-darwin-x64@npm:18.10.10":
+  version: 18.10.10
+  resolution: "@pact-foundation/pact-cli-darwin-x64@npm:18.10.10"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@pact-foundation/pact-cli-linux-arm64@npm:18.10.9":
-  version: 18.10.9
-  resolution: "@pact-foundation/pact-cli-linux-arm64@npm:18.10.9"
+"@pact-foundation/pact-cli-linux-arm64@npm:18.10.10":
+  version: 18.10.10
+  resolution: "@pact-foundation/pact-cli-linux-arm64@npm:18.10.10"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"@pact-foundation/pact-cli-linux-x64@npm:18.10.9":
-  version: 18.10.9
-  resolution: "@pact-foundation/pact-cli-linux-x64@npm:18.10.9"
+"@pact-foundation/pact-cli-linux-x64@npm:18.10.10":
+  version: 18.10.10
+  resolution: "@pact-foundation/pact-cli-linux-x64@npm:18.10.10"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"@pact-foundation/pact-cli-windows-arm64@npm:18.10.9":
-  version: 18.10.9
-  resolution: "@pact-foundation/pact-cli-windows-arm64@npm:18.10.9"
+"@pact-foundation/pact-cli-windows-arm64@npm:18.10.10":
+  version: 18.10.10
+  resolution: "@pact-foundation/pact-cli-windows-arm64@npm:18.10.10"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@pact-foundation/pact-cli-windows-x64@npm:18.10.9":
-  version: 18.10.9
-  resolution: "@pact-foundation/pact-cli-windows-x64@npm:18.10.9"
+"@pact-foundation/pact-cli-windows-x64@npm:18.10.10":
+  version: 18.10.10
+  resolution: "@pact-foundation/pact-cli-windows-x64@npm:18.10.10"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"@pact-foundation/pact-cli@npm:18.10.9":
-  version: 18.10.9
-  resolution: "@pact-foundation/pact-cli@npm:18.10.9"
+"@pact-foundation/pact-cli@npm:18.10.10":
+  version: 18.10.10
+  resolution: "@pact-foundation/pact-cli@npm:18.10.10"
   dependencies:
-    "@pact-foundation/pact-cli-darwin-arm64": "npm:18.10.9"
-    "@pact-foundation/pact-cli-darwin-x64": "npm:18.10.9"
-    "@pact-foundation/pact-cli-linux-arm64": "npm:18.10.9"
-    "@pact-foundation/pact-cli-linux-x64": "npm:18.10.9"
-    "@pact-foundation/pact-cli-windows-arm64": "npm:18.10.9"
-    "@pact-foundation/pact-cli-windows-x64": "npm:18.10.9"
+    "@pact-foundation/pact-cli-darwin-arm64": "npm:18.10.10"
+    "@pact-foundation/pact-cli-darwin-x64": "npm:18.10.10"
+    "@pact-foundation/pact-cli-linux-arm64": "npm:18.10.10"
+    "@pact-foundation/pact-cli-linux-x64": "npm:18.10.10"
+    "@pact-foundation/pact-cli-windows-arm64": "npm:18.10.10"
+    "@pact-foundation/pact-cli-windows-x64": "npm:18.10.10"
   dependenciesMeta:
     "@pact-foundation/pact-cli-darwin-arm64":
       optional: true
@@ -3337,7 +3337,7 @@ __metadata:
     pact-stub-server: bin/pact-stub-server.js
     pact-verifier: bin/pact-verifier.js
     pactflow: bin/pactflow.js
-  checksum: 10/f8bbbda28fa13fc5f27be6e45346ad9bbefe79fe961278d1ba0d352f54bf89dc9f78f01769bbdef8bcad94556785575efecf59eafe88e737ccb5c6e499e9fe39
+  checksum: 10/dc2357b7565b38b2e62a15b0e9b8e9daf6f83b64d256dc81c32fb38f6cdfa541a48d966c77afad633a19a9615fc1683b66b64f6f3e6519a15ec2a0cce4dcadd1
   conditions: (os=darwin | os=linux | os=win32) & (cpu=x64 | cpu=arm64)
   languageName: node
   linkType: hard
@@ -9596,17 +9596,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next-fs-backend@npm:2.6.12":
-  version: 2.6.12
-  resolution: "i18next-fs-backend@npm:2.6.12"
-  checksum: 10/34efdd8888a712d7a8ca5be191935d7d14f68000ee2dbc8da1f896d0e414e107527ac495f6d07facb7c99dd29942641238ac3c3c41ba08f1db18516a424cfb72
+"i18next-fs-backend@npm:2.7.3":
+  version: 2.7.3
+  resolution: "i18next-fs-backend@npm:2.7.3"
+  checksum: 10/505281a51b2a64bbac5621f3861e56853e7628d1efc2653642e69d4683a24a9d75ee7e24b0a4ebe72e46939f4691520f81c33641ef49707422b22df60138fe16
   languageName: node
   linkType: hard
 
-"i18next-http-middleware@npm:3.10.3":
-  version: 3.10.3
-  resolution: "i18next-http-middleware@npm:3.10.3"
-  checksum: 10/48f83678e31099ebedb43797c3b96067550a81909ddb5ba8b2deb84f5d7b40bc9c68588d5729807a297901b0d8db16acf2f55591de681bd755443f069fc05441
+"i18next-http-middleware@npm:3.11.1":
+  version: 3.11.1
+  resolution: "i18next-http-middleware@npm:3.11.1"
+  checksum: 10/fb29e203749259bae5e56ee29991ea0df21e61549d5ea0969299ab2db3c1d7b8a8de270bca387cd8ef4bf52ccf8167f09149005f09f69ffa8f95655a25b34b89
   languageName: node
   linkType: hard
 
@@ -11101,10 +11101,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jose@npm:6.2.17":
-  version: 6.2.17
-  resolution: "jose@npm:6.2.17"
-  checksum: 10/df6ae5da42e71a4c3bd1483534c5579ed32f5806ec362ea472f309e8e57aef42afa1dbac62289596975d3587f7ac38deefe4313e1434ce76972ea0f029070bc9
+"jose@npm:6.2.18":
+  version: 6.2.18
+  resolution: "jose@npm:6.2.18"
+  checksum: 10/6a3962e4d09599dc359129bf2b29eefcd0436e1a8b1002f53b9e672e7f21df546736d4a5ac53e3cfbfcea9f4126354247d5efcb860e267fda82924e8bd19a8b6
   languageName: node
   linkType: hard
 
@@ -11435,9 +11435,9 @@ __metadata:
   linkType: hard
 
 "libphonenumber-js@npm:^1.13.11":
-  version: 1.13.16
-  resolution: "libphonenumber-js@npm:1.13.16"
-  checksum: 10/931798f22c72e052292ce949aca2373ff4d640a5513c25929321b5155b750b40b5ef96705a3702a7159c55c9f318c327d777f36d801c99f9f6dd41db328c4429
+  version: 1.13.17
+  resolution: "libphonenumber-js@npm:1.13.17"
+  checksum: 10/4d851bda9ef7fff084e4c1fcb6b0571dcc2937a4df3d86aafba366df333cd33c9294f7a0f970fbcd21b771dd7cad8ab83215644f164834386f6c1fee4146ffb6
   languageName: node
   linkType: hard
 
@@ -11458,9 +11458,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:17.6.1":
-  version: 17.6.1
-  resolution: "lint-staged@npm:17.6.1"
+"lint-staged@npm:17.6.2":
+  version: 17.6.2
+  resolution: "lint-staged@npm:17.6.2"
   dependencies:
     picomatch: "npm:^4.0.7"
     string-argv: "npm:^0.4.0"
@@ -11471,7 +11471,7 @@ __metadata:
       optional: true
   bin:
     lint-staged: bin/lint-staged.js
-  checksum: 10/d449ca6c269e058feb796dd629dbe4393254f56d05d95101edd6baa4519d3cf098f3f9bb628eff15819f64fa76a0dbf8829218bfb2d4199b1089d8fb28e0247c
+  checksum: 10/51e75c0d1dadefd0a4769c9057acfe593e484d7c52e885a825e0aef298fa15d466b81ff1da0a20711bc8f5d282e7e5f14281c0d4790e3ec5b60a6c1e7df41bcc
   languageName: node
   linkType: hard
 
@@ -13690,7 +13690,7 @@ __metadata:
     "@opentelemetry/api": "npm:1.10.0"
     "@opentelemetry/otlp-transformer": "npm:0.301.2"
     "@pact-foundation/pact": "npm:^17.0.1"
-    "@pact-foundation/pact-cli": "npm:18.10.9"
+    "@pact-foundation/pact-cli": "npm:18.10.10"
     "@types/body-parser": "npm:1.19.6"
     "@types/chai": "npm:^5.2.1"
     "@types/config": "npm:4.4.0"
@@ -13741,17 +13741,17 @@ __metadata:
     html-webpack-plugin: "npm:5.6.8"
     husky: "npm:9.1.7"
     i18next: "npm:26.7.2"
-    i18next-fs-backend: "npm:2.6.12"
-    i18next-http-middleware: "npm:3.10.3"
+    i18next-fs-backend: "npm:2.7.3"
+    i18next-http-middleware: "npm:3.11.1"
     ioredis: "npm:5.11.1"
     jest: "npm:30.5.2"
     jest-environment-jsdom: "npm:30.5.2"
     jest-html-reporter: "npm:3.10.2"
     jest-junit: "npm:16.0.0"
-    jose: "npm:6.2.17"
+    jose: "npm:6.2.18"
     jsonwebtoken: "npm:^9.0.3"
     libphonenumber-js: "npm:^1.13.11"
-    lint-staged: "npm:17.6.1"
+    lint-staged: "npm:17.6.2"
     lodash: "npm:4.18.1"
     luxon: "npm:3.7.2"
     mini-css-extract-plugin: "npm:2.10.2"
