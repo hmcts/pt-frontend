@@ -47,6 +47,26 @@ describe('application landlord-representative-address step', () => {
       expect(validatorFor(name)('ab')).toBe(true);
       expect(validatorFor(name)('a')).toBe(errorKey);
     });
+
+    describe('representativePostcode', () => {
+      it.each(['LS1 1AA', 'ls11aa', 'M1 1AE', 'B33 8TH', 'W1A 1HQ', ' LS1 1AA '])(
+        'accepts the postcode %p',
+        postcode => {
+          expect(validatorFor('representativePostcode')(postcode)).toBe(true);
+        }
+      );
+
+      it.each([undefined, null, ''])('accepts a blank postcode (%p) because it is optional', value => {
+        expect(validatorFor('representativePostcode')(value)).toBe(true);
+      });
+
+      it.each(['LS1', '12345', 'not a postcode', 'LS1 1A', 'LS11 1AAA'])(
+        'rejects the invalid postcode %p',
+        postcode => {
+          expect(validatorFor('representativePostcode')(postcode)).toBe('errors.postcode.invalid');
+        }
+      );
+    });
   });
 
   describe('getIntialFormData', () => {
