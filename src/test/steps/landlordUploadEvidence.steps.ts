@@ -38,6 +38,25 @@ When('I open the latest respondent case', async () => {
   });
 });
 
+When('I answer the served notice question if it is displayed', async () => {
+  await I.usePlaywrightTo('answer the served notice question when shown', async ({ page }) => {
+    // Only rent-increase cases include this page, so the journey may go straight to Review tenancy details.
+    await page.waitForURL(landlordUploadEvidence.servedNoticeUrlPattern);
+    if (page.url().endsWith(landlordUploadEvidence.servedNoticeUrlSuffix)) {
+      await landlordUploadEvidence.servedNoticeYes(page).check();
+      await landlordUploadEvidence.saveAndContinue(page).click();
+    }
+  });
+});
+
+Then('the field for the question {string} should not contain {string}', async (question: string, value: string) => {
+  await I.usePlaywrightTo('check the labelled field does not hold the value', async ({ page }) => {
+    const field = page.getByLabel(question, { exact: true });
+    await expect(field).toBeVisible();
+    await expect(field).not.toHaveValue(value);
+  });
+});
+
 Then('I should see the heading {string}', async (heading: string) => {
   await I.usePlaywrightTo('check the page heading', async ({ page }) => {
     await expect(landlordUploadEvidence.heading(page, heading)).toBeVisible();
@@ -80,6 +99,13 @@ Then('the saved evidence file {string} should be listed', async (fileName: strin
   await I.usePlaywrightTo('check saved evidence is listed', async ({ page }) => {
     const row = landlordUploadEvidence.savedEvidenceRow(page, fileName);
     await expect(row).toBeVisible();
+  });
+});
+
+When('I reopen the current page', async () => {
+  await I.usePlaywrightTo('reopen the current page with a fresh request', async ({ page }) => {
+    // Reloading would resubmit the failed POST and redisplay the rejected value.
+    await page.goto(page.url(), { waitUntil: 'domcontentloaded' });
   });
 });
 

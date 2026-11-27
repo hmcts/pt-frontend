@@ -18,10 +18,10 @@ Feature: Landlord response - Upload evidence for tenancy details
         And I click "Save and continue"
         And I click "Save and continue"
         And I click "Save and continue"
-        And I select "Yes" for the question "Did you serve the notice proposing a new rent provided in the tenant’s application?"
-        And I click "Save and continue"
+        And I answer the served notice question if it is displayed
         Then I check that the text "Review tenancy details" is displayed on the page
         When I select "Yes" for the question "Do you want to respond to any answers from the tenant about tenancy details?"
+        And I clear the field for the question "Tell us more about the tenancy details provided by the tenant"
         And I enter "respond to tenancy details" for the question "Tell us more about the tenancy details provided by the tenant"
         And I click "Save and continue"
         Then the page URL should be "upload-evidence-tenancy-details"
@@ -123,10 +123,10 @@ Feature: Landlord response - Upload evidence for tenancy details
         And I click "Save and continue"
         And I click "Save and continue"
         And I click "Save and continue"
-        And I select "Yes" for the question "Did you serve the notice proposing a new rent provided in the tenant’s application?"
-        And I click "Save and continue"
+        And I answer the served notice question if it is displayed
         Then I check that the text "Review tenancy details" is displayed on the page
         When I select "Yes" for the question "Do you want to respond to any answers from the tenant about tenancy details?"
+        And I clear the field for the question "Tell us more about the tenancy details provided by the tenant"
         And I enter "respond to tenancy details" for the question "Tell us more about the tenancy details provided by the tenant"
         And I click "Save and continue"
         Then the page URL should be "upload-evidence-tenancy-details"
