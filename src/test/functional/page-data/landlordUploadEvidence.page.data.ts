@@ -3,6 +3,15 @@ import type { Locator, Page } from 'playwright';
 const evidenceRowSelector = '.moj-multi-file-upload__row';
 
 export const landlordUploadEvidence = {
+  servedNoticeUrlPattern: /\/(served-notice-proposing-new-rent|review-tenancy-details)$/,
+  servedNoticeUrlSuffix: 'served-notice-proposing-new-rent',
+  servedNoticeQuestion: 'Did you serve the notice proposing a new rent provided in the tenant’s application?',
+  servedNoticeYes: (page: Page) =>
+    page
+      .locator('fieldset')
+      .filter({ has: page.locator('legend').getByText(landlordUploadEvidence.servedNoticeQuestion) })
+      .getByLabel('Yes', { exact: true }),
+  saveAndContinue: (page: Page) => page.getByRole('button', { name: 'Save and continue', exact: true }),
   respondentCasesTab: (page: Page) => page.getByRole('tab', { name: 'Respondent cases', exact: true }),
   respondentCaseRows: (page: Page) => page.locator('#respondent-cases tbody tr'),
   respondentCaseDate: (row: Locator) => row.locator('td').nth(1),
