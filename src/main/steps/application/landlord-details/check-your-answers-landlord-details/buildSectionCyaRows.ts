@@ -1,3 +1,4 @@
+import escapeHtml from 'escape-html';
 import type { Request } from 'express';
 import type { TFunction } from 'i18next';
 
@@ -17,11 +18,17 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
   const landlord = validatedCase?.landlordDetails?.landlord;
   const representative = validatedCase?.landlordDetails?.representative;
 
-  const addRow = (field: string, value: string | undefined, changeHref: string, valueText: string = value ?? '') => {
+  const addRow = (
+    field: string,
+    value: string | undefined,
+    changeHref: string,
+    valueText: string = value ?? '',
+    isHtml = false
+  ) => {
     if (value) {
       rows.push({
         key: { text: t(`rows.${field}.label`) },
-        value: { text: valueText },
+        value: isHtml ? { html: valueText } : { text: valueText },
         actions: { items: [change(changeHref, `rows.${field}.changeHidden`)] },
       });
     }
@@ -73,8 +80,9 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
     getFormDataString(req, 'landlord-address', 'landlordCountry') ?? landlord?.country,
   ]
     .filter(Boolean)
+    .map(line => escapeHtml(line as string))
     .join('<br>');
-  addRow('landlordAddress', landlordAddress, 'landlord-address');
+  addRow('landlordAddress', landlordAddress, 'landlord-address', landlordAddress, true);
 
   const landlordEmailAddress =
     getFormDataString(req, 'landlord-email-address', 'landlordEmailAddress') ?? landlord?.emailAddress;
@@ -121,8 +129,15 @@ export function buildSectionCyaRows(req: Request, t: TFunction): SummaryListRow[
     getFormDataString(req, 'landlord-representative-address', 'representativePostcode') ?? representative?.postcode,
   ]
     .filter(Boolean)
+    .map(line => escapeHtml(line as string))
     .join('<br>');
-  addRow('representativeAddress', representativeAddress, 'landlord-representative-address');
+  addRow(
+    'representativeAddress',
+    representativeAddress,
+    'landlord-representative-address',
+    representativeAddress,
+    true
+  );
 
   const representativeEmailAddress =
     getFormDataString(req, 'landlord-representative-email-address', 'representativeEmailAddress') ??
