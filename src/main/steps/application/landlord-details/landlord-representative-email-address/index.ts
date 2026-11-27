@@ -1,7 +1,8 @@
 import { flowConfig } from '../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { PTCaseData } from '@services/ccd/ccdCase.interface';
 import { isValidEmail } from '@utils/email';
 
 const journeyName = 'application';
@@ -35,4 +36,15 @@ export const step: StepDefinition = createFormStep({
       },
     },
   ],
+  getInitialFormData: req => {
+    const caseData: PTCaseData | undefined = req.session.ccdCase;
+
+    const representativeEmailAddress =
+      getFormDataString(req, stepName, 'representativeEmailAddress') ??
+      caseData?.landlordDetails?.representative?.emailAddress;
+
+    return {
+      ...(representativeEmailAddress && { representativeEmailAddress }),
+    };
+  },
 });

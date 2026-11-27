@@ -108,13 +108,17 @@ export const step: StepDefinition = createFormStep({
     const caseData: PTCaseData | undefined = req.session.ccdCase;
 
     const landlordAddressLine1 =
-      getFormDataString(req, stepName, 'landlordAddressLine1') ?? caseData?.landlordAddressLine1;
+      getFormDataString(req, stepName, 'landlordAddressLine1') ?? caseData?.landlordDetails?.landlord?.addressLine1;
     const landlordAddressLine2 =
-      getFormDataString(req, stepName, 'landlordAddressLine2') ?? caseData?.landlordAddressLine2;
-    const landlordPostTown = getFormDataString(req, stepName, 'landlordPostTown') ?? caseData?.landlordPostTown;
-    const landlordCounty = getFormDataString(req, stepName, 'landlordCounty') ?? caseData?.landlordCounty;
-    const landlordPostcode = getFormDataString(req, stepName, 'landlordPostcode') ?? caseData?.landlordPostcode;
-    const landlordCountry = getFormDataString(req, stepName, 'landlordCountry') ?? caseData?.landlordCountry;
+      getFormDataString(req, stepName, 'landlordAddressLine2') ?? caseData?.landlordDetails?.landlord?.addressLine2;
+    const landlordPostTown =
+      getFormDataString(req, stepName, 'landlordPostTown') ?? caseData?.landlordDetails?.landlord?.postTown;
+    const landlordCounty =
+      getFormDataString(req, stepName, 'landlordCounty') ?? caseData?.landlordDetails?.landlord?.county;
+    const landlordPostcode =
+      getFormDataString(req, stepName, 'landlordPostcode') ?? caseData?.landlordDetails?.landlord?.postcode;
+    const landlordCountry =
+      getFormDataString(req, stepName, 'landlordCountry') ?? caseData?.landlordDetails?.landlord?.country;
 
     return {
       ...(landlordAddressLine1 && { landlordAddressLine1 }),
@@ -128,5 +132,9 @@ export const step: StepDefinition = createFormStep({
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  return Boolean(ccdCase?.landlordAddressLine1 && ccdCase?.landlordPostTown && ccdCase?.landlordCountry);
+  return Boolean(
+    ccdCase?.landlordDetails?.landlord?.addressLine1 &&
+    ccdCase?.landlordDetails?.landlord?.postTown &&
+    ccdCase?.landlordDetails?.landlord?.country
+  );
 }

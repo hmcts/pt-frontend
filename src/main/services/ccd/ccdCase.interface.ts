@@ -255,7 +255,7 @@ export interface StartCallbackData {
  * Case data payload returned from PT API get case(s) calls
  * To reflect ApplicationDto in pt-api
  * */
-export interface PTCaseData extends LandlordDetails, PropertyDetails, LettingAgentDetails, HelpWithFeesDetails {
+export interface PTCaseData extends PropertyDetails, LettingAgentDetails, HelpWithFeesDetails {
   caseReference: bigint;
   createdDate: string;
   submittedOn?: string;
@@ -271,6 +271,7 @@ export interface PTCaseData extends LandlordDetails, PropertyDetails, LettingAge
 
   applicantContactPreferences?: ContactPreferences;
   tenantDetails?: TenantDetails;
+  landlordDetails?: LandlordDetails;
   rentDetails?: RentDetails;
   propertyDetails?: PropertyDetails;
   tenancyAgreementDetails?: TenancyAgreementDetails;
@@ -316,26 +317,24 @@ export interface LettingAgentDetails {
 }
 
 export interface LandlordDetails {
-  landlordIndividualOrOrganisation?: string;
-  landlordEmailAddress?: string;
-  landlordAddressLine1?: string;
-  landlordAddressLine2?: string;
-  landlordPostTown?: string;
-  landlordCounty?: string;
-  landlordPostcode?: string;
-  landlordCountry?: string;
-  landlordPhoneNumber?: string;
-  landlordHasRepresentative?: string;
-  representativeFirstName?: string;
-  representativeLastName?: string;
-  representativeCompanyName?: string;
-  representativeAddressLine1?: string;
-  representativeAddressLine2?: string;
-  representativePostTown?: string;
-  representativeCounty?: string;
-  representativePostcode?: string;
-  representativeEmailAddress?: string;
-  representativePhoneNumber?: string;
+  landlord?: Party;
+  hasRepresentative?: string;
+  representative?: Party;
+}
+
+export interface Party {
+  firstName?: string;
+  lastName?: string;
+  organisationName?: string;
+  emailAddress?: string;
+  phoneNumber?: string;
+  pcqId?: UUID;
+  addressLine1?: string;
+  addressLine2?: string;
+  postTown?: string;
+  county?: string;
+  postcode?: string;
+  country?: string;
 }
 
 export interface NoticeOfRentIncreaseDetails {

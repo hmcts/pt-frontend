@@ -57,9 +57,9 @@ describe('landlord-representative-details step', () => {
       session: {
         formData: {},
         ccdCase: {
-          representativeFirstName: 'Alex',
-          representativeLastName: 'Jones',
-          representativeCompanyName: 'Jones Lettings',
+          landlordDetails: {
+            representative: { firstName: 'Alex', lastName: 'Jones', organisationName: 'Jones Lettings' },
+          },
         },
       },
     };
@@ -87,10 +87,8 @@ describe('landlord-representative-details step', () => {
           },
         },
         ccdCase: {
-          representativeFirstName: 'CcdFirst',
-          representativeLastName: 'CcdLast',
-          tenantDetails: {
-            representativeCompanyName: 'Ccd Co',
+          landlordDetails: {
+            representative: { firstName: 'CcdFirst', lastName: 'CcdLast', organisationName: 'Ccd Co' },
           },
         },
       },
@@ -106,9 +104,15 @@ describe('landlord-representative-details step', () => {
   it('is answered when both representative names are present on the case', () => {
     expect(
       capturedConfig.isAnswered({
-        session: { ccdCase: { representativeFirstName: 'John', representativeLastName: 'Smith' } },
+        session: {
+          ccdCase: { landlordDetails: { representative: { firstName: 'John', lastName: 'Smith' } } },
+        },
       })
     ).toBe(true);
-    expect(capturedConfig.isAnswered({ session: { ccdCase: { representativeFirstName: 'John' } } })).toBe(false);
+    expect(
+      capturedConfig.isAnswered({
+        session: { ccdCase: { landlordDetails: { representative: { firstName: 'John' } } } },
+      })
+    ).toBe(false);
   });
 });

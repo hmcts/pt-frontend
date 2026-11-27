@@ -43,9 +43,93 @@ export function prepareApplicationDataForSave(
         },
       };
     }
-    // case 'landlordDetails': {
-    //   return {};
-    // }
+    case 'landlordDetails': {
+      const landlord = saved?.landlordDetails?.landlord;
+      const representative = saved?.landlordDetails?.representative;
+
+      const landlordType =
+        getFormDataString(req, 'landlord-individual-or-organisation', 'landlordIndividualOrOrganisation') ??
+        (landlord?.organisationName ? 'organisation' : 'individual');
+      const isOrganisation = landlordType === 'organisation';
+
+      const hasRepresentative =
+        getFormDataString(req, 'landlord-has-representative', 'landlordHasRepresentative') ??
+        saved?.landlordDetails?.hasRepresentative;
+      const representativeIsYes = hasRepresentative === 'Yes';
+
+      return {
+        landlordDetails: {
+          landlord: {
+            firstName: isOrganisation
+              ? undefined
+              : (getFormDataString(
+                  req,
+                  'landlord-individual-or-organisation',
+                  'landlordIndividualOrOrganisation.landlordFirstName'
+                ) ?? landlord?.firstName),
+            lastName: isOrganisation
+              ? undefined
+              : (getFormDataString(
+                  req,
+                  'landlord-individual-or-organisation',
+                  'landlordIndividualOrOrganisation.landlordLastName'
+                ) ?? landlord?.lastName),
+            organisationName: isOrganisation
+              ? (getFormDataString(
+                  req,
+                  'landlord-individual-or-organisation',
+                  'landlordIndividualOrOrganisation.landlordOrganisationName'
+                ) ?? landlord?.organisationName)
+              : undefined,
+            addressLine1: getFormDataString(req, 'landlord-address', 'landlordAddressLine1') ?? landlord?.addressLine1,
+            addressLine2: getFormDataString(req, 'landlord-address', 'landlordAddressLine2') ?? landlord?.addressLine2,
+            postTown: getFormDataString(req, 'landlord-address', 'landlordPostTown') ?? landlord?.postTown,
+            county: getFormDataString(req, 'landlord-address', 'landlordCounty') ?? landlord?.county,
+            postcode: getFormDataString(req, 'landlord-address', 'landlordPostcode') ?? landlord?.postcode,
+            country: getFormDataString(req, 'landlord-address', 'landlordCountry') ?? landlord?.country,
+            emailAddress:
+              getFormDataString(req, 'landlord-email-address', 'landlordEmailAddress') ?? landlord?.emailAddress,
+            phoneNumber:
+              getFormDataString(req, 'landlord-phone-number', 'landlordPhoneNumber') ?? landlord?.phoneNumber,
+          },
+          hasRepresentative,
+          representative: representativeIsYes
+            ? {
+                firstName:
+                  getFormDataString(req, 'landlord-representative-details', 'representativeFirstName') ??
+                  representative?.firstName,
+                lastName:
+                  getFormDataString(req, 'landlord-representative-details', 'representativeLastName') ??
+                  representative?.lastName,
+                organisationName:
+                  getFormDataString(req, 'landlord-representative-details', 'representativeCompanyName') ??
+                  representative?.organisationName,
+                addressLine1:
+                  getFormDataString(req, 'landlord-representative-address', 'representativeAddressLine1') ??
+                  representative?.addressLine1,
+                addressLine2:
+                  getFormDataString(req, 'landlord-representative-address', 'representativeAddressLine2') ??
+                  representative?.addressLine2,
+                postTown:
+                  getFormDataString(req, 'landlord-representative-address', 'representativePostTown') ??
+                  representative?.postTown,
+                county:
+                  getFormDataString(req, 'landlord-representative-address', 'representativeCounty') ??
+                  representative?.county,
+                postcode:
+                  getFormDataString(req, 'landlord-representative-address', 'representativePostcode') ??
+                  representative?.postcode,
+                emailAddress:
+                  getFormDataString(req, 'landlord-representative-email-address', 'representativeEmailAddress') ??
+                  representative?.emailAddress,
+                phoneNumber:
+                  getFormDataString(req, 'landlord-representative-phone-number', 'representativePhoneNumber') ??
+                  representative?.phoneNumber,
+              }
+            : undefined,
+        },
+      };
+    }
     case 'landlordsNotice': {
       const noticeDetails = saved?.noticeOfRentIncreaseDetails;
       const receivedLandlordNoticeProposingNewRent =

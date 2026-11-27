@@ -1,4 +1,3 @@
-import type { Request } from 'express';
 import type { Environment } from 'nunjucks';
 
 import { step } from '../../../../main/steps/application/landlord-details/landlord-email-address';
@@ -72,25 +71,13 @@ describe('application landlord-email-address step', () => {
     });
   });
 
-  describe('isAnswered', () => {
-    const makeReq = (ccdCase: Record<string, unknown> = {}): Request =>
-      ({ session: { ccdCase } }) as unknown as Request;
-
-    it('is not answered when no email address has been saved', () => {
-      expect(step.isAnswered?.(makeReq())).toBe(false);
-    });
-
-    it('is answered when a valid email address has been saved', () => {
-      expect(step.isAnswered?.(makeReq({ landlordEmailAddress: 'landlord@example.com' }))).toBe(true);
-    });
-
-    it('is not answered when the saved email address is not valid', () => {
-      expect(step.isAnswered?.(makeReq({ landlordEmailAddress: 'landlord@example' }))).toBe(false);
-    });
-  });
-
   describe('validator', () => {
     const validate = (value: unknown): boolean | string => capturedConfig.fields[0].validator(value);
+
+    it('accepts a blank email address', () => {
+      expect(validate('')).toBe(true);
+      expect(validate(undefined)).toBe(true);
+    });
 
     it('accepts a valid email address', () => {
       expect(validate('name@example.co.uk')).toBe(true);
@@ -98,6 +85,35 @@ describe('application landlord-email-address step', () => {
 
     it('returns the invalid error key for an email address in the wrong format', () => {
       expect(validate('name.example.com')).toBe('errors.landlordEmailAddress.invalid');
+    });
+  });
+
+  describe('getInitialFormData', () => {
+    it('pre-populates the field from the case', () => {
+      const req = {
+        params: { caseReference: CASE_REF },
+        session: { formData: {}, ccdCase: { landlordDetails: { landlord: { emailAddress: 'landlord@example.com' } } } },
+      };
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({ landlordEmailAddress: 'landlord@example.com' });
+    });
+
+    it('prefers saved form data over the case value', () => {
+      const req = {
+        params: { caseReference: CASE_REF },
+        session: {
+          formData: { [CASE_REF]: { 'landlord-email-address': { landlordEmailAddress: 'amended' } } },
+          ccdCase: { landlordDetails: { landlord: { emailAddress: 'landlord@example.com' } } },
+        },
+      };
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({ landlordEmailAddress: 'amended' });
+    });
+
+    it('returns an empty object when nothing is saved', () => {
+      const req = { params: { caseReference: CASE_REF }, session: { formData: {}, ccdCase: {} } };
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({});
     });
   });
 });

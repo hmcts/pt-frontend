@@ -1,8 +1,9 @@
 import { getTextLengthError } from '../../../utils/fieldValidators';
 import { flowConfig } from '../../flow.config';
 
-import { createFormStep, getFormData } from '@modules/steps';
+import { createFormStep, getFormData, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { PTCaseData } from '@services/ccd/ccdCase.interface';
 import { isValidPersonName } from '@utils/personName';
 
 const journeyName = 'application';
@@ -39,7 +40,7 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/landlordIndividualOrOrganisation.njk`,
   showCancelButton: false,
-  isAnswered: req => Boolean(req.session.ccdCase?.landlordIndividualOrOrganisation),
+  isAnswered: req => isAnswered(req.session.ccdCase),
   translationKeys: {
     pageTitle: 'pageTitle',
     heading: 'heading',
@@ -124,4 +125,32 @@ export const step: StepDefinition = createFormStep({
       ],
     },
   ],
+  getInitialFormData: req => {
+    const landlord = (req.session.ccdCase as PTCaseData | undefined)?.landlordDetails?.landlord;
+
+    // pt-api has no individual/organisation field, so derive it from which name was saved.
+    const savedType = landlord?.organisationName ? 'organisation' : landlord?.firstName ? 'individual' : undefined;
+    const type = getFormDataString(req, stepName, 'landlordIndividualOrOrganisation') ?? savedType;
+
+    const firstName =
+      getFormDataString(req, stepName, 'landlordIndividualOrOrganisation.landlordFirstName') ?? landlord?.firstName;
+    const lastName =
+      getFormDataString(req, stepName, 'landlordIndividualOrOrganisation.landlordLastName') ?? landlord?.lastName;
+    const organisationName =
+      getFormDataString(req, stepName, 'landlordIndividualOrOrganisation.landlordOrganisationName') ??
+      landlord?.organisationName;
+
+    return {
+      ...(type && { landlordIndividualOrOrganisation: type }),
+      ...(type === 'individual' && firstName && { 'landlordIndividualOrOrganisation.landlordFirstName': firstName }),
+      ...(type === 'individual' && lastName && { 'landlordIndividualOrOrganisation.landlordLastName': lastName }),
+      ...(type === 'organisation' &&
+        organisationName && { 'landlordIndividualOrOrganisation.landlordOrganisationName': organisationName }),
+    };
+  },
 });
+
+function isAnswered(ccdCase: PTCaseData | undefined): boolean {
+  const landlord = ccdCase?.landlordDetails?.landlord;
+  return Boolean(landlord?.organisationName || (landlord?.firstName && landlord?.lastName));
+}

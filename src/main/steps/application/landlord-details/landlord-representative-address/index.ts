@@ -96,15 +96,17 @@ export const step: StepDefinition = createFormStep({
     const caseData: PTCaseData | undefined = req.session.ccdCase;
 
     const representativeAddressLine1 =
-      getFormDataString(req, stepName, 'representativeAddressLine1') ?? caseData?.representativeAddressLine1;
+      getFormDataString(req, stepName, 'representativeAddressLine1') ??
+      caseData?.landlordDetails?.representative?.addressLine1;
     const representativeAddressLine2 =
-      getFormDataString(req, stepName, 'representativeAddressLine2') ?? caseData?.representativeAddressLine2;
+      getFormDataString(req, stepName, 'representativeAddressLine2') ??
+      caseData?.landlordDetails?.representative?.addressLine2;
     const representativePostTown =
-      getFormDataString(req, stepName, 'representativePostTown') ?? caseData?.representativePostTown;
+      getFormDataString(req, stepName, 'representativePostTown') ?? caseData?.landlordDetails?.representative?.postTown;
     const representativeCounty =
-      getFormDataString(req, stepName, 'representativeCounty') ?? caseData?.representativeCounty;
+      getFormDataString(req, stepName, 'representativeCounty') ?? caseData?.landlordDetails?.representative?.county;
     const representativePostcode =
-      getFormDataString(req, stepName, 'representativePostcode') ?? caseData?.representativePostcode;
+      getFormDataString(req, stepName, 'representativePostcode') ?? caseData?.landlordDetails?.representative?.postcode;
 
     return {
       ...(representativeAddressLine1 && { representativeAddressLine1 }),
@@ -117,5 +119,7 @@ export const step: StepDefinition = createFormStep({
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  return Boolean(ccdCase?.representativeAddressLine1 && ccdCase?.representativePostTown);
+  return Boolean(
+    ccdCase?.landlordDetails?.representative?.addressLine1 && ccdCase?.landlordDetails?.representative?.postTown
+  );
 }

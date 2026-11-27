@@ -1,7 +1,8 @@
 import { flowConfig } from '../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { PTCaseData } from '@services/ccd/ccdCase.interface';
 import { isValidEmail } from '@utils/email';
 
 const journeyName = 'application';
@@ -14,8 +15,6 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/landlordEmailAddress.njk`,
   showCancelButton: false,
-  isAnswered: req =>
-    Boolean(req.session.ccdCase?.landlordEmailAddress && isValidEmail(req.session.ccdCase?.landlordEmailAddress)),
   translationKeys: {
     pageTitle: 'pageTitle',
   },
@@ -23,7 +22,7 @@ export const step: StepDefinition = createFormStep({
     {
       name: 'landlordEmailAddress',
       type: 'text',
-      required: true,
+      required: false,
       isPageHeading: true,
       labelClasses: 'govuk-label--l',
       classes: 'govuk-input--width-20',
@@ -37,4 +36,14 @@ export const step: StepDefinition = createFormStep({
       },
     },
   ],
+  getInitialFormData: req => {
+    const caseData: PTCaseData | undefined = req.session.ccdCase;
+
+    const landlordEmailAddress =
+      getFormDataString(req, stepName, 'landlordEmailAddress') ?? caseData?.landlordDetails?.landlord?.emailAddress;
+
+    return {
+      ...(landlordEmailAddress && { landlordEmailAddress }),
+    };
+  },
 });

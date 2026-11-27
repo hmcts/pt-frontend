@@ -73,7 +73,7 @@ describe('saveSection', () => {
   });
 
   it('does not call CCD when the section has nothing to save', async () => {
-    await saveSection(CASE_REF, 'landlordDetails', makeReq(), flow('application'));
+    await saveSection(CASE_REF, 'tellUsIfYouNeedHelp', makeReq(), flow('application'));
 
     expect(getCaseApi).not.toHaveBeenCalled();
   });

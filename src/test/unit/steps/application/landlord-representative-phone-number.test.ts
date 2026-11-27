@@ -21,4 +21,37 @@ describe('application landlord-representative-phone-number step', () => {
       expect(validate('07l23456789')).toBe('errors.representativePhoneNumber.invalid');
     });
   });
+
+  describe('getInitialFormData', () => {
+    const CASE_REF = '1234123412341234';
+
+    it('pre-populates the field from the case', () => {
+      const req = {
+        params: { caseReference: CASE_REF },
+        session: { formData: {}, ccdCase: { landlordDetails: { representative: { phoneNumber: '07123 456789' } } } },
+      };
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({ representativePhoneNumber: '07123 456789' });
+    });
+
+    it('prefers saved form data over the case value', () => {
+      const req = {
+        params: { caseReference: CASE_REF },
+        session: {
+          formData: {
+            [CASE_REF]: { 'landlord-representative-phone-number': { representativePhoneNumber: 'amended' } },
+          },
+          ccdCase: { landlordDetails: { representative: { phoneNumber: '07123 456789' } } },
+        },
+      };
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({ representativePhoneNumber: 'amended' });
+    });
+
+    it('returns an empty object when nothing is saved', () => {
+      const req = { params: { caseReference: CASE_REF }, session: { formData: {}, ccdCase: {} } };
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({});
+    });
+  });
 });

@@ -1,7 +1,8 @@
 import { flowConfig } from '../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
+import { PTCaseData } from '@services/ccd/ccdCase.interface';
 
 const journeyName = 'application';
 const stepName = 'landlord-has-representative';
@@ -16,7 +17,7 @@ export const step: StepDefinition = createFormStep({
   translationKeys: {
     pageTitle: 'questionTitle',
   },
-  isAnswered: req => Boolean(req.session.ccdCase?.landlordHasRepresentative),
+  isAnswered: req => Boolean(req.session.ccdCase?.landlordDetails?.hasRepresentative),
   fields: [
     {
       name: 'landlordHasRepresentative',
@@ -33,4 +34,14 @@ export const step: StepDefinition = createFormStep({
       ],
     },
   ],
+  getInitialFormData: req => {
+    const caseData: PTCaseData | undefined = req.session.ccdCase;
+
+    const landlordHasRepresentative =
+      getFormDataString(req, stepName, 'landlordHasRepresentative') ?? caseData?.landlordDetails?.hasRepresentative;
+
+    return {
+      ...(landlordHasRepresentative && { landlordHasRepresentative }),
+    };
+  },
 });
