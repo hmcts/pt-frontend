@@ -1,5 +1,5 @@
 @JIRA-TEST-KEY:HDPD-619 @regression
-Feature: Verify Upload evidence of improvements or repairs page
+Feature: Verify Upload evidence of repairs or improvements page
 
     Background:
         Given the user navigates to PT url
@@ -41,7 +41,7 @@ Feature: Verify Upload evidence of improvements or repairs page
         And I click "Save and continue"
         When I select "Yes" for the question "Have you or any past tenants made any changes or repairs to the property?"
         And I click "Save and continue"
-        Then I check that the text "Upload evidence of the improvements or repairs (optional)" is displayed on the page
+        Then I check that the text "Upload evidence of the repairs or improvements (optional)" is displayed on the page
 
     @AC1 @JIRA-TEST-KEY:PTSD-938
 

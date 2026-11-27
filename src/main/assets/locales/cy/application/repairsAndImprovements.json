@@ -1,15 +1,24 @@
 {
   "pageHeading": "cy Repairs and improvements",
-  "repairsAndImprovementsInfo": "cy Tell us if you or any past tenants have made any improvements, or replaced fixing, fittings or furniture. Only include improvement or repair work you or the other tenants were not responsible for under the terms of the tenancy.",
-  "questionTitle": "cy Have you or any past tenants made any changes or repairs to the property?",
+  "repairsAndImprovementsInfo": "cy Tell us if you or any past tenants have made any improvements, or replaced fixings, fittings or furniture. Only include repairs or improvements you or the other tenants were not responsible for under the terms of the tenancy.",
+  "questionTitle": "cy Have you or any past tenants made any repairs or improvements to the property?",
+  "questionParagraph": "cy Repairs or improvements you or the other tenants were not responsible for under the terms of the tenancyy",
   "options": {
     "notSure": {
       "label": "cy I'm not sure"
+    },
+    "tenantsPropertyRepairsDetails": {
+      "label": "cy Describe the improvements and repair work",
+      "hint": "cy You can upload any evidence you have on the next page"
     }
   },
   "errors": {
-    "hasRepairsAndImprovements": {
+    "anyTenantsMadePropertyRepairs": {
       "required": "cy Select whether you or any past tenants made any changes or repairs to the property"
+    },
+    "tenantsPropertyRepairsDetails": {
+      "required": "cy Enter the repairs and improvements work",
+      "invalid": "cy Description of the repairs and improvements work must be 500 characters or less"
     }
   }
 }

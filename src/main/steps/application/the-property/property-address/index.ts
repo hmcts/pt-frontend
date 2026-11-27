@@ -1,12 +1,13 @@
 import { flowConfig } from '../../flow.config';
 
-import { createFormStep } from '@modules/steps';
+import { createFormStep, getFormDataString } from '@modules/steps';
 import type { StepDefinition } from '@modules/steps/stepFormData.interface';
 import { PTCaseData } from '@services/ccd/ccdCase.interface';
 import { isValidPostcode } from '@utils/postcode';
 
 const journeyName = 'application';
 const stepName = 'property-address';
+const fieldNames = ['addressLine1', 'addressLine2', 'postTown', 'county', 'postcode'] as const;
 
 export const step: StepDefinition = createFormStep({
   stepName,
@@ -110,8 +111,18 @@ export const step: StepDefinition = createFormStep({
       },
     },
   ],
+  getInitialFormData: req => {
+    const propertyDetails = req.session.ccdCase?.propertyDetails;
+
+    return Object.fromEntries(
+      fieldNames
+        .map(fieldName => [fieldName, getFormDataString(req, stepName, fieldName) ?? propertyDetails?.[fieldName]])
+        .filter(([, value]) => value)
+    );
+  },
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  return Boolean(ccdCase?.addressLine1 && ccdCase?.postTown && ccdCase?.postcode);
+  const propertyDetails = ccdCase?.propertyDetails;
+  return Boolean(propertyDetails?.addressLine1 && propertyDetails?.postTown && propertyDetails?.postcode);
 }

@@ -55,7 +55,7 @@ Feature: Validate Repairs and improvements Page
 
         When I select "Yes" for the question "Have you or any past tenants made any changes or repairs to the property?"
         And I click "Save and continue"
-        Then I check that the text "Upload evidence of the improvements or repairs (optional)" is displayed on the page
+        Then I check that the text "Upload evidence of the repairs or improvements (optional)" is displayed on the page
         And I check the page for accessibility issues
 
     @AC3 @JIRA-TEST-KEY:PTSD-858
