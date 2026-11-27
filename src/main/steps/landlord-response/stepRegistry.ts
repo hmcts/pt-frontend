@@ -1,3 +1,4 @@
+import { relatedContentStepRegistry } from './related-content/stepRegistry';
 import { step as taskList } from './task-list';
 import { tenantsApplicationStepRegistry } from './tenants-application/stepRegistry';
 import { tribunalsDeterminationStepRegistry } from './tribunals-determination/stepRegistry';
@@ -10,6 +11,7 @@ export const stepRegistry = {
   ...tenantsApplicationStepRegistry,
   ...yourResponseRegistry,
   ...tribunalsDeterminationStepRegistry,
+  ...relatedContentStepRegistry,
 } satisfies Record<string, StepDefinition>;
 
 export type LandlordResponseStepName = keyof typeof stepRegistry;
