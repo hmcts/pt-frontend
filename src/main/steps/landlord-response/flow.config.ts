@@ -14,7 +14,7 @@ export const flowConfig: JourneyFlowConfig = {
   useShowConditions: true,
   useSessionFormData: true,
   sections: landlordResponseSections,
-  nonSectionStepOrder: ['task-list'],
+  nonSectionStepOrder: ['task-list', 'transfer-case'],
   // First visible step of any section back-links to this hub step.
   hubStepName: 'task-list',
   steps: {
