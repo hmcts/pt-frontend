@@ -15,10 +15,6 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/landlordPhoneNumber.njk`,
   showCancelButton: false,
-  isAnswered: req => {
-    const phoneNumber = req.session.ccdCase?.landlordDetails?.landlord?.phoneNumber;
-    return Boolean(phoneNumber && isValidPhoneNumber(phoneNumber));
-  },
   fields: [
     {
       name: 'landlordPhoneNumber',

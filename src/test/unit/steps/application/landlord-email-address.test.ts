@@ -1,4 +1,3 @@
-import type { Request } from 'express';
 import type { Environment } from 'nunjucks';
 
 import { step } from '../../../../main/steps/application/landlord-details/landlord-email-address';
@@ -72,29 +71,13 @@ describe('application landlord-email-address step', () => {
     });
   });
 
-  describe('isAnswered', () => {
-    const makeReq = (ccdCase: Record<string, unknown> = {}): Request =>
-      ({ session: { ccdCase } }) as unknown as Request;
-
-    it('is not answered when no email address has been saved', () => {
-      expect(step.isAnswered?.(makeReq())).toBe(false);
-    });
-
-    it('is answered when a valid email address has been saved', () => {
-      expect(
-        step.isAnswered?.(makeReq({ landlordDetails: { landlord: { emailAddress: 'landlord@example.com' } } }))
-      ).toBe(true);
-    });
-
-    it('is not answered when the saved email address is not valid', () => {
-      expect(step.isAnswered?.(makeReq({ landlordDetails: { landlord: { emailAddress: 'landlord@example' } } }))).toBe(
-        false
-      );
-    });
-  });
-
   describe('validator', () => {
     const validate = (value: unknown): boolean | string => capturedConfig.fields[0].validator(value);
+
+    it('accepts a blank email address', () => {
+      expect(validate('')).toBe(true);
+      expect(validate(undefined)).toBe(true);
+    });
 
     it('accepts a valid email address', () => {
       expect(validate('name@example.co.uk')).toBe(true);

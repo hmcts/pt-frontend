@@ -12,28 +12,28 @@
       }
     },
     "landlordFirstName": {
-      "label": "cyWhat is the landlord’s first name?",
-      "changeHidden": "cylandlord’s first name"
+      "label": "cyWhat is the landlord's first name?",
+      "changeHidden": "cylandlord's first name"
     },
     "landlordLastName": {
-      "label": "cyWhat is the landlord’s last name?",
-      "changeHidden": "cylandlord’s last name"
+      "label": "cyWhat is the landlord's last name?",
+      "changeHidden": "cylandlord's last name"
     },
     "landlordOrganisationName": {
-      "label": "cyWhat is the organisation’s name?",
-      "changeHidden": "cyorganisation’s name"
+      "label": "cyWhat is the organisation's name?",
+      "changeHidden": "cyorganisation's name"
     },
     "landlordAddress": {
-      "label": "cyWhat is your landlord’s address?",
-      "changeHidden": "cylandlord’s address"
+      "label": "cyWhat is your landlord's address?",
+      "changeHidden": "cylandlord's address"
     },
     "landlordEmailAddress": {
-      "label": "cyWhat is your landlord’s email address?",
-      "changeHidden": "cylandlord’s email address"
+      "label": "cyWhat is your landlord's email address? (optional)",
+      "changeHidden": "cylandlord's email address"
     },
     "landlordPhoneNumber": {
-      "label": "cyWhat is your landlord’s phone number? (optional)",
-      "changeHidden": "cylandlord’s phone number"
+      "label": "cyWhat is your landlord's phone number? (optional)",
+      "changeHidden": "cylandlord's phone number"
     },
     "landlordHasRepresentative": {
       "label": "cyDoes your landlord have a representative?",
@@ -41,32 +41,32 @@
       "options": {
         "Yes": "cyYes",
         "No": "cyNo",
-        "NotSure": "cyI’m not sure"
+        "NotSure": "cyI'm not sure"
       }
     },
     "representativeFirstName": {
-      "label": "cyRepresentative’s first name",
-      "changeHidden": "cyrepresentative’s first name"
+      "label": "cyRepresentative's first name",
+      "changeHidden": "cyrepresentative's first name"
     },
     "representativeLastName": {
-      "label": "cyRepresentative’s last name",
-      "changeHidden": "cyrepresentative’s last name"
+      "label": "cyRepresentative's last name",
+      "changeHidden": "cyrepresentative's last name"
     },
     "representativeCompanyName": {
-      "label": "cyRepresentative’s company name (optional)",
-      "changeHidden": "cyrepresentative’s company name"
+      "label": "cyRepresentative's company name (optional)",
+      "changeHidden": "cyrepresentative's company name"
     },
     "representativeAddress": {
-      "label": "cyThe landlord’s representative’s address",
-      "changeHidden": "cyrepresentative’s address"
+      "label": "cyThe landlord's representative's address",
+      "changeHidden": "cyrepresentative's address"
     },
     "representativeEmailAddress": {
-      "label": "cyThe landlord’s representative’s email address (optional)",
-      "changeHidden": "cyrepresentative’s email address"
+      "label": "cyThe landlord's representative's email address (optional)",
+      "changeHidden": "cyrepresentative's email address"
     },
     "representativePhoneNumber": {
-      "label": "cyThe landlord’s representative’s contact phone number (optional)",
-      "changeHidden": "cyrepresentative’s phone number"
+      "label": "cyThe landlord's representative's contact phone number (optional)",
+      "changeHidden": "cyrepresentative's phone number"
     }
   },
   "reviewAndChangeInfo": "cyYou can review and change your answers before you submit your application."

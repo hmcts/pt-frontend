@@ -10,7 +10,7 @@ export const landlordLettingAgentInformation = {
   LandLoradLettingAgentphoneNumberPageHeading: "Your landlord's letting agent's phone number (optional)",
   lettingAgentphoneNumberField: '//*[@id="lettingAgentPhoneNumber"]',
   landlordDetailsIncludingAnyRepresentativesLink: 'Landlord details including any representatives',
-  landlordEmailAddressField: "What is your landlord's email address?",
+  landlordEmailAddressField: "What is your landlord's email address? (optional)",
   landlordIndividualOption: 'Individual or private landlord',
   landlordFirstNameField: 'What is the landlord’s first name?',
   landlordLastNameField: 'What is the landlord’s last name?',

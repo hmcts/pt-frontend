@@ -12,28 +12,28 @@
       }
     },
     "landlordFirstName": {
-      "label": "What is the landlord’s first name?",
-      "changeHidden": "landlord’s first name"
+      "label": "What is the landlord's first name?",
+      "changeHidden": "landlord's first name"
     },
     "landlordLastName": {
-      "label": "What is the landlord’s last name?",
-      "changeHidden": "landlord’s last name"
+      "label": "What is the landlord's last name?",
+      "changeHidden": "landlord's last name"
     },
     "landlordOrganisationName": {
-      "label": "What is the organisation’s name?",
-      "changeHidden": "organisation’s name"
+      "label": "What is the organisation's name?",
+      "changeHidden": "organisation's name"
     },
     "landlordAddress": {
-      "label": "What is your landlord’s address?",
-      "changeHidden": "landlord’s address"
+      "label": "What is your landlord's address?",
+      "changeHidden": "landlord's address"
     },
     "landlordEmailAddress": {
-      "label": "What is your landlord’s email address?",
-      "changeHidden": "landlord’s email address"
+      "label": "What is your landlord's email address? (optional)",
+      "changeHidden": "landlord's email address"
     },
     "landlordPhoneNumber": {
-      "label": "What is your landlord’s phone number? (optional)",
-      "changeHidden": "landlord’s phone number"
+      "label": "What is your landlord's phone number? (optional)",
+      "changeHidden": "landlord's phone number"
     },
     "landlordHasRepresentative": {
       "label": "Does your landlord have a representative?",
@@ -41,32 +41,32 @@
       "options": {
         "Yes": "Yes",
         "No": "No",
-        "NotSure": "I’m not sure"
+        "NotSure": "I'm not sure"
       }
     },
     "representativeFirstName": {
-      "label": "Representative’s first name",
-      "changeHidden": "representative’s first name"
+      "label": "Representative's first name",
+      "changeHidden": "representative's first name"
     },
     "representativeLastName": {
-      "label": "Representative’s last name",
-      "changeHidden": "representative’s last name"
+      "label": "Representative's last name",
+      "changeHidden": "representative's last name"
     },
     "representativeCompanyName": {
-      "label": "Representative’s company name (optional)",
-      "changeHidden": "representative’s company name"
+      "label": "Representative's company name (optional)",
+      "changeHidden": "representative's company name"
     },
     "representativeAddress": {
-      "label": "The landlord’s representative’s address",
-      "changeHidden": "representative’s address"
+      "label": "The landlord's representative's address",
+      "changeHidden": "representative's address"
     },
     "representativeEmailAddress": {
-      "label": "The landlord’s representative’s email address (optional)",
-      "changeHidden": "representative’s email address"
+      "label": "The landlord's representative's email address (optional)",
+      "changeHidden": "representative's email address"
     },
     "representativePhoneNumber": {
-      "label": "The landlord’s representative’s contact phone number (optional)",
-      "changeHidden": "representative’s phone number"
+      "label": "The landlord's representative's contact phone number (optional)",
+      "changeHidden": "representative's phone number"
     }
   },
   "reviewAndChangeInfo": "You can review and change your answers before you submit your application."

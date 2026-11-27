@@ -15,10 +15,6 @@ export const step: StepDefinition = createFormStep({
   flowConfig,
   customTemplate: `${__dirname}/landlordEmailAddress.njk`,
   showCancelButton: false,
-  isAnswered: req => {
-    const emailAddress = req.session.ccdCase?.landlordDetails?.landlord?.emailAddress;
-    return Boolean(emailAddress && isValidEmail(emailAddress));
-  },
   translationKeys: {
     pageTitle: 'pageTitle',
   },
@@ -26,7 +22,7 @@ export const step: StepDefinition = createFormStep({
     {
       name: 'landlordEmailAddress',
       type: 'text',
-      required: true,
+      required: false,
       isPageHeading: true,
       labelClasses: 'govuk-label--l',
       classes: 'govuk-input--width-20',

@@ -1,5 +1,3 @@
-import type { Request } from 'express';
-
 import { createFormStep } from '@modules/steps';
 
 import '../../../../main/steps/application/landlord-details/landlord-phone-number/index';
@@ -11,26 +9,6 @@ jest.mock('@modules/steps', () => ({
 
 describe('application landlord-phone-number step', () => {
   const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
-
-  const makeReq = (ccdCase: Record<string, unknown> = {}): Request => ({ session: { ccdCase } }) as unknown as Request;
-
-  describe('isAnswered', () => {
-    it('is not answered when no phone number has been saved', () => {
-      expect(capturedConfig.isAnswered(makeReq())).toBe(false);
-    });
-
-    it('is answered when a valid phone number has been saved', () => {
-      expect(
-        capturedConfig.isAnswered(makeReq({ landlordDetails: { landlord: { phoneNumber: '07123 456789' } } }))
-      ).toBe(true);
-    });
-
-    it('is not answered when the saved phone number is not valid', () => {
-      expect(capturedConfig.isAnswered(makeReq({ landlordDetails: { landlord: { phoneNumber: 'invalid' } } }))).toBe(
-        false
-      );
-    });
-  });
 
   describe('validator', () => {
     const validate = (value: unknown): boolean | string => capturedConfig.fields[0].validator(value);
