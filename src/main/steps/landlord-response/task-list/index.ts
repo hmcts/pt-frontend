@@ -59,6 +59,7 @@ export const step: StepDefinition = {
         groups,
         name: name || 'Applicant',
         caseReference,
+        transferCaseUrl: getStepUrl('transfer-case', flowConfig, caseReference),
       };
     }),
 };

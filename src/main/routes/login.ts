@@ -16,15 +16,18 @@ export default function (app: Application): void {
   const protocol = secure ? 'https://' : 'http://';
   const port = secure ? '' : `:${config.get('port')}`;
 
-  app.get(SIGN_IN_URL, (_req, res) => res.redirect(getRedirectUrl(`${protocol}${res.locals.host}${port}`)));
-  app.get(SIGN_OUT_URL, (req, res) => {
+  app.get(SIGN_IN_URL, (_req: Request, res: Response) =>
+    res.redirect(getRedirectUrl(`${protocol}${res.locals.host}${port}`))
+  );
+  app.get(SIGN_OUT_URL, (req: Request, res: Response) => {
+    const idToken = req.session.user?.idToken;
     req.session.destroy((err: unknown) => {
       if (err) {
         logger.error('Session destroyed error:', err);
       }
       res
         .clearCookie(config.get('session.cookieName'), { path: '/' })
-        .redirect(getEndIdamSessionUrl(`${protocol}${res.locals.host}${port}`));
+        .redirect(getEndIdamSessionUrl(`${protocol}${res.locals.host}${port}`, idToken));
     });
   });
   app.get(CALLBACK_URL, callbackHandler(protocol, port));
