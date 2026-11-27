@@ -5,7 +5,7 @@ import { buildSectionCyaRows } from '../../../../main/steps/application/landlord
 
 const t = ((key: string) => key) as unknown as TFunction;
 
-type Row = { key: { text: string }; value: { text?: string }; actions: { items: { href: string }[] } };
+type Row = { key: { text: string }; value: { text?: string; html?: string }; actions: { items: { href: string }[] } };
 
 const CASE_REF = '1234123412341234';
 
@@ -24,7 +24,7 @@ const buildReq = (
 
 const rowsFor = (req: Request): Row[] => buildSectionCyaRows(req, t) as Row[];
 
-const summarise = (rows: Row[]) => rows.map(row => [row.key.text, row.value.text]);
+const summarise = (rows: Row[]) => rows.map(row => [row.key.text, row.value.text ?? row.value.html]);
 
 describe('buildSectionCyaRows for landlord details', () => {
   it('returns no rows when the route has no case reference', () => {
