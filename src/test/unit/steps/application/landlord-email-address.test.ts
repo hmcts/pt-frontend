@@ -81,11 +81,15 @@ describe('application landlord-email-address step', () => {
     });
 
     it('is answered when a valid email address has been saved', () => {
-      expect(step.isAnswered?.(makeReq({ landlordEmailAddress: 'landlord@example.com' }))).toBe(true);
+      expect(
+        step.isAnswered?.(makeReq({ landlordDetails: { landlord: { emailAddress: 'landlord@example.com' } } }))
+      ).toBe(true);
     });
 
     it('is not answered when the saved email address is not valid', () => {
-      expect(step.isAnswered?.(makeReq({ landlordEmailAddress: 'landlord@example' }))).toBe(false);
+      expect(step.isAnswered?.(makeReq({ landlordDetails: { landlord: { emailAddress: 'landlord@example' } } }))).toBe(
+        false
+      );
     });
   });
 
@@ -98,6 +102,35 @@ describe('application landlord-email-address step', () => {
 
     it('returns the invalid error key for an email address in the wrong format', () => {
       expect(validate('name.example.com')).toBe('errors.landlordEmailAddress.invalid');
+    });
+  });
+
+  describe('getInitialFormData', () => {
+    it('pre-populates the field from the case', () => {
+      const req = {
+        params: { caseReference: CASE_REF },
+        session: { formData: {}, ccdCase: { landlordDetails: { landlord: { emailAddress: 'landlord@example.com' } } } },
+      };
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({ landlordEmailAddress: 'landlord@example.com' });
+    });
+
+    it('prefers saved form data over the case value', () => {
+      const req = {
+        params: { caseReference: CASE_REF },
+        session: {
+          formData: { [CASE_REF]: { 'landlord-email-address': { landlordEmailAddress: 'amended' } } },
+          ccdCase: { landlordDetails: { landlord: { emailAddress: 'landlord@example.com' } } },
+        },
+      };
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({ landlordEmailAddress: 'amended' });
+    });
+
+    it('returns an empty object when nothing is saved', () => {
+      const req = { params: { caseReference: CASE_REF }, session: { formData: {}, ccdCase: {} } };
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({});
     });
   });
 });

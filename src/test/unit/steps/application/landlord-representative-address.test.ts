@@ -19,6 +19,9 @@ describe('application landlord-representative-address step', () => {
     representativePostTown: 'Leeds',
   };
 
+  // The same answers as pt-api returns them.
+  const savedRepresentative = { addressLine1: '1 High Street', postTown: 'Leeds' };
+
   describe('isAnswered', () => {
     it('is not answered when nothing has been saved', () => {
       expect(capturedConfig.isAnswered(makeReq())).toBe(false);
@@ -26,11 +29,17 @@ describe('application landlord-representative-address step', () => {
     });
 
     it('is answered when the first line, town and postcode are saved', () => {
-      expect(capturedConfig.isAnswered(makeReq(requiredParts))).toBe(true);
+      expect(capturedConfig.isAnswered(makeReq({ landlordDetails: { representative: savedRepresentative } }))).toBe(
+        true
+      );
     });
 
-    it.each(['representativeAddressLine1', 'representativePostTown'])('is not answered when %s is missing', missing => {
-      expect(capturedConfig.isAnswered(makeReq({ ...requiredParts, [missing]: undefined }))).toBe(false);
+    it.each(['addressLine1', 'postTown'])('is not answered when %s is missing', missing => {
+      expect(
+        capturedConfig.isAnswered(
+          makeReq({ landlordDetails: { representative: { ...savedRepresentative, [missing]: undefined } } })
+        )
+      ).toBe(false);
     });
   });
 
@@ -78,10 +87,14 @@ describe('application landlord-representative-address step', () => {
         session: {
           formData: {},
           ccdCase: {
-            ...requiredParts,
-            representativeAddressLine2: 'Flat 2',
-            representativeCounty: 'West Yorkshire',
-            representativePostcode: 'LS1 1AA',
+            landlordDetails: {
+              representative: {
+                ...savedRepresentative,
+                addressLine2: 'Flat 2',
+                county: 'West Yorkshire',
+                postcode: 'LS1 1AA',
+              },
+            },
           },
         },
       };
@@ -106,7 +119,7 @@ describe('application landlord-representative-address step', () => {
               },
             },
           },
-          ccdCase: requiredParts,
+          ccdCase: { landlordDetails: { representative: savedRepresentative } },
         },
       };
 

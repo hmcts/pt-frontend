@@ -72,11 +72,13 @@ export const step: StepDefinition = createFormStep({
     const caseData: PTCaseData | undefined = req.session.ccdCase;
 
     const representativeFirstName =
-      getFormDataString(req, stepName, 'representativeFirstName') ?? caseData?.representativeFirstName;
+      getFormDataString(req, stepName, 'representativeFirstName') ??
+      caseData?.landlordDetails?.representative?.firstName;
     const representativeLastName =
-      getFormDataString(req, stepName, 'representativeLastName') ?? caseData?.representativeLastName;
+      getFormDataString(req, stepName, 'representativeLastName') ?? caseData?.landlordDetails?.representative?.lastName;
     const representativeCompanyName =
-      getFormDataString(req, stepName, 'representativeCompanyName') ?? caseData?.representativeCompanyName;
+      getFormDataString(req, stepName, 'representativeCompanyName') ??
+      caseData?.landlordDetails?.representative?.organisationName;
 
     return {
       ...(representativeFirstName && { representativeFirstName }),
@@ -87,5 +89,7 @@ export const step: StepDefinition = createFormStep({
 });
 
 function isAnswered(ccdCase: PTCaseData | undefined): boolean {
-  return Boolean(ccdCase?.representativeFirstName && ccdCase?.representativeLastName);
+  return Boolean(
+    ccdCase?.landlordDetails?.representative?.firstName && ccdCase?.landlordDetails?.representative?.lastName
+  );
 }

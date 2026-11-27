@@ -1,6 +1,18 @@
+import type { Request } from 'express';
 import type { Environment } from 'nunjucks';
 
 import { step } from '../../../../main/steps/application/landlord-details/landlord-individual-or-organisation';
+
+import { createFormStep } from '@modules/steps';
+
+jest.mock('@modules/steps', () => {
+  const actual = jest.requireActual('@modules/steps');
+  return { ...actual, createFormStep: jest.fn(actual.createFormStep) };
+});
+
+jest.mock('@services/ccd/ccdApiClient', () => ({
+  getCaseApi: jest.fn(() => ({ updateCase: jest.fn().mockResolvedValue({}) })),
+}));
 
 jest.mock('../../../../main/modules/steps/i18n', () => ({
   loadStepNamespace: jest.fn(),
@@ -19,6 +31,7 @@ const lastNameField = 'landlordIndividualOrOrganisation.landlordLastName';
 const organisationNameField = 'landlordIndividualOrOrganisation.landlordOrganisationName';
 
 describe('application landlord-individual-or-organisation step', () => {
+  const capturedConfig = (createFormStep as jest.Mock).mock.calls[0][0];
   const nunjucksEnv = { render: jest.fn(() => '') } as unknown as Environment;
   const stepName = 'landlord-individual-or-organisation';
 
@@ -85,6 +98,69 @@ describe('application landlord-individual-or-organisation step', () => {
     expect(req.session.formData[CASE_REF][stepName]).toStrictEqual({
       landlordIndividualOrOrganisation: 'organisation',
       [organisationNameField]: 'Organisation Ltd',
+    });
+  });
+
+  describe('isAnswered', () => {
+    const makeReq = (landlord?: Record<string, unknown>): Request =>
+      ({ session: { ccdCase: { landlordDetails: { landlord } } } }) as unknown as Request;
+
+    it('is not answered when nothing has been saved', () => {
+      expect(step.isAnswered?.({ session: {} } as unknown as Request)).toBe(false);
+      expect(step.isAnswered?.(makeReq())).toBe(false);
+    });
+
+    it('is answered when an individual first and last name are saved', () => {
+      expect(step.isAnswered?.(makeReq({ firstName: 'John', lastName: 'Smith' }))).toBe(true);
+    });
+
+    it('is not answered when only the first name is saved', () => {
+      expect(step.isAnswered?.(makeReq({ firstName: 'John' }))).toBe(false);
+    });
+
+    it('is answered when an organisation name is saved', () => {
+      expect(step.isAnswered?.(makeReq({ organisationName: 'Organisation Ltd' }))).toBe(true);
+    });
+  });
+
+  describe('getInitialFormData', () => {
+    const makeReq = (savedLandlord?: Record<string, unknown>, formData?: Record<string, unknown>) => ({
+      params: { caseReference: CASE_REF },
+      session: {
+        formData: formData ? { [CASE_REF]: { [stepName]: formData } } : {},
+        ccdCase: { landlordDetails: { landlord: savedLandlord } },
+      },
+    });
+
+    it('pre-populates an individual landlord from the case', () => {
+      expect(capturedConfig.getInitialFormData(makeReq({ firstName: 'John', lastName: 'Smith' }))).toEqual({
+        landlordIndividualOrOrganisation: 'individual',
+        [firstNameField]: 'John',
+        [lastNameField]: 'Smith',
+      });
+    });
+
+    it('pre-populates an organisation landlord from the case', () => {
+      expect(capturedConfig.getInitialFormData(makeReq({ organisationName: 'Organisation Ltd' }))).toEqual({
+        landlordIndividualOrOrganisation: 'organisation',
+        [organisationNameField]: 'Organisation Ltd',
+      });
+    });
+
+    it('prefers saved form data over case values', () => {
+      const req = makeReq(
+        { firstName: 'John', lastName: 'Smith' },
+        { landlordIndividualOrOrganisation: 'organisation', [organisationNameField]: 'Amended Ltd' }
+      );
+
+      expect(capturedConfig.getInitialFormData(req)).toEqual({
+        landlordIndividualOrOrganisation: 'organisation',
+        [organisationNameField]: 'Amended Ltd',
+      });
+    });
+
+    it('returns an empty object when nothing is saved', () => {
+      expect(capturedConfig.getInitialFormData(makeReq())).toEqual({});
     });
   });
 });

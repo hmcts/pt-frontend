@@ -1,4 +1,73 @@
 {
-  "pageTitle": "cyCheck your answers - Landlord details (placeholder)",
-  "heading": "cyCheck your answers - Landlord details (placeholder)"
+  "pageTitle": "cyCheck your answers - Landlord details",
+  "heading": "cyCheck your answers",
+  "cardTitle": "cyLandlord details",
+  "rows": {
+    "landlordIndividualOrOrganisation": {
+      "label": "cyIs your landlord an individual or an organisation?",
+      "changeHidden": "cywhether your landlord is an individual or an organisation",
+      "options": {
+        "individual": "cyIndividual or private landlord",
+        "organisation": "cyOrganisation"
+      }
+    },
+    "landlordFirstName": {
+      "label": "cyWhat is the landlord’s first name?",
+      "changeHidden": "cylandlord’s first name"
+    },
+    "landlordLastName": {
+      "label": "cyWhat is the landlord’s last name?",
+      "changeHidden": "cylandlord’s last name"
+    },
+    "landlordOrganisationName": {
+      "label": "cyWhat is the organisation’s name?",
+      "changeHidden": "cyorganisation’s name"
+    },
+    "landlordAddress": {
+      "label": "cyWhat is your landlord’s address?",
+      "changeHidden": "cylandlord’s address"
+    },
+    "landlordEmailAddress": {
+      "label": "cyWhat is your landlord’s email address?",
+      "changeHidden": "cylandlord’s email address"
+    },
+    "landlordPhoneNumber": {
+      "label": "cyWhat is your landlord’s phone number? (optional)",
+      "changeHidden": "cylandlord’s phone number"
+    },
+    "landlordHasRepresentative": {
+      "label": "cyDoes your landlord have a representative?",
+      "changeHidden": "cywhether your landlord has a representative",
+      "options": {
+        "Yes": "cyYes",
+        "No": "cyNo",
+        "NotSure": "cyI’m not sure"
+      }
+    },
+    "representativeFirstName": {
+      "label": "cyRepresentative’s first name",
+      "changeHidden": "cyrepresentative’s first name"
+    },
+    "representativeLastName": {
+      "label": "cyRepresentative’s last name",
+      "changeHidden": "cyrepresentative’s last name"
+    },
+    "representativeCompanyName": {
+      "label": "cyRepresentative’s company name (optional)",
+      "changeHidden": "cyrepresentative’s company name"
+    },
+    "representativeAddress": {
+      "label": "cyThe landlord’s representative’s address",
+      "changeHidden": "cyrepresentative’s address"
+    },
+    "representativeEmailAddress": {
+      "label": "cyThe landlord’s representative’s email address (optional)",
+      "changeHidden": "cyrepresentative’s email address"
+    },
+    "representativePhoneNumber": {
+      "label": "cyThe landlord’s representative’s contact phone number (optional)",
+      "changeHidden": "cyrepresentative’s phone number"
+    }
+  },
+  "reviewAndChangeInfo": "cyYou can review and change your answers before you submit your application."
 }

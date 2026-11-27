@@ -1106,3 +1106,119 @@ describe('propertyDetails data mapping', () => {
     });
   });
 });
+
+describe('landlordDetails data mapping', () => {
+  it('maps an individual landlord without a representative', () => {
+    const mockReq = {
+      params: { caseReference: CASE_REF },
+      session: {
+        formData: {
+          [CASE_REF]: {
+            'landlord-individual-or-organisation': {
+              landlordIndividualOrOrganisation: 'individual',
+              'landlordIndividualOrOrganisation.landlordFirstName': 'John',
+              'landlordIndividualOrOrganisation.landlordLastName': 'Smith',
+            },
+            'landlord-address': {
+              landlordAddressLine1: '1 High Street',
+              landlordPostTown: 'Leeds',
+              landlordCountry: 'United Kingdom',
+            },
+            'landlord-email-address': { landlordEmailAddress: 'landlord@example.com' },
+            'landlord-phone-number': { landlordPhoneNumber: '07123 456789' },
+            'landlord-has-representative': { landlordHasRepresentative: 'No' },
+          },
+        },
+      },
+    } as unknown as Request;
+
+    expect(prepareApplicationDataForSave('landlordDetails', mockReq, {} as unknown as PTCaseData)).toEqual({
+      landlordDetails: {
+        landlord: {
+          firstName: 'John',
+          lastName: 'Smith',
+          addressLine1: '1 High Street',
+          postTown: 'Leeds',
+          country: 'United Kingdom',
+          emailAddress: 'landlord@example.com',
+          phoneNumber: '07123 456789',
+        },
+        hasRepresentative: 'No',
+      },
+    });
+  });
+
+  it('maps an organisation landlord with a representative', () => {
+    const mockReq = {
+      params: { caseReference: CASE_REF },
+      session: {
+        formData: {
+          [CASE_REF]: {
+            'landlord-individual-or-organisation': {
+              landlordIndividualOrOrganisation: 'organisation',
+              'landlordIndividualOrOrganisation.landlordOrganisationName': 'Smith Properties Ltd',
+            },
+            'landlord-has-representative': { landlordHasRepresentative: 'Yes' },
+            'landlord-representative-details': {
+              representativeFirstName: 'Alex',
+              representativeLastName: 'Jones',
+              representativeCompanyName: 'Jones Lettings',
+            },
+            'landlord-representative-address': {
+              representativeAddressLine1: '2 Low Road',
+              representativePostTown: 'York',
+            },
+            'landlord-representative-email-address': { representativeEmailAddress: 'agent@example.com' },
+            'landlord-representative-phone-number': { representativePhoneNumber: '01904 123456' },
+          },
+        },
+      },
+    } as unknown as Request;
+
+    expect(prepareApplicationDataForSave('landlordDetails', mockReq, {} as unknown as PTCaseData)).toEqual({
+      landlordDetails: {
+        landlord: { organisationName: 'Smith Properties Ltd' },
+        hasRepresentative: 'Yes',
+        representative: {
+          firstName: 'Alex',
+          lastName: 'Jones',
+          organisationName: 'Jones Lettings',
+          addressLine1: '2 Low Road',
+          postTown: 'York',
+          emailAddress: 'agent@example.com',
+          phoneNumber: '01904 123456',
+        },
+      },
+    });
+  });
+
+  it('falls back to saved case data and drops the representative when the answer is No', () => {
+    const mockReq = {
+      params: { caseReference: CASE_REF },
+      session: {
+        formData: {
+          [CASE_REF]: {
+            'landlord-email-address': { landlordEmailAddress: 'amended@example.com' },
+            'landlord-has-representative': { landlordHasRepresentative: 'No' },
+          },
+        },
+      },
+    } as unknown as Request;
+
+    const ccdCaseData = {
+      caseReference: BigInt(CASE_REF),
+      landlordDetails: {
+        landlord: { firstName: 'John', lastName: 'Smith', emailAddress: 'landlord@example.com' },
+        hasRepresentative: 'Yes',
+        representative: { firstName: 'Alex', lastName: 'Jones' },
+      },
+    } as unknown as PTCaseData;
+
+    expect(prepareApplicationDataForSave('landlordDetails', mockReq, ccdCaseData)).toEqual({
+      landlordDetails: {
+        landlord: { firstName: 'John', lastName: 'Smith', emailAddress: 'amended@example.com' },
+        hasRepresentative: 'No',
+      },
+    });
+  });
+});

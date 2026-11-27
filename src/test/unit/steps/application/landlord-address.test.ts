@@ -20,6 +20,9 @@ describe('application landlord-address step', () => {
     landlordCountry: 'United Kingdom',
   };
 
+  // The same answers as pt-api returns them.
+  const savedLandlord = { addressLine1: '1 High Street', postTown: 'Leeds', country: 'United Kingdom' };
+
   describe('isAnswered', () => {
     it('is not answered when nothing has been saved', () => {
       expect(capturedConfig.isAnswered(makeReq())).toBe(false);
@@ -27,15 +30,16 @@ describe('application landlord-address step', () => {
     });
 
     it('is answered when the first line, town and postcode are saved', () => {
-      expect(capturedConfig.isAnswered(makeReq(requiredParts))).toBe(true);
+      expect(capturedConfig.isAnswered(makeReq({ landlordDetails: { landlord: savedLandlord } }))).toBe(true);
     });
 
-    it.each(['landlordAddressLine1', 'landlordPostTown', 'landlordCountry'])(
-      'is not answered when %s is missing',
-      missing => {
-        expect(capturedConfig.isAnswered(makeReq({ ...requiredParts, [missing]: undefined }))).toBe(false);
-      }
-    );
+    it.each(['addressLine1', 'postTown', 'country'])('is not answered when %s is missing', missing => {
+      expect(
+        capturedConfig.isAnswered(
+          makeReq({ landlordDetails: { landlord: { ...savedLandlord, [missing]: undefined } } })
+        )
+      ).toBe(false);
+    });
   });
 
   describe('validators', () => {
@@ -63,10 +67,9 @@ describe('application landlord-address step', () => {
         session: {
           formData: {},
           ccdCase: {
-            ...requiredParts,
-            landlordAddressLine2: 'Flat 2',
-            landlordCounty: 'West Yorkshire',
-            landlordPostcode: 'LS1 1AA',
+            landlordDetails: {
+              landlord: { ...savedLandlord, addressLine2: 'Flat 2', county: 'West Yorkshire', postcode: 'LS1 1AA' },
+            },
           },
         },
       };
@@ -92,7 +95,7 @@ describe('application landlord-address step', () => {
               },
             },
           },
-          ccdCase: requiredParts,
+          ccdCase: { landlordDetails: { landlord: savedLandlord } },
         },
       };
 
