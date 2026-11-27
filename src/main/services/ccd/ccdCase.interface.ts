@@ -318,6 +318,12 @@ export interface LettingAgentDetails {
 export interface LandlordDetails {
   landlordIndividualOrOrganisation?: string;
   landlordEmailAddress?: string;
+  landlordAddressLine1?: string;
+  landlordAddressLine2?: string;
+  landlordPostTown?: string;
+  landlordCounty?: string;
+  landlordPostcode?: string;
+  landlordCountry?: string;
   landlordPhoneNumber?: string;
   landlordHasRepresentative?: string;
   representativeFirstName?: string;

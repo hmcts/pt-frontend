@@ -63,6 +63,12 @@ describe('getEndIdamSessionUrl', () => {
     );
     expect(mockedConfig.get).toHaveBeenCalledWith('idam.endSessionURL');
   });
+  test('should include the id_token_hint when an ID token is provided', () => {
+    mockedConfig.get.mockReturnValueOnce('https://idam-web-public.aat.platform.hmcts.net/o/endSession');
+    expect(getEndIdamSessionUrl('https://pt.aat.platform.hmcts.net', 'mock-id-token')).toBe(
+      'https://idam-web-public.aat.platform.hmcts.net/o/endSession?post_logout_redirect_uri=https%3A%2F%2Fpt.aat.platform.hmcts.net&id_token_hint=mock-id-token'
+    );
+  });
 });
 
 describe('getUserDetails', () => {
@@ -78,6 +84,7 @@ describe('getUserDetails', () => {
     const result = await getUserDetails('http://localhost', '123');
     expect(result).toStrictEqual({
       accessToken: 'token',
+      idToken: mockToken,
       email: 'test@test.com',
       givenName: 'John',
       familyName: 'Smith',
@@ -98,6 +105,7 @@ describe('getUserDetails', () => {
     const result = await getUserDetails('http://localhost', '123');
     expect(result).toStrictEqual({
       accessToken: 'token',
+      idToken: mockToken,
       email: 'test@test.com',
       givenName: 'John',
       familyName: 'Smith',
@@ -118,6 +126,7 @@ describe('getUserDetails', () => {
     const result = await getUserDetails('http://localhost', '123');
     expect(result).toStrictEqual({
       accessToken: 'token',
+      idToken: mockToken,
       email: 'test@test.com',
       givenName: 'John',
       familyName: 'Smith',

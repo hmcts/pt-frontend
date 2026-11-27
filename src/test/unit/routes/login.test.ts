@@ -83,9 +83,10 @@ const buildResponse = (): Response => {
   return res as unknown as Response;
 };
 
-const buildRequest = (destroyError?: Error): Request =>
+const buildRequest = (destroyError?: Error, user?: { idToken?: string }): Request =>
   ({
     session: {
+      user,
       destroy: jest.fn((callback: (err?: Error) => void) => callback(destroyError)),
     },
   }) as unknown as Request;
@@ -106,7 +107,7 @@ describe('login route', () => {
   });
 
   describe('/logout', () => {
-    it('should destroy the session, clear site data and redirect to the IDAM end session endpoint', () => {
+    it('should destroy the session, clear site data and redirect to the IDAM end session endpoint without an id token', () => {
       const req = buildRequest();
       const res = buildResponse();
 
@@ -116,6 +117,17 @@ describe('login route', () => {
       expect(res.clearCookie).toHaveBeenCalledWith('pt_session', { path: '/' });
       expect(res.redirect).toHaveBeenCalledWith(
         'https://idam-web-public.aat.platform.hmcts.net/o/endSession?post_logout_redirect_uri=https%3A%2F%2Fpt.aat.platform.hmcts.net'
+      );
+    });
+
+    it('should pass the ID token as id_token_hint when ending the IDAM session', () => {
+      const req = buildRequest(undefined, { idToken: 'mock-id-token' });
+      const res = buildResponse();
+
+      getLogoutHandler()(req, res);
+
+      expect(res.redirect).toHaveBeenCalledWith(
+        'https://idam-web-public.aat.platform.hmcts.net/o/endSession?post_logout_redirect_uri=https%3A%2F%2Fpt.aat.platform.hmcts.net&id_token_hint=mock-id-token'
       );
     });
 

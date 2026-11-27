@@ -1,4 +1,45 @@
 {
-  "pageTitle": "What is your landlord’s address?(placeholder)",
-  "heading": "What is your landlord’s address?(placeholder)"
+  "pageTitle": "What is your landlord’s address?",
+  "heading": "What is your landlord’s address?",
+  "headingHint": "Enter the landlord’s address written on your notice proposing a new rent or tenancy agreement",
+  "labels": {
+    "landlordAddressLine1": "Address line 1",
+    "landlordAddressLine2": "Address line 2 (optional)",
+    "landlordPostTown": "Town or city",
+    "landlordCounty": "County or region (optional)",
+    "landlordPostcode": "Postcode or area code (optional)",
+    "landlordCountry": "Country"
+  },
+  "hints": {
+    "landlordPostcode": "Leave blank if the address does not have one"
+  },
+  "errors": {
+    "landlordAddressLine1": {
+      "required": "Enter address line 1, typically the building and street",
+      "tooShort": "Address line 1 must be 2 characters or more"
+    },
+    "landlordAddressLine2": {
+      "tooShort": "Address line 2 must be 2 characters or more"
+    },
+    "landlordPostTown": {
+      "required": "Enter town or city",
+      "tooShort": "Town or city must be 2 characters or more"
+    },
+    "landlordCounty": {
+      "tooShort": "County or region must be 2 characters or more"
+    },
+    "landlordCountry": {
+      "required": "Enter country",
+      "tooShort": "Country must be 2 characters or more"
+    },
+    "landlordPostcode": {
+      "tooShort": "Postcode or area code must be 2 characters or more"
+    },
+    "landlordAddressLine1MaxLength": "Address line 1 must be 100 characters or less",
+    "landlordAddressLine2MaxLength": "Address line 2 must be less than 100 characters or less",
+    "landlordPostTownMaxLength": "Town or city must be 100 characters or less",
+    "landlordCountyMaxLength": "County or region must be 100 characters or less",
+    "landlordCountryMaxLength": "Country must be 100 characters or less",
+    "landlordPostcodeMaxLength": "Postcode or area code must be 16 characters or less"
+  }
 }
