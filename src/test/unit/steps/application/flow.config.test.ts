@@ -73,6 +73,7 @@ describe('application flow config show conditions', () => {
 
     const gates = [
       'landlord-representative-details',
+      'landlord-representative-address',
       'landlord-representative-email-address',
       'landlord-representative-phone-number',
     ];

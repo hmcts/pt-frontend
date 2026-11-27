@@ -1,0 +1,37 @@
+{
+  "pageTitle": "The landlord's representative's address",
+  "heading": "The landlord's representative's address",
+  "labels": {
+    "representativeAddressLine1": "Address line 1",
+    "representativeAddressLine2": "Address line 2 (optional)",
+    "representativePostTown": "Town or city",
+    "representativeCounty": "County or region (optional)",
+    "representativePostcode": "Postcode or area code (optional)"
+  },
+  "hints": {
+    "representativePostcode": "Leave blank if the address does not have one"
+  },
+  "errors": {
+    "representativeAddressLine1": {
+      "required": "Enter address line 1, typically the building and street",
+      "tooShort": "Address line 1 must be 2 characters or more"
+    },
+    "representativeAddressLine2": {
+      "tooShort": "Address line 2 must be 2 characters or more"
+    },
+    "representativePostTown": {
+      "required": "Enter town or city",
+      "tooShort": "Town or city must be 2 characters or more"
+    },
+    "representativeCounty": {
+      "tooShort": "County or region must be 2 characters or more"
+    },
+    "representativeAddressLine1MaxLength": "Address line 1 must be 100 characters or less",
+    "representativeAddressLine2MaxLength": "Address line 2 must be less than 100 characters or less",
+    "representativePostTownMaxLength": "Town or city must be 100 characters or less",
+    "representativeCountyMaxLength": "County or region must be 100 characters or less",
+    "postcode": {
+      "invalid": "Enter a valid postcode"
+    }
+  }
+}

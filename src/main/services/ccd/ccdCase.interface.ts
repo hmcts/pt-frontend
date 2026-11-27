@@ -329,6 +329,11 @@ export interface LandlordDetails {
   representativeFirstName?: string;
   representativeLastName?: string;
   representativeCompanyName?: string;
+  representativeAddressLine1?: string;
+  representativeAddressLine2?: string;
+  representativePostTown?: string;
+  representativeCounty?: string;
+  representativePostcode?: string;
   representativeEmailAddress?: string;
   representativePhoneNumber?: string;
 }
